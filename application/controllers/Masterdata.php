@@ -481,6 +481,50 @@ class Masterdata extends CI_Controller {
 		$this->load->view('newtheme/page/main',$data);
 	}
 
+	public function ongkoshpp($id){
+		$data=[];
+		$data['title']='Ongkos Untuk HPP';
+		$data['prods']=[];
+		$prods=$this->GlobalModel->getData('biaya_hpp',array('hapus'=>0,'idcmt'=>$id));
+		foreach($prods as $p){
+			$data['prods'][]=array(
+				'namapo'=>$p['namapo'],
+				'namabiaya'=>$p['namabiaya'],
+				'biaya'=>$p['biaya'],
+				'keterangan'=>$p['keterangan'],
+				'hapus'=>null,
+			);
+		}
+		$data['jenispo']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
+		$data['biaya']=array(
+			array('nama'=>'Tress'),
+			array('nama'=>'Packing'),
+			array('nama'=>'Gosok'),
+			array('nama'=>'Packing & Gosok'),
+		);
+		$data['action']=BASEURL.'Masterdata/ongkoshpp_save';
+		$data['batal']=BASEURL.'Masterdata/cmt';
+		$data['idcmt']=$id;
+		$data['page']='newtheme/page/masterdata/cmt_ongkoshpp';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function ongkoshpp_save(){
+		$p=$this->input->post();
+		$insert=array(
+			'idcmt'=>$p['idcmt'],
+			'namapo'=>$p['namapo'],
+			'namabiaya'=>$p['namabiaya'],
+			'biaya'=>$p['biaya'],
+			'keterangan'=>$p['keterangan'],
+			'hapus'=>0,
+		);
+		$this->db->insert('biaya_hpp',$insert);
+		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
+		redirect(BASEURL.'Masterdata/ongkoshpp/'.$p['idcmt']);
+	}
+
+
 	public function daftarhargacmt($id){
 		$data=[];
 		$data['title']='Tambah daftar harga cmt';
