@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-md-12">
+    <?php if ($this->session->flashdata('msg')) { ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+    <?php echo $this->session->flashdata('msg'); ?> 
+    </div>
+    <?php } ?>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Tanggal Awal</label>
+      <input type="date" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Tanggal Akhir</label>
+      <input type="date" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <label>Divisi</label>
+    <select name="cat" id="cat" class="form-control select2bs4">
+      <option value="*">Semua</option>
+      <option value="1" <?php echo $cat==1?'selected':'';?>>Konveksi</option>
+      <option value="3" <?php echo $cat==3?'selected':'';?>>Alat-alat Konveksi</option>
+      <option value="2" <?php echo $cat==2?'selected':'';?>>Bordir</option>
+      <option value="3" <?php echo $cat==4?'selected':'';?>>Sablon</option>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <label>Supplier</label>
+    <select name="supplier_id" id="supplier_id" class="form-control select2bs4" data-live-search="true">
+      <option value="*">Semua</option>
+      <?php foreach($supplier as $s){?>
+      <option value="<?php echo $s['id']?>" <?php echo $s['id']==$suppliers_id?'selected':'';?>><?php echo strtolower($s['nama'])?></option>
+      <?php } ?>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label>Aksi</label><br>
+      <button onclick="filters()" class="btn btn-info btn-sm">Filter</button>
+      <button onclick="excel()" class="btn btn-info btn-sm">Excel</button>
+      <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-bordered nosearch">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Bagian</th>
+                  <th>Tanggal</th>
+                  <th>Nama Supplier</th>
+                  <th>No Surat Jalan / Nota</th>
+                  <th>Keterangan</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach($items as $i){?>
+                  <tr>
+                    <td><?php echo $n++?></td>
+                    <td>
+                      <?php 
+                        if($i['jenis']==1){
+                          echo "Konveksi";
+                        }else if($i['jenis']==2){
+                          echo "Bordir";
+                        }else if($i['jenis']==3){
+                          echo "Alat-alat Konveksi";
+                        }else if($i['jenis']==4){
+                          echo "Sablon";
+                        }else{
+                          echo "Default";
+                        }
+                      ?>
+                    </td>
+                    <td><?php echo $i['tanggal']?></td>
+                    <td><?php echo $i['supplier']?></td>
+                    <td><?php echo $i['nosj']?></td>
+                    <td><?php echo $i['keterangan']?></td>
+                    <td class="right">
+                      <?php foreach ($i['action'] as $action) { ?>
+                        <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                          <?php } ?>
+                    </td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+  </div>
+</div>
+<script type="text/javascript">
+  
+  function filters(){
+    var url='?';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    var cat=$("#cat").val();
+
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    if(cat!="*"){
+        url+='&cat='+cat;
+    }
+
+    var filter_status = $('select[name=\'supplier_id\']').val();
+
+    if (filter_status != '*') {
+      url += '&supplier=' + encodeURIComponent(filter_status);
+    }
+
+
+    location=url;
+  }
+
+  function excel(){
+    var url='?excel=1';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+
+    var filter_status = $('select[name=\'supplier_id\']').val();
+
+    if (filter_status != '*') {
+      url += '&supplier=' + encodeURIComponent(filter_status);
+    }
+
+    location=url;
+  }
+</script>

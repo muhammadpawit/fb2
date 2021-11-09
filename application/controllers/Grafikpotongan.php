@@ -1,0 +1,67 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Grafikpotongan extends CI_Controller {
+
+	function __construct() {
+		parent::__construct();
+		sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		$this->layout='newtheme/page/main';
+		$this->page='newtheme/page/grafikpotongan/';
+		$this->url=BASEURL.'Grafikpotongan/';
+		$this->load->model('ReportModel');
+	}
+
+	public function index() {
+		$data =[];
+		$data['title'] ='Grafik Potongan ';
+		$periode=$this->ReportModel->periode();
+		for ($i = 0; $i < 12; $i++) {
+		    $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']); // angka 6 bulan juni, periode awal potongan
+		    $bulan[]=$months[date('n', $timestamp)] = date('M Y', $timestamp);
+		}
+		$data['prods']=[];
+		$kemeja=[];
+		$kaos=[];
+		$celana=[];
+		$total=0;
+		foreach($bulan as $b=>$val){
+			$b=explode(" ", $val);
+			$g=date('n',strtotime($b[0]));
+			$t=explode(" ", $val);
+			$timestamp = mktime(0, 0, 0, $g + $i, 1,$t[1]);
+			$month=$months[date('n', $timestamp)] = date('n', $timestamp);
+			$y=$t[1];
+				$data['prods'][]=array(
+					'bulan'=>$val,
+					'bln'=>$month,
+					'year'=>$y,
+					'kemeja'=>$this->ReportModel->potonganbulanan($month,$y,1),
+					'jmlkemeja'=>$this->ReportModel->jmlpotonganbulanan($month,$y,1),
+					'kaos'=>$this->ReportModel->potonganbulanan($month,$y,2),
+					'jmlkaos'=>$this->ReportModel->jmlpotonganbulanan($month,$y,2),
+					'celana'=>$this->ReportModel->potonganbulanan($month,$y,3),
+					'jmlcelana'=>$this->ReportModel->jmlpotonganbulanan($month,$y,3),
+					'keterangan'=>null,
+				);
+			$kemeja[]=array(
+					'tot'=>$this->ReportModel->potonganbulanan($month,$y,1)==null?0:$this->ReportModel->potonganbulanan($month,$y,1),
+				);
+			$kaos[]=array(
+					'tot'=>$this->ReportModel->potonganbulanan($month,$y,2)==null?0:$this->ReportModel->potonganbulanan($month,$y,2),
+				);
+			$celana[]=array(
+					'tot'=>$this->ReportModel->potonganbulanan($month,$y,3)==null?0:$this->ReportModel->potonganbulanan($month,$y,3),
+				);
+		}
+		$data['kem']=implode(",", array_column($kemeja, 'tot'));
+		$data['kao']=implode(",", array_column($kaos, 'tot'));
+		$data['cel']=implode(",", array_column($celana, 'tot'));
+		//pre($data['cel']);
+		$bulan=$this->ReportModel->month();
+		$data['bulan']=json_encode($bulan);
+		$data['page']=$this->page.'list';
+		$this->load->view($this->layout,$data);
+	}
+}

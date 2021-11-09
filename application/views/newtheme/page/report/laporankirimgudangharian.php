@@ -1,0 +1,123 @@
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal Awal</label>
+			<input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1?>">
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal Akhir</label>
+			<input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2?>">
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Aksi</label><br>
+			<button onclick="filtertglonly()" class="btn btn-info btn-sm">Filter</button>
+			<a href="<?php echo $excel?>" class="btn btn-info btn-sm text-white">Excel</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<table class="table table-bordered table-hover yessearch">
+			<thead>
+				<tr>
+					<th>Hari</th>
+					<th>Tanggal</th>
+					<th>Jml PO</th>
+					<th>Nama PO</th>
+					<th>Nilai PO (Rp)</th>
+					<th>Keterangan</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $jml=0; $nilai=0;?>
+				<?php foreach($products as $p){?>
+					<tr>
+						<td>
+							<?php
+
+								//if(0==$p['no']){
+									echo $p['hari'];
+								//}
+
+							?>
+							
+						</td>
+						<td><?php echo $p['tanggal']?></td>
+						<td><?php echo $p['jml']?></td>
+						<td><?php echo $p['nama']?></td>
+						<td><?php echo number_format($p['nilai'])?></td>
+						<td><?php echo $p['keterangan']?></td>
+					</tr>
+				<?php
+					$jml+=($p['jml']);
+					$nilai+=($p['nilai']);
+				?>
+				<?php } ?>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2"><b>Total</b></td>
+					<td><?php echo $jml?></td>
+					<td></td>
+					<td><?php echo number_format($nilai)?></td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="col-md-4">
+		<hr>
+		<table class="table table-bordered table-hover">
+			<thead style="background-color: yellow">
+				<tr>
+					<th>Resume</th>
+					<th>PO</th>
+					<th>JML</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $jmlkaos=0;$jmlkemeja=0;?>
+				<?php foreach($resume as $r){?>
+					<?php if($r['id']==1){?>
+					<tr>
+						<td></td>
+						<td><?php echo $r['nama']?></td>
+						<td><?php echo $r['jml']?></td>
+						<?php 
+							$jmlkaos+=$r['jml'];
+						?>
+					</tr>
+					<?php } ?>
+				<?php }?>
+				<tr style="background-color: yellow">
+						<td colspan="2"><b>Jumlah Kaos</b></td>
+						<td><b><?php echo $jmlkaos?></b></td>
+					</tr>
+				<?php foreach($resume as $r){?>
+					<?php if($r['id']==2){?>
+					<tr>
+						<td></td>
+						<td><?php echo $r['nama']?></td>
+						<td><?php echo $r['jml']?></td>
+						<?php 
+							$jmlkemeja+=$r['jml'];
+						?>
+					</tr>
+					<?php } ?>
+				<?php }?>
+					<tr style="background-color: yellow">
+						<td colspan="2"><b>Jumlah Kemeja</b></td>
+						<td><b><?php echo $jmlkemeja?></b></td>
+					</tr>
+					<tr style="background-color: yellow">
+						<td colspan="2"><b>Total</b></td>
+						<td><b><?php echo $jmlkemeja+$jmlkaos?></b></td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

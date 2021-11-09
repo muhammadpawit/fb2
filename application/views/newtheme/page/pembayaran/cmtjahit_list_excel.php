@@ -1,0 +1,81 @@
+ <?php
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d F Y',strtotime($tanggal2)).".xls");
+?>
+
+<table style="width: 100%;">
+    <tr>
+        <td align="center" style="text-align: center;" colspan="9">Rekap Laporan Transfer CMT</td>
+    </tr>
+</table>
+<table style="width: 100%;">
+    <tr>
+        <td style="text-align: left;" colspan="9">Periode <?php echo date('d F Y',strtotime($tanggal2)) ?></td>
+    </tr>
+</table>
+<table border="1" style="border-collapse: collapse;width: 100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama CMT</th>
+                    <th>Atas Nama</th>
+                    <th>Nomor Rekening</th>
+                    <th>Bank</th>
+                    <th>Jumlah Kirim Kaos/ Kemeja (Pcs)</th>                    
+                    <th>Jumlah Setor Kaos/Kemeja (Pcs)</th>
+                    <th>Jumlah Transferan</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $totals=0;$jmlkirim=0;$jmlsetor=0;?>
+                <?php if(!empty($products)){?>
+                    <?php foreach($products as $p){?>
+                        <tr>
+                            <td><?php echo $p['no']?></td>
+                            <td><?php echo strtoupper($p['nama'])?></td>
+                            <td><?php echo strtoupper($p['an'])?></td>
+                            <td><?php echo strtoupper($p['norek'])?></td>
+                            <td><?php echo strtoupper($p['bank'])?></td>
+                            <td><?php echo ($p['jmlkirim'])?></td>
+                            <td><?php echo ($p['jmlsetor'])?></td>
+                            <td align="right"><?php echo $p['totals']?>&nbsp;</td>
+                            <td></td>
+                        </tr>
+                        <?php $totals+=($p['totals'])?>
+                        <?php $jmlkirim+=($p['jmlkirim'])?>
+                        <?php $jmlsetor+=($p['jmlsetor'])?>
+                    <?php } ?>
+                        <tr>
+                            <td colspan="4"><b>Total</b></td>
+                            <td></td>
+                            <td><?php echo $jmlkirim?></td>
+                            <td><?php echo $jmlsetor?></td>
+                            <td align="right"><?php echo $totals?>&nbsp;</td>
+                            <td></td>
+                        </tr>
+                <?php }else{ ?>
+                <tr>
+                    <td colspan="8">Data tidak ditemukan</td>
+                </tr>
+                <?php }?>
+            </tbody>
+        </table>
+<br>
+<table style="width: 100%;border-collapse: collapse;" border="0">
+    <tr>
+        <td style="text-align: left;width: 60%" colspan="6"></td>
+        <td style="text-align: center;width: 40%">
+            <table style="width: 100%;border-collapse: collapse;" border="1">
+                <tr>
+                    <td style="text-align: center;width: 50%">Admin Keu</td>
+                    <td style="text-align: center;width: 50%" colspan="2">SPV</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom">Dinda Dahlia</td>
+                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom" colspan="2">Muchlas</td>
+                </tr>
+            </table>        
+        </td>
+    </tr>
+</table>        

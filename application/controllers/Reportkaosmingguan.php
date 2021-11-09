@@ -1,0 +1,217 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Reportkaosmingguan extends CI_Controller {
+
+	function __construct() {
+		parent::__construct();
+		sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		$this->page='newtheme/page/reportkaos/';
+		$this->layout='newtheme/page/main';
+		$this->load->model('ReportModel');
+	}
+
+	public function index(){
+		$data=[];
+		$data['title']='Laporan Produksi Kaos Mingguan';
+		$data['potong']=[];
+		$data['qcpotong']=[];
+		$data['sablon']=[];
+		$data['page']=$this->page.'list';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime('saturday last week'));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime('friday this week'));
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$filter=array(
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
+		);
+
+		$potongan=[];
+		$potongan=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
+		$cmt=null;
+		$nopot=1;
+		$jmlpotong=0;
+		foreach($potongan as $pt){
+			$data['potongan'][]=array(
+				'no'=>$nopot,
+				'cmt'=>strtolower($pt['nama']),
+				'biasa'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'KDO'),
+				'biasapcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'KDO'),
+				'biasa34'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'KDOP'),
+				'biasa34pcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'KDOP'),
+				'kdt'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'KDT'),
+				'kdtpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'KDT'),
+				'hgo'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'HGO'),
+				'hgopcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'HGO'),
+				'fbo'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'FBO'),
+				'fbopcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'FBO'),
+				'reglan'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'KDR'),
+				'reglanpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'KDR'),
+				'joger'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'JOG'),
+				'jogerpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'JOG'),
+				'hgk'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'HGK'),
+				'hgkpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'HGK'),
+				'kds415'=>$this->ReportModel->jmlpotongsize($filter,$pt['id'],'KDS','4-15'),
+				'kds415pcs'=>$this->ReportModel->jmlpotongsizepcs($filter,$pt['id'],'KDS','4-15'),
+				'kds06'=>$this->ReportModel->jmlpotongsize($filter,$pt['id'],'KDS','0-6'),
+				'kds06pcs'=>$this->ReportModel->jmlpotongsizepcs($filter,$pt['id'],'KDS','0-6'),
+				'kds112'=>$this->ReportModel->jmlpotongsize($filter,$pt['id'],'KDS','1-12'),
+				'kds112pcs'=>$this->ReportModel->jmlpotongsizepcs($filter,$pt['id'],'KDS','1-12'),
+				'kds46'=>$this->ReportModel->jmlpotongsize($filter,$pt['id'],'KDS','4-6'),
+				'kds46pcs'=>$this->ReportModel->jmlpotongsizepcs($filter,$pt['id'],'KDS','4-6'),
+				'kds1315'=>$this->ReportModel->jmlpotongsize($filter,$pt['id'],'KDS','13-15'),
+				'kds1315pcs'=>$this->ReportModel->jmlpotongsizepcs($filter,$pt['id'],'KDS','13-15'),
+				'stwan'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'SWK'),
+				'stwanpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'SWK'),
+				'kdw'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'KDW'),
+				'kdwpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'KDW'),
+				'fbs'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'FBS'),
+				'fbspcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'FBS'),
+				'fbw'=>$this->ReportModel->jmlpotong($filter,$pt['id'],'FBW'),
+				'fbwpcs'=>$this->ReportModel->jmlpotongpcs($filter,$pt['id'],'FBW'),
+				'jmlglobal'=>$this->ReportModel->globaljmlpotong($filter,$pt['id']),
+				'jmlglobalpcs'=>$this->ReportModel->globaljmlpotongpcs($filter,$pt['id']),
+			);
+			$nopot++;
+		}
+
+		// pengecekan
+			$data['pengecekan'][]=array(
+				'no'=>null,
+				'cmt'=>'pengecekan',
+				'biasa'=>$this->ReportModel->jumlahpengecekan($filter,'KDO'),
+				'biasapcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'KDO'),
+				'biasa34'=>$this->ReportModel->jumlahpengecekan($filter,'KDOP'),
+				'biasa34pcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'KDOP'),
+				'kdt'=>$this->ReportModel->jumlahpengecekan($filter,'KDT'),
+				'kdtpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'KDT'),
+				'hgo'=>$this->ReportModel->jumlahpengecekan($filter,'HGO'),
+				'hgopcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'HGO'),
+				'fbo'=>$this->ReportModel->jumlahpengecekan($filter,'FBO'),
+				'fbopcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'FBO'),
+				'reglan'=>$this->ReportModel->jumlahpengecekan($filter,'KDR'),
+				'reglanpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'KDR'),
+				'joger'=>$this->ReportModel->jumlahpengecekan($filter,'JOG'),
+				'jogerpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'JOG'),
+				'hgk'=>$this->ReportModel->jumlahpengecekan($filter,'HGK'),
+				'hgkpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'HGK'),
+				'kds415'=>$this->ReportModel->jumlahpengecekansize($filter,'KDS','4-15'),
+				'kds415pcs'=>$this->ReportModel->jumlahpengecekansizepcs($filter,'KDS','4-15'),
+				'kds06'=>$this->ReportModel->jumlahpengecekansize($filter,'KDS','0-6'),
+				'kds06pcs'=>$this->ReportModel->jumlahpengecekansizepcs($filter,'KDS','0-6'),
+				'kds112'=>$this->ReportModel->jumlahpengecekansize($filter,'KDS','1-12'),
+				'kds112pcs'=>$this->ReportModel->jumlahpengecekansizepcs($filter,'KDS','1-12'),
+				'kds46'=>$this->ReportModel->jumlahpengecekansize($filter,'KDS','4-6'),
+				'kds46pcs'=>$this->ReportModel->jumlahpengecekansizepcs($filter,'KDS','4-6'),
+				'kds1315'=>$this->ReportModel->jumlahpengecekansize($filter,'KDS','13-15'),
+				'kds1315pcs'=>$this->ReportModel->jumlahpengecekansizepcs($filter,'KDS','13-15'),
+				'stwan'=>$this->ReportModel->jumlahpengecekan($filter,'SWK'),
+				'stwanpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'SWK'),
+				'kdw'=>$this->ReportModel->jumlahpengecekan($filter,'KDW'),
+				'kdwpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'KDW'),
+				'fbs'=>$this->ReportModel->jumlahpengecekan($filter,'FBS'),
+				'fbspcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'FBS'),
+				'fbw'=>$this->ReportModel->jumlahpengecekan($filter,'FBW'),
+				'fbwpcs'=>$this->ReportModel->jumlahpengecekanpcs($filter,'FBW'),
+				'jmlglobal'=>$this->ReportModel->globalpengecekan($filter),
+				'jmlglobalpcs'=>$this->ReportModel->globalpengecekanpcs($filter),
+			);
+		// end pengecekan
+
+		$data['sablon']=[];
+		$timsablon=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
+		$n=1;
+		foreach($timsablon as $ts){
+			$data['sablon'][]=array(
+				'no'=>$n,
+				'cmt'=>strtolower($ts['cmt_name']),
+				'biasa'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','KDO'),
+				'biasapcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDO'),
+				'biasa34'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','KDOP'),
+				'biasa34pcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDOP'),
+				'kdt'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','KDT'),
+				'kdtpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDT'),
+				'hgo'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','HGO'),
+				'hgopcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDO'),
+				'fbo'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','FBO'),
+				'fbopcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','FBO'),
+				'reglan'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','KDR'),
+				'reglanpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDR'),
+				'joger'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','joger'),
+				'jogerpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','joger'),
+				'hgk'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','HGK'),
+				'hgkpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','HGK'),
+				'kds415'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','4-15'),
+				'kds415pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','4-15'),
+				'kds06'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'KIRIM','SABLON','KDO','0-6'),
+				'kds06pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','0-6'),
+				'kds112'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','1-12'),
+				'kds112pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','1-12'),
+				'kds46'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','4-6'),
+				'kds46pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','4-6'),
+				'kds1315'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','13-15'),
+				'kds1315pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDS','13-15'),
+				'stwan'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','SWK'),
+				'stwanpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','SWK'),
+				'kdw'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','KDW'),
+				'kdwpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','KDW'),
+				'fbs'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','FBS'),
+				'fbspcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','FBS'),
+				'fbw'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'KIRIM','SABLON','FBW'),
+				'fbwpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON','FBW'),
+				'jmlglobal'=>$this->ReportModel->globalsablon($filter,$ts['id_cmt'],'KIRIM','SABLON'),
+				'jmlglobalpcs'=>$this->ReportModel->globalsablonpcs($filter,$ts['id_cmt'],'KIRIM','SABLON'),
+				'sbiasa'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','KDO'),
+				'sbiasapcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDO'),
+				'sbiasa34'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','KDOP'),
+				'sbiasa34pcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDOP'),
+				'skdt'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','KDT'),
+				'skdtpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDT'),
+				'shgo'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','HGO'),
+				'shgopcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDO'),
+				'sfbo'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','FBO'),
+				'sfbopcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','FBO'),
+				'sreglan'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','KDR'),
+				'sreglanpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDR'),
+				'sjoger'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','joger'),
+				'sjogerpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','joger'),
+				'shgk'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','HGK'),
+				'shgkpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','HGK'),
+				'skds415'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','4-15'),
+				'skds415pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','4-15'),
+				'skds06'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'SETOR','SABLON','KDO','0-6'),
+				'skds06pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','0-6'),
+				'skds112'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','1-12'),
+				'skds112pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','1-12'),
+				'skds46'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','4-6'),
+				'skds46pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','4-6'),
+				'skds1315'=>$this->ReportModel->jumlahsablonsize($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','13-15'),
+				'skds1315pcs'=>$this->ReportModel->jumlahsablonsizepcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDS','13-15'),
+				'sstwan'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','SWK'),
+				'sstwanpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','SWK'),
+				'skdw'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','KDW'),
+				'skdwpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','KDW'),
+				'sfbs'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','FBS'),
+				'sfbspcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','FBS'),
+				'sfbw'=>$this->ReportModel->jumlahsablon($filter,$ts['id_cmt'],'SETOR','SABLON','FBW'),
+				'sfbwpcs'=>$this->ReportModel->jumlahsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON','FBW'),
+				'sjmlglobal'=>$this->ReportModel->globalsablon($filter,$ts['id_cmt'],'SETOR','SABLON'),
+				'sjmlglobalpcs'=>$this->ReportModel->globalsablonpcs($filter,$ts['id_cmt'],'SETOR','SABLON'),
+			);
+			$n++;
+		}
+		$this->load->view($this->layout,$data);
+	}
+
+}
