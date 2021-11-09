@@ -19,7 +19,9 @@
 							<td><?php echo $p['namabiaya']?></td>
 							<td><?php echo $p['biaya']?></td>
 							<td><?php echo $p['keterangan']?></td>
-							<td><?php echo $p['hapus']?></td>
+							<td>
+								<a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-sm text-white">Hapus</a>
+							</td>
 						</tr>
 					<?php } ?>
 				</tbody>

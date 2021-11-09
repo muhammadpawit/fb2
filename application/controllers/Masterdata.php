@@ -492,7 +492,7 @@ class Masterdata extends CI_Controller {
 				'namabiaya'=>$p['namabiaya'],
 				'biaya'=>$p['biaya'],
 				'keterangan'=>$p['keterangan'],
-				'hapus'=>null,
+				'hapus'=>BASEURL.'Masterdata/ongkoshpp_hapus/'.$p['id'].'/'.$p['idcmt'],
 			);
 		}
 		$data['jenispo']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
@@ -522,6 +522,18 @@ class Masterdata extends CI_Controller {
 		$this->db->insert('biaya_hpp',$insert);
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
 		redirect(BASEURL.'Masterdata/ongkoshpp/'.$p['idcmt']);
+	}
+
+	public function ongkoshpp_hapus($id,$cmt){
+		$update=array(
+			'hapus'=>1
+		);
+		$where=array(
+			'id'=>$id
+		);
+		$this->db->update('biaya_hpp',$update,$where);
+		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
+		redirect(BASEURL.'Masterdata/ongkoshpp/'.$cmt);
 	}
 
 
