@@ -1040,7 +1040,7 @@ class Finishing extends CI_Controller {
 		$viewData['produk'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE pp.kode_po="'.$kodepo.'"');
 		$viewData['variasi']=null;
 		$viewData['variasi']=$this->GlobalModel->getDataRow('gudang_bahan_keluar',array('bahan_kategori'=>'VARIASI','hapus'=>0));
-		//pre($data['variasi']);
+		//pre($viewData['produk']);
 		//pre($viewData['produk']['kode_po']);
 		$timpotong=$this->GlobalModel->getDataRow("konveksi_buku_potongan",array('kode_po'=>$kodepo));
 		$namatim=$this->GlobalModel->getDataRow("timpotong",array('id'=>$viewData['produk']['tim_potong_potongan']));
@@ -1067,9 +1067,6 @@ class Finishing extends CI_Controller {
 		// pre($viewData['cmt']);
 		$viewData['master_harga_potongan'] = $this->GlobalTwoModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$viewData['produk']['nama_po']));
 
-		// pre($viewData['master_harga_potongan']);
-
-		//$viewData['bukupotongan']	= $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' => $kodepo));
 		$bi	= $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' => $kodepo));
 		$b2	= $this->GlobalModel->QueryManualRow("SELECT jumlah_pemakaian_bahan_variasi FROM konveksi_buku_potongan WHERE refpo='".$kodepo."' ");
 		if(!empty($b2)){
@@ -1090,16 +1087,12 @@ class Finishing extends CI_Controller {
 		}
 
 		$b3	= $this->GlobalModel->QueryManualRow("SELECT kode_po FROM konveksi_buku_potongan WHERE refpo='".$kodepo."' ");
-		//pre($b3);
+		
 		if(!empty($b3)){
 			$viewData['bahan'] = $this->GlobalModel->queryManual('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$kodepo.'" OR kode_po="'.$b3['kode_po'].'" GROUP BY bahan_kategori ORDER BY harga_item ASC ');
-			//pre('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$kodepo.'" OR kode_po="'.$b3['kode_po'].'" ');
 		}else{
 			$viewData['bahan'] = $this->GlobalModel->queryManual('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$kodepo.'" ');	
 		}
-
-		//pre($viewData['bahan']);
-		
 
 		$viewData['bahanKantong'] = $this->GlobalModel->queryManualRow("SELECT * FROM gudang_bahan_keluar WHERE kode_po='".$kodepo."' AND bahan_kategori LIKE '%KAINKANTONG%' AND hapus=0");
 		
@@ -1113,14 +1106,18 @@ class Finishing extends CI_Controller {
 		$viewData['packing']= $this->GlobalModel->getData('packing',array('nama_po'=>$kodepo,'hapus'=>0));
 		$viewData['cucian']=[];
 		$viewData['cucian']= $this->GlobalModel->getData('cucian',array('kode_po'=>$kodepo,'hapus'=>0));
-		//pre($viewData);cucian
-		// $tamba= 190995 + 157300 + 3600 + 20000 + 45000 + 28944 + 2340 + 720 + 870 + 1200 + 1800 + 1800 + 4800 + 4800 + 1131 + 7667 + 900;
+
 		$bawahansablon=0;
 		$bs=$this->GlobalModel->QueryManualRow("SELECT SUM(price) as total FROM sablonbawahan WHERE hapus=0 AND kode_po='".$kodepo."' ");
 		if(!empty($bs)){
 			$bawahansablon=$bs['total'];
 		}
 		//pre($bs);
+		$cmt=$this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kategori_cmt'=>'JAHIT','progress'=>'SETOR','kode_po'=>$kodepo));
+		//pre($cmt);
+		$biayalain=null;
+		$biayalain=$this->GlobalModel->getData('biaya_hpp',array('hapus'=>0,'namapo'=>$namapo,'idcmt'=>$cmt['id_master_cmt']));
+		$viewData['biayalain']=$biayalain;
 		$viewData['bawahansablon']=$bawahansablon;
 		$viewData['page']='finishing/hpp/hpp-detail';
 		$this->load->view('newtheme/page/main',$viewData);

@@ -852,6 +852,31 @@
 
                                 <?php endforeach ?>
 
+                                <?php if($biayalain){?>
+
+                                    <?php foreach($biayalain as $b){?>
+
+                                        <tr>
+
+                                        <td><?php echo $no+=1?></td>
+
+                                            <td><?php echo $b['namabiaya'] ?></td>
+
+                                            <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
+
+                                            <td><?php echo number_format($b['biaya']) ?></td>
+
+                                            <td><?php echo number_format($b['biaya']) ?></td>
+
+                                        </tr>
+
+                                    <?php
+                                        $total+=($b['biaya']);
+                                    ?>
+
+                                    <?php } ?>
+
+                                <?php } ?>
 
 
                                 <tr>
