@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+// perubahan test
 class Alokasi extends CI_Controller {
 
 	function __construct() {
