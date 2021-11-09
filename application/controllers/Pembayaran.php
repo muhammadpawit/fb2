@@ -350,12 +350,16 @@ class Pembayaran extends CI_Controller {
 		$data['prods']=$this->GlobalModel->getDataRow('gaji_timpotong',array('id'=>$id));
 		$data['timnya']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
 		$results=$this->GlobalModel->getData('gaji_timpotong_detail',array('idgaji'=>$id));
+		$bukupotongan=null;
 		foreach($results as $r){
-			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
+				$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
+				$bukupotongan=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po'=>$r['kode_po']));
 				$data['products'][]=array(
 					'no'=>$no,
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 					'kode_po'=>$r['kode_po'],
+					'jenis'=>null,
+					'size'=>$bukupotongan['size_potongan'],
 					'timpotong'=>$timpotong==null?'':$timpotong['nama'],
 					'lusin'=>$r['jml_dz'],
 					'pcs'=>$r['jml_pcs'],

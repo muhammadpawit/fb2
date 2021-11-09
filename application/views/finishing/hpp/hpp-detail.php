@@ -1,12 +1,12 @@
 <style type="text/css">
 
     table, th, td {
-        font-size: 18px !important;
+        font-size: 20px !important;
         border: 2px solid black !important;
 
     }
     h6{
-        font-size: 18px !important;
+        font-size: 20px !important;
     }
 	.print{ display:none !important}
 	@media print
