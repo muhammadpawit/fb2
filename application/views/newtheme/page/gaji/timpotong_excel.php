@@ -12,6 +12,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 					<th>No</th>
 					<th>Tanggal</th>
 					<th>Nama PO</th>
+					<th>Jenis</th>
+					<th>Size</th>
 					<th>JML PO (Dz)</th>
 					<th>JML PO (Pcs)</th>
 					<th>Harga/Pcs</th>
@@ -25,6 +27,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 						<td><?php echo $p['no']?></td>
 						<td><?php echo $p['tanggal']?></td>
 						<td><?php echo $p['kode_po']?></td>
+						<td><?php echo $p['jenis']?></td>
+						<td><?php echo $p['size']?></td>
 						<td><?php echo number_format($p['lusin'],2)?></td>
 						<td><?php echo $p['pcs']?></td>
 						<td><?php echo $p['harga']?></td>
