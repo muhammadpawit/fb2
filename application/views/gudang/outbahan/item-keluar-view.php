@@ -26,12 +26,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Kode PO</label>
-      <select name="kode_po" class="form-control select2bs4" data-live-search="true">
-        <option value="*">Semua</option>
-        <option value="*">Semua</option>
-        <?php foreach($po as $p){?>
-          <option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
-        <?php } ?>
+      <select name="kode_po" class="form-control autopo">
       </select>
     </div>
   </div>
@@ -89,8 +84,8 @@
     }
 
     var filter_status = $('select[name=\'kode_po\']').val();
-
-    if (filter_status != '*') {
+    
+    if (filter_status !=null) {
       url += '&kode_po=' + encodeURIComponent(filter_status);
     }
     
