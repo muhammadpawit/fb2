@@ -55,6 +55,7 @@ class Poyuna extends CI_Controller {
 		$cp=null;
 		$data['prods']=[];
 		foreach($results as $result){
+			$action=[];
 			$data['prods'][]=array(
 				'no'=>$j,
 				'kode_po'=>$result['kode_po'],
