@@ -18,6 +18,25 @@
 					<th>Ket</th>
 				</tr>
 			</thead>
+			<tbody>
+				<?php foreach($prods as $p){?>
+					<tr>
+						<td><?php echo $p['no']?></td>
+						<td><?php echo $p['kode_po']?></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				<?php } ?>
+			</tbody>
 		</table>
 	</div>
 </div>
