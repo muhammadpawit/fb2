@@ -8,7 +8,7 @@
 					<th>Jumlah Potongan (Pcs)</th>
 					<th>Jumlah Potongan (Dz)</th>
 					<th>Ongkos Jahit/Lusin</th>
-					<th>Jumlah</th>
+					<th>Jumlah (Rp)</th>
 					<th>Jumlah Setor</th>
 					<th>Jumlah Setoran/Lusin</th>
 					<th>Kekurangan Setoran Po Rusak</th>
@@ -23,14 +23,14 @@
 					<tr>
 						<td><?php echo $p['no']?></td>
 						<td><?php echo $p['kode_po']?></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td><?php echo $p['pot_pcs']?></td>
+						<td><?php echo number_format($p['pot_dz'],2)?></td>
+						<td><?php echo number_format($p['harga'])?></td>
+						<td><?php echo number_format($p['jumlah'])?></td>
+						<td><?php echo number_format($p['setoran_pcs'])?></td>
+						<td><?php echo number_format($p['setoran_dz'],2)?></td>
+						<td><?php echo number_format($p['kekuarangan'])?></td>
+						<td>-</td>
 						<td></td>
 						<td></td>
 						<td></td>

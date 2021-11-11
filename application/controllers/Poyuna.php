@@ -50,15 +50,25 @@ class Poyuna extends CI_Controller {
 		if(!empty($refpo)){
 			$sql.=" AND refpo='".$refpo."' ";
 		}
-		$sql.=" ORDER BY kbp.created_date DESC ";
+		$sql.=" ORDER BY p.kode_po ASC ";
 		$results	= $this->GlobalModel->queryManual($sql);
 		$cp=null;
 		$data['prods']=[];
 		foreach($results as $result){
 			$action=[];
+			$pot=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po'=>$result['kode_po']));
+			$harga=$this->GlobalModel->getDataRow('daftarharga_cmt',array('hapus'=>0,'namapo'=>substr($result['kode_po'],0,3)));
+			$setoran=$this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$result['kode_po'],'progress'=>'SETOR','kategori_cmt'=>'JAHIT'));
 			$data['prods'][]=array(
 				'no'=>$j,
 				'kode_po'=>$result['kode_po'],
+				'pot_pcs'=>$pot['hasil_pieces_potongan'],
+				'pot_dz'=>$pot['hasil_lusinan_potongan'],
+				'harga'=>$harga['hargabaru'],
+				'jumlah'=>round($pot['hasil_lusinan_potongan']*$harga['hargabaru']),
+				'setoran_pcs'=>$setoran['qty_tot_pcs'],
+				'setoran_dz'=>round($setoran['qty_tot_pcs']/12),
+				'kekuarangan'=>round($pot['hasil_pieces_potongan']-$setoran['qty_tot_pcs']),
 				'action'=>$action,
 			);
 
