@@ -177,39 +177,9 @@ class Bordir extends CI_Controller {
 			$umsiang=$this->ReportModel->SumUmOptBordir($id,1);
 			$ummalam=$this->ReportModel->SumUmOptBordir($id,2);
 			$data['bonussiang']=$bonussiang;
-			$data['bonusmalam']=$bonusmalam;
+			$data['bonusmalam']=!empty($bonusmalam)?$bonusmalam:0;
 			$data['umsiang']=$umsiang;
-			$data['ummalam']=$ummalam;
-			//pre($bonussiang);
-			/*
-			$details=$this->GlobalModel->getData('gaji_operator_detail',array('idgaji'=>$id));
-			$gaji=0;
-			foreach($details as $d){
-				$gaji=$this->GlobalModel->getDataRow('master_karyawan_bordir',array('id_master_karyawan_bordir'=>$d['idkaryawan']));
-				$data['karyawans'][]=array(
-					'idkaryawan'=>$d['idkaryawan'],
-					'nama'=>strtolower($gaji['nama_karyawan_bordir']),
-					'senin'=>$d['senin']==1?$d['gajisenin']:0,
-					'selasa'=>$d['selasa']==1?$d['gajiselasa']:0,
-					'rabu'=>$d['rabu']==1?$d['gajirabu']:0,
-					'kamis'=>$d['kamis']==1?$d['gajikamis']:0,
-					'jumat'=>$d['jumat']==1?$d['gajijumat']:0,
-					'sabtu'=>$d['sabtu']==1?$d['gajisabtu']:0,
-					'minggu'=>$d['minggu']>0?($d['gajiminggu']):0,
-					'um'=>$d['um']>0?$d['um']:0,
-					'bonus'=>$d['bonus']>0?$d['bonus']:0,
-					'ksenin'=>$d['ksenin'],
-					'kselasa'=>$d['kselasa'],
-					'krabu'=>$d['krabu'],
-					'kkamis'=>$d['kkamis'],
-					'kjumat'=>$d['kjumat'],
-					'ksabtu'=>$d['ksabtu'],
-					'kminggu'=>$d['kminggu'],
-					'kbonus'=>$d['kbonus'],
-					'kum'=>$d['kum'],
-				);
-			}
-			*/
+			$data['ummalam']=!empty($ummalam)?21000:0;
 		}
 		$data['kembali']=BASEURL.'Bordir/gajioperator';
 		$data['excel']=BASEURL.'Bordir/operatorbordirdetail/'.$id.'?&excel=1';
