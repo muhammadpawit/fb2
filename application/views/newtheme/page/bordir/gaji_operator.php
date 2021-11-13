@@ -86,6 +86,7 @@
 								$jm=$this->GlobalModel->QueryManual("SELECT abd.mesin,ab.shift FROM absensi_bordir_detail abd JOIN absensi_bordir ab ON(ab.id=abd.idabsensi) WHERE abd.hapus=0 AND idkaryawan='".$d['idkaryawan']."' AND DATE(abd.tanggal) ='".$d['tanggal']."' ");
 								$bon=$this->GlobalModel->QueryManualRow("SELECT SUM(bonus) as bonus FROM absensi_bordir_detail WHERE hapus=0 AND idkaryawan='".$d['idkaryawan']."' AND DATE(tanggal) ='".$d['tanggal']."' ");
 								//$ejm=$jm;
+								$cjm=count($jm);
 								$uangmakan=$this->ReportModel->uangmakanbordir($d['idkaryawan'],$d['tanggal']);
 								$pot=$this->M_potonganoperator->getSumPotongan($d['idkaryawan'],$d['tanggal'],1);
 								$pinjaman=$this->M_potonganoperator->getSumPotongan($d['idkaryawan'],$d['tanggal'],2);
@@ -94,8 +95,8 @@
 								<td><input type="checkbox" name="products[<?php echo $i?>][det][<?php echo $har?>][hari]" value="<?php echo hari($hari)?>" checked></td>
 								<td><?php echo hari($hari)?> <?php echo date('d-m-Y',strtotime($d['tanggal']))?></td>
 								<td>
-									<input type="hidden" class="form-control" name="products[<?php echo $i?>][gaji<?php echo strtolower(hari($hari))?>]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total'])?>">
-									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total'])?>">
+									<input type="hidden" class="form-control" name="products[<?php echo $i?>][gaji<?php echo strtolower(hari($hari))?>]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2*$cjm:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total']*$cjm)?>">
+									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2*$cjm:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total']*$cjm)?>">
 								</td>
 								<td>
 									<input type="hidden" class="form-control" name="products[<?php echo $i?>][bonus<?php echo strtolower(hari($hari))?>]" value="<?php echo !empty($bon)?$bon['bonus']:0;?>">

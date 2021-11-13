@@ -233,7 +233,7 @@ class Bordir extends CI_Controller {
 				$bonus=$this->ReportModel->bonusoperatorbordir($r['id_master_karyawan_bordir'],$tanggal1,$tanggal2,$tempat);
 				$um=$this->ReportModel->getumbordir($r['id_master_karyawan_bordir'],$tanggal1,$tanggal2,$tempat);
 				$det=$this->GlobalModel->QueryManual("SELECT abd.*,ab.shift FROM absensi_bordir_detail abd JOIN absensi_bordir ab ON (ab.id=abd.idabsensi) where abd.hapus=0 and ab.tempat='".$tempat."' and abd.idkaryawan='".$r['id_master_karyawan_bordir']."' AND DATE(abd.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' Group BY tanggal order By abd.tanggal, abd.bonus DESC");
-				//$b=$this->GlobalModel->QueryManualRow("SELECT count(*) as total FROM absensi_bordir_detail WHERE hapus=0 AND idkaryawan='".$r['id_master_karyawan_bordir']."' AND DATE(tanggal) ='".$tanggal."' ");
+				//$b=$this->GlobalModel->QueryManualRow("SELECT count(*) as total FROM absensi_bordir_detail WHERE hapus=0 AND idkaryawan='".$r['id_master_karyawan_bordir']."' AND DATE(tanggal) ='".$tanggal1."' ");
 				if(!empty($b)){
 					$backup=$b['total'];
 					$mes=$b['mesin'];
