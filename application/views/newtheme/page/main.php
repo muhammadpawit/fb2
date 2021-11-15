@@ -1302,7 +1302,7 @@
 $(document).ready(function(){
       
     $( "table" ).addClass( "table-hover" );
-    $( "thead" ).addClass( "thead-dark" );
+    $( "thead" ).addClass( "thead-light" );
     $("input").attr("autocomplete","off");
 
     $(document).on('change', '.kategoriPo', function(){
