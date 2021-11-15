@@ -342,11 +342,12 @@ class Kelolapo extends CI_Controller {
 		$data['po']=array();
 		//$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
 		$sql="SELECT * FROM produksi_po WHERE hapus=0 ";
-		if(!empty($kode_po){
+
+		if(!empty($kode_po)){
 			$sql.=" AND kode_po='$kode_po' ";
 		}
 
-		if(!empty($jenis_po){
+		if(!empty($jenis_po)){
 			$sql.=" AND nama_po='$jenis_po' ";
 		}
 
