@@ -436,7 +436,7 @@ class Finishing extends CI_Controller {
 		if(isset($data['products'])){
 			foreach($data['products'] as $p){
 				$insert=array(
-					'tanggal'=>$data['creted_date'],
+					'tanggal'=>isset($data['creted_date'])?$data['creted_date']:date('Y-m-d'),
 					'idkaryawan'=>$data['idkaryawanharian'],
 					'kode_po'=>$p['kode_po'],
 					'jumlah_pcs'=>$p['jumlah_pcs'],
