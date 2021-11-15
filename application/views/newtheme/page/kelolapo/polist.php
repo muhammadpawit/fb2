@@ -38,7 +38,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered nosearch">
               <thead>
                 <tr>
                   <th>TANGGAL</th>
@@ -75,7 +75,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <?php echo $this->pagination->create_links();?>
+    <?php //echo $this->pagination->create_links();?>
   </div>
 </div>
 <script type="text/javascript">

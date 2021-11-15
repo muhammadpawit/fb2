@@ -340,8 +340,8 @@ class Kelolapo extends CI_Controller {
 		$this->pagination->initialize($config);		
 		
 		$data['po']=array();
-		$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
-		//$results = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		//$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
+		$results = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		foreach($results as $result){
 			$action=array();
 			//if($result['status']==0){
@@ -365,7 +365,8 @@ class Kelolapo extends CI_Controller {
 				'kategori'=>$result['kategori_po'],
 				'tanggal'=>date('d-m-Y',strtotime($result['created_date'])),
 				'status'=>$result['status'],
-				'nama_progress'=>$progress['nama_progress'],
+				//'nama_progress'=>$progress['nama_progress'],
+				'nama_progress'=>null,
 				'action'=>$action,
 			);
 		}
