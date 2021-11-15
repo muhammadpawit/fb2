@@ -800,7 +800,10 @@ class ReportModel extends CI_Model {
 	}
 
 	public function sumkas($column,$tanggal,$bagian){
-		$sql="SELECT SUM($column) as total FROM aruskas WHERE date(tanggal)='$tanggal' and bagian='$bagian' ";
+		$sql="SELECT SUM($column) as total FROM aruskas WHERE date(tanggal)='$tanggal'";
+		if(!empty($bagian)){
+			$sql.=" and bagian='$bagian' ";
+		}
 		$data=$this->db->query($sql)->row_array();
 		return $hasil=$data['total'];
 	}
