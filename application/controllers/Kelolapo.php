@@ -341,7 +341,17 @@ class Kelolapo extends CI_Controller {
 		
 		$data['po']=array();
 		//$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
-		$results = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$sql="SELECT * FROM produksi_po WHERE hapus=0 ";
+		if(!empty($kode_po){
+			$sql.=" AND kode_po='$kode_po' ";
+		}
+
+		if(!empty($jenis_po){
+			$sql.=" AND nama_po='$jenis_po' ";
+		}
+
+		$sql.=" ORDER BY id_produksi_po DESC ";
+		$results = $this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
 			$action=array();
 			//if($result['status']==0){
