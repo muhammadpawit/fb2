@@ -15,6 +15,13 @@
 					<th><?php echo $detail['kode_po']?></th>
 				</tr>
 				<tr>
+					<th>Nama Hpp PO</th>
+					<th>:</th>
+					<th>
+						<input type="text" name="nama_hpp" value="<?php echo $detail['nama_hpp']?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
 					<th>Jenis PO</th>
 					<th>:</th>
 					<th>

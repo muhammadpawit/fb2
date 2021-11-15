@@ -56,7 +56,7 @@
 
                                     <td>PO</td>
 
-                                    <td><?php echo $produk['nama_po'].' '.$produk['kode_po'] ?></td>
+                                    <td><?php echo $produk['nama_po'].' '.$produk['nama_hpp'] ?></td>
 
                                     <td rowspan="8" width="25%" height="70%">
 

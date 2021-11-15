@@ -17,7 +17,7 @@ class Kelolapo extends CI_Controller {
 		$data['title']='Edit PO ';
 		$data['detail']=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$kode_po));
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
-		$data['page']='newtheme/page/kelolapo/editpo';
+		$data['page']=$this->page.'editpo';
 		$data['batal']=BASEURL.'Kelolapo/produksipo';
 		$data['editsave']=BASEURL.'Kelolapo/produksipoedit_save';
 		$this->load->view($this->layout,$data);
@@ -29,6 +29,7 @@ class Kelolapo extends CI_Controller {
 		$update=array(
 			'kode_artikel'=>$data['kode_artikel'],
 			'jenis_po'	=>$data['jenis_po'],
+			'nama_hpp' =>$data['nama_hpp'],
 		);
 		$where=array(
 			'id_produksi_po'=>$data['id'],
@@ -419,6 +420,7 @@ class Kelolapo extends CI_Controller {
 		
 		$dataInsert = array(
 			'kode_po'	=> str_replace(" ","",$po),
+			'nama_hpp'	=> str_replace(" ","",$po),
 			//'kode_po'	=> strtoupper($post['kodePO']),
 			'kategori_po'	=> $post['kategoriPo'],
 			'nama_po'	=> $post['namaPO'],
