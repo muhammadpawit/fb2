@@ -601,7 +601,7 @@ class Finishing extends CI_Controller {
 				'jumlah_pendapatan'=>$post['jumlahpcs'][$key]*$post['pricePerTitik'][$key],
 				'keterangan'	=>	$post['keterangan'][$key],
 				'kategori'	=>	$post['kategoriBorongan'],
-				'creted_date'	=>	$post['creted_date'],
+				'creted_date'=>isset($data['creted_date'])?$data['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
 			);
 			$this->GlobalModel->insertData('packing',$insertData);
@@ -704,7 +704,7 @@ class Finishing extends CI_Controller {
 				'jumlah_pendapatan'=>$post['jumlahpcs'][$key]*$post['jumlahtitik'][$key]*$post['pricePerTitik'][$key],
 				'keterangan'	=>	$post['keterangan'][$key],
 				'kategori'	=>	$post['kategoriBorongan'],
-				'creted_date'	=>	$post['creted_date'],
+				'creted_date'	=>	isset($post['creted_date'])?$post['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
 				'perkalian'=>isset($post['perkalian'][$key])?$post['perkalian'][$key]:1,
 			);
