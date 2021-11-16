@@ -714,7 +714,7 @@ class Kelolapo extends CI_Controller {
 
 
 				$jumBl=0;
-				
+				$jumBls=0;
 				//$explode = explode('-',$post['namaPo']);
 				updateDataProdPO(1,$explode[1]);
 
@@ -728,7 +728,7 @@ class Kelolapo extends CI_Controller {
 				$jumlahPiecePot = ($jumBl*$post['jumlahGambar']);
 				$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
 				$dataInsert = array(
-					'idpo'								=> $idpo,
+					'idpo'								=> $idpo['id_produksi_po'],
 					'kode_po'							=> $explode[1],
 					'sample_bahan_utama_img'			=> BASEURL.$imageGambar,
 					'sample_bahan_variasi_img'			=> BASEURL.$imageGambarVar,
@@ -757,7 +757,7 @@ class Kelolapo extends CI_Controller {
 					foreach ($post['bidangBahan'] as $key => $bidangBahan) {
 						$dataPotonganUtama = array(
 							'idbukupotongan'			=> $idbukupotongan,
-							'idpo'						=> $idpo,
+							'idpo'						=> $idpo['id_produksi_po'],
 							'kode_po'					=> $explode[1],
 							'bidang_bahan_potongan'		=> $bidangBahan,
 							'warna_potongan'			=> $post['warna'][$key],
@@ -777,7 +777,7 @@ class Kelolapo extends CI_Controller {
 					foreach ($post['bidangBahanVar'] as $key => $bidangBahanVar) {
 						$dataPotonganVariasi = array(
 							'idbukupotongan'				=>  $idbukupotongan,
-							'idpo'						=> $idpo,
+							'idpo'							=> $idpo['id_produksi_po'],
 							'kode_po'						=>	$explode[1],
 							'bidang_bahan_potongan'			=>	$bidangBahanVar,
 							'warna_potongan'				=>	$post['warnaVar'][$key],
@@ -789,12 +789,22 @@ class Kelolapo extends CI_Controller {
 							'created_date'					=>	$post['tanggal']
 						);
 						$this->GlobalModel->insertData('konveksi_buku_potongan_variasi',$dataPotonganVariasi);
-						
+						$jumBls += $post['banyakLapisVar'][$key];
 						
 					}
 				}
 			
-				
+				if($explode[0]=="PFK"){
+					$up=array(
+						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
+					'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+					);
+					$where=array(
+						'kode_po'	=>$explode[1],
+					);
+					$this->db->update('konveksi_buku_potongan',$up,$where);
+				}
+
 				if(isset($post['bidangBahanVar'])){
 						if($explode[0]=="FBS"){
 							$up=array(
@@ -861,6 +871,7 @@ class Kelolapo extends CI_Controller {
 		$post = $this->input->post();
 		//pre($post);
 		$jumBl=0;
+		$jumBls=0;
 		$explode = explode('-',$post['namaPo']);
 		
 		updateDataProdPO(2,$explode[1]);
@@ -898,6 +909,7 @@ class Kelolapo extends CI_Controller {
 						'created_date'					=>	$post['tanggal']
 					);
 					$this->GlobalModel->insertData('konveksi_buku_potongan_variasi',$dataPotonganVariasi);
+					$jumBls += $post['banyakLapisVar'][$key];
 				}
 			}
 		
@@ -921,6 +933,16 @@ class Kelolapo extends CI_Controller {
 				'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
 			);
 			$this->GlobalModel->updateData('konveksi_buku_potongan',array('kode_po'=>$explode[1]),$dataInsert);
+				if($explode[0]=="PFK"){
+					$up=array(
+						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
+					'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+					);
+					$where=array(
+						'kode_po'	=>$explode[1],
+					);
+					$this->db->update('konveksi_buku_potongan',$up,$where);
+				}
 
 			$this->session->set_flashdata('msg','Data berhasil diubah');
 			redirect(BASEURL.'kelolapo/bukupotongan');
