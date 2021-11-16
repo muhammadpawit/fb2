@@ -748,6 +748,7 @@ class Kelolapo extends CI_Controller {
 					'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
 					'status'							=>0,
 					'refpo'								=>isset($post['refPO'])?$post['refPO']:'-',
+					'waktuinput'						=>date('Y-m-d H:i:s'),
 				);
 				$this->GlobalModel->insertData('konveksi_buku_potongan',$dataInsert);
 				$idbukupotongan=$this->db->insert_id();
