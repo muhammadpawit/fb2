@@ -726,8 +726,9 @@ class Kelolapo extends CI_Controller {
 						
 
 				$jumlahPiecePot = ($jumBl*$post['jumlahGambar']);
-
+				$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
 				$dataInsert = array(
+					'idpo'								=> $idpo,
 					'kode_po'							=> $explode[1],
 					'sample_bahan_utama_img'			=> BASEURL.$imageGambar,
 					'sample_bahan_variasi_img'			=> BASEURL.$imageGambarVar,
