@@ -756,6 +756,7 @@ class Kelolapo extends CI_Controller {
 					foreach ($post['bidangBahan'] as $key => $bidangBahan) {
 						$dataPotonganUtama = array(
 							'idbukupotongan'			=> $idbukupotongan,
+							'idpo'						=> $idpo,
 							'kode_po'					=> $explode[1],
 							'bidang_bahan_potongan'		=> $bidangBahan,
 							'warna_potongan'			=> $post['warna'][$key],
@@ -775,6 +776,7 @@ class Kelolapo extends CI_Controller {
 					foreach ($post['bidangBahanVar'] as $key => $bidangBahanVar) {
 						$dataPotonganVariasi = array(
 							'idbukupotongan'				=>  $idbukupotongan,
+							'idpo'						=> $idpo,
 							'kode_po'						=>	$explode[1],
 							'bidang_bahan_potongan'			=>	$bidangBahanVar,
 							'warna_potongan'				=>	$post['warnaVar'][$key],
