@@ -513,7 +513,7 @@ class Bordir extends CI_Controller {
 			$id=$this->db->insert_id();
 			$c=null;
 			foreach($data['products'] as $p){
-				$c=$this->GlobalModel->GetDataRow('absensi_bordir_detail',array('tanggal'=>$data['tanggal'],'idkaryawan'=>$p['idkaryawan'],'mesin'=>$p['mesin']));
+				$c=$this->GlobalModel->GetDataRow('absensi_bordir_detail',array('tanggal'=>$data['tanggal'],'idkaryawan'=>$p['idkaryawan'],'mesin'=>$p['mesin'],'hapus'=>0));
 				if(empty($c)){
 					$detail=array(
 						'idabsensi'=>$id,
