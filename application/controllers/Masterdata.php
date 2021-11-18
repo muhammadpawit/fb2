@@ -968,7 +968,9 @@ class Masterdata extends CI_Controller {
 		$sql="SELECT * FROM product WHERE hapus=0 ";
 		$url='';
 		if(!empty($product_id)){
-			$sql.=" AND product_id='".$product_id."' ";
+			//$sql.=" AND product_id='".$product_id."' ";
+			//$url.="&product_id=".$product_id;
+			$sql.=" AND lower(nama) LIKE '".strtolower($product_id)."%' ";
 			$url.="&product_id=".$product_id;
 		}
 		if(!empty($jenis)){

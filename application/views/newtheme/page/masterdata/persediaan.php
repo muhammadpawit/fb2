@@ -123,12 +123,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Nama Persediaan</label>
-      <select name="product_id" id="product_id" class="form-control select2bs4" data-live-search="true">
-        <option value="*">Semua</option>
-        <?php foreach($prods as $p){?>
-          <option value="<?php echo $p['product_id']?>"><?php echo strtolower($p['nama'])?></option>
-        <?php } ?>
-      </select>
+      <input type="text" name="product_id" class="form-control" id="product_id">
     </div>
   </div>
   <div class="col-md-3">
