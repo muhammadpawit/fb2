@@ -2,13 +2,13 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label>Tanggal Awal</label>
-                  <input type="date" name="tanggal1" value="<?php echo $tanggal1?>" id="tanggal1" class="form-control">
+                  <input type="text" name="tanggal1" value="<?php echo $tanggal1?>" id="tanggal1" class="form-control">
                 </div>
               </div>
               <div class="col-sm-2">
                 <div class="form-group">
                   <label>Tanggal Akhir</label>
-                  <input type="date" name="tanggal2" value="<?php echo $tanggal2?>" id="tanggal2" class="form-control">
+                  <input type="text" name="tanggal2" value="<?php echo $tanggal2?>" id="tanggal2" class="form-control">
                 </div>
               </div>
               <div class="col-sm-3">
@@ -39,7 +39,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered nosearch">
               <thead>
                 <tr>
                   <th>#</th>
@@ -72,14 +72,16 @@
                       <td><?php echo $p['pcs']?></td>
                     </tr>
                   <?php } ?>
-                    <tr>
-                      <td colspan="8"><b>Total</b></td>
-                      <td></td>
-                      <td><?php echo $totaldz?></td>
-                      <td><?php echo $totalpcs?></td>
-                    </tr>
                 <?php } ?>
               </tbody>
+              <tfoot>
+                  <tr>
+                      <td colspan="8"><b>Total</b></td>
+                      <td></td>
+                      <td><?php echo number_format($totaldz,2)?></td>
+                      <td><?php echo number_format($totalpcs)?></td>
+                  </tr>
+              </tfoot>
             </table>
   </div>
 </div>
