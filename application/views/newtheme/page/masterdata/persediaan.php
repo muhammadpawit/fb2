@@ -123,7 +123,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Nama Persediaan</label>
-      <input type="text" name="product_id" class="form-control" id="product_id">
+      <input type="text" name="product_id" value="<?php echo isset($_GET['product_id'])?$_GET['product_id']:'';?>" class="form-control" id="product_id">
     </div>
   </div>
   <div class="col-md-3">
