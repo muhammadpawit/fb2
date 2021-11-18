@@ -275,9 +275,18 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</td>
 				</tr>
 			</table>
+			<br><br>
 			<table>
 				<tr>
-					<td colspan="10"></td>
+					<td colspan="4">
+						<b>Catatan :</b><br>
+						<b>
+							Ketentuan Bonus Target Mandor <br>
+							1.Pembayaran 30% dibayar kalau ada UM+Bonus<br>
+							2.Kalau tidak ada bonus, hanya dihitung um saja
+						</b>
+					</td>
+					<td colspan="3"></td>
 					<td>
 						<b>Jakarta, <?php echo date('d F Y',strtotime($gaji['tanggal2']))?></b>
 					<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
@@ -321,7 +330,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                <br>                                            
+                                                <br>  
+
+                                                (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)                                          
 
                                             </td>
                                             <td height="100" align="center">
