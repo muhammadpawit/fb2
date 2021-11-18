@@ -33,17 +33,26 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="form-group">
-			<table class="table table-bordered yessearch">
+			<table class="table table-bordered nosearch">
 				<thead>
 					<tr>
 						<th>Tanggal</th>
+						<th>Pendapatan</th>
+						<th>Pengeluaran</th>
+						<th>Saldo</th>
+						<th>Keterangan</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach($prods as $p){?>
-						<tr>
-							<td><?php echo date('d F Y',strtotime($p['tanggal']))?></td>
-						</tr>
+						<?php $tgl2=date('Y-m-d',strtotime($p['tanggal']."+6 day"));?>
+					<tr>					
+							<td><?php echo date('d F',strtotime($p['tanggal']))?> s.d <?php echo date('d F Y',strtotime($p['tanggal']."+6 day"))?></td>
+							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,1)); ?></td>
+							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,2)); ?></td>
+							<td></td>
+							<td></td>
+					</tr>
 					<?php } ?>
 				</tbody>
 			</table>

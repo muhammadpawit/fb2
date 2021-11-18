@@ -39,7 +39,6 @@ class Laporanexpedisi extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['prods']=[];
 		
-		/*
 		$begin = new DateTime($tanggal1);
 		$end   = new DateTime($tanggal2);
 		$is=strtotime($tanggal1);
@@ -48,6 +47,7 @@ class Laporanexpedisi extends CI_Controller {
 		while($is<=$it){
 			if(date("D",$is) == "Sun"){
 			    $data['prods'][]=array(
+			    	'a'=>date('Y-m-d',$is),
 			    	'tanggal'=>date('Y-m-d',$is),
 			    );
 			    $c[]=date('Y-m-d',$is);
@@ -56,7 +56,7 @@ class Laporanexpedisi extends CI_Controller {
             $is=strtotime($tgl."+1 day");
 		}
 		$data['c']=$c;
-		*/
+		
 		$data['page']=$this->page.'laporanexpedisi';
 		$this->load->view($this->layout,$data);
 	}

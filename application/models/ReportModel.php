@@ -1438,4 +1438,25 @@ class ReportModel extends CI_Model {
 		}
 	}
 
+	public function ekspedisi($tanggal1,$tanggal2,$jenis){
+		$hasil=0;
+		if($jenis==1){
+			$sql="SELECT COALESCE(SUM(biaya_transport),0) as total FROM pembayaran_cmt WHERE hapus=0 ";
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$d=$this->GlobalModel->queryManualRow($sql);
+			if(!empty($d)){
+				$hasil=$d['total'];
+			}
+			return $hasil;
+		}else{
+			$sql="SELECT COALESCE(SUM(harga*jumlah),0) as total FROM pengajuan_harian_new_detail JOIN pengajuan_harian_new ON pengajuan_harian_new.id=pengajuan_harian_new_detail.idpengajuan WHERE pengajuan_harian_new.hapus=0 AND pengajuan_harian_new_detail.hapus=0 AND nama_item LIKE 'transport%' ";
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$d=$this->GlobalModel->queryManualRow($sql);
+			if(!empty($d)){
+				$hasil=$d['total'];
+			}
+			return $hasil;
+		}
+	}
+
 }
