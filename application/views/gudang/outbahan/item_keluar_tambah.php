@@ -10,10 +10,7 @@
                             </div>
                             <div class="form-group col-3">
                                 <label>Nama PO </label>
-                                <select class="form-control select2bs4 namapo" title="Pilih PO" name="namaPo" id="namapo" data-size="5"  data-live-search="true" required>
-                                    <?php foreach ($po as $key => $pordPo): ?>
-                                        <option value="<?php echo $pordPo['kode_po'] ?>"><?php echo $pordPo['nama_po'] ?><?php echo $pordPo['kode_po'] ?></option>   
-                                    <?php endforeach ?>
+                                <select class="form-control autopo" title="Pilih PO" name="namaPo" id="namapo" data-size="5"  data-live-search="true" required>
                                 </select>
                             </div>
                             <div class="form-group col-3">
