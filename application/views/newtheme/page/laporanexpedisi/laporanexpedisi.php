@@ -50,7 +50,7 @@
 							<td><?php echo date('d F',strtotime($p['tanggal']))?> s.d <?php echo date('d F Y',strtotime($p['tanggal']."+6 day"))?></td>
 							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,1)); ?></td>
 							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,2)); ?></td>
-							<td></td>
+							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,1)-$this->ReportModel->ekspedisi($p['tanggal'],$tgl2,2)); ?></td>
 							<td></td>
 					</tr>
 					<?php } ?>
