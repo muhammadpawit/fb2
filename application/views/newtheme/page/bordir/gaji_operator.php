@@ -95,8 +95,8 @@
 								<td><input type="checkbox" name="products[<?php echo $i?>][det][<?php echo $har?>][hari]" value="<?php echo hari($hari)?>" checked></td>
 								<td><?php echo hari($hari)?> <?php echo date('d-m-Y',strtotime($d['tanggal']))?></td>
 								<td>
-									<input type="hidden" class="form-control" name="products[<?php echo $i?>][gaji<?php echo strtolower(hari($hari))?>]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2*$cjm:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total']*$cjm)?>">
-									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2*$cjm:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total']*$cjm)?>">
+									<input type="hidden" class="form-control" name="products[<?php echo $i?>][gaji<?php echo strtolower(hari($hari))?>]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2*$cjm:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total'])?>">
+									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo (hari($hari)=="Minggu"?$h['karyawan_gaji_weekday']*2*$cjm:$h['karyawan_gaji_weekday']/12*$d['jamkerja']*$s['total'])?>">
 								</td>
 								<td>
 									<input type="hidden" class="form-control" name="products[<?php echo $i?>][bonus<?php echo strtolower(hari($hari))?>]" value="<?php echo !empty($bon)?$bon['bonus']:0;?>">
