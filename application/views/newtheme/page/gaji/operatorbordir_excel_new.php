@@ -1,8 +1,8 @@
 <?php
 $nam=$gaji['tempat']==1?'Rumah':'Cipadu'.time();
 $namafile='Laporan Gaji Operator Bordir_'.$nam;
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=".$namafile.".xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
 
 
@@ -251,7 +251,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<table>
 				<tr>
 					<td colspan="5">
-						<table class="table table-bordered">
+						<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 							<tr>
 								<th colspan="5">Bonus Target Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
 							</tr>
@@ -267,14 +267,12 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td><?php echo $umsiang?></td>
 								<td><?php echo $bonussiang?></td>
 								<td><?php echo ($umsiang+$bonussiang)?></td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>Mandor Malam</td>
 								<td><?php echo $ummalam?></td>
 								<td><?php echo $bonusmalam?></td>
 								<td><?php echo ($ummalam+$bonusmalam)?></td>
-								<td></td>
 							</tr>
 							<tr>
 								<td>Total</td>
@@ -287,12 +285,11 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td></td>
 								<td></td>
 								<td><?php echo (($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3)?></td>
-								<td></td>
 							</tr>
 						</table>
 					</td>
 					<td colspan="5">
-						<table class="table table-bordered">
+						<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 							<tr>
 								<td>Jumlah Gaji Operator Bordir</td>
 								<td><?php echo $allgaji?></td>
