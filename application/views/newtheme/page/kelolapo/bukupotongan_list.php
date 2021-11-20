@@ -63,7 +63,7 @@
                             <th>Pcs</th>
                             <th>TIM POTONG</th>
                             <th>STATUS</th>
-                            <th>TANGGAL DIBUAT</th>
+                            <th>TANGGAL POTONG</th>
                             <th>ACTION</th>
                         </tr>
                         </thead>
