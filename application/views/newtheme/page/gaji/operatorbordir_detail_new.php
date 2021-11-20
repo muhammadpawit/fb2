@@ -29,8 +29,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $totalgaji=0;$totalbonus=0;$totalum=0;$absensi=0;$pinjaman=0;?>
+					<?php $totalgaji=0;$totalbonus=0;$totalum=0;$absensi=0;$pinjaman=0;$potongan=0;?>
 					<?php foreach($k['details'] as $kd){?>
+					<?php
+						$sql="SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ";
+						$potongan=$this->GlobalModel->QueryManualRow($sql);
+					?>
 					<tr>
 						<td><?php echo $kd['hari']?></td>
 						<td align="right"><?php echo $kd['gaji']?></td>
@@ -46,7 +50,7 @@
 						$pinjaman+=($kd['pot_pinjaman']);
 					?>
 					<?php }?>
-					<tr>
+					<!-- <tr>
 						<td><b>Pot.Absensi</b></td>
 						<td align="right"><b><?php echo $absensi?></b></td>
 						<td></td>
@@ -60,11 +64,19 @@
 						<td></td>
 						<td></td>
 						<td></td>
+					</tr> -->
+
+					<tr>
+						<td><b>Potongan</b></td>
+						<td align="right"><b><?php echo $potongan['total']?></b></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 
 					<tr>
 						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgaji-$absensi-$pinjaman?></b></td>
+						<td align="right"><b><?php echo $totalgaji-$absensi-$pinjaman-$potongan['total']?></b></td>
 						<td align="right"><b><?php echo $totalbonus?></b></td>
 						<td align="right"><b><?php echo $totalum?></b></td>
 						<td></td>
@@ -72,13 +84,13 @@
 					
 					<tr style="background-color:yellow">
 						<td><b>Total Gaji</b></td>
-						<td colspan="4"><label><?php echo ($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman) ?></label></td>
+						<td colspan="4"><label><?php echo ($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman-$potongan['total']) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman) ?>
+	<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman-$potongan['total']) ?>
 	<?php } ?>
 </div>
 <div class="row">
@@ -86,31 +98,41 @@
 		<div class="form-group">
 			<table class="table table-bordered">
 				<tr>
-					<th colspan="3">Bonus Target Mandor (Rp)</th>
+					<th colspan="5">Bonus Target Mandor (Rp)</th>
 				</tr>
 				<tr>
 					<td>Nama</td>
 					<td>Um</td>
 					<td>Bonus</td>
+					<td>Jumlah</td>
+					<td>Keterangan</td>
 				</tr>
 				<tr>
 					<td>Mandor Siang</td>
 					<td><?php echo $umsiang?></td>
 					<td><?php echo $bonussiang?></td>
+					<td><?php echo ($umsiang+$bonussiang)?></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>Mandor Malam</td>
 					<td><?php echo $ummalam?></td>
 					<td><?php echo $bonusmalam?></td>
+					<td><?php echo ($ummalam+$bonusmalam)?></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Total</td>
+					<td align="center" colspan="4"><?php echo (($bonussiang+$bonusmalam))+$umsiang+$ummalam?></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>30%</td>
 					<td></td>
-					<td><?php echo (($bonussiang+$bonusmalam)*0.3)?></td>
-				</tr>
-				<tr>
-					<td>Total</td>
-					<td align="center" colspan="2"><?php echo (($bonussiang+$bonusmalam)*0.3)+$umsiang+$ummalam?></td>
+					<td></td>
+					<td><?php echo (($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3)?></td>
+					<td></td>
 				</tr>
 			</table>
 		</div>
@@ -119,16 +141,16 @@
 		<div class="form-group">
 			<table class="table table-bordered">
 				<tr>
-					<td>Jumlah Gaji</td>
+					<td>Jumlah Gaji Operator Bordir</td>
 					<td><?php echo $allgaji?></td>
 				</tr>
 				<tr>
 					<td>Bonus target mandor + u.m (Rp)</td>
-					<td><?php echo (($bonussiang+$bonusmalam)*0.3)+$umsiang+$ummalam?></td>
+					<td><?php echo (($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3) ?></td>
 				</tr>
 				<tr>
 					<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-					<td><?php echo $allgaji+((($bonussiang+$bonusmalam)*0.3)+$umsiang+$ummalam)?></td>
+					<td><?php echo $allgaji+((($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3))?></td>
 				</tr>
 			</table>
 			<table class="table table-bordered">

@@ -164,6 +164,9 @@ class Bordir extends CI_Controller {
 			$results=$this->GlobalModel->getData('gaji_operator_new',array('hapus'=>0,'idgajiopt'=>$id));
 			foreach($results as $r){
 				$data['karyawans'][]=array(
+					'tgl1'=>$data['gaji']['tanggal1'],
+					'tgl2'=>$data['gaji']['tanggal2'],
+					'idkaryawan' =>$r['idkaryawan'],
 					'nama'=>$r['nama'],
 					'totalgaji'=>$r['totalgaji'],
 					'totalbonus'=>$r['totalbonus'],
