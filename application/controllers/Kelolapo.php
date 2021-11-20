@@ -541,7 +541,7 @@ class Kelolapo extends CI_Controller {
 		if(!empty($refpo)){
 			$sql.=" AND refpo='".$refpo."' ";
 		}
-		$sql.=" ORDER BY kbp.created_date DESC ";
+		$sql.=" ORDER BY kbp.waktuinput DESC ";
 		$results	= $this->GlobalModel->queryManual($sql);
 		$cp=null;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
