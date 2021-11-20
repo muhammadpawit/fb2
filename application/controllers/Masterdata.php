@@ -497,10 +497,10 @@ class Masterdata extends CI_Controller {
 		}
 		$data['jenispo']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
 		$data['biaya']=array(
-			array('nama'=>'Tress'),
+			array('nama'=>'Tress & Gosok'),
 			array('nama'=>'Packing'),
 			array('nama'=>'Gosok'),
-			array('nama'=>'Packing & Gosok'),
+			array('nama'=>'Packing'),
 		);
 		$data['action']=BASEURL.'Masterdata/ongkoshpp_save';
 		$data['batal']=BASEURL.'Masterdata/cmt';
