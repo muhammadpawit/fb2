@@ -40,7 +40,7 @@
 			                        <tr>
 			                            <th>Nama PO</th>
 			                            <th>Jumlah PC</th>
-			                            <th>Jumlah Titik</th>
+			                            <th>Jumlah Titik (PO KFB , ISI DENGAN 5.5)</th>
 			                            <th>Harga Per Titik</th>
 			                            <!--<th>Jumlah RP</th>-->
 			                            <th>Perkalian</th>
@@ -77,7 +77,7 @@ $(document).ready(function(){
         html += '<td><input type="text" class="form-control jumlahtitik"  name="jumlahtitik[]" required ></td>';
         html += '<td><input type="number" class="form-control jumlah" name="pricePerTitik[]" required ></td>';
         //html += '<td><input type="number" class="form-control jumlahRp" name="jumlahRp[]" required ></td>';
-        html += '<td><select name="perkalian[]" class="form-control"><option value="1">1</value><option value="0.5">0.5</value></select></td>';
+        html += '<td><select name="perkalian[]" class="form-control"><option value="1">1</value></select></td>';
         html += '<td><input type="text" class="form-control keterangan" name="keterangan[]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#item_table').append(html);
