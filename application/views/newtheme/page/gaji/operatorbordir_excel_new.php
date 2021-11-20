@@ -1,8 +1,8 @@
 <?php
 $nam=$gaji['tempat']==1?'Rumah':'Cipadu'.time();
 $namafile='Laporan Gaji Operator Bordir_'.$nam;
-//header("Content-type: application/vnd-ms-excel");
-//header("Content-Disposition: attachment; filename=".$namafile.".xls");
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
 
 
