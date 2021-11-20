@@ -108,10 +108,10 @@
 									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="<?php echo $uangmakan?>">
 								</td>
 								<td>
-									<label for="">Absensi</label>
+									<!-- <label for="">Absensi</label>
 									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][pot]" value="<?php echo $pot==null?0:$pot?>" readonly>
 									<label for="">Pinjaman</label>
-									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][pinjaman]" value="<?php echo $pinjaman==null?0:$pinjaman?>" readonly>
+									<input type="text" class="form-control" name="products[<?php echo $i?>][det][<?php echo $har?>][pinjaman]" value="<?php echo $pinjaman==null?0:$pinjaman?>" readonly> -->
 								</td>
 								<td>
 									<input type="hidden" name="products[<?php echo $i?>][k<?php echo strtolower(hari($hari))?>]" value="Mesin <?php foreach($jm as $j){?><?php echo $j['mesin'] ?> <?php echo $j['shift'] ?>,<?php } ?>">
