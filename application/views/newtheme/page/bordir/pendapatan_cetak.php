@@ -36,6 +36,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
               </thead>
               <tbody>
                 <?php $rowspan=0;?>
+                <?php $j=0;?>
                 <?php if($products){?>
                   <?php foreach($products as $p){?>
                     <tr>
@@ -44,13 +45,18 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td><?php echo $p['shift']?></td>
                       <td><?php echo ($p['stich'])?></td>
                       <td><?php echo ($p['0.18'])?></td>
-                      <!-- <td><?php echo $p['nomesin']==next($mesin)?'':$p['0.2']==next($d)?($p['0.2']):''; ?></td> -->
                       <td><?php echo ($p['0.2']); ?></td>
                       <!-- <td>0</td> -->
                       <td><?php echo ($p['pendapatan'])?></td>
-                      <td align="center" <?php echo $p['nomesin']==current($mesin)?'rowspan="2"':''; ?>><?php echo $p['nomesin']==current($mesin)?($p['jumlah']):''; ?></td>
+                      <td align="right">
+                        <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
+                        <?php if($j%2==1){?>
+                        <?php echo ($p['jumlah']); ?>
+                        <?php } ?>
+                      </td>
                       <td><?php //echo ?></td>
                     </tr>
+                    <?php $j++;?>
                   <?php }?>
                     <tr>
                       <td colspan="2"><b>Total</b></td>
