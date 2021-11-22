@@ -55,6 +55,7 @@
                     ?>
                   <?php } ?>
                 <?php if($products){?>
+                  <?php $j=0;?>
                   <?php foreach($products as $p){?>
                     <tr>
                       <!-- <td><?php echo $p['tanggal']?></td> -->
@@ -65,9 +66,15 @@
                       <td align="right"><?php echo number_format($p['0.2']); ?></td>
                       <!-- <td>0</td> -->
                       <td align="right"><?php echo number_format($p['pendapatan'])?></td>
-                      <td align="right"><?php echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?></td>
+                      <td align="right">
+                        <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
+                        <?php if($j%2==1){?>
+                        <?php echo number_format($p['jumlah']); ?>
+                        <?php } ?>
+                      </td>
                       <td><?php //echo ?></td>
                     </tr>
+                    <?php $j++;?>
                   <?php }?>
                     <tr>
                       <td colspan="2"><b>Total</b></td>
