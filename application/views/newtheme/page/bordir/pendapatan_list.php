@@ -62,11 +62,9 @@
                       <td><?php echo $p['shift']?></td>
                       <td align="right"><?php echo number_format($p['stich'])?></td>
                       <td align="right"><?php echo number_format($p['0.18'])?></td>
-                      <!-- <td><?php echo $p['nomesin']==next($mesin)?'':$p['0.2']==next($d)?number_format($p['0.2']):''; ?></td> -->
                       <td align="right"><?php echo number_format($p['0.2']); ?></td>
                       <!-- <td>0</td> -->
                       <td align="right"><?php echo number_format($p['pendapatan'])?></td>
-                      <!-- <td align="center" <?php echo $p['nomesin']==current($mesin)?'rowspan="2"':''; ?>><?php echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?></td> -->
                       <td align="right"><?php echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?></td>
                       <td><?php //echo ?></td>
                     </tr>
