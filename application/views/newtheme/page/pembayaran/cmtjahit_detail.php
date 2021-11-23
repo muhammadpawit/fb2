@@ -14,6 +14,7 @@
                 <tr>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Rincian PO</th>
+                    <th colspan="2" style="vertical-align : middle;text-align:center;">Potongan PO</th>
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Jumlah PO</th>
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Jumlah Setor PO</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Harga/Dz (Rp)</th>
@@ -25,12 +26,15 @@
                     <td>Pcs</td>
                     <td>Dz</td>
                     <td>Pcs</td>
+                    <td>Dz</td>
+                    <td>Pcs</td>
                 </tr>
             </thead>
             <tbody>
-                <?php $n=1;$jmlpodz=0;$jmlpopcs=0;$jmldz=0;$jmlpcs=0;$total=0;?>
+                <?php $n=1;$jmlpodz=0;$jmlpopcs=0;$jmldz=0;$jmlpcs=0;$total=0;$potongan=0;?>
                 <?php foreach($products as $p){?>
                     <?php
+                        $potongan+=($p['potongan']);
                         $jmlpodz+=($p['jumlah_po_dz']);
                         $jmlpopcs+=($p['jumlah_po_pcs']);
                         $jmldz+=($p['jumlah_dz']);
@@ -44,9 +48,11 @@
                             <input type="hidden" name="products[<?php echo $n?>][id]" value="<?php echo $p['id'] ?>"/>
                         </td>
                         <td><?php echo strtoupper($p['kode_po'])?></td>
-                        <td align="center"><?php echo $p['jumlah_po_dz']?></td>
+                        <td align="center"><?php echo number_format(($p['potongan']/12),2)?></td>
+                        <td align="center"><?php echo $p['potongan']?></td>
+                        <td align="center"><?php echo number_format($p['jumlah_po_dz'],2)?></td>
                         <td align="center"><?php echo $p['jumlah_po_pcs']?></td>
-                        <td align="center"><?php echo $p['jumlah_dz']?></td>
+                        <td align="center"><?php echo number_format($p['jumlah_dz'],2)?></td>
                         <td align="center">
                             <input type="text" name="products[<?php echo $n?>][jumlah_pcs]" value="<?php echo $p['jumlah_pcs'] ?>" class="form-control">
                             <input type="hidden" name="products[<?php echo $n?>][harga]" value="<?php echo $p['harga'] ?>" class="form-control">
@@ -75,6 +81,8 @@
                     <?php } ?>
                 <tr>
                     <td colspan="2" align="center"><b>Total</b></td>
+                    <td align="center"><b><?php echo number_format(($potongan/12),2)?></b></td>
+                    <td align="center"><b><?php echo $potongan?></b></td>
                     <td align="center"><b><?php echo $jmlpodz?></b></td>
                     <td align="center"><b><?php echo $jmlpopcs?></b></td>
                     <td align="center"><b><?php echo $jmldz?></b></td>
@@ -84,27 +92,27 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="7" align="center"><b>Pengembalian Bangke</b></td>
+                    <td colspan="9" align="center"><b>Pengembalian Bangke</b></td>
                     <td align="center"><b><?php echo $detail['pengembalian_bangke']?></b></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="7" align="center"><b>Potongan Bangke</b></td>
+                    <td colspan="9" align="center"><b>Potongan Bangke</b></td>
                     <td align="center"><b><?php echo number_format($detail['potongan_bangke'])?></b></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="7" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
+                    <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
                     <td align="center"><b><?php echo number_format($detail['biaya_transport'])?></b></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="7" align="center"><b>Potongan Pinjaman/Claim</td>
+                    <td colspan="9" align="center"><b>Potongan Pinjaman/Claim</td>
                     <td align="center"><b><?php echo number_format($detail['potongan_lainnya'])?></b></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="7" align="center"><b>Total Yang diterima</b></td>
+                    <td colspan="9" align="center"><b>Total Yang diterima</b></td>
                     <td align="center"><b><?php echo number_format($detail['total']) ?></b></td>
                     <td></td>
                 </tr>

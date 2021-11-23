@@ -422,8 +422,14 @@
 	function akses($user_id,$akses)
 	{
 		$CI =& get_instance();
+		$dataReturn=null;
 		$dataReturn = $CI->GlobalModel->queryManualRow("SELECT nilai FROM aksesdata WHERE user_id='$user_id' and akses='$akses' and hapus=0 ");
-		return $dataReturn['nilai'];
+		if(!empty($dataReturn)){
+			return $dataReturn['nilai'];
+		}else{
+			return $dataReturn;
+		}
+		
 	}
 
 	function headerCallParen($value='')

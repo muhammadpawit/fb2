@@ -73,8 +73,10 @@
             <thead>
                 <tr>
                     <th>Nama PO</th>
-                    <th>Jumlah Dz</th>
-                    <th>Jumlah Pcs</th>
+                    <th>Potong Pcs</th>
+                    <th>Kirim Pcs</th>
+                    <th>Setor Dz</th>
+                    <th>Setor Pcs</th>
                     <th>Harga/dz</th>
                     <th>Total</th>
                     <th>Pembayaran</th>
@@ -151,15 +153,17 @@
             return false;
         }
         var html='<tbody data-parent="0" id="product-row' + i + '" data="'+i+'"><tr>';
-        html += '<td><input type="hidden" class="form-control jumlahDz" name="products['+i+'][jumlah_po_dz]" required ><input type="hidden" class="form-control jumlahPc" name="products['+i+'][jumlah_po_pcs]" required ><select type="text" class="form-control select2bs4 kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-style="btn-success" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
-        html+='<td><input type="hidden" class="form-control dz" name="products['+i+'][dz]" onblur="updatedz('+i+')" readonly ><input type="text" class="form-control jumlahDz" name="products['+i+'][jumlah_dz]" onblur="updatedz('+i+')" readonly ></td>';
-        html+='<td><input type="text" class="form-control jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
-        html+='<td><input type="text" class="form-control harga" name="products['+i+'][harga]" onblur="updatedz('+i+')" required readonly></td>';
+        html += '<td><input type="hidden" class="jumlahDz" name="products['+i+'][jumlah_po_dz]" required ><input type="hidden" class="jumlahPc" name="products['+i+'][jumlah_po_pcs]" required ><select type="text" class="select2bs4 kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-style="btn-success" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html+='<td><input type="text" class="potongan" value="0" name="products['+i+'][potongan]" onblur="updatepcs('+i+')" readonly></td>';
+        html+='<td><input type="text" class="kirimpcs" name="products['+i+'][kirimpcs]" onblur="updatepcs('+i+')" readonly ></td>';
+        html+='<td><input type="hidden" class="dz" name="products['+i+'][dz]" onblur="updatedz('+i+')" readonly ><input type="text" class="jumlahDz" name="products['+i+'][jumlah_dz]" readonly ></td>';
+        html+='<td><input type="text" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
+        html+='<td><input type="text" class="harga" name="products['+i+'][harga]" readonly></td>';
         html+='<td><input type="text" class="total" name="products['+i+'][total]" readonly></td>';
-        html+='<td><select name="products['+i+'][percent]" class="form-control pmb"><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
-        html+='<td><input type="text" class="form-control keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
-        html += '<td><select type="text" class="form-control select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
-        html += '<td><select type="text" class="form-control select2" data-id="'+i+'" name="products['+i+'][trans]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="1" selected>Ya</option><option value="2">Tidak</option></td>';
+        html+='<td><select name="products['+i+'][percent]" class="pmb"><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
+        html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
+        html += '<td><select type="text" style="width:200px" class="select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
+        html += '<td><select type="text" class="select2" data-id="'+i+'" name="products['+i+'][trans]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="1" selected>Ya</option><option value="2">Tidak</option></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html+='</tr><tbody>';
         $("#tbls tfoot").before(html);
@@ -167,7 +171,7 @@
         i++;
         
         $(".select2").select2({
-            theme:"classic"
+            theme:"classic",
         });
         $(".potpertama").select2({
           ajax: {
@@ -198,7 +202,7 @@
     $(document).on('change', '.pmb', function(e){
         var dataItem = $(this).find(':selected').val();
         var dai = $(this).closest('tr');
-        var pcs=dai.find(".pcs").val();
+        var pcs=dai.find(".kirimpcs").val();
         var harga=dai.find(".harga").val();
         var t=dai.find(".total").val();
         var hasil=Number( ((pcs/12)*harga) * dataItem);
@@ -314,6 +318,28 @@
             }else{
                 //alert("Kode Po belum disetor");
                 //dai.remove();
+            }
+        });
+        $.get( "<?php echo BASEURL.'Json/pmbpotong' ?>", { kodepo: dataItem } )
+          .done(function( data ) {
+            var obj = JSON.parse(data);
+            console.log(obj);
+            if(obj!=null){
+                dai.find(".potongan").val(obj.potongan);
+            }else{
+                dai.find(".potongan").val(0);
+            }
+        });
+
+        $.get( "<?php echo BASEURL.'Json/pmbkirim' ?>", { kodepo: dataItem } )
+          .done(function( data ) {
+            var obj = JSON.parse(data);
+            if(obj!==null){
+                var total=Number(obj.kirimpcs/12)*Number(obj.harga);
+                dai.find(".kirimpcs").val(obj.kirimpcs);
+                dai.find(".total").val(total);
+            }else{
+                dai.find(".kirimpcs").val(0);
             }
         });
     });

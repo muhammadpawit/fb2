@@ -610,13 +610,21 @@ class Pembayaran extends CI_Controller {
 		$data['update']=BASEURL.'Pembayaran/cmtjahit_update';
 		$data['detail']=$this->GlobalModel->getdataRow('pembayaran_cmt',array('id'=>$id));
 		$products=$this->GlobalModel->getData('pembayaran_cmt_detail',array('idpembayaran'=>$id));
+		$pots=0;
 		foreach($products as $p){
 			$kirim=$this->GlobalModel->QueryManualRow("SELECT kcd.jumlah_pcs FROM kirimcmt_detail kcd JOIN kirimcmt k ON(k.id=kcd.idkirim) WHERE kcd.kode_po='".$p['kode_po']."' AND k.idcmt='".$data['detail']['idcmt']."' ");
+			$pot=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('kode_po'=>$p['kode_po']));
+			if(!empty($pot)){
+				$pots=$pot['hasil_pieces_potongan'];
+			}else{
+				$pots=!empty($p['potongan'])?$p['potongan']:0;
+			}
 			$data['products'][]=array(
 				'id'=>$p['id'],
 				'kode_po'=>$p['kode_po'],
-				'jumlah_po_dz'=>round($kirim['jumlah_pcs']/12),
-				'jumlah_po_pcs'=>round($kirim['jumlah_pcs']),
+				'potongan'=>$pots,
+				'jumlah_po_dz'=>!empty($p['kirimpcs'])?($p['kirimpcs']/12):($kirim['jumlah_pcs']/12),
+				'jumlah_po_pcs'=>!empty($p['kirimpcs'])?($p['kirimpcs']):($kirim['jumlah_pcs']/12),
 				'jumlah_dz'=>$p['jumlah_dz'],
 				'jumlah_pcs'=>$p['jumlah_pcs'],
 				'harga'=>$p['harga'],
@@ -670,6 +678,7 @@ class Pembayaran extends CI_Controller {
 
 	public function cmtjahitsave(){
 		$data=$this->input->post();
+		//pre($data);
 		$totalbayar=0;
 		$totalbangke=0;
 		$totalpengembalianbangke=0;
@@ -726,6 +735,8 @@ class Pembayaran extends CI_Controller {
 						'idpembayaranpertama'=>$potptm[1],
 						'popembayaran'=>$potptm[2],
 						'trans'=>$p['trans'],
+						'potongan'=>$p['potongan'],
+						'kirimpcs'=>$p['kirimpcs'],
 					);
 					$this->db->insert('pembayaran_cmt_detail',$ids);
 				}
