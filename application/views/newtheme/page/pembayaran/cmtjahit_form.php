@@ -160,7 +160,7 @@
         html+='<td><input type="text" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
         html+='<td><input type="text" class="harga" name="products['+i+'][harga]" readonly></td>';
         html+='<td><input type="text" class="total" name="products['+i+'][total]" readonly></td>';
-        html+='<td><select name="products['+i+'][percent]" class="pmb"><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
+        html+='<td><select name="products['+i+'][percent]" class="pmb" required><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
         html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
         html += '<td><select type="text" style="width:200px" class="select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
         html += '<td><select type="text" class="select2" data-id="'+i+'" name="products['+i+'][trans]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="1" selected>Ya</option><option value="2">Tidak</option></td>';
