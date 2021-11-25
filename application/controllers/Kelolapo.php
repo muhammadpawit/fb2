@@ -794,10 +794,10 @@ class Kelolapo extends CI_Controller {
 					}
 				}
 			
-				if($explode[0]=="PFK"){
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
-					'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+						'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
 					);
 					$where=array(
 						'kode_po'	=>$explode[1],
