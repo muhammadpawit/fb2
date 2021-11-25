@@ -933,7 +933,7 @@ class Kelolapo extends CI_Controller {
 				'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
 			);
 			$this->GlobalModel->updateData('konveksi_buku_potongan',array('kode_po'=>$explode[1]),$dataInsert);
-				if($explode[0]=="PFK"){
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
 					'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
@@ -945,7 +945,7 @@ class Kelolapo extends CI_Controller {
 				}
 
 			$this->session->set_flashdata('msg','Data berhasil diubah');
-			redirect(BASEURL.'kelolapo/bukupotongan');
+			redirect(BASEURL.'kelolapo/bukupotongan?&kode_po='.$explode[1]);
 	}
 
 	public function bukupotonganDelete($value='')
