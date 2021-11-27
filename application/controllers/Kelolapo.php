@@ -542,6 +542,7 @@ class Kelolapo extends CI_Controller {
 			$sql.=" AND refpo='".$refpo."' ";
 		}
 		$sql.=" ORDER BY kbp.waktuinput DESC ";
+		$sql.=" LIMIT 20 ";
 		$results	= $this->GlobalModel->queryManual($sql);
 		$cp=null;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
@@ -1035,7 +1036,7 @@ class Kelolapo extends CI_Controller {
         $data=array();
         $results=array();
         $data['kelola']=array();
-		$results	= $this->GlobalModel->queryManual('SELECT pp.nama_po,kbp.kode_po,kbp.hasil_lusinan_potongan,kbp.hasil_pieces_potongan,pp.progress_lokasi,kbp.created_date,kbp.kode_po FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po JOIN proggresion_po ppo ON pp.id_proggresion_po = ppo.id_proggresion_po ');
+		$results	= $this->GlobalModel->queryManual('SELECT pp.nama_po,kbp.kode_po,kbp.hasil_lusinan_potongan,kbp.hasil_pieces_potongan,pp.progress_lokasi,kbp.created_date,kbp.kode_po FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po JOIN proggresion_po ppo ON pp.id_proggresion_po = ppo.id_proggresion_po LIMIT 20 ');
 		
 		foreach($results as $result){
 			$action=array();
@@ -1133,6 +1134,7 @@ class Kelolapo extends CI_Controller {
 		}
 
 		$sql.=' ORDER BY id DESC ';
+		$sql.=" LIMIT 20 ";
 		$results= $this->GlobalModel->queryManual($sql);
 		$namacmt=null;
 		$no=1;
@@ -1401,6 +1403,7 @@ class Kelolapo extends CI_Controller {
 		}
 
 		$sql.=' ORDER BY id DESC ';
+		$sql.=" LIMIT 20 ";
 		$results= $this->GlobalModel->queryManual($sql);
 		$namacmt=null;
 		$no=1;
@@ -2003,6 +2006,7 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+		$sql.=" LIMIT 20 ";
 		$viewData['kelola']	= $this->GlobalModel->queryManual($sql);
 		$viewData['tanggal1']=$tanggal1;
 		$viewData['tanggal2']=$tanggal2;
