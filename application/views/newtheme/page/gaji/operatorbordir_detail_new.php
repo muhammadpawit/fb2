@@ -126,11 +126,13 @@
 				</tr>
 				<tr>
 					<td>Pembayaran 30%</td>
-					<td align="center" colspan="3"><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
+					<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>Total Diterima (Rp)</td>
-					<td align="center" colspan="3"><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
+					<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
+					<td>UM+30% (Bonus)</td>
 				</tr>
 			</table>
 		</div>
