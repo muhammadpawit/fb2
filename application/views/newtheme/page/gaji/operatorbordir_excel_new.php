@@ -1,8 +1,8 @@
 <?php
 $nam=$gaji['tempat']==1?'Rumah':'Cipadu'.time();
 $namafile='Laporan Gaji Operator Bordir_'.$nam;
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=".$namafile.".xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
 
 
@@ -253,54 +253,55 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td colspan="5">
 						<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 							<tr>
-								<th colspan="5">Bonus Target Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
+								<th colspan="4">Bonus Target Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
 							</tr>
 							<tr>
 								<td>Nama</td>
 								<td>Um</td>
 								<td>Bonus</td>
-								<td>Jumlah</td>
 								<td>Keterangan</td>
 							</tr>
 							<tr>
 								<td>Mandor Siang</td>
 								<td><?php echo $umsiang?></td>
 								<td><?php echo $bonussiang?></td>
-								<td><?php echo ($umsiang+$bonussiang)?></td>
+								<td></td>
 							</tr>
 							<tr>
 								<td>Mandor Malam</td>
 								<td><?php echo $ummalam?></td>
 								<td><?php echo $bonusmalam?></td>
-								<td><?php echo ($ummalam+$bonusmalam)?></td>
-							</tr>
-							<tr>
-								<td>Total</td>
-								<td align="center" colspan="4"><?php echo (($bonussiang+$bonusmalam))+$umsiang+$ummalam?></td>
-								<td></td>
 								<td></td>
 							</tr>
 							<tr>
-								<td>30%</td>
+								<td>Jumlah</td>
+								<td><?php echo ($umsiang+$ummalam)?></td>
+								<td><?php echo ($bonusmalam+$bonussiang)?></td>
 								<td></td>
-								<td></td>
-								<td><?php echo (($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3)?></td>
+							</tr>
+							<tr>
+								<td>Pembayaran 30%</td>
+								<td align="center" colspan="3"><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
+							</tr>
+							<tr>
+								<td>Total Diterima (Rp)</td>
+								<td align="center" colspan="3"><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 						</table>
 					</td>
 					<td colspan="5">
 						<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 							<tr>
-								<td>Jumlah Gaji Operator Bordir</td>
+								<td>Jumlah Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></td>
 								<td><?php echo $allgaji?></td>
 							</tr>
 							<tr>
 								<td>Bonus target mandor + u.m (Rp)</td>
-								<td><?php echo (($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3) ?></td>
+								<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 							<tr>
 								<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-								<td><?php echo $allgaji+((($bonussiang+$bonusmalam+$umsiang+$ummalam)*0.3))?></td>
+								<td><?php echo $allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 						</table><br>
 						

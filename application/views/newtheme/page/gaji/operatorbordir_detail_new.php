@@ -98,7 +98,7 @@
 		<div class="form-group">
 			<table class="table table-bordered">
 				<tr>
-					<th colspan="4">Bonus Target Mandor (Rp)</th>
+					<th colspan="4">Bonus Target Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
 				</tr>
 				<tr>
 					<td>Nama</td>
@@ -139,16 +139,16 @@
 		<div class="form-group">
 			<table class="table table-bordered">
 				<tr>
-					<td>Jumlah Gaji Operator Bordir</td>
+					<td>Jumlah Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></td>
 					<td><?php echo $allgaji?></td>
 				</tr>
 				<tr>
 					<td>Bonus target mandor + u.m (Rp)</td>
-					<td><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
+					<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 				</tr>
 				<tr>
 					<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-					<td><?php echo $allgaji+($bonussiang+$bonusmalam)*0.3?></td>
+					<td><?php echo $allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 				</tr>
 			</table>
 			<table class="table table-bordered">
