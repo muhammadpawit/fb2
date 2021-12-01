@@ -837,7 +837,7 @@ class Bordir extends CI_Controller {
 					$sql .= 'WHERE kmb.jenis=1 AND kmb.hapus=0 and DATE(kmb.created_date) BETWEEN "'.$data['tanggalMulai'].'" AND "'.$data['tanggalEnd'].'"';
 				}
 				$sql.=' ORDER BY kmb.created_date DESC ';
-				$sql.=" LIMIT 20 ";
+				$sql.=" LIMIT 50 ";
 				$bordir=array();
 				
 				$bordirs = $this->GlobalModel->queryManual($sql);
