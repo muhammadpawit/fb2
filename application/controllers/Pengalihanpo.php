@@ -75,7 +75,7 @@ class Pengalihanpo extends CI_Controller {
 				$asal=explode('-', $p['kode_po']);
 				$tujuan=explode('-', $p['cmt_tujuan']);
 				$sj=$this->GlobalModel->GetDataRow('kirimcmt',array('id'=>$asal[1]));
-				$sjdetail=$this->GlobalModel->GetDataRow('kirimcmt_detail',array('idkirim'=>$asal[1]));
+				$sjdetail=$this->GlobalModel->GetDataRow('kirimcmt_detail',array('kode_po'=>$asal[0],'idkirim'=>$asal[1]));
 				$cmttujuan=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$tujuan[0]));
 				$insert=array(
 					'tanggal'=>$p['tanggal'],
@@ -94,7 +94,7 @@ class Pengalihanpo extends CI_Controller {
 					'kode_nota_cmt'=>$tujuan[1],
 					'nama_cmt'=>$cmttujuan['cmt_name'],
 				);
-				$this->db->update('kelolapo_kirim_setor',$update,array('kategori_cmt'=>'JAHIT','kode_po'=>$asal[0]));
+				$this->db->update('kelolapo_kirim_setor',$update,array('kategori_cmt'=>'JAHIT','kode_po'=>$asal[0],'kode_nota_cmt'=>$sjdetail['idkirim']));
 
 				// update sj asal
 				$this->db->query("update kirimcmt set totalkirim=totalkirim-'".$sjdetail['jumlah_pcs']."' WHERE id='".$sjdetail['idkirim']."' ");
