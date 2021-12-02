@@ -1,6 +1,18 @@
 <div class="row">
+    <div class="col-md-6">
+        <label>Kode PO</label>
+        <select name="kode_po" class="autopo" style="width:100%">
+            <option value="*">Semua</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Aksi</label>
+        <button onclick="filterwithpo()" class="btn btn-info full">Filter</button>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12">
-        <table class="table table-bordered yessearch">
+        <table class="table table-bordered nosearch">
                         <thead>
                         <tr>
                             <th>KODE PO</th>

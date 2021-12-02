@@ -1026,7 +1026,19 @@ class Finishing extends CI_Controller {
 	public function hppproduksi()
 	{
 		$viewData['title']='HPP Produksi';
-		$viewData['produk'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po ORDER BY pp.id_produksi_po DESC ');		
+		$get=$this->input->get();
+		if(isset($get['kode_po'])){
+			$kode_po=$get['kode_po'];
+		}else{
+			$kode_po=null;
+		}
+
+		$sql='SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE id_produksi_po >0 ';
+		if(!empty($kode_po)){
+			$sql.=" AND pp.kode_po='$kode_po' ";
+		}
+		$sql.=" ORDER BY pp.id_produksi_po DESC LIMIT 50";
+		$viewData['produk'] = $this->GlobalModel->queryManual($sql);		
  		// $this->load->view('global/header');
 		// $this->load->view('finishing/hpp/hpp-view',$viewData);
 		// $this->load->view('global/footer');
