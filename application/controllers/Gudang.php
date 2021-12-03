@@ -1206,6 +1206,8 @@ class Gudang extends CI_Controller {
 		}else{
 			$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+
+		$sql.=" LIMIT 30 ";
 		$item = $this->GlobalModel->queryManual($sql);
 		$viewData['item']=[];
 		$user=user();
@@ -1645,6 +1647,7 @@ class Gudang extends CI_Controller {
 			$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  ";
 		}
 		$sql.=" ORDER BY id_item_keluar DESC ";
+		$sql.=" LIMIT 30 ";
 		$item=$this->GlobalModel->queryManual($sql);
 		$user=user();
 		$hapus=0;
