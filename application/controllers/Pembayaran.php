@@ -614,6 +614,7 @@ class Pembayaran extends CI_Controller {
 		foreach($products as $p){
 			$kirim=$this->GlobalModel->QueryManualRow("SELECT kcd.jumlah_pcs FROM kirimcmt_detail kcd JOIN kirimcmt k ON(k.id=kcd.idkirim) WHERE kcd.kode_po='".$p['kode_po']."' AND k.idcmt='".$data['detail']['idcmt']."' ");
 			$pot=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('kode_po'=>$p['kode_po']));
+			$po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
 			if(!empty($pot)){
 				$pots=$pot['hasil_pieces_potongan'];
 			}else{
@@ -621,7 +622,7 @@ class Pembayaran extends CI_Controller {
 			}
 			$data['products'][]=array(
 				'id'=>$p['id'],
-				'kode_po'=>$p['kode_po'],
+				'kode_po'=>$po['nama_hpp'],
 				'potongan'=>$pots,
 				'jumlah_po_dz'=>!empty($p['kirimpcs'])?($p['kirimpcs']/12):($kirim['jumlah_pcs']/12),
 				'jumlah_po_pcs'=>!empty($p['kirimpcs'])?($p['kirimpcs']):($kirim['jumlah_pcs']/12),
