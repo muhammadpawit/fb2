@@ -21,10 +21,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label>Nama PO </label>
-                <select class="form-control selectpicker" title="Pilih PO" name="namaPo" id="po" data-size="5" data-live-search="true">
-                    <?php foreach ($po as $key => $pordPo): ?>
-                    <option value="<?php echo $pordPo['kode_po'] ?>"><?php echo $pordPo['nama_po'] ?><?php echo $pordPo['kode_po'] ?></option>   
-                    <?php endforeach ?>
+                <select class="form-control autopo" title="Pilih PO" name="namaPo" id="po" data-size="5" data-live-search="true">
                 </select>
             </div>
         </div>
@@ -90,7 +87,7 @@ $(document).ready(function(){
         var html = '';
         html += '<tr>';
         html += '<td style="display:none;"><input type="hidden" class="form-control id" name="id[]" ></td>';
-        html += '<td><select type="text" class="form-control selectpicker" name="nama[]" data-live-search="true" data-title="Pilih item" required><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" class="form-control selectpicker" name="nama[]" data-live-search="true" data-title="Pilih item" required><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo strtolower($item['nama_item']) ?></option><?php } ?></select></td>';
         html += '<td><input type="hidden" class="form-control id_persediaan" name="id_persediaan[]"><input type="text" class="form-control warna" name="warna[]"></td>';
         html += '<td><input type="number" class="form-control ukuran" name="ukuran[]" step=0.01 required></td>';
         html += '<td><input class="form-control satuanUkran" name="satuanUkran[]" readonly></td>';

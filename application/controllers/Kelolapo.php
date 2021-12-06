@@ -1674,46 +1674,6 @@ class Kelolapo extends CI_Controller {
 		redirect(BASEURL.'Kelolapo/pengirimancmt');
 	}
 
-	// public function kirimcmtcetak($id='',$type=''){
-	// 	$rincian=array();
-	// 	$data=array();
-	// 	$data['nota']='CMT';
-	// 	$data['no']=1;
-	// 	$data['kirim']=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
-	// 	$data['kirims']=$this->GlobalModel->getData('kirimcmt_detail',array('idkirim'=>$id));
-	// 	$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
-	// 	$pdf=false;
-	// 	if($pdf==true){
-	// 		//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
-			
-	// 		$html =  $this->load->view('produksi/kirimcmt_cetak',$data);
-
-	// 		$this->load->library('pdfgenerator');
-	        
-	//         // title dari pdf
-	//         $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
-	        
-	//         // filename dari pdf ketika didownload
-	//         $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
-	//         // setting paper
-	//         $paper = 'A4';
-	//         //orientasi paper potrait / landscape
-	//         $orientation = "potrait";
-	        
-	// 		$this->load->view('laporan_pdf',$this->data, true);	    
-	        
-	//         // run dompdf
-	//         $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
-	// 	}else{
-	// 		if($type==1){
-	// 			$this->load->view('produksi/kirimcmt_cetak',$data);
-	// 		}else{
-	// 			$this->load->view('produksi/kirimcmt_excel',$data);
-	// 		}	
-	// 	}
-		
-		
-	// }
 
 	public function kirimcmtcetak($id='',$type=''){
 		$rincian=array();
@@ -1723,7 +1683,7 @@ class Kelolapo extends CI_Controller {
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
 		$data['kirims']=$this->GlobalModel->getData('kirimcmt_detail',array('idkirim'=>$id));
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
-		$pdf=false;
+		$pdf=true;
 		if($pdf==true){
 			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
 			

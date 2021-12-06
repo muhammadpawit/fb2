@@ -29,11 +29,26 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $totalgaji=0;$totalbonus=0;$totalum=0;$absensi=0;$pinjaman=0;$potongan=0;?>
+					<?php $totalgaji=0;$totalbonus=0;$totalum=0;$absensi=0;$pinjaman=0;$potongan=0;$claim=0;?>
 					<?php foreach($k['details'] as $kd){?>
 					<?php
 						$sql="SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ";
 						$potongan=$this->GlobalModel->QueryManualRow($sql);
+
+						$sabsensi=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=1 ");
+
+						if(!empty($sabsensi)){
+							$absensi=$sabsensi['total'];
+						}
+						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
+						if(!empty($sclaim)){
+							$claim=$sclaim['total'];
+						}
+						$spinjaman=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=2 ");
+						if(!empty($spinjaman)){
+							$pinjaman=$spinjaman['total'];
+						}
+
 					?>
 					<tr>
 						<td><?php echo $kd['hari']?></td>
@@ -46,13 +61,20 @@
 						$totalgaji+=($kd['gaji']);
 						$totalbonus+=($kd['bonus']);
 						$totalum+=($kd['um']);
-						$absensi+=($kd['pot_absensi']);
-						$pinjaman+=($kd['pot_pinjaman']);
 					?>
 					<?php }?>
-					<!-- <tr>
+					
+					<tr>
 						<td><b>Pot.Absensi</b></td>
 						<td align="right"><b><?php echo $absensi?></b></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td><b>Pot.Claim</b></td>
+						<td align="right"><b><?php echo $claim?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -64,19 +86,12 @@
 						<td></td>
 						<td></td>
 						<td></td>
-					</tr> -->
-
-					<tr>
-						<td><b>Potongan</b></td>
-						<td align="right"><b><?php echo $potongan['total']?></b></td>
-						<td></td>
-						<td></td>
-						<td></td>
 					</tr>
 
+					
 					<tr>
 						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgaji-$absensi-$pinjaman-$potongan['total']?></b></td>
+						<td align="right"><b><?php echo $totalgaji-$potongan['total']?></b></td>
 						<td align="right"><b><?php echo $totalbonus?></b></td>
 						<td align="right"><b><?php echo $totalum?></b></td>
 						<td></td>
@@ -84,13 +99,13 @@
 					
 					<tr style="background-color:yellow">
 						<td><b>Total Gaji</b></td>
-						<td colspan="4"><label><?php echo ($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman-$potongan['total']) ?></label></td>
+						<td colspan="4"><label><?php echo ($totalgaji+$totalbonus+$totalum-$potongan['total']) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman-$potongan['total']) ?>
+	<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$potongan['total']) ?>
 	<?php } ?>
 </div>
 <div class="row">

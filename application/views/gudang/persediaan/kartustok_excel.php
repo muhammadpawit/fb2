@@ -1,15 +1,9 @@
-<div class="row no-print">
-	<div class="col-md-12">
-		<div class="form-group">
-			<button onclick="window.print()" class="btn btn-info btn-xs">Print</button>
-			<button onclick="excelwithtgl()" class="btn btn-info btn-xs">Excel</button>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group">
-			<table class="table table-bordered">
+<?php
+$namafile='kartustok_'.time();
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=".$namafile.".xls");
+?>
+<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
 						<th>No</th>
@@ -25,7 +19,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $no=1;?>
+					<?php $no=1;$totalmasuk=0;$totalkeluar=0;?>
 					<?php foreach($kartustok as $k){?>
 						<tr>
 							<td><?php echo $no++?></td>
@@ -39,9 +33,18 @@
 							<td><?php echo $k['sisa_qty'].' '.$p['satuan_jumlah_item']?></td>
 							<td><?php echo $k['keterangan']?></td>
 						</tr>
+					<?php
+						$totalmasuk+=($k['saldomasuk_qty']);
+						$totalkeluar+=($k['saldokeluar_qty']);
+					?>
 					<?php } ?>
 				</tbody>
-			</table>		
-		</div>
-	</div>
-</div>
+				<tfoot>
+					<tr>
+						<td colspan="6" align="center" valign="top"><b>Total</b></td>
+						<td align="center"><?php echo $totalmasuk?></td>
+						<td align="center"><?php echo $totalkeluar?></td>
+						<td align="center"><?php echo ($totalmasuk-$totalkeluar)?></td>
+					</tr>
+				</tfoot>
+			</table>

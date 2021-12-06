@@ -34,13 +34,19 @@
 			                        </select>
 								</div>
 							</div>
-							<div class="col-md-4"></div>
+							<div class="col-md-4">
+								<?php if(!empty($ket)){?>
+								<p class="alert alert-warning text-white">
+									<?php echo $ket?>
+								</p>
+								<?php } ?>
+							</div>
 							<div class="col-md-12">
 								<table class="table table-bordered" id="item_table">
 			                        <tr>
 			                            <th>Nama PO</th>
 			                            <th>Jumlah PC</th>
-			                            <th>Jumlah Titik (PO KFB , ISI DENGAN 5.5)</th>
+			                            <th>Jumlah Titik</th>
 			                            <th>Harga Per Titik</th>
 			                            <!--<th>Jumlah RP</th>-->
 			                            <th>Perkalian</th>

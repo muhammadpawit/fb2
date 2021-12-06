@@ -659,16 +659,24 @@ class Finishing extends CI_Controller {
 
 	public function borongantambah($jenis){
 		$data=array();
+		$ket=null;
 		if($jenis==1){
 			$title="Lobang Kancing";
 			$kategori="LOBANG KANCING";
+			$ket="SKF jumlah titik diisi dengan 4<br>
+				  KFB jumlah titik diisi dengan 5<br>
+				  KKF jumlah titik diisi dengan 8";
 		}else if($jenis==2){
 			$title="Pasang Kancing";
 			$kategori="PASANG KANCING";
+			$ket="SKF jumlah titik diisi dengan 4<br>
+				  KFB jumlah titik diisi dengan 5<br>
+				  KKF jumlah titik diisi dengan 8";
 		}else if($jenis==3){
 			$title="Tress";
 			$kategori="TRESS";
 		}
+		$data['ket']=$ket;
 		$data['title']=$title;
 		$data['kategori']=$kategori;
 		$data['jenis']=$jenis;

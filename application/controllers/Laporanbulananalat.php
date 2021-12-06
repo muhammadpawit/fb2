@@ -62,18 +62,17 @@ class Laporanbulananalat extends CI_Controller {
 			$sql.=" AND p.kategori IN(1,2,3,4,5,6,7,8,9,10,11,13) ";
 		}
 
+		// /$sql.=" AND p.product_id=1181 ";
+
 		if(!empty($supplier)){
 			$sql.=" AND gpi.supplier='".$supplier."'";
 		}
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($results);
 		$no=1;
-		$stokawal=[];
-		$stokmasuk=[];
-		$stokkeluar=[];
-		$stokakhirroll=0;
-		$stokakhiryard=0;
-		$stokakhirharga=0;
+		$stokawal=0;
+		$stokmasuk=0;
+		$stokkeluar=0;
 		$warna=null;
 		$data['prods']=[];
 		foreach($results as $row){
@@ -85,19 +84,19 @@ class Laporanbulananalat extends CI_Controller {
 				'nama'	=>$row['nama_item'],
 				'warna'	=>$row['warna_item'],
 				'kode'=>null,
-				'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
-				'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+				'stokawal'=>$stokawal,
+				'stokawalyard'=>0,
 				'stokawalharga'=>$row['harga_item'],
-				'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
-				'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+				'stokmasuk'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+				'stokmasukyard'=>0,
 				'stokmasukharga'=>$row['harga_item'],
-				'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
-				'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+				'stokkeluarroll'=>$stokkeluar,
+				'stokkeluaryard'=>0,
 				'stokkeluarharga'=>$row['harga_item'],
-				'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-				'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+				'stokakhirroll'=>($stokawal+($stokmasuk['roll']-$stokkeluar)),
+				'stokakhiryard'=>0,
 				'stokakhirharga'=>$row['harga_item'],
-				'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
 				'ket'=>null,
 			);
 		}
@@ -106,7 +105,7 @@ class Laporanbulananalat extends CI_Controller {
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
 		}else{
-			$data['page']=$this->page.'laporanbulananbahan';
+			$data['page']=$this->page.'laporanbulananalat.php';
 			$this->load->view($this->layout,$data);	
 		}
 		

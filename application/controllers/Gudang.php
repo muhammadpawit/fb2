@@ -16,8 +16,13 @@ class Gudang extends CI_Controller {
 		$data['kartustok']=[];
 		$data['p'] = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('hapus'=>0,'id_persediaan'=>$id));
 		$data['kartustok']=$this->GlobalModel->queryManual("SELECT * FROM kartustok_product WHERE hapus=0 AND idproduct='".$id."' ");
-		$data['page']='gudang/persediaan/kartustok';
+		$get=$this->input->get();
+		if(isset($get['excel'])){
+			$this->load->view('gudang/persediaan/kartustok_excel',$data);
+		}else{
+			$data['page']='gudang/persediaan/kartustok';
 		$this->load->view('newtheme/page/main',$data);
+		}
 	}
 
 	public function editbahankeluar($id){
@@ -1278,9 +1283,8 @@ class Gudang extends CI_Controller {
 	public function itemkeluartambah()
 	{
 		$viewData['title']='Pengeluaran alat-alat';
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',null);
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',NULL);
 		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$viewData['page']='gudang/outbound/item_keluar_tambah';
 		$viewData['kembali']=BASEURL.'Gudang/Pengeluaranalat';
@@ -1697,7 +1701,6 @@ class Gudang extends CI_Controller {
 		$viewData['lockdouble']=settings('lockdouble');
 		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$viewData['page']='gudang/outbahan/item_keluar_tambah';
 		$this->load->view('newtheme/page/main',$viewData);

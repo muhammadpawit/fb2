@@ -57,10 +57,26 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php $totalgajia=0;$totalbonusa=0;$totaluma=0;$absensia=0;$pinjamana=0;$potongan=0;?>
+					<?php $totalgajia=0;$totalbonusa=0;$totaluma=0;$absensia=0;$pinjamana=0;$potongan=0;$claima=0;?>
 					<?php foreach($k['details'] as $kd){?>
 					<?php
 						$potongan=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ");
+
+						$sabsensi=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=1 ");
+
+						if(!empty($sabsensi)){
+							$absensia=$sabsensi['total'];
+						}
+						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
+						if(!empty($sclaim)){
+							$claima=$sclaim['total'];
+						}
+						$spinjaman=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=2 ");
+						if(!empty($spinjaman)){
+							$pinjamana=$spinjaman['total'];
+						}
+
+
 					?>						
 					<tr>
 						<td><?php echo $kd['hari']?></td>
@@ -73,14 +89,20 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						$totalgajia+=($kd['gaji']);
 						$totalbonusa+=($kd['bonus']);
 						$totaluma+=($kd['um']);
-						$absensia+=($kd['pot_absensi']);
-						$pinjamana+=($kd['pot_pinjaman']);
 					?>
 					<?php }?>
 					
-					<!-- <tr>
+					<tr>
 						<td><b>Pot.Absensi</b></td>
 						<td align="right"><b><?php echo $absensia?></b></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td><b>Pot.Claim</b></td>
+						<td align="right"><b><?php echo $claima?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -92,27 +114,19 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td></td>
 						<td></td>
 						<td></td>
-					</tr> -->
-
-					<tr>
-						<td><b>Potongan</b></td>
-						<td align="right"><b><?php echo $potongan['total']?></b></td>
-						<td></td>
-						<td></td>
-						<td></td>
 					</tr>
 
 
 					<tr>
 						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgajia-$absensia-$pinjamana-$potongan['total']?></b></td>
+						<td align="right"><b><?php echo $totalgajia-$potongan['total']?></b></td>
 						<td align="right"><b><?php echo $totalbonusa?></b></td>
 						<td align="right"><b><?php echo $totaluma?></b></td>
 					</tr>
 					
 					<tr style="background-color:yellow">
 						<td><b>Gaji Diterima</b></td>
-						<td colspan="4" align="center"><label><?php echo ($totalgajia+$totalbonusa+$totaluma-$absensia-$pinjamana-$potongan['total']) ?></label></td>
+						<td colspan="4" align="center"><label><?php echo ($totalgajia+$totalbonusa+$totaluma-$potongan['total']) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -120,7 +134,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<?php $h++;?>
 			<?php } ?>
 			<?php $j++; ?>
-	<?php //$allgaji+=($totalgaji+$totalbonus+$totalum) ?>
 	<?php } ?>
 		</tr>
 	</table><br>
@@ -134,16 +147,10 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
-						<?php //if($hr==0){?>
 						<th colspan="4"><?php echo ucfirst($k['nama'])?></th>
-						<?php //}else{ ?>
-							<!-- <th colspan="3"><?php echo ucfirst($k['nama'])?></th> -->
-						<?php //} ?>
 					</tr>
 					<tr>
-						<?php //if($hr==0){?>
 						<th>Hari</th>
-						<?php //} ?>
 						<th>Gaji</th>
 						<th>Bonus</th>
 						<th>Um</th>
@@ -151,10 +158,27 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php $totalgajib=0;$totalbonusb=0;$totalumb=0;$absensib=0;$pinjamanb=0;$potongan=0;?>
+					<?php $totalgajib=0;$totalbonusb=0;$totalumb=0;$absensib=0;$pinjamanb=0;$claimb=0;$potongan=0;?>
 					<?php foreach($k['details'] as $kd){?>
 					<?php
 						$potongan=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ");
+
+						$sabsensi=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=1 ");
+
+						if(!empty($sabsensi)){
+							$absensib=$sabsensi['total'];
+						}
+
+						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
+						if(!empty($sclaim)){
+							$claimb=$sclaim['total'];
+						}
+						$spinjaman=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=2 ");
+						if(!empty($spinjaman)){
+							$pinjamanb=$spinjaman['total'];
+						}
+
+
 					?>						
 					<tr>
 						<?php //if($hr==0){?>
@@ -169,13 +193,21 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						$totalgajib+=($kd['gaji']);
 						$totalbonusb+=($kd['bonus']);
 						$totalumb+=($kd['um']);
-						$absensib+=($kd['pot_absensi']);
-						$pinjamanb+=($kd['pot_pinjaman']);
 					?>
 					<?php }?>
-					<!-- <tr>
+					
+
+					<tr>
 						<td><b>Pot.Absensi</b></td>
 						<td align="right"><b><?php echo $absensib?></b></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td><b>Pot.Claim</b></td>
+						<td align="right"><b><?php echo $claimb?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -187,19 +219,12 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td></td>
 						<td></td>
 						<td></td>
-					</tr> -->
-
-					<tr>
-						<td><b>Potongan</b></td>
-						<td align="right"><b><?php echo $potongan['total']?></b></td>
-						<td></td>
-						<td></td>
-						<td></td>
 					</tr>
+
 
 					<tr>
 						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgajib-$absensib-$pinjamanb-$potongan['total']?></b></td>
+						<td align="right"><b><?php echo $totalgajib-$potongan['total']?></b></td>
 						<td align="right"><b><?php echo $totalbonusb?></b></td>
 						<td align="right"><b><?php echo $totalumb?></b></td>
 					</tr>
@@ -207,10 +232,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr style="background-color:yellow">
 						<td><b>Gaji Diterima</b></td>
 						<?php //if($hr==0){?>
-						<td colspan="4" align="center"><label><?php echo ($totalgajib+$totalbonusb+$totalumb-$absensib-$pinjamanb-$potongan['total']) ?></label></td>
-						<?php //}else{ ?>
-							<!-- <td colspan="3" align="center"><label><?php echo ($totalgajia+$totalbonusa+$totaluma) ?></label></td> -->
-						<?php //} ?>
+						<td colspan="4" align="center"><label><?php echo ($totalgajib+$totalbonusb+$totalumb-$potongan['total']) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -218,7 +240,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<?php $hr++;?>
 			<?php } ?>
 			<?php $jk++; ?>
-	<?php //$allgaji+=($totalgaji+$totalbonus+$totalum) ?>
 	<?php } ?>
 		</tr>
 	</table>
@@ -313,12 +334,13 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<br><br>
 			<table>
 				<tr>
-					<td colspan="4">
+					<td colspan="4" align="left" valign="top">
 						<b>Catatan :</b><br>
 						<b>
-							Ketentuan Bonus Target Mandor <br>
-							1.Pembayaran 30% dibayar kalau ada UM+Bonus<br>
-							2.Kalau tidak ada bonus, hanya dihitung um saja
+							1.Pembayaran bonus dibayar hanya 30%<br>
+							2.UM mandor terpisah dari bonus<br>
+							3.Kalau tidak ada bonus yang dihitung hanya UM saja
+
 						</b>
 					</td>
 					<td colspan="3"></td>

@@ -1295,13 +1295,22 @@ class ReportModel extends CI_Model {
 
 	public function stokawal_alat($id,$tgl){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
-		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
+		$sql = "SELECT SUM(pid.jumlah) as total,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
 		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) < '".$tgl."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
-			$hasil=$d;
+			$hasil=$d['total'];
 		}
-		return $hasil;
+		$hasil2=0;
+		$sql2="SELECT SUM(jumlah) as total FROM barangkeluarharian_detail WHERE hapus=0 AND idpersediaan='$id' ";
+		$sql2.=" AND DATE(tanggal) < '".$tgl."' ";
+		$s2=$this->GlobalModel->QueryManualRow($sql2);
+		if(!empty($s2)){
+			$hasil2=$s2['total'];
+		}
+		$total=0;
+		$total=$hasil-$hasil2;
+		return $total;
 	}
 
 	public function stokmasuk_alat($id,$tgl,$tgl2){
@@ -1316,14 +1325,23 @@ class ReportModel extends CI_Model {
 	}
 
 	public function stokkeluar_alat($id,$tgl,$tgl2){
-		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
+		$hasil=0;
 		$sql = "SELECT SUM(gik.jumlah_item_keluar) as pcs FROM gudang_item_keluar gik WHERE gik.hapus=0";
 		$sql.=" AND DATE(gik.created_date) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
-			$hasil=$d;
+			$hasil=$d['pcs'];
 		}
-		return $hasil;
+		$hasil2=0;
+		$sql2="SELECT SUM(jumlah) as total FROM barangkeluarharian_detail WHERE hapus=0 AND idpersediaan='$id' ";
+		$sql2.=" AND DATE(tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
+		$s2=$this->GlobalModel->QueryManualRow($sql2);
+		if(!empty($s2)){
+			$hasil2=$s2['total'];
+		}
+		$total=0;
+		$total=$hasil+$hasil2;
+		return $total;
 	}
 
 	public function SumBonusOptBordir($id,$shift){
