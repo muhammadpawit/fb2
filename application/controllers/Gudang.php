@@ -1814,6 +1814,7 @@ class Gudang extends CI_Controller {
 			$update=array(
 				'harga_item' => $p['harga_item'],
 				'bahan_kategori' => $p['bahan_kategori'],
+				'jumlah_item_keluar'=>$p['jumlah_item_keluar'],
 			);
 			$where=array(
 				'id_item_keluar' => $p['id_item_keluar'],
