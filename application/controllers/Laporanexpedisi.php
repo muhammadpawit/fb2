@@ -57,7 +57,11 @@ class Laporanexpedisi extends CI_Controller {
 		}
 		$data['c']=$c;
 		
-		$data['page']=$this->page.'laporanexpedisi';
-		$this->load->view($this->layout,$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'laporanexpedisi_excel',$data);
+		}else{
+			$data['page']=$this->page.'laporanexpedisi';
+			$this->load->view($this->layout,$data);
+		}
 	}
 }

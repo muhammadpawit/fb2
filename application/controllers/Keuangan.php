@@ -665,6 +665,7 @@ class Keuangan extends CI_Controller {
 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$sql.=" ORDER BY id DESC ";
 		$results=$this->GlobalModel->QueryManual($sql);
+
 		$total=0;
 		foreach($results as $result){
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
@@ -676,7 +677,7 @@ class Keuangan extends CI_Controller {
 				'nominal'=>number_format($result['nominal_request'],2),
 				'nominal_acc'=>number_format($result['nominal_acc'],2),
 				'status'=>$result['status'],
-				'detail'=>BASEURL.'Keuangan/kasbondetail/'.$result['idacc'],
+				'detail'=>BASEURL.'Keuangan/kasbondetail/'.$result['tanggal'],
 			);
 		}
 		$data['page']='newtheme/page/keuangan/kasbonlist';
@@ -726,14 +727,15 @@ class Keuangan extends CI_Controller {
 
 	public function kasbondetail($id){
 		$data=array();
+		$data['title']='Persetujuan Kasbon Karyawan Forboys';
 		$data['n']=1;
 		$data['i']=0;
 		$data['kembali']=BASEURL.'Keuangan/kasbonkaryawan';
 		$data['action']=BASEURL.'Keuangan/kasbonkaryawan';
 		$data['detail']=array();
-		$data['acc']=$this->GlobalModel->getDataRow('kasbon_acc',array('id'=>$id,'hapus'=>0));
-		$results=$this->GlobalModel->getData('kasbon',array('idacc'=>$id,'hapus'=>0));
-		//pre($results);
+		$data['acc']=null;
+		$data['acc']=$this->GlobalModel->getDataRow('kasbon_acc',array('tanggal'=>$id,'hapus'=>0));
+		$results=$this->GlobalModel->getData('kasbon',array('tanggal'=>$id,'hapus'=>0));
 		$total=0;
 		$ajuan=0;
 		foreach($results as $result){

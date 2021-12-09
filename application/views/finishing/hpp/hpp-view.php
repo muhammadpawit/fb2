@@ -1,13 +1,11 @@
 <div class="row">
     <div class="col-md-6">
         <label>Kode PO</label>
-        <select name="kode_po" class="autopo" style="width:100%">
-            <option value="*">Semua</option>
-        </select>
+        <input type="text" name="kode_po" value="<?php echo $kode_po; ?>" class="form-control">
     </div>
     <div class="col-md-6">
         <label>Aksi</label>
-        <button onclick="filterwithpo()" class="btn btn-info full">Filter</button>
+        <button onclick="filterpo()" class="btn btn-info full">Filter</button>
     </div>
 </div>
 <div class="row">
@@ -42,3 +40,27 @@
                     </table>
     </div>
 </div>
+<script type="text/javascript">
+    function filterpo(){
+    url='?';
+    
+    var filter_date_start = $('input[name=\'tanggal1\']').val();
+
+    if (filter_date_start) {
+      url += '&tanggal1=' + encodeURIComponent(filter_date_start);
+    }
+
+    var filter_date_end = $('input[name=\'tanggal2\']').val();
+
+    if (filter_date_end) {
+      url += '&tanggal2=' + encodeURIComponent(filter_date_end);
+    }
+
+    var filter_status = $('input[name=\'kode_po\']').val();
+
+    if (filter_status != '*') {
+      url += '&kode_po=' + encodeURIComponent(filter_status);
+    }
+    location =url;
+  }
+</script>

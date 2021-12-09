@@ -89,7 +89,7 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
-                    <td align="center"><b><?php echo ($detail['biaya_transport'])?></b></td>
+                    <td align="center"><b><?php echo ($detail['biaya_transport']-$detail['potongan_transport'])?></b></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -99,7 +99,7 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Total Yang diterima</b></td>
-                    <td align="center"><b><?php echo ($detail['total']) ?></b></td>
+                    <td align="center"><b><?php echo ($detail['total']+$detail['potongan_transport']) ?></b></td>
                     <td></td>
                 </tr>
             </tbody>

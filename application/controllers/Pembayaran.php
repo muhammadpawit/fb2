@@ -679,6 +679,7 @@ class Pembayaran extends CI_Controller {
 
 	public function cmtjahitsave(){
 		$data=$this->input->post();
+		$transport=isset($data['pot_transport'])?explode('-',$data['pot_transport']):0;
 		//pre($data);
 		$totalbayar=0;
 		$totalbangke=0;
@@ -716,6 +717,8 @@ class Pembayaran extends CI_Controller {
 					'keterangan'=>$data['keterangan'],
 					'metode_pengiriman'=>$data['metode'],
 					'hapus'=>0,
+					'potongan_transport'=>isset($data['pot_transport'])?$transport[1]:0,
+					'transport_dari_id'=>isset($data['pot_transport'])?$transport[0]:0,
 				);
 				$this->db->insert('pembayaran_cmt',$insert);
 				$id=$this->db->insert_id();

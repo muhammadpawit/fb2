@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12 text-center">
-		<h3>Hitungan Uang Makan Security <?php echo $prods['tempat']==1?'Rumah': $prods['tempat']==2?'Finishing':'Cipadu'?></h3>
+		<h3>Hitungan Uang Makan Security <?php echo $prods['tempat']==1?'Rumah & Finishing':'Cipadu'?></h3>
 	</div>
 </div>
 <div class="row">

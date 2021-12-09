@@ -1142,8 +1142,8 @@
 <!-- ./wrapper -->
 <!--<link rel="stylesheet" href="<?php echo BASEURL?>assets/ui/jquery-ui.css">
 <script src="<?php echo BASEURL?>assets/ui/jquery-ui.js"></script>-->
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="<?php echo BASEURL ?>assets/js/jquery-ui.css">
+<script src="<?php echo BASEURL ?>assets/js/jquery-ui.js"></script>
 <script src="<?php echo PLUGINS ?>bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
 <script src="<?php echo BASEURL ?>myjs/autocomplete.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -1837,6 +1837,18 @@ $(document).ready(function(){
           cache: true
         }
     });
+
+    $( ".byrcmt" ).change(function() {
+      $('#sub1').empty();
+      var cmts = $(this).val();
+      $.get(uri+'pot_transport?&cmt='+cmts, 
+        function(data){   
+          console.log(data);
+          $('#sub1').append(data);
+      });
+
+    });
+
 
 
 });

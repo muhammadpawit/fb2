@@ -27,6 +27,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
 		</div>
 	</div>
 </div>

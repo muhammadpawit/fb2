@@ -16,8 +16,8 @@
 			<div class="form-group">
 				<label>Tempat</label>
 				<select name="tempat" class="form-control select2bs4" data-live-search="true" required>
-					<option value="1">Rumah</option>
-					<option value="2">Finishing</option>
+					<option value="1">Rumah & Finishing</option>
+					<!-- <option value="2">Finishing</option> -->
 					<option value="3">Cipadu</option>
 				</select>
 			</div>

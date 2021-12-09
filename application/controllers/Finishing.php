@@ -1040,10 +1040,10 @@ class Finishing extends CI_Controller {
 		}else{
 			$kode_po=null;
 		}
-
+		$viewData['kode_po']=$kode_po;
 		$sql='SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE id_produksi_po >0 ';
 		if(!empty($kode_po)){
-			$sql.=" AND pp.kode_po='$kode_po' ";
+			$sql.=" AND pp.kode_po LIKE '$kode_po%' ";
 		}
 		$sql.=" ORDER BY pp.id_produksi_po DESC LIMIT 50";
 		$viewData['produk'] = $this->GlobalModel->queryManual($sql);		
@@ -1117,13 +1117,29 @@ class Finishing extends CI_Controller {
 		$viewData['bahanKantong'] = $this->GlobalModel->queryManualRow("SELECT * FROM gudang_bahan_keluar WHERE kode_po='".$kodepo."' AND bahan_kategori LIKE '%KAINKANTONG%' AND hapus=0");
 		
 		$viewData['boronganmesin']= $this->GlobalModel->getData('boronganmesin',array('nama_po'=>$kodepo,'hapus'=>0));
-		if(callSessUser('nama_user')=="Pawits"){
-			pre($viewData['boronganmesin']);
-		}
+		
 		$viewData['buangbenang']=[];
 		$viewData['buangbenang']= $this->GlobalModel->getData('buang_benang_finishing',array('kode_po'=>$kodepo,'hapus'=>0));
 		$viewData['packing']=[];
-		$viewData['packing']= $this->GlobalModel->getData('packing',array('nama_po'=>$kodepo,'hapus'=>0));
+		$namapo=$viewData['produk']['nama_po'];
+		if(strtolower($namapo)=="kfb" OR strtolower($namapo)=="kkf"){
+			$viewData['packing']=array(
+				array(
+					'harga_dz'=>12000,
+					'keterangan'=>'Packing',
+				),
+			);
+		}else if(strtolower($namapo)=="skf"){
+			$viewData['packing']=array(
+				array(
+					'harga_dz'=>24000,
+					'keterangan'=>'Packing',
+				),
+			);
+		}else{
+			$viewData['packing']= $this->GlobalModel->getData('packing',array('nama_po'=>$kodepo,'hapus'=>0));
+		}
+		
 		$viewData['cucian']=[];
 		$viewData['cucian']= $this->GlobalModel->getData('cucian',array('kode_po'=>$kodepo,'hapus'=>0));
 

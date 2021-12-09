@@ -1,25 +1,16 @@
- 
-      <!-- Default box -->
-      <div class="card card-info">
-        <div class="card-header">
-          <h3 class="card-title">Persetujuan Kasbon Karyawan</h3>
-        </div>
-        <div class="card-body">
-          <div class="card-header">
-            <label>
+<div class="row">
+  <div class="col-md-12">
               <?php if(!empty($acc['tanggal'])){?>
                 <?php echo hari(date('l',strtotime($acc['tanggal'])))?>,&nbsp;<?php echo date('d F Y',strtotime($acc['tanggal']))?>
               <?php }else{ ?>
                   <label class="alert alert-danger">Kasbon belum di acc</label>
               <?php } ?>
-            </label>
-          </div>
-          <div class="table-responsive">
-            <form method="post" action="<?php echo $action?>">
-              <div class="form-group col-sm-12 col-lg-6">
-                  <input type="hidden" id="id" name="id" class="form-control" required="required" value="<?php echo $acc['id']?>">
-              </div>
-            <table class="table table-bordered">
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <table class="table table-bordered">
               <thead>
                 <tr>
                   <th>Tanggal</th>
@@ -47,43 +38,14 @@
                 </tr>
               </tbody>
             </table>
-            </form>
-          </div>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <a href="<?php echo $kembali;?>" class="btn btn-danger text-white">Kembali</a>
-          <a href="<?php echo $excel;?>" class="btn btn-success text-white">Excel</a>
-        </div>
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
-<script type="text/javascript">
-  $(document).ready(function(){
-
-    $('.select2').select2({
-      theme: "classic",
-      placeholder: 'Select an option'
-    });
-
-    
-
-
-  });
-
-  function iptgl(){
-    var t=$("#tgl").val();
-    $(".tgl").html(t);
-  }
-
-  function cetak(){
-      window.print();
-  }
-
-  $(document).on('click', '.remove', function(){
-
-        $(this).closest('tr').remove();
-
-    });
-
-</script>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <a href="<?php echo $kembali;?>" class="btn btn-danger text-white full">Kembali</a>
+  </div>
+  <div class="col-md-6">
+    <a href="<?php echo $excel;?>" class="btn btn-success text-white full">Excel</a>
+  </div>
+</div>

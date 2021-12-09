@@ -19,7 +19,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Nama Cmt</label>
-            <select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true" required="required">
+            <select name="cmt" id="cmt" class="form-control select2bs4 byrcmt" data-live-search="true" required="required">
                 <option value="*">Pilih</option>
                 <?php foreach($cmt as $c){?>
                     <option value="<?php echo $c['id_cmt']?>"><?php echo strtolower($c['cmt_name'])?></option>
@@ -27,18 +27,6 @@
             </select>
         </div>
     </div>
-    <!--<div class="col-md-3">
-       <div class="form-group">
-            <label>Potongan Bangke</label>
-            
-       </div>
-    </div>
-    <div class="col-md-3">
-       <div class="form-group">
-            <label>Pengembalian Bangke</label>
-            
-       </div>
-    </div>-->
     <div class="col-md-6">
         <div class="form-group">
             <label>Metode Pengiriman</label>
@@ -57,11 +45,19 @@
             <input type="number" name="potongan_lainnya" class="form-control" value="0">
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="form-group">
             <label>Keterangan</label>
             <input type="hidden" name="totalbayar" id="totalbayar" class="form-control" value="0" readonly="readonly">
             <input type="text" name="keterangan" class="form-control" value="-">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Potongan Transport</label>
+            <select name="pot_transport" id="sub1" class="form-control" data-live-search="true">
+                <option value="0">Pilih</option>
+            </select>
         </div>
     </div>
 
@@ -274,6 +270,7 @@
     }
 
      function updatepcs(k){
+        
         total=0;
         grand=0;
             if(i > 0){
@@ -281,10 +278,6 @@
                 while(j < i){
                     pcs=$("input[name='products["+k+"][jumlah_pcs]']").val();
                     jumlah=$("input[name='products["+k+"][jumlah_dz]']").val();
-                    harga=$("input[name='products["+k+"][harga]']").val();
-                    total =(Number(pcs/12)*Number(harga));
-                    grand+=Number(total);
-                    $("input[name='products["+k+"][total]']").val(total);
                     $("input[name='products["+k+"][jumlah_dz]']").val((pcs/12).toFixed(2));
                     j++;
                 }
