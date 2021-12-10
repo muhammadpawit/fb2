@@ -161,7 +161,7 @@ class Barangkeluar extends CI_Controller {
 		$data = [];
 		$data['title']='Tambah Barang Keluar Harian';
 		$data['bagian']=$this->GlobalModel->getData('bagian_pengambilan',array());
-		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',null);
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['page']=$this->page.'add';
 		$data['action']=$this->url.'save';
