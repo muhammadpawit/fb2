@@ -753,9 +753,14 @@
                                 <?php $rinciItem += $rinci['jumlah_item_keluar'] * $rinci['harga_item']; ?>
 
                                 <?php endforeach ?>
-
+                                <?php $hargapertitik=0;?>
                                 <?php foreach ($boronganmesin as $key => $mesin): ?>
-
+                                    <?php 
+                                        $hargapertitik=$mesin['harga_titik'];
+                                        if(strtolower($produk['nama_po'])=="kfb" OR strtolower($produk['nama_po'])=="kkf"){
+                                            $hargapertitik=30;
+                                        }
+                                    ?>
                                     <tr>
 
                                     	<td><?php echo $no+=1?></td>
@@ -764,14 +769,14 @@
 
                                         <td class="text-center"><?php echo $mesin['jumlah_titik']*12 ?></td>
 
-                                        <td><?php echo $mesin['harga_titik'] ?></td>
+                                        <td><?php echo $hargapertitik ?></td>
 
-                                        <td><?php echo ($mesin['jumlah_titik']*12)*$mesin['harga_titik'] ?></td>
+                                        <td><?php echo ($mesin['jumlah_titik']*12)*$hargapertitik ?></td>
 
                                     </tr>
 
                                     <?php
-                                        $total+=($mesin['jumlah_titik']*12)*$mesin['harga_titik'];
+                                        $total+=($mesin['jumlah_titik']*12)*$hargapertitik;
                                     ?>
 
                                 <?php endforeach ?>
