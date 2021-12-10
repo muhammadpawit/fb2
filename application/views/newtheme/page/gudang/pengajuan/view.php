@@ -71,7 +71,12 @@
                             <th>Keterangan</th>
                             <th>Status</th>
 
-                            <th>Action</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th>Waktu dibuat</th>
 
                         </tr>
@@ -117,30 +122,35 @@
                                 </td>
 
                                 <td>
-                                    <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-warning btn-xs text-white">Lihat Detail</a>
-                                    <?php if($us['status']==0 OR $us['status']==3){?>
-                                      <!-- <a href="<?php echo BASEURL.'Gudang/pengajuanharga/'.$us['id']; ?>" class="btn btn-info btn-xs text-white">Input Harga</a> -->
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-dark btn-xs text-white">Edit / Revisi</a>
+                                    <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-warning btn-xs text-white">Lihat</a>
+                                </td>
+                                <td>
+                                  <?php if($us['status']==0 OR $us['status']==3){?>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-dark btn-xs text-white">Edit</a>
                                     <?php } ?>
-
-                                    <?php if($us['status']==1 && aksesedit()==1){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-dark btn-xs text-white">Edit / Revisi</a>
+                                </td>
+                                <td>
+                                  <?php if($us['status']==1 && aksesedit()==1){?>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-dark btn-xs text-white">Edit</a>
                                     <?php }?>
-
-                                    <?php if(akseshapus()==1 && $us['status']==0){?>
+                                </td>
+                                <td>
+                                  <?php if(akseshapus()==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" class="btn btn-danger btn-xs text-white">Hapus</a>
                                     <?php } ?>
-
-                                    <?php if($setujui==1 && $us['status']==0){?>
+                                </td>
+                                <td>
+                                  <?php if($setujui==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success btn-xs text-white">Setujui</a>
                                     <?php } ?>
-                                    
-                                    <?php if($setujui==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/pengajuandetail/'.$us['id']; ?>" class="btn btn-success btn-xs text-white">Beri Komentar</a>
+                                </td>
+                                <td>
+                                  <?php if($setujui==1 && $us['status']==0){?>
+                                      <a href="<?php echo BASEURL.'Gudang/pengajuandetail/'.$us['id']; ?>" class="btn btn-success btn-xs text-white">Komentar</a>
                                     <?php } ?>
                                 </td>
 
-                                <td><?php echo $us['dibuat']==null?'':date('d F Y H:i:s',strtotime($us['dibuat'])) ?></td>
+                                <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td>
 
                             </tr>
 

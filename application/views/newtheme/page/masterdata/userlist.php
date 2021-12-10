@@ -26,7 +26,10 @@
                 <tr>
                   <th>Nama User</th>
                   <th>Status</th>
-                  <th width="300">Aksi</th>                 
+                  <th width="100"></th>
+                  <th width="100"></th>
+                  <th width="100"></th>
+                  <th width="100"></th>
                 </tr>
               </thead>
               <tbody>
@@ -34,9 +37,11 @@
                             <tr>
                                 <td><?php echo $us['nama_user'] ?></td>
                                 <td><?php echo $us['status_user']==1?'Aktif':'Non-aktif'; ?></td>
-                                <td width="300"><?php foreach ($us['action'] as $action) { ?>
-                           <a href="<?php echo $action['href']; ?>" class="btn btn-<?php echo $action['class']; ?> btn-xs text-white waves-light waves-effect"><?php echo $action['text']; ?></a>
-                          <?php } ?></td>
+                                <?php foreach ($us['action'] as $action) { ?>
+                                  <td width="100">
+                                   <a href="<?php echo $action['href']; ?>" class="btn btn-<?php echo $action['class']; ?> btn-xs text-white waves-light waves-effect"><?php echo $action['text']; ?></a>
+                                  </td>
+                          <?php } ?>
                             </tr>
                                 <?php endforeach ?>
               </tbody>
