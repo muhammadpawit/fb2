@@ -244,10 +244,10 @@ class Gudang extends CI_Controller {
 		$data['jenis']=$jenis;
 		$data['action']=BASEURL.'Gudang/barangkeluarsave/'.$jenis;
 		$data['cancel']=BASEURL.'Gudang/barangkeluar/'.$jenis;
-		$data['po']=$this->GlobalModel->getData('produksi_po',array());
-		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',null);
+		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$data['po'] = $this->GlobalModel->getData('produksi_po',NULL);
+		$data['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$data['title']=$title;
 		$data['page']=$this->page.'barangkeluar/barangkeluar_form';
