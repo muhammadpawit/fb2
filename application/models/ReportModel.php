@@ -1327,7 +1327,7 @@ class ReportModel extends CI_Model {
 	public function stokkeluar_alat($id,$tgl,$tgl2){
 		$hasil=0;
 		$sql = "SELECT SUM(gik.jumlah_item_keluar) as pcs FROM gudang_item_keluar gik WHERE gik.hapus=0";
-		$sql.=" AND DATE(gik.created_date) BETWEEN '".$tgl."' AND '".$tgl2."' ";
+		$sql.=" AND id_persediaan='$id' AND DATE(gik.created_date) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d['pcs'];

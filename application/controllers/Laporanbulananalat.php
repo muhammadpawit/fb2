@@ -79,6 +79,7 @@ class Laporanbulananalat extends CI_Controller {
 			$stokawal=$this->ReportModel->stokawal_alat($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk_alat($row['id_persediaan'],$tanggal1,$tanggal2);
 			$stokkeluar=$this->ReportModel->stokkeluar_alat($row['id_persediaan'],$tanggal1,$tanggal2);
+			//pre($stokkeluar);
 			$data['prods'][]=array(
 				'no'=>$no++,
 				'nama'	=>$row['nama_item'],
