@@ -778,7 +778,7 @@ class Finishing extends CI_Controller {
 		);
 		$this->db->insert('karyawan_harian',$insert);
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-		redirect(BASEURL.'finishing/karyawan');
+		redirect(BASEURL.'Finishing/karyawan');
 	}
 
 	public function karyawanubah($id){
