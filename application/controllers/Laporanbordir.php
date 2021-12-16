@@ -52,7 +52,7 @@ class Laporanbordir extends CI_Controller {
 		}
 		$data['totalpoluar']=number_format($totalpoluar);
 
-		$data['totalpen']=number_format($totalpendapatan+$totalpoluar);
+		$data['totalpen']=($totalpendapatan+$totalpoluar);
 		// end
 
 		// pengeluaran bordir

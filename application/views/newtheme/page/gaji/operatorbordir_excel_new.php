@@ -1,8 +1,8 @@
 <?php
 $nam=$gaji['tempat']==1?'Rumah':'Cipadu'.time();
 $namafile='Laporan Gaji Operator Bordir_'.$nam;
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=".$namafile.".xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
 
 
@@ -259,13 +259,11 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			$totalgaji+=($kd['gaji']);
 			$totalbonus+=($kd['bonus']);
 			$totalum+=($kd['um']);
-			$absensi+=($kd['pot_absensi']);
-			$pinjaman+=($kd['pot_pinjaman']);
 			$pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ");
 		}
 	?>
 <?php } ?>
-<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$absensi-$pinjaman-$pots['total']) ?>
+<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$pots['total']) ?>
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">

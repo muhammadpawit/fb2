@@ -55,7 +55,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total Pendapatan</b></td>
-						<td align="right"><?php echo $totalpen?></td>
+						<td align="right"><?php echo number_format($totalpen)?></td>
 					</tr>
 				</tfoot>
 			</table>
@@ -77,8 +77,8 @@
 								<td colspan="2"><?php echo $pd['keterangan']?></td>
 								<td align="right"><?php echo number_format($pd['total'])?></td>
 							</tr>
+							<?php $totalpengeluaran+=($pd['total']); ?>
 						<?php } ?>
-						<?php $totalpengeluaran+=($p['total']); ?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
@@ -92,7 +92,7 @@
 					</tr>
 					<tr>
 						<td colspan="2"><b>Laba Produksi</b></td>
-						<td align="right"><?php echo number_format($lababersih)?></td>
+						<td align="right"><?php echo number_format($totalpen-$totalpengeluaran)?></td>
 					</tr>
 				</tfoot>
 			</table>

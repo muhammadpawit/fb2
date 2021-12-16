@@ -175,6 +175,7 @@ class Bordir extends CI_Controller {
 					'details'=>$this->GlobalModel->getData('gaji_operator_detail_new',array('hapus'=>0,'idgaji'=>$r['id'])),
 				);
 			}
+			//pre($data['karyawans']);
 			$bonussiang=$this->ReportModel->SumBonusOptBordir($id,1);
 			$bonusmalam=$this->ReportModel->SumBonusOptBordir($id,2);
 			$umsiang=$this->ReportModel->SumUmOptBordir($id,1);
@@ -1118,7 +1119,7 @@ class Bordir extends CI_Controller {
 		'spon'  => $post['spon'],
 		'apl'  => $post['apl'],
 		'bagian_bordir'  => $post['yangdibordir'],
-		'total_tarif'  => $post['tarif'],
+		'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],
