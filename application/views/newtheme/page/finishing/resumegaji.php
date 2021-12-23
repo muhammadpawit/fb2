@@ -403,9 +403,10 @@
 				</thead>
 				<tbody>
 					<?php $lk=0?>
+						<?php $noc=1;?>
 						<?php foreach($p['details'] as $d){?>
 						<tr>
-							<td><?php echo $no++?></td>
+							<td><?php echo $noc++?></td>
 							<td><?php echo $d['kode_po']?></td>
 							<td><?php echo $d['jumlah_pcs']?></td>
 							<td><?php echo $d['harga']?></td>

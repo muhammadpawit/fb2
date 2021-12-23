@@ -77,7 +77,7 @@ class Finishing extends CI_Controller {
 		$data['gajim']=$gajim;
 
 		// cucian
-		$c=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM cucian WHERE hapus=0  AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$c=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM cucian WHERE hapus=0  and jenis=1 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$data['cucian']=[];
 		$cucians=0;
 		foreach($c as $p){
@@ -150,10 +150,10 @@ class Finishing extends CI_Controller {
 			);
 		}
 
-		$cuci=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawan FROM cucian WHERE DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$cuci=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawan FROM cucian WHERE jenis=1 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$data['cu']=[];
 		foreach($cuci as $p){
-			$tress=$this->GlobalModel->QueryManual("SELECT * FROM cucian WHERE DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawan='".$p['id']."' and hapus=0 ");
+			$tress=$this->GlobalModel->QueryManual("SELECT * FROM cucian WHERE jenis=1 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawan='".$p['id']."' and hapus=0 ");
 			$data['cu'][]=array(
 				'nama'=>$p['nama'],
 				'details'=>$tress,

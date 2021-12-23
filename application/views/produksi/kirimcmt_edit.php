@@ -2,13 +2,13 @@
     <div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
+				<form method="post" action="<?php echo $action?>">
 				<div class="container">
 					<div class="card">
 						<div class="card-header">
 						  <strong><?php echo $kirim['nosj']?></strong> 
-						  <span class="float-right"> <strong>Tanggal:</strong> <?php echo date('d F Y',strtotime($kirim['tanggal']))?></span>
+						  <span class="float-right"> <strong>Tanggal:</strong> <?php //echo date('d F Y',strtotime($kirim['tanggal']))?> <input type="text" class="form-control datepicker" name="tanggal" value="<?php echo $kirim['tanggal'] ?>"> </span>
 						</div>
-						<form method="post" action="<?php echo $action?>">
 						<div class="card-body">
 							<div class="row mb-4">
 								<div class="col-sm-6">
@@ -97,9 +97,9 @@
 							</div>
 							</div>
 						</div>
-						</form>
 					</div>
 				</div>
+				</form>
 			</div>	
 		</div>
 	</div>

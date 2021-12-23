@@ -94,9 +94,9 @@
 					<?php } ?>
 				<?php }?>
 				<tr style="background-color: yellow">
-						<td colspan="2"><b>Jumlah Kaos</b></td>
-						<td><b><?php echo $jmlkaos?></b></td>
-					</tr>
+					<td colspan="2"><b>Jumlah Kaos</b></td>
+					<td><b><?php echo $jmlkaos?></b></td>
+				</tr>
 				<?php foreach($resume as $r){?>
 					<?php if($r['id']==2){?>
 					<tr>
@@ -113,9 +113,26 @@
 						<td colspan="2"><b>Jumlah Kemeja</b></td>
 						<td><b><?php echo $jmlkemeja?></b></td>
 					</tr>
+				<?php $celana=0?>
+				<?php foreach($resume as $r){?>
+					<?php if($r['id']==3){?>
+					<tr>
+						<td></td>
+						<td><?php echo $r['nama']?></td>
+						<td><?php echo $r['jml']?></td>
+						<?php 
+							$celana+=$r['jml'];
+						?>
+					</tr>
+					<?php } ?>
+				<?php }?>
+					<tr style="background-color: yellow">
+						<td colspan="2"><b>Jumlah Celana</b></td>
+						<td><b><?php echo $celana?></b></td>
+					</tr>
 					<tr style="background-color: yellow">
 						<td colspan="2"><b>Total</b></td>
-						<td><b><?php echo $jmlkemeja+$jmlkaos?></b></td>
+						<td><b><?php echo round($jmlkemeja+$jmlkaos+$celana)?></b></td>
 					</tr>
 			</tbody>
 		</table>

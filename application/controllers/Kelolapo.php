@@ -1635,9 +1635,9 @@ class Kelolapo extends CI_Controller {
 		//pre($data);
 		$cmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
 		// update di sj
-		$this->db->query("UPDATE kirimcmt set idcmt='".$post['idcmt']."' WHERE id='".$post['kode_nota']."' ");
+		$this->db->query("UPDATE kirimcmt set idcmt='".$post['idcmt']."',tanggal='".$post['tanggal']."' WHERE id='".$post['kode_nota']."' ");
 		// update di kelola kirim setor
-		$sql="UPDATE kelolapo_kirim_setor set id_master_cmt='".$post['idcmt']."',nama_cmt='".strtolower($cmt['cmt_name'])."' WHERE kode_nota_cmt='".$post['kode_nota']."' AND kategori_cmt='JAHIT' ";
+		$sql="UPDATE kelolapo_kirim_setor set id_master_cmt='".$post['idcmt']."',nama_cmt='".strtolower($cmt['cmt_name'])."',create_date='".$post['tanggal']."' WHERE kode_nota_cmt='".$post['kode_nota']."' AND kategori_cmt='JAHIT' ";
 		$this->db->query($sql);
 		$totalkirim=0;
 		foreach($post['prods'] as $p){

@@ -51,7 +51,7 @@ class ReportModel extends CI_Model {
 
 	public function GetGajiCucian($idkaryawan,$tanggal1,$tanggal2){
 		$hasil=0;
-		$sql1="SELECT SUM(total) as total FROM cucian WHERE DATE(tanggal) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawan='$idkaryawan' and hapus=0 ";
+		$sql1="SELECT SUM(total) as total FROM cucian WHERE jenis=1 and DATE(tanggal) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawan='$idkaryawan' and hapus=0 ";
 		$d=$this->GlobalModel->queryManualRow($sql1);
 		if(!empty($d)){
 			$hasil=$d['total'];
@@ -1294,8 +1294,8 @@ class ReportModel extends CI_Model {
 	}
 
 	public function stokawal_alat($id,$tgl){
-		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
-		$sql = "SELECT SUM(pid.jumlah) as total,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
+		//$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
+		/*$sql = "SELECT SUM(pid.jumlah) as total,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
 		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) < '".$tgl."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
@@ -1307,10 +1307,17 @@ class ReportModel extends CI_Model {
 		$s2=$this->GlobalModel->QueryManualRow($sql2);
 		if(!empty($s2)){
 			$hasil2=$s2['total'];
-		}
+		}*/
+		$hasil=0;
 		$total=0;
-		$total=$hasil-$hasil2;
-		return $total;
+		$sql = "SELECT (sisa_qty) as total FROM kartustok_product WHERE hapus=0";
+		$sql.=" AND idproduct='$id' AND DATE(tanggal) < '".$tgl."' ORDER BY id DESC LIMIT 1";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d['total'];
+		}
+		$hasil;
+		return $hasil;
 	}
 
 	public function stokmasuk_alat($id,$tgl,$tgl2){
