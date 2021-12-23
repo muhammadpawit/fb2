@@ -262,6 +262,7 @@ class Keuangan extends CI_Controller {
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 				'periode'=>$r['periode'],
 				'detail'=>BASEURL.'Keuangan/uangmakansecuritydetail/'.$r['id'],
+				'excel'=>BASEURL.'Keuangan/uangmakansecuritydetailexcel/'.$r['tanggal'],
 			);
 		}
 		$data['tambah']=BASEURL.'Keuangan/uangmakansecurityadd';
@@ -297,6 +298,39 @@ class Keuangan extends CI_Controller {
 			$data['page']=$this->page.'keuangan/um_security_detail';
 			$this->load->view($this->page.'main',$data);
 		}
+	}
+
+	public function uangmakansecuritydetailexcel($id){
+		$data=[];
+		$data['title']='Detail Uang makan security';
+		$data['prods']=$this->GlobalModel->getData('um_security',array('tanggal'=>$id,'hapus'=>0));
+		//pre($data['prods']);
+		$idt=[];
+		foreach($data['prods'] as $dp){
+			$idt[]=$dp['id'];
+		}
+		$kid=implode($idt, ",");
+		$details=[];
+		$details=$this->GlobalModel->QueryManual("SELECT * FROM um_security_detail WHERE idum IN($kid) AND hapus=0 ");
+		// pre($details);
+		$total=0;
+		$no=1;
+		$data['details']=[];
+		foreach($details as $d){
+			$nama=$this->GlobalModel->getDataRow('karyawan',array('id'=>$d['nama']));
+			$total+=($d['nominal']);
+			$data['details'][]=array(
+				'no'=>$no++,
+				'nama'=>$nama['nama'],
+				'nominal'=>($d['nominal']),
+				'keterangan'=>strtolower($d['keterangan']),
+			);
+		}
+		$data['total']=($total);
+		$data['batal']=BASEURL.'Keuangan/uangmakansecurity';
+		$get=$this->input->get();
+		$data['periode']=$id;
+		$this->load->view($this->page.'keuangan/um_security_excel',$data);
 	}
 
 	public function uangmakansecurityadd(){

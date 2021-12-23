@@ -7,10 +7,10 @@ header("Content-Disposition: attachment; filename=Uang_Makan_Security.xls");
 		<table border="5" style="width: 100%;border-collapse: collapse;border-color: blue">
 			<thead>
 				<tr>
-					<th colspan="4" align="center"><h3>Hitungan Uang Makan Security <?php echo $prods['tempat']==1?'Rumah & Finishing':'Cipadu'?></h3></th>
+					<th colspan="4" align="center"><h3>Hitungan Uang Makan Security <?php //echo $prods['tempat']==1?'Rumah & Finishing':'Cipadu'?></h3></th>
 				</tr>
 				<tr>
-					<th colspan="4" align="left"><p>Periode <?php echo strtolower($prods['periode'])?></p></th>
+					<th colspan="4" align="left"><p>Periode <?php echo strtolower($periode)?></p></th>
 				</tr>
 				<tr>
 					<th>No</th>
