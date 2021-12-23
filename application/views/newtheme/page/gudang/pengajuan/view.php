@@ -125,15 +125,15 @@
                                     <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-warning btn-lg text-white">Lihat</a>
                                 </td>
                                 <td>
+                                  <?php if($us['status']==1 && aksesedit()==1){?>
+                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-dark btn-lg text-white">Edit</a>
+                                    <?php }?>
+                                </td>
+                                <td>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-dark btn-lg text-white">Edit</a>
                                     <?php } ?>
-                                </td>
-                                <td>
-                                  <?php if($us['status']==1 && aksesedit()==1){?>
-                                      <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-dark btn-lg text-white">Edit</a> -->
-                                    <?php }?>
-                                </td>
+                                </td>                                
                                 <td>
                                   <?php if($setujui==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success btn-lg text-white">Setujui</a>
