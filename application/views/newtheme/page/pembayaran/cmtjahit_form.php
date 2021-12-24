@@ -291,10 +291,11 @@
     });
 
     $(document).on('change', '.kodepo', function(e){
+        var cmts = $('select[name=\'cmt\']').val();
         var dataItem = $(this).find(':selected').data('item');
         var dai = $(this).closest('tr');
         var jumlahItem = $('#piecesPo').val();
-        $.get( "<?php echo BASEURL.'finishing/setorcmtjahit' ?>", { kodepo: dataItem } )
+        $.get( "<?php echo BASEURL.'finishing/setorcmtjahit' ?>", { kodepo: dataItem, cmt:cmts } )
           .done(function( data ) {
             var obj = JSON.parse(data);
             if(obj!==null){
@@ -324,7 +325,7 @@
             }
         });
 
-        $.get( "<?php echo BASEURL.'Json/pmbkirim' ?>", { kodepo: dataItem } )
+        $.get( "<?php echo BASEURL.'Json/pmbkirim' ?>", { kodepo: dataItem, cmt:cmts } )
           .done(function( data ) {
             var obj = JSON.parse(data);
             if(obj!==null){
