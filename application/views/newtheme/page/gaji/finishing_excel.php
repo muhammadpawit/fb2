@@ -67,7 +67,7 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 					</table><br>
 				</td>
 				<?php
-					$i++;
+					//$i++;
 					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
 				?>
 
@@ -81,9 +81,9 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 	<p><b>Total table 1 : <?php echo $total1?></b></p>
 	<table style="border-collapse: collapse;width: 100%;float: left; margin-right: 20px;margin-bottom: 5px" cellpadding="3">
 		<tr>
-			<?php $i=1;?>
+			<?php $j=1;?>
 			<?php foreach($karyawans as $k){?>
-				<?php if($i%2==1){?>
+				<?php if($j%2==1){?>
 				<td>
 					<table border="1" style="border-collapse: collapse;width: 100%;float: left; margin-right: 20px;margin-bottom: 5px" cellpadding="3">
 						<thead>
@@ -145,7 +145,7 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 				?>
 				<?php } ?>
 				<?php
-					$i++;
+					$j++;
 					$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
 				?>
 				<?php } ?>
