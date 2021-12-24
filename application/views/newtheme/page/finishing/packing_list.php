@@ -42,6 +42,7 @@
 								<th>Harga dz</th>
 								<th>Total</th>
 								<th>Keterangan</th>
+								<th>Penggajian</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -54,6 +55,14 @@
 								<td><?php echo $p['harga_dz'] ?></td>
 								<td><?php echo number_format($p['jumlah_pendapatan']) ?></td>
 								<td><?php echo $p['keterangan'] ?></td>
+								<td>
+									<?php if($p['gaji']==1){?>
+										<a href="<?php echo BASEURL ?>Finishing/gajipackingno/<?php echo $p['id'] ?>" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> </a>
+									<?php } ?>
+									<?php if($p['gaji']==2){?>
+										<a href="<?php echo BASEURL ?>Finishing/gajipackingyes/<?php echo $p['id'] ?>" class="btn btn-danger btn-sm"> <i class="fa fa-window-close"></i> </a>
+									<?php } ?>
+								</td>
 								<td>
 									<?php if(akseshapus()==1){?>
 										<a href="<?php echo BASEURL ?>Finishing/packingdel/<?php echo $p['id'] ?>" class="btn btn-danger btn-sm">Hapus</a>

@@ -31,7 +31,7 @@ class ReportModel extends CI_Model {
 
 	public function GetGajipacking($idkaryawan,$tanggal1,$tanggal2){
 		$hasil=0;
-		$sql1="SELECT SUM(jumlah_pendapatan) as total FROM packing WHERE DATE(creted_date) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawanharian='$idkaryawan' and hapus=0 ";
+		$sql1="SELECT SUM(jumlah_pendapatan) as total FROM packing WHERE gaji=1 AND DATE(creted_date) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawanharian='$idkaryawan' and hapus=0 ";
 		$d=$this->GlobalModel->queryManualRow($sql1);
 		if(!empty($d)){
 			$hasil=$d['total'];
@@ -41,7 +41,7 @@ class ReportModel extends CI_Model {
 
 	public function GetGajibb($idkaryawan,$tanggal1,$tanggal2){
 		$hasil=0;
-		$sql1="SELECT SUM(total) as total FROM buang_benang_finishing WHERE DATE(tanggal) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawan='$idkaryawan' and hapus=0 ";
+		$sql1="SELECT SUM(total) as total FROM buang_benang_finishing WHERE gaji=1 AND DATE(tanggal) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawan='$idkaryawan' and hapus=0 ";
 		$d=$this->GlobalModel->queryManualRow($sql1);
 		if(!empty($d)){
 			$hasil=$d['total'];
@@ -61,7 +61,7 @@ class ReportModel extends CI_Model {
 
 	public function getGajiBorongan($idkaryawan,$tanggal1,$tanggal2){
 		$hasil=0;
-		$sql1="SELECT SUM(jumlah_pendapatan*perkalian) as total FROM boronganmesin WHERE DATE(creted_date) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawanharian='$idkaryawan' and hapus=0 ";
+		$sql1="SELECT SUM(jumlah_pendapatan*perkalian) as total FROM boronganmesin WHERE gaji=1 AND DATE(creted_date) BETWEEN '$tanggal1' AND '$tanggal2' AND idkaryawanharian='$idkaryawan' and hapus=0 ";
 		$d=$this->GlobalModel->queryManualRow($sql1);
 		if(!empty($d)){
 			$hasil=$d['total'];

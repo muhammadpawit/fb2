@@ -44,6 +44,7 @@
 								<th>Harga Pertitik</th>
 								<th>Total</th>
 								<th>Keterangan</th>
+								<th>Penggajian</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -59,9 +60,18 @@
 								<td><?php echo number_format($p['jumlah_pendapatan']*$p['perkalian']) ?></td>
 								<td><?php echo $p['keterangan'] ?></td>
 								<td>
+									<?php if($p['gaji']==1){?>
+										<a href="<?php echo BASEURL ?>Finishing/gajiborongandel/<?php echo $p['id_boronganmesin'] ?>/<?php echo $jen ?>" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> </a>
+									<?php } ?>
+									<?php if($p['gaji']==2){?>
+										<a href="<?php echo BASEURL ?>Finishing/gajiboronganya/<?php echo $p['id_boronganmesin'] ?>/<?php echo $jen ?>" class="btn btn-danger btn-sm"> <i class="fa fa-window-close"></i> </a>
+									<?php } ?>
+								</td>
+								<td>
 									<?php if(akseshapus()==1){?>
 										<a href="<?php echo BASEURL ?>Finishing/borongandel/<?php echo $p['id_boronganmesin'] ?>/<?php echo $jen ?>" class="btn btn-danger btn-sm">Hapus</a>
 									<?php } ?>
+
 								</td>
 							</tr>
 							<?php }?>

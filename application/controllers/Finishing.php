@@ -59,12 +59,11 @@ class Finishing extends CI_Controller {
 		}
 		
 		// borongan mesin
-		$prods=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE id IN(SELECT idkaryawanharian FROM boronganmesin WHERE kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) AND status_gaji=1 ");
+		$prods=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) AND status_gaji=1 ");
 		$gajim=0;
 		
 		foreach($prods as $p){
 			$gajimesin=$this->ReportModel->getGajiBorongan($p['id'],$tanggal1,$tanggal2);
-			//$po=$this->ReportModel->getGajiBorongan_po($p['id'],$tanggal1,$tanggal2);
 			$data['boronganmesin'][]=array(
 				'nama'=>$p['nama'],
 				'total'=>($gajimesin),
@@ -73,7 +72,6 @@ class Finishing extends CI_Controller {
 			$gajim+=($gajimesin);
 		}
 		$data['bm']=count($data['boronganmesin']);
-		//pre($data['boronganmesin']);
 		$data['gajim']=$gajim;
 
 		// cucian
@@ -96,7 +94,7 @@ class Finishing extends CI_Controller {
 
 		// buang benang
 		$bb=[];
-		$bb=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM buang_benang_finishing WHERE hapus=0 ) ");
+		$bb=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM buang_benang_finishing WHERE hapus=0 AND gaji=1) ");
 		$bbs=0;
 		if(!empty($bb)){
 			foreach($bb as $p){
@@ -115,7 +113,7 @@ class Finishing extends CI_Controller {
 		$data['bbs']=$bbs;
 
 		// Packing
-		$pk=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawanharian FROM packing WHERE hapus=0 AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."') ");
+		$pk=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawanharian FROM packing WHERE hapus=0 AND gaji=1 AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."') ");
 		$pkg=0;
 		foreach($pk as $p){
 			$gajimesin=$this->ReportModel->GetGajipacking($p['id'],$tanggal1,$tanggal2);
@@ -133,15 +131,15 @@ class Finishing extends CI_Controller {
 
 		// details
 
-		$borongan=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawanharian FROM boronganmesin WHERE kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$borongan=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$data['no']=1;
 		$data['no2']=1;
 		$data['no3']=1;
 		$data['kancing']=[];
 		foreach($borongan as $p){
-			$lobangkancing=$this->GlobalModel->QueryManual("SELECT * FROM boronganmesin WHERE  hapus=0 and kategori LIKE 'LOBANG KANCING' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0");
-			$pasangkancing=$this->GlobalModel->QueryManual("SELECT * FROM boronganmesin WHERE hapus=0 and  kategori LIKE 'PASANG KANCING' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0");
-			$tress=$this->GlobalModel->QueryManual("SELECT * FROM boronganmesin WHERE hapus=0 and  kategori LIKE 'TRESS' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0");
+			$lobangkancing=$this->GlobalModel->QueryManual("SELECT * FROM boronganmesin WHERE gaji=1 AND hapus=0 and kategori LIKE 'LOBANG KANCING' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0");
+			$pasangkancing=$this->GlobalModel->QueryManual("SELECT * FROM boronganmesin WHERE gaji=1 AND hapus=0 and  kategori LIKE 'PASANG KANCING' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0");
+			$tress=$this->GlobalModel->QueryManual("SELECT * FROM boronganmesin WHERE gaji=1 AND hapus=0 and  kategori LIKE 'TRESS' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0");
 			$data['kancing'][]=array(
 				'nama'=>$p['nama'],
 				'lobangkancing'=>$lobangkancing,
@@ -161,10 +159,10 @@ class Finishing extends CI_Controller {
 		}
 
 		// buang benang 
-		$buangb=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawan FROM buang_benang_finishing WHERE DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$buangb=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawan FROM buang_benang_finishing WHERE gaji=1 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$data['buangb']=[];
 		foreach($buangb as $p){
-			$tress=$this->GlobalModel->QueryManual("SELECT * FROM buang_benang_finishing WHERE DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawan='".$p['id']."' and hapus=0 ");
+			$tress=$this->GlobalModel->QueryManual("SELECT * FROM buang_benang_finishing WHERE gaji=1 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawan='".$p['id']."' and hapus=0 ");
 			$data['buangb'][]=array(
 				'nama'=>$p['nama'],
 				'details'=>$tress,
@@ -172,10 +170,10 @@ class Finishing extends CI_Controller {
 		}
 
 		// packing
-		$pck=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawanharian FROM packing WHERE DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$pck=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawanharian FROM packing WHERE gaji=1 AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$data['pck']=[];
 		foreach($pck as $p){
-			$tress=$this->GlobalModel->QueryManual("SELECT * FROM packing WHERE DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0 ");
+			$tress=$this->GlobalModel->QueryManual("SELECT * FROM packing WHERE gaji=1 AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND idkaryawanharian='".$p['id']."' and hapus=0 ");
 			$data['pck'][]=array(
 				'nama'=>$p['nama'],
 				'details'=>$tress,
@@ -531,6 +529,7 @@ class Finishing extends CI_Controller {
 					'harga'=>$p['harga'],
 					'total'=>$p['harga']*$p['jumlah_pcs'],
 					'keterangan'=>$p['keterangan'],
+					'gaji'=>1,
 					'hapus'=>0
 				);
 				$this->db->insert('buang_benang_finishing',$insert);
@@ -542,6 +541,26 @@ class Finishing extends CI_Controller {
 			redirect(BASEURL.'Finishing/buangbenangtambah');
 		}
 	}
+
+
+	function gajipackingno($id){
+		$update=array(
+			'gaji'=>2,
+		);
+		$this->db->update('packing',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
+		redirect(BASEURL.'Finishing/packing');
+	}
+
+	function gajipackingyes($id){
+		$update=array(
+			'gaji'=>1,
+		);
+		$this->db->update('packing',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
+		redirect(BASEURL.'Finishing/packing');
+	}
+
 
 	public function packing(){
 		$data=array();
@@ -600,6 +619,7 @@ class Finishing extends CI_Controller {
 				//'jumlah_pendapatan'	=>	$post['jumlahRp'][$key],
 				'jumlah_pendapatan'=>$post['jumlahpcs'][$key]*$post['pricePerTitik'][$key],
 				'keterangan'	=>	$post['keterangan'][$key],
+				'gaji'=>1,
 				'kategori'	=>	$post['kategoriBorongan'],
 				'creted_date'=>isset($data['creted_date'])?$data['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
@@ -616,6 +636,24 @@ class Finishing extends CI_Controller {
 		);
 		$this->db->update('boronganmesin',$update,array('id_boronganmesin'=>$id));
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
+		redirect(BASEURL.'Finishing/borongan/'.$jenis);
+	}
+
+	function gajiborongandel($id,$jenis){
+		$update=array(
+			'gaji'=>2,
+		);
+		$this->db->update('boronganmesin',$update,array('id_boronganmesin'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
+		redirect(BASEURL.'Finishing/borongan/'.$jenis);
+	}
+
+	function gajiboronganya($id,$jenis){
+		$update=array(
+			'gaji'=>1,
+		);
+		$this->db->update('boronganmesin',$update,array('id_boronganmesin'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
 		redirect(BASEURL.'Finishing/borongan/'.$jenis);
 	}
 
@@ -711,6 +749,7 @@ class Finishing extends CI_Controller {
 				//'jumlah_pendapatan'	=>	$post['jumlahRp'][$key],
 				'jumlah_pendapatan'=>$post['jumlahpcs'][$key]*$post['jumlahtitik'][$key]*$post['pricePerTitik'][$key],
 				'keterangan'	=>	$post['keterangan'][$key],
+				'gaji'=>1,
 				'kategori'	=>	$post['kategoriBorongan'],
 				'creted_date'	=>	isset($post['creted_date'])?$post['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
