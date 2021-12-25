@@ -182,7 +182,8 @@ class Bordir extends CI_Controller {
 			$ummalam=$this->ReportModel->SumUmOptBordir($id,2);
 			$data['bonussiang']=$bonussiang;
 			$data['bonusmalam']=!empty($bonusmalam)?$bonusmalam:0;
-			$data['umsiang']=$umsiang;
+			//$data['umsiang']=$umsiang;
+			$data['umsiang']=0;
 			$data['ummalam']=!empty($ummalam)?21000:0;
 		}
 		$data['kembali']=BASEURL.'Bordir/gajioperator';
