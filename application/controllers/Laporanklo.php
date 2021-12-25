@@ -47,6 +47,19 @@ class Laporanklo extends CI_Controller {
 			);
 		}
 
+		$noh=1;
+		$data['heru']=[];
+		foreach($jenis as $t){
+			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan=15 ");
+			$data['heru'][]=array(
+				'no'=>$noh++,
+				'nama'=>$t['nama_jenis_po'],
+				'jml'=>$prods['jml'],
+				'dz'=>$prods['dz'],
+				'pcs'=>$prods['pcs'],
+			);
+		}
+
 		$nomor=1;
 		foreach($jenis as $t){
 			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan=2 ");

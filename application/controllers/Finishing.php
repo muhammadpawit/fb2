@@ -482,6 +482,8 @@ class Finishing extends CI_Controller {
 		foreach($results as $r){
 			$nama=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['idkaryawan']));
 			$data['products'][]=array(
+				'id'=>$r['id'],
+				'gaji'=>$r['gaji'],
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 				'idkaryawan'=>strtolower($nama['nama']),
 				'nama_po'=>strtoupper($r['kode_po']),
@@ -490,6 +492,8 @@ class Finishing extends CI_Controller {
 				'total'=>number_format($r['total']),
 				'keterangan'=>strtolower($r['keterangan']),
 				'hapus'=>BASEURL.'Finishing/hapusbb/'.$r['id'],
+				'nogaji'=>BASEURL.'Finishing/nogajibb/'.$r['id'],
+				'yesgaji'=>BASEURL.'Finishing/yesgajibb/'.$r['id'],
 			);
 		}
 		$data['page']=$this->page.'finishing/buangbenang_list';
@@ -497,12 +501,29 @@ class Finishing extends CI_Controller {
 	}
 
 	public function hapusbb($id){
-		
 		$update=array(
 			'hapus'=>1
 		);
 		$this->db->update('buang_benang_finishing',$update,array('id'=>$id));
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
+		redirect(BASEURL.'Finishing/buangbenang');
+	}
+
+	public function nogajibb($id){
+		$update=array(
+			'gaji'=>1
+		);
+		$this->db->update('buang_benang_finishing',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
+		redirect(BASEURL.'Finishing/buangbenang');
+	}
+
+	public function yesgajibb($id){
+		$update=array(
+			'gaji'=>2
+		);
+		$this->db->update('buang_benang_finishing',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
 		redirect(BASEURL.'Finishing/buangbenang');
 	}
 

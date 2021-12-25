@@ -30,6 +30,44 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
+			<label>Potongan Kaos Heru And Friends</label>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Nama</th>
+						<th>JML PO</th>
+						<th>JML (Dz)</th>
+						<th>JML (Pcs)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($heru as $j){?>
+						<tr>
+							<td><?php echo $j['no']?></td>
+							<td><?php echo $j['nama']?></td>
+							<td><?php echo $j['jml']?></td>
+							<td><?php echo number_format($j['dz'],2)?></td>
+							<td><?php echo $j['pcs']?></td>
+						</tr>
+						<?php $jmlks+=($j['jml']);?>
+						<?php $kaosdz+=($j['dz']);?>
+						<?php $kaospcs+=($j['pcs']);?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"><b>Total</b></td>
+						<td><?php echo $jmlks?></td>
+						<td><?php echo number_format($kaosdz,2)?></td>
+						<td><?php echo $kaospcs?></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<div class="form-group">
+			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
 			<label>Potongan Kaos Oplet</label>
 			<table class="table table-striped table-bordered">
 				<thead>

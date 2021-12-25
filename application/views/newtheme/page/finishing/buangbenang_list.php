@@ -44,6 +44,7 @@
 								<th>Harga Per PCS</th>
 								<th>Total</th>
 								<th>Keterangan</th>
+								<th>Penggajian</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -57,6 +58,14 @@
 								<td><?php echo $p['harga'] ?></td>
 								<td><?php echo ($p['total']) ?></td>
 								<td><?php echo $p['keterangan'] ?></td>
+								<td>
+									<?php if($p['gaji']==1){?>
+										<a href="<?php echo BASEURL ?>Finishing/yesgajibb/<?php echo $p['id'] ?>" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> </a>
+									<?php } ?>
+									<?php if($p['gaji']==2){?>
+										<a href="<?php echo BASEURL ?>Finishing/nogajibb/<?php echo $p['id'] ?>" class="btn btn-danger btn-sm"> <i class="fa fa-window-close"></i> </a>
+									<?php } ?>
+								</td>
 								<td>
 									<?php if(akseshapus()==1){?>
 										<a href="<?php echo $p['hapus'] ?>" class="btn btn-danger btn-sm">Hapus</a>
