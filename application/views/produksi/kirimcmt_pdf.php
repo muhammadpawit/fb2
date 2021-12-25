@@ -1,12 +1,13 @@
 <style type="text/css">
 	 body{text-transform:capitalize;}
+	 .hs { font-size: 18px;font-weight: bold; }
 </style>
 <div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
 	<div class="logo" style="border:0px solid yellow;background-image: url('https://forboysproduction.com/assets/images/0001.jpg');height: 200px;width: 220px;background-position: top;background-size: contain;background-repeat: no-repeat;float: left;display: block;">
 		<!-- <img src="" height="170px" style="float:left"> -->
 	</div>
 	<div style="border:0px solid black;width:100%;margin-top: 50px;float: right">
-			<p style="font-weight: bold;position: absolute;left:200px;display: inline-block;">
+			<p style="font-size:18px;font-weight: bold;position: absolute;left:200px;display: inline-block;">
 				Jl.Z No.1 Kampung Baru,<br>Sukabumi Selatan<br>
 				Kebon Jeruk,Jakarta Barat, Indonesia<br>
 				HP : 081380401330
@@ -16,10 +17,10 @@
 <div class="kiri" style="width: 500px;border:0px solid green;right:0px;position: absolute;padding-top: 50px">
 	<?php $hari=date('l',strtotime($kirim['tanggal']));?>
 	<div style="border:1px solid black; border-collapse: collapse;display: inline-block;width:70%;float:right;padding:5px;">
-		<div>Kepada Yth:&nbsp;<?php echo $cmt['cmt_name']?></div>
-		<div>Alamat:<?php echo $cmt['alamat']?></div>
-		<div>Phone: <?php echo $cmt['telephone']?></div>
-		<div>Hari / Tanggal : <?php echo hari($hari).' , '.date('d F Y',strtotime($kirim['tanggal']))?></div>
+		<div class="hs">Kepada Yth&nbsp;&nbsp;<?php echo strtoupper($cmt['cmt_name'])?></div>
+		<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo ucfirst($cmt['alamat'])?></div>
+		<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cmt['telephone']?></div>
+		<div class="hs">Hari / Tanggal  <?php echo hari($hari).' , '.date('d F Y',strtotime($kirim['tanggal']))?></div>
 	</div>
 </div>
 <div style="clear: both;"></div>
