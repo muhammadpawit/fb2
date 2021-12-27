@@ -44,7 +44,7 @@ header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
           <td></td>
           <td><?php echo ($p['masuksablon'])?></td>
           <td><?php echo ($p['masuksablon']-$p['keluarsablon'])?></td>
-          <td></td>
+          <td><?php echo $p['keterangan']?></td>
         </tr>
         <?php if($p['konveksi']){?>
           <?php foreach($p['konveksi'] as $k){?>

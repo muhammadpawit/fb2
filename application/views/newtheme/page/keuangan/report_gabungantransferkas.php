@@ -64,7 +64,7 @@
           <td></td>
           <td><?php echo number_format($p['masuksablon'])?></td>
           <td><?php echo number_format($p['masuksablon']-$p['keluarsablon'])?></td>
-          <td></td>
+          <td><?php echo $p['keterangan']?></td>
         </tr>
         <?php if($p['konveksi']){?>
           <?php foreach($p['konveksi'] as $k){?>

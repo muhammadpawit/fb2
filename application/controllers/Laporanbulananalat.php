@@ -104,7 +104,7 @@ class Laporanbulananalat extends CI_Controller {
 		
 		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
+			$this->load->view($this->page.'laporanbulananalat_excel',$data);	
 		}else{
 			$data['page']=$this->page.'laporanbulananalat.php';
 			$this->load->view($this->layout,$data);	

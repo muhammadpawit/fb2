@@ -117,8 +117,40 @@ class Report extends CI_Controller {
 		}
 		$sql.=" GROUP BY tanggal ORDER BY tanggal ASC ";
 		$products=$this->GlobalModel->QueryManual($sql);
-		//pre($products);
-		foreach($products as $p){
+		$tf=[];
+		if(!empty($products)){
+			foreach($products as $p){
+				$tf[]=array(
+				'tanggal'=>$p['tanggal'],
+				//'keterangan'=>null,
+				);	
+			}
+		}
+		$products2=[];
+		$sbl=[];
+		$sql2="SELECT tanggal FROM aruskas WHERE hapus=0 ";
+		$sql2.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql2.=" AND bagian=3 ";
+		$sql2.=" GROUP BY tanggal ORDER BY tanggal ASC ";
+		$products2=$this->GlobalModel->QueryManual($sql2);
+		$ket=[];
+		if(!empty($products2)){
+			foreach($products2 as $p){
+				$sbl[]=array(
+				'tanggal'=>$p['tanggal'],
+				);	
+			}
+		}
+		//pre($ket);
+		$merger=[];
+		$merger=array_merge($tf,$sbl);
+		
+		foreach(array_unique($merger,SORT_REGULAR) as $p){
+			$sql3="SELECT keterangan FROM aruskas WHERE hapus=0 ";
+			$sql3.=" AND date(tanggal) ='".$p['tanggal']."' ";
+			$sql3.=" AND bagian=3 AND saldomasuk>0";
+			$ket=$this->GlobalModel->QueryManualRow($sql3);
+
 			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);
 			$data['products'][]=array(
 				'tanggal'=>$p['tanggal'],
@@ -130,8 +162,10 @@ class Report extends CI_Controller {
 				'masuksablon'=>$cat==3?$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],3):0,
 				'keluarsablon'=>$cat==3?$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],3):0,
 				'konveksi'=>$konveksi,
+				'keterangan'=>!empty($ket)?$ket['keterangan']:null,
 			);
 		}
+		//pre($sql);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;

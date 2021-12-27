@@ -737,7 +737,7 @@ class Keuangan extends CI_Controller {
 				'tanggal'=>$data['tanggal'],
 				'dibuat'=>callSessUser('nama_user'),
 				'hapus'=>0,
-				'status'=>0,
+				'status'=>1,
 			);
 			$this->db->insert('kasbon_acc',$acc);
 			$id=$this->db->insert_id();
@@ -750,7 +750,7 @@ class Keuangan extends CI_Controller {
 					'nominal_request'=>$p['jumlah'],
 					'nominal_acc'=>0,
 					'status'=>0,
-					'hapus'=>0,
+					'hapus'=>1,
 				);
 				$this->db->insert('kasbon',$insert);
 			}
