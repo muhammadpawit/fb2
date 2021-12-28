@@ -42,10 +42,29 @@
                     </tr>
                 </thead>
             <tbody>
+            	<?php $nom=1;$adjpo=0;$adjdz=0;$adjpcs=0;$adjtotal=0;?>
+            	<?php foreach($adjustment as $r){?>
+            		<tr>
+	                    <td><?php echo $nom++?></td>
+	                    <td><?php echo $r['nama']?></td>
+	                    <td><?php echo number_format($r['po'])?></td>
+	                    <td><?php echo number_format($r['dz'])?></td>
+	                    <td><?php echo number_format($r['pcs'])?></td>
+	                    <td><?php echo number_format($r['total'])?></td>
+	                </tr>
+	                <?php
+
+	                	$adjpo+=($r['po']);
+	                	$adjdz+=($r['dz']);
+	                	$adjpcs+=($r['pcs']);
+	                	$adjtotal+=($r['total']);
+	                ?>
+                <?php } ?>
+
                 <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0; ?>
                 <?php foreach($rekap as $r){?>
                 <tr>
-                    <td><?php echo $r['no']?></td>
+                    <td><?php echo $nom++?></td>
                     <td><?php echo $r['type']?></td>
                     <td><?php echo number_format($r['po'])?></td>
                     <td><?php echo number_format($r['dz'])?></td>
@@ -61,10 +80,10 @@
                 <?php } ?>
                 <tr>
                     <td colspan="2"><b>Total</b></td>
-                    <td><b><?php echo number_format($po)?></b></td>
-                    <td><b><?php echo number_format($dz)?></b></td>
-                    <td><b><?php echo number_format($pcs)?></b></td>
-                    <td><b><?php echo number_format($total)?></b></td>
+                    <td><b><?php echo number_format($adjpo+$po)?></b></td>
+                    <td><b><?php echo number_format($adjdz+$dz)?></b></td>
+                    <td><b><?php echo number_format($adjpcs+$pcs)?></b></td>
+                    <td><b><?php echo number_format($adjtotal+$total)?></b></td>
                 </tr>
             </tbody>
         </table>

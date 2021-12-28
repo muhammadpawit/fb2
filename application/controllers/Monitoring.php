@@ -331,6 +331,20 @@ class Monitoring extends CI_Controller {
 			);
 		}
 
+
+		//adjustment
+		$this->load->model('AdjustModel');
+		$adjustment=[];
+		$filter_adj=array(
+			'tampil'=>1,
+			'hapus'=>0,
+		);
+		$adjustment=$this->AdjustModel->kirimgudang($filter_adj);
+		$data['adjustment'] = $adjustment;
+		$data['adjustment_detail']=[];
+		$adjustment_detail=$this->AdjustModel->kirimgudang_detail($filter_adj);
+		$data['adjustment_detail'] = $adjustment_detail;
+
 		$data['page']=$this->page.'kirimgudang';
 		$this->load->view($this->layout.'main',$data);
 	}
