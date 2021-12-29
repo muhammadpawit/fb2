@@ -25,7 +25,7 @@
 	</div>
 	<div class="col-md-3">
 <div class="form-group">
-                              <label>Supplier</label>
+                              <label>Bagian</label>
                               <select name="jenis" class="form-control select2bs4" data-live-search="true">
                                 <option value="*">Semua</option>
                                 <?php  
