@@ -26,11 +26,16 @@
 	<div class="col-md-3">
 <div class="form-group">
                               <label>Supplier</label>
-                              <select name="supplier" class="form-control select2bs4" data-live-search="true">
-                                <option value="0">Pilih</option>
-                                <?php foreach($supplier as $st){?>
-                                  <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
-                                <?php } ?>
+                              <select name="jenis" class="form-control select2bs4" data-live-search="true">
+                                <option value="*">Semua</option>
+                                <?php  
+                                	$jenis=null;
+                                	if(isset($_REQUEST['jenis'])){
+                                		$jenis=$_REQUEST['jenis'];
+                                	}
+                                ?>
+                                   <option value="1" <?php echo $jenis==1?'selected':''?>>Konveksi</option>
+	                                <option value="2"  <?php echo $jenis==2?'selected':''?>>Bordir</option>
                               </select>
                             </div>		
 	</div>							
@@ -141,10 +146,10 @@
       url += '&tanggal2=' + encodeURIComponent(filter_date_end);
     }
 
-    var supplier = $('select[name=\'supplier\']').val();
+    var supplier = $('select[name=\'jenis\']').val();
 
     if (supplier != '*') {
-      url += '&supplier=' + encodeURIComponent(supplier);
+      url += '&jenis=' + encodeURIComponent(supplier);
     }
 
     location =url;
@@ -167,10 +172,10 @@
 
     var filter_status = $('select[name=\'cmt\']').val();
 
-    var supplier = $('select[name=\'supplier\']').val();
+    var supplier = $('select[name=\'jenis\']').val();
 
     if (supplier != '*') {
-      url += '&supplier=' + encodeURIComponent(supplier);
+      url += '&jenis=' + encodeURIComponent(supplier);
     }
 
     location =url;
