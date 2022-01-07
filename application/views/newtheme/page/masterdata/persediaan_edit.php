@@ -32,6 +32,7 @@
 					<option value="11" <?php echo $prod['jenis']==11?'selected':''?>>Gesper</option>
 					<option value="12" <?php echo $prod['jenis']==12?'selected':''?>>Spandek</option>
 					<option value="13" <?php echo $prod['jenis']==13?'selected':''?>>ATK</option>
+					<option value="14" <?php echo $prod['jenis']==14?'selected':''?>>Benang Konveksi</option>
 				</select>
 			</div>
 			<div class="form-group">
