@@ -3,7 +3,7 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label>Nama Produk</label>
-				<h3><?php echo $prod['nama']?></h3>
+				<h3><input type="text" name="nama" value="<?php echo $prod['nama']?>"></h3>
 			</div>
 			<div class="form-group">
 				<label>Jenis Barang</label>

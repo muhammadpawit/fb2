@@ -1072,8 +1072,8 @@ class Masterdata extends CI_Controller {
 	        $this->db->update('product',array('foto'=>$fileName),array('product_id'=>$id));
 		}
 		
-		$this->db->update('product',array('supplier'=>$post['supplier'],'jenis'=>$post['jenis'],'kategori'=>$post['kategori']),array('product_id'=>$id));
-		$this->db->update('gudang_persediaan_item',array('supplier'=>$post['supplier'],'jenis'=>$post['jenis']),array('id_persediaan'=>$id));
+		$this->db->update('product',array('nama'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis'],'kategori'=>$post['kategori']),array('product_id'=>$id));
+		$this->db->update('gudang_persediaan_item',array('nama_item'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis']),array('id_persediaan'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'masterdata/persediaan');
 	}
