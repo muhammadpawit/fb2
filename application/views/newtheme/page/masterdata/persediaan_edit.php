@@ -19,20 +19,20 @@
 				<label>Kategori Barang</label>
 				<select name="kategori" class="form-control select2bs4" data-live-search="true">
 					<option value="">Pilih</option>
-					<option value="1" <?php echo $prod['jenis']==1?'selected':''?>>Hangtag</option>
-					<option value="2" <?php echo $prod['jenis']==2?'selected':''?>>Slip</option>
-					<option value="3" <?php echo $prod['jenis']==3?'selected':''?>>Kerah</option>
-					<option value="4" <?php echo $prod['jenis']==4?'selected':''?>>Kancing</option>
-					<option value="5" <?php echo $prod['jenis']==5?'selected':''?>>Kancing</option>
-					<option value="6" <?php echo $prod['jenis']==6?'selected':''?>>Barang Bordir</option>
-					<option value="7" <?php echo $prod['jenis']==7?'selected':''?>>Resleting</option>
-					<option value="8" <?php echo $prod['jenis']==8?'selected':''?>>Resleting Kantong</option>
-					<option value="9" <?php echo $prod['jenis']==9?'selected':''?>>Pita</option>
-					<option value="10" <?php echo $prod['jenis']==10?'selected':''?>>Sleting</option>
-					<option value="11" <?php echo $prod['jenis']==11?'selected':''?>>Gesper</option>
-					<option value="12" <?php echo $prod['jenis']==12?'selected':''?>>Spandek</option>
-					<option value="13" <?php echo $prod['jenis']==13?'selected':''?>>ATK</option>
-					<option value="14" <?php echo $prod['jenis']==14?'selected':''?>>Benang Konveksi</option>
+					<option value="1" <?php echo $prod['kategori']==1?'selected':''?>>Hangtag</option>
+					<option value="2" <?php echo $prod['kategori']==2?'selected':''?>>Slip</option>
+					<option value="3" <?php echo $prod['kategori']==3?'selected':''?>>Kerah</option>
+					<option value="4" <?php echo $prod['kategori']==4?'selected':''?>>Kancing</option>
+					<option value="5" <?php echo $prod['kategori']==5?'selected':''?>>Kancing</option>
+					<option value="6" <?php echo $prod['kategori']==6?'selected':''?>>Barang Bordir</option>
+					<option value="7" <?php echo $prod['kategori']==7?'selected':''?>>Resleting</option>
+					<option value="8" <?php echo $prod['kategori']==8?'selected':''?>>Resleting Kantong</option>
+					<option value="9" <?php echo $prod['kategori']==9?'selected':''?>>Pita</option>
+					<option value="10" <?php echo $prod['kategori']==10?'selected':''?>>Sleting</option>
+					<option value="11" <?php echo $prod['kategori']==11?'selected':''?>>Gesper</option>
+					<option value="12" <?php echo $prod['kategori']==12?'selected':''?>>Spandek</option>
+					<option value="13" <?php echo $prod['kategori']==13?'selected':''?>>ATK</option>
+					<option value="14" <?php echo $prod['kategori']==14?'selected':''?>>Benang Konveksi</option>
 				</select>
 			</div>
 			<div class="form-group">
