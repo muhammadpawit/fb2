@@ -37,7 +37,7 @@
 							<div class="col-md-4">
 								<?php if(!empty($ket)){?>
 								<p class="alert alert-warning text-white">
-									<?php echo $ket?>
+									<?php //echo $ket?>
 								</p>
 								<?php } ?>
 							</div>
