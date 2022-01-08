@@ -55,11 +55,11 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        			<td><?php echo number_format($p['stokkeluarharga'])?></td>
 		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
 		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
-		        			<td><?php echo number_format($p['total'])?></td>
+		        			<td><?php echo number_format(($p['stokakhirroll']*$p['stokakhirharga']))?></td>
 		        			<td><?php echo $p['ket']?></td>
 		        		</tr>
 		        		<?php
-			        		$total+=($p['total']);
+			        		$total+=(($p['stokakhirroll']*$p['stokakhirharga']));
 			        	?>
 		        	<?php } ?>
 		        </tbody>
