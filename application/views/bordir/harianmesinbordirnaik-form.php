@@ -140,7 +140,8 @@ $( "#perkalianTarif" ).keyup(function() {
     var total = $('#totalStich').val();
     var perkali = $('#perkalianTarif').val();
     var tarif = total * perkali;
-    $('#tarif').val(tarif);
+    var hasil=tarif.toFixed(2);
+    $('#tarif').val(Math.round(hasil));
 });
 $("#perkalianTarget").keyup(function () {
     var total = $('#totalStich').val();
