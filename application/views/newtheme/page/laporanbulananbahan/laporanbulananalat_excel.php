@@ -47,15 +47,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        			<td><?php echo $p['nama']?></td>
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
-		        			<td><?php echo number_format($p['stokawal'])?></td>
-		        			<td><?php echo number_format($p['stokawalharga'])?></td>
-		        			<td><?php echo number_format($p['stokmasuk'])?></td>
-		        			<td><?php echo number_format($p['stokmasukharga'])?></td>
-		        			<td><?php echo number_format($p['stokkeluarroll'])?></td>
-		        			<td><?php echo number_format($p['stokkeluarharga'])?></td>
-		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
-		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
-		        			<td><?php echo number_format(($p['stokakhirroll']*$p['stokakhirharga']))?></td>
+		        			<td><?php echo ($p['stokawal'])?></td>
+		        			<td><?php echo ($p['stokawalharga'])?></td>
+		        			<td><?php echo ($p['stokmasuk'])?></td>
+		        			<td><?php echo ($p['stokmasukharga'])?></td>
+		        			<td><?php echo ($p['stokkeluarroll'])?></td>
+		        			<td><?php echo ($p['stokkeluarharga'])?></td>
+		        			<td><?php echo ($p['stokakhirroll'])?></td>
+		        			<td><?php echo ($p['stokakhirharga'])?></td>
+		        			<td><?php echo (($p['stokakhirroll']*$p['stokakhirharga']))?></td>
 		        			<td><?php echo $p['ket']?></td>
 		        		</tr>
 		        		<?php
@@ -66,15 +66,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        <tfoot>
 		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
 		        		<td colspan="4" align="center"><b>Jumlah</b></td>
-		        		<td><?php echo number_format($stokawalroll)?></td>
+		        		<td><?php echo ($stokawalroll)?></td>
 		        		<td></td>
-		        		<td><?php echo number_format($stokmasukroll)?></td>
+		        		<td><?php echo ($stokmasukroll)?></td>
 		        		<td></td>
-		        		<td><?php echo number_format($stokkeluarroll)?></td>
+		        		<td><?php echo ($stokkeluarroll)?></td>
 		        		<td></td>
-		        		<td><?php echo number_format($stokakhirroll)?></td>
+		        		<td><?php echo ($stokakhirroll)?></td>
 		        		<td></td>
-		        		<td><?php echo number_format($total)?></td>
+		        		<td><?php echo ($total)?></td>
 		        		<td></td>
 		        	</tr>
 		        </tfoot>
