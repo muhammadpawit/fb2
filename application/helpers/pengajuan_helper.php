@@ -127,7 +127,7 @@
 		   } else if($totalharga>100 && $totalharga<500) {
 		   return $total_harga=round($totalharga,-3)+500;
 		 }else{
-			return round($totalharga,-3);
+			return round($totalharga,-3)+500;
 		 } 
 	}
 
