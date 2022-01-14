@@ -1001,9 +1001,9 @@ class Masterdata extends CI_Controller {
 				);
 			}
 			$satuan = $this->GlobalModel->getDataRow('master_satuan_barang',array('id_satuan_barang'=>$result['satuan']));
-			if(!empty($result['supplier'])){
+			
 				$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
-			}
+			
 
 
 			$data['products'][]=array(
@@ -1818,9 +1818,8 @@ class Masterdata extends CI_Controller {
 				);
 			}
 			$satuan = $this->GlobalModel->getDataRow('master_satuan_barang',array('id_satuan_barang'=>$result['satuan']));
-			if(!empty($result['supplier'])){
-				$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
-			}
+			
+			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
 
 
 			$data['products'][]=array(
