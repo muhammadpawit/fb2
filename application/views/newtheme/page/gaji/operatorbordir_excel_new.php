@@ -1,8 +1,8 @@
 <?php
 $nam=$gaji['tempat']==1?'Rumah':'Cipadu'.time();
 $namafile='Laporan Gaji Operator Bordir_'.$nam;
-//header("Content-type: application/vnd-ms-excel");
-//header("Content-Disposition: attachment; filename=".$namafile.".xls");
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
 
 
@@ -387,7 +387,7 @@ $namafile='Laporan Gaji Operator Bordir_'.$nam;
 
                                                 <br>  
 
-                                                (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)                                          
+                                                (&nbsp;&nbsp;&nbsp;Udan&nbsp;&nbsp;&nbsp;)                                          
 
                                             </td>
                                             <td height="100" align="center">
@@ -408,6 +408,9 @@ $namafile='Laporan Gaji Operator Bordir_'.$nam;
                                     </table>
 					</td>
 				</tr>
+				<tr>
+		          <td colspan="8" align="right"><b>Registered by Forboys Production System</b></td>
+		        </tr>
 			</table>
 		</div>
 	</div>

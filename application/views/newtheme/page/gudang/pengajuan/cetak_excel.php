@@ -131,7 +131,13 @@
                                             <?php } ?>
                                         </tr>
                                     </tbody>
-
+                                    <tfoot>
+                                        <td colspan="9"></td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="9" align="right"><b>Registered by Forboys Production System</b></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>   
 <br>                                       
 <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
@@ -221,4 +227,5 @@
 
                                         </tr>
 
+                                        <tr>
                                     </table>

@@ -79,5 +79,11 @@ header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
           <?php } ?>
         <?php } ?>
       <?php } ?>
+        <tr>
+          <td colspan="14"></td>
+        </tr>
+        <tr>
+          <td colspan="14" align="right"><b>Registered by Forboys Production System</b></td>
+        </tr>
       </tbody>
     </table>

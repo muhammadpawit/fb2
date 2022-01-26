@@ -21,6 +21,7 @@
 				<tr>
 					<th>No</th>
 					<th>Nama PO</th>
+					<th>Size</th>
 					<th>Nama CMT</th>
 					<th>Lokasi CMT</th>
 					<th>Tanggal Pengiriman</th>
@@ -34,6 +35,7 @@
 					<tr>
 						<td><?php echo $p['no']?></td>
 						<td><?php echo $p['kode_po']?></td>
+						<td><?php echo $p['size']?></td>
 						<td><?php echo $p['cmt']?></td>
 						<td><?php echo $p['lokasi']?></td>
 						<td><?php echo $p['tglkirim']?></td>

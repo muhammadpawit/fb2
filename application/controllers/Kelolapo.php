@@ -30,6 +30,8 @@ class Kelolapo extends CI_Controller {
 			'kode_artikel'=>$data['kode_artikel'],
 			'jenis_po'	=>$data['jenis_po'],
 			'nama_hpp' =>$data['nama_hpp'],
+			'kode_po'	=>$data['kode_po'],
+			'harga_satuan'=>$data['harga_satuan'],
 		);
 		$where=array(
 			'id_produksi_po'=>$data['id'],
@@ -1430,6 +1432,7 @@ class Kelolapo extends CI_Controller {
 				'kode_po'=>$result['kode_po'],
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>$namacmt['cmt_name'],
+				'keterangan'=>$result['keterangan'],
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
 				'action'=>$action,
 			);

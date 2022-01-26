@@ -83,6 +83,12 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
 <?php } ?>            
 <table>
         <tr>
+          <td colspan="6" align="right"><i>Registered by Forboys Production System</i></td>
+        </tr>
+        <tr>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
           <td colspan="5"></td>
           <td>
             <b>Jakarta, <?php echo date('d F Y',strtotime($tanggal2))?></b>

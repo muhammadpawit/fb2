@@ -484,6 +484,11 @@ class Gudang extends CI_Controller {
 			$sql.=" AND kategori='".$cat."' ";
 		}
 		$sql.=" ORDER BY id DESC ";
+		if( isset($get['tanggal1']) OR isset($get['cat']) ){
+
+		}else{
+			$sql.="LIMIT 10";
+		}
 		$data['harian'] =$this->db->query($sql)->result_array();
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
@@ -1340,7 +1345,8 @@ class Gudang extends CI_Controller {
 		foreach($data['prods'] as $p){
 			$update=array(
 				'jumlah_item_keluar'=>$p['jumlah_item_keluar'],
-				'harga_item' => $p['harga_item']
+				'harga_item' => $p['harga_item'],
+				'jumlah_item_perlusin'=>$p['jumlah_item_perlusin'],
 			);
 			$where=array(
 				'id_item_keluar' => $p['id_item_keluar'],

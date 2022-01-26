@@ -337,7 +337,7 @@ class Setorancmt extends CI_Controller {
 				echo '<td>'.$s['nosj'].'</td>';
 				echo '<td>'.$s['jumlah_pcs'].'</td>';
 				echo '<td><input type="text" name="products['.$i.'][totalsetor] class="form-control" value="'.($s['jumlah_pcs']-$s['totalsetor']).'"><input type="hidden" name="products['.$i.'][cmtjob] class="form-control" value="'.$s['cmtjob'].'"></td>';
-				echo '<td><input type="text" name="products['.$i.'][keterangan] class="form-control" value="-"></td>';
+				echo '<td><input type="text" name="products['.$i.'][keterangan] class="form-control" value="'.$s['keterangan'].'"></td>';
 				echo "</tr>";
 				$i++;
 			}

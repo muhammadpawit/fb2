@@ -46,7 +46,7 @@
 
                                     <td colspan="4" class="text-center">
 
-                                        <h4>HPP <?php echo $jenis?> </h4>
+                                        <h3>HPP <?php echo $jenis?> </h3>
 
                                     </td>
 
@@ -757,7 +757,7 @@
                                 <?php foreach ($boronganmesin as $key => $mesin): ?>
                                     <?php 
                                         $hargapertitik=$mesin['harga_titik'];
-                                        if(strtolower($produk['nama_po'])=="kfb" OR strtolower($produk['nama_po'])=="kkf"){
+                                        if(strtolower($produk['nama_po'])=="kfb" OR strtolower($produk['nama_po'])=="kkf" OR strtolower($produk['nama_po'])=="skf"){
                                             $hargapertitik=30;
                                         }
                                     ?>

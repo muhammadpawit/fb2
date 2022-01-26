@@ -10,9 +10,11 @@
 					<th><input type="text" name="kode_artikel" value="<?php echo $detail['kode_artikel']?>" class="form-control"></th>
 				</tr>				
 				<tr>
-					<th>Nama PO</th>
+					<th>Kode PO</th>
 					<th>:</th>
-					<th><?php echo $detail['kode_po']?></th>
+					<th>
+						<input type="text" name="kode_po" value="<?php echo $detail['kode_po']?>" class="form-control">		
+					</th>
 				</tr>
 				<tr>
 					<th>Nama Hpp PO</th>
@@ -34,9 +36,12 @@
 					</th>
 				</tr>
 				<tr>
-					<th>HPP</th>
+					<th>HPP (Rp)</th>
 					<th>:</th>
-					<th>Rp.<?php echo number_format($detail['harga_satuan'])?></th>
+					<th>
+						<?php //echo number_format($detail['harga_satuan'])?>
+						<input type="text" name="harga_satuan" value="<?php echo $detail['harga_satuan']?>" class="form-control">			
+					</th>
 				</tr>
 			</thead>
 		</table>

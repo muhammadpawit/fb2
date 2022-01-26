@@ -42,7 +42,10 @@
                         <td><label>Keterangan</label></td>
                         <td>:</td>
                         <td>
-                          <textarea name="keterangan" class="form-control"></textarea>
+                          <select name="keterangan" class="form-control select2bs4">
+                            <option value=""></option>
+                            <option value="cmt ngambil sendiri">cmt ngambil sendiri</option>
+                          </select>
                         </td>
                       </tr>
                       <tr>

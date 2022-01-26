@@ -68,13 +68,13 @@
                                 <div class="form-group m-b-20 row">
                                     <div class="col-12">
                                         <label for="emailaddress">Email address</label>
-                                        <input class="form-control" type="text" id="emailaddress" name="email" required="" placeholder="Enter your email">
+                                        <input class="form-control" type="text" id="emailaddress" name="email" required="" placeholder="Enter your email" autocomplete="off" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row m-b-20">
                                     <div class="col-12">
-                                        <label for="password">Password (password: fb2021)</label>
+                                        <label for="password">Password</label>
                                         <input class="form-control" type="password" required="" id="password" name="password" placeholder="Enter your password">
                                     </div>
                                 </div>

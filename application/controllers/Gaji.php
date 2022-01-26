@@ -594,50 +594,46 @@ class Gaji extends CI_Controller {
 		$data['karyawans']=[];
 		$details=[];
 		$data['title']='Resume Gaji Karyawan Bordir Forboys';
+		$data['karyawans']=[];
 		$data['gaji']=$this->GlobalModel->getDataRow('gaji_operator',array('hapus'=>0,'id'=>$id));
+		$bonussiang=0;
+		$bonusmalam=0;
+		$umsiang=0;
+		$ummalam=0;
 		if(!empty($data['gaji'])){
-			$details=$this->GlobalModel->getData('gaji_operator_detail',array('idgaji'=>$id));
-			$gaji=0;
-			foreach($details as $d){
-				$gaji=$this->GlobalModel->getDataRow('master_karyawan_bordir',array('id_master_karyawan_bordir'=>$d['idkaryawan']));
+			
+			$results=$this->GlobalModel->getData('gaji_operator_new',array('hapus'=>0,'idgajiopt'=>$id));
+			foreach($results as $r){
 				$data['karyawans'][]=array(
-					'idkaryawan'=>$d['idkaryawan'],
-					'nama'=>strtolower($gaji['nama_karyawan_bordir']),
-					//'nama'=>null,
-					// 'senin'=>$d['senin']==1?$gaji['karyawan_gaji_weekday']:0,
-					// 'selasa'=>$d['selasa']==1?$gaji['karyawan_gaji_weekday']:0,
-					// 'rabu'=>$d['rabu']==1?$gaji['karyawan_gaji_weekday']:0,
-					// 'kamis'=>$d['kamis']==1?$gaji['karyawan_gaji_weekday']:0,
-					// 'jumat'=>$d['jumat']==1?$gaji['karyawan_gaji_weekday']:0,
-					// 'sabtu'=>$d['sabtu']==1?$gaji['karyawan_gaji_weekday']:0,
-					// 'minggu'=>$d['minggu']>0?($gaji['karyawan_gaji_weekday']*2):0,
-					'senin'=>$d['senin']==1?$d['gajisenin']:0,
-					'selasa'=>$d['selasa']==1?$d['gajiselasa']:0,
-					'rabu'=>$d['rabu']==1?$d['gajirabu']:0,
-					'kamis'=>$d['kamis']==1?$d['gajikamis']:0,
-					'jumat'=>$d['jumat']==1?$d['gajijumat']:0,
-					'sabtu'=>$d['sabtu']==1?$d['gajisabtu']:0,
-					'minggu'=>$d['minggu']>0?($d['gajiminggu']):0,
-					'um'=>$d['um']>0?$d['um']:0,
-					'bonus'=>$d['bonus']>0?$d['bonus']:0,
-					'ksenin'=>$d['ksenin'],
-					'kselasa'=>$d['kselasa'],
-					'krabu'=>$d['krabu'],
-					'kkamis'=>$d['kkamis'],
-					'kjumat'=>$d['kjumat'],
-					'ksabtu'=>$d['ksabtu'],
-					'kminggu'=>$d['kminggu'],
-					'kbonus'=>$d['kbonus'],
-					'kum'=>$d['kum'],
+					'tgl1'=>$data['gaji']['tanggal1'],
+					'tgl2'=>$data['gaji']['tanggal2'],
+					'idkaryawan' =>$r['idkaryawan'],
+					'nama'=>$r['nama'],
+					'totalgaji'=>$r['totalgaji'],
+					'totalbonus'=>$r['totalbonus'],
+					'totalum'=>$r['totalum'],
+					'grandtotal'=>$r['grandtotal'],
+					'details'=>$this->GlobalModel->getData('gaji_operator_detail_new',array('hapus'=>0,'idgaji'=>$r['id'])),
 				);
 			}
+			//pre($data['karyawans']);
+			$bonussiang=$this->ReportModel->SumBonusOptBordir($id,1);
+			$bonusmalam=$this->ReportModel->SumBonusOptBordir($id,2);
+			$umsiang=$this->ReportModel->SumUmOptBordir($id,1);
+			$ummalam=$this->ReportModel->SumUmOptBordir($id,2);
+			$data['bonussiang']=$bonussiang;
+			$data['bonusmalam']=!empty($bonusmalam)?$bonusmalam:0;
+			//$data['umsiang']=$umsiang;
+			$data['umsiang']=0;
+			$data['ummalam']=!empty($ummalam)?21000:0;
 		}
-		$data['kembali']=BASEURL.'Gaji/operatorbordir';
+		$data['kembali']=BASEURL.'Bordir/gajioperator';
+		$data['excel']=BASEURL.'Bordir/operatorbordirdetail/'.$id.'?&excel=1';
 		$get=$this->input->get();
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'gaji/operatorbordir_excel',$data);
+			$this->load->view($this->page.'gaji/operatorbordir_excel_new',$data);
 		}else{
-			$data['page']=$this->page.'gaji/operatorbordir_detail';
+			$data['page']=$this->page.'gaji/operatorbordir_detail_new';
 			$this->load->view($this->page.'main',$data);
 		}
 		

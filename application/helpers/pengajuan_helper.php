@@ -119,16 +119,32 @@
 	}
 
 	function pembulatangaji($value){
+		$total_harga=0;
 		$totalharga =$value;
 		$bulat=substr($totalharga,-3);
 		$totalharga=ceil($totalharga);
-		 if ($bulat>499){
+		
+		if ($bulat==000){
+			$total_harga=round($totalharga,-3);
+		}else if($bulat==500){
+			$total_harga=($totalharga);
+		}else if($bulat > 0 && $bulat<501){
+			$total_harga=round($totalharga,-3)+500;
+		}else{
+			$total_harga=round($totalharga,-3);
+		}
+		return $total_harga;
+
+		/*
+		if($bulat>0 && $bulat<=499){
 			return $total_harga=round($totalharga,-3);
-		   } else if($totalharga>100 && $totalharga<500) {
+		}else if($totalharga>101 && $totalharga==500) {
+		   return $total_harga=round($totalharga,-3);
+		}else if($totalharga>100 && $totalharga<=499) {
 		   return $total_harga=round($totalharga,-3)+500;
-		 }else{
-			return round($totalharga,-3)+500;
-		 } 
+		}else{
+			return round($totalharga,-3);
+		}*/ 
 	}
 
 	function myself(){

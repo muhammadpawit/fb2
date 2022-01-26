@@ -165,6 +165,55 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 						<?php } ?>
 					</tr>
 					<tr>
+						<td>Total</td>
+						<?php foreach($boronganmesin as $p){?>
+						<td><?php echo ($p['total'])?></td>
+						<?php } ?>
+						<?php if($bm==1){?>
+							<!-- <td></td>
+							<td></td> -->
+						<?php } ?>
+						<?php if(!empty($cucian)){?>
+						<?php foreach($cucian as $p){?>
+						<td><?php echo ($p['total'])?></td>
+						<?php } ?>
+						<?php }else{ ?>
+							<!-- <td></td> -->
+						<?php } ?>
+
+						<?php foreach($bb as $p){?>
+						<td><?php echo ($p['total'])?></td>
+						<?php } ?>
+						<?php foreach($pk as $p){?>
+						<td><?php echo ($p['total'])?></td>
+						<?php } ?>
+					</tr>
+					<tr>
+						<td>Total Pembulatan</td>
+						<?php foreach($boronganmesin as $p){?>
+						<td><?php echo pembulatangaji($p['total'])?></td>
+						<?php } ?>
+						<?php if($bm==1){?>
+							<!-- <td></td>
+							<td></td> -->
+						<?php } ?>
+						<?php if(!empty($cucian)){?>
+						<?php foreach($cucian as $p){?>
+						<td><?php echo pembulatangaji($p['total'])?></td>
+						<?php } ?>
+						<?php }else{ ?>
+							<!-- <td></td> -->
+						<?php } ?>
+
+						<?php foreach($bb as $p){?>
+						<td><?php echo pembulatangaji($p['total'])?></td>
+						<?php } ?>
+						<?php foreach($pk as $p){?>
+						<td><?php echo pembulatangaji($p['total'])?></td>
+						<?php } ?>
+					</tr>
+
+					<tr>
 						<td>Keterangan</td>
 						<?php foreach($boronganmesin as $p){?>
 						<td><?php echo ($p['keterangan'])?></td>
@@ -194,7 +243,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 								$colb=3;
 							}
 						?>
-					<tr>
+					<!--<tr>
 						<td>G.Total</td>
 						<td colspan="<?php echo $colb?>"><?php echo ($gajim)?></td>
 						<td colspan="<?php echo count($cucian)?>"><?php echo ($cucians)?></td>
@@ -207,7 +256,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 						<td colspan="<?php echo count($cucian)?>"><?php echo (pembulatangaji($cucians))?></td>
 						<td><?php echo (pembulatangaji($bbs))?></td>
 						<td><?php echo (pembulatangaji($pkg))?></td>
-					</tr>
+					</tr>-->
 					<tr style="background-color: yellow">
 						<td>Total</td>
 						<td colspan="5" align="center"><b><?php $t2=0; echo $t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg))?></b></td>

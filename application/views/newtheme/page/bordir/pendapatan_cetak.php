@@ -69,5 +69,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td></td>
                     </tr>
                 <?php }?>
+                <tr>
+                  <td colspan="8" align="right"><b>Registered by Forboys Production System</b></td>
+                </tr>
               </tbody>
             </table>

@@ -99,6 +99,7 @@ class Laporanbulananalat extends CI_Controller {
 				'stokakhirharga'=>$row['harga_item'],
 				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
 				'ket'=>null,
+				'satuan'=>$row['satuan_jumlah_item'],
 			);
 		}
 		

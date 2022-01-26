@@ -104,5 +104,11 @@ header("Content-Disposition: attachment; filename=Ajuan_transfer_".time().".xls"
                                     </table>
 				</td>
 			</tr>
+			<tr>
+          	<td colspan="10"></td>
+	        </tr>
+	        <tr>
+	          <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
+	        </tr>
 		</table>
 		

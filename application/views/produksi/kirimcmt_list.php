@@ -61,6 +61,7 @@
                           <th>Tanggal</th>
                           <th>Nama CMT</th>
                           <th>Quantity</th>
+                          <th>Keterangan</th>
                           <th>Status</th>
                           <th></th>
                         </tr>
@@ -73,6 +74,7 @@
                           <td><?php echo $p['tanggal']?></td>
                           <td><?php echo $p['namacmt']?></td>
                           <td><?php echo $p['quantity']?></td>
+                          <td><?php echo $p['keterangan']?></td>
                           <td><?php echo $p['status']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>

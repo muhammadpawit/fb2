@@ -57,7 +57,11 @@
 
                                         <th class="text-right">Total</th>
 
-                                    </tr></thead>
+                                        <th>Jml Per Dz</th>
+
+                                    </tr>
+
+                                    </thead>
 
                                     <tbody>
 
@@ -102,6 +106,11 @@
 
                                         <td class="text-right"><?php echo number_format($total) ?></td>
 
+                                        <td>
+                                            <input type="number" class="form-control" name="prods[<?php echo $no?>][jumlah_item_perlusin]" value="<?php echo $item['jumlah_item_perlusin'] ?>">
+
+                                        </td>
+                                        
                                     </tr>
                                     <?php $no++;?>
                                 <?php endforeach ?>

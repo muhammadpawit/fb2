@@ -41,5 +41,11 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                   <td align="right">&nbsp;<?php echo $ajuan?></td>
                   <td align="right">&nbsp;<?php echo $total?></td>
                 </tr>
+                <tr>
+            <td colspan="5"></td>
+            </tr>
+            <tr>
+              <td colspan="5" align="right"><b>Registered by Forboys Production System</b></td>
+            </tr>
               </tbody>
             </table>

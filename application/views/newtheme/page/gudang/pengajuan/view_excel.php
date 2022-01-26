@@ -87,7 +87,6 @@ header("Content-Disposition: attachment; filename=pengajuan_harian.xls");
                             <?php } ?>
 
                                 <?php endforeach ?>
-
                         </tbody>
                         <tfoot>
                             <tr style="background-color: yellow">
@@ -96,6 +95,12 @@ header("Content-Disposition: attachment; filename=pengajuan_harian.xls");
                                 <td><?php echo $tftotal?></td>
                                 <td></td>
                                 <td></td>
+                            </tr>
+                            <tr>
+                            <td colspan="6"></td>
+                               </tr>
+                            <tr>
+                                 <td colspan="6" align="right"><i>Registered by Forboys Production System</i></td>
                             </tr>
                         </tfoot>
 

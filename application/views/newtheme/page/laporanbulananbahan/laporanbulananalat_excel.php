@@ -1,9 +1,11 @@
 <?php
+date_default_timezone_set("Asia/Jakarta");
 $namafile='Laporan_Bulanan_Alat_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-<caption>Periode : <?php echo date('d F Y',strtotime($tanggal1))?> - <?php echo date('d F Y',strtotime($tanggal2))?></caption>
+<h2>Laporan Bulanan Alat-alat Forboys Production</h2>
+<caption>Periode : <?php echo date('d',strtotime($tanggal1))?> - <?php echo date('d F Y',strtotime($tanggal2))?> <?php echo date('H:i:s')?></caption>
 			<table border="1" cellpadding="3" style="border-collapse: collapse;width: 100%" >
 				<thead style="text-align: center;">
 		          <tr>
@@ -15,6 +17,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		            <th colspan="2">Masuk</th>
 		            <th colspan="2">Keluar</th>
 		            <th colspan="2">Akhir</th>
+		            <th rowspan="2">Satuan</th>
 		            <th rowspan="2">Total</th>
 		            <th rowspan="2">Ket</th>
 		          </tr>
@@ -44,7 +47,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        	<?php foreach($prods as $p){?>
 		        		<tr>
 		        			<td><?php echo $p['no']?></td>
-		        			<td><?php echo $p['nama']?></td>
+		        			<td><?php echo strtoupper($p['nama'])?></td>
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
 		        			<td><?php echo ($p['stokawal'])?></td>
@@ -55,6 +58,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        			<td><?php echo ($p['stokkeluarharga'])?></td>
 		        			<td><?php echo ($p['stokakhirroll'])?></td>
 		        			<td><?php echo ($p['stokakhirharga'])?></td>
+		        			<td><?php echo $p['satuan']?></td>
 		        			<td><?php echo (($p['stokakhirroll']*$p['stokakhirharga']))?></td>
 		        			<td><?php echo $p['ket']?></td>
 		        		</tr>
@@ -65,7 +69,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        </tbody>
 		        <tfoot>
 		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
-		        		<td colspan="4" align="center"><b>Jumlah</b></td>
+		        		<td colspan="5" align="center"><b>Jumlah</b></td>
 		        		<td><?php echo ($stokawalroll)?></td>
 		        		<td></td>
 		        		<td><?php echo ($stokmasukroll)?></td>
@@ -79,3 +83,63 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        	</tr>
 		        </tfoot>
 			</table>
+<table>
+        <tr>
+          <td colspan="14" align="right"><i>Registered by Forboys Production System</i></td>
+        </tr>
+        <tr>
+          <td colspan="14"></td>
+        </tr>
+        <tr>
+          <td colspan="13"></td>
+          <td>
+            <b>Jakarta, <?php echo date('d F Y',strtotime($tanggal2))?></b>
+          <table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
+
+                                        <tr>
+                                            <th>Disetujui</th>
+                                            <th>Disusun</th>
+                                        </tr>
+
+                                        <tr align="center">
+                                            <td><b>SPV</b></td>
+                                            <td><b>Adm Gudang</b></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Muchlas)
+
+                                            </td>
+                                            
+                                            <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>                                            
+                                                ( Dwi )
+                                            </td>
+                                        </tr>
+
+                                    </table>
+          </td>
+        </tr>
+      </table>			

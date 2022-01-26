@@ -59,4 +59,9 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
             <td><b><?php //echo $k['jml_ajuan']?></b></td>
             <td></td>
           </tr>
+            <td colspan="9"></td>
+          </tr>
+          <tr>
+            <td colspan="9" align="right"><b>Registered by Forboys Production System</b></td>
+          </tr>          
     </table>

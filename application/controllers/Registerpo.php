@@ -37,6 +37,8 @@ class Registerpo extends CI_Controller {
 		if(!empty($jenis)){
 			$sql.=" AND LOWER(nama_po) LIKE '%".$jenis."%' ";
 		}
+
+		//$sql.=" LIMIT 20";
 		$data['jenis']=$jenis;
 		$results=$this->GlobalModel->querymanual($sql);
 		$tanggalkirim=null;
@@ -46,6 +48,7 @@ class Registerpo extends CI_Controller {
 		$i=1;
 		$ket=null;
 		$h=0;
+		$size=null;
 		foreach($results as $result){
 			$cmt=$this->GlobalModel->querymanualrow("SELECT * FROM kelolapo_kirim_setor JOIN master_cmt ON(master_cmt.id_cmt=kelolapo_kirim_setor.id_master_cmt) WHERE kode_po='".$result['kode_po']."' AND progress='KIRIM' AND kategori_cmt='JAHIT'  ");
 			$tanggalsetor=$this->GlobalModel->querymanualrow("SELECT * FROM kelolapo_kirim_setor JOIN master_cmt ON(master_cmt.id_cmt=kelolapo_kirim_setor.id_master_cmt) WHERE kode_po='".$result['kode_po']."' AND progress='SETOR' AND kategori_cmt='JAHIT' ");
@@ -64,16 +67,17 @@ class Registerpo extends CI_Controller {
 			if(!empty($tanggalkirimgudang['tanggal_kirim'])){
 				$h=$h+1;
 			}
-
+			$size=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po'=>$result['kode_po']));
 			$data['products'][]=array(
 				'kode_po'=>$result['kode_po'],
-				'cmt'=>strtolower($cmt['cmt_name']),
+				'size'=>!empty($size)?$size['size_potongan']:'',
+				'cmt'=>!empty($cmt)?strtolower($cmt['cmt_name']):'',
 				'tglkirim'=>!empty($cmt['create_date'])?date('d-m-Y',strtotime($cmt['create_date'])):'',
 				'tglsetor'=>!empty($tanggalsetor['create_date'])?date('d-m-Y',strtotime($tanggalsetor['create_date'])):'',
 				'tglkirimgudang'=>!empty($tanggalkirimgudang['tanggal_kirim'])?date('d-m-Y',strtotime($tanggalkirimgudang['tanggal_kirim'])):'',
 				'keterangan'=>$h==3?'OK':'',
 				'no'=>$i++,
-				'lokasi'=>strtolower($cmt['alamat']),
+				'lokasi'=>!empty($cmt)?strtolower($cmt['alamat']):'',
 			);
 		}
 		$data['jenispo']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));

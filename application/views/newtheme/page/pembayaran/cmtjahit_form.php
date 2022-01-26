@@ -154,7 +154,7 @@
         html+='<td><input type="text" class="kirimpcs" name="products['+i+'][kirimpcs]" onblur="updatepcs('+i+')" readonly ></td>';
         html+='<td><input type="hidden" class="dz" name="products['+i+'][dz]" onblur="updatedz('+i+')" readonly ><input type="text" class="jumlahDz" name="products['+i+'][jumlah_dz]" readonly ></td>';
         html+='<td><input type="text" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
-        html+='<td><input type="text" class="harga" name="products['+i+'][harga]" readonly></td>';
+        html+='<td><input type="text" class="harga" name="products['+i+'][harga]"></td>';
         html+='<td><input type="text" class="total" name="products['+i+'][total]" readonly></td>';
         html+='<td><select name="products['+i+'][percent]" class="pmb" required><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
         html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';

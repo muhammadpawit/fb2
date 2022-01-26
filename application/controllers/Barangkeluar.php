@@ -60,7 +60,7 @@ class Barangkeluar extends CI_Controller {
 			$data['products'][]=array(
 				'id'=>$row['id'],
 				'tanggal'=>$row['tanggal'],
-				'bagian'=>$bagian['nama'],
+				'bagian'=>!empty($bagian['nama'])?$bagian['nama']:'-',
 				'pengambil'=>$row['pengambil'],
 				'gudang'=>$row['gudang'],
 				'details'=>$details,
