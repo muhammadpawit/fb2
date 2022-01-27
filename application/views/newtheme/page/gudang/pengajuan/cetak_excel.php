@@ -7,6 +7,12 @@
 //}
 
 ?>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <table>
     <tr align="center">
         <td colspan="10">
@@ -135,7 +141,7 @@
                                         <td colspan="9"></td>
                                         </tr>
                                         <tr>
-                                          <td colspan="9" align="right"><b>Registered by Forboys Production System</b></td>
+                                          <td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
                                         </tr>
                                     </tfoot>
                                 </table>   
