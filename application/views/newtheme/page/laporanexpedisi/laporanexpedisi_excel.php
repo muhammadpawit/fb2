@@ -3,6 +3,12 @@ $namafile='Laporan_Expedisi_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <h1>Laporan Expedisi Forboys Production</h1>
 <div class="row">
 	<div class="col-md-12">
@@ -29,6 +35,11 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 					<?php } ?>
 				</tbody>
+				<tfoot>
+					<tr>
+			          <td colspan="5" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+			        </tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

@@ -1472,9 +1472,30 @@ class ReportModel extends CI_Model {
 			if(!empty($d)){
 				$hasil=$d['total'];
 			}
-			return $hasil;
+
+			// homie noya
+			$hasil2=0;
+			$sql2="SELECT COALESCE(SUM(nominal),0) as total FROM pendapatan_transport WHERE hapus=0 ";
+			$sql2.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$d2=$this->GlobalModel->queryManualRow($sql2);
+			if(!empty($d2)){
+				$hasil2=$d2['total'];
+			}
+
+			// transport pak dede ke jawa
+			$hasil3=0;
+			$sql3="SELECT COALESCE(SUM(phnd.harga),0) as total FROM pengajuan_harian_new_detail phnd JOIN pengajuan_harian_new phn ON(phn.id=phnd.idpengajuan) WHERE nama_item LIKE '%Transport pak Dede Ke Jawa%'  AND phn.hapus=0 and phnd.hapus=0 ";
+			$sql3.=" AND DATE(phn.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$d3=$this->GlobalModel->queryManualRow($sql3);
+			if(!empty($d3)){
+				$hasil3=$d3['total'];
+			}
+
+
+			return $hasil+$hasil2+$hasil3;
 		}else{
-			$sql="SELECT COALESCE(SUM(harga*jumlah),0) as total FROM pengajuan_harian_new_detail JOIN pengajuan_harian_new ON pengajuan_harian_new.id=pengajuan_harian_new_detail.idpengajuan WHERE pengajuan_harian_new.hapus=0 AND pengajuan_harian_new_detail.hapus=0 AND nama_item LIKE 'transport%' ";
+			// transport driver
+			$sql="SELECT COALESCE(SUM(nominal),0) as total FROM transport_driver WHERE hapus=0 ";
 			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			$d=$this->GlobalModel->queryManualRow($sql);
 			if(!empty($d)){

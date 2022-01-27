@@ -27,7 +27,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
-			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
+			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
 		</div>
 	</div>
 </div>
@@ -37,30 +37,29 @@
 			<table class="table table-bordered nosearch">
 				<thead>
 					<tr>
+						<th>No</th>
 						<th>Tanggal</th>
-						<th>Pendapatan</th>
-						<th>Pengeluaran</th>
-						<th>Saldo</th>
+						<th>CMT</th>
+						<th>Nominal</th>
 						<th>Keterangan</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($prods as $p){?>
-						<?php $tgl2=date('Y-m-d',strtotime($p['tanggal']."+6 day"));?>
-					<tr>					
-							<td><?php echo date('d F',strtotime($p['tanggal']))?> s.d <?php echo date('d F Y',strtotime($p['tanggal']."+6 day"))?></td>
-							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,1)); ?></td>
-							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,2)); ?></td>
-							<td><?php echo number_format($this->ReportModel->ekspedisi($p['tanggal'],$tgl2,1)-$this->ReportModel->ekspedisi($p['tanggal'],$tgl2,2)); ?></td>
-							<td></td>
-					</tr>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-			          <td colspan="5" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>')?></i></td>
-			        </tr>
-				</tfoot>
+					<?php $no=1;?>
+					<?php foreach($products as $p){?>
+						<tr>
+							<td><?php echo $no++;?></td>
+							<td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
+							<td><?php echo $p['namacmt']?></td>
+							<td><?php echo number_format($p['nominal'])?></td>
+							<td><?php echo $p['keterangan']?></td>
+							<td>
+								<a href="<?php echo $url?>hapus_pendapatan/<?php echo $p['id']?>" classbtn="btn btn-danger"><i class="fa fa-trash"></i></a>
+							</td>
+						</tr>
+					<?php }?>
+				</tbody>				
 			</table>
 		</div>
 	</div>

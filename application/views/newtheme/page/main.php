@@ -44,7 +44,13 @@
 <script src="<?php echo PLUGINS ?>datatables/responsive.bootstrap4.min.js"></script>
 
 <style type="text/css">
+  
   body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
+  
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
   table{font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important}
   .full{width: 100% !important;}
   .print{ display:none !important}
