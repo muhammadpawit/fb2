@@ -95,10 +95,10 @@ class Laporanklo extends CI_Controller {
 
 		foreach($results_sablon as $c){
 
-			$stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
-			$stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			$stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			$stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
+			// $stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
+			// $stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
+			// $stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
+			// $stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
@@ -149,12 +149,14 @@ class Laporanklo extends CI_Controller {
 		$stokakhirkaosdz=0;
 		$stokakhirkemejajml=0;
 		$stokakhirkemejadz=0;
+		$akhirjml=0;
+		$akhirpcs=0;
 		foreach($results as $c){
 
-			$stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			// $stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
+			// $stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			// $stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			// $stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
@@ -163,6 +165,8 @@ class Laporanklo extends CI_Controller {
 			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
+			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			$akhirjml=$this->KirimsetorModel->stok($c['id_cmt'],2);
 			$data['jahit'][]=array(
 				'no'=>$no++,
 				'nama'=>strtolower($c['cmt_name']),
@@ -178,10 +182,10 @@ class Laporanklo extends CI_Controller {
 				'kirimkaosdz'=>$kirimkaosdz,
 				'kirimkemejajml'=>$kirimkemejajml,
 				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>($stokawalkaosjml-$setorkaosjml+$kirimkaosjml),
-				'stokakhirkaosdz'=>($stokawalkaosdz-$setorkaosdz+$kirimkaosdz),
-				'stokakhirkemejajml'=>($stokawalkemejajml-$setorkemejajml+$kirimkemejajml),
-				'stokakhirkemejadz'=>($stokawalkemejadz-$setorkemejadz+$kirimkemejadz),
+				'stokakhirkaosjml'=>!empty($akhirjml)?$akhirjml['jml']:0,
+				'stokakhirkaosdz'=>!empty($akhirjml)?$akhirjml['dz']:0,
+				'stokakhirkemejajml'=>0,
+				'stokakhirkemejadz'=>0,
 			);
 		}
 
@@ -206,10 +210,10 @@ class Laporanklo extends CI_Controller {
 
 		foreach($resultsk as $c){
 
-			$stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			// $stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
+			// $stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			// $stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
+			// $stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
@@ -218,6 +222,7 @@ class Laporanklo extends CI_Controller {
 			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
+			$akhirjml=$this->KirimsetorModel->stok($c['id_cmt'],1);
 			$data['jahitk'][]=array(
 				'no'=>$no++,
 				'nama'=>strtolower($c['cmt_name']),
@@ -233,10 +238,10 @@ class Laporanklo extends CI_Controller {
 				'kirimkaosdz'=>$kirimkaosdz,
 				'kirimkemejajml'=>$kirimkemejajml,
 				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>($stokawalkaosjml-$setorkaosjml+$kirimkaosjml),
-				'stokakhirkaosdz'=>($stokawalkaosdz-$setorkaosdz+$kirimkaosdz),
-				'stokakhirkemejajml'=>($stokawalkemejajml-$setorkemejajml+$kirimkemejajml),
-				'stokakhirkemejadz'=>($stokawalkemejadz-$setorkemejadz+$kirimkemejadz),
+				'stokakhirkaosjml'=>0,
+				'stokakhirkaosdz'=>0,
+				'stokakhirkemejajml'=>!empty($akhirjml)?$akhirjml['jml']:0,
+				'stokakhirkemejadz'=>!empty($akhirjml)?$akhirjml['dz']:0,
 			);
 		}
 

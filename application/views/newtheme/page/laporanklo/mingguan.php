@@ -234,7 +234,7 @@
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-		            <th colspan="2">Stok Awal Kaos</th>
+		            <!-- <th colspan="2">Stok Awal Kaos</th> -->
 		            <!-- <th colspan="2">Stok Awal Kemeja</th> -->
 		            <th colspan="2">Kirim Kaos</th>
 		            <!-- <th colspan="2">Kirim Kemeja</th> -->
@@ -251,9 +251,9 @@
 		            <th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
-		            <th>DZ</th> -->
-		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>JML</th>
+		            <th>DZ</th>-->
 		            <th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
@@ -285,10 +285,6 @@
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <td><?php echo ($p['stokawalkaosjml'])?></td>
-		              <td><?php echo $p['stokawalkaosdz']>0?number_format($p['stokawalkaosdz']):'';?></td>
-		              <!-- <td><?php echo ($p['stokawalkemejajml'])?></td>
-		              <td><?php echo $p['stokawalkemejadz']>0?number_format($p['stokawalkemejadz']):'';?></td> -->
 		              <td><?php echo ($p['kirimkaosjml'])?></td>
 		              <td><?php echo $p['kirimkaosdz']>0?number_format($p['kirimkaosdz']):'';?></td>
 		              <!-- <td><?php echo ($p['kirimkemejajml'])?></td>
@@ -303,10 +299,10 @@
 		              <td><?php echo $p['stokakhirkemejadz']>0?number_format($p['stokakhirkemejadz']):'';?></td> -->
 		            </tr>
 		            <?php 
-		        		$stokawalkaosjml+=($p['stokawalkaosjml']);
-		        		$stokawalkaosdz+=($p['stokawalkaosdz']);
-		        		$stokawalkemejajml+=($p['stokawalkemejajml']);
-		        		$stokawalkemejadz+=($p['stokawalkemejadz']);
+		        		// $stokawalkaosjml+=($p['stokawalkaosjml']);
+		        		// $stokawalkaosdz+=($p['stokawalkaosdz']);
+		        		// $stokawalkemejajml+=($p['stokawalkemejajml']);
+		        		// $stokawalkemejadz+=($p['stokawalkemejadz']);
 		        		$kirimkaosjml+=($p['kirimkaosjml']);
 		        		$kirimkaosdz+=($p['kirimkaosdz']);
 		        		$kirimkemejajml+=($p['kirimkemejajml']);
@@ -323,8 +319,6 @@
 		          <?php }?>
 		          <tr>
 		          	<td colspan="2"><b>Total</b></td>
-		          	<td><?php echo number_format($stokawalkaosjml,2)?></td>
-		          	<td><?php echo number_format($stokawalkaosdz,2)?></td>
 		          	<!-- <td><?php echo number_format($stokawalkemejajml,2)?></td>
 		          	<td><?php echo number_format($stokawalkemejadz,2)?></td> -->
 		          	<td><?php echo number_format($kirimkaosjml,2)?></td>
@@ -350,7 +344,7 @@
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
 		            <!-- <th colspan="2">Stok Awal Kaos</th> -->
-		            <th colspan="2">Stok Awal Kemeja</th>
+		            <!-- <th colspan="2">Stok Awal Kemeja</th> -->
 		            <!-- <th colspan="2">Kirim Kaos</th> -->
 		            <th colspan="2">Kirim Kemeja</th>
 		            <!-- <th colspan="2">Setor Kaos</th> -->
@@ -366,9 +360,9 @@
 		            <th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
-		            <th>DZ</th> -->
-		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>JML</th>
+		            <th>DZ</th>-->
 		            <th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
@@ -400,12 +394,6 @@
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <!-- <td><?php echo ($p['stokawalkaosjml'])?></td>
-		              <td><?php echo $p['stokawalkaosdz']>0?number_format($p['stokawalkaosdz']):'';?></td> -->
-		              <td><?php echo ($p['stokawalkemejajml'])?></td>
-		              <td><?php echo $p['stokawalkemejadz']>0?number_format($p['stokawalkemejadz']):'';?></td>
-		              <!-- <td><?php echo ($p['kirimkaosjml'])?></td>
-		              <td><?php echo $p['kirimkaosdz']>0?number_format($p['kirimkaosdz']):'';?></td> -->
 		              <td><?php echo ($p['kirimkemejajml'])?></td>
 		              <td><?php echo $p['kirimkemejadz']>0?number_format($p['kirimkemejadz']):'';?></td>
 		              <!-- <td><?php echo ($p['setorkaosjml'])?></td>
@@ -418,10 +406,10 @@
 		              <td><?php echo $p['stokakhirkemejadz']>0?number_format($p['stokakhirkemejadz']):'';?></td>
 		            </tr>
 		            <?php 
-		        		$stokawalkaosjml+=($p['stokawalkaosjml']);
-		        		$stokawalkaosdz+=($p['stokawalkaosdz']);
-		        		$stokawalkemejajml+=($p['stokawalkemejajml']);
-		        		$stokawalkemejadz+=($p['stokawalkemejadz']);
+		        		// $stokawalkaosjml+=($p['stokawalkaosjml']);
+		        		// $stokawalkaosdz+=($p['stokawalkaosdz']);
+		        		// $stokawalkemejajml+=($p['stokawalkemejajml']);
+		        		// $stokawalkemejadz+=($p['stokawalkemejadz']);
 		        		$kirimkaosjml+=($p['kirimkaosjml']);
 		        		$kirimkaosdz+=($p['kirimkaosdz']);
 		        		$kirimkemejajml+=($p['kirimkemejajml']);
@@ -438,20 +426,10 @@
 		          <?php }?>
 		          <tr>
 		          	<td colspan="2"><b>Total</b></td>
-		          	<!-- <td><?php echo number_format($stokawalkaosjml,2)?></td>
-		          	<td><?php echo number_format($stokawalkaosdz,2)?></td> -->
-		          	<td><?php echo number_format($stokawalkemejajml,2)?></td>
-		          	<td><?php echo number_format($stokawalkemejadz,2)?></td>
-		          	<!-- <td><?php echo number_format($kirimkaosjml,2)?></td>
-		          	<td><?php echo number_format($kirimkaosdz,2)?></td> -->
 		          	<td><?php echo number_format($kirimkemejajml,2)?></td>
 		          	<td><?php echo number_format($kirimkemejadz,2)?></td>
-		          	<!-- <td><?php echo number_format($setorkaosjml,2)?></td>
-		          	<td><?php echo number_format($setorkaosdz,2)?></td> -->
 		          	<td><?php echo number_format($setorkemejajml,2)?></td>
 		          	<td><?php echo number_format($setorkemejadz,2)?></td>
-		          	<!-- <td><?php echo number_format($stokakhirkaosjml,2)?></td>
-		          	<td><?php echo number_format($stokakhirkaosdz,2)?></td> -->
 		          	<td><?php echo number_format($stokakhirkemejajml,2)?></td>
 		          	<td><?php echo number_format($stokakhirkemejadz,2)?></td>
 		          </tr>

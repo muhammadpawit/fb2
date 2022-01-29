@@ -292,4 +292,11 @@ class kirimsetorModel extends CI_Model {
 		}
 	}
 
+	public function stok($id,$jenis){
+		$sj=[];
+		$sql="SELECT COUNT(*) as jml, SUM(jumlah_pcs/12) as dz,kd.kode_po FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE idcmt='".$id."' AND mjp.idjenis='$jenis' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$sj=$this->GlobalModel->queryManualRow($sql);
+		return $sj;
+	}
+
 }
