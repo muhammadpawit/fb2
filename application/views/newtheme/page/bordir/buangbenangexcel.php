@@ -2,7 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bordir_".time().".xls");
 ?>
-
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <h3>Resume Upah Buang Benang Forboys</h3>
 <h5>Periode : <?php echo date('d',strtotime($tanggal1)) ?> - <?php echo date('d F Y ',strtotime($tanggal2)) ?></h5>
 
@@ -83,7 +88,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
 <?php } ?>            
 <table>
         <tr>
-          <td colspan="6" align="right"><i>Registered by Forboys Production System</i></td>
+          <td colspan="6" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
         </tr>
         <tr>
           <td colspan="6"></td>
