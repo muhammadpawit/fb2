@@ -39,7 +39,7 @@ class Monitoringpojeans extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['products']=[];
 		$filter=array(
-			'tanggal1',$tanggal1,
+			'tanggal1'=>$tanggal1,
 			'tanggal2'=>$tanggal2,
 			//'tampil'=>1,
 			'hapus'=>0,

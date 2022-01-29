@@ -13,10 +13,10 @@ class MonitoringpojeansModel extends CI_Model {
 		$sql=" SELECT kbp.refpo,fkg.kode_po,fkg.jumlah_piece_diterima as jmlkg,kks.id_master_cmt,kks.qty_tot_pcs,fkg.created_date as tglkg FROM konveksi_buku_potongan kbp JOIN finishing_kirim_gudang fkg ON(kbp.refpo=fkg.kode_po) JOIN kelolapo_kirim_setor kks ON(kks.kode_po=fkg.kode_po) WHERE refpo<>'' ";
 		$sql.=" AND kks.progress='KIRIM' and kks.kategori_cmt='JAHIT' ";
 		if(!empty($data['tanggal1'])){
-			$sql .= " AND DATE(created_date) BETWEEN ".$data['tanggal1'].'  AND '.$data['tanggal2'].'';
+			$sql .= " AND DATE(fkg.created_date) BETWEEN '".$data['tanggal1']."'  AND '".$data['tanggal2']."' ";
 		}
 		$sql.=" GROUP BY kbp.refpo ";
-		$sql.="ORDER BY refpo ASC ";
+		$sql.=" ORDER BY fkg.created_date DESC ";
 
 		if($data['limit']<1){
 			$sql.=" LIMIT 20";
