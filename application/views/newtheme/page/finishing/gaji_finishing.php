@@ -90,7 +90,7 @@
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][lembur]" value="lembur"></td>
 							<td>Lembur (total)</td>
-							<td align="right"><input style="text-align: right;" type="number" name="products[<?php echo $i?>][lemburs]" value="0" class="form-control"></td>
+							<td align="right"><input style="text-align: right;" type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo $h['lembur']?>" class="form-control"></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][insentif]" value="insentif"></td>

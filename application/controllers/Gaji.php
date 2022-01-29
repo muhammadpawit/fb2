@@ -211,8 +211,20 @@ class Gaji extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['title']='Tambah Gaji Press dan QC Finishing';
+		$lembur=0;
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
-		$data['harian']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE 'QC%' OR bagian LIKE '%PRESS%' ");
+		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE 'QC%' OR bagian LIKE '%PRESS%' ");
+		foreach($results as $r){
+			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['harian'][]=array(
+				'id'=>$r['id'],
+				'nama'=>$r['nama'],
+				'gaji'=>$r['gaji'],
+				'bagian'=>$r['bagian'],
+				'lembur'=>!empty($lembur)?$lembur['total']:0,
+			);
+		}
+		//pre($data['harian']);
 		$data['action']=BASEURL.'Gaji/pressqcsave';
 		$data['page']=$this->page.'finishing/gaji_finishing';
 		$this->load->view($this->page.'main',$data);
@@ -221,7 +233,7 @@ class Gaji extends CI_Controller {
 	public function pressqcsave(){
 		$data=$this->input->post();
 		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'PRESSQC'));
-		//pre($cek);
+		//pre($data);
 		if(!empty($cek)){
 			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
 			redirect(BASEURL.'Finishing/gajifinishing');	
