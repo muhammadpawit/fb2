@@ -493,28 +493,37 @@ class Pembayaran extends CI_Controller {
 				'tanggal'=>date('Y-m-d'),
 				'periode'=>$data['periode'],
 				'timpotong'=>$data['tim'],
-				'total'=>$data['total'],
-				'saving'=>$data['saving'],
-				'nominal'=>$data['nominal'],
+				// 'total'=>$data['total'],
+				// 'saving'=>$data['saving'],
+				// 'nominal'=>$data['nominal'],
+				'total'=>0,
+				'saving'=>0,
+				'nominal'=>0,
 				'keterangan'=>'Gaji tim potong periode '.$data['periode'],
 				'hapus'=>0,
 			);
 			$this->db->insert('gaji_timpotong',$insert);
 			$id=$this->db->insert_id();
+			$total=0;
+			$saving=0;
 			foreach($data['products'] as $p){
+				$total+=($p['harga']*$p['pcs']*$p['perkalian']);
 				$detail=array(
 					'idgaji'=>$id,
 					'tanggal'=>date('Y-m-d',strtotime($p['tanggal'])),
 					'kode_po'=>$p['kode_po'],
 					'jml_dz'=>$p['lusin'],
 					'jml_pcs'=>$p['pcs'],
-					'harga'=>$p['harga'],
-					'total'=>($p['total']),
+					'harga'=>($p['perkalian']*$p['harga']),
+					//'total'=>($p['total']),
+					'total'=>($p['perkalian']*$p['harga']*$p['pcs']),
 					'keterangan'=>null,
 					'hapus'=>0
 				);
 				$this->db->insert('gaji_timpotong_detail',$detail);
 			}
+			$saving=0.05*$total;
+			$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving)),array('id'=>$id));
 			$this->session->set_flashdata('msg','Data berhasil ditambah');
 			redirect(BASEURL.'Pembayaran/timpotong');
 		}else{

@@ -56,6 +56,7 @@
 					<th>Nama PO</th>
 					<th>JML PO (Dz)</th>
 					<th>JML PO (Pcs)</th>
+					<th>Pembayaran %</th>
 					<th>Harga/Pcs</th>
 					<th>Total Pendapatan</th>
 					<th>Keterangan</th>
@@ -78,6 +79,12 @@
 						<td><?php echo $p['kode_po']?></td>
 						<td><?php echo $p['lusin']?></td>
 						<td><?php echo $p['pcs']?></td>
+						<td>
+							<select name="products[<?php echo $p['no']?>][perkalian]">
+								<option value="1">100%</option>
+								<option value="0.5">50%</option>
+							</select>
+						</td>
 						<td><?php echo $p['harga']?></td>
 						<td><?php echo $p['total']?></td>
 						<td></td>
