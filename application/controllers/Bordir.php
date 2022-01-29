@@ -184,7 +184,8 @@ class Bordir extends CI_Controller {
 			$data['bonusmalam']=!empty($bonusmalam)?$bonusmalam:0;
 			//$data['umsiang']=$umsiang;
 			$data['umsiang']=0;
-			$data['ummalam']=!empty($ummalam)?21000:0;
+			//$data['ummalam']=!empty($ummalam)?21000:0;
+			$data['ummalam']=21000;
 		}
 		$data['kembali']=BASEURL.'Bordir/gajioperator';
 		$data['excel']=BASEURL.'Bordir/operatorbordirdetail/'.$id.'?&excel=1';
