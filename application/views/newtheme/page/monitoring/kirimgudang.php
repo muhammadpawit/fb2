@@ -48,7 +48,7 @@
 	                    <td><?php echo $nom++?></td>
 	                    <td><?php echo $r['nama']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
-	                    <td><?php echo number_format($r['dz'])?></td>
+	                    <td><?php echo number_format($r['dz'],2)?></td>
 	                    <td><?php echo number_format($r['pcs'])?></td>
 	                    <td><?php echo number_format($r['total'])?></td>
 	                </tr>
@@ -67,7 +67,7 @@
                     <td><?php echo $nom++?></td>
                     <td><?php echo $r['type']?></td>
                     <td><?php echo number_format($r['po'])?></td>
-                    <td><?php echo number_format($r['dz'])?></td>
+                    <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
                     <td><?php echo number_format($r['total'])?></td>
                 </tr>
@@ -81,7 +81,7 @@
                 <tr>
                     <td colspan="2"><b>Total</b></td>
                     <td><b><?php echo number_format($adjpo+$po)?></b></td>
-                    <td><b><?php echo number_format($adjdz+$dz)?></b></td>
+                    <td><b><?php echo number_format($adjdz+$dz,2)?></b></td>
                     <td><b><?php echo number_format($adjpcs+$pcs)?></b></td>
                     <td><b><?php echo number_format($adjtotal+$total)?></b></td>
                 </tr>
