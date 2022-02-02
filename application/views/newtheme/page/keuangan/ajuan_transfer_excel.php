@@ -2,6 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Ajuan_transfer_".time().".xls");
 ?>		
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 		<table>
 			<tr>
 				<td colspan="11" align="center"><h1>Ajuan Transfer</h1></td>
@@ -80,7 +86,7 @@ header("Content-Disposition: attachment; filename=Ajuan_transfer_".time().".xls"
 
                                                 <br>
 
-                                                ( Muchlas Muchtar)
+                                                ( Muchlas )
 
                                             </td>
                                              <td height="100" align="center">
@@ -105,10 +111,10 @@ header("Content-Disposition: attachment; filename=Ajuan_transfer_".time().".xls"
 				</td>
 			</tr>
 			<tr>
-          	<td colspan="10"></td>
+          		<td colspan="10"></td>
 	        </tr>
 	        <tr>
-	          <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
+	          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
 	        </tr>
 		</table>
 		

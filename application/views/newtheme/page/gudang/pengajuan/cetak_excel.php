@@ -8,6 +8,12 @@
 
 ?>
 <style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
+<style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
   .registered {
     font-family: 'Baskervville', serif;
@@ -137,13 +143,6 @@
                                             <?php } ?>
                                         </tr>
                                     </tbody>
-                                    <tfoot>
-                                        <td colspan="9"></td>
-                                        </tr>
-                                        <tr>
-                                          <td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
-                                        </tr>
-                                    </tfoot>
                                 </table>   
 <br>                                       
 <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
@@ -198,7 +197,7 @@
 
                                                 <br>
 
-                                                ( Muchlas Muchtar)
+                                                ( Muchlas )
 
                                             </td>
                                              <td height="100" align="center">
@@ -227,11 +226,16 @@
 
                                                 <br>
 
-                                                ( <?php echo strtoupper($adminkeu)?> )
+                                                ( Dwi )
 
                                             </td>
 
                                         </tr>
 
                                         <tr>
+                                            <td colspan="10"></td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+                                        </tr>
                                     </table>

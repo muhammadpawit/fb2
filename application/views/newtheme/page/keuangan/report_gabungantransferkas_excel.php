@@ -2,7 +2,18 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
 ?>
-
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
+<table>
+      <tr>
+        <td colspan="14" align="center"><h1>Laporan Gabungan Transfer dan Kas</h1></td>
+      </tr>
+    </table>
+    <br>
 <table border="1" style="width: 100%;border-collapse: collapse;">
 <thead>
         <tr style="text-align: center!important;" valign="top">
@@ -79,11 +90,68 @@ header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
           <?php } ?>
         <?php } ?>
       <?php } ?>
-        <tr>
-          <td colspan="14"></td>
-        </tr>
-        <tr>
-          <td colspan="14" align="right"><b>Registered by Forboys Production System</b></td>
-        </tr>
       </tbody>
+    </table>
+    <br>
+    <table>
+      <tr>
+        <td colspan="12"></td>
+        <td>
+          <table border="1" style="width: 100%;border-collapse: collapse;">
+
+                                        <tr>
+                                            <th>Menyetujui</th>
+                                            <th>Dibuat oleh:</th>
+
+                                        </tr>
+
+                                        <tr align="center">
+                                            <td><b>SPV</b></td>
+                                            <td><b>ADM Keuangan</b></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Muchlas)
+
+                                            </td>
+                                             <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Dinda )
+
+                                            </td>
+
+                                        </tr>
+
+                                    </table>
+        </td>
+      </tr>
+      <tr>
+            <td colspan="13"></td>
+          </tr>
+          <tr>
+            <td colspan="13" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+          </tr>
     </table>
