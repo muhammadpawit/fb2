@@ -532,6 +532,100 @@ class Pembayaran extends CI_Controller {
 		}
 	}
 
+	public function cmtjahit_allpo(){
+		$data=array();
+		$data['title']='Pembayaran CMT Jahit';
+		$data['tambah']=BASEURL.'Pembayaran/cmtjahittambah';
+		$data['products']=array();
+		$user=user();
+		$menghapus=0;
+		if(isset($user['id_user'])){
+			$menghapus=akses($user['id_user'],2);
+		}
+		$data['menghapus']=akseshapus();
+		$get=$this->input->get();
+		$results=array();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			//$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+			$tanggal1=null;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=null;
+		}
+
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+
+		if(isset($get['kode_po'])){
+			$po=$get['kode_po'];
+		}else{
+			$po=null;
+		}
+
+		$sql="SELECT pcd.*,pc.idcmt,pc.tanggal FROM pembayaran_cmt_detail pcd JOIN pembayaran_cmt pc ON(pc.id=pcd.idpembayaran) WHERE pc.hapus=0 ";
+		if(!empty($tanggal1)){
+			$sql.=" AND date(pc.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";	
+		}
+		
+		if(!empty($po)){
+			$sql.=" AND pcd.kode_po='".$po."' ";
+		}
+
+
+
+		if(!empty($cmt)){
+			$sql.=" AND pc.idcmt='".$cmt."' ";
+		}
+
+		$sql.=" ORDER BY pc.id DESC";
+
+		if(!empty($cmt) OR !empty($tanggal1)){
+			
+		}else{
+			$sql.=" LIMIT 20 ";
+		}
+
+		$results=array();
+		$results=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		$jmlsetor=0;
+		$jmlkirim=0;
+		foreach($results as $result){
+			$jmlkirim=$this->GlobalModel->QueryManualRow("SELECT SUM(jk.jumlah_pcs) as total FROM kirimcmt_detail jk JOIN pembayaran_cmt_detail pcd ON(pcd.kode_po=jk.kode_po) WHERE idpembayaran='".$result['id']."' and jk.hapus=0 ");
+			$jmlsetor=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_pcs) as total FROM pembayaran_cmt_detail WHERE idpembayaran='".$result['id']."' ");
+			$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			$data['products'][]=array(
+				'no'=>$no++,
+				'id'=>$result['id'],
+				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'nama'=>strtolower($cmt['cmt_name']),
+				'kode_po'=>$result['kode_po'],
+				'kirim'=>$result['kirimpcs'],
+				'harga'=>$result['harga'],
+				'total'=>$result['total'],
+				'keterangan'=>$result['keterangan'],
+			);
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['cmtf']=$cmt;
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'pembayaran/cmtjahit_list_excel',$data);
+		}else{
+			$data['page']=$this->page.'pembayaran/cmtjahit_list_allpo';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
 	public function cmtjahit(){
 		$data=array();
 		$data['title']='Pembayaran CMT Jahit';

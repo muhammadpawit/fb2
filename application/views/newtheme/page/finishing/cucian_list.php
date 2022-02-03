@@ -37,7 +37,8 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Tanggal</th>
+								<th>Tanggal Masuk</th>
+								<th>Tanggal Keluar</th>
 								<th>Nama Karyawan</th>
 								<th>Nama PO</th>
 								<th>Jml pcs</th>
@@ -52,6 +53,7 @@
 							<tr>
 								<td><?php echo $p['no']?></td>
 								<td><?php echo ($p['tanggal']) ?></td>
+								<td><?php echo ($p['tglkeluar']) ?></td>
 								<td><?php echo strtolower($p['idkaryawan']) ?></td>
 								<td><?php echo ($p['nama_po']) ?></td>
 								<td><?php echo $p['jumlah_pcs']?></td>

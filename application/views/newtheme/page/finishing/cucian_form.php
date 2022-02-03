@@ -2,8 +2,12 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label>Tanggal</label>
-                                    <input type="text" name="creted_date" class="form-control datepicker">
+                                    <label>Tanggal Masuk Cucian</label>
+                                    <input type="text" name="creted_date" class="form-control datepicker" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tanggal Keluar Cucian</label>
+                                    <input type="text" name="tglkeluar" class="form-control datepicker" required="required">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Karyawan</label>
