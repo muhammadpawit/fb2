@@ -1051,7 +1051,7 @@ class Masterdata extends CI_Controller {
 
 	public function edit($id){
 		$data['title']='Edit Master Persediaan';
-		$data['batal']=BASEURL.'Masterdata/persediaan';
+		$data['batal']=BASEURL.'Masterdata/persediaanalat';
 		$data['action']=BASEURL.'Masterdata/editsave';
 		$data['page']=$this->page.'masterdata/persediaan_edit';	
 		$data['prod']=$this->GlobalModel->getDataRow('product',array('product_id'=>$id));
@@ -1072,10 +1072,10 @@ class Masterdata extends CI_Controller {
 	        $this->db->update('product',array('foto'=>$fileName),array('product_id'=>$id));
 		}
 		
-		$this->db->update('product',array('nama'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis'],'kategori'=>$post['kategori']),array('product_id'=>$id));
+		$this->db->update('product',array('minstok'=>$post['minstok'],'nama'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis'],'kategori'=>$post['kategori']),array('product_id'=>$id));
 		$this->db->update('gudang_persediaan_item',array('nama_item'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis']),array('id_persediaan'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'masterdata/persediaan');
+		redirect(BASEURL.'masterdata/persediaanalat');
 	}
 
 	public function hapus($id){

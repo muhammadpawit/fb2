@@ -36,6 +36,12 @@
 				</select>
 			</div>
 			<div class="form-group">
+				<label>Minimal Stok</label>
+				<h3><input type="text" name="minstok" value="<?php echo $prod['minstok']?>"></h3>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
                               <label>Supplier</label>
                               <select name="supplier" class="form-control select2bs4" data-live-search="true">
                                 <option value="0">Pilih</option>
@@ -53,9 +59,21 @@
 				<input type="file" name="gambarPO1" class="form-control">
 			</div>
 			<div class="form-group">
+				<label>Stok Saat ini</label>
+				<h3><?php echo $prod['quantity']?></h3>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
 				<input type="hidden" name="product_id" value="<?php echo $prod['product_id']?>">
-				<input type="submit" class="btn btn-sm btn-info" value="Simpan">
-				<a href="<?php echo $batal?>" class="btn btn-sm btn-danger">Batal</a>
+				<input type="submit" class="btn btn-sm btn-info full" value="Simpan">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<a href="<?php echo $batal?>" class="btn btn-sm btn-danger full">Batal</a>
 			</div>
 		</div>
 	</div>
