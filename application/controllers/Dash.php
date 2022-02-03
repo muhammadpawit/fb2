@@ -486,5 +486,10 @@ class Dash extends CI_Controller {
 		$this->load->view($this->page.'main',$data);		
 	}
 
+	public function welcome(){
+		$data['title']='welcome';
+		$this->load->view($this->page.'main',$data);
+	}
+
 
 }

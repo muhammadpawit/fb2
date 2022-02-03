@@ -47,7 +47,7 @@ class Login extends CI_Controller {
 					}
 				}
 				//redirect(BASEURL.'dashboard');
-				redirect(BASEURL.'dash');
+				redirect(BASEURL.'dash/welcome');
 			} else {
 			$this->session->set_flashdata('gagal','Username atau password salah');
 			redirect(BASEURL.'login');
