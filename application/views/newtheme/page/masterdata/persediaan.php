@@ -177,6 +177,7 @@
                   <th>Nama Barang</th>
                   <th>Satuan</th>
                   <th>Quantity</th>
+                  <th>Minstok</th>
                   <th>Harga</th>
                   <th></th>
                 </tr>
@@ -197,6 +198,7 @@
                           <td><?php echo $p['nama']?></td>
                           <td><?php echo $p['ukuran_item'].' '.$p['satuan_ukuran_item']?></td>
                           <td><?php echo $p['quantity'].' '.$p['satuanqty']?></td>
+                          <td align="right"><?php echo $p['minstok']?></td>
                           <td align="right"><?php echo $p['price']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
