@@ -1317,9 +1317,10 @@ class Bordir extends CI_Controller {
 		foreach ($post['bagianBuang'] as $key => $bagianBuang) {
 			$dataInsert = array(
 				'nama_pekerja'	=> $post['namaPekerja'],
-				'kode_po'	=>	$post['kode_po'], 
-				//'kode_po'	=>	$post['namaPo'][$key], 
-				'bagian_buang_benang'	=>	$bagianBuang, 
+				//'kode_po'	=>	$post['kode_po'], 
+				'kode_po'	=>	$post['namaPO'][$key], 
+				//'bagian_buang_benang'	=>	$bagianBuang, 
+				'bagian_buang_benang'	=>	$post['bagianBuang'][$key],
 				'size_buang_benang'	=>	$post['size'][$key], 
 				'qty_buang_benang'	=>	$post['qty'][$key], 
 				'harga_buang_benan'	=>	$post['harga'][$key], 

@@ -105,22 +105,7 @@
 
                             <div class="col-md-3">
                                 <label>Tanggal</label>
-                                <input type="text" name="tgl" class="form-control datepicker">
-                            </div>
-                            <div class="form-group col-md-3">
-
-                                <label>Nama PO</label>
-
-                                <select class="form-control select2bs4" name="kode_po" data-live-search="true">
-                                    <option value="">Pilih</option>
-                                    <?php foreach ($po as $key => $per): ?>
-
-                                        <option value="<?php echo $per['kode_po'] ?>"><?php echo $per['kode_po'] ?></option>
-
-                                    <?php endforeach ?>
-
-                                </select>
-
+                                <input type="text" name="tgl" class="form-control datepicker" value="<?php echo date('Y-m-d');?>">
                             </div>
                             <div class="col-12">
 
@@ -128,8 +113,8 @@
 
                                     <tr>
 
-                                       <!--  <th>Tanggal</th>
-                                        <th>Nama PO</th> -->
+                                        <!-- <th>Tanggal</th> -->
+                                        <th>Nama PO</th>
 
                                         <th>Bagian Buang</th>
 
@@ -208,7 +193,7 @@ $(document).on('click', '.addbbbordir', function(){
 
     //html += '<td><input type="date" class="form-control" name="tanggal[]" step=0.01 required></td>';
 
-    //html += '<td width="200"><select name="namaPO[]" class="form-control select2bs4" data-live-search="true"><?php foreach($po as $p){?><option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option><?php } ?></select></td>';
+    html += '<td width="200"><select name="namaPO[]" class="form-control select2bs4" data-live-search="true"><?php foreach($po as $p){?><option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option><?php } ?></select></td>';
 
     html += '<td><input type="text" class="form-control selectpicker" name="bagianBuang[]" required></td>';
 
