@@ -30,13 +30,13 @@ class MonitoringpojeansModel extends CI_Model {
 		foreach($data as $d){
 			//$kirim=$this->GlobalModel->QueryManualRow("SELECT FROM kelolapo_kirim_setor WHERE kode");
 			$cmt=$this->GlobalModel->QueryManualRow("SELECT * FROM master_cmt WHERE id_cmt='".$d['id_master_cmt']."' ");
-			$packing=$this->GlobalModel->QueryManualRow("SELECT creted_date,SUM(jumlah_dz/12) as pcs FROM packing WHERE nama_po='".$d['refpo']."' ");
+			$packing=$this->GlobalModel->QueryManualRow("SELECT create_date,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE kode_po='".$d['refpo']."' AND progress='SETOR' and kategori_cmt='JAHIT' AND id_master_cmt='".$d['id_master_cmt']."' ");
 			$hasil[]=array(
 				'id'=>null,
 				'namacmt'=>$cmt['cmt_name'],
 				'kode_po'=>$d['refpo'],
 				'kirim'=>$d['qty_tot_pcs'],
-				'tglpacking'=>!empty($packing)?$packing['creted_date']:'',
+				'tglpacking'=>!empty($packing)?date('d-m-Y',strtotime($packing['create_date'])):'',
 				'pcspacking'=>!empty($packing)?$packing['pcs']:'',
 				'tglkg'=>date('d-m-Y',strtotime($d['tglkg'])),
 				'jmlkg'=>$d['jmlkg'],
