@@ -849,6 +849,9 @@ class Gudang extends CI_Controller {
 		}
 		$sql='SELECT * FROM penerimaan_item WHERE hapus=0 ';
 
+		if(!empty($tanggal1)){
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
 		if(!empty($cat)){
 			$sql.=" AND jenis='".$cat."' ";
 		}

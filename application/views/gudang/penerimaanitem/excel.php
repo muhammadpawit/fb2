@@ -41,10 +41,10 @@ header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
                   <tr>
                     <td></td>
                     <td><?php echo strtoupper($p['nama'])?></td>
-                    <td><?php echo $p['ukuran']?> <?php echo $p['satuanukuran']?></td>
-                    <td><?php echo $p['jumlah']?> <?php echo $p['satuanJml']?></td>
-                    <td>harga <span style="float: right;"><?php echo ($p['harga'])?></span> </td>
-                    <td>Total <span style="float: right;">
+                    <td><?php echo $p['ukuran']?></td>
+                    <td><?php echo $p['jumlah']?></td>
+                    <td><span style="float: right;"><?php echo ($p['harga'])?></span> </td>
+                    <td><span style="float: right;">
                       <?php if($i['jenis']==1){?>
                         <?php echo ($p['ukuran']*$p['harga'])?>
                       <?php }else{ ?>
