@@ -30,7 +30,9 @@ class RekapbarangmasukModel extends CI_Model {
 		}
 		$id=implode(",",$hasil);
 		$details=[];
-		$details=$this->GlobalModel->QueryManual("SELECT nama, SUM(jumlah) as qty, harga FROM penerimaan_item_detail WHERE penerimaan_item_id IN(".$id.") GROUP BY id_persediaan");
+		if(!empty($id)){
+			$details=$this->GlobalModel->QueryManual("SELECT nama, SUM(jumlah) as qty, harga FROM penerimaan_item_detail WHERE penerimaan_item_id IN(".$id.") GROUP BY id_persediaan");
+		}
 		return $details;
 	}
 
