@@ -2,6 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
 ?>            
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
             <table border="1" cellpadding="5" style="border-collapse: collapse;border-width: 3px;width: 100%">
               <thead>
                 <tr>
@@ -56,4 +62,9 @@ header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
                   <?php } ?>
                 <?php } ?>
               </tbody>
+              <tfoot>
+                <tr>
+                      <td colspan="6" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+                    </tr>
+              </tfoot>
             </table>
