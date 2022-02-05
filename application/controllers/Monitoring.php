@@ -233,6 +233,17 @@ class Monitoring extends CI_Controller {
 			);
 		}
 
+		// adjustment
+		$this->load->model('AdjustModel');
+		$adjustment=[];
+		$filter_adj=array(
+			'tampil'=>1,
+			'hapus'=>0,
+		);
+		$adjustment=$this->AdjustModel->adjust_kirimsetorcmt($filter_adj);
+		$data['adjustment'] = $adjustment;
+
+
 		$data['page']=$this->page.'kirimsetorcmt';
 		$this->load->view($this->layout.'main',$data);
 	}

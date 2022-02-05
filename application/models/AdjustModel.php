@@ -138,14 +138,16 @@ class AdjustModel extends CI_Model {
 		foreach($data as $d){
 			$hasil[]=array(
 				'id'=>$d['id'],
-				'tanggal'=>date('d-m-Y',$d['tanggal']),
+				'tanggal'=>date('d-m-Y',strtotime($d['tanggal'])),
 				'nama'=>$d['nama_po'],
-				'kirim_po'=>$d['jmlkirim_po'],
-				'kirim_dz'=>$d['jmlkirim_dz'],
-				'kirim_pcs'=>$d['jmlkirim_pcs'],
-				'setor_po'=>$d['jmlsetor_po'],
-				'setor_dz'=>$d['jmlsetor_dz'],
-				'setor_pcs'=>$d['jmlsetor_pcs'],
+				'kirim_po'=>$d['kirim_po'],
+				'kirim_dz'=>$d['kirim_dz'],
+				'kirim_pcs'=>$d['kirim_pcs'],
+				'total'=>null,
+				'setor_po'=>$d['setor_po'],
+				'setor_dz'=>$d['setor_dz'],
+				'setor_pcs'=>$d['setor_pcs'],
+				'tampil'=>$d['tampil'],
 			);
 		}
 		return $hasil;
@@ -176,7 +178,7 @@ class AdjustModel extends CI_Model {
 	}
 
 	public function kirimsetor_hide($id){
-		$this->db->update('adjust_kirimsetorcmt',array('hide'=>2),array('id'=>$id));
+		$this->db->update('adjust_kirimsetorcmt',array('tampil'=>2),array('id'=>$id));
 	}
 
 	public function kirimsetor_hapus($id){

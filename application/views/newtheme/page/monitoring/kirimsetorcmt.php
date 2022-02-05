@@ -48,10 +48,33 @@
                     </tr>
                 </thead>
             <tbody>
-                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
+            	<?php $adjkirim=0;$adjdz=0;$adjpcs=0;$spo=0;$sdz=0;$spcs=0; ?>
+                <?php $nom=1;$jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
+                <?php foreach($adjustment as $r){?>
+            		<tr>
+	                    <td><?php echo $nom++?></td>
+	                    <td><?php echo $r['nama']?></td>
+	                    <td><?php echo number_format($r['kirim_po'])?></td>
+	                    <td><?php echo number_format($r['kirim_dz'])?></td>
+	                    <td><?php echo number_format($r['kirim_pcs'])?></td>
+	                    <td><?php echo number_format($r['setor_po'])?></td>
+	                    <td><?php echo number_format($r['setor_dz'])?></td>
+	                    <td><?php echo number_format($r['setor_pcs'])?></td>
+	                </tr>
+	                <?php
+
+	                	$adjkirim+=($r['kirim_po']);
+	                	$adjdz+=($r['kirim_dz']);
+	                	$adjpcs+=($r['kirim_pcs']);
+	                	$spo+=($r['setor_po']);
+	                	$sdz+=($r['setor_dz']);
+	                	$spcs+=($r['setor_pcs']);
+	                ?>
+                <?php } ?>
+
                 <?php foreach($rekap as $r){?>
                 <tr>
-                    <td><?php echo $r['no']?></td>
+                    <td><?php echo $nom++?></td>
                     <td><?php echo $r['type']?></td>
                     <td><?php echo number_format($r['countkirim'])?></td>
                     <td><?php echo number_format($r['qtykirimdz'])?></td>
@@ -71,12 +94,12 @@
                 <?php } ?>
                 <tr>
                     <td colspan="2"><b>Total</b></td>
-                    <td><b><?php echo number_format($jmlpo1)?></b></td>
-                    <td><b><?php echo number_format($dz1)?></b></td>
-                    <td><b><?php echo number_format($pcs1)?></b></td>
-                    <td><b><?php echo number_format($jmlpo2)?></b></td>
-                    <td><b><?php echo number_format($dz2)?></b></td>
-                    <td><b><?php echo number_format($pcs2)?></b></td>
+                    <td><b><?php echo number_format($jmlpo1+$adjkirim)?></b></td>
+                    <td><b><?php echo number_format($dz1+$adjdz)?></b></td>
+                    <td><b><?php echo number_format($pcs1+$adjpcs)?></b></td>
+                    <td><b><?php echo number_format($jmlpo2+$spo)?></b></td>
+                    <td><b><?php echo number_format($dz2+$sdz)?></b></td>
+                    <td><b><?php echo number_format($pcs2+$spcs)?></b></td>
                 </tr>
             </tbody>
         </table>
