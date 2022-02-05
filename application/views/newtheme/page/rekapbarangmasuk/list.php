@@ -6,7 +6,6 @@
 				<option value="*">Pilih</option>
 				<?php foreach(bulan() as $b=>$val){?>
 					<option value="<?php echo $b ?>" <?php echo $b==$bulan?'selected':'';?>><?php echo $val ?></option>
-				}
 				<?php } ?>
 			</select>			
 		</div>
@@ -37,6 +36,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filter()"><i class="fa fa-search"></i></button>
+			<button class="btn btn-info btn-sm" onclick="excel()">Excel</button>
 		</div>
 	</div>
 </div>
@@ -61,7 +61,7 @@
 							<td><?php echo $no++?></td>
 							<td><?php echo $p['nama']?></td>
 							<td><?php echo number_format($p['harga'])?></td>
-							<td><?php echo $p['qty']?></td>
+							<td><?php echo number_format($p['qty'])?></td>
 							<td><?php echo number_format($p['qty']*$p['harga'])?></td>
 						</tr>
 					<?php
@@ -85,6 +85,37 @@
 <script type="text/javascript">
 	function filter(){
 	    url='?';
+	    
+	    var bulan = $('select[name=\'bulan\']').val();
+	    if (bulan != '*') {
+	      url += '&bulan=' + encodeURIComponent(bulan);
+	    }else{
+	    	alert("Bulan harus dipilih");
+	    	return false
+	    }
+
+	    var tahun = $('select[name=\'tahun\']').val();
+	    if (tahun != '*') {
+	      url += '&tahun=' + encodeURIComponent(tahun);
+	    }else{
+	    	alert("Tahun harus dipilih");
+	    	return false
+	    }
+
+	    var supplier = $('select[name=\'supplier\']').val();
+	    if (supplier != '*') {
+	      url += '&supplier=' + encodeURIComponent(supplier);
+	    }else{
+	    	alert("Supplier harus dipilih");
+	    	return false
+	    }
+
+
+	    location =url;
+	  }
+
+	  function excel(){
+	    url='?&excel=1';
 	    
 	    var bulan = $('select[name=\'bulan\']').val();
 	    if (bulan != '*') {

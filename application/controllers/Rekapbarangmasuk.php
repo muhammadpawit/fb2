@@ -47,7 +47,11 @@ class Rekapbarangmasuk extends CI_Controller {
 		$data['prods']=[];
 		$data['prods']=$this->RekapbarangmasukModel->getdata($filter);
 		//pre($data['prods']);
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		if(!isset($get['excel'])){
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}else{
+			$this->load->view($this->page.'excel',$data);
+		}
 	}
 }
