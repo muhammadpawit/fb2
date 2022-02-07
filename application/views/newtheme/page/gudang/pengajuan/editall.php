@@ -267,7 +267,7 @@
 
                                                 <br>
 
-                                                ( Muchlas Muchtar)
+                                                ( Muchlas)
 
                                             </td>
 
