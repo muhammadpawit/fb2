@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-12">
-              <?php if(!empty($acc['tanggal'])){?>
+<!--               <?php if(!empty($acc['tanggal'])){?>
                 <?php echo hari(date('l',strtotime($acc['tanggal'])))?>,&nbsp;<?php echo date('d F Y',strtotime($acc['tanggal']))?>
               <?php }else{ ?>
                   <label class="alert alert-danger">Kasbon belum di acc</label>
-              <?php } ?>
+              <?php } ?> -->
   </div>
 </div>
 <div class="row">
