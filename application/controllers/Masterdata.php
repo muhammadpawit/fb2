@@ -262,7 +262,7 @@ class Masterdata extends CI_Controller {
 
 			$insert=array(
 				'nama'=>$data['nama'],
-				//'url'=>$data['url'],
+				'url'=>$data['url'],
 				'parent'=>$data['parent_id']==0?1:0,
 				'parent_id'=>$pid,
 				'sub1'=>$s1,
