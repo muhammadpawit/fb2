@@ -635,7 +635,8 @@ class Kelolapo extends CI_Controller {
 		$bahans=array();
 		//$bahans=$this->GlobalModel->getData("gudang_bahan_keluar",array('kode_po'=>$kodepo,'hapus'=>0,'bahan_kategori'=>'UTAMA','bahan_kategori'=>'VARIASI'));
 		//pre($post);
-		$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE 'UTAMA%' OR bahan_kategori LIKE 'VARIASI%' ");
+		//$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE 'UTAMA%' OR bahan_kategori LIKE 'VARIASI%' ");
+		$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE '%UTAMA%' ");
 		foreach($bahans as $b){
 			echo "<tr>";
 			echo "<td><input type='hidden' value='-' class='form-control' name='bidangBahan[]'></td>";
