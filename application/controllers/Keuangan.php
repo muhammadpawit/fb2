@@ -678,7 +678,7 @@ class Keuangan extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -748,9 +748,9 @@ class Keuangan extends CI_Controller {
 					'idkaryawan'=>$p['idkaryawan'],
 					'bagian'=>$p['bagian'],
 					'nominal_request'=>$p['jumlah'],
-					'nominal_acc'=>0,
-					'status'=>0,
-					'hapus'=>1,
+					'nominal_acc'=>$p['jumlah'],
+					'status'=>1,
+					'hapus'=>0,
 				);
 				$this->db->insert('kasbon',$insert);
 			}
