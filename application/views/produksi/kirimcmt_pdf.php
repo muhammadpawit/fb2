@@ -17,13 +17,20 @@
 <div class="kiri" style="width: 500px;border:0px solid green;right:0px;position: absolute;padding-top: 50px">
 	<?php $hari=date('l',strtotime($kirim['tanggal']));?>
 	<div style="border:1px solid black; border-collapse: collapse;display: inline-block;width:70%;float:right;padding:5px;">
-		<div class="hs">Kepada Yth&nbsp;&nbsp;<?php echo strtoupper($cmt['cmt_name'])?></div>
-		<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo ucfirst($cmt['alamat'])?></div>
-		<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cmt['telephone']?></div>
-		<div class="hs">Hari / Tanggal  <?php echo hari($hari).' , '.date('d F Y',strtotime($kirim['tanggal']))?></div>
+		<div class="hs">Kepada Yth&nbsp;&nbsp;: <?php echo strtoupper($cmt['cmt_name'])?></div>
+		<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo ucfirst($cmt['alamat'])?></div>
+		<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $cmt['telephone']?></div>
+		<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($kirim['tanggal']))?></div>
 	</div>
 </div>
 <div style="clear: both;"></div>
+<table style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
+									<thead>
+										<tr>
+											<th class="center"><h3>Surat Jalan Kirim PO</h3></th>
+										</tr>
+									</thead>
+</table>
 <table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
 									<thead>
 										<tr>
