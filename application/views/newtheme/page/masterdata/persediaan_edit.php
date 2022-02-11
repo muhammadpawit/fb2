@@ -3,7 +3,7 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label>Nama Produk</label>
-				<h3><input type="text" name="nama" value="<?php echo $prod['nama']?>"></h3>
+				<input type="text" name="nama" value="<?php echo $prod['nama']?>" class="form-control">
 			</div>
 			<div class="form-group">
 				<label>Jenis Barang</label>
@@ -37,7 +37,16 @@
 			</div>
 			<div class="form-group">
 				<label>Minimal Stok</label>
-				<h3><input type="text" name="minstok" value="<?php echo $prod['minstok']?>"></h3>
+				<input type="text" name="minstok" value="<?php echo $prod['minstok']?>" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Satuan</label>
+				<select name="satuan" class="form-control select2bs4" data-live-search="true">
+                                <option value="">Pilih</option>
+                                <?php foreach(table('master_satuan_barang') as $st){?>
+                                  <option value="<?php echo $st['kode_satuan_barang'] ?>" <?php echo $st['kode_satuan_barang']==$prod['satuan']?'selected':''; ?>><?php echo $st['kode_satuan_barang']?></option>
+                                <?php } ?>
+                </select>
 			</div>
 		</div>
 		<div class="col-md-6">

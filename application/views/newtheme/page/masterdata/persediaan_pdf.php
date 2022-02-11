@@ -11,6 +11,11 @@
   h1{
     text-align: center;
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
 </style>
           <h1>Laporan Persediaan </h1>
             <table cellpadding="3" border="1">
@@ -46,4 +51,9 @@
                         <?php } ?>
                 <?php }?>
               </tbody>
+              <tfoot>
+                <tr>
+                      <td colspan="8" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+                    </tr>
+              </tfoot>
             </table>

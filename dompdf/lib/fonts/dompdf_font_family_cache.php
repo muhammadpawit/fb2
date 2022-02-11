@@ -90,4 +90,7 @@
     'normal' => $fontDir . '/font_awesome_5_free_normal_7cbb25361b420a867fb7fadf47fdfd8a',
     '900' => $fontDir . '/font_awesome_5_free_900_e3972eb7a6bef455926de11636791f43',
   ),
+  'baskervville' => array(
+    'italic' => $fontDir . '/baskervville_italic_a11ebe26948afce433f54006c7b8c007',
+  ),
 ) ?>

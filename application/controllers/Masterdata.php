@@ -981,6 +981,9 @@ class Masterdata extends CI_Controller {
 			$sql.=" AND kategori='".$kategori."' ";
 			$url.="&kategori=".$kategori;
 		}
+		if(isset($get['pdf']) && $kategori==1){
+			$sql.=" AND quantity >=1000 ";
+		}
 		$results = $this->GlobalModel->QueryManual($sql);
 		$satuan=0;
 		$supplier=null;
@@ -1020,7 +1023,7 @@ class Masterdata extends CI_Controller {
 				'minstok'=>$result['minstok'],
 				'satuanqty'=>$result['satuan'],
 				'color'=>$result['jenis']==4?'#ed8664':'',
-				'price'=>number_format($result['price'],2),
+				'price'=>($result['price']),
 				'action'=>$action,
 			);
 		}
@@ -1072,9 +1075,22 @@ class Masterdata extends CI_Controller {
 	        $fileName = $this->upload->data('file_name');
 	        $this->db->update('product',array('foto'=>$fileName),array('product_id'=>$id));
 		}
-		
-		$this->db->update('product',array('minstok'=>$post['minstok'],'nama'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis'],'kategori'=>$post['kategori']),array('product_id'=>$id));
-		$this->db->update('gudang_persediaan_item',array('nama_item'=>$post['nama'],'supplier'=>$post['supplier'],'jenis'=>$post['jenis']),array('id_persediaan'=>$id));
+		$u=array(
+			'minstok'=>$post['minstok'],
+			'nama'=>$post['nama'],
+			'supplier'=>$post['supplier'],
+			'jenis'=>$post['jenis'],
+			'kategori'=>$post['kategori'],
+			'satuan'=>$post['satuan'],
+		);
+		$this->db->update('product',$u,array('product_id'=>$id));
+		$ug=array(
+			'nama_item'=>$post['nama'],
+			'supplier'=>$post['supplier'],
+			'jenis'=>$post['jenis'],
+			'satuan_jumlah_item'=>$post['satuan'],
+		);
+		$this->db->update('gudang_persediaan_item',$ug,array('id_persediaan'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'masterdata/persediaanalat');
 	}

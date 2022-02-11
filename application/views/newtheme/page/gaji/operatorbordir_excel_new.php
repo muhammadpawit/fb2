@@ -1,4 +1,4 @@
-<?php
+ <?php
 $nam=$gaji['tempat']==1?'Rumah':'Cipadu'.time();
 $namafile='Laporan Gaji Operator Bordir_'.$nam;
 header("Content-type: application/vnd-ms-excel");
@@ -13,7 +13,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
 <table border="1" style="width: 100%;border-collapse: collapse;">
 	<tr>
-		<td colspan="10"><h3>Rekap Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></h3></td>
+		<td colspan="10"><h3>Laporan Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></h3></td>
 	</tr>
 </table>
 
@@ -24,7 +24,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		<td>
 			<table class="table table-bordered">
 							<tr>
-								<td colspan="2">Catatan:</td>
+								<!-- <td colspan="2">Catatan:</td> -->
 							</tr>
 							<tr>
 								<td>Mandor Pagi</td>
@@ -51,7 +51,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
-						<th colspan="4"><?php echo ucfirst($k['nama'])?></th>
+						<th colspan="4"><?php echo strtoupper($k['nama'])?></th>
 					</tr>
 					<tr>
 						<th>Hari</th>
@@ -152,7 +152,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
-						<th colspan="4"><?php echo ucfirst($k['nama'])?></th>
+						<th colspan="4"><?php echo strtoupper($k['nama'])?></th>
 					</tr>
 					<tr>
 						<th>Hari</th>
@@ -326,7 +326,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 							<tr>
-								<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
+								<td><span style="font-size: 18px;">Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></span></td>
 								<td><?php echo $allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 						</table><br>
@@ -342,8 +342,10 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<b>
 							1.Pembayaran bonus dibayar hanya 30%<br>
 							2.UM mandor terpisah dari bonus<br>
-							3.Kalau tidak ada bonus yang dihitung hanya UM saja
-
+							3.Kalau tidak ada bonus yang dihitung hanya UM saja<br>
+							4.Hari minggu pembayaran double<br>
+							5.Tanggal merah pembayaran double<br>
+							6.Rums penghitungan lama kerja dari (12 jam).
 						</b>
 					</td>
 					<td colspan="3"></td>
@@ -365,7 +367,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                         </tr>
 
                                         <tr>
-                                            <td height="100" align="center">
+                                            <td height="100" align="center" rowspan="6">
 
                                                 <br>
 
@@ -380,7 +382,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                                 ( Muchlas)
 
                                             </td>
-                                            <td height="100" align="center">
+                                            <td height="100" align="center" rowspan="6">
 
                                                 <br>
 
@@ -395,7 +397,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                                 (&nbsp;&nbsp;&nbsp;Udan&nbsp;&nbsp;&nbsp;)                                          
 
                                             </td>
-                                            <td height="100" align="center">
+                                            <td height="100" align="center" rowspan="6">
 
                                                 <br>
 
