@@ -161,7 +161,7 @@ class Setorancmt extends CI_Controller {
    					// eksekusi di table kirim
    					$this->db->query("UPDATE kirimcmt set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE id='".$p['idkirim']."' ");
    					$this->db->query("UPDATE kirimcmt_detail set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE idkirim='".$p['idkirim']."' AND kode_po='".$p['kode_po']."' ");
-   					$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
+   					$jobprice=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$p['cmtjob']));
 	   				$totalsetor+=($p['totalsetor']);
 
 	   				$totalkirim=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$p['idkirim']));

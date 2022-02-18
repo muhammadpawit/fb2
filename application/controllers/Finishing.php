@@ -1303,7 +1303,7 @@ class Finishing extends CI_Controller {
 	public function setorcmtjahit()
 	{
 		$post = $this->input->get();
-		$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'SETOR','id_master_cmt'=>$post['cmt']));
+		$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
 		echo json_encode($data);
 	}
 
