@@ -10,6 +10,13 @@
 				<select name="operator" class="form-control autooperator" required></select>
 			</div>
 			<div class="form-group">
+				<label>Tempat</label>
+				<select name="tempat" class="form-control" required>
+					<option value="1">Rumah</option>
+					<option value="2">Cipadu</option>
+				</select>
+			</div>
+			<div class="form-group">
 				<label>Jenis Potongan</label>
 				<select name="jenis_potongan" class="form-control autojenispotongan" required></select>
 			</div>

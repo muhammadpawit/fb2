@@ -118,7 +118,8 @@ class Pembayaran extends CI_Controller {
 				'pcs'=>	$r['qty_tot_pcs'],
 				'harga'=>($r['cmt_job_price']),
 				'total'=>(round(($r['qty_tot_pcs']/12)*$r['cmt_job_price'])),
-				'ket'=>$job['nama_job'],
+				'pekerjaan'=>$r['id_master_cmt_job'],
+				'ket'=>!empty($job)?$job['nama_job']:null,
 			);
 			
 		}
@@ -147,13 +148,18 @@ class Pembayaran extends CI_Controller {
 			$sewa=$ds['keluar'];
 		}
 		$data['sewa']=$sewa;
-		$data['page']=$this->page.'pembayaran/sablon_add';
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cmtf']=$cmt;
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$this->load->view($this->page.'main',$data);
+		//$this->load->view($this->page.'main',$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'pembayaran/sablon_excel',$data);
+		}else{
+			$data['page']=$this->page.'pembayaran/sablon_add';
+			$this->load->view($this->page.'main',$data);
+		}
 	}
 
 	public function loadk(){

@@ -258,17 +258,18 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 	</tr>
 </table>
 <?php $pots=0;?>
+<?php $semua=0;$semuatotalbonus=0;$totalum=0;$absensi=0;$pinjaman=0;?>
 <?php foreach($karyawans as $k){?>
 	<?php 
 		foreach($k['details'] as $kd){
-			$totalgaji+=($kd['gaji']);
+			$semua+=($kd['gaji']);
 			$totalbonus+=($kd['bonus']);
 			$totalum+=($kd['um']);
-			$pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ");
+			$pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND tempat='".$gaji['tempat']."'");
 		}
 	?>
 <?php } ?>
-<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$pots['total']) ?>
+<?php $allgaji+=($semua+$totalbonus+$totalum-$pots['total']) ?>
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
@@ -326,7 +327,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 							<tr>
-								<td><span style="font-size: 18px;">Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></span></td>
+								<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
 								<td><?php echo $allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
 						</table><br>

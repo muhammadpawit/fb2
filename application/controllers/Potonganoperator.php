@@ -57,6 +57,7 @@ class Potonganoperator extends CI_Controller {
 				'nominal'=>$r['nominal'],
 				'jenis'=>$this->GlobalModel->GetDataRow('jenis_potongan',array('id'=>$r['jenis_potongan'])),
 				'keterangan'=>$r['keterangan'],
+				'tempat'=>$r['tempat'],
 				'hapus'=>$this->url.'delete/'.$r['id'],
 			);
 		}

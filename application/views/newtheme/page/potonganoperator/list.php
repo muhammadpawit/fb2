@@ -45,6 +45,7 @@
 					<tr>
 						<th>Tanggal</th>
 						<th>Nama Operator</th>
+						<th>Tempat</th>
 						<th>Jenis Potongan</th>
 						<th>Nominal Potongan</th>
 						<th>Keterangan</th>
@@ -56,6 +57,7 @@
 						<tr>
 							<td><?php echo $p['tanggal']?></td>
 							<td><?php echo $p['nama']?></td>
+							<td><?php echo $p['tempat']==1?'Rumah':'Cipadu';?></td>
 							<td><?php echo $p['jenis']['nama']?></td>
 							<td><?php echo $p['nominal']?></td>
 							<td><?php echo $p['keterangan']?></td>

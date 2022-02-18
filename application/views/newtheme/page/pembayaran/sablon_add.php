@@ -1,12 +1,12 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
-			<input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" placeholder="tanggal awal">
+			<input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1; ?>" placeholder="tanggal awal">
 		</div>
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
-			<input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" placeholder="tanggal akhir">
+			<input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2; ?>" placeholder="tanggal akhir">
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -14,7 +14,7 @@
 			<select name="cmt" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih CMT</option>
 				<?php foreach($cmt as $c){?>
-					<option value="<?php echo $c['id_cmt']?>"><?php echo $c['cmt_name']?></option>
+					<option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmtf?'selected':'';?>><?php echo $c['cmt_name']?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -23,7 +23,8 @@
 		<div class="form-group">
 			<button id="klik" class="btn btn-info btn-sm text-white">Kalkulasi</button>
 			<a href="<?php echo base_url()?>Pembayaran/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
-			<button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button>
+			<!-- <button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button> -->
+			<button id="klikexcel" class="btn btn-info btn-sm text-white">Excel</button>
 		</div>
 	</div>
 </div>
@@ -46,6 +47,10 @@
 				<tbody>
 					<?php $dz=0;$pcs=0;$harga=0;$total=0; ?>
 					<?php foreach($pendapatan as $p){?>
+						<?php 
+							$pekerjaan[]=$p['pekerjaan'];
+							$dzs[$p['pekerjaan']][]=$p['dz'];
+						?>
 						<tr>
 							<td><?php echo $p['no']?></td>
 							<td><?php echo $p['namapo']?></td>
@@ -125,6 +130,7 @@
 			</table>
 			<br>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
+			<caption>Bagi Hasil</caption>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -137,6 +143,56 @@
 					<td><?php echo number_format($saldo*0.6)?></td>
 					<td><?php echo number_format($saldo*0.4)?></td>
 				</tbody>
+			</table>
+			<br>
+			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
+			<caption>Komisi</caption>
+			<?php 
+				//print_r(array_count_values($pekerjaan));
+				//echo json_encode($pendapatan);
+
+			$tdz=0;
+			$tjml=0;
+			$tpo=0;
+			?>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Jenis Sablon</th>
+						<th>Jumlah PO (Dz)</th>
+						<th>Harga/dz (Rp)</th>
+						<th>Jumlah (Rp)</th>
+						<th>Ket</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
+					<tr>
+						<td>
+							<?php
+								$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
+								echo !empty($name)?$name['nama_job']:'';
+							?>
+						</td>
+						<td><?php echo array_sum($dzs[$val]);?></td>
+						<td><?php echo number_format(3000)?></td>
+						<td><?php echo number_format(3000*array_sum($dzs[$val]))?></td>
+						<td><?php echo count($dzs[$val]);?> PO </td>
+					</tr>
+					<?php 
+						$tdz+=array_sum($dzs[$val]);
+						$tjml+=3000*array_sum($dzs[$val]);
+						$tpo+=count($dzs[$val]);
+					?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<td><b>Total Diterima</b></td>
+					<td><b><?php echo $tdz?></b></td>
+					<td></td>
+					<td><b><?php echo number_format($tjml)?></b></td>
+					<td><b><?php echo $tpo?></b></td>
+				</tfoot>
 			</table>
 		</div>
 	</div>
@@ -284,5 +340,40 @@
 
 
 	*/
+	});
+
+
+	$( "#klikexcel" ).click(function(event){
+		var url='?&excel=1';
+		var tanggal1 = $('input[name=\'tanggal1\']').val();
+
+	    if (tanggal1=='') {
+	      alert("tanggal awal harus diisi");
+	      return false;
+	    }else{
+			url+='&tanggal1='+tanggal1;
+		}
+
+	    var tanggal2 = $('input[name=\'tanggal2\']').val();
+
+	    if (tanggal2=='') {
+	      alert("tanggal akhir harus diisi");
+	      return false;
+	    }else{
+			url+='&tanggal2='+tanggal2;
+		}
+		
+		var cmt = $('select[name=\'cmt\']').val();
+
+		if(cmt=="*"){
+			alert("cmt harus dipilih");
+	      return false;
+		}else{
+			url+='&cmt='+cmt;
+		}
+
+		$("#klik").prop('disabled',true);
+		$("#reset").show();
+		location=url;
 	});
 </script>

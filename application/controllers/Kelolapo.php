@@ -1165,6 +1165,7 @@ class Kelolapo extends CI_Controller {
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>$namacmt['cmt_name'],
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
+				'keterangan'=>$result['keterangan'],
 				'action'=>$action,
 			);
 		}
@@ -1183,7 +1184,7 @@ class Kelolapo extends CI_Controller {
 		$data['pekerjaan']=$this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
 		$data['page']='produksi/kirimcmtsablon_form';
 		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['kodepo'] = $this->GlobalModel->queryManual('SELECT p.kode_po,p.nama_po FROM produksi_po p JOIN kelolapo_pengecekan_potongan kpp ON (kpp.kode_po=p.kode_po) WHERE p.kode_po NOT IN(SELECT kode_po FROM finishing_kirim_gudang) ORDER BY kode_po ASC ');
+		$data['kodepo'] = $this->GlobalModel->queryManual('SELECT p.kode_po,p.nama_po FROM produksi_po p WHERE p.kode_po NOT IN(SELECT kode_po FROM finishing_kirim_gudang) ORDER BY kode_po ASC ');
 		$this->load->view('newtheme/page/main',$data);
 		
 	}
@@ -1620,7 +1621,7 @@ class Kelolapo extends CI_Controller {
 			$data['kirims'][]=array(
 				'kode_po'=>$k['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
-				'job'=>$job['nama_job'],
+				'job'=>$job['id'],
 				'jumlah_pcs'=>$k['jumlah_pcs'],
 				'keterangan'=>$k['keterangan'],
 				'jml_barang'=>$k['jml_barang'],

@@ -35,6 +35,7 @@ class M_potonganoperator extends CI_Model {
 			'nominal'=>$data['nominal'],
 			'jenis_potongan'=>$data['jenis_potongan'],
 			'keterangan'=>$data['keterangan'],
+			'tempat'=>$data['tempat'],
 			'hapus'=>0,
 		);
 		$this->db->insert('potongan_operator',$insert);
