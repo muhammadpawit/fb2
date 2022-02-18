@@ -19,7 +19,12 @@
 }
 
 </style>
-
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <!-- Start Page content -->
 
 <div class="content">
@@ -993,7 +998,13 @@
                     </div>
 
                     <!-- end row -->
-
+            <table border="1" style="width: 100%;border-collapse: collapse;">
+                <tfoot>
+                    <tr>
+                      <td colspan="2" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+                    </tr>
+                </tfoot>
+            </table>
 
 
 <?php 

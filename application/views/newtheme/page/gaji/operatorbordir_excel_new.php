@@ -346,8 +346,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							3.Kalau tidak ada bonus yang dihitung hanya UM saja<br>
 							4.Hari minggu pembayaran double<br>
 							5.Tanggal merah pembayaran double<br>
-							6.Rums penghitungan lama kerja dari (12 jam).
-							7.Jam/jam kerja * 65000
+							6.Rumus penghitungan lama kerja dari (12 jam) Rumus = Jam/jam kerja * 65000 .<br>
 						</b>
 					</td>
 					<td colspan="3"></td>
