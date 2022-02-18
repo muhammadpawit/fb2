@@ -2,7 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_".date('d F Y',strtotime($prods['tanggal'])).time().".xls");
 ?>
-		
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>		
 		<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="12">
 			<thead>
 				<tr>
@@ -61,7 +66,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 		<br>
 		<table>
 			<tr>
-				<td colspan="6"></td>
+				<td colspan="8"></td>
 				<td align="right" valign="top">
 					<b>Jakarta, <?php echo date('d F Y',strtotime($prods['tanggal']))?></b>
 					<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
@@ -114,5 +119,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
                                     </table>
 				</td>
 			</tr>
+			<tr>
+			          <td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+			        </tr>
 		</table>
 									

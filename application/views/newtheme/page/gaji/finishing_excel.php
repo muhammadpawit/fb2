@@ -3,6 +3,12 @@ $filename=$title.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$filename.".xls");
 ?>
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <h3><?php echo $title ?></h3>
 <div class="row">
 	<table style="border-collapse: collapse;width: 100%;float: left; margin-right: 20px;margin-bottom: 5px" cellpadding="3">
@@ -224,3 +230,12 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 	<h3>Total Keseluruhan Rp. <?php echo (ceil($totals))?></h3>
 	<h3>Total Pembulatan Rp. <?php echo (pembulatangaji(ceil($totals)))?></h3>
 </div>
+			<table border="1" style="width: 100%;border-collapse: collapse;">
+				<tbody>
+				</tbody>
+				<tfoot>
+					<tr>
+			          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+			        </tr>
+				</tfoot>
+			</table>

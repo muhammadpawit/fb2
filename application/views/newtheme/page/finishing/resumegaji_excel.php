@@ -2,6 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_".date('d F Y',strtotime($tanggal1)).' s.d '.date('d F Y',strtotime($tanggal2)).".xls");
 ?>
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <div class="row">
 	<div class="col-md-12 text-center">
 		<h4>Rincian Gaji Karyawan Finishing Forboys</h4>
@@ -531,4 +537,13 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 		<?php } ?>
 		</div>
 	</div>
-</div>
+</div><br><br>
+			<table border="0" style="width: 100%;border-collapse: collapse;">
+				<tbody>
+				</tbody>
+				<tfoot>
+					<tr>
+			          <td colspan="7" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+			        </tr>
+				</tfoot>
+			</table>
