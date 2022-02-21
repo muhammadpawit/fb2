@@ -11,23 +11,31 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="form-group">
       <label>Tanggal Awal</label>
       <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="form-group">
       <label>Tanggal Akhir</label>
       <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
       <input type="hidden" name="jenis" id="jenis" value="<?php echo $jenis?>" class="form-control">
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
+    <div class="form-group">
+      <label>Kode PO</label>
+      <select name="kode_po" class="form-control autopo" data-live-search="true">
+        <option value="*">Semua</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-3">
     <div class="form-group">
       <label>Aksi</label><br>
-      <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
+      <button class="btn btn-info btn-sm" onclick="filterwithpo()">Filter</button>
       <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
     </div>
   </div>

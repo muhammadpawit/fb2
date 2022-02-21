@@ -37,7 +37,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 				<tfoot>
 					<tr>
-			          <td colspan="5" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+			          <td colspan="5" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
 			        </tr>
 				</tfoot>
 			</table>

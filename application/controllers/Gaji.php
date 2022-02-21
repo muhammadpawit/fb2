@@ -236,7 +236,7 @@ class Gaji extends CI_Controller {
 		//pre($data);
 		if(!empty($cek)){
 			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
-			redirect(BASEURL.'Finishing/gajifinishing');	
+			redirect(BASEURL.'Gaji/pressqcadd');	
 		}
 		$insert=array(
 			'tanggal1'=>$data['tanggal1'],
@@ -259,7 +259,7 @@ class Gaji extends CI_Controller {
 					'jumat'=>isset($p['jumat'])?1:0,
 					'sabtu'=>isset($p['sabtu'])?1:0,
 					'minggu'=>isset($p['minggu'])?1:0,
-					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
+					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);

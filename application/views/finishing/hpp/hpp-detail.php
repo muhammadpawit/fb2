@@ -23,6 +23,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
   .registered {
     font-family: 'Baskervville', serif;
+    font-size: 20px !important;
+    font-weight:bold;
+    float: right;
   }
 </style>
 <!-- Start Page content -->
@@ -45,7 +48,7 @@
 
                         <div class="col-12">
 
-                            <table class="table " border="2">
+                            <table class="table " border="2" style="border: 2px solid black !important;">
 
                                 <tr>
 
@@ -205,7 +208,7 @@
 
                         <div class="col-12">
 
-                            <table class="table ">
+                            <table class="table " border="2" style="border: 2px solid black !important;">
 
                                 <tr class="text-center">
                                 	<th>No</th>
@@ -981,7 +984,7 @@
 
                                                 <br><br><br><br><br><br>
 
-                                                <h6>( HJ.RICKO WENDRA )</h6>
+                                                <h6>( H.RICKO WENDRA )</h6>
 
                                             </div>
 
@@ -998,14 +1001,7 @@
                     </div>
 
                     <!-- end row -->
-            <table border="1" style="width: 100%;border-collapse: collapse;">
-                <tfoot>
-                    <tr>
-                      <td colspan="2" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
-                    </tr>
-                </tfoot>
-            </table>
-
+            <i class="registered">Registered by Forboys Production System</i>
 
 <?php 
 

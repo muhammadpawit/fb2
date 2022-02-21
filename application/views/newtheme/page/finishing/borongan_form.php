@@ -1,78 +1,61 @@
-    	
-	<div class="row">
-		<div class="col-md-12">
-			<div class="card card-info">
-				<div class="card-header">
-					<h3 class="card-title">Input Borongan</h3>
-		          <div class="card-tools">
-		            
-		          </div>
-				</div>
-				<div class="card-body">
-					<form method="post" action="<?php echo $action?>">
-						<div class="row">
-							<div class="col-md-8">
-								<div class="form-group">
-									<label>Tanggal</label>
-									<input type="text" value="<?php echo date('Y-m-d');?>" name="creted_date" class="form-control datepicker">
-								</div>
-								<div class="form-group">
-									<label>Nama Karyawan</label>
-									<select name="idkaryawanharian" class="form-control select2bs4" data-live-search="true">
-										<option value="">Pilih</option>
-										<?php foreach($karyawan as $k){?>
-											<option value="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
-										<?php } ?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Kategori</label>
-			                        <select class="form-control select2bs4" name="kategoriBorongan" data-live-search="true">
-			                            <option value="LOBANG KANCING" <?php echo $jenis==1?'selected':'disabled';?>>LOBANG KANCING</option>
-			                            <option value="PASANG KANCING" <?php echo $jenis==2?'selected':'disabled';?>>PASANG KANCING</option>
-			                            <option value="TRESS" <?php echo $jenis==3?'selected':'disabled';?>>TRESS</option>
-			                        </select>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<?php if(!empty($ket)){?>
-								<p class="alert alert-warning text-white">
-									<?php //echo $ket?>
-								</p>
-								<?php } ?>
-							</div>
-							<div class="col-md-12">
-								<table class="table table-bordered" id="item_table">
-			                        <tr>
-			                            <th>Nama PO</th>
-			                            <th>Jumlah PC</th>
-			                            <th>Jumlah Titik</th>
-			                            <th>Harga Per Titik</th>
-			                            <!--<th>Jumlah RP</th>-->
-			                            <th>Perkalian</th>
-			                            <th>Keterangan</th>
-			                            <th><button type="button" name="add" class="btn btn-success btn-sm addborongan"><i class="fa fa-plus"></i></button></th>
-			                        </tr>
-			                    </table>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<a href="<?php echo $batal?>" class="btn btn-danger" style="width: 100%">Batal</a>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<button type="submit" class="btn btn-success" style="width: 100%">Simpan</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-<!-- <link href="<?php echo PLUGINS ?>bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />	
- <script src="<?php echo PLUGINS ?>bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script> -->	
+<form method="post" action="<?php echo $action?>">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Tanggal</label>
+                                    <input type="text" value="<?php echo date('Y-m-d');?>" name="creted_date" class="form-control datepicker">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Karyawan</label>
+                                    <select name="idkaryawanharian" class="form-control select2bs4" data-live-search="true">
+                                        <option value="">Pilih</option>
+                                        <?php foreach($karyawan as $k){?>
+                                            <option value="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select class="form-control select2bs4" name="kategoriBorongan" data-live-search="true">
+                                        <option value="LOBANG KANCING" <?php echo $jenis==1?'selected':'disabled';?>>LOBANG KANCING</option>
+                                        <option value="PASANG KANCING" <?php echo $jenis==2?'selected':'disabled';?>>PASANG KANCING</option>
+                                        <option value="TRESS" <?php echo $jenis==3?'selected':'disabled';?>>TRESS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <?php if(!empty($ket)){?>
+                                <p class="alert alert-warning text-white">
+                                    <?php //echo $ket?>
+                                </p>
+                                <?php } ?>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-bordered" id="item_table">
+                                    <tr>
+                                        <th>Nama PO</th>
+                                        <th>Jumlah PC</th>
+                                        <th>Jumlah Titik</th>
+                                        <th>Harga Per Titik</th>
+                                        <!--<th>Jumlah RP</th>-->
+                                        <th>Perkalian</th>
+                                        <th>Keterangan</th>
+                                        <th><button type="button" name="add" class="btn btn-success btn-sm addborongan"><i class="fa fa-plus"></i></button></th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <a href="<?php echo $batal?>" class="btn btn-danger" style="width: 100%">Batal</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success" style="width: 100%">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 <script type="text/javascript">
 $(document).ready(function(){
     $(document).on('click', '.addborongan', function(){
@@ -93,6 +76,7 @@ $(document).ready(function(){
     $(document).on('click', '.remove', function(){
         $(this).closest('tr').remove();
     });
+    
     $(document).on('change', '.selectpicker', function(e){
         var dataItem = $(this).find(':selected').data('item');
         var dai = $(this).closest('tr');
@@ -102,6 +86,17 @@ $(document).ready(function(){
             var obj = JSON.parse(data);
             console.log(obj);
             dai.find(".jumlahPc").val(obj.jumlah_pcs_po);
+        });
+
+        $.get( "<?php echo BASEURL.'finishing/cek' ?>", { kodepo: dataItem,jenis:'<?php echo $jenis?>' } )
+          .done(function( data ) {
+            var obj = JSON.parse(data);
+            console.log(obj);
+            if(obj!=null){
+                alert("Data sudah pernah diinput");
+                dai.remove();
+            }
+            //dai.find(".jumlahPc").val(obj.jumlah_pcs_po);
         });
     });
 });

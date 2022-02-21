@@ -718,6 +718,29 @@ class Finishing extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function cek()
+	{
+		$post = $this->input->get();
+		$jenis=$post['jenis'];
+		if($jenis==1){
+			$kategori="LOBANG KANCING";
+		}else if($jenis==2){
+			$kategori="PASANG KANCING";
+		}else if($jenis==3){
+			$kategori="TRESS";
+		}else{
+			$kategori=null;
+		}
+		$where=array(
+			'nama_po'=>$post['kodepo'],
+			'kategori'=>$kategori,
+			'hapus'=>0
+		);
+		$data = $this->GlobalModel->getDataRow('boronganmesin',$where);
+		echo json_encode($data);
+	}
+
+
 	public function borongantambah($jenis){
 		$data=array();
 		$ket=null;
@@ -751,6 +774,12 @@ class Finishing extends CI_Controller {
 
 	public function borongantambahsave($jenis){
 		$post=$this->input->post();
+		/*
+		$cek=$this->GlobalModel->Getdata('boronganmesin',array('hapus'=>0,'nama_po'=>$kodepo));
+		if(!empty($cek)){
+			$this->session->set_flashdata('msg','Data Gagal disimpan karena sudah pernah diinput ');
+			redirect(BASEURL.'Finishing/borongan/'.$jenis);
+		}*/
 		//pre($post); exit();
 		if($jenis==1){
 			$title="Lobang Kancing";

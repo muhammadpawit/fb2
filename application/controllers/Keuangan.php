@@ -562,17 +562,37 @@ class Keuangan extends CI_Controller {
 
 	public function transferan(){
 		$data=array();
+		$data['title']='List Transferan';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
 		$data['n']=1;
+		$results=[];
+		$sql="SELECT * FROM transferan WHERE hapus=0 ";
+		if(!empty($tanggal1)){
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$sql.=" ORDER BY id desc ";
+		$results = $this->GlobalModel->QueryManual($sql);
+		$data['products']=$results;
 		$data['action']=BASEURL.'Keuangan/transferansave';
 		$data['mutasi']=BASEURL.'Keuangan/mutasibank/';
 		$data['page']=$this->page.'keuangan/transferan_list';
-		$data['products']=$this->GlobalModel->getData('transferan',array('hapus'=>0));
 		$this->load->view($this->page.'main',$data);
 	}
 
 	public function transferansave(){
 		$data=$this->input->post();
-
 		$insert=array(
 			'tanggal'=>$data['tanggal'],
 			'nominal'=>$data['nominal'],

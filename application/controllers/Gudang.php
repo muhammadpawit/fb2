@@ -189,14 +189,18 @@ class Gudang extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
+		if(isset($get['kode_po'])){
+			$kode_po=$get['kode_po'];
 		}else{
-			$cat=null;
+			$kode_po=null;
 		}
 		$sql="SELECT * FROM barangkeluar_harian WHERE hapus=0 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+
+		if(!empty($kode_po)){
+			$sql.=" AND kode_po='".$kode_po."' ";
 		}
 
 		if(!empty($jenis)){
@@ -206,6 +210,7 @@ class Gudang extends CI_Controller {
 		$sql.=" ORDER BY id DESC";
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['kode_po']=$kode_po;
 		$data['jenis']=$jenis;
 		$data['products']=array();
 		$details=array();

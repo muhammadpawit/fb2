@@ -3,6 +3,12 @@ date_default_timezone_set('Asia/Jakarta');
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Ongkos_Jahit_".$namacmt."_(".date('d F Y',strtotime($detail['tanggal'])).").xls");
 ?>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <h5>Ongkos Jahit <?php echo $namacmt?><br>
 Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo date('Y-m-d H:i:s');?>
 </h5>
@@ -283,6 +289,6 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
 
     <table style="width: 100%;">
         <tr>
-            <td colspan="11" align="right"><b>Registered by Forboys Production System</b></td>
+            <td colspan="11" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
         </tr>
     </table>
