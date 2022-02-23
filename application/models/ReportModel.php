@@ -1509,11 +1509,39 @@ class ReportModel extends CI_Model {
 		$hasil=[];
 		$sql="SELECT pid.*, pi.tanggal FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 ";
 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql.=" AND DATE(tanggal) <= '".$tanggal2."' ";
 		$sql.=" AND pid.id_persediaan='".$id."' ";
 		$sql.=" ORDER BY pi.id DESC ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d;
+		}
+			return $hasil;
+	}
+
+	public function rataratabarangkeluar($id,$tanggal1,$tanggal2){
+		$hasil=1;
+		/*$date1=date_create($tanggal1);
+		$date2=date_create($tanggal2);
+		$diff=date_diff($date1,$date2);
+		$hari=$diff->format("%a");
+		*/
+		$hari=1;
+		$sql1="SELECT * FROM gudang_item_keluar WHERE hapus=0 ";
+		$sql1.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql.=" AND DATE(created_date) <= '".$tanggal2."' ";
+		$sql1.=" AND id_persediaan='".$id."' ";
+		$d1=$this->GlobalModel->queryManual($sql1);
+		if(!empty($d1)){
+			$hari=count($d1);
+		}
+		$sql="SELECT COALESCE(SUM(jumlah_item_keluar),0) as total FROM gudang_item_keluar WHERE hapus=0 ";
+		$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql.=" AND DATE(created_date) <= '".$tanggal2."' ";
+		$sql.=" AND id_persediaan='".$id."' ";
+		$d=$this->GlobalModel->queryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d['total']/$hari;
 		}
 			return $hasil;
 	}
