@@ -75,10 +75,12 @@ class Laporanbulananalat extends CI_Controller {
 		$stokkeluar=0;
 		$warna=null;
 		$data['prods']=[];
+		$barangmasukterakhir=null;
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal_alat($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk_alat($row['id_persediaan'],$tanggal1,$tanggal2);
 			$stokkeluar=$this->ReportModel->stokkeluar_alat($row['id_persediaan'],$tanggal1,$tanggal2);
+			$barangmasukterakhir=$this->ReportModel->barangmasukterakhir($row['id_persediaan'],$tanggal1,$tanggal2);
 			//pre($stokkeluar);
 			$data['prods'][]=array(
 				'no'=>$no++,
@@ -98,7 +100,7 @@ class Laporanbulananalat extends CI_Controller {
 				'stokakhiryard'=>0,
 				'stokakhirharga'=>$row['harga_item'],
 				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
-				'ket'=>null,
+				'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])):null,
 				'satuan'=>$row['satuan_jumlah_item'],
 			);
 		}

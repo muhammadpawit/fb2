@@ -1505,4 +1505,17 @@ class ReportModel extends CI_Model {
 		}
 	}
 
+	public function barangmasukterakhir($id,$tanggal1,$tanggal2){
+		$hasil=[];
+		$sql="SELECT pid.*, pi.tanggal FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND pid.id_persediaan='".$id."' ";
+		$sql.=" ORDER BY pi.id DESC ";
+		$d=$this->GlobalModel->queryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d;
+		}
+			return $hasil;
+	}
+
 }
