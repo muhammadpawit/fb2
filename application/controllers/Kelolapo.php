@@ -1163,7 +1163,7 @@ class Kelolapo extends CI_Controller {
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
 				'kode_po'=>$result['kode_po'],
 				'quantity'=>$result['totalkirim'],
-				'namacmt'=>$namacmt['cmt_name'],
+				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
 				'keterangan'=>$result['keterangan'],
 				'action'=>$action,
@@ -1347,6 +1347,83 @@ class Kelolapo extends CI_Controller {
 		}
 		
 	}
+
+	public function kirimcmtsablonedit($id='',$kodepo=''){
+		$toarray=explode(",", $kodepo);
+		$row=count($toarray);
+		$data=array();
+		$rincian=array();
+		$data['no']=1;
+		$data['cetak']=null;
+		$data['excel']=null;
+		$data['action']=BASEURL.'Kelolapo/kirimcmtsabloneditsave';
+		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
+		$kirims=$this->GlobalModel->getData('kirimcmtsablon_detail',array('idkirim'=>$id));
+		$job=null;
+		foreach($kirims as $k){
+			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$data['kirims'][]=array(
+				'kode_po'=>$k['kode_po'],
+				'rincian_po'=>$k['rincian_po'],
+				'job'=>$job['id'],
+				'jumlah_pcs'=>$k['jumlah_pcs'],
+				'keterangan'=>$k['keterangan'],
+				'jml_barang'=>$k['jml_barang'],
+			);
+		}
+		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		$data['listcmt'] = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
+		$data['listjob'] = $this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
+		$data['page']='produksi/kirimcmt_edit';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function kirimcmtsabloneditsave(){
+		$post=$this->input->post();
+		//pre($post);
+		//pre($data);
+		$cmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
+		// update di sj
+		$this->db->query("UPDATE kirimcmtsablon set idcmt='".$post['idcmt']."',tanggal='".$post['tanggal']."' WHERE id='".$post['kode_nota']."' ");
+		// update di kelola kirim setor
+		$sql="UPDATE kelolapo_kirim_setor set id_master_cmt='".$post['idcmt']."',nama_cmt='".strtolower($cmt['cmt_name'])."',create_date='".$post['tanggal']."' WHERE kode_nota_cmt='".$post['kode_nota']."' AND kategori_cmt='SABLON' ";
+		$this->db->query($sql);
+		$totalkirim=0;
+		foreach($post['prods'] as $p){
+			$totalkirim+=($p['jumlah_pcs']);
+			$rp=explode('-',$p['job']);
+			$update=array(
+				'id_master_cmt_job'=>$rp[0],
+				'cmt_job_price'	=>$rp[1],
+				'qty_tot_pcs'=>$p['jumlah_pcs'],
+				'jml_barang'=>$p['jml_barang'],
+			);
+			$where=array(
+				'kode_po'=>$p['kode_po'],
+				'kategori_cmt'	=>$p['kategori_cmt'],
+				'kode_nota_cmt'=>$post['kode_nota'],
+				'progress'=>'KIRIM',
+			);
+			$this->db->update('kelolapo_kirim_setor',$update,$where);
+			$ud=array(
+				'cmtjob'=>$rp[0],
+				'jumlah_pcs'=>$p['jumlah_pcs'],
+				'rincian_po'=>$p['rincian_po'],
+				'jml_barang'=>$p['jml_barang'],
+				'keterangan'=>$p['keterangan'],
+			);
+			$wd=array(
+				'kode_po'=>$p['kode_po'],
+				'idkirim'=>$post['kode_nota'],
+			);
+			$this->db->update('kirimcmtsablon_detail',$ud,$wd);
+		}
+		$this->db->update('kirimcmtsablon',array('totalkirim'=>$totalkirim),array('id'=>$post['kode_nota']));
+		$this->session->set_flashdata('msg','Data berhasil diupdate');
+		redirect(BASEURL.'Kelolapo/pengirimansablon');
+	}
+
+
 
 	public function pengirimanbordir(){
 		redirect(BASEURL.'Kelolapo/kirimsetorcmt');

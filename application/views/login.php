@@ -29,7 +29,17 @@
                 }(document, "script"));
         </script>
         <!-- End PushAlert -->
-
+        <style type="text/css">
+            .footer { 
+              position: relative;
+              /*left: 0;*/
+              bottom: 0;
+              /*width: 100%;*/
+              /*background-color: red;*/
+              /*color: white;*/
+              /*text-align: center;*/
+             }
+        </style>
     </head>
 
 
@@ -93,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="m-t-40 text-center">
+            <div class="m-t-40 text-center footer">
                 <p class="account-copyright">2020 - <?php echo date('Y')?> Forboys Production</p>
             </div>
 

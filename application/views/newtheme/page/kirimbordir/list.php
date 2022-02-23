@@ -93,30 +93,9 @@
                                 <td><?php echo $sat['create_date'] ?></td>
 
                                 <td>
-
-                                    <a href="<?php echo BASEURL.'kelolapo/formpengecekandetail/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor']; ?>" class="btn btn-sm btn-secondary"> <i class="fi-zoom-in"></i> Detail</a>
-
-                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetorcek/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-warning text-white"> <i class="dripicons-browser-upload"></i> Proses</a>
-
-                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
-
                                     <?php if(akseshapus()==1){?>
                                       <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
                                     <?php } ?>
-
-
-                                    <?php //if ($sat['kategori_cmt'] == 'BORDIR'): ?>
-
-                                        <?php //if ($sat['progress'] == 'KIRIM'){ ?>
-
-                                                <!--<a href="<?php echo BASEURL.'bordir/harianmesinbordirnaik/'.$sat['kode_po'] ?>" disabled class="btn btn-sm btn-info">BORDIR</a>
-
-                                                <a href="<?php echo BASEURL.'bordir/harianbuangbenang/'.$sat['kode_po'] ?>" disabled class="btn btn-sm btn-info">BENANG</a>-->
-
-                                        <?php //} ?>
-
-                                    <?php //endif ?>
-
                                 </td>
 
                             </tr>
