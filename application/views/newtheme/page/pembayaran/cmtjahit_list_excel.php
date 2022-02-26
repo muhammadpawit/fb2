@@ -2,7 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d F Y',strtotime($tanggal2)).".xls");
 ?>
-
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <table style="width: 100%;">
     <tr>
         <td align="center" style="text-align: center;" colspan="9">Rekap Laporan Transfer CMT</td>
@@ -78,4 +83,9 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
             </table>        
         </td>
     </tr>
-</table>        
+</table> 
+    <table style="width: 100%;">
+        <tr>
+            <td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+        </tr>
+    </table>       
