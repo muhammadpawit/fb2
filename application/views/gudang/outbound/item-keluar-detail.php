@@ -3,12 +3,11 @@
         <div class="col-md-6">
             <div class="form-group">
                 <h1>Forboys Production</h1>
-                            <h6>Alamat</h6>
-
-                            <address class="line-h-24">
-                               JL.Z NO 1, Kel. Sukabumi Selatan, Kec Kebon Jeruk Kampung Baru, Jakarta Barat
-                            </address>
-                            <h3><strong>Faktur No. </strong><?php echo $barang[0]['faktur_no'] ?></h3>
+                    <h6>Alamat</h6>
+                    <address class="line-h-24">
+                    JL.Z NO 1, Kel. Sukabumi Selatan, Kec Kebon Jeruk Kampung Baru, Jakarta Barat
+                    </address>
+                    <h3><strong>Faktur No. </strong><?php echo $barang[0]['faktur_no'] ?></h3>
             </div>
         </div>
         <div class="col-md-6">
@@ -126,6 +125,30 @@
 
                             </div>      
             </div>
+        </div>
+    </div>
+</form>
+<form method="post" action="<?php echo $lampiran?>" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="hidden" name="kode_po" value="<?php echo $project['kode_po'] ?>">
+                <label>Tanggal Kirim</label>
+                <input type="text" name="tglkirim" class="form-control datepicker" value="<?php echo !empty($l)?$l['tglkirim']:date('Y-m-d'); ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Lampiran</label><br>
+                <?php if(empty($l['foto'])){?>
+                <input type="file" name="lampiran" class="form-control"/>
+                <?php }else{ ?>
+                <img src="<?php echo BASEURL?>assets/lampiran/<?php echo $l['foto']?>" height="300px">
+                <?php } ?>
+            </div>
+            <?php if(empty($l['foto'])){?>
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-sm full">Upload</button>
+            </div>
+            <?php } ?>
         </div>
     </div>
 </form>

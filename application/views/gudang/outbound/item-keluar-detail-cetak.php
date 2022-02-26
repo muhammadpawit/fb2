@@ -120,6 +120,31 @@
         </div>
     </div>
 </form>
+<form method="post" action="<?php echo $lampiran?>" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="hidden" name="kode_po" value="<?php echo $project['kode_po'] ?>">
+                <label>Tanggal Kirim</label>
+                <input type="text" name="tglkirim" class="form-control datepicker" value="<?php echo !empty($l)?$l['tglkirim']:date('Y-m-d'); ?>" readonly>
+            </div>
+            <div class="pagebreak"></div>
+            <div class="form-group">
+                <label>Lampiran</label><br>
+                <?php if(empty($l['foto'])){?>
+                <input type="file" name="lampiran" class="form-control"/>
+                <?php }else{ ?>
+                <img src="<?php echo BASEURL?>assets/lampiran/<?php echo $l['foto']?>" height="300px">
+                <?php } ?>
+            </div>
+            <?php if(empty($l['foto'])){?>
+            <div class="form-group no-print">
+                <button type="submit" class="btn btn-info btn-sm full">Upload</button>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</form>
 <div class="row no-print">
     <div class="col-md-4">
         <div class="form-group">
@@ -141,6 +166,9 @@
         </div>
     </div>
 </div>
+<style type="text/css">
+    .pagebreak {page-break-after: always;}
+</style>
 <script type="text/javascript">
     function update(){
         $("form").submit();

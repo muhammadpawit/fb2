@@ -131,7 +131,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					
 					<tr style="background-color:yellow">
 						<td><b>Gaji Diterima</b></td>
-						<td colspan="4" align="center"><label><?php echo ($totalgajia+$totalbonusa+$totaluma-$potongan['total']) ?></label></td>
+						<td colspan="4" align="center"><label><?php echo (($totalgajia+$totalbonusa+$totaluma-$potongan['total'])) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -237,7 +237,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr style="background-color:yellow">
 						<td><b>Gaji Diterima</b></td>
 						<?php //if($hr==0){?>
-						<td colspan="4" align="center"><label><?php echo ($totalgajib+$totalbonusb+$totalumb-$potongan['total']) ?></label></td>
+						<td colspan="4" align="center"><label><?php echo (($totalgajib+$totalbonusb+$totalumb-$potongan['total'])) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -320,7 +320,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 							<tr>
 								<td>Jumlah Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></td>
-								<td><?php echo $allgaji?></td>
+								<td><?php echo ($allgaji)?></td>
 							</tr>
 							<tr>
 								<td>Bonus target mandor + u.m (Rp)</td>
@@ -328,7 +328,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							</tr>
 							<tr>
 								<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-								<td><?php echo $allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
+								<td><?php echo ($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?></td>
 							</tr>
 						</table><br>
 						

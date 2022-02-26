@@ -1330,6 +1330,9 @@ class Gudang extends CI_Controller {
 	{
 		$viewData['title']='Surat Jalan Alat Keluar';
 		$viewData['update']=BASEURL.'Gudang/editalat_save';
+		$viewData['lampiran']=BASEURL.'Gudang/lampiran_save';
+		$viewData['l']=[];
+		$viewData['l'] = $this->GlobalModel->getDataRow('lampiran_alat',array('kode_po' => $id));
 		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('kode_po' => $id));
 		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('kode_po' => $viewData['barang'][0]['kode_po']));
 		$viewData['excel']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&excel=true';
@@ -1344,7 +1347,27 @@ class Gudang extends CI_Controller {
 			$viewData['page']='gudang/outbound/item-keluar-detail';
 			$this->load->view('newtheme/page/main',$viewData);	
 		}
+	}
+
+	public function lampiran_save(){
+		$data=$this->input->post();
+		$config['upload_path']          = './assets/lampiran/';
+	    $config['allowed_types']        = 'gif|jpg|png|jpeg';
+	    $this->load->library('upload', $config);
 		
+		if(!empty($_FILES['lampiran']['name'])){
+	        $this->upload->do_upload('lampiran');
+	        $imageGambar = $this->upload->data('file_name');
+	        $up=array(
+	        	'tglkirim'=>$data['tglkirim'],
+	        	'kode_po'=>$data['kode_po'],
+	        	'foto'=>$imageGambar,
+	        );
+	        $this->db->insert('lampiran_alat',$up);
+		}
+
+		$this->session->set_flashdata('msg','Data berhasil di edit');
+		redirect(BASEURL.'Gudang/itemkeluarDetail/'.$data['kode_po']);
 	}
 
 	public function editalat_save(){
