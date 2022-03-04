@@ -236,6 +236,6 @@
                                             <td colspan="10"></td>
                                         </tr>
                                         <tr>
-                                          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+                                          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
                                         </tr>
                                     </table>
