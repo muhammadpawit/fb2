@@ -99,13 +99,13 @@
 					
 					<tr style="background-color:yellow">
 						<td><b>Total Gaji</b></td>
-						<td colspan="4"><label><?php echo (($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?></label></td>
+						<td colspan="4"><label><?php echo pembulatangaji(($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<?php $allgaji+=($totalgaji+$totalbonus+$totalum-$potongan['total']) ?>
+	<?php $allgaji+=pembulatangaji($totalgaji+$totalbonus+$totalum-$potongan['total']) ?>
 	<?php } ?>
 </div>
 <div class="row">
@@ -157,7 +157,7 @@
 			<table class="table table-bordered">
 				<tr>
 					<td>Jumlah Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></td>
-					<td><?php echo ($allgaji)?></td>
+					<td><?php echo pembulatangaji($allgaji)?></td>
 				</tr>
 				<tr>
 					<td>Bonus target mandor + u.m (Rp)</td>
@@ -165,7 +165,7 @@
 				</tr>
 				<tr>
 					<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-					<td><?php echo ($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?></td>
+					<td><?php echo pembulatangaji($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?></td>
 				</tr>
 			</table>
 			<table class="table table-bordered">

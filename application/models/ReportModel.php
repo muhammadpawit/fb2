@@ -1541,7 +1541,7 @@ class ReportModel extends CI_Model {
 		$sql.=" AND id_persediaan='".$id."' ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 		if(!empty($d)){
-			$hasil=$d['total']/$hari;
+			$hasil=$d['total']/4;
 		}
 			return $hasil;
 	}
