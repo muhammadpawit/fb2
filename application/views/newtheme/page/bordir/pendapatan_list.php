@@ -33,7 +33,7 @@
   </div>
 <table class="table table-bordered table-striped">
               <thead>
-                <tr>
+                <tr style="background-color:yellow">
                   <!-- <th>Tanggal</th> -->
                   <th>No.Mesin</th>
                   <th>Shift</th>

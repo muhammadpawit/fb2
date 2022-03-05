@@ -2,6 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls");
 ?>
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <table style="border-collapse: collapse;width: 100%">
   <tr>
     <td align="center" colspan="9"><h3>Laporan Pendapatan Mesin Harian Bordir</h3></td>
@@ -19,7 +25,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       $d[]=$p['0.2'];
                     ?>
                   <?php } ?>
-<table border="1" style="border-collapse: collapse;width: 100%">
+<table border="1" style="border-collapse: collapse;width: 100%;background-color: yellow">
               <thead>
                 <tr>
                   <!-- <th>Tanggal</th> -->
@@ -70,7 +76,9 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     </tr>
                 <?php }?>
                 <tr>
-                  <td colspan="8" align="right"><b>Registered by Forboys Production System</b></td>
+                  <td colspan="8" align="right">
+                    <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
+                  </td>
                 </tr>
               </tbody>
             </table>
