@@ -13,7 +13,7 @@
 	</div>
 	<div class="col-md-4">
 		<div class="form-group">
-			<label>Aksi</label>
+			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
 			<button onclick="window.print()" class="btn btn-info btn-sm">Print</button>
 			<button onclick="excelwithtgl()" class="btn btn-info btn-sm">Excel</button>
