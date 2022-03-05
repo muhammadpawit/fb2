@@ -25,12 +25,12 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							<td><?php echo $no++?></td>
 							<td><?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
 							<td><?php echo $k['nama']?></td>
-							<td><?php echo $k['saldomasuk_uk'].' '.$p['satuan_ukuran_item']?></td>
-							<td><?php echo $k['saldokeluar_uk'].' '.$p['satuan_ukuran_item']?></td>
-							<td><?php echo $k['sisa_uk'].' '.$p['satuan_ukuran_item']?></td>
-							<td><?php echo $k['saldomasuk_qty'].' '.$p['satuan_jumlah_item']?></td>
-							<td><?php echo $k['saldokeluar_qty'].' '.$p['satuan_jumlah_item']?></td>
-							<td><?php echo $k['sisa_qty'].' '.$p['satuan_jumlah_item']?></td>
+							<td><?php echo $k['saldomasuk_uk']?></td>
+							<td><?php echo $k['saldokeluar_uk']?></td>
+							<td><?php echo $k['sisa_uk']?></td>
+							<td><?php echo $k['saldomasuk_qty']?></td>
+							<td><?php echo $k['saldokeluar_qty']?></td>
+							<td><?php echo $k['sisa_qty']?></td>
 							<td><?php echo $k['keterangan']?></td>
 						</tr>
 					<?php

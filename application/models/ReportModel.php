@@ -1510,40 +1510,43 @@ class ReportModel extends CI_Model {
 		$sql="SELECT pid.*, pi.tanggal FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 ";
 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		//$sql.=" AND DATE(tanggal) <= '".$tanggal2."' ";
-		$sql.=" AND pid.id_persediaan='".$id."' ";
+		$sql.=" AND pid.id_persediaan='".$id."' AND jumlah > 0 ";
 		$sql.=" ORDER BY pi.id DESC ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d;
+		}else{
+			$sql="SELECT pid.*, pi.tanggal FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 ";
+			//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$sql.=" AND DATE(tanggal) <= '".$tanggal2."' ";
+			$sql.=" AND pid.id_persediaan='".$id."' ";
+			$sql.=" ORDER BY pi.id DESC LIMIT 1";
+			$d=$this->GlobalModel->queryManualRow($sql);
+			$hasil=$d;
 		}
-			return $hasil;
+		return $hasil;
 	}
 
 	public function rataratabarangkeluar($id,$tanggal1,$tanggal2){
-		$hasil=1;
-		/*$date1=date_create($tanggal1);
-		$date2=date_create($tanggal2);
-		$diff=date_diff($date1,$date2);
-		$hari=$diff->format("%a");
-		*/
-		$hari=1;
-		$sql1="SELECT * FROM gudang_item_keluar WHERE hapus=0 ";
-		$sql1.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		//$sql.=" AND DATE(created_date) <= '".$tanggal2."' ";
-		$sql1.=" AND id_persediaan='".$id."' ";
-		$d1=$this->GlobalModel->queryManual($sql1);
+		$bk=0;
+		$gd=0;
+		$hasil=0;
+		$sql1="SELECT COALESCE(SUM(jumlah),0) as total FROM barangkeluarharian_detail WHERE hapus=0 ";
+		$sql1.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql1.=" AND idpersediaan='".$id."' ";
+		$d1=$this->GlobalModel->queryManualRow($sql1);
 		if(!empty($d1)){
-			$hari=count($d1);
+			$bk=$d1['total'];
 		}
 		$sql="SELECT COALESCE(SUM(jumlah_item_keluar),0) as total FROM gudang_item_keluar WHERE hapus=0 ";
 		$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		//$sql.=" AND DATE(created_date) <= '".$tanggal2."' ";
 		$sql.=" AND id_persediaan='".$id."' ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 		if(!empty($d)){
-			$hasil=$d['total']/4;
+			$gd=$d['total'];
 		}
-			return $hasil;
+		$hasil=($bk+$gd)/4;
+		return $hasil;
 	}
 
 }
