@@ -107,7 +107,9 @@
                       <td><?php echo number_format($p['nominal'])?></td>
                       <td><?php echo ($p['keterangan'])?></td>
                       <td>
-                        
+                        <?php if(aksesedit()==1){?>
+                          <a href="<?php echo BASEURL?>Keuangan/edit_transferan/<?php echo $p['id']?>" class="btn btn-success btn-sm">Edit</a>
+                        <?php } ?>
                       </td>
                     </tr>
                   <?php }?>

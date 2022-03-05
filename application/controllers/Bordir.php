@@ -268,11 +268,11 @@ class Bordir extends CI_Controller {
 		$data=$this->input->post();
 		//pre($data);
 		$cek=$this->GlobalModel->getDataRow('gaji_operator',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'tempat'=>$data['tempat']));
-		
+		/*
 		if(!empty($cek)){
 			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
 			redirect(BASEURL.'Bordir/gajioperator');	
-		}
+		}*/
 		$insert=array(
 			'tanggal1'=>$data['tanggal1'],
 			'tanggal2'=>$data['tanggal2'],
