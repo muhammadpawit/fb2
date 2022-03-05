@@ -346,7 +346,20 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							3.Kalau tidak ada bonus yang dihitung hanya UM saja<br>
 							4.Hari minggu pembayaran double<br>
 							5.Tanggal merah pembayaran double<br>
-							6.Rumus penghitungan lama kerja dari (12 jam) Rumus = Jam/jam kerja * 65000 .<br>
+							6.Rumus penghitungan lama kerja dari (12 jam) <br>Rumus 
+<table class="tg">
+<thead>
+  <tr>
+    <td class="tg-lboi" valign="bottom">
+    	<table border="0" style="border-bottom: 1px solid black"><tr><td>Lama Kerja</td></tr></table>
+    </td>
+    <td class="tg-9wq8" rowspan="2" valign="middle"><span style="border-top: 1px solid black">* Upah / hari</span></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Jumlah jam kerja</td>
+  </tr>
+</thead>
+</table>
 						</b>
 					</td>
 					<td colspan="3"></td>
