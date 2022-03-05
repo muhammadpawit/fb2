@@ -25,9 +25,9 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       $d[]=$p['0.2'];
                     ?>
                   <?php } ?>
-<table border="1" style="border-collapse: collapse;width: 100%;background-color: yellow">
+<table border="1" style="border-collapse: collapse;width: 100%;">
               <thead>
-                <tr>
+                <tr style="background-color: yellow">
                   <!-- <th>Tanggal</th> -->
                   <th>No.Mesin</th>
                   <th>Shift</th>
@@ -64,7 +64,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     </tr>
                     <?php $j++;?>
                   <?php }?>
-                    <tr>
+                    <tr style="background-color: yellow">
                       <td colspan="2"><b>Total</b></td>
                       <td><?php echo round($t)?></td>
                       <td><?php echo round($g018)?></td>
