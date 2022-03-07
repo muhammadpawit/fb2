@@ -90,7 +90,21 @@
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][lembur]" value="lembur"></td>
 							<td>Lembur (total)</td>
-							<td align="right"><input style="text-align: right;" type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo $h['lembur']?>" class="form-control"></td>
+							<td align="right"><input style="text-align: right;" type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo !empty($h['lembur'])?$h['lembur']:0;?>" class="form-control"></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="products[<?php echo $i?>][claim]" value="claim"></td>
+							<td>Pot.Claim</td>
+							<td align="right">
+								<input style="text-align: right;" type="number" name="products[<?php echo $i?>][claim]" value="0" class="form-control">
+							</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="products[<?php echo $i?>][pinjaman]" value="pinjaman"></td>
+							<td>Pinjaman</td>
+							<td align="right">
+								<input style="text-align: right;" type="number" name="products[<?php echo $i?>][pinjaman]" value="0" class="form-control">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][insentif]" value="insentif"></td>

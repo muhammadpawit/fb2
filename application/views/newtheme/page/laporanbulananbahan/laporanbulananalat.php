@@ -11,20 +11,20 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
 		</div>
 	</div>
 	<div class="col-md-3">
-<div class="form-group">
+							<div class="form-group">
                               <label>Bagian</label>
                               <select name="jenis" class="form-control select2bs4" data-live-search="true">
                                 <option value="*">Semua</option>
@@ -38,8 +38,28 @@
 	                                <option value="2"  <?php echo $jenis==2?'selected':''?>>Bordir</option>
                               </select>
                             </div>		
-	</div>							
+	</div>				
 	<div class="col-md-3">
+		<div class="form-group">
+			<label>Bulan</label>
+			<select name="bulan" class="form-control">
+				<option value="*">Semua</option>
+				<option value="1" <?php echo ($bulan==1)?'selected':''?>>Januari</option>
+				<option value="2" <?php echo ($bulan==2)?'selected':''?>>Februari</option>
+				<option value="3" <?php echo ($bulan==3)?'selected':''?>>Maret</option>
+				<option value="4" <?php echo ($bulan==4)?'selected':''?>>April</option>
+				<option value="5" <?php echo ($bulan==5)?'selected':''?>>Mei</option>
+				<option value="6" <?php echo ($bulan==6)?'selected':''?>>Juni</option>
+				<option value="7" <?php echo ($bulan==7)?'selected':''?>>Juli</option>
+				<option value="8" <?php echo ($bulan==8)?'selected':''?>>Agustus</option>
+				<option value="9" <?php echo ($bulan==9)?'selected':''?>>September</option>
+				<option value="10" <?php echo ($bulan==10)?'selected':''?>>Oktober</option>
+				<option value="11" <?php echo ($bulan==11)?'selected':''?>>November</option>
+				<option value="12" <?php echo ($bulan==12)?'selected':''?>>Desember</option>
+			</select>
+		</div>
+	</div>			
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filters()">Filter</button>
@@ -152,6 +172,12 @@
       url += '&jenis=' + encodeURIComponent(supplier);
     }
 
+    var bulan = $('select[name=\'bulan\']').val();
+
+    if (bulan != '*') {
+      url += '&bulan=' + encodeURIComponent(bulan);
+    }
+
     location =url;
   }
 
@@ -178,6 +204,13 @@
       url += '&jenis=' + encodeURIComponent(supplier);
     }
 
+    var bulan = $('select[name=\'bulan\']').val();
+
+    if (bulan != '*') {
+      url += '&bulan=' + encodeURIComponent(bulan);
+    }
+
+    
     location =url;
   }
 

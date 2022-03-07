@@ -1082,6 +1082,8 @@ class Masterdata extends CI_Controller {
 			'jenis'=>$post['jenis'],
 			'kategori'=>$post['kategori'],
 			'satuan'=>$post['satuan'],
+			'price'	=>$post['price'], // harga di hpp
+			'harga_beli'=>$post['harga_beli'], //harga untuk laporan rekap 
 		);
 		$this->db->update('product',$u,array('product_id'=>$id));
 		$ug=array(
@@ -1854,6 +1856,7 @@ class Masterdata extends CI_Controller {
 				'satuanqty'=>$result['satuan'],
 				'color'=>$result['jenis']==4?'#ed8664':'',
 				'price'=>number_format($result['price'],2),
+				'harga_beli'=>number_format($result['harga_beli'],2),
 				'action'=>$action,
 			);
 		}

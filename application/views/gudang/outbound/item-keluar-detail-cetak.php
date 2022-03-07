@@ -120,6 +120,7 @@
         </div>
     </div>
 </form>
+<div class="pagebreak"></div>
 <form method="post" action="<?php echo $lampiran?>" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12">
@@ -128,13 +129,13 @@
                 <label>Tanggal Kirim</label>
                 <input type="text" name="tglkirim" class="form-control datepicker" value="<?php echo !empty($l)?$l['tglkirim']:date('Y-m-d'); ?>" readonly>
             </div>
-            <div class="pagebreak"></div>
             <div class="form-group">
                 <label>Lampiran</label><br>
                 <?php if(empty($l['foto'])){?>
                 <input type="file" name="lampiran" class="form-control"/>
                 <?php }else{ ?>
-                <img src="<?php echo BASEURL?>assets/lampiran/<?php echo $l['foto']?>" height="300px">
+                <img src="<?php echo BASEURL?>assets/lampiran/<?php echo $l['foto']?>" 
+                style="width: 80%;">
                 <?php } ?>
             </div>
             <?php if(empty($l['foto'])){?>

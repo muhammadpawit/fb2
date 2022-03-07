@@ -30,7 +30,7 @@ class Rinciankirimgudang extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		}
 
-		$sql='SELECT * FROM finishing_kirim_gudang WHERE id_finishing_kirim_gudang>0 ';
+		$sql='SELECT fkg.*, p.kode_artikel FROM finishing_kirim_gudang fkg LEFT JOIN produksi_po p ON(p.kode_po=fkg.kode_po) WHERE id_finishing_kirim_gudang>0 ';
 		if(isset($tanggal1)){
 			$sql.=" AND date(tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}

@@ -90,22 +90,22 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 							</tr>
 							<tr>
 								<td><b>Claim (Rp)</b></td>
-								<td colspan="4"></td>
+								<td colspan="4"><?php echo $k['claim']?></td>
 							</tr>
 							<tr>
 								<td><b>Pinjaman</b></td>
-								<td colspan="4"></td>
+								<td colspan="4"><?php echo $k['pinjaman']?></td>
 							</tr>
 							<tr>
 								<td><b>Total (Rp)</b></td>
-								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']) ?></label></td>
+								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']) ?></label></td>
 							</tr>
 						</tbody>
 					</table><br>
 				</td>
 				<?php
 					//$i++;
-					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
 				?>
 
 				<?php } ?>
@@ -195,47 +195,47 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 							</tr>
 							<tr>
 								<td><b>Claim (Rp)</b></td>
-								<td colspan="4"></td>
+								<td colspan="4"><?php echo $k['claim']?></td>
 							</tr>
 							<tr>
 								<td><b>Pinjaman</b></td>
-								<td colspan="4"></td>
+								<td colspan="4"><?php echo $k['pinjaman']?></td>
 							</tr>
 							<tr>
 								<td><b>Total (Rp)</b></td>
-								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']) ?></label></td>
+								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']) ?></label></td>
 							</tr>
 						</tbody>
 					</table><br>
 				</td>
 				<?php
-					$total2+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+					$total2+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
 				?>
 				<?php } ?>
 				<?php
 					$j++;
-					$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+					$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
 				?>
 				<?php } ?>
 		</tr>
 	</table>
+			<table border="0" style="width: 100%;border-collapse: collapse;">
+				<tbody>
+				</tbody>
+				<tfoot>
+					<tr>
+			          <td colspan="24" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+			        </tr>
+				</tfoot>
+			</table>
 	<p><b>Total table 2 : <?php echo $total2?></b></p>
 	<?php 
 		$totals=0;
 		foreach($karyawans as $k){
-			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
 		}
 	?>
 
 	<h3>Total Keseluruhan Rp. <?php echo (ceil($totals))?></h3>
 	<h3>Total Pembulatan Rp. <?php echo (pembulatangaji(ceil($totals)))?></h3>
 </div>
-			<table border="1" style="width: 100%;border-collapse: collapse;">
-				<tbody>
-				</tbody>
-				<tfoot>
-					<tr>
-			          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
-			        </tr>
-				</tfoot>
-			</table>

@@ -155,5 +155,12 @@ class Monitoringpojeans extends CI_Controller {
 		redirect($this->url.'driver');
 	}
 
+	public function prosespo(){
+		$data=[];
+		$data['title']='Monitoring Proses PO Setelan Jeans ';
+		$data['page']=$this->page.'prosespo';
+		$this->load->view($this->layout,$data);
+	}
+
 
 }

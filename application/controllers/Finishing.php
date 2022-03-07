@@ -360,6 +360,29 @@ class Finishing extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function edit_tanggal($id){
+		$data=[];
+		$data['title']='Ubah tanggal pengiriman';
+		$data['k'] = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po'=>$id));
+		$data['simpan']=BASEURL.'Finishing/edit_tanggal_save';
+		$data['cancel']=BASEURL.'Finishing/pengirimangudang';
+		$data['page']='finishing/nota/edit_tanggal';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function edit_tanggal_save(){
+		$data=$this->input->post();
+		$update=array(
+			'tanggal_kirim'=>$data['tanggal_kirim'],
+		);
+		$where=array(
+			'kode_po'=>$data['kode_po'],
+		);
+		$this->db->update('finishing_kirim_gudang',$update,$where);
+		$this->session->set_flashdata('msg','Data Berhasil Di ubah');
+		redirect(BASEURL.'Finishing/pengirimangudang');
+	}
+
 	public function hapuskgudang($id){
 		$this->db->delete('finishing_kirim_gudang',array('id_finishing_kirim_gudang'=>$id));
 		$this->session->set_flashdata('msg','Data Berhasil Di hapus');

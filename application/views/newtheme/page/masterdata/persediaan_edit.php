@@ -1,6 +1,6 @@
 <form method="post" action="<?php echo $action?>" enctype="multipart/form-data">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<div class="form-group">
 				<label>Nama Produk</label>
 				<input type="text" name="nama" value="<?php echo $prod['nama']?>" class="form-control">
@@ -49,7 +49,7 @@
                 </select>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<div class="form-group">
                               <label>Supplier</label>
                               <select name="supplier" class="form-control select2bs4" data-live-search="true">
@@ -70,6 +70,14 @@
 			<div class="form-group">
 				<label>Stok Saat ini</label>
 				<h3><?php echo $prod['quantity']?></h3>
+			</div>
+			<div class="form-group">
+				<label>Harga HPP</label>
+				<input type="text" name="price" class="form-control" value="<?php echo $prod['price']?>">
+			</div>
+			<div class="form-group">
+				<label>Harga Beli</label>
+				<input type="text" name="harga_beli" class="form-control" value="<?php echo $prod['harga_beli']?>">
 			</div>
 		</div>
 	</div>

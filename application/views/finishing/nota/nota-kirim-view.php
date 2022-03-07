@@ -1,6 +1,6 @@
                 <p class="text-muted font-14 m-b-30">
                     <?php if ($this->session->flashdata('msg')) { ?>
-                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -59,6 +59,8 @@
                                 <td><?php echo strtolower($sat['tujuan']) ?></td>
                                 <td>
                                     <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
+                                    <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['kode_po'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
+
                                     <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
                                         <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=true" class="btn btn-info btn-xs">Cetak SJ HGS</a>
                                     <?php } ?>
@@ -66,7 +68,7 @@
                                         <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=true" class="btn btn-info btn-xs">Cetak SJ HGS</a>
                                     <?php } ?>
                                     <?php if(aksesedit()==1){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/edit/'.$sat['nofaktur'] ?>" class="btn btn-warning btn-xs text-white">Edit</a>
+                                        <a href="<?php echo BASEURL.'Notakirim/edit/'.$sat['nofaktur'] ?>" class="btn btn-warning btn-xs text-white">Edit Rincian</a>
                                     <?php } ?>
                                     <?php if(akseshapus()==1){?>
                                         <a href="<?php echo BASEURL.'Finishing/hapuskgudang/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-danger btn-xs text-white">Hapus</a>

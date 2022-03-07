@@ -32,6 +32,7 @@
                         <thead>
                         <tr>
                             <th>Tanggal</th>
+                            <th>Kode Artikel</th>
                             <th>Nama PO</th>
                             <th>Kuantitas Kirim (pcs)</th>
                             <th>Harga</th>
@@ -42,6 +43,7 @@
                             <?php foreach ($notarincian as $key => $sat): ?>
                             <tr>
                                 <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
+                                <td><?php echo strtoupper($sat['kode_artikel']) ?></td>
                                 <td><?php echo strtoupper($sat['kode_po']) ?></td>
                                 <td><?php echo $sat['jumlah_piece_diterima']?></td>
                                 <td><?php echo number_format($sat['harga_satuan']) ?></td>

@@ -261,6 +261,8 @@ class Gaji extends CI_Controller {
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}
@@ -293,6 +295,8 @@ class Gaji extends CI_Controller {
 					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+					'claim'=>$d['claim'],
+					'pinjaman'=>$d['pinjaman'],
 				);
 			}
 		}

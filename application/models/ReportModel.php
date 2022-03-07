@@ -1527,19 +1527,22 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
-	public function rataratabarangkeluar($id,$tanggal1,$tanggal2){
+	public function rataratabarangkeluar($id,$tanggal1,$tanggal2,$bulan){
 		$bk=0;
 		$gd=0;
 		$hasil=0;
+		$tahun=date('Y',strtotime($tanggal1));
 		$sql1="SELECT COALESCE(SUM(jumlah),0) as total FROM barangkeluarharian_detail WHERE hapus=0 ";
-		$sql1.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql1.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql1.=" AND MONTH(tanggal) ='".$bulan."' AND YEAR(tanggal) ='".$tahun."' ";
 		$sql1.=" AND idpersediaan='".$id."' ";
 		$d1=$this->GlobalModel->queryManualRow($sql1);
 		if(!empty($d1)){
 			$bk=$d1['total'];
 		}
 		$sql="SELECT COALESCE(SUM(jumlah_item_keluar),0) as total FROM gudang_item_keluar WHERE hapus=0 ";
-		$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql1.=" AND MONTH(created_date) ='".$bulan."' AND YEAR(created_date) ='".$tahun."' ";
 		$sql.=" AND id_persediaan='".$id."' ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 		if(!empty($d)){

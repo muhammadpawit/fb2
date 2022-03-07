@@ -47,8 +47,15 @@ class Laporanbulananalat extends CI_Controller {
 			$supplier=null;
 		}
 
+		if(isset($get['bulan'])){
+			$bulan=$get['bulan'];
+		}else{
+			$bulan=null;
+		}
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['bulan']=$bulan;
 
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
@@ -82,7 +89,7 @@ class Laporanbulananalat extends CI_Controller {
 			$stokmasuk=$this->ReportModel->stokmasuk_alat($row['id_persediaan'],$tanggal1,$tanggal2);
 			$stokkeluar=$this->ReportModel->stokkeluar_alat($row['id_persediaan'],$tanggal1,$tanggal2);
 			$barangmasukterakhir=$this->ReportModel->barangmasukterakhir($row['id_persediaan'],$tanggal1,$tanggal2);
-			$ratarata=$this->ReportModel->rataratabarangkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			$ratarata=$this->ReportModel->rataratabarangkeluar($row['id_persediaan'],$tanggal1,$tanggal2,$bulan);
 			//pre($stokkeluar);
 			$data['prods'][]=array(
 				'no'=>$no++,

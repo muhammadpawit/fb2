@@ -10,6 +10,7 @@ class Bordir extends CI_Controller {
 		$this->page='newtheme/page/';
 		$this->load->model('ReportModel');
 		$this->load->model('M_potonganoperator');
+		$this->layout='newtheme/page/main';
 	}
 
 	public function gajibuangbenang(){
@@ -855,10 +856,20 @@ class Bordir extends CI_Controller {
 						'href' => BASEURL.'bordir/mesinbordirdetail/'.$b['kode_po'],
 					);
 					
-					$action[]=array(
-						'text'=>'Hapus',
-						'href'=>BASEURL.'Bordir/mesinharianhapus/'.$b['id_kelola_mesin_bordir'],
-					);
+					if(aksesedit()==1){
+						$action[]=array(
+							'text'=>'Edit',
+							'href'=>BASEURL.'Bordir/mesinharian_edit/'.$b['id_kelola_mesin_bordir'],
+						);
+					}
+
+					if(akseshapus()==1){
+						$action[]=array(
+							'text'=>'Hapus',
+							'href'=>BASEURL.'Bordir/mesinharianhapus/'.$b['id_kelola_mesin_bordir'],
+						);
+					}
+					
 					
 					$data['bordir'][]=array(
 					'kode_po'=>$b['kode_po'],
@@ -878,6 +889,11 @@ class Bordir extends CI_Controller {
 				$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
 				$data['page']='bordir/list';
 				$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function mesinharian_edit($id){
+		$data=[];
+		$this->load->view($this->layout,$data);
 	}
 
 	public function inputharianmesinpoluar(){
