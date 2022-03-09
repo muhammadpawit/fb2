@@ -110,10 +110,12 @@ class Report extends CI_Controller {
 		);
 		$data['products']=array();
 		$konveksi=array();
-		$sql="SELECT tanggal FROM transferan WHERE hapus=0 ";
+		$sql="SELECT bagian,tanggal FROM transferan WHERE hapus=0 ";
 		$sql.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		if(!empty($cat)){
 			$sql.=" AND bagian='$cat' ";
+		}else{
+			$sql.=" AND bagian IN(1,2,3) ";
 		}
 		$sql.=" GROUP BY tanggal ORDER BY tanggal ASC ";
 		$products=$this->GlobalModel->QueryManual($sql);
@@ -122,13 +124,14 @@ class Report extends CI_Controller {
 			foreach($products as $p){
 				$tf[]=array(
 				'tanggal'=>$p['tanggal'],
+				'bagian'=>$p['bagian'],
 				//'keterangan'=>null,
 				);	
 			}
 		}
 		$products2=[];
 		$sbl=[];
-		$sql2="SELECT tanggal FROM aruskas WHERE hapus=0 ";
+		$sql2="SELECT bagian,tanggal FROM aruskas WHERE hapus=0 ";
 		$sql2.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		$sql2.=" AND bagian=3 ";
 		$sql2.=" GROUP BY tanggal ORDER BY tanggal ASC ";
@@ -138,34 +141,35 @@ class Report extends CI_Controller {
 			foreach($products2 as $p){
 				$sbl[]=array(
 				'tanggal'=>$p['tanggal'],
+				'bagian'=>$p['bagian'],
 				);	
 			}
 		}
 		//pre($ket);
 		$merger=[];
 		$merger=array_merge($tf,$sbl);
-		
+		//pre($merger);\
+		$i=0;
 		foreach(array_unique($merger,SORT_REGULAR) as $p){
-			$sql3="SELECT keterangan FROM aruskas WHERE hapus=0 ";
-			$sql3.=" AND date(tanggal) ='".$p['tanggal']."' ";
-			$sql3.=" AND bagian=3 AND saldomasuk>0";
-			$ket=$this->GlobalModel->QueryManualRow($sql3);
-
+			$ket=$this->ReportModel->getket($p['tanggal'],$p['bagian']);
 			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);
 			$data['products'][]=array(
 				'tanggal'=>$p['tanggal'],
 				'kasmasuk'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],$cat),
-				'masukkonveksi'=>$cat==1?$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],1):0,
-				'keluarkonveksi'=>$cat==1?$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],1):0,
-				'masukbordir'=>$cat==2?$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2):0,
-				'keluarbordir'=>$cat==2?$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],2):0,
-				'masuksablon'=>$cat==3?$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],3):0,
-				'keluarsablon'=>$cat==3?$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],3):0,
+				'masukkonveksi'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],1),
+				'keluarkonveksi'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],1),
+				//'masukbordir'=>$cat==2?$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2):0,
+				'masukbordir'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2),
+				'keluarbordir'=>$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],2),
+				'masuksablon'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],3),
+				'keluarsablon'=>$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],3),
 				'konveksi'=>$konveksi,
-				'keterangan'=>!empty($ket)?$ket['keterangan']:null,
+				'keterangan'=>!empty($ket)?implode(',',$ket):null,
 			);
+			$i++;
 		}
-		//pre($sql);
+		//pre($ket);
+		//pre(implode(",",$ket['keterangan']));
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;

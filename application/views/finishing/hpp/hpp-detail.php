@@ -194,7 +194,11 @@
 
                                     <td>NAMA CMT</td>
 
-                                    <td><?php echo strtoupper($produk['nama_cmt']) ?></td>
+                                    <!-- <td><?php echo strtoupper($produk['nama_cmt']) ?></td> 
+                                    -->
+
+
+                                    <td><?php echo strtoupper($namacmt) ?></td>
 
                                 </tr>
 
@@ -432,7 +436,7 @@
 
                                         <td>
                                             <?php if($cmtt['kategori_cmt']=='JAHIT'){?>
-                                                <?php echo $cmtt['kategori_cmt'] ?>(<?php echo strtoupper($produk['nama_cmt']) ?>)
+                                                <?php echo $cmtt['kategori_cmt'] ?>(<?php echo $namacmt //echo strtoupper($produk['nama_cmt']) ?>)
                                             <?php }else if($cmtt['kategori_cmt']=='BORDIR'){ ?>
                                                 <?php echo $cmtt['kategori_cmt'] ?>(DALAM)
                                             <?php }else{ ?>

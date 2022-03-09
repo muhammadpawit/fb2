@@ -1566,4 +1566,18 @@ class ReportModel extends CI_Model {
 		);
 		return $hasil;
 	}
+
+	public function getket($tanggal,$bagian){
+			$sql3="SELECT DISTINCT keterangan FROM aruskas WHERE hapus=0 ";
+			$sql3.=" AND date(tanggal) ='".$tanggal."' ";
+			$sql3.=" AND bagian";
+			$sql3.=" AND saldomasuk>0";
+			$ket=$this->GlobalModel->QueryManual($sql3);
+			$hasil=[];
+			foreach($ket as $k){
+				$hasil[]=$k['keterangan'];
+			}
+			$unique=array_unique($hasil);
+			return $unique;
+	}
 }
