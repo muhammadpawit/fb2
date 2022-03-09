@@ -679,6 +679,7 @@ class Keuangan extends CI_Controller {
 
 	public function mutasibank($id){
 		$data=array();
+		$data['title']='Daftar Mutasi ';
 		$data['n']=1;
 		$data['kembali']=BASEURL.'Keuangan/bank';
 		$get=$this->input->get();
