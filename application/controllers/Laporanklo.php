@@ -94,11 +94,6 @@ class Laporanklo extends CI_Controller {
 		$stokakhirkemejadz=0;
 
 		foreach($results_sablon as $c){
-
-			// $stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
-			// $stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			// $stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			// $stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
@@ -107,6 +102,7 @@ class Laporanklo extends CI_Controller {
 			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
 			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
 			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
+			$stoksablon=$this->ReportModel->getstoksablon($c['id_cmt']);
 			$data['sablon'][]=array(
 				'no'=>$no++,
 				'nama'=>strtolower($c['cmt_name']),
@@ -122,14 +118,14 @@ class Laporanklo extends CI_Controller {
 				'kirimkaosdz'=>$kirimkaosdz,
 				'kirimkemejajml'=>$kirimkemejajml,
 				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>($stokawalkaosjml-$setorkaosjml+$kirimkaosjml),
-				'stokakhirkaosdz'=>($stokawalkaosdz-$setorkaosdz+$kirimkaosdz),
-				'stokakhirkemejajml'=>($stokawalkemejajml-$setorkemejajml+$kirimkemejajml),
-				'stokakhirkemejadz'=>($stokawalkemejadz-$setorkemejadz+$kirimkemejadz),
+				'stokakhirkaosjml'=>!empty($stoksablon)?$stoksablon['count']:0,
+				'stokakhirkaosdz'=>!empty($stoksablon)?($stoksablon['dz']/12):0,
+				'stokakhirkemejajml'=>0,
+				'stokakhirkemejadz'=>0,
 			);
 		}
 
-
+		//pre($stoksablon);
 		$data['jahit']=[]; // kaos
 		$kjahit='JAHIT';
 		//$results=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));

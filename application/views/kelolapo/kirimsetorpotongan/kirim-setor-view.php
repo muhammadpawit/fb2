@@ -95,12 +95,12 @@
 
                                     <a href="<?php echo BASEURL.'kelolapo/formpengecekandetail/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor']; ?>" class="btn btn-sm btn-secondary"> <i class="fi-zoom-in"></i> Detail</a>
 
-                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetorcek/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-warning text-white"> <i class="dripicons-browser-upload"></i> Proses</a>
-
-                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
+                                    <!--<a href="<?php echo BASEURL.'kelolapo/kirimsetorcek/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-warning text-white"> <i class="dripicons-browser-upload"></i> Proses</a>-->
 
                                     <?php if(akseshapus()==1){?>
-                                      <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
+                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
+
+                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
                                     <?php } ?>
 
 

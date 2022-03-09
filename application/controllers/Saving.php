@@ -59,8 +59,12 @@ class Saving extends CI_Controller {
 		}
 		$data['total']=$total;
 		$data['timpotong']=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'excel',$data);
+		}else{
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}
 	}
 
 }

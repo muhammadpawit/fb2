@@ -24,6 +24,7 @@
                 <div class="form-group">
                   <label>Action</label><br>
                   <button onclick="filter()" class="btn btn-info btn-sm">Filter</button>
+                  <button onclick="excels()" class="btn btn-info btn-sm">Excel</button>
                 </div>
               </div>
 </div>
@@ -81,8 +82,8 @@
     location = url;
   }
 
-  function cetak(){
-     var url='?cetak=1';
+  function excels(){
+     var url='?excel=1';
     var tanggal1=$("#tanggal1").val();
     var tanggal2=$("#tanggal2").val();
     var tim=$("#tim").val();

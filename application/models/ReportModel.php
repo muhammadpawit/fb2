@@ -1552,4 +1552,18 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function getstoksablon($id){
+		$hasil=[];
+		$data=[];
+		$dz=0;
+		$data=$this->GlobalModel->QueryManual("SELECT k.idcmt,k.nosj,kd.* FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$id."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail) ");
+		foreach($data as $d){
+			$dz+=($d['jumlah_pcs']);
+		}
+		$hasil=array(
+			'count'=>count($data),
+			'dz'=>$dz,
+		);
+		return $hasil;
+	}
 }
