@@ -630,10 +630,11 @@ class Keuangan extends CI_Controller {
 
 	public function bank(){
 		$data=array();
+		$data['title']='Operasional';
 		$data['n']=1;
 		$data['action']=BASEURL.'Keuangan/transaksibanksave';
 		$data['mutasi']=BASEURL.'Keuangan/mutasibank/';
-		$data['page']='newtheme/page/keuangan/bank_list';
+		$data['page']=$this->page.'keuangan/bank_list';
 		$data['products']=$this->GlobalModel->getData('bank',array('hapus'=>0));
 		$this->load->view('newtheme/page/main',$data);
 	}

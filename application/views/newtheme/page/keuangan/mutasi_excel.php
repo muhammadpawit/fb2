@@ -3,6 +3,14 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=mutasi_kas_operasional.xls");
 ?>              
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+    font-weight:bold;
+    float: right;
+  }
+</style>
               <table border="1" style="width: 100%;border-collapse: collapse;">
               <thead>
                 <tr>
@@ -42,3 +50,4 @@ header("Content-Disposition: attachment; filename=mutasi_kas_operasional.xls");
                 <?php } ?>
               </tbody>
             </table>
+<i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s') ?></i>            

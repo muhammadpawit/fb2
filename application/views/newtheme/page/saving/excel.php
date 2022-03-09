@@ -104,4 +104,4 @@ header("Content-Disposition: attachment; filename=Saving_".date('d F Y',strtotim
 
                                         </tr>
                                     </table>    
-    <i class="registered">Registered by Forboys Production System</i>
+    <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s') ?></i>
