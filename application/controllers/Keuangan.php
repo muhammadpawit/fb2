@@ -636,6 +636,7 @@ class Keuangan extends CI_Controller {
 		$data['mutasi']=BASEURL.'Keuangan/mutasibank/';
 		$data['page']=$this->page.'keuangan/bank_list';
 		$data['products']=$this->GlobalModel->getData('bank',array('hapus'=>0));
+		$data['alokasi']=$this->GlobalModel->QueryManual("SELECT * FROM pengalokasian WHERE hapus=0 AND id IN (17,18,19)");
 		$this->load->view('newtheme/page/main',$data);
 	}
 
@@ -654,7 +655,7 @@ class Keuangan extends CI_Controller {
 		}
 		$insert=array(
 			'tanggal'=>$data['tanggal'],
-			'tgltransaksi'=>date('Y-m-d H:i:s'),
+			'tgltransaksi'=>date('Y-m-d H:i:s'), // tanggal input
 			'bank_id'=>$data['bank_id'],
 			'saldoawal'=>$cursaldo['saldo'],
 			'saldomasuk'=>$saldomasuk,
@@ -663,6 +664,7 @@ class Keuangan extends CI_Controller {
 			'keterangan'=>$data['keterangan'],
 			'referensi'=>0,
 			'bagian'=>$data['bagian'],
+			'pengalokasian'=>$data['pengalokasian'],
 			'hapus'=>0
 		);
 		$this->db->insert('aruskas',$insert);

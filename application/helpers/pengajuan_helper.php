@@ -591,4 +591,17 @@
 		return $hasil;
 	}
 
+	function looping_tanggal($tanggal1,$tanggal2){
+		$start_date =$tanggal1;
+		$end_date 	=$tanggal2;
+
+		while (strtotime($start_date) <= strtotime($end_date)) {
+		    $hasil[]=array(
+		    	'tanggal'=>$start_date,
+		    );
+		    $start_date = date ("Y-m-d", strtotime("+1 days", strtotime($start_date)));
+		}
+		return $hasil;
+	}
+
  ?>

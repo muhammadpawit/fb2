@@ -11,7 +11,7 @@
         <form method="post" action="<?php echo $action?>">
           <div class="form-group">
             <label>Tanggal</label>
-            <input type="text" name="tanggal" class="form-control datepicker" required="required">
+            <input type="date" name="tanggal" class="form-control" required="required">
           </div>
           <div class="form-group">
             <label>Pilih Bank / Kas</label>
@@ -29,18 +29,18 @@
             <label>Jenis Transaksi</label>
             <select name="jenis" class="form-control select2bs4" required="required" readonly>
               <!-- <option value="">Mohon dipilih</option> -->
-              <option value="1">Uang Masuk</option>
-              <!-- <option value="2">Uang Keluar</option> -->
+              <!-- <option value="1">Uang Masuk</option> -->
+              <option value="2">Uang Keluar</option>
             </select>
           </div>
           <div class="form-group">
             <label>Bagian</label>
-            <select name="bagian" class="form-control select2bs4" required="required">
+            <select name="bagian" class="form-control select2bs4" required="required" readonly>
               <option value="">Mohon dipilih</option>
-              <option value="1">Konveksi</option>
-              <option value="2">Bordir</option>
+              <!-- <option value="1">Konveksi</option> -->
+              <!-- <option value="2">Bordir</option> -->
               <option value="3">Sablon</option>
-              <option value="4">Lain-lain</option>
+              <!-- <option value="4">Lain-lain</option> -->
             </select>
           </div>
           <div class="form-group">
@@ -100,10 +100,10 @@
                   <?php foreach($products as $p){?>
                     <tr>
                       <td><?php echo $n++?></td>
-                      <td><?php echo strtoupper($p['nama'])?></td>
+                      <td>Alokasi <?php echo strtoupper($p['nama'])?></td>
                       <td><span style="float: left">Rp.</span><span style="float: right;"><?php echo number_format($p['saldo'])?></span></td>
                       <td>
-                        <a href="<?php echo $mutasi?><?php echo $p['id']?>" class="btn btn-success btn-xs text-white">Lihat Mutasi</a>
+                        <!-- <a href="<?php echo $mutasi?><?php echo $p['id']?>" class="btn btn-success btn-xs text-white">Lihat Mutasi</a> -->
                       </td>
                     </tr>
                   <?php }?>
