@@ -44,7 +44,7 @@ class LaporanmingguanModel extends CI_Model {
 	public function keterangan_bordir($tanggal,$bagian){
 		$hasil=[];
 		$sql=" SELECT * FROM aruskas where hapus=0 ";
-		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian' ";
+		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian' AND saldomasuk>0 ";
 		$data=$this->GlobalModel->QueryManual($sql);
 		if(!empty($data)){
 			foreach($data as $d){

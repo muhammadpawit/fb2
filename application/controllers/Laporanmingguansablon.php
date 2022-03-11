@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Laporanmingguankonveksi extends CI_Controller {
+class Laporanmingguansablon extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -9,13 +9,13 @@ class Laporanmingguankonveksi extends CI_Controller {
 		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/laporanmingguan/';
 		$this->layout='newtheme/page/main';
-		$this->url=BASEURL.'Laporanmingguankonveksi/';
+		$this->url=BASEURL.'Laporanmingguansablon/';
 		$this->load->model('LaporanmingguanModel');
 	}
 
 	public function index(){
 		$data=[];
-		$data['title']='Laporan Keuangan Mingguan Konveksi ';
+		$data['title']='Laporan Keuangan Mingguan Sablon ';
 		$data['products']=[];
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
@@ -34,7 +34,7 @@ class Laporanmingguankonveksi extends CI_Controller {
 		$masuk_transfer=0;
 		$alokasi=0;
 		$keterangan=null;
-		$bagian=1;
+		$bagian=3;
 		foreach (looping_tanggal($tanggal1,$tanggal2) as $dt) {
 			$masuk_kas=$this->LaporanmingguanModel->kas_masuk_bordir($dt['tanggal'],$bagian);
 			$masuk_transfer=$this->LaporanmingguanModel->transferan_bordir($dt['tanggal'],$bagian);
@@ -43,18 +43,16 @@ class Laporanmingguankonveksi extends CI_Controller {
 		    	'hari'=>hari(date('l',strtotime($dt['tanggal']))),
 		    	'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
 		    	'transfer'=>$masuk_transfer,
-		    	'giro'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,20),
-		    	'kasmasuk'=>$masuk_kas,
-		    	'kaskeluar'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,6),
-		    	'sisakas'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,7),
-		    	'sukabumi'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,8),
-		    	'serang'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,9),
-		    	'jawa'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,10),
-		    	'ajuan'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,11),
+		    	'kas'=>$masuk_kas,
+		    	'bahanbaku'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,12),
+		    	'ops'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,13),
+		    	'gaji'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,14),
+		    	'alokasitransfer'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,15),
+		    	'sisa'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,16),
 		    	'keterangan'=>implode(",",$keterangan),
 		    );
 		} 
-		$data['page']=$this->page.'konveksi';
+		$data['page']=$this->page.'sablon';
 		$this->load->view($this->layout,$data);
 	}
 

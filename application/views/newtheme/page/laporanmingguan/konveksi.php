@@ -25,7 +25,7 @@
 			  <tr align="center">
 			    <th rowspan="2">Periode</th>
 			    <th colspan="3">Debet</th>
-			    <th colspan="5">Kredit</th>
+			    <th colspan="6">Kredit</th>
 			    <th rowspan="2">Keterangan</th>
 			  </tr>
 			  <tr align="center">
@@ -46,13 +46,13 @@
 			    <td ><?php echo $r['hari']?>, <?php echo $r['tanggal']?></td>
 			    <td ><?php echo number_format($r['transfer'])?></td>
 			    <td ><?php echo number_format($r['giro'])?></td>
-			    <td ><?php echo number_format($r['kas'])?></td>
-			    <td ><?php echo number_format($r['bahanbaku'])?></td>
-			    <td ><?php echo number_format($r['ops'])?></td>
-			    <td ><?php echo number_format($r['gaji'])?></td>
-			    <td ><?php echo number_format($r['alokasitransfer'])?></td>
-			    <td ><?php echo number_format($r['sisa'])?></td>
-			    <td ><?php echo number_format($r['belanja'])?></td>
+			    <td ><?php echo number_format($r['kasmasuk'])?></td>
+			    <td ><?php echo number_format($r['kaskeluar'])?></td>
+			    <td ><?php echo number_format($r['sisakas'])?></td>
+			    <td ><?php echo number_format($r['sukabumi'])?></td>
+			    <td ><?php echo number_format($r['serang'])?></td>
+			    <td ><?php echo number_format($r['jawa'])?></td>
+			    <td ><?php echo number_format($r['ajuan'])?></td>
 			    <td ><?php echo $r['keterangan']?></td>
 			  </tr>
 			<?php } ?>
