@@ -2,10 +2,50 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 ?>
-
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 <table>
 	<tr>
 		<td>
+			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
+			<label>Potongan Kaos Heru And Friends</label>
+			<table border="1" style="width: 100%;border-collapse: collapse;">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Nama</th>
+						<th>JML PO</th>
+						<th>JML (Dz)</th>
+						<th>JML (Pcs)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($heru as $j){?>
+						<tr>
+							<td><?php echo $j['no']?></td>
+							<td><?php echo $j['nama']?></td>
+							<td><?php echo $j['jml']?></td>
+							<td><?php echo number_format($j['dz'],2)?></td>
+							<td><?php echo $j['pcs']?></td>
+						</tr>
+						<?php $jmlks+=($j['jml']);?>
+						<?php $kaosdz+=($j['dz']);?>
+						<?php $kaospcs+=($j['pcs']);?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"><b>Total</b></td>
+						<td><?php echo $jmlks?></td>
+						<td><?php echo number_format($kaosdz,2)?></td>
+						<td><?php echo $kaospcs?></td>
+					</tr>
+				</tfoot>
+			</table>
 			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
 			<label>Potongan Kaos Oplet</label>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
@@ -393,6 +433,11 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		          	<td><?php echo round($stokakhirkemejadz,2)?></td>
 		          </tr>
 		        </tbody>
+		        <tfoot>
+					<tr>
+			          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+			        </tr>
+				</tfoot>
 		    </table>
 		</td>
 	</tr>
