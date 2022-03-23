@@ -53,8 +53,8 @@
                             <div class="form-group col-2">
                                 <label>Po Susulan</label>
                                 <select name="susulan" class="form-control" id="susulan">
-                                    <option value="2">Bukan</option>
                                     <option value="1">Ya</option>
+                                    <option value="2" selected>Bukan</option>
                                 </select>
                             </div>
                             

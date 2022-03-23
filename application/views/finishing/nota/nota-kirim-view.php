@@ -38,7 +38,7 @@
                     <!-- <div class="card-tools">
                         
                     </div> -->
-                    <table id="datatable" class="table table-bordered">
+                    <table class="table table-bordered yessearch">
                         <thead>
                         <tr>
                             <th>Tanggal</th>

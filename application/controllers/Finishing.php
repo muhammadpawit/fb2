@@ -352,7 +352,7 @@ class Finishing extends CI_Controller {
 		if(isset($tanggal1)){
 			$sql.=" AND date(tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-
+		$sql.=" ORDER BY tanggal_kirim DESC ";
 		$data['notarincian'] = $this->GlobalModel->queryManual($sql);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
@@ -1366,7 +1366,7 @@ class Finishing extends CI_Controller {
 	{
 		$post = $this->input->post();
 		//pre($post);
-		if($post['susulan']==2){
+		if($post['susulan']==1){
 			echo "Dalam Pengembangan";
 		}else{
 			foreach ($post['kodepo'] as $key => $kodepo) {

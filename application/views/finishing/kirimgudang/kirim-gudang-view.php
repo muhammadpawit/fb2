@@ -29,7 +29,7 @@
                        <?php } ?>
                     </p>
 
-                    <table id="datatable" class="table table-bordered">
+                    <table class="table table-bordered yessearch">
                         <thead>
                         <tr>
                             <th>NAMA PO</th>
