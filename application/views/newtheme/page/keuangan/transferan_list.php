@@ -26,6 +26,17 @@
             </select>
           </div>
           <div class="form-group">
+            <label>Alokasi</label>
+            <select name="alokasi" class="form-control select2bs4" required="required">
+              <option value="">Mohon dipilih</option>
+              <option value="1">Sukabumi</option>
+              <option value="2">Serang</option>
+              <option value="3">Jawa</option>
+              <option value="4">Giro</option>
+              <option value="5">Ajuan Belanja</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Keterangan</label>
             <textarea class="form-control" required="required" name="keterangan"></textarea>
           </div>

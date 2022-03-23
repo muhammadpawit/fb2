@@ -2053,7 +2053,11 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" LIMIT 20 ";
+		if(!empty($tanggal1)){
+
+		}else{
+			$sql.=" LIMIT 20 ";
+		}
 		$viewData['kelola']	= $this->GlobalModel->queryManual($sql);
 		$viewData['tanggal1']=$tanggal1;
 		$viewData['tanggal2']=$tanggal2;

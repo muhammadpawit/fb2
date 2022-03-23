@@ -2,7 +2,12 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Uang_Makan_Security.xls");
 ?>
-
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+</style>
 
 		<table border="5" style="width: 100%;border-collapse: collapse;border-color: blue">
 			<thead>
@@ -33,5 +38,8 @@ header("Content-Disposition: attachment; filename=Uang_Makan_Security.xls");
 					<td><b><?php echo ($total)?></b></td>
 					<td></td>
 				</tr>
+				<tr>
+			        <td colspan="4" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+			    </tr>
 			</tbody>
 		</table>

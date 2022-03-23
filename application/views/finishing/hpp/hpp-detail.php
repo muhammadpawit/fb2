@@ -438,7 +438,11 @@
                                             <?php if($cmtt['kategori_cmt']=='JAHIT'){?>
                                                 <?php echo $cmtt['kategori_cmt'] ?>(<?php echo $namacmt //echo strtoupper($produk['nama_cmt']) ?>)
                                             <?php }else if($cmtt['kategori_cmt']=='BORDIR'){ ?>
-                                                <?php echo $cmtt['kategori_cmt'] ?>(DALAM)
+                                                <?php if($produk['nama_po']=="PFK"){?>
+                                                <?php echo $cmtt['kategori_cmt'] ?>(Luar)
+                                                <?php }else{?>
+                                                    <?php echo $cmtt['kategori_cmt'] ?>(DALAM)
+                                                <?php } ?>
                                             <?php }else{ ?>
                                                 <?php if($cmtt['kategori_cmt']=='SABLON'){?>
                                                 <?php echo $cmtt['kategori_cmt'] ?>(<?php echo $cmtt['id_master_cmt']>0?strtoupper($cmtt['nama_cmt']):' '; ?>)
@@ -451,21 +455,23 @@
 
                                         <td></td>
 
-                                        <?php if (isset($bordirer)){ ?>
+                                        <?php //if (isset($bordirer)){ ?>
 
                                             <?php if ($cmtt['kategori_cmt'] == "BORDIR"){ ?>
 
 
-
+                                                
                                                 <?php foreach ($bordirer as $key => $hasilBordir): ?>
-
                                                     <?php $bordirHitung += $hasilBordir['total_tarif']; ?> 
+                                                     
 
                                                 <?php endforeach ?>
-
-                                            <?php $totalAlat += $bordirHitung / $bukupotongan['hasil_lusinan_potongan']; ?>
-
-                                            <td><?php echo number_format($bordirHitung / $bukupotongan['hasil_lusinan_potongan']) ; ?></td>
+                                           
+                                                <?php $totalAlat += $bordirHitung / $bukupotongan['hasil_lusinan_potongan']; ?>
+                                            <td>
+                                                
+                                                        <?php echo number_format($bordirHitung / $bukupotongan['hasil_lusinan_potongan']) ; ?>
+                                            </td>
 
 
 
@@ -520,7 +526,7 @@
 
                                             <?php } ?>
 
-                                        <?php } ?>
+                                        <?php //} ?>
 
                                     </tr>
 

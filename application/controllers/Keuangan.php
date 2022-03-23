@@ -591,6 +591,21 @@ class Keuangan extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function transferansave(){
+		$data=$this->input->post();
+		$insert=array(
+			'tanggal'=>$data['tanggal'],
+			'nominal'=>$data['nominal'],
+			'keterangan'=>$data['keterangan'],
+			'bagian'=>$data['bagian'],
+			'alokasi'=>$data['alokasi'],
+			'hapus'=>0,
+		);
+		$this->db->insert('transferan',$insert);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Keuangan/transferan');
+	}
+
 	public function edit_transferan($id){
 		$data['title']='Edit Transferan';
 		$data['k']=$this->GlobalModel->GetDataRow('transferan',array('id'=>$id));
@@ -611,20 +626,6 @@ class Keuangan extends CI_Controller {
 		);
 		$this->db->update('transferan',$insert,array('id'=>$data['id']));
 		$this->session->set_flashdata('msg','Data berhasil diubah');
-		redirect(BASEURL.'Keuangan/transferan');
-	}
-
-	public function transferansave(){
-		$data=$this->input->post();
-		$insert=array(
-			'tanggal'=>$data['tanggal'],
-			'nominal'=>$data['nominal'],
-			'keterangan'=>$data['keterangan'],
-			'bagian'=>$data['bagian'],
-			'hapus'=>0,
-		);
-		$this->db->insert('transferan',$insert);
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Keuangan/transferan');
 	}
 

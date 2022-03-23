@@ -13,23 +13,24 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		            <th rowspan="2">Nama</th>
 		            <th rowspan="2">Warna</th>
 		            <th rowspan="2">Kode</th>
-		            <th colspan="2">Stok Awal </th>
-		            <th colspan="2">Masuk</th>
-		            <th colspan="2">Keluar</th>
-		            <th colspan="2">Akhir</th>
+		            <th colspan="1">Stok Awal </th>
+		            <th colspan="1">Masuk</th>
+		            <th colspan="1">Keluar</th>
+		            <th colspan="1">Akhir</th>
 		            <th rowspan="2">Satuan</th>
+		            <th rowspan="2">Harga</th>
 		            <th rowspan="2">Total</th>
 		            <th rowspan="2">Ket</th>
 		          </tr>
 		          <tr>
 		            <th>Pcs</th>
-		            <th>Harga</th>
+		            <!-- <th>Harga</th> -->
 		            <th>Pcs</th>
-		            <th>Harga</th>
+		            <!-- <th>Harga</th> -->
 		            <th>Pcs</th>
-		            <th>Harga</th>
+		            <!-- <th>Harga</th> -->
 		            <th>Pcs</th>
-		            <th>Harga</th>
+		            <!-- <th>Harga</th> -->
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -51,14 +52,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
 		        			<td><?php echo ($p['stokawal'])?></td>
-		        			<td><?php echo ($p['stokawalharga'])?></td>
+		        			<!-- <td><?php echo ($p['stokawalharga'])?></td> -->
 		        			<td><?php echo ($p['stokmasuk'])?></td>
-		        			<td><?php echo ($p['stokmasukharga'])?></td>
+		        			<!-- <td><?php echo ($p['stokmasukharga'])?></td> -->
 		        			<td><?php echo ($p['stokkeluarroll'])?></td>
-		        			<td><?php echo ($p['stokkeluarharga'])?></td>
+		        			<!-- <td><?php echo ($p['stokkeluarharga'])?></td> -->
 		        			<td><?php echo ($p['stokakhirroll'])?></td>
-		        			<td><?php echo ($p['stokakhirharga'])?></td>
+		        			<!-- <td><?php echo ($p['stokakhirharga'])?></td> -->
 		        			<td><?php echo $p['satuan']?></td>
+		        			<td><?php echo ($p['stokakhirharga'])?></td>
 		        			<td><?php echo (($p['stokakhirroll']*$p['stokakhirharga']))?></td>
 		        			<td><?php echo $p['ket']?></td>
 		        		</tr>
@@ -69,15 +71,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        </tbody>
 		        <tfoot>
 		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
-		        		<td colspan="5" align="center"><b>Jumlah</b></td>
-		        		<td><?php echo ($stokawalroll)?></td>
+		        		<td colspan="10" align="center"><b>Jumlah</b></td>
+		        		<!-- <td><?php echo ($stokawalroll)?></td>
 		        		<td></td>
 		        		<td><?php echo ($stokmasukroll)?></td>
 		        		<td></td>
 		        		<td><?php echo ($stokkeluarroll)?></td>
 		        		<td></td>
 		        		<td><?php echo ($stokakhirroll)?></td>
-		        		<td></td>
+		        		<td></td> -->
 		        		<td><?php echo ($total)?></td>
 		        		<td></td>
 		        	</tr>

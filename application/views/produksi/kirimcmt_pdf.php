@@ -1,6 +1,7 @@
 <style type="text/css">
 	 body{text-transform:capitalize;}
 	 .hs { font-size: 18px;font-weight: bold; }
+	 .break{ page-break-after: always; }
 </style>
 <div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
 	<div class="logo" style="border:0px solid yellow;background-image: url('https://forboysproduction.com/assets/images/0001.jpg');height: 200px;width: 220px;background-position: top;background-size: contain;background-repeat: no-repeat;float: left;display: block;">
@@ -72,8 +73,11 @@
 								</ol>
 <br>								
 
+<?php if(count($kirims)==8){?>
+<div class="break"></div>
+<?php } ?>
 
-<div style="width:100%;text-align: center;border:0px solid red;padding-left: 350px;">
+<div style="width:100%;text-align: center;border:0px solid red;padding-left: 350px;margin-top: 10px">
 	<div style="border:0px solid black;height:auto;width: 100%;display: inline-block;margin-right: -5px">
 		<table border="1" style="border-collapse: collapse;width: 60%">
 			<tr>

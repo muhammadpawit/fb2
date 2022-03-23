@@ -39,12 +39,38 @@ class LaporanmingguanModel extends CI_Model {
 			$hasil=$data['total'];
 		}
 		return $hasil;
-	}
+	}	
 
 	public function keterangan_bordir($tanggal,$bagian){
 		$hasil=[];
 		$sql=" SELECT * FROM aruskas where hapus=0 ";
-		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian' AND saldomasuk>0 ";
+		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian' AND saldokeluar>0 ";
+		$data=$this->GlobalModel->QueryManual($sql);
+		if(!empty($data)){
+			foreach($data as $d){
+				$hasil[]=$d['keterangan'];
+			}
+		}
+		return $hasil;
+	}
+
+	public function alokasi_transferan($tanggal,$bagian,$pengalokasian){
+		$hasil=0;
+		$sql=" SELECT COALESCE(sum(nominal),0) as total FROM transferan where hapus=0 ";
+		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian' AND alokasi='$pengalokasian' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total'];
+		}
+
+		return $hasil;
+	}
+
+
+	public function keterangan_transferan($tanggal,$bagian){
+		$hasil=[];
+		$sql=" SELECT keterangan FROM transferan where hapus=0 ";
+		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian'";
 		$data=$this->GlobalModel->QueryManual($sql);
 		if(!empty($data)){
 			foreach($data as $d){

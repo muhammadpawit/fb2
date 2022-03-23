@@ -79,6 +79,7 @@ class Pembayaran extends CI_Controller {
 		$data['title']='Pembayaran CMT Sablon';
 		$data['action']=BASEURL.'Pembayaran/sablon_save';
 		$data['products']=array();
+		$data['pekerjaan']=array();
 		$user=user();
 		$menghapus=0;
 		if(isset($user['id_user'])){
@@ -457,7 +458,7 @@ class Pembayaran extends CI_Controller {
 				$data['products'][]=array(
 					'no'=>$no,
 					'tanggal'=>date('d-m-Y',strtotime($r['created_date'])),
-					'kode_po'=>$r['kode_po'],
+					'kode_po'=>$r['kode_po'].'',
 					'timpotong'=>$timpotong==null?$r['tim_potong_potongan']:$timpotong['nama'],
 					'panjang_gelaran_potongan_utama'=>$r['panjang_gelaran_potongan_utama'],
 					'pemakaian_bahan_utama'=>$r['pemakaian_bahan_utama'],
@@ -469,15 +470,40 @@ class Pembayaran extends CI_Controller {
 					'roll_variasi'=>$rolv->roll,
 					'harga'=>number_format($harga['harga_potongan']),
 					'total'=>number_format($harga['harga_potongan']*$r['hasil_pieces_potongan']),
-					'harga'=>number_format($harga['harga_potongan']),
-					'total'=>number_format($harga['harga_potongan']*$r['hasil_pieces_potongan']),
 					'price'=>($harga['harga_potongan']),
 					'totals'=>($harga['harga_potongan']*$r['hasil_pieces_potongan']),
+					'full'=>1,
 				);
 				$total+=($harga['harga_potongan']*$r['hasil_pieces_potongan']);
 			}
 			$no++;
 		}
+		$sisa=[];
+		$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 AND gtd.hapus=0 AND gtd.full_payment_id=0 ");
+		foreach($res as $r){
+			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
+			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['timpotong']));
+			$totaldz+=($r['jml_dz']);
+			$totalpcs+=($r['jml_pcs']);
+			if(!empty($tim)){
+				$data['products'][]=array(
+					'no'=>$no,
+					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
+					'kode_po'=>$r['kode_po'].'',
+					'timpotong'=>$timpotong==null?$r['timpotong']:$timpotong['nama'],
+					'lusin'=>$r['jml_dz'],
+					'pcs'=>$r['jml_pcs'],
+					'harga'=>number_format($harga['harga_potongan']),
+					'total'=>number_format($harga['harga_potongan']*$r['jml_pcs']),
+					'price'=>($harga['harga_potongan']),
+					'totals'=>($harga['harga_potongan']*$r['jml_pcs']),
+					'full'=>$r['full'],
+				);
+				$total+=($harga['harga_potongan']*$r['jml_pcs']);
+			}
+			$no++;
+		}
+		
 		$saving=0.05*$total;
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);
@@ -524,9 +550,18 @@ class Pembayaran extends CI_Controller {
 					//'total'=>($p['total']),
 					'total'=>($p['perkalian']*$p['harga']*$p['pcs']),
 					'keterangan'=>null,
-					'hapus'=>0
+					'hapus'=>0,
+					'full'=>($p['perkalian']==1)?1:2, // 1 full , 2 50%
 				);
 				$this->db->insert('gaji_timpotong_detail',$detail);
+
+				$up=array(
+					'full_payment_id'=>$id,
+				);
+				$wup=array(
+					'kode_po'=>$p['kode_po'],
+				);
+				$this->db->update('gaji_timpotong_detail',$up,$wup);
 			}
 			$saving=0.05*$total;
 			$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving)),array('id'=>$id));

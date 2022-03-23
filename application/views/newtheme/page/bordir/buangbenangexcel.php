@@ -12,7 +12,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
 <h5>Periode : <?php echo date('d',strtotime($tanggal1)) ?> - <?php echo date('d F Y ',strtotime($tanggal2)) ?></h5>
 
 <table border="1" style="width: 100%;border-collapse: collapse;" cellpadding="5">
-  <tr>
+  <tr style="background-color: pink">
       <td>No</td>
       <td>Nama</td>
       <td>Upah (Rp)</td>
@@ -33,7 +33,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
         $tp+=($pk['totalpembulatan']);
     ?>
   <?php } ?>
-  <tr>
+  <tr style="background-color: yellow;font-weight: bold !important;">
     <td colspan="2"><b>Total Upah Buang Benang</b></td>
     <td><b><?php echo $tb?></b></td>
     <td><b><?php echo $tp?></b></td>
@@ -46,7 +46,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
 <?php foreach($pekerja as $pk){?>
 <table border="1" style="width: 100%;border-collapse: collapse;" cellpadding="5">
 <thead>
-                <tr>
+                <tr style="background-color: yellow;">
                   <!-- <th>No</th> -->
                   <th>Tanggal</th>
                   <th>Nama Karyawan</th>
@@ -76,7 +76,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                 <tr>
                       <td colspan="8">&nbsp;</td>
                     </tr>
-                    <tr>
+                    <tr style="background-color: yellow;font-weight: bold;">
                       <td colspan="7"><b>Total Diterima <?php echo $pk['pekerja']?> (Rp)</b></td>
                       <td><b><?php echo $pk['total']?></b></td>
                     </tr>

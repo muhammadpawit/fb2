@@ -32,9 +32,9 @@
 			    <th >Transfer</th>
 			    <th >Kas Masuk</th>
 			    <th >Kasbon Bahan Baku</th>
+			    <th >Inventaris</th>
 			    <th >Operasional / Listrik</th>
 			    <th >Gaji / Upah</th>
-			    <th >Transfer</th>
 			    <th >Sisa Kas</th>
 			  </tr>
 			</thead>
@@ -45,9 +45,9 @@
 			    <td ><?php echo number_format($r['transfer'])?></td>
 			    <td ><?php echo number_format($r['kas'])?></td>
 			    <td ><?php echo number_format($r['bahanbaku'])?></td>
+			    <td ><?php echo number_format($r['inventaris'])?></td>
 			    <td ><?php echo number_format($r['ops'])?></td>
 			    <td ><?php echo number_format($r['gaji'])?></td>
-			    <td ><?php echo number_format($r['alokasitransfer'])?></td>
 			    <td ><?php echo number_format($r['sisa'])?></td>
 			    <td ><?php echo $r['keterangan']?></td>
 			  </tr>

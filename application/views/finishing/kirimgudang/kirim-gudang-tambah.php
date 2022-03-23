@@ -18,9 +18,7 @@
                         <div class="col-6">
                         </div>
                         <div class="col-md-12">
-                            <div class="alert alert-danger" role="alert">
-                                PERHATIKAN FORM ADD ITEM NYA <strong>PADA PENGACUAN DATA NYA</strong> JANGAN ASAL SUBMIT !!!!!!!
-                            </div>
+                            
                         </div>
                         
                     </div>

@@ -1172,8 +1172,8 @@ class Finishing extends CI_Controller {
 	public function hppproduksidetail($kodepo='')
 	{
 		$viewData['produk'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE pp.kode_po="'.$kodepo.'"');
-		$kirim=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('kode_po'=>$kodepo));
-		$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$kirim['id_master_cmt']));
+		$kirim=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('kategori_cmt'=>'JAHIT','kode_po'=>$kodepo));
+		$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('cmt_job_desk'=>'JAHIT','id_cmt'=>$kirim['id_master_cmt']));
 		$viewData['namacmt']=$cmt['cmt_name'];
 		$viewData['variasi']=null;
 		$viewData['variasi']=$this->GlobalModel->getDataRow('gudang_bahan_keluar',array('bahan_kategori'=>'VARIASI','hapus'=>0,'kode_po'=>$kodepo));
@@ -1218,7 +1218,9 @@ class Finishing extends CI_Controller {
 
 		$viewData['operation']	= $this->GlobalModel->getDataRow('operational',array('id_operational'=>1));
 
+		$viewData['bordirer'] = [];
 		$viewData['bordirer'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir WHERE kode_po = "'.$kodepo.'" AND hapus=0 ');
+
 		if(callSessUser('nama_user')=="Pawitx"){
 			pre($viewData['bukupotongan']);
 		}
@@ -1337,15 +1339,13 @@ class Finishing extends CI_Controller {
 
 	public function kirimgudang($kodepo='')
 	{
+		$viewData['title'] = 'Tambah Surat Jalan Kirim Gudang Tanah Abang';
 		$viewData['po'] = $this->GlobalModel->getData('produksi_po',NULL);
 		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$viewData['poproduksi'] = $this->GlobalModel->getData('produksi_po',null);
 		$viewData['rincian'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="'.'SELESAI'.'" OR kks.progress="'.'FINISHING'.'" ');
-		// pre($viewData);
-		//$this->load->view('global/header');
 		$viewData['page']='finishing/kirimgudang/kirim-gudang-tambah';
 		$this->load->view($this->page.'main',$viewData);
-		//$this->load->view('global/footer');
 	}
 
 	public function kirimgudangsendRincinan()
@@ -1365,62 +1365,63 @@ class Finishing extends CI_Controller {
 	public function kirimgudangforProd()
 	{
 		$post = $this->input->post();
-		// pre($post);
-		foreach ($post['kodepo'] as $key => $kodepo) {
+		//pre($post);
+		if($post['susulan']==2){
 
-		$dataInput = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po' => $kodepo));
+		}else{
+			foreach ($post['kodepo'] as $key => $kodepo) {
+				$dataInput = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po' => $kodepo));
 
-			if (empty($dataInput)) {
+					if (empty($dataInput)) {
 
-			$dataKirim = array(
-				'finishing_kirim_gudang_faktur'	=>	$post['noFaktur'],
-				'tanggal_kirim'	=> $post['tanggalKirim']
-			);
-			$this->GlobalModel->insertData('finishing_kirim_gudang_faktur',$dataKirim);
-
-			$setorFinishRinci = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$kodepo));
-				$dataInsert = array(
-					'nofaktur'			=> 	$post['noFaktur'],
-					'nama_penerima'		=>  $post['namaPenerima'],
-					'tujuan'			=>	$post['tujuanItem'],
-					'artikel_po'			=>	$post['artikel'][$key], 
-					'kode_po'			=> 	$post['kodepo'][$key],
-					'harga_satuan'		=> 	$post['hargasatuan'][$key],
-					'jumlah_harga_piece'	=> 	$post['jumlahRinci'][$key] * $post['hargasatuan'][$key],
-					'jumlah_piece_diterima'	=> $post['jumlahRinci'][$key],
-					'keterangan'		=>	$post['keterangan'][$key],
-					'created_date'		=> date('Y-m-d'),
-					'tanggal_kirim'		=>	$post['tanggalKirim'],
-					'susulan'			=> $post['susulan'],
-
-				);
-				$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$kodepo),array('id_proggresion_po'=>$post['proggress'],'progress_lokasi'=>'KIRIM GUDANG'));
-				$this->GlobalModel->insertData('finishing_kirim_gudang',$dataInsert);
-				$lastId = $this->db->insert_id();
-
-				foreach ($setorFinishRinci as $key => $rincian) {
-					$dataRincian = array(
-						'id_finishing_kirim_gudang'		=> $lastId,
-						'rincian_size'		=> $rincian['rincian_size'], 
-						'rincian_lusin'		=> $rincian['rincian_lusin'], 
-						'rincian_piece'		=> $rincian['rincian_piece'],
-						'created_date'		=> date('Y-m-d')
+					$dataKirim = array(
+						'finishing_kirim_gudang_faktur'	=>	$post['noFaktur'],
+						'tanggal_kirim'	=> $post['tanggalKirim']
 					);
-					$this->GlobalModel->insertData('finishing_kirim_gudang_rincian',$dataRincian);
-				}
+					$this->GlobalModel->insertData('finishing_kirim_gudang_faktur',$dataKirim);
 
-			} else {
+					$setorFinishRinci = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$kodepo));
+						$dataInsert = array(
+							'nofaktur'			=> 	$post['noFaktur'],
+							'nama_penerima'		=>  $post['namaPenerima'],
+							'tujuan'			=>	$post['tujuanItem'],
+							'artikel_po'			=>	$post['artikel'][$key], 
+							'kode_po'			=> 	$post['kodepo'][$key],
+							'harga_satuan'		=> 	$post['hargasatuan'][$key],
+							'jumlah_harga_piece'	=> 	$post['jumlahRinci'][$key] * $post['hargasatuan'][$key],
+							'jumlah_piece_diterima'	=> $post['jumlahRinci'][$key],
+							'keterangan'		=>	$post['keterangan'][$key],
+							'created_date'		=> date('Y-m-d'),
+							'tanggal_kirim'		=>	$post['tanggalKirim'],
+							'susulan'			=> $post['susulan'],
 
-				$this->session->set_flashdata('msg','Kode PO "'.$kodepo.'", Sudah di input, Jadi coba cek lagi!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
+						);
+						$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$kodepo),array('id_proggresion_po'=>$post['proggress'],'progress_lokasi'=>'KIRIM GUDANG'));
+						$this->GlobalModel->insertData('finishing_kirim_gudang',$dataInsert);
+						$lastId = $this->db->insert_id();
 
-				redirect(BASEURL.'finishing/kirimgudang');
+						foreach ($setorFinishRinci as $key => $rincian) {
+							$dataRincian = array(
+								'id_finishing_kirim_gudang'		=> $lastId,
+								'rincian_size'		=> $rincian['rincian_size'], 
+								'rincian_lusin'		=> $rincian['rincian_lusin'], 
+								'rincian_piece'		=> $rincian['rincian_piece'],
+								'created_date'		=> date('Y-m-d')
+							);
+							$this->GlobalModel->insertData('finishing_kirim_gudang_rincian',$dataRincian);
+						}
 
+					} else {
+
+						$this->session->set_flashdata('msg','Kode PO "'.$kodepo.'", Sudah di input, Jadi coba cek lagi!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
+
+						redirect(BASEURL.'finishing/kirimgudang');
+
+					}
 			}
-
-
 		}
 
-			redirect(BASEURL.'finishing/notakirimgudangprint/'.$post['noFaktur']);
+		redirect(BASEURL.'finishing/notakirimgudangprint/'.$post['noFaktur']);
 
 
 	}

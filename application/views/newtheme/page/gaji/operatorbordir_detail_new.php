@@ -40,7 +40,7 @@
 						if(!empty($sabsensi)){
 							$absensi=$sabsensi['total'];
 						}
-						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
+						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total,keterangan FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
 						if(!empty($sclaim)){
 							$claim=$sclaim['total'];
 						}
@@ -77,7 +77,7 @@
 						<td align="right"><b><?php echo $claim?></b></td>
 						<td></td>
 						<td></td>
-						<td></td>
+						<td align="right"><?php echo !empty($claim)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>

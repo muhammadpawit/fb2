@@ -45,9 +45,9 @@ class Laporanmingguansablon extends CI_Controller {
 		    	'transfer'=>$masuk_transfer,
 		    	'kas'=>$masuk_kas,
 		    	'bahanbaku'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,12),
-		    	'ops'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,13),
-		    	'gaji'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,14),
-		    	'alokasitransfer'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,15),
+		    	'inventaris'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,13),
+		    	'ops'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,14),
+		    	'gaji'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,15),
 		    	'sisa'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,16),
 		    	'keterangan'=>implode(",",$keterangan),
 		    );

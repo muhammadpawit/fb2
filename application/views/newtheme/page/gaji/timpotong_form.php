@@ -81,8 +81,8 @@
 						<td><?php echo $p['pcs']?></td>
 						<td>
 							<select name="products[<?php echo $p['no']?>][perkalian]">
-								<option value="1">100%</option>
-								<option value="0.5">50%</option>
+								<option value="1" <?php echo ($p['full']==1)?'selected':'';?>>100%</option>
+								<option value="0.5" <?php echo ($p['full']==2)?'selected':'';?>>50%</option>
 							</select>
 						</td>
 						<td><?php echo $p['harga']?></td>
@@ -91,22 +91,22 @@
 					</tr>
 				<?php } ?>
 				<tr>
-					<td colspan="6"><b></b></td>
+					<td colspan="7"><b></b></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Total</b></td>
+					<td colspan="7"><b>Total</b></td>
 					<td><b><?php echo $total?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Saving 5%</b></td>
+					<td colspan="7"><b>Saving 5%</b></td>
 					<td><b><?php echo $saving?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Total yang diterima</b></td>
+					<td colspan="7"><b>Total yang diterima</b></td>
 					<td><b><?php echo $nominal?></b></td>
 					<td></td>
 				</tr>

@@ -166,6 +166,7 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php $b=0;?>
 					<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
 					<tr>
 						<td>
@@ -174,7 +175,7 @@
 								echo !empty($name)?$name['nama_job']:'';
 							?>
 						</td>
-						<td><?php echo array_sum($dzs[$val]);?></td>
+						<td><?php $b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
 						<td><?php echo number_format(3000)?></td>
 						<td><?php echo number_format(3000*array_sum($dzs[$val]))?></td>
 						<td><?php echo count($dzs[$val]);?> PO </td>
@@ -188,7 +189,7 @@
 				</tbody>
 				<tfoot>
 					<td><b>Total Diterima</b></td>
-					<td><b><?php echo $tdz?></b></td>
+					<td><b><?php echo number_format($tdz,2)?></b></td>
 					<td></td>
 					<td><b><?php echo number_format($tjml)?></b></td>
 					<td><b><?php echo $tpo?></b></td>

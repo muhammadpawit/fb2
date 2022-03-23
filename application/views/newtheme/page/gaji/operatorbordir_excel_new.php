@@ -72,7 +72,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						if(!empty($sabsensi)){
 							$absensia=$sabsensi['total'];
 						}
-						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
+						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total,keterangan FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
 						if(!empty($sclaim)){
 							$claima=$sclaim['total'];
 						}
@@ -110,7 +110,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td align="right"><b><?php echo $claima?></b></td>
 						<td></td>
 						<td></td>
-						<td></td>
+						<td align="right"><?php echo !empty($claima)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>
@@ -174,7 +174,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							$absensib=$sabsensi['total'];
 						}
 
-						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
+						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total,keterangan FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
 						if(!empty($sclaim)){
 							$claimb=$sclaim['total'];
 						}
@@ -215,7 +215,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td align="right"><b><?php echo $claimb?></b></td>
 						<td></td>
 						<td></td>
-						<td></td>
+						<td align="right"><?php echo !empty($claimb)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>
@@ -287,7 +287,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td>Keterangan</td>
 							</tr>
 							<tr>
-								<td>Mandor Siang</td>
+								<td>Mandor Pagi</td>
 								<td><?php echo $umsiang?></td>
 								<td><?php echo $bonussiang?></td>
 								<td></td>
@@ -298,18 +298,18 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td><?php echo $bonusmalam?></td>
 								<td></td>
 							</tr>
-							<tr>
+							<tr style="background-color: yellow">
 								<td>Jumlah</td>
 								<td><?php echo ($umsiang+$ummalam)?></td>
 								<td><?php echo ($bonusmalam+$bonussiang)?></td>
 								<td></td>
 							</tr>
-							<tr>
+							<tr style="background-color: pink">
 								<td>Pembayaran 30%</td>
 								<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
 								<td></td>
 							</tr>
-							<tr>
+							<tr style="background-color: lightblue">
 								<td>Total Diterima (Rp)</td>
 								<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 								<td>UM+30% (Bonus)</td>
@@ -318,7 +318,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</td>
 					<td colspan="5">
 						<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
-							<tr>
+							<tr style="background-color: yellow;">
 								<td>Jumlah Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></td>
 								<td><?php echo pembulatangaji($allgaji)?></td>
 							</tr>
@@ -326,9 +326,17 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td>Bonus target mandor + u.m (Rp)</td>
 								<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
-							<tr>
-								<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-								<td><?php echo pembulatangaji($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?></td>
+							<tr style="background-color: yellow;">
+								<td>
+									<b>
+										Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?>
+									</b>
+								</td>
+								<td>
+									<b>
+										<?php echo pembulatangaji($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?>
+									</b>
+								</td>
 							</tr>
 						</table><br>
 						
@@ -353,7 +361,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
     <td class="tg-lboi" valign="bottom">
     	<table border="0" style="border-bottom: 1px solid black"><tr><td>Lama Kerja</td></tr></table>
     </td>
-    <td class="tg-9wq8" rowspan="2" valign="middle"><span style="border-top: 1px solid black">* Upah / hari</span></td>
+    <td class="tg-9wq8" rowspan="2" valign="middle"><span style="border-top: 1px solid black">X Upah / hari</span></td>
   </tr>
   <tr>
     <td class="tg-0pky">Jumlah jam kerja</td>

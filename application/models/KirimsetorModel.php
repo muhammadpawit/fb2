@@ -299,4 +299,40 @@ class kirimsetorModel extends CI_Model {
 		return $sj;
 	}
 
+	public function stok_baru_kaos($id,$jenis,$tanggal){
+		$sj=[];
+		$sql="SELECT k.nosj,kd.*,mjp.perkalian FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) ";
+		$sql .="LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis IN('$jenis') AND idcmt='".$id."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
+		$sql.=" AND DATE(k.tanggal) <'".$tanggal."' ";
+		$sj=$this->GlobalModel->queryManual($sql);
+		$hasil=[];
+		$i=0;
+		if(!empty($sj)){
+			foreach($sj as $s){
+				if( ($s['jumlah_pcs']-$s['totalsetor'])>0 ){
+					$hasil[]=$s['kode_po'];
+					$i+=(1*$s['perkalian']);
+				}
+			}
+		}
+		return $i;
+	}
+
+	public function stok_baru($id,$jenis){
+		$sj=[];
+		$sql="SELECT k.nosj,kd.*,mjp.perkalian FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis IN('$jenis') AND idcmt='".$id."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
+		$sj=$this->GlobalModel->queryManual($sql);
+		$hasil=[];
+		$i=0;
+		if(!empty($sj)){
+			foreach($sj as $s){
+				if( ($s['jumlah_pcs']-$s['totalsetor'])>0 ){
+					$hasil[]=$s['kode_po'];
+					$i+=(1*$s['perkalian']);
+				}
+			}
+		}
+		return $i;
+	}
+
 }
