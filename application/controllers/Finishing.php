@@ -1367,7 +1367,7 @@ class Finishing extends CI_Controller {
 		$post = $this->input->post();
 		//pre($post);
 		if($post['susulan']==2){
-
+			echo "Dalam Pengembangan";
 		}else{
 			foreach ($post['kodepo'] as $key => $kodepo) {
 				$dataInput = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po' => $kodepo));
@@ -1419,9 +1419,8 @@ class Finishing extends CI_Controller {
 
 					}
 			}
+			redirect(BASEURL.'finishing/notakirimgudangprint/'.$post['noFaktur']);
 		}
-
-		redirect(BASEURL.'finishing/notakirimgudangprint/'.$post['noFaktur']);
 
 
 	}
