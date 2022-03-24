@@ -103,7 +103,7 @@ class Penambahansj extends CI_Controller {
 		$data['cancel']=$this->url;
 		$data['action']=$this->url.'save';
 		$data['progress'] = $this->GlobalModel->queryManual('SELECT * FROM master_progress WHERE id_progress IN(1) ');
-		$data['po']=$this->GlobalModel->queryManual('SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po WHERE progress_lokasi="PENGECEKAN" ');
+		$data['po']=$this->GlobalModel->queryManual('SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po WHERE kbp.kode_po NOT IN(SELECT kode_po from finishing_kirim_gudang)');
 		$data['pekerjaan']=$this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>1));
 		$data['page']=$this->page.'penambahansj_form';
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));

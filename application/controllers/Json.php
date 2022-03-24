@@ -383,13 +383,14 @@ class Json extends CI_Controller {
 	public function search_po_kirimjahitpenambahan(){
 		$data=$this->input->get();
 		//$sql="SELECT * FROM produksi_po WHERE hapus=0  ";
-		$sql="SELECT * FROM produksi_po WHERE hapus=0 and kode_po IN(select kode_po from kelolapo_pengecekan_potongan) AND kode_po NOT IN (SELECT kode_po FROM kirimcmt_detail WHERE hapus=0 ) ";
+		//$sql="SELECT * FROM produksi_po WHERE hapus=0 and kode_po IN(select kode_po from kelolapo_pengecekan_potongan) AND kode_po NOT IN (SELECT kode_po FROM kirimcmt_detail WHERE hapus=0 ) ";
+		$sql ="SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po WHERE kbp.kode_po NOT IN(SELECT kode_po from finishing_kirim_gudang)";
 		if(!empty($data['term'])){
-			$sql .= " AND lower(kode_po) LIKE '%".strtolower($data['term'])."%' ";
+			$sql .= " AND lower(kbp.kode_po) LIKE '%".strtolower($data['term'])."%' ";
 		}
 
 		if(!empty($data['search'])){
-			$sql .= " AND lower(kode_po) LIKE '%".strtolower($data['search'])."%' ";
+			$sql .= " AND lower(kbp.kode_po) LIKE '%".strtolower($data['search'])."%' ";
 		}
 
 		$sql.=" ORDER BY id_produksi_po DESC ";

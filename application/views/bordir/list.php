@@ -41,6 +41,7 @@
                         <thead>
                         <tr>
                             <th>Nama Operator</th>
+                            <th>Mandor</th>
                             <th>No Mesin</th>
                             <th>Nama Po</th>
                             <th>Tanggal Masuk</th>
@@ -58,7 +59,8 @@
                         <?php foreach ($bordir as $bod): ?>
                         <tr>
                             <td><?php echo $bod['operator'] ?></td>
-                             <td><?php echo $bod['mesin'] ?></td>
+                            <td><?php echo $bod['mandor'] ?></td>
+                            <td><?php echo $bod['mesin'] ?></td>
                             <td><?php echo $bod['nama_po'] ?></td>
                             <td><?php echo $bod['created_date'] ?></td>
                             <td><?php echo $bod['bagian_bordir'] ?></td>

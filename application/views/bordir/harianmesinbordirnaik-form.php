@@ -1,31 +1,14 @@
-<!-- Start Page content -->
-<div class="content">
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="card-box">
-                    <div class="row">
-                        <div class="col-6">
-                            <h4 class="header-title m-t-0 m-b-20">INPUT HARIAN MESIN BORDIR</h4>
-                        </div>
-                        <div class="col-6 text-right">
-                            <a href="<?php echo $kembali?>" class="btn btn-warning text-white">Kembali</a>
-                        </div>
-                    </div>
-                    <hr>
-                   <form action="<?php echo BASEURL.'bordir/addharianmesinsave' ?>" method="POST">
-                        <input type="hidden" name="jenis" value="<?php echo $jenis?>">
-                        <div class="row">
-							<div class="form-group col-6">
+<form action="<?php echo BASEURL.'bordir/addharianmesinsave' ?>" method="POST">
+<input type="hidden" name="jenis" value="<?php echo $jenis?>">
+<div class="row">
+    <div class="form-group col-6">
                                 <label>Nama PO</label>
                                 <select name="namaPo" class="form-control select2bs4" data-live-search="TRUE">
-									<option value=""></option>
-									<?php foreach($po as $p){?>
-										<option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
-									<?php } ?>
-								</select>
+                                    <option value=""></option>
+                                    <?php foreach($po as $p){?>
+                                        <option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
                             <div class="form-group col-6">
                                 <label>SHIFT</label>
@@ -46,13 +29,17 @@
                                 <label>JAM</label>
                                 <input type="number" class="form-control selectpicker shift" name="jamkehadiran" id="jamkerja" required>
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-3">
                                 <label>Nama OPERATOR</label>
                                 <select class="form-control select2bs4" data-live-search="TRUE" name="namaOperator" required>
                                     <?php foreach ($operator as $key => $op): ?>
                                         <option value="<?php echo $op['id_master_karyawan_bordir'] ?>"><?php echo $op['nama_karyawan_bordir'] ?></option>
                                     <?php endforeach ?>
                                 </select>
+                            </div>
+                            <div class="form-group col-3">
+                                <label>Nama Mandor</label>
+                                <input type="text" name="mandor" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
                                 <label>MESIN</label>
@@ -78,8 +65,10 @@
                                 <label>TANGGAL</label>
                                 <input type="date" class="form-control" name="tanggal" required>
                             </div>
-                            <div class="col-12">
-                                <table class="table table-bordered" id="item_table">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered" id="item_table">
                                     <tr>
                                         <th>JML NAIK</th>
                                         <th>JML TURUN</th>
@@ -116,24 +105,18 @@
                                         <td><input type="text" class="form-control" id="target" name="target" required></td>
                                     </tr>
                                 </table>
-                            </div>
-                            <hr>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                   </form>
-
-                </div>
-
-            </div>
-
-        </div>
-        <!-- end row -->
-
-    </div> <!-- container -->
-
-</div> <!-- content -->
- <script type="text/javascript">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-info full">Simpan</button>
+    </div>
+    <div class="col-md-6">
+        <a href="<?php echo $kembali?>" class="btn btn-danger text-white full">Batal</a>
+    </div>
+</div>
+</form>
+<script type="text/javascript">
 $(document).ready(function(){
 
 $( "#perkalianTarif" ).keyup(function() {

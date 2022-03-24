@@ -874,6 +874,7 @@ class Bordir extends CI_Controller {
 					$data['bordir'][]=array(
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
+					'mandor'=>$b['mandor'],
 					'nama_po'=>$b['kode_po'],
 					'mesin'=>$b['mesin_bordir'],
 					'created_date'=>date('d F Y',strtotime($b['created_date'])),
@@ -1084,6 +1085,7 @@ class Bordir extends CI_Controller {
 					$data['bordir'][]=array(
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
+					'mandor'=>$b['mandor'],
 					'nama_po'=>$b['kode_po'],
 					'created_date'=>date('d F Y',strtotime($b['created_date'])),
 					'bagian_bordir'=>$b['bagian_bordir'],
@@ -1108,6 +1110,7 @@ class Bordir extends CI_Controller {
 	}
 	public function addharianmesin($jenis){
 		$data=array();
+		$data['title']='Tambah Bordir';
 		//pre($jenis);
 		$data['jenis']=$jenis;
 		if($jenis==1){
@@ -1148,6 +1151,7 @@ class Bordir extends CI_Controller {
 		$dataInsert = array(
 		'shift'	=> $post['shift'],
 		'kode_po' =>$post['namaPo'],
+		'mandor'=>isset($post['mandor'])?$post['mandor']:null,
 		'nama_operator'  => $post['namaOperator'],
 		'mesin_bordir'  => $post['mesin'],
 		'created_date'  => $post['tanggal'],

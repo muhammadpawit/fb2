@@ -86,7 +86,7 @@
                                 <label>Nama Pekerja</label>
 
                                 <select class="form-control select2bs4" name="namaPekerja" required data-live-search="true">
-
+                                    <option value="">Mohon dipilih</option>
                                     <?php foreach ($karyawan as $key => $per): ?>
 
                                         <option value="<?php echo $per['id_master_karyawan_benang'] ?>"><?php echo $per['nama_karyawan_benang'] ?></option>
