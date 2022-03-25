@@ -1855,6 +1855,22 @@ $(document).ready(function(){
 
     });
 
+    $('.autopoid').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'autopoid',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
 
 
 });

@@ -1191,6 +1191,8 @@ class Kelolapo extends CI_Controller {
 
 	public function kirimcmtsablonsave(){
 		$post=$this->input->post();
+		$cmt=explode('-', $post['cmtName']);
+		//pre($cmt[0]);
 		$atas=array();
 		$bawah=array();
 		$totalatas=0;
@@ -1198,7 +1200,6 @@ class Kelolapo extends CI_Controller {
 		$totalkirim=0;
 		$jobprice=0;
 		if(isset($post['tanggal'])){
-			$cmt=explode('-', $post['cmtName']);
 			$insert=array(
 				'tanggal'=>$post['tanggal'],
 				'kode_po'=>'-',

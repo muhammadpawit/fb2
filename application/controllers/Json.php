@@ -435,6 +435,24 @@ class Json extends CI_Controller {
 		}
 	}
 
+	public function autopoid(){
+		$data=$this->input->get();
+		$sql="SELECT po.* FROM produksi_po po WHERE hapus=0 AND id_produksi_po NOT IN (SELECT idpo from pogagalproduksi WHERE hapus=0 ) ";
+		if(!empty($data['term'])){
+			$sql .= " AND lower(po.kode_po) LIKE '%".strtolower($data['term'])."%' ";
+		}
+		$sql.=" ORDER BY po.id_produksi_po DESC ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		foreach($results as $row){
+			$hasil[]=array(
+				'id'=>$row['id_produksi_po'].'-'.$row['kode_po'],
+				'text'=>$row['kode_po'],
+			);
+		}
+
+		echo json_encode($hasil);
+	}
+
 
 
 
