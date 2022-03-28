@@ -22,7 +22,7 @@
                                 <td><?php echo $sat['qty_tot_pcs'] ?></td>
                                 <td><?php echo $sat['created_date'] ?></td>
                                 <td>
-                                    <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['kode_po'] ?>" class="btn btn-warning text-white"><i class="fa fa-pencil">Proses</i></a>
+                                    <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['idpo'].'/'.$sat['kode_po'] ?>" class="btn btn-warning text-white"><i class="fa fa-pencil">Proses</i></a>
 
                                     <?php if(aksesedit()==1){?>
                                         <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-dark text-white"><i class="fa fa-pencil">Edit</i></a>

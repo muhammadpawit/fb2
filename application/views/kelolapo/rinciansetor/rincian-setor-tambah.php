@@ -132,6 +132,7 @@
 	                    <!-- RINCIAN INPUT SETOR CMT -->
 	                    <div class="tab-pane show active" id="profile1">
 	                        <form action="<?php echo BASEURL.'finishing/produksikaoscmtAct' ?>" method="post">
+                                <input type="hidden" name="idpo" value="<?php echo $idpo?>">
 <div class="row">
     <div class="col-sm-12">
         <hr>

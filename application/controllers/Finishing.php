@@ -950,6 +950,7 @@ class Finishing extends CI_Controller {
 		$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="'.'SELESAI'.'" OR kks.progress="'.'FINISHING'.'" ');
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
 		foreach ($rincian as $key => $rinci) {
+			$viewData['rincian'][$key]['idpo']=$rinci['id_produksi_po'];
 			$viewData['rincian'][$key]['kode_po'] = $rinci['kode_po'];
 			$viewData['rincian'][$key]['nama_cmt'] =$rinci['nama_cmt'];
 			$viewData['rincian'][$key]['kategori_cmt'] =$rinci['kategori_cmt'];
@@ -958,6 +959,7 @@ class Finishing extends CI_Controller {
 			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
 			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po'=>$rinci['kode_po']));
 		}
+		
 		// pre($viewData);
 		//$this->load->view('global/header');
 		$viewData['page']='kelolapo/rinciansetor/rincian-setor-view';
@@ -965,8 +967,9 @@ class Finishing extends CI_Controller {
 		//$this->load->view('global/footer');
 	}
 
-	public function produksikaoscmt($kodepo='')
+	public function produksikaoscmt($idpo,$kodepo='')
 	{
+		$viewData['idpo']=$idpo;
 		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.kode_po="'.$kodepo.'"');
 		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$viewData['atas'] =[];
@@ -1017,6 +1020,7 @@ class Finishing extends CI_Controller {
 			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po' => $post['kode_po'],));
 
 			$insertData = array(
+				'idpo'=>$post['idpo'],
 				'kode_po'			=>	$post['kode_po'],
 				'pcs_setor_qty'		=>	$pcs,
 				'jml_setor_qty'		=>	$jmlYangDisetor,

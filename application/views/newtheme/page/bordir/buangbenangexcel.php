@@ -81,7 +81,40 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                       <td><b><?php echo $pk['total']?></b></td>
                     </tr>
                     <tr>
-                      <td colspan="8">&nbsp;</td>
+                      <td colspan="8">
+                        <br>
+                        <table border="1" style="width: 100%;border-collapse: collapse;" cellpadding="4">
+                          <thead>
+                            <tr style="background-color: green;color:white">
+                              <th colspan="4">PO Yang dibuang benang <?php echo $pk['pekerja']?></th>
+                            </tr>
+                            <tr>
+                              <th>No</th>
+                              <th>Nama PO</th>
+                              <th>Bagian</th>
+                              <th>Jumlah</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $nor2=1;?>
+                            <?php $tor2=0;?>
+                            <?php foreach($pk['rek2'] as $rt){?>
+                              <tr>
+                                <td><?php echo $nor2++ ?></td>
+                                <td><?php echo $rt['kode_po']?></td>
+                                <td><?php echo $rt['bagian_buang_benang']?></td>
+                                <td><?php echo $rt['total']?></td>
+                              </tr>
+                              <?php $tor2+=($rt['total']);?>
+                            <?php } ?>
+                            <tr style="background-color: green">
+                              <td align="center" colspan="3"><b>Total</b></td>
+                              <td><b><?php echo $tor2;?></b></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br>
+                      </td>
                     </tr>
               </tbody>
             </table>

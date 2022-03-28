@@ -294,7 +294,7 @@
 		              <!-- <td><?php echo ($p['setorkemejajml'])?></td>
 		              <td><?php echo $p['setorkemejadz']>0?number_format($p['setorkemejadz']):'';?></td> -->
 		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
-		              <td><?php echo $p['stokakhirkaosdz']>0?number_format($p['stokakhirkaosdz']):'';?></td>
+		              <td><?php echo $p['stokakhirkaosdz']>0?($p['stokakhirkaosdz']):'';?></td>
 		              <!-- <td><?php echo ($p['stokakhirkemejajml'])?></td>
 		              <td><?php echo $p['stokakhirkemejadz']>0?number_format($p['stokakhirkemejadz']):'';?></td> -->
 		            </tr>
@@ -311,8 +311,9 @@
 		        		$setorkaosdz+=($p['setorkaosdz']);
 		        		$setorkemejajml+=($p['setorkemejajml']);
 		        		$setorkemejadz+=($p['setorkemejadz']);
-		        		$stokakhirkaosjml+=($p['stokakhirkaosjml']);
-		        		$stokakhirkaosdz+=($p['stokakhirkaosdz']);
+		        		//$stokakhirkaosjml+=($p['stokakhirkaosjml']);
+		        		// $stokakhirkaosdz+=($p['stokakhirkaosdz']);
+		        		$stokakhirkaosdz+=0;
 		        		$stokakhirkemejajml+=($p['stokakhirkemejajml']);
 		        		$stokakhirkemejadz+=($p['stokakhirkemejadz']);
 		        	 ?>

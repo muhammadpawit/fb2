@@ -65,13 +65,14 @@ class Bordir extends CI_Controller {
 			foreach($pekerja as $p){
 				$ps=$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_buang_benang kbb WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' ");
 				$tot=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_buang_benang*harga_buang_benan) as total FROM kelolapo_buang_benang kbb WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' ");
+				$rek2=$this->GlobalModel->QueryManual("SELECT SUM(qty_buang_benang) AS total, kode_po,bagian_buang_benang,nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' GROUP BY kode_po,bagian_buang_benang ");
 				$data['pekerja'][]=array(
 					'pekerja'=>$p['nama_karyawan_benang'],
 					'products'=>$ps,
+					'rek2'=>$rek2,
 					'total'=>$tot['total'],
 				);
 			}
-			
 			$rekap=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_benang WHERE id_master_karyawan_benang IN(SELECT nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 			$tr=0;
 			foreach($rekap as $r){

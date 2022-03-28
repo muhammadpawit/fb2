@@ -1,5 +1,5 @@
 <style type="text/css">
-	 body{text-transform:capitalize;}
+	 body{text-transform:capitalize;font-size: 22px;}
 	 .hs { font-size: 18px;font-weight: bold; }
 	 .break{ page-break-after: always; }
 </style>
@@ -73,7 +73,7 @@
 								</ol>
 <br>								
 
-<?php if(count($kirims)==8){?>
+<?php if(count($kirims)==10){?>
 <div class="break"></div>
 <?php } ?>
 

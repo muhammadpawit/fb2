@@ -355,7 +355,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							4.Hari minggu pembayaran double<br>
 							5.Tanggal merah pembayaran double<br>
 							6.Rumus penghitungan lama kerja dari (12 jam) <br>Rumus 
-<table class="tg">
+<table class="tg" border="4" style="border-collapse: collapse;">
 <thead>
   <tr>
     <td class="tg-lboi" valign="bottom">

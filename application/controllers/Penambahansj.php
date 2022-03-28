@@ -121,7 +121,7 @@ class Penambahansj extends CI_Controller {
 		$totalkirim=0;
 		$jobprice=0;
 		$id=$post['sj'];
-		if(isset($post['tanggal'])){
+		if(isset($post['sj'])){
    			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt[0]));
    			foreach($post['products'] as $p){
    				$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));

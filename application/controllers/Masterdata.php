@@ -1091,6 +1091,7 @@ class Masterdata extends CI_Controller {
 			'supplier'=>$post['supplier'],
 			'jenis'=>$post['jenis'],
 			'satuan_jumlah_item'=>$post['satuan'],
+			'harga_item'	=>$post['harga_beli'], // harga di hpp
 		);
 		$this->db->update('gudang_persediaan_item',$ug,array('id_persediaan'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil disimpan');

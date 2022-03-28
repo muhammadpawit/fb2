@@ -56,7 +56,7 @@ class Laporanexpedisi extends CI_Controller {
             $is=strtotime($tgl."+1 day");
 		}
 		$data['c']=$c;
-		
+		//pre($data['prods']);
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'laporanexpedisi_excel',$data);
 		}else{
