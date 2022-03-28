@@ -45,7 +45,7 @@
                                 <label>MESIN</label>
                                 <select class="form-control select2bs4" name="mesin" required>
                                     <?php foreach ($mesin as $key => $me): ?>
-                                    <option value="<?php echo $me['nomer_mesin'] ?>"><?php echo $me['nomer_mesin'] ?></option>
+                                    <option value="<?php echo $me['nomer_mesin'] ?>"><?php echo $me['nomer_mesin'] ?> (<?php echo $me['nama_mesin'] ?>)</option>
                                     <?php endforeach ?>
                                 </select>
                             </div>
