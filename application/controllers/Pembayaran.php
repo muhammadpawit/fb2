@@ -723,7 +723,7 @@ class Pembayaran extends CI_Controller {
 				'nama'=>strtolower($cmt['cmt_name']),
 				'total'=>number_format($result['total']),
 				'potongan_bangke'=>number_format($result['potongan_bangke']),
-				'biaya_transport'=>number_format($result['biaya_transport']),
+				'biaya_transport'=>number_format($result['biaya_transport']-$result['potongan_transport']),
 				'keterangan'=>strtolower($result['keterangan']),
 				'detail'=>BASEURL.'Pembayaran/cmtjahitdetail/'.$result['id'],
 				'hapus'=>BASEURL.'Pembayaran/cmtjahithapus/'.$result['id'],
@@ -830,6 +830,7 @@ class Pembayaran extends CI_Controller {
 		$totalpengembalianbangke=0;
 		$totaldz=0;
 		$btransport=0;
+		$pottripke2=0;
 		//echo 'Sedang dalam perbaikan.. Mohon tunggu beberapa saat lagi';exit;
 		//pre($data);
 		if(isset($data['cmt'])){
@@ -838,16 +839,30 @@ class Pembayaran extends CI_Controller {
 					$potptm=explode(",",$p['potpertama']);
 					$totalbayar+=($p['total']-$potptm[0]);
 					if($p['trans']==1){
-						$totaldz+=round($p['jumlah_pcs']/12);
+						$totaldz+=($p['jumlah_pcs']/12);
 					}
 				}
 				$sbt="SELECT * FROM harga_transport WHERE dz1<='".$totaldz."' AND '".$totaldz."' <=dz2 ";
+				$tripke1=0;
 				if($data['metode']==1){
 					$bt=$this->GlobalModel->QueryManualRow($sbt);
 					if(!empty($bt)){
 						$btransport=$bt['harga'];
 					}
 				}
+
+				if(isset($data['tripke'])){
+					if($data['tripke']==2){
+						$trip1=$this->GlobalModel->GetdataRow('pembayaran_cmt',array('id'=>$transport[0]));
+						$dtrip1=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_dz) as total FROM pembayaran_cmt_detail WHERE idpembayaran='".$trip1['id']."' ");
+						$alldz=($totaldz+$dtrip1['total']);
+						$bt2=$this->GlobalModel->QueryManualRow("SELECT * FROM harga_transport WHERE dz1<='".$alldz."' AND '".$alldz."' <=dz2 ");
+						$tripke1=$bt['harga'];
+						$btransport=($bt2['harga']);
+					}
+				}
+
+				//pre($btransport-$tripke1);
 				$insert=array(
 					'tanggal'=>$data['tanggal'],
 					'periode'=>$data['tanggal'],
@@ -863,6 +878,7 @@ class Pembayaran extends CI_Controller {
 					'hapus'=>0,
 					'potongan_transport'=>isset($data['pot_transport'])?$transport[1]:0,
 					'transport_dari_id'=>isset($data['pot_transport'])?$transport[0]:0,
+					'tripke'=>isset($data['tripke'])?$data['tripke']:1,
 				);
 				$this->db->insert('pembayaran_cmt',$insert);
 				$id=$this->db->insert_id();
@@ -921,8 +937,9 @@ class Pembayaran extends CI_Controller {
 				$update=array(
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
 					'potongan_bangke'	=>$totalbangke,
-					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-$btransport-$data['potongan_lainnya']),
+					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-$btransport+$tripke1-$data['potongan_lainnya']),
 				);
+				//pre($potptm);
 				$where=array(
 					'id'=>$id,
 				);

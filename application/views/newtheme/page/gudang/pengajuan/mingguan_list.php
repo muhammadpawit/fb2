@@ -27,6 +27,7 @@
     <div class="form-group">
       <label>Aksi</label><br>
       <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+      <button class="btn btn-info btn-sm" onclick="excelnya()">Excel</button>
       <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
     </div>
   </div>
@@ -64,3 +65,17 @@
             </table>
   </div>
 </div>
+<script type="text/javascript">
+  function excelnya(){
+    var url='<?php echo BASEURL?>Gudang/ajuanmingguan_excel_all?';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+</script>

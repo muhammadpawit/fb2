@@ -84,12 +84,18 @@ class Laporanbulananalat extends CI_Controller {
 		$data['prods']=[];
 		$barangmasukterakhir=null;
 		$ratarata=0;
+		$supplier=null;
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal_alat($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk_alat($row['id_persediaan'],$tanggal1,$tanggal2);
 			$stokkeluar=$this->ReportModel->stokkeluar_alat($row['id_persediaan'],$tanggal1,$tanggal2);
 			$barangmasukterakhir=$this->ReportModel->barangmasukterakhir($row['id_persediaan'],$tanggal1,$tanggal2);
 			$ratarata=$this->ReportModel->rataratabarangkeluar($row['id_persediaan'],$tanggal1,$tanggal2,$bulan);
+			$sql2="SELECT pi.supplier FROM penerimaan_item pi JOIN penerimaan_item_detail pid ON (pid.penerimaan_item_id=pi.id) WHERE pi.hapus=0 and pid.id_persediaan= '".$row['id_persediaan']."' ";
+			$sql2.=" AND date(tanggal) <='".$tanggal2."' ORDER BY date(tanggal) DESC LIMIT 1 ";
+			$s=$this->GlobalModel->QueryManualRow($sql2);
+			$sn=!empty($s)?$this->GlobalModel->getDataRow('master_supplier',array('id'=>$s['supplier'])):null;
+			$supplier=!empty($sn)?$sn['nama']:null;
 			//pre($stokkeluar);
 			$data['prods'][]=array(
 				'no'=>$no++,
@@ -109,7 +115,7 @@ class Laporanbulananalat extends CI_Controller {
 				'stokakhiryard'=>0,
 				'stokakhirharga'=>$row['harga_item'],
 				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
-				'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
+				'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$supplier.' <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
 				'satuan'=>$row['satuan_jumlah_item'],
 			);
 		}

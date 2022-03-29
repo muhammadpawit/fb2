@@ -17,7 +17,7 @@
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Rincian PO</b></td>
           <td colspan="2" style="vertical-align: middle;text-align: center;"><b>Jumlah PO</b></td>
           <td colspan="3" style="vertical-align: middle;text-align: center;"><b>Ajuan </b></td>
-          <td rowspan="2" style="vertical-align: middle;text-align: center;" colspan="4"><b>Ket</b></td>
+          <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket</b></td>
         </tr>
         <tr>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">PCS</td>
@@ -37,10 +37,10 @@
             <td><?php echo number_format($d['jml_dz'])?></td>
             <td valign="middle" style="vertical-align: middle !important;text-align: center !important;"><?php echo ($d['jumlah_po']*$d['jml_pcs'])?></td>
             <?php if(0==$i){?>
-            <td valign="middle" rowspan="3" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
-            <td valign="middle" rowspan="3" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
+            <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
+            <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
             <?php } ?>
-            <!-- <td>.</td> -->
+            <td>lusinan <?php echo number_format($d['jml_dz'])?></td>
           </tr>
           <?php $i++?>
           <?php 
@@ -56,6 +56,8 @@
             <td><b><?php //echo $k['stok']?></b></td>
             <td><b><?php //echo $k['jml_ajuan']?></b></td>
             <td></td>
+          <tr>
+            <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
           </tr>
     </table>
   </div>

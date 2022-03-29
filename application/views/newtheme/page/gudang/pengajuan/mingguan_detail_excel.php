@@ -2,7 +2,7 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_".date('d-m-Y',strtotime($k['tanggal'])).".xls");
 ?>
-<table  class="table table-bordered" border="1" style="border-collapse: collapse;width: 100%">
+      <table  class="table table-bordered" border="1" style="border-collapse: collapse;width: 100%">
         <tr>
           <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></t>
         </tr>
@@ -19,7 +19,7 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Rincian PO</b></td>
           <td colspan="2" style="vertical-align: middle;text-align: center;"><b>Jumlah PO</b></td>
           <td colspan="3" style="vertical-align: middle;text-align: center;"><b>Ajuan </b></td>
-          <td rowspan="2" style="vertical-align: middle;text-align: center;" colspan="4"><b>Ket</b></td>
+          <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket</b></td>
         </tr>
         <tr>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">PCS</td>
@@ -39,10 +39,10 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
             <td><?php echo number_format($d['jml_dz'])?></td>
             <td valign="middle" style="vertical-align: middle !important;text-align: center !important;"><?php echo ($d['jumlah_po']*$d['jml_pcs'])?></td>
             <?php if(0==$i){?>
-            <td valign="middle" rowspan="3" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
-            <td valign="middle" rowspan="3" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
+            <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
+            <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
             <?php } ?>
-            <!-- <td>.</td> -->
+            <td>lusinan <?php echo number_format($d['jml_dz'])?></td>
           </tr>
           <?php $i++?>
           <?php 
@@ -58,10 +58,7 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
             <td><b><?php //echo $k['stok']?></b></td>
             <td><b><?php //echo $k['jml_ajuan']?></b></td>
             <td></td>
-          </tr>
-            <td colspan="9"></td>
-          </tr>
           <tr>
-            <td colspan="9" align="right"><b>Registered by Forboys Production System</b></td>
+            <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
           </tr>          
     </table>

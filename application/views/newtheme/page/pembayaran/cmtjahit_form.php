@@ -39,10 +39,20 @@
             <input type="hidden" name="biaya_transport" class="form-control" value="0">
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-group">
             <label>Potongan Pinjaman / Potongan Claim</label>
             <input type="number" name="potongan_lainnya" class="form-control" value="0">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Trip Ke-</label>
+            <select name="tripke" class="form-control" required>
+                <option value="">Pilih</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
         </div>
     </div>
     <div class="col-md-6">

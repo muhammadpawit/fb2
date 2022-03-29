@@ -106,7 +106,15 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Total Yang diterima</b></td>
-                    <td align="center"><b><?php echo ($detail['total']+$detail['potongan_transport']) ?></b></td>
+                    <td align="center">
+                        <b>
+                            <?php if($detail['potongan_transport']==0){?>
+                                <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
+                            <?php }else{ ?>
+                                <?php echo number_format($detail['total']) ?>
+                            <?php } ?>
+                        </b>
+                    </td>
                     <td></td>
                 </tr>
             </tbody>

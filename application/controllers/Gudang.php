@@ -122,6 +122,46 @@ class Gudang extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function ajuanmingguan_excel_all(){
+		$data=array();
+		$data['title']='Ajuan Kebutuhan Mingguan';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+
+		$data['products']=array();
+		$data['prods']=[];
+		$data['n']=1;
+		$date=looping_tanggal($tanggal1,$tanggal2);
+		$ajuan=[];
+		foreach($date as $d){
+			$ajuan=$this->GlobalModel->Getdata('ajuan_mingguan',array('hapus'=>0,'tanggal'=>$d['tanggal']));
+			$data['prods'][]=array(
+				'tanggal'=>$d['tanggal'],
+				'ajuan'=>$ajuan,
+			);
+		}		
+		//pre($data['prods']);
+		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
+		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all',$data);
+	}
+
+
 	public function ajuanmingguandetail($id){
 		$data=array();
 		$data['n']=1;
