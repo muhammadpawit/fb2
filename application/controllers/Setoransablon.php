@@ -226,7 +226,7 @@ class Setoransablon extends CI_Controller {
 		}
 		$idcmt=explode("-",$data['namacmt']);
 		//$sql="SELECT k.nosj,kd.* FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
-		$sql="SELECT k.idcmt,k.nosj,kd.* FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail) ";
+		$sql="SELECT k.idcmt,k.nosj,kd.* FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 ) ";
 		$sj=$this->GlobalModel->queryManual($sql);
 		$i=0;
 		if(!empty($sj)){
