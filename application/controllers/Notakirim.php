@@ -111,7 +111,7 @@ class Notakirim extends CI_Controller {
 		$viewData['dataRinci'] = $data;
 		$viewData['cancel']=$this->link;
 		$viewData['excel']=$this->link.'Detail/'.$noFaktur.'?&excel=1'.$url;
-		$viewData['pdf']=$this->link.'Detailpdf/'.$noFaktur;
+		$viewData['pdf']=$this->link.'Detailpdf/'.$noFaktur.'?'.$url;
 		$viewData['no']=1;
 		$get=$this->input->get();
 		
