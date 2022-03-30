@@ -426,9 +426,10 @@ class Json extends CI_Controller {
 	{
 		$data=[];
 		$post = $this->input->get();
-		$data = $this->GlobalModel->QueryManual("SELECT * FROM pembayaran_cmt WHERE hapus=0 AND biaya_transport >0 AND id NOT IN(SELECT transport_dari_id from pembayaran_cmt WHERE hapus=0) AND idcmt='".$post['cmt']."' ORDER BY ID DESC ");
-		echo "<option value='0-0'>0</option>";
+		$data = $this->GlobalModel->QueryManual("SELECT * FROM pembayaran_cmt WHERE hapus=0 AND id NOT IN(SELECT transport_dari_id from pembayaran_cmt WHERE hapus=0) AND idcmt='".$post['cmt']."' AND tripke=1 ORDER BY ID DESC ");
+		// echo "<option value='0-0'>0</option>";
 		if(!empty($data)){
+			echo "<option value='0-0'>0</option>";
 			foreach($data as $d){
 				echo "<option value='".$d['id']."-".$d['biaya_transport']."'>".date('d/m/Y',strtotime($d['tanggal']))." ".$d['biaya_transport']."</option>";
 			}

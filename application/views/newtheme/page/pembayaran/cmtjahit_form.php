@@ -66,7 +66,7 @@
         <div class="form-group">
             <label>Potongan Transport</label>
             <select name="pot_transport" id="sub1" class="form-control" data-live-search="true">
-                <option value="0">Pilih</option>
+                <!-- <option value="0">Pilih</option> -->
             </select>
         </div>
     </div>

@@ -109,9 +109,9 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
                     <td align="center">
                         <b>
                             <?php if($detail['potongan_transport']==0){?>
-                                <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
+                                <?php echo ($detail['total']+$detail['potongan_transport']) ?>
                             <?php }else{ ?>
-                                <?php echo number_format($detail['total']) ?>
+                                <?php echo ($detail['total']) ?>
                             <?php } ?>
                         </b>
                     </td>

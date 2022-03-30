@@ -776,6 +776,7 @@ class Pembayaran extends CI_Controller {
 				'potpertama'	=>$p['potpertama'],
 				'total'=>$p['total'],
 				'keterangan'=>$p['keterangan'],
+				'trans'=>$p['trans'],
 			);
 		}
 		$data['bangke']=$this->GlobalModel->getData('potongan_bangke',array('idpembayaran'=>$id));
@@ -844,6 +845,9 @@ class Pembayaran extends CI_Controller {
 				}
 				$sbt="SELECT * FROM harga_transport WHERE dz1<='".$totaldz."' AND '".$totaldz."' <=dz2 ";
 				$tripke1=0;
+				if(isset($data['pot_transport'])){
+					$tripke1=$transport[1];
+				}
 				if($data['metode']==1){
 					$bt=$this->GlobalModel->QueryManualRow($sbt);
 					if(!empty($bt)){
@@ -854,10 +858,9 @@ class Pembayaran extends CI_Controller {
 				if(isset($data['tripke'])){
 					if($data['tripke']==2){
 						$trip1=$this->GlobalModel->GetdataRow('pembayaran_cmt',array('id'=>$transport[0]));
-						$dtrip1=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_dz) as total FROM pembayaran_cmt_detail WHERE idpembayaran='".$trip1['id']."' ");
+						$dtrip1=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_dz),0) as total FROM pembayaran_cmt_detail WHERE idpembayaran='".$trip1['id']."' AND trans=1 ");
 						$alldz=($totaldz+$dtrip1['total']);
 						$bt2=$this->GlobalModel->QueryManualRow("SELECT * FROM harga_transport WHERE dz1<='".$alldz."' AND '".$alldz."' <=dz2 ");
-						$tripke1=$bt['harga'];
 						$btransport=($bt2['harga']);
 					}
 				}
@@ -880,6 +883,7 @@ class Pembayaran extends CI_Controller {
 					'transport_dari_id'=>isset($data['pot_transport'])?$transport[0]:0,
 					'tripke'=>isset($data['tripke'])?$data['tripke']:1,
 				);
+				//pre(($totalbayar+$totalpengembalianbangke-25000-($btransport-$tripke1)-$data['potongan_lainnya']));
 				$this->db->insert('pembayaran_cmt',$insert);
 				$id=$this->db->insert_id();
 				foreach($data['products'] as $p){
@@ -937,7 +941,7 @@ class Pembayaran extends CI_Controller {
 				$update=array(
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
 					'potongan_bangke'	=>$totalbangke,
-					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-$btransport+$tripke1-$data['potongan_lainnya']),
+					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']),
 				);
 				//pre($potptm);
 				$where=array(

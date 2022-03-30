@@ -5,7 +5,8 @@
     <div class="col-md-12">
         <div class="form-group">
             Nama CMT <label><?php echo $namacmt;?></label><br>
-            Tanggal/periode : <label><?php echo date('d F Y',strtotime($detail['tanggal'])); ?></label>
+            Tanggal/periode : <label><?php echo date('d F Y',strtotime($detail['tanggal'])); ?></label><br>
+            Trip ke : <label><?php echo $detail['tripke'] ?></label>
         </div>
     </div>
     <div class="col-md-12">
@@ -17,6 +18,7 @@
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Potongan PO</th>
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Jumlah PO</th>
                     <th colspan="2" style="vertical-align : middle;text-align:center;">Jumlah Setor PO</th>
+                    <th rowspan="2" style="vertical-align : middle;text-align:center;">Pot Transport</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Harga/Dz (Rp)</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Total (Rp)</th>
                     <th rowspan="2" style="vertical-align : middle;text-align:center;">Keterangan</th>
@@ -57,6 +59,7 @@
                             <input type="text" name="products[<?php echo $n?>][jumlah_pcs]" value="<?php echo $p['jumlah_pcs'] ?>" class="form-control">
                             <input type="hidden" name="products[<?php echo $n?>][harga]" value="<?php echo $p['harga'] ?>" class="form-control">
                         </td>
+                        <td align="center"><?php echo ($p['trans']==1)?'Ya':'Tidak';?></td>
                         <td align="center"><?php echo number_format($p['harga'])?></td>
                         <td align="center">
                             <input type="text" name="products[<?php echo $n?>][total]" value="<?php echo ($p['total']-$p['potpertama'])?>" class="form-control">
