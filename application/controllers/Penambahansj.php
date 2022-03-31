@@ -113,7 +113,7 @@ class Penambahansj extends CI_Controller {
 
 	public function save(){
 		$post=$this->input->post();
-		pre($post);
+		//pre($post);
 		$atas=array();
 		$bawah=array();
 		$totalatas=0;
@@ -122,7 +122,8 @@ class Penambahansj extends CI_Controller {
 		$jobprice=0;
 		$id=$post['sj'];
 		if(isset($post['sj'])){
-   			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt[0]));
+			$cmt=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
+   			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt['idcmt']));
    			foreach($post['products'] as $p){
    				$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
    				$totalkirim+=($p['jumlah_pcs']);
@@ -137,14 +138,13 @@ class Penambahansj extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
-
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
-   					'create_date'=>$post['tanggal'],
+   					'create_date'=>$cmt['tanggal'],
    					'kode_nota_cmt'=>$id,
    					'progress'=>'KIRIM',
    					'kategori_cmt'=>'JAHIT',
-   					'id_master_cmt'=>$cmt[0],
+   					'id_master_cmt'=>$cmt['idcmt'],
    					//'id_master_cmt_job'=>$job[0],
    					'id_master_cmt_job'=>$p['cmtjob'],
    					'cmt_job_price'=>$jobprice['harga'],
@@ -162,6 +162,7 @@ class Penambahansj extends CI_Controller {
    					'status_keu'=>0,
    					'tglinput'=>date('Y-m-d'),
    				);
+   				//pre($totalkirim);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);
    				$iks = $this->db->insert_id();
    				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
