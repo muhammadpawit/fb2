@@ -15,7 +15,7 @@ class TransportModel extends CI_Model {
 			$sql .= " AND DATE(tanggal) BETWEEN ".$data['tanggal1'].'  AND '.$data['tanggal2'].'';
 		}
 
-		$sql.="ORDER BY id DESC ";
+		$sql.=" ORDER BY id DESC ";
 		if($data['limit']<1){
 			$sql.=" LIMIT 20";
 		}
@@ -61,7 +61,7 @@ class TransportModel extends CI_Model {
 			$sql .= " AND DATE(tanggal) BETWEEN ".$data['tanggal1'].'  AND '.$data['tanggal2'].'';
 		}
 
-		$sql.="ORDER BY id DESC ";
+		$sql.=" ORDER BY id DESC ";
 		if($data['limit']<1){
 			$sql.=" LIMIT 20";
 		}
@@ -98,6 +98,42 @@ class TransportModel extends CI_Model {
 		$this->db->update('transport_driver',array('hapus'=>1),array('id'=>$id));
 	}
 
+
+	public function getdata_where($tanggal){
+		$hasil=[];
+		$sql=" SELECT * FROM pendapatan_transport WHERE hapus=0 ";
+		$sql .= " AND DATE(tanggal) ='".$tanggal."' ";
+		$data=$this->GlobalModel->QueryManual($sql);
+		$cmt=null;
+		foreach($data as $d){
+			$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$d['idcmt']));
+			$hasil[]=array(
+				'id'=>$d['id'],
+				'tanggal'=>$d['tanggal'],
+				'namacmt'=>$cmt['cmt_name'],
+				'nominal'=>$d['nominal'],
+				'keterangan'=>$d['keterangan'],
+			);
+		}
+		return $hasil;
+	}
 	
+	public function getdata_drive_where($tanggal){
+		$hasil=[];
+		$sql=" SELECT * FROM transport_driver WHERE hapus=0 ";
+		$sql .= " AND DATE(tanggal) ='".$tanggal."' ";
+		$data=$this->GlobalModel->QueryManual($sql);
+		$cmt=null;
+		foreach($data as $d){
+			$hasil[]=array(
+				'id'=>$d['id'],
+				'tanggal'=>$d['tanggal'],
+				'namacmt'=>$d['namadriver'],
+				'nominal'=>$d['nominal'],
+				'keterangan'=>$d['keterangan'],
+			);
+		}
+		return $hasil;
+	}
 
 }
