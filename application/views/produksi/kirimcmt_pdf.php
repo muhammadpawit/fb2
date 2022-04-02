@@ -73,7 +73,7 @@
 								</ol>
 <br>								
 
-<?php if(count($kirims)==10){?>
+<?php if(count($kirims)>5 && count($kirims)<=8){?>
 <div class="break"></div>
 <?php } ?>
 
