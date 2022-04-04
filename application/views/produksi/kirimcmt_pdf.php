@@ -1,6 +1,6 @@
 <style type="text/css">
 	 body{text-transform:capitalize;font-size: 22px;}
-	 .hs { font-size: 18px;font-weight: bold; }
+	 .hs { font-size: 22px;font-weight: bold; }
 	 .break{ page-break-after: always; }
 </style>
 <div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
@@ -8,7 +8,7 @@
 		<!-- <img src="" height="170px" style="float:left"> -->
 	</div>
 	<div style="border:0px solid black;width:100%;margin-top: 50px;float: right">
-			<p style="font-size:18px;font-weight: bold;position: absolute;left:200px;display: inline-block;">
+			<p style="font-size:23px;font-weight: bold;position: absolute;left:200px;display: inline-block;">
 				Jl.Z No.1 Kampung Baru,<br>Sukabumi Selatan<br>
 				Kebon Jeruk,Jakarta Barat, Indonesia<br>
 				HP : 081380401330
@@ -24,13 +24,15 @@
 		<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($kirim['tanggal']))?></div>
 	</div>
 </div>
+<br><br>
 <div style="clear: both;"></div>
 <table style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
-									<thead>
-										<tr>
-											<th class="center"><h3>Surat Jalan Kirim PO</h3></th>
-										</tr>
-									</thead>
+	<thead>
+		<tr>
+			<th width="150" align="left">No.SJ : <?php echo $kirim['id'] ?>/<?php echo date('m',strtotime($kirim['tanggal']))?>/<?php echo date('Y',strtotime($kirim['tanggal']))?></th>
+			<th colspan="4" align="left"><h3 style="margin-left: 200px">Surat Jalan Kirim PO CMT</h3></th>
+		</tr>
+	</thead>
 </table>
 <table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
 									<thead>
@@ -73,7 +75,7 @@
 								</ol>
 <br>								
 
-<?php if(count($kirims)>5 && count($kirims)<=8){?>
+<?php if(count($kirims)>2 && count($kirims)<=8){?>
 <div class="break"></div>
 <?php } ?>
 

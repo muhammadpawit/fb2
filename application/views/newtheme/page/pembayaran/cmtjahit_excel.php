@@ -171,6 +171,14 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
                 </td>
                 <td></td>
                 <td>
+                </td>
+            </tr>
+        </table>
+        <br>
+
+<table>
+    <tr>
+        <td colspan="6">
                     <table style="width: 100%;border:1px solid black" cellpadding="5">
                        <thead>
                             <tr style="background-color: #adffc5;width: 100%;border:1px solid black">
@@ -197,12 +205,11 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
                             <?php } ?>
                         </tbody>
                     </table>
-                </td>
-            </tr>
-        </table>
-        <br>
-
- <?php if(!empty($bangke)){?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">
+            <?php if(!empty($bangke)){?>
     <div class="col-md-6">
         <label>Potongan Bangke</label>
         <table border="1" style="border-collapse: collapse;width: 100%">
@@ -294,8 +301,62 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
         </table>
     </div>
     <?php } ?>
-
+        </td>
+    </tr>
+</table>
     <table style="width: 100%;">
+        <tr>
+           <td colspan="6"></td> 
+           <td colspan="5" align="right">
+               <table>
+
+                                        <tr>
+                                            <th>Menyetujui</th>
+                                            <th>Di Buat oleh:</th>
+
+                                        </tr>
+
+                                        <tr align="center">
+                                            <td><b>SPV</b></td>
+                                            <td><b>ADM Keuangan</b></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Muchlas )
+
+                                            </td>
+                                             <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Dinda )
+
+                                            </td>
+                                        </tr>
+                                    </table>
+           </td>
+        </tr>
         <tr>
             <td colspan="11" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
         </tr>
