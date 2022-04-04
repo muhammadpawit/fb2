@@ -30,7 +30,7 @@
 	<thead>
 		<tr>
 			<th width="150" align="left">No.SJ : <?php echo $kirim['id'] ?>/<?php echo date('m',strtotime($kirim['tanggal']))?>/<?php echo date('Y',strtotime($kirim['tanggal']))?></th>
-			<th colspan="4" align="left"><h3 style="margin-left: 200px">Surat Jalan Kirim PO CMT</h3></th>
+			<th colspan="4" align="left"><h3 style="margin-left: 200px;text-decoration: underline;">Surat Jalan Kirim PO CMT</h3></th>
 		</tr>
 	</thead>
 </table>
