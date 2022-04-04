@@ -87,6 +87,10 @@
 	<div class="break"></div>
 <?php } ?>	
 
+<?php if(count($kirims)==8){?>
+	<div class="break"></div>
+<?php } ?>	
+
 <div style="width:100%;text-align: center;border:0px solid red;padding-left: 350px;margin-top: 10px">
 	<div style="border:0px solid black;height:auto;width: 100%;display: inline-block;margin-right: -5px">
 		<table border="1" style="border-collapse: collapse;width: 60%">
