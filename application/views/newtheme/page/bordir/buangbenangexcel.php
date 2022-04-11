@@ -7,6 +7,8 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
   .registered {
     font-family: 'Baskervville', serif;
   }
+
+  .besar {font-size: 18px;}
 </style>
 <h3>Resume Upah Buang Benang Forboys</h3>
 <h5>Periode : <?php echo date('d',strtotime($tanggal1)) ?> - <?php echo date('d F Y ',strtotime($tanggal2)) ?></h5>
@@ -34,14 +36,14 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
     ?>
   <?php } ?>
   <tr style="background-color: yellow;font-weight: bold !important;">
-    <td colspan="2"><b>Total Upah Buang Benang</b></td>
-    <td><b><?php echo $tb?></b></td>
-    <td><b><?php echo $tp?></b></td>
+    <td colspan="2"><b class="besar">Total Upah Buang Benang</b></td>
+    <td><b class="besar"><?php echo $tb?></b></td>
+    <td><b class="besar"><?php echo $tp?></b></td>
   </tr>
 </table>
-<br>
+<b class="besar"r>
 <h3>Perincian Upah Pekerja Buang Benang</h3>
-<br>
+<b class="besar"r>
 <?php $total=0;?>
 <?php foreach($pekerja as $pk){?>
 <table border="1" style="width: 100%;border-collapse: collapse;" cellpadding="5">
@@ -77,12 +79,12 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                       <td colspan="8">&nbsp;</td>
                     </tr>
                     <tr style="background-color: yellow;font-weight: bold;">
-                      <td colspan="7"><b>Total Diterima <?php echo $pk['pekerja']?> (Rp)</b></td>
-                      <td><b><?php echo $pk['total']?></b></td>
+                      <td colspan="7"><b class="besar">Total Diterima <?php echo $pk['pekerja']?> (Rp)</b></td>
+                      <td><b class="besar"><?php echo $pk['total']?></b></td>
                     </tr>
                     <tr>
                       <td colspan="8">
-                        <br>
+                        <b class="besar"r>
                         <table border="1" style="width: 100%;border-collapse: collapse;" cellpadding="4">
                           <thead>
                             <tr style="background-color: green;color:white">
@@ -108,12 +110,12 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                               <?php $tor2+=($rt['total']);?>
                             <?php } ?>
                             <tr style="background-color: green">
-                              <td align="center" colspan="3"><b>Total</b></td>
-                              <td><b><?php echo $tor2;?></b></td>
+                              <td align="center" colspan="3"><b class="besar">Total</b></td>
+                              <td><b class="besar"><?php echo $tor2;?></b></td>
                             </tr>
                           </tbody>
                         </table>
-                        <br>
+                        <b class="besar"r>
                       </td>
                     </tr>
               </tbody>
@@ -129,7 +131,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
         <tr>
           <td colspan="5"></td>
           <td>
-            <b>Jakarta, <?php echo date('d F Y',strtotime($tanggal2))?></b>
+            <b class="besar">Jakarta, <?php echo date('d F Y',strtotime($tanggal2))?></b>
           <table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 
                                         <tr>
@@ -139,52 +141,52 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                                         </tr>
 
                                         <tr align="center">
-                                            <td><b>SPV</b></td>
-                                            <td><b>Mandor</b></td>
-                                            <td><b>Adm Prod Bordir</b></td>
+                                            <td><b class="besar">SPV</b></td>
+                                            <td><b class="besar">Mandor</b></td>
+                                            <td><b class="besar">Adm Prod Bordir</b></td>
 
                                         </tr>
 
                                         <tr>
                                             <td height="100" align="center">
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
                                                 ( Muchlas)
 
                                             </td>
                                             <td height="100" align="center">
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>                                            
+                                                <b class="besar"r>                                            
 
                                             </td>
                                             <td height="100" align="center">
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>                                            
+                                                <b class="besar"r>                                            
                                                 ( Tiara )
                                             </td>
                                         </tr>

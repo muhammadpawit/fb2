@@ -9,6 +9,8 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
   .registered {
     font-family: 'Baskervville', serif;
   }
+
+  .besar {font-size: 18px;}
 </style>
 
 <table border="1" style="width: 100%;border-collapse: collapse;">
@@ -98,24 +100,24 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<?php }?>
 					
 					<tr>
-						<td><b>Pot.Absensi</b></td>
-						<td align="right"><b><?php echo $absensia?></b></td>
+						<td><b class="besar">Pot.Absensi</b></td>
+						<td align="right"><b class="besar"><?php echo $absensia?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
 					</tr>
 
 					<tr>
-						<td><b>Pot.Claim</b></td>
-						<td align="right"><b><?php echo $claima?></b></td>
+						<td><b class="besar">Pot.Claim</b></td>
+						<td align="right"><b class="besar"><?php echo $claima?></b></td>
 						<td></td>
 						<td></td>
 						<td align="right"><?php echo !empty($claima)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>
-						<td><b>Pot.Pinjaman</b></td>
-						<td align="right"><b><?php echo $pinjamana?></b></td>
+						<td><b class="besar">Pot.Pinjaman</b></td>
+						<td align="right"><b class="besar"><?php echo $pinjamana?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -123,14 +125,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
 
 					<tr>
-						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgajia-$potongan['total']?></b></td>
-						<td align="right"><b><?php echo $totalbonusa?></b></td>
-						<td align="right"><b><?php echo $totaluma?></b></td>
+						<td><b class="besar">Total</b></td>
+						<td align="right"><b class="besar"><?php echo $totalgajia-$potongan['total']?></b></td>
+						<td align="right"><b class="besar"><?php echo $totalbonusa?></b></td>
+						<td align="right"><b class="besar"><?php echo $totaluma?></b></td>
 					</tr>
 					
-					<tr style="background-color:yellow">
-						<td><b>Gaji Diterima</b></td>
+					<tr class="besar" style="background-color:yellow">
+						<td><b class="besar">Gaji Diterima</b></td>
 						<td colspan="4" align="center"><label><?php echo pembulatangaji(($totalgajia+$totalbonusa+$totaluma-$potongan['total'])) ?></label></td>
 					</tr>
 				</tbody>
@@ -141,7 +143,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<?php $j++; ?>
 	<?php } ?>
 		</tr>
-	</table><br>
+	</table><b class="besar"r>
 	<table>
 		<tr>
 			<?php $hr=0;?>
@@ -203,24 +205,24 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					
 
 					<tr>
-						<td><b>Pot.Absensi</b></td>
-						<td align="right"><b><?php echo $absensib?></b></td>
+						<td><b class="besar">Pot.Absensi</b></td>
+						<td align="right"><b class="besar"><?php echo $absensib?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
 					</tr>
 
 					<tr>
-						<td><b>Pot.Claim</b></td>
-						<td align="right"><b><?php echo $claimb?></b></td>
+						<td><b class="besar">Pot.Claim</b></td>
+						<td align="right"><b class="besar"><?php echo $claimb?></b></td>
 						<td></td>
 						<td></td>
 						<td align="right"><?php echo !empty($claimb)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>
-						<td><b>Pot.Pinjaman</b></td>
-						<td align="right"><b><?php echo $pinjamanb?></b></td>
+						<td><b class="besar">Pot.Pinjaman</b></td>
+						<td align="right"><b class="besar"><?php echo $pinjamanb?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -228,14 +230,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
 
 					<tr>
-						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgajib-$potongan['total']?></b></td>
-						<td align="right"><b><?php echo $totalbonusb?></b></td>
-						<td align="right"><b><?php echo $totalumb?></b></td>
+						<td class="besar"><b class="besar">Total</b></td>
+						<td align="right"><b class="besar"><?php echo $totalgajib-$potongan['total']?></b></td>
+						<td align="right"><b class="besar"><?php echo $totalbonusb?></b></td>
+						<td align="right"><b class="besar"><?php echo $totalumb?></b></td>
 					</tr>
 					
-					<tr style="background-color:yellow">
-						<td><b>Gaji Diterima</b></td>
+					<tr  class="besar" style="background-color:yellow">
+						<td><b class="besar">Gaji Diterima</b></td>
 						<?php //if($hr==0){?>
 						<td colspan="4" align="center"><label><?php echo pembulatangaji(($totalgajib+$totalbonusb+$totalumb-$potongan['total'])) ?></label></td>
 					</tr>
@@ -309,7 +311,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
 								<td></td>
 							</tr>
-							<tr style="background-color: lightblue">
+							<tr  class="besar" style="background-color: lightblue">
 								<td>Total Diterima (Rp)</td>
 								<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 								<td>UM+30% (Bonus)</td>
@@ -326,35 +328,35 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td>Bonus target mandor + u.m (Rp)</td>
 								<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
 							</tr>
-							<tr style="background-color: yellow;">
+							<tr  class="besar" style="background-color: yellow;">
 								<td>
-									<b>
+									<b class="besar">
 										Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?>
 									</b>
 								</td>
 								<td>
-									<b>
+									<b class="besar">
 										<?php echo pembulatangaji($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?>
 									</b>
 								</td>
 							</tr>
-						</table><br>
+						</table><b class="besar"r>
 						
 					</td>
 				</tr>
 			</table>
-			<br><br>
+			<b class="besar"r><b class="besar"r>
 			<table>
 				<tr>
 					<td colspan="4" align="left" valign="top">
-						<b>Catatan :</b><br>
-						<b>
-							1.Pembayaran bonus dibayar hanya 30%<br>
-							2.UM mandor terpisah dari bonus<br>
-							3.Kalau tidak ada bonus yang dihitung hanya UM saja<br>
-							4.Hari minggu pembayaran double<br>
-							5.Tanggal merah pembayaran double<br>
-							6.Rumus penghitungan lama kerja dari (12 jam) <br>Rumus 
+						<b class="besar">Catatan :</b><b class="besar"r>
+						<b class="besar">
+							1.Pembayaran bonus dibayar hanya 30%<b class="besar"r>
+							2.UM mandor terpisah dari bonus<b class="besar"r>
+							3.Kalau tidak ada bonus yang dihitung hanya UM saja<b class="besar"r>
+							4.Hari minggu pembayaran double<b class="besar"r>
+							5.Tanggal merah pembayaran double<b class="besar"r>
+							6.Rumus penghitungan lama kerja dari (12 jam) <b class="besar"r>Rumus 
 <table class="tg" border="4" style="border-collapse: collapse;">
 <thead>
   <tr>
@@ -372,7 +374,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</td>
 					<td colspan="3"></td>
 					<td>
-						<b>Jakarta, <?php echo date('d F Y',strtotime($gaji['tanggal2']))?></b>
+						<b class="besar">Jakarta, <?php echo date('d F Y',strtotime($gaji['tanggal2']))?></b>
 					<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
 
                                         <tr>
@@ -382,54 +384,54 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                         </tr>
 
                                         <tr align="center">
-                                            <td><b>SPV</b></td>
-                                            <td><b>Mandor</b></td>
-                                            <td><b>Adm Prod Bordir</b></td>
+                                            <td><b class="besar">SPV</b></td>
+                                            <td><b class="besar">Mandor</b></td>
+                                            <td><b class="besar">Adm Prod Bordir</b></td>
 
                                         </tr>
 
                                         <tr>
                                             <td height="100" align="center" rowspan="6">
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
                                                 ( Muchlas)
 
                                             </td>
                                             <td height="100" align="center" rowspan="6">
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>  
+                                                <b class="besar"r>  
 
                                                 (&nbsp;&nbsp;&nbsp;Udan&nbsp;&nbsp;&nbsp;)                                          
 
                                             </td>
                                             <td height="100" align="center" rowspan="6">
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>
+                                                <b class="besar"r>
 
-                                                <br>                                            
+                                                <b class="besar"r>                                            
                                                 ( Tiara )
                                             </td>
                                         </tr>

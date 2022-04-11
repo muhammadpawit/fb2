@@ -579,13 +579,16 @@ class Bordir extends CI_Controller {
 		$totalstich=0;
 		$total018=0;
 		$total02=0;
+		$total015=0;
 		$prev=null;
 		$luar=0;
 		$poluar=[];
 		$globalstich=0;
 		$g018=0;
 		$g02=0;
+		$g015=0;
 		$gpendapatan=0;
+		$total015=0;
 		$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
 		if(!empty($nomesin)){
 			$sm.=" AND nomor='$nomesin' ";
@@ -595,11 +598,13 @@ class Bordir extends CI_Controller {
 			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$total02=$this->ReportModel->total02($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total015=$this->ReportModel->total015($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$jumlah=$this->ReportModel->jumlahpendapatanbordir($mes['nomor'],$tanggal1,$tanggal2);
 			$globalstich+=($totalstich);
 			$g018+=($total018);
 			$g02+=($total02);
-			$gpendapatan+=($total018+$total02);
+			$g015+=($total015);
+			$gpendapatan+=($total018+$total02+$total015);
 			$data['products'][]=array(
 				'tanggal'=>null,
 				'nomesin'=>$mes['nomor'],
@@ -608,6 +613,7 @@ class Bordir extends CI_Controller {
 				'0.18'=>round($total018),
 				'0.2'=>round($total02),
 				'0.18yn'=>0,
+				'0.15'=>round($total015),
 				'pendapatan'=>round($total018+$total02),
 				'jumlah'=>round($jumlah),
 				'i'=>$i++,
@@ -617,6 +623,7 @@ class Bordir extends CI_Controller {
 		$data['t']=$globalstich;
 		$data['g018']=$g018;
 		$data['g02']=$g02;
+		$data['g015']=$g015;
 		$data['gpendapatan']=$gpendapatan;
 		/*
 		foreach($products as $p){

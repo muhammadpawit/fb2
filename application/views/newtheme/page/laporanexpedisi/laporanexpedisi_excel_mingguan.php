@@ -108,7 +108,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                         <tr align="center">
                                             <td><b>SPV</b></td>
                                             <td><b>ADM Keuangan</b></td>
-                                            <td><b>ADM Gudang</b></td>
+                                            <td><b></b></td>
 
                                         </tr>
 
@@ -154,7 +154,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( Dwi )
+                                                
 
                                             </td>
 

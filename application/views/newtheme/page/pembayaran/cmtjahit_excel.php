@@ -9,9 +9,15 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_".$namacmt."_(".d
     font-family: 'Baskervville', serif;
   }
 </style>
-<h5>Ongkos Jahit <?php echo $namacmt?><br>
-Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo date('Y-m-d H:i:s');?>
-</h5>
+<center>
+<h3>PEMBAYARAN UPAH JAHIT PO KAOS & KEMEJA<br>
+Periode : <?php echo $detail['keterangan'] ?>
+</h3>
+</center>
+<h3>
+    CMT :<?php echo strtoupper($namacmt)?><br>
+    Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>
+</h3>
 <table border="1" style="border-collapse: collapse;width: 100%">
             <thead>
                 <tr>
@@ -72,7 +78,7 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
                             <td></td>
                         </tr>
                     <?php } ?>
-                <tr>
+                <tr style="background-color: #ffb0f3">
                     <td colspan="2" align="center"><b>Total</b></td>
                     <td align="center"><b><?php echo number_format(($potongan/12),2)?></b></td>
                     <td align="center"><b><?php echo $potongan?></b></td>
@@ -104,7 +110,7 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
                     <td align="center"><b><?php echo ($detail['potongan_lainnya'])?></b></td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr style="background-color: yellow">
                     <td colspan="9" align="center"><b>Total Yang diterima</b></td>
                     <td align="center">
                         <b>
@@ -123,7 +129,7 @@ Periode : <?php echo date('d F Y',strtotime($detail['tanggal'])) ?>  <?php echo 
         <table>
             <tr>
                 <td>
-                    <table style="background-color: #ffba75;width: 100%;border:1px solid black" cellpadding="5">
+                    <table style="width: 100%;border:1px solid black" cellpadding="5">
                         <thead>
                             <tr>
                                 <th valign="top">Ketentuan CMT :</th>

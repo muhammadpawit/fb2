@@ -34,6 +34,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <th>Stich</th>
                   <th>0.18</th>
                   <th>0.2</th>
+                  <th>0.15</th>
                   <!-- <th>0.18 YN</th> -->
                   <th>Pendapatan</th>
                   <th>Jumlah</th>
@@ -52,6 +53,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td><?php echo ($p['stich'])?></td>
                       <td><?php echo ($p['0.18'])?></td>
                       <td><?php echo ($p['0.2']); ?></td>
+                      <td><?php echo ($p['0.15']); ?></td>
                       <!-- <td>0</td> -->
                       <td><?php echo ($p['pendapatan'])?></td>
                       <td align="right">
@@ -69,6 +71,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td><?php echo round($t)?></td>
                       <td><?php echo round($g018)?></td>
                       <td><?php echo round($g02)?></td>
+                      <td><?php echo round($g015)?></td>
                       <!-- <td></td> -->
                       <td><?php echo round($gpendapatan)?></td>
                       <td><?php echo round($gpendapatan)?></td>

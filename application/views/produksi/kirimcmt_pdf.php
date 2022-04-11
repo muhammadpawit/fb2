@@ -34,7 +34,7 @@
 		</tr>
 	</thead>
 </table>
-<table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
+<table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;font-size: 21px !important;">
 									<thead>
 										<tr>
 											<th class="center">No</th>
@@ -66,48 +66,60 @@
 									</tr>
 								</tfoot>
 								</table>
-<p>Catatan :</p>
+								<!-- <p>Catatan :</p>
 								<ol>
 									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
 									<li>Apabila ada kekurangan, harap segera konfirmasi bagian QC</li>
 									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
 									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
 								</ol>
-<br>								
+<br>							 -->	
 
 <?php if(count($kirims) < 3){?>
 
 <?php }else if(count($kirims)>5 && count($kirims)<=15){?>
 
 <?php }else{ ?>
-<div class="break"></div>
+<!-- <div class="break"></div> -->
 <?php } ?>
 
 <?php if(count($kirims)==5){?>
-	<div class="break"></div>
+	<!-- <div class="break"></div> -->
 <?php } ?>	
 
 <?php if(count($kirims)==6){?>
-	<div class="break"></div>
+	<!-- <div class="break"></div> -->
 <?php } ?>	
 
 <?php if(count($kirims)==8){?>
-	<div class="break"></div>
+	<!-- <div class="break"></div> -->
 <?php } ?>	
 
-<div style="width:100%;text-align: center;border:0px solid red;padding-left: 350px;margin-top: 10px">
-	<div style="border:0px solid black;height:auto;width: 100%;display: inline-block;margin-right: -5px">
-		<table border="1" style="border-collapse: collapse;width: 60%">
+		<table style="width:100%">
 			<tr>
-				<td align="center">CMT</td>
-				<td align="center">SPV</td>
-				<td align="center">Admin KLO</td>
-			</tr>
-			<tr>
-			<td align="center" height="100" valign="bottom">(..................)</td>
-			<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
-			<td align="center" height="100" valign="bottom">(ULPAH)</td>
+				<td style="width:50%">
+					<p>Catatan :</p>
+								<ol>
+									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
+									<li>Apabila ada kekurangan, harap segera konfirmasi bagian QC</li>
+									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
+									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
+								</ol>
+				</td>
+				<td style="width:50%" valign="top">
+					<br>
+					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
+						<tr>
+							<td align="center">CMT</td>
+							<td align="center">SPV</td>
+							<td align="center">Admin KLO</td>
+						</tr>
+						<tr>
+						<td align="center" height="100" valign="bottom">(..................)</td>
+						<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
+						<td align="center" height="100" valign="bottom">(ULPAH)</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
-	</div>
-</div>
