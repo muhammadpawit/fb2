@@ -50,9 +50,17 @@ class Laporanbordir extends CI_Controller {
 		foreach($luar as $p){
 			$totalpoluar+=(((($p['total_stich']*0.2))+(0)));
 		}
+		$p15=0;
+		$pe15=[];
+		$pe15=$this->ReportModel->pendapatanbordirdalam15($filter,1);
+		if(!empty($pe15)){
+			foreach($pe15 as $p){
+				$p15+=(((($p['total_stich']*0.15))+(0)));
+			}
+		}
+		$data['p15']=number_format($p15);
 		$data['totalpoluar']=number_format($totalpoluar);
-
-		$data['totalpen']=($totalpendapatan+$totalpoluar);
+		$data['totalpen']=($totalpendapatan+$totalpoluar+$p15);
 		// end
 
 		// pengeluaran bordir

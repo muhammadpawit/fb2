@@ -211,7 +211,7 @@ class ReportModel extends CI_Model {
 				}
 				return $hasil;
 			}else{
-				return $hasil=$d['total'];
+				return $hasil=$d['total']*$d['perkalian'];
 			}
 			
 		}else{
@@ -307,24 +307,34 @@ class ReportModel extends CI_Model {
 	}
 
 	public function ppcsjml_filter($jenis,$tanggal1,$tanggal2){
-		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis and mjp.tampil=1 ";
+		$hasil=0;
+		$sql="SELECT count(*) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po<>'SKF' and mjp.tampil=1 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 		$row=$this->db->query($sql)->row_array();
-		$hasil=$row;
-		if($hasil['total']>0){
-			return ($hasil['total']*$hasil['perkalian']);
-		}else{
-			$out=0;
-			return $out;
+		$d=$row;
+		if(!empty($d)){
+			$hasil=$d['total'];
 		}
+
+		$hasil2=0;
+		$sql2="SELECT count(*) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po='SKF' and mjp.tampil=1 ";
+		if(!empty($tanggal1)){
+			$sql2.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$row2=$this->db->query($sql2)->row_array();
+		$d2=$row2;
+		if(!empty($d2)){
+			$hasil2=$d2['total']*0.5;
+		}
+
+		return $hasil+$hasil2;
 	}
 
 	public function ppcs_filter($jenis,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT SUM(kbp.hasil_pieces_potongan) as total FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis and  mjp.tampil=1 ";
+		$sql="SELECT SUM(kbp.hasil_pieces_potongan*.mjp.perkalian) as total FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis and  mjp.tampil=1 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -1261,12 +1271,21 @@ class ReportModel extends CI_Model {
 	}
 
 	public function pendapatanbordirdalam($data,$jenis){
-		$sql="SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql="SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 and perkalian_tarif LIKE '%0.18%' ";
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
 		if(!empty($data['nomesin'])){
 			$sql.=" AND mesin_bordir='".$data['nomesin']."' ";
+		}
+		$d=$this->db->query($sql);
+		return $d->result_array();
+	}
+
+	public function pendapatanbordirdalam15($data,$jenis){
+		$sql="SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 AND mesin_bordir=11 ";
+		if(!empty($data['tanggal1'])){
+			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
 		$d=$this->db->query($sql);
 		return $d->result_array();

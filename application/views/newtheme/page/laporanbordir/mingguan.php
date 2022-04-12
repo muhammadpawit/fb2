@@ -42,6 +42,11 @@
 						<td align="right"><?php echo $totalpendapatan?></td>
 					</tr>
 					<tr>
+						<td>Pendapatan PO 0.15</td>
+						<td>:</td>
+						<td align="right"><?php echo $p15?></td>
+					</tr>
+					<tr>
 						<td>Pendapatan PO Luar</td>
 						<td>:</td>
 						<td align="right"><?php echo $totalpoluar?></td>

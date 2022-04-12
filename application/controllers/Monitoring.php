@@ -83,7 +83,7 @@ class Monitoring extends CI_Controller {
 		}
 		
 		// kaos 
-		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>2));
+		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>2,'tampil'=>1));
 		$nokaos=1;
 		foreach($kaos as $k){
 			$data['kaos'][]=array(
@@ -98,7 +98,7 @@ class Monitoring extends CI_Controller {
 		//pre($data['kaos']);
 
 		// celana
-		$celana=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>3));
+		$celana=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>3,'tampil'=>1));
 		$nocelana=1;
 		foreach($celana as $k){
 			$data['celana'][]=array(
