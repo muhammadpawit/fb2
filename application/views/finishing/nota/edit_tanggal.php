@@ -6,6 +6,10 @@
 				<input type="text" class="form-control" name="kode_po" value="<?php echo $k['kode_po']?>" readonly>
 			</div>
 			<div class="form-group">
+				<label>No Faktur</label>
+				<input type="text" class="form-control" name="nofaktur" value="<?php echo $k['nofaktur']?>" autocomplete="off">
+			</div>
+			<div class="form-group">
 				<label>Tanggal Kirim</label>
 				<input type="text" class="form-control datepicker" name="tanggal_kirim" value="<?php echo $k['tanggal_kirim']?>" readonly>
 			</div>

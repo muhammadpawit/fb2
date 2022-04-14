@@ -373,6 +373,7 @@ class Finishing extends CI_Controller {
 	public function edit_tanggal_save(){
 		$data=$this->input->post();
 		$update=array(
+			'nofaktur'=>$data['nofaktur'],
 			'tanggal_kirim'=>$data['tanggal_kirim'],
 		);
 		$where=array(
