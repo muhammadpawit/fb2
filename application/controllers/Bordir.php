@@ -905,8 +905,9 @@ class Bordir extends CI_Controller {
 		$data['title']='Edit Inputan Mesin Bordir '.$id;
 		$data['kode_po']=$id;
 		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'kode_po'=>$id));
+		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
 		$data['action']=BASEURL.'Bordir/mesinharian_save';
-		$data['cancel']=BASEURL.'Bordir/inputharianmesinpodalam/';
+		$data['batal']=BASEURL.'Bordir/inputharianmesinpodalam/';
 		$data['page']='newtheme/page/bordir/edit_bordir';
 		$this->load->view($this->layout,$data);
 	}
@@ -915,12 +916,16 @@ class Bordir extends CI_Controller {
 		$data=$this->input->post();
 		foreach($data['prods'] as $p){
 			$update=array(
-				'total_stich'=>$p['total_stich'],
+				'created_date'=>$p['created_date'],
+				'nama_operator'=>$p['nama_operator'],
+				'mesin_bordir'=>$p['mesin_bordir'],
+				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
 				'perkalian_tarif'=>$p['perkalian_tarif'],
-				'total_tarif'=>round($p['total_stich']*$p['perkalian_tarif']),
+				'total_stich'=>round($p['jumlah_naik_mesin']*$p['stich']),
+				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
 			);
 			$where=array(
-				'id' => $p['id'],
+				'id_kelola_mesin_bordir' => $p['id'],
 			);
 			$this->db->update('kelola_mesin_bordir',$update,$where);
 		}
