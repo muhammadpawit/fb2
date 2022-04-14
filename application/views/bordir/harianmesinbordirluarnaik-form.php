@@ -46,13 +46,17 @@
                                 <label>JAM</label>
                                 <input type="number" class="form-control selectpicker shift" name="jamkehadiran" id="jamkerja" required>
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-3">
                                 <label>Nama OPERATOR</label>
                                 <select class="form-control select2bs4" name="namaOperator" data-live-search="TRUE" required>
                                     <?php foreach ($operator as $key => $op): ?>
                                         <option value="<?php echo $op['id_master_karyawan_bordir'] ?>"><?php echo $op['nama_karyawan_bordir'] ?></option>
                                     <?php endforeach ?>
                                 </select>
+                            </div>
+                            <div class="form-group col-3">
+                                <label>Mandor</label>
+                                <input type="text" class="form-control" name="mandor">
                             </div>
                             <div class="form-group col-6">
                                 <label>MESIN</label>
