@@ -21,8 +21,11 @@ class Rekapkasbon extends CI_Controller {
 		    $months['bulan'][] = array(
 				'bulan'=>date('n', $timestamp),
 				'nama'=>date('F', $timestamp),
+				'i'=>$i,
 			);
 		}
+		$sort=($months['bulan']);
+		pre($sort);
 		$this->load->view($this->layout,$data);
 	}
 

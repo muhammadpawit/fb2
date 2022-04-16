@@ -166,7 +166,7 @@ class Monitoring extends CI_Controller {
 		}
 
 		// kemeja
-		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>1));
+		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>1));
 		$nok=1;
 		foreach($kemeja as $k){
 			$qty=$this->ReportModel->rpdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
@@ -294,7 +294,7 @@ class Monitoring extends CI_Controller {
 		}
 
 		// kemeja
-		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>1));
+		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>1));
 		$nok=1;
 		foreach($kemeja as $k){
 			$data['rekapkemeja'][]=array(
@@ -313,7 +313,7 @@ class Monitoring extends CI_Controller {
 		
 		
 		// kaos 
-		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>2));
+		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>2));
 		$nokaos=1;
 		foreach($kaos as $k){
 			$data['rekapkaos'][]=array(

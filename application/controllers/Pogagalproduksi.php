@@ -62,8 +62,8 @@ class Pogagalproduksi extends CI_Controller {
 		$insert=array(
 			'tahun'=>$data['tahun'],
 			'idpo'=>$po[0],
-			'kode_po'=>$po[1].' '.$data['tahun'],
-			'keterangan'=>$data['keterangan'],
+			'kode_po'=>$po[1],
+			'keterangan'=>$data['keterangan'].' '.$data['tahun'],
 			'tglinput'=>date('Y-m-d H:i:s'),
 			'hapus'=>0
 		);
