@@ -85,6 +85,7 @@ class Laporanbulananalat extends CI_Controller {
 		$barangmasukterakhir=null;
 		$ratarata=0;
 		$supplier=null;
+		//pre($bulan);
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal_alat($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk_alat($row['id_persediaan'],$tanggal1,$tanggal2);
@@ -115,8 +116,10 @@ class Laporanbulananalat extends CI_Controller {
 				'stokakhiryard'=>0,
 				'stokakhirharga'=>$row['harga_item'],
 				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
-				'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$supplier.' <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
+				//'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$supplier.' <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
+				'ket'=>!empty($barangmasukterakhir)?'Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
 				'satuan'=>$row['satuan_jumlah_item'],
+				'masukterakhir'=>!empty($barangmasukterakhir)?$supplier.' '.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])):null,
 			);
 		}
 		

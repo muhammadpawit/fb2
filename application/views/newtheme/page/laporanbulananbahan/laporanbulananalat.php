@@ -85,6 +85,7 @@
 		            <th colspan="2">Akhir</th>
 		            <th rowspan="2">Total</th>
 		            <th rowspan="2">Ket</th>
+		            <th rowspan="2">Barang Masuk Terakhir</th>
 		          </tr>
 		          <tr>
 		            <th>Pcs</th>
@@ -125,6 +126,7 @@
 		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
 		        			<td><?php echo number_format(($p['stokakhirroll']*$p['stokakhirharga']))?></td>
 		        			<td><?php echo $p['ket']?></td>
+		        			<td><?php echo $p['masukterakhir']?></td>
 		        		</tr>
 		        		<?php
 			        		$total+=($p['stokakhirroll']*$p['stokakhirharga']);
@@ -143,6 +145,7 @@
 		        		<td><?php echo number_format($stokakhirroll)?></td>
 		        		<td></td>
 		        		<td><?php echo number_format($total)?></td>
+		        		<td></td>
 		        		<td></td>
 		        	</tr>
 		        </tfoot>

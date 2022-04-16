@@ -21,6 +21,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		            <th rowspan="2">Harga</th>
 		            <th rowspan="2">Total</th>
 		            <th rowspan="2">Ket</th>
+		            <th rowspan="2">Barang Masuk Terakhir</th>
 		          </tr>
 		          <tr>
 		            <th>Pcs</th>
@@ -63,6 +64,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        			<td><?php echo ($p['stokakhirharga'])?></td>
 		        			<td><?php echo (($p['stokakhirroll']*$p['stokakhirharga']))?></td>
 		        			<td><?php echo $p['ket']?></td>
+		        			<td><?php echo $p['masukterakhir']?></td>
 		        		</tr>
 		        		<?php
 			        		$total+=(($p['stokakhirroll']*$p['stokakhirharga']));
@@ -81,6 +83,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        		<td><?php echo ($stokakhirroll)?></td>
 		        		<td></td> -->
 		        		<td><?php echo ($total)?></td>
+		        		<td></td>
 		        		<td></td>
 		        	</tr>
 		        </tfoot>
