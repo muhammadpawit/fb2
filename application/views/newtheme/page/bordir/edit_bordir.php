@@ -41,7 +41,7 @@
 							</td>
 							<td><?php echo $e['total_stich']?></td>
 							<td>
-								<input type="number" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>">
+								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>">
 							</td>
 							<td><?php echo $e['total_tarif']?></td>
 						</tr>

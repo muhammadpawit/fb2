@@ -890,6 +890,8 @@ class Bordir extends CI_Controller {
 					'size'=>$b['size'],
 					'stich'=>$b['stich'],
 					'jumlah_naik_mesin'=>$b['jumlah_naik_mesin'],
+					'perkalian_tarif'=>$b['perkalian_tarif'],
+					'hitung'=>round($b['total_stich']*$b['perkalian_tarif'])-$b['total_tarif'],
 					'total_stich'=>number_format($b['total_stich']),
 					'total_tarif'=>number_format($b['total_tarif']),
 					'action'=>$action,			);
@@ -993,7 +995,7 @@ class Bordir extends CI_Controller {
 					$sql .= 'WHERE kmb.jenis=2 AND kmb.hapus=0 and DATE(kmb.created_date) BETWEEN "'.$data['tanggalMulai'].'" AND "'.$data['tanggalEnd'].'"';
 				}		$sql.=' ORDER BY kmb.created_date ASC ';
 				$bordir=array();
-				
+				//pre($sql);
 				$bordirs = $this->GlobalModel->queryManual($sql);
 				foreach($bordirs as $b){
 					$action=array();
@@ -1017,6 +1019,8 @@ class Bordir extends CI_Controller {
 					'size'=>$b['size'],
 					'stich'=>$b['stich'],
 					'jumlah_naik_mesin'=>$b['jumlah_naik_mesin'],
+					'perkalian_tarif'=>$b['perkalian_tarif'],
+					'hitung'=>round($b['total_stich']*$b['perkalian_tarif'])-$b['total_tarif'],
 					'total_stich'=>number_format($b['total_stich']),
 					'total_tarif'=>number_format($b['total_tarif']),
 					'action'=>$action,			);
