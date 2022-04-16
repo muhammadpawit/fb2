@@ -62,10 +62,16 @@
                                     <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['kode_po'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
 
                                     <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=true" class="btn btn-info btn-xs">Cetak SJ HGS</a>
+                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>
+                                    <?php } ?>
+                                    <?php if(substr($sat['kode_po'],0,3)=="HGO"){?>
+                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGO" class="btn btn-info btn-xs">Cetak SJ HGO</a>
                                     <?php } ?>
                                     <?php if(substr($sat['kode_po'],0,3)=="HGW"){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=true" class="btn btn-info btn-xs">Cetak SJ HGS</a>
+                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGW" class="btn btn-info btn-xs">Cetak SJ HGW</a>
+                                    <?php } ?>
+                                    <?php if(substr($sat['kode_po'],0,3)=="SWH"){?>
+                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=SWH" class="btn btn-info btn-xs">Cetak SJ SWH</a>
                                     <?php } ?>
                                     <?php if(aksesedit()==1){?>
                                         <a href="<?php echo BASEURL.'Notakirim/edit/'.$sat['nofaktur'] ?>" class="btn btn-warning btn-xs text-white">Edit Rincian</a>

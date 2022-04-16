@@ -89,15 +89,15 @@ class Notakirim extends CI_Controller {
 		$get=$this->input->get();
 		$url='';
 		if(isset($get['hgs'])){
-			$hgs='HG';
-			$url='&hgs=HGS';
+			$hgs=$get['hgs'];
+			$url='&hgs='.$hgs;
 		}else{
 			$hgs=null;
 		}
 		$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
 		
 		if(!empty($hgs)){
-			$sql.=" AND pp.nama_po lIKE '".$hgs."%' OR LIKE IN(hgo,hgw,swh) ";
+			$sql.=" AND pp.nama_po lIKE '".$hgs."%'";
 		}else{
 			$sql.=" AND pp.nama_po <> 'HGS' ";
 		}
@@ -155,8 +155,8 @@ class Notakirim extends CI_Controller {
 		$get=$this->input->get();
 		$url='';
 		if(isset($get['hgs'])){
-			$hgs='HGS';
-			$url='&hgs=HGS';
+			$hgs=$get['hgs'];
+			$url='&hgs='.$hgs;
 		}else{
 			$hgs=null;
 		}
