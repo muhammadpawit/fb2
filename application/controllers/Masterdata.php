@@ -982,7 +982,7 @@ class Masterdata extends CI_Controller {
 			$url.="&kategori=".$kategori;
 		}
 		if(isset($get['pdf']) && $kategori==1){
-			$sql.=" AND quantity >=1000 ";
+			$sql.=" AND quantity >=200 ";
 		}
 		$results = $this->GlobalModel->QueryManual($sql);
 		$satuan=0;
