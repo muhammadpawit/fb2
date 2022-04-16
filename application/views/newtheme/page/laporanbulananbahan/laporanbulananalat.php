@@ -82,7 +82,7 @@
 		            <th colspan="2">Stok Awal </th>
 		            <th colspan="2">Masuk</th>
 		            <th colspan="2">Keluar</th>
-		            <th colspan="2">Akhir</th>
+		            <th colspan="2">Stok Akhir</th>
 		            <th rowspan="2">Total</th>
 		            <th rowspan="2">Ket</th>
 		            <th rowspan="2">Barang Masuk Terakhir</th>
