@@ -479,7 +479,8 @@ class Pembayaran extends CI_Controller {
 			$no++;
 		}
 		$sisa=[];
-		$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 AND gtd.hapus=0 AND gtd.full_payment_id=0 ");
+		//$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 AND gtd.hapus=0 AND gtd.full_payment_id=0 ");
+		$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 ");
 		foreach($res as $r){
 			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['timpotong']));
@@ -503,7 +504,7 @@ class Pembayaran extends CI_Controller {
 			}
 			$no++;
 		}
-		
+		//pre($res);
 		$saving=0.05*$total;
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);

@@ -2054,12 +2054,28 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+		$sql.=" ORDER BY id_kelolapo_kirim_setor DESC ";
 		if(!empty($tanggal1)){
 
 		}else{
 			$sql.=" LIMIT 20 ";
 		}
-		$viewData['kelola']	= $this->GlobalModel->queryManual($sql);
+		$resullts= $this->GlobalModel->queryManual($sql);
+		foreach($resullts as $r){
+			$pekerjaan=$this->GlobalModel->GetDataRow('master_job',array('hapus'=>0,'id'=>$r['id_master_cmt_job']));
+			$viewData['kelola'][]=array(
+				'id_kelolapo_kirim_setor'=>$r['id_kelolapo_kirim_setor'],
+				'nama_po'=>$r['nama_po'],
+				'kode_po'=>$r['kode_po'],
+				'nama_cmt'=>$r['nama_cmt'],
+				'kategori_cmt'	=>$r['kategori_cmt'],
+				'progress'=>$r['progress'],
+				'kode_nota_cmt'=>$r['kode_nota_cmt'],
+				'qty_tot_pcs'=>$r['qty_tot_pcs'],
+				'create_date'	=>	$r['create_date'],
+				'pekerjaan'=>!empty($pekerjaan)?$pekerjaan['nama_job']:'',
+			);
+		}
 		$viewData['tanggal1']=$tanggal1;
 		$viewData['tanggal2']=$tanggal2;
 		$viewData['page']='kelolapo/kirimsetorpotongan/kirim-setor-view';

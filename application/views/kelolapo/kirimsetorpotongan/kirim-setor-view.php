@@ -42,7 +42,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-     <table id="datatable" class="table table-bordered">
+     <table class="table table-bordered nosearch">
                         <thead>
 
                         <tr>
@@ -56,6 +56,8 @@
                             <th>Nomor SJ</th>
 
                             <th>Qty (Pcs)</th>
+
+                            <th>Pekerjaan</th>
 
                             <th>CREATED</th>
 
@@ -88,7 +90,7 @@
                                 </td>
 
                                 <td><?php echo $sat['qty_tot_pcs'] ?></td>
-
+                                <td><?php echo $sat['pekerjaan'] ?></td>
                                 <td><?php echo $sat['create_date'] ?></td>
 
                                 <td>
