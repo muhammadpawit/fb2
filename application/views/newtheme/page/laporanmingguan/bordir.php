@@ -51,8 +51,8 @@
 			    <td ><?php echo number_format($r['sisa'])?></td>
 			    <td ><?php echo $r['keterangan']?></td>
 			  </tr>
-			  <?php $at=$this->LaporanmingguanModel->alokasi_transfer($r['tanggal'],2); ?>
-			  <?php if(!empty($at)){?>
+			  	<?php $at=$this->LaporanmingguanModel->alokasi_transfer($r['tanggal'],2); ?>
+			  	<?php if(!empty($at)){?>
 			  	<?php foreach($at as $a){?>
 				  <tr>
 				  	<td colspan="3"><?php //echo $a['tanggal'];?></td>
@@ -64,7 +64,7 @@
 				  	<td><?php echo $a['keterangan']?></td>
 				  </tr>
 				<?php } ?>
-			<?php } ?>
+				<?php } ?>
 			<?php } ?>
 			</tbody>
 			</table>

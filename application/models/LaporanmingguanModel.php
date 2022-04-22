@@ -41,8 +41,19 @@ class LaporanmingguanModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function alokasi_cash($tanggal,$bagian){
+		$hasil=[];
+		$sql="SELECT * FROM aruskas WHERE hapus=0 AND bagian='$bagian'";
+		$sql.=" AND DATE(tanggal) ='".date('Y-m-d',strtotime($tanggal))."' ";
+		$data=$this->GlobalModel->QueryManual($sql);
+		if(!empty($data)){
+			$hasil=$data;
+		}
+		return $hasil;
+	}
+
 	public function alokasi_transfer($tanggal,$bagian){
-		$hasil=0;
+		$hasil=[];
 		$sql="SELECT * FROM alokasi_transferan WHERE hapus=0 AND bagian='$bagian'";
 		$sql.=" AND DATE(tanggal) ='".date('Y-m-d',strtotime($tanggal))."' ";
 		$data=$this->GlobalModel->QueryManual($sql);

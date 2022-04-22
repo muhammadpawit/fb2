@@ -55,6 +55,29 @@
 			    <td ><?php echo number_format($r['ajuan'])?></td>
 			    <td ><?php echo $r['keterangan']?></td>
 			  </tr>
+			  <?php $at=$this->LaporanmingguanModel->alokasi_transfer($r['tanggal'],1); ?>
+			  	<?php if(!empty($at)){?>
+			  	<?php foreach($at as $a){?>
+				  <tr>
+				  	<td colspan="4"><?php //echo $a['tanggal'];?></td>
+				  	<td><?php echo $a['pengalokasian']==6?number_format($a['nominal']):0;?></td>
+				  	<td><?php echo $a['pengalokasian']==7?number_format($a['nominal']):0;?></td>
+				  	<td><?php echo $a['pengalokasian']==8?number_format($a['nominal']):0;?></td>
+				  	<td><?php echo $a['pengalokasian']==9?number_format($a['nominal']):0;?></td>
+				  	<td><?php echo $a['pengalokasian']==10?number_format($a['nominal']):0;?></td>
+				  	<td><?php echo $a['pengalokasian']==11?number_format($a['nominal']):0;?></td>
+				  	<td><?php echo $a['keterangan']?></td>
+				  </tr>
+				<?php } ?>
+				<?php } ?>
+			  <?php $c=$this->LaporanmingguanModel->alokasi_cash(date('Y-m-d',strtotime($r['tanggal'])),1); ?>
+			  	<?php if(!empty($c)){?>
+			  		<?php foreach($c as $d){?>
+				  <tr>
+				  	<td><?php echo $d['tanggal'];?></td>
+				  </tr>
+				<?php } ?>
+				<?php } ?>
 			<?php } ?>
 			</tbody>
 			</table>
