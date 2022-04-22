@@ -7,7 +7,7 @@ class Rekapkasbon extends CI_Controller {
 		parent::__construct();
 		sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
-		$this->page='newtheme/page/';
+		$this->page='newtheme/page/rekapkasbon/';
 		$this->layout='newtheme/page/main';
 		$this->url=BASEURL.'Rekapkasbon/';
 	}
@@ -15,17 +15,9 @@ class Rekapkasbon extends CI_Controller {
 	public function index(){
 		$data=[];
 		$data['title']='Rekap Kasbon Bulanan';
-		$months = array();
-		for ($i = 0; $i < 12; $i++) {
-		    $timestamp = mktime(0, 0, 0, date('n') - $i, 1);
-		    $months['bulan'][] = array(
-				'bulan'=>date('n', $timestamp),
-				'nama'=>date('F', $timestamp),
-				'i'=>$i,
-			);
-		}
-		$sort=($months['bulan']);
-		pre($sort);
+		$data['bulan']=nama_bulan();
+
+		$data['page']=$this->page.'list';
 		$this->load->view($this->layout,$data);
 	}
 

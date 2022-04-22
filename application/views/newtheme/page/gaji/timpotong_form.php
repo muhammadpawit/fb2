@@ -83,6 +83,7 @@
 							<select name="products[<?php echo $p['no']?>][perkalian]">
 								<option value="1" <?php echo ($p['full']==1)?'selected':'';?>>100%</option>
 								<option value="0.5" <?php echo ($p['full']==2)?'selected':'';?>>50%</option>
+								<option value="0">0%</option>
 							</select>
 						</td>
 						<td><?php echo $p['harga']?></td>

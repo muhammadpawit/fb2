@@ -604,4 +604,15 @@
 		return $hasil;
 	}
 
+	function nama_bulan(){
+		for($m=1; $m<=12; ++$m){
+			$months['bulan'][] = array(
+				'bulan'=>date('n', mktime(0, 0, 0, $m, 1)),
+				'nama'=>date('F', mktime(0, 0, 0, $m, 1)),
+			);
+		}
+
+		return $months['bulan'];
+	}
+
  ?>

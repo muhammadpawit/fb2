@@ -539,7 +539,15 @@ class Pembayaran extends CI_Controller {
 			$id=$this->db->insert_id();
 			$total=0;
 			$saving=0;
+			$perkalian=1;
 			foreach($data['products'] as $p){
+				if($p['perkalian']==1){
+					$perkalian=1;
+				}else if($p['perkalian']==2){
+					$perkalian=2;
+				}else{
+					$perkalian=0;
+				}
 				$total+=($p['harga']*$p['pcs']*$p['perkalian']);
 				$detail=array(
 					'idgaji'=>$id,
@@ -552,7 +560,7 @@ class Pembayaran extends CI_Controller {
 					'total'=>($p['perkalian']*$p['harga']*$p['pcs']),
 					'keterangan'=>null,
 					'hapus'=>0,
-					'full'=>($p['perkalian']==1)?1:2, // 1 full , 2 50%
+					'full'=>$perkalian, // 1 full , 2 50%
 				);
 				$this->db->insert('gaji_timpotong_detail',$detail);
 
