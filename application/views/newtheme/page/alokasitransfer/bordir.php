@@ -19,7 +19,7 @@
           </div>
           <div class="form-group">
             <label>Pengalokasian</label>
-            <input type="hidden" name="bagian" value="2">
+            <input type="hidden" name="bagian" value="<?php echo $bagian; ?>">
             <select name="pengalokasian" class="form-control select2bs4" required="required">
               <option value="">Pilih</option>
               <?php foreach($alokasi as $a){?>
