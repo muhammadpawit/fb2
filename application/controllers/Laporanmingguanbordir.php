@@ -50,6 +50,7 @@ class Laporanmingguanbordir extends CI_Controller {
 		    	'alokasitransfer'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,4),
 		    	'sisa'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,5),
 		    	'keterangan'=>implode(",",$keterangan),
+		    	//'alokasi_transfer'=>$this->LaporanmingguanModel->alokasi_transfer($dt['tanggal'],$bagian);
 		    );
 		} 
 		$data['page']=$this->page.'bordir';

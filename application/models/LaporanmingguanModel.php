@@ -39,6 +39,17 @@ class LaporanmingguanModel extends CI_Model {
 			$hasil=$data['total'];
 		}
 		return $hasil;
+	}
+
+	public function alokasi_transfer($tanggal,$bagian){
+		$hasil=0;
+		$sql="SELECT * FROM alokasi_transferan WHERE hapus=0 AND bagian='$bagian'";
+		$sql.=" AND DATE(tanggal) ='".date('Y-m-d',strtotime($tanggal))."' ";
+		$data=$this->GlobalModel->QueryManual($sql);
+		if(!empty($data)){
+			$hasil=$data;
+		}
+		return $hasil;
 	}	
 
 	public function keterangan_bordir($tanggal,$bagian){
