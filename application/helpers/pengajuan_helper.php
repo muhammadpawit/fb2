@@ -615,4 +615,17 @@
 		return $months['bulan'];
 	}
 
+	function lamabekerja($idkaryawan){
+		$CI =& get_instance();
+		$hasil=null;
+		$k  =$CI->GlobalModel->queryManualRow("SELECT * FROM karyawan WHERE id='$idkaryawan' ");
+		$tanggal =$k['tglmasuk'];
+		$tanggal = new DateTime($tanggal); 
+		$sekarang = new DateTime();
+		$perbedaan = $tanggal->diff($sekarang);
+		$hasil=$perbedaan->y.' Tahun ' .$perbedaan->m.' Bulan '.$perbedaan->d.' Hari';
+		return $hasil;
+
+	}
+
  ?>
