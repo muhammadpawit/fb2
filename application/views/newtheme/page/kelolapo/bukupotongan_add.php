@@ -113,7 +113,7 @@
 
                                     <th>PEMAKAIAN BHN</th>
 
-                                    <th>BANYAK LAPIS</th>
+                                    <th>Dz</th>
 
                                     <th><!-- <button type="button" name="add" class="btn btn-success btn-sm add"><i class="fa fa-plus"> </i></button>--></th>
 
@@ -183,7 +183,7 @@
 
                                     <th>PEMAKAIAN BHN</th>
 
-                                    <th>BANYAK LAPIS</th>
+                                    <th>Dz</th>
 
                                     <th><button type="button" name="add" class="btn btn-success btn-sm add2"><i class="fa fa-plus"></i></button></th>
 
