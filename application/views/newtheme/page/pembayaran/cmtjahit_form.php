@@ -159,17 +159,18 @@
             return false;
         }
         var html='<tbody data-parent="0" id="product-row' + i + '" data="'+i+'"><tr>';
-        html += '<td><input type="hidden" class="jumlahDz" name="products['+i+'][jumlah_po_dz]" required ><input type="hidden" class="jumlahPc" name="products['+i+'][jumlah_po_pcs]" required ><select type="text" class="select2bs4 kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-style="btn-success" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
-        html+='<td><input type="text" class="potongan" value="0" name="products['+i+'][potongan]" onblur="updatepcs('+i+')" readonly></td>';
-        html+='<td><input type="text" class="kirimpcs" name="products['+i+'][kirimpcs]" onblur="updatepcs('+i+')" readonly ></td>';
-        html+='<td><input type="hidden" class="dz" name="products['+i+'][dz]" onblur="updatedz('+i+')" readonly ><input type="text" class="jumlahDz" name="products['+i+'][jumlah_dz]" readonly ></td>';
-        html+='<td><input type="text" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
-        html+='<td><input type="text" class="harga" name="products['+i+'][harga]"></td>';
-        html+='<td><input type="text" class="total" name="products['+i+'][total]" readonly></td>';
-        html+='<td><select name="products['+i+'][percent]" class="pmb" required><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
-        html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
-        html += '<td><select type="text" style="width:200px" class="select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
-        html += '<td><select type="text" class="select2" data-id="'+i+'" name="products['+i+'][trans]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="1" selected>Ya</option><option value="2">Tidak</option></td>';
+        html += '<td><input type="hidden" class="jumlahDz" name="products['+i+'][jumlah_po_dz]" required ><input type="hidden" class="jumlahPc" name="products['+i+'][jumlah_po_pcs]" required ><select type="text" class="select2 kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-style="btn-success" data-title="Pilih item" required style="width: 150px !important;"><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html+='<td><input type="text" size="4" class="potongan" value="0" name="products['+i+'][potongan]" onblur="updatepcs('+i+')" readonly></td>';
+        html+='<td><input type="text" size="4" class="kirimpcs" name="products['+i+'][kirimpcs]" onblur="updatepcs('+i+')" readonly ></td>';
+        html+='<td><input type="hidden" class="dz" name="products['+i+'][dz]" onblur="updatedz('+i+')" readonly ><input type="text" size="4" class="jumlahDz" name="products['+i+'][jumlah_dz]" readonly ></td>';
+        html+='<td><input type="text" size="4" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
+        html+='<td><input type="text" size="5" class="harga" name="products['+i+'][harga]"></td>';
+        html+='<td><input type="text" size="10" class="total" name="products['+i+'][total]" readonly></td>';
+        html+='<td><select name="products['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
+        //html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
+        html+='<td><textarea class="keterangan" name="products['+i+'][keterangan]" cols="10" rows="5"></textarea></td>';
+        html += '<td><span class="pot1"></span><select type="text" style="width:80px" class="select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
+        html += '<td><select type="text" style="width: 50px;" class="select2" data-id="'+i+'" name="products['+i+'][trans]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="1" selected>Ya</option><option value="2">Tidak</option></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html+='</tr><tbody>';
         $("#tbls tfoot").before(html);
@@ -200,8 +201,11 @@
         theme:"classic"
         }).on("select2:select",function(e){
             id=$(this).val();
+            var s=id.split(",");
+            var dai = $(this).closest('tr');
+            var t=dai.find(".pot1").html(s[0]+' <br>('+s[2]+')');
             //coba=$(this).data('id');
-            console.log(id);
+            console.log(s);
         });
     }
 
