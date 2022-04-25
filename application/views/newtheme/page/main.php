@@ -27,22 +27,21 @@
   <!-- datepicker -->
   <link rel="stylesheet" href="<?php echo PLUGINS?>bootstrap-datepicker/css/bootstrap-datepicker.min.css">
   <!-- jQuery -->
-<script src="<?php echo NEWTHEME?>plugins/jquery/jquery.min.js"></script>
+<script src="<?php echo PLUGINS?>jquery/jquery.min.js"></script>
 <!-- datepicker -->
 <script src="<?php echo PLUGINS?>bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo NEWTHEME?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo NEWTHEME?>dist/js/adminlte.min.js"></script>
-<!-- Select2 -->
-<script src="<?php echo NEWTHEME?>plugins/select2/js/select2.full.min.js"></script>
 <!-- Required datatable js -->
 <script src="<?php echo PLUGINS ?>datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo PLUGINS ?>datatables/dataTables.bootstrap4.min.js"></script>
 <!-- Responsive examples -->
 <script src="<?php echo PLUGINS ?>datatables/dataTables.responsive.min.js"></script>
 <script src="<?php echo PLUGINS ?>datatables/responsive.bootstrap4.min.js"></script>
-
+<!-- Select2 -->
+<script src="<?php echo PLUGINS?>select2/js/select2.full.min.js"></script>
 <style type="text/css">
   
   body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}

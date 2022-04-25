@@ -178,9 +178,10 @@ class Laporanklo extends CI_Controller {
 				'kirimkaosdz'=>$kirimkaosdz,
 				'kirimkemejajml'=>$kirimkemejajml,
 				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>json_encode($akhirjml),
+				//'stokakhirkaosjml'=>json_encode($akhirjml),
+				'stokakhirkaosjml'=>($akhirjml['jml']),
 				// 'stokakhirkaosdz'=>!empty($akhirjml)?$akhirjml:0,
-				'stokakhirkaosdz'=>0,
+				'stokakhirkaosdz'=>($akhirjml['dz']),
 				'stokakhirkemejajml'=>0,
 				'stokakhirkemejadz'=>0,
 			);
