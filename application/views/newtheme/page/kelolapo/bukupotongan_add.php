@@ -22,7 +22,7 @@
         <table class="table">
                                 <tr>
                                     <td><label>Tanggal</label></td>
-                                    <td><input type="date" class="form-control" name="tanggal" value="<?php echo $tgl?>" required></td>
+                                    <td><input type="text" class="form-control" name="tanggal" value="<?php echo $tgl?>" required></td>
                                 </tr>
                                 <tr>
                                     <td><label>Nama PO</label></td>
@@ -53,7 +53,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label>Gambar Sample Bahan Utama</label></td>
+                                    <td><label>Gambar Sample Bahan Utama 1</label></td>
                                     <td>
                                        <input type="file" class="form-control" name="sempleBhnImg"> 
                                     </td>
@@ -65,13 +65,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label>Panjang Gelaran</label></td>
+                                    <td><label>Panjang Gelaran (cm)</label></td>
                                     <td>
                                         <input type="number" step="0.01" class="form-control" name="panjangGelaran">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label>Pemakaian Bahan</label></td>
+                                    <td><label>Pemakaian Bahan (yard)</label></td>
                                     <td>
                                         <input type="text" class="form-control" name="pemakaianBahan" required>
                                     </td>
@@ -135,20 +135,20 @@
     <div class="col-md-12">
         <table class="table">
                                 <tr>
-                                    <td><label>Panjang Gelar Variasi</label></td>
+                                    <td><label>Panjang Gelar Variasi (cm)</label></td>
                                     <td>
                                         <input type="text" class="form-control" name="panjangGelaranVariasi" >
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label>Pemakaian Gelaran Variasi</label></td>
+                                    <td><label>Pemakaian Gelaran Variasi (yard)</label></td>
                                     <td>
                                         <input type="number" class="form-control" step="0.01" name="pemakaianGelaranVariasi" >
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label>Sample Bahan Image Variasi</label>
+                                        <label>Sample Bahan Image Variasi 1</label>
                                     </td>
                                     <td>
                                         <input type="file" class="form-control" name="sempleBhnImgVar" >

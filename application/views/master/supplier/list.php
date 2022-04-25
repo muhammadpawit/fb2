@@ -35,7 +35,7 @@
                                     <?php foreach($hasil as $h){?>
                                     <tr>
                                         <td><?php echo $n++?></td>
-                                        <td><?php echo $h['nama']?></td>
+                                        <td><?php echo strtolower($h['nama'])?></td>
                                         <td><?php echo $h['telephone']?></td>
                                         <td><?php echo $h['pic']?></td>
                                         <td><?php echo $h['alamat']?></td>

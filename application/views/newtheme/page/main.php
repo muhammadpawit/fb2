@@ -27,30 +27,32 @@
   <!-- datepicker -->
   <link rel="stylesheet" href="<?php echo PLUGINS?>bootstrap-datepicker/css/bootstrap-datepicker.min.css">
   <!-- jQuery -->
-<script src="<?php echo PLUGINS?>jquery/jquery.min.js"></script>
+<script src="<?php echo NEWTHEME?>plugins/jquery/jquery.min.js"></script>
 <!-- datepicker -->
 <script src="<?php echo PLUGINS?>bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo NEWTHEME?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo NEWTHEME?>dist/js/adminlte.min.js"></script>
+<!-- Select2 -->
+<script src="<?php echo NEWTHEME?>plugins/select2/js/select2.full.min.js"></script>
 <!-- Required datatable js -->
 <script src="<?php echo PLUGINS ?>datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo PLUGINS ?>datatables/dataTables.bootstrap4.min.js"></script>
 <!-- Responsive examples -->
 <script src="<?php echo PLUGINS ?>datatables/dataTables.responsive.min.js"></script>
 <script src="<?php echo PLUGINS ?>datatables/responsive.bootstrap4.min.js"></script>
-<!-- Select2 -->
-<script src="<?php echo PLUGINS?>select2/js/select2.full.min.js"></script>
+
 <style type="text/css">
   
-  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
+  body{text-transform:capitalize !important;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
   
   @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
   .registered {
     font-family: 'Baskervville', serif;
   }
-  table{font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important}
+  table{font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;text-transform:capitalize !important;}
+  
   .full{width: 100% !important;}
   .print{ display:none !important}
   @media print
@@ -63,6 +65,9 @@
     }
   .yaprint tr{background-color: yellow !important}
   }
+
+  table th td {text-transform:capitalize !important;}
+  .table{text-transform:capitalize !important;}
 
 </style>
 
