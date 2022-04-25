@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo $update; ?>">
+<form method="post" action="<?php echo $update; ?>" id="update">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -128,7 +128,7 @@
         </div>
     </div>
 </form>
-<form method="post" action="<?php echo $lampiran?>" enctype="multipart/form-data">
+<form id="upload" method="post" action="<?php echo $lampiran?>" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -175,6 +175,6 @@
 </div>
 <script type="text/javascript">
     function update(){
-        $("form").submit();
+        $("#update").submit();
     }
 </script>
