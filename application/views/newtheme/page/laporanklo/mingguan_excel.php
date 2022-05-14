@@ -11,8 +11,9 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 <table>
 	<tr>
 		<td>
-			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
-			<label>Potongan Kaos Heru And Friends</label>
+			<?php foreach($bupot as $b){?>
+
+			<label>Potongan <?php echo $b['nama']?></label>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
@@ -24,98 +25,33 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($heru as $j){?>
+					<?php $nem=1;?>
+					<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
+					<?php foreach($b['dets'] as $d){?>
 						<tr>
-							<td><?php echo $j['no']?></td>
-							<td><?php echo $j['nama']?></td>
-							<td><?php echo $j['jml']?></td>
-							<td><?php echo number_format($j['dz'],2)?></td>
-							<td><?php echo $j['pcs']?></td>
+							<td><?php echo $nem++?></td>
+							<td><?php echo $d['nama']?></td>
+							<td><?php echo $d['jml']?></td>
+							<td><?php echo $d['dz']?></td>
+							<td><?php echo $d['pcs']?></td>
 						</tr>
-						<?php $jmlks+=($j['jml']);?>
-						<?php $kaosdz+=($j['dz']);?>
-						<?php $kaospcs+=($j['pcs']);?>
+						<?php 
+							$jmlks+=($d['jml']);
+							$kaosdz+=($d['dz']);
+							$kaospcs+=($d['pcs']);
+						?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total</b></td>
 						<td><?php echo $jmlks?></td>
-						<td><?php echo number_format($kaosdz,2)?></td>
+						<td><?php echo $kaosdz?></td>
 						<td><?php echo $kaospcs?></td>
 					</tr>
 				</tfoot>
 			</table>
-			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
-			<label>Potongan Kaos Oplet</label>
-			<table border="1" style="width: 100%;border-collapse: collapse;">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>Nama</th>
-						<th>JML PO</th>
-						<th>JML (Dz)</th>
-						<th>JML (Pcs)</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($oplet as $j){?>
-						<tr>
-							<td><?php echo $j['no']?></td>
-							<td><?php echo $j['nama']?></td>
-							<td><?php echo $j['jml']?></td>
-							<td><?php echo round($j['dz'],2)?></td>
-							<td><?php echo $j['pcs']?></td>
-						</tr>
-						<?php $jmlks+=($j['jml']);?>
-						<?php $kaosdz+=($j['dz']);?>
-						<?php $kaospcs+=($j['pcs']);?>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2"><b>Total</b></td>
-						<td><?php echo $jmlks?></td>
-						<td><?php echo round($kaosdz,2)?></td>
-						<td><?php echo $kaospcs?></td>
-					</tr>
-				</tfoot>
-			</table>
-			<?php $jmlkk=0;$kemejadz=0;$kemejapcs=0;?>
-			<label>Potongan Kemeja Roji</label>
-			<table border="1" style="width: 100%;border-collapse: collapse;">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>Nama</th>
-						<th>JML PO</th>
-						<th>JML (Dz)</th>
-						<th>JML (Pcs)</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($roji as $j){?>
-						<tr>
-							<td><?php echo $j['no']?></td>
-							<td><?php echo $j['nama']?></td>
-							<td><?php echo $j['jml']?></td>
-							<td><?php echo round($j['dz'],2)?></td>
-							<td><?php echo $j['pcs']?></td>
-						</tr>
-						<?php $jmlkk+=($j['jml']);?>
-						<?php $kemejadz+=($j['dz']);?>
-						<?php $kemejapcs+=($j['pcs']);?>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2"><b>Total</b></td>
-						<td><?php echo $jmlkk?></td>
-						<td><?php echo round($kemejadz,2)?></td>
-						<td><?php echo $kemejapcs?></td>
-					</tr>
-				</tfoot>
-			</table>
+		<?php } ?>
 		</td>
 		<td></td>
 		<td></td>

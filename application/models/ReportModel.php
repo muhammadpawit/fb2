@@ -1661,4 +1661,22 @@ class ReportModel extends CI_Model {
 			$unique=array_unique($hasil);
 			return $unique;
 	}
+
+	public function bukupotongan($tim,$tanggal1,$tanggal2){
+		$hasil=[];
+		$no=1;
+		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE p.id_produksi_po IN(SELECT idpo FROM konveksi_buku_potongan WHERE DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan='$tim' ) AND mjp.tampil=1 GROUP BY nama_jenis_po ORDER BY nama_jenis_po ASC ");
+		foreach($jenis as $t){
+			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan='$tim' ");
+			$hasil[]=array(
+				'no'=>$no++,
+				'nama'=>$t['nama_jenis_po'],
+				'jml'=>$prods['jml'],
+				'dz'=>$prods['dz'],
+				'pcs'=>$prods['pcs'],
+			);
+		}
+
+		return $hasil;
+	}
 }

@@ -29,46 +29,10 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
-			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
-			<label>Potongan Kaos Heru And Friends</label>
-			<table class="table table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>Nama</th>
-						<th>JML PO</th>
-						<th>JML (Dz)</th>
-						<th>JML (Pcs)</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($heru as $j){?>
-						<tr>
-							<td><?php echo $j['no']?></td>
-							<td><?php echo $j['nama']?></td>
-							<td><?php echo $j['jml']?></td>
-							<td><?php echo number_format($j['dz'],2)?></td>
-							<td><?php echo $j['pcs']?></td>
-						</tr>
-						<?php $jmlks+=($j['jml']);?>
-						<?php $kaosdz+=($j['dz']);?>
-						<?php $kaospcs+=($j['pcs']);?>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2"><b>Total</b></td>
-						<td><?php echo $jmlks?></td>
-						<td><?php echo number_format($kaosdz,2)?></td>
-						<td><?php echo $kaospcs?></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
+			
+			<?php foreach($bupot as $b){?>
 
-		<div class="form-group">
-			<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
-			<label>Potongan Kaos Oplet</label>
+			<label>Potongan <?php echo $b['nama']?></label>
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -80,17 +44,21 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($oplet as $j){?>
+					<?php $nem=1;?>
+					<?php $jmlks=0;$kaosdz=0;$kaospcs=0;?>
+					<?php foreach($b['dets'] as $d){?>
 						<tr>
-							<td><?php echo $j['no']?></td>
-							<td><?php echo $j['nama']?></td>
-							<td><?php echo $j['jml']?></td>
-							<td><?php echo number_format($j['dz'],2)?></td>
-							<td><?php echo $j['pcs']?></td>
+							<td><?php echo $nem++?></td>
+							<td><?php echo $d['nama']?></td>
+							<td><?php echo $d['jml']?></td>
+							<td><?php echo number_format($d['dz'],2)?></td>
+							<td><?php echo $d['pcs']?></td>
 						</tr>
-						<?php $jmlks+=($j['jml']);?>
-						<?php $kaosdz+=($j['dz']);?>
-						<?php $kaospcs+=($j['pcs']);?>
+						<?php 
+							$jmlks+=($d['jml']);
+							$kaosdz+=($d['dz']);
+							$kaospcs+=($d['pcs']);
+						?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
@@ -102,43 +70,7 @@
 					</tr>
 				</tfoot>
 			</table>
-		</div>
-		<div class="form-group">
-			<?php $jmlkk=0;$kemejadz=0;$kemejapcs=0;?>
-			<label>Potongan Kemeja Roji</label>
-			<table class="table table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>Nama</th>
-						<th>JML PO</th>
-						<th>JML (Dz)</th>
-						<th>JML (Pcs)</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($roji as $j){?>
-						<tr>
-							<td><?php echo $j['no']?></td>
-							<td><?php echo $j['nama']?></td>
-							<td><?php echo $j['jml']?></td>
-							<td><?php echo number_format($j['dz'],2)?></td>
-							<td><?php echo $j['pcs']?></td>
-						</tr>
-						<?php $jmlkk+=($j['jml']);?>
-						<?php $kemejadz+=($j['dz']);?>
-						<?php $kemejapcs+=($j['pcs']);?>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2"><b>Total</b></td>
-						<td><?php echo $jmlkk?></td>
-						<td><?php echo number_format($kemejadz,2)?></td>
-						<td><?php echo $kemejapcs?></td>
-					</tr>
-				</tfoot>
-			</table>
+		<?php } ?>
 		</div>
 	</div>
 	<div class="col-md-9">

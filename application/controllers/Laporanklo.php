@@ -48,6 +48,18 @@ class Laporanklo extends CI_Controller {
 		}
 
 		$noh=1;
+		$data['bupot']=[];
+		$timptg=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
+		$detbupot=[];
+		foreach($timptg as $t){
+			$detbupot=$this->ReportModel->bukupotongan($t['id'],$tanggal1,$tanggal2);
+			$data['bupot'][]=array(
+				
+				'nama'=>$t['nama'],
+				'dets'=>$detbupot
+			);
+		}
+		//pre($data['bupot']);
 		$data['heru']=[];
 		foreach($jenis as $t){
 			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan=15 ");
@@ -60,22 +72,11 @@ class Laporanklo extends CI_Controller {
 			);
 		}
 
-		$nomor=1;
-		foreach($jenis as $t){
-			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan=2 ");
-			$data['roji'][]=array(
-				'no'=>$nomor++,
-				'nama'=>$t['nama_jenis_po'],
-				'jml'=>$prods['jml'],
-				'dz'=>$prods['dz'],
-				'pcs'=>$prods['pcs'],
-			);
-		}
-
+		
 		// kirim setor 
 
 		$data['sablon']=[]; // sablon
-		//$results=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		/*
 		$results_sablon=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ");
 		$no=1;
 		$stokawalkaosjml=0;
@@ -92,7 +93,6 @@ class Laporanklo extends CI_Controller {
 		$stokakhirkaosdz=0;
 		$stokakhirkemejajml=0;
 		$stokakhirkemejadz=0;
-
 		foreach($results_sablon as $c){
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
@@ -124,11 +124,11 @@ class Laporanklo extends CI_Controller {
 				'stokakhirkemejadz'=>0,
 			);
 		}
-
+		*/
 		//pre($stoksablon);
 		$data['jahit']=[]; // kaos
 		$kjahit='JAHIT';
-		//$results=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		/*
 		$results=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE kategori_cmt='$kjahit') and jenis_po IN(1,3)  ");
 		$no=1;
 		$stokawalkaosjml=0;
@@ -148,11 +148,6 @@ class Laporanklo extends CI_Controller {
 		$akhirjml=0;
 		$akhirpcs=0;
 		foreach($results as $c){
-
-			// $stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			// $stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			// $stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			// $stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
@@ -178,17 +173,14 @@ class Laporanklo extends CI_Controller {
 				'kirimkaosdz'=>$kirimkaosdz,
 				'kirimkemejajml'=>$kirimkemejajml,
 				'kirimkemejadz'=>$kirimkemejadz,
-				//'stokakhirkaosjml'=>json_encode($akhirjml),
 				'stokakhirkaosjml'=>($akhirjml['jml']),
-				// 'stokakhirkaosdz'=>!empty($akhirjml)?$akhirjml:0,
 				'stokakhirkaosdz'=>($akhirjml['dz']),
 				'stokakhirkemejajml'=>0,
 				'stokakhirkemejadz'=>0,
 			);
-		}
-		//pre($data['jahit']);
+		}*/
 		$data['jahitk']=[]; // kemeja
-		//$results=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		/*
 		$resultsk=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE kategori_cmt='$kjahit') and jenis_po IN(2,3) ");
 		$no=1;
 		$stokawalkaosjml=0;
@@ -208,10 +200,6 @@ class Laporanklo extends CI_Controller {
 
 		foreach($resultsk as $c){
 
-			// $stokawalkaosjml=$this->KirimsetorModel->awaljumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			// $stokawalkaosdz=$this->KirimsetorModel->awaldz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			// $stokawalkemejajml=$this->KirimsetorModel->awaljumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			// $stokawalkemejadz=$this->KirimsetorModel->awaldz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
 			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
@@ -220,7 +208,6 @@ class Laporanklo extends CI_Controller {
 			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			//$akhirjml=$this->KirimsetorModel->stok($c['id_cmt'],1);
 			$akhirjml=$this->KirimsetorModel->stok_baru($c['id_cmt'],1);
 			$data['jahitk'][]=array(
 				'no'=>$no++,
@@ -239,13 +226,11 @@ class Laporanklo extends CI_Controller {
 				'kirimkemejadz'=>$kirimkemejadz,
 				'stokakhirkaosjml'=>0,
 				'stokakhirkaosdz'=>0,
-				// 'stokakhirkemejajml'=>!empty($akhirjml)?$akhirjml['jml']:0,
-				// 'stokakhirkemejadz'=>!empty($akhirjml)?$akhirjml['dz']:0,
 				'stokakhirkemejajml'=>!empty($akhirjml)?$akhirjml:0,
 				'stokakhirkemejadz'=>!empty($akhirjml)?$akhirjml:0,
 			);
 		}
-
+		*/
 		// end
 		$url='';
 		if(!empty($tanggal1)){
