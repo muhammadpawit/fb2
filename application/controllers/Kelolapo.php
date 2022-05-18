@@ -432,6 +432,7 @@ class Kelolapo extends CI_Controller {
 			'created_date'	=> $post['tanggalProd'],
 			'jenis_po'	=> $post['jenisPo'],
 			'status'=>0,
+			'tahun'=>date('Y').date('Y',strtotime("+1 year")),
 		);
 		$this->GlobalModel->insertData('produksi_po',$dataInsert);
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
