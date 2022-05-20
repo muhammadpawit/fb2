@@ -170,7 +170,10 @@
 
                                     <td>BAHAN</td>
 
-                                    <td><?php echo $produk['bahan_potongan'] ?></td>
+                                    <td>
+                                        <?php //echo $produk['bahan_potongan'] ?>
+                                        <?php echo $namabahan['nama_item_keluar'] ?>
+                                    </td>
 
                                 </tr>
 

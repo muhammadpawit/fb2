@@ -1279,6 +1279,7 @@ class Finishing extends CI_Controller {
 		$biayalain=$this->GlobalModel->getData('biaya_hpp',array('hapus'=>0,'namapo'=>$namapo,'idcmt'=>$cmt['id_master_cmt']));
 		$viewData['biayalain']=$biayalain;
 		$viewData['bawahansablon']=$bawahansablon;
+		$viewData['namabahan']=$this->GlobalModel->QueryManualRow("SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kodepo' AND bahan_kategori='UTAMA' ORDER BY id_item_keluar ASC LIMIT 1 ");
 		$viewData['page']='finishing/hpp/hpp-detail';
 		$this->load->view('newtheme/page/main',$viewData);
 	}
