@@ -18,7 +18,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label>KEHADIRAN</label>
+                                <label>ABSENSI</label>
                                 <select class="form-control select2bs4 shift" name="kehadiran" id="kehadiran" title="pilih kehadiran" data-live-search="TRUE" required>
                                     <option value="HADIR" data-shift="HADIR" data-jam="12">HADIR</option>
                                     <option value="IZIN" data-shift="IZIN" data-jam="12">IZIN</option>
@@ -26,7 +26,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label>JAM</label>
+                                <label>JAM KERJA</label>
                                 <input type="number" class="form-control selectpicker shift" name="jamkehadiran" id="jamkerja" required>
                             </div>
                             <div class="form-group col-3">
@@ -42,7 +42,7 @@
                                 <input type="text" name="mandor" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label>MESIN</label>
+                                <label>JAGA MESIN</label>
                                 <select class="form-control select2bs4" name="mesin" required>
                                     <?php foreach ($mesin as $key => $me): ?>
                                     <option value="<?php echo $me['nomer_mesin'] ?>"><?php echo $me['nomer_mesin'] ?> (<?php echo $me['nama_mesin'] ?>)</option>
@@ -54,7 +54,7 @@
                                 <input type="text" class="form-control" name="gambar" required>
                             </div>
                             <div class="form-group col-6">
-                                <label>JUMLAH YANG DI BORDIR</label>
+                                <label>JUMLAH BAGIAN YANG DI BORDIR</label>
                                 <input type="number" class="form-control" name="jumlahbagian" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
                             </div>
                             <div class="form-group col-6">
@@ -75,8 +75,8 @@
                                         <th>SIZE</th>
                                         <th>STICH</th>
                                         <th>TOTAL STICH</th>
-                                        <th>X Target</th>
-                                        <th>X Tarif</th>
+                                        <th>Target Perkalian Mesin</th>
+                                        <th>Target Perkalian Tagihan</th>
                                     </tr>
                                     <tr>
                                         <td><input type="number" class="form-control" name="jmlNaik" step=0.01 required></td>
@@ -94,8 +94,8 @@
                                         <th>SPON</th>
                                         <th>APL</th>
                                         <th>POSISI BORDIR</th>
-                                        <th>TARIF</th>
-                                        <th>TARGET</th>
+                                        <th>TAGIHAN</th>
+                                        <th>TARGET MESIN</th>
                                     </tr>
                                     <tr>
                                         <td><input type="number" class="form-control" name="spon" required></td>
