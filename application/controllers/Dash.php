@@ -491,5 +491,9 @@ class Dash extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function produksi2122(){
+		redirect('https://2122.forboysproduction.com');
+	}
+
 
 }
