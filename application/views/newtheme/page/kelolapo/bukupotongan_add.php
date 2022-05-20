@@ -14,7 +14,7 @@
 <form action="<?php echo $action ?>" method="POST" enctype="multipart/form-data">
 <div class="row">
     <div class="col-md-12">
-        <h3 class="text-center">POTONGAN UTAMA</h3>
+        <h3 class="text-center">POTONGAN BAHAN UTAMA</h3>
     </div>
 </div>
 <div class="row">
@@ -77,7 +77,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label>Jumlah Gambar </label></td>
+                                    <td><label>Jumlah Size </label></td>
                                     <td>
                                         <input type="number" max="12" class="form-control" name="jumlahGambar" required>
                                     </td>
@@ -107,13 +107,13 @@
 
                                     <th>KODE BAHAN</th>
 
-                                    <th>BERAT BHN</th>
+                                    <th>BERAT BHN (Kg)</th>
 
-                                    <th>SISA BHN</th>
+                                    <th>SISA BHN (Kg)</th>
 
-                                    <th>PEMAKAIAN BHN</th>
+                                    <th>PEMAKAIAN BHN (Yard)</th>
 
-                                    <th>Dz</th>
+                                    <th>BANYAK LAPIS Dz</th>
 
                                     <th><!-- <button type="button" name="add" class="btn btn-success btn-sm add"><i class="fa fa-plus"> </i></button>--></th>
 
@@ -128,7 +128,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h3 class="text-center">POTONGAN VARIASI</h3>
+        <h3 class="text-center">POTONGAN BAHAN VARIASI</h3>
     </div>
 </div>
 <div class="row">
@@ -177,13 +177,13 @@
 
                                     <th>KODE BAHAN</th>
 
-                                    <th>BERAT BHN</th>
+                                    <th>BERAT BHN (Kg)</th>
 
-                                    <th>SISA BHN</th>
+                                    <th>SISA BHN (Kg)</th>
 
-                                    <th>PEMAKAIAN BHN</th>
+                                    <th>PEMAKAIAN BHN (Yard)</th>
 
-                                    <th>Dz</th>
+                                    <th>BANYAK LAPIS Dz</th>
 
                                     <th><button type="button" name="add" class="btn btn-success btn-sm add2"><i class="fa fa-plus"></i></button></th>
 
