@@ -212,6 +212,14 @@
 
           <?php } ?>  
           <li class="nav-item">
+            <a href="https://2122.forboysproduction.com/" target="_blank" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                Produksi 2021-2022
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="https://beta.forboysproduction.com/" target="_blank" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
