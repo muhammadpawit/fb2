@@ -50,12 +50,12 @@
                                         <tr>
                                             <th>Nama Barang</th>
                                             <th>Warna</th>
-                                            <th>Kts.Satuan</th>
+                                            <th>Quantity.Satuan</th>
                                             <th>Satuan</th>
-                                            <th>Kuantitas</th>
+                                            <th>Jumlah Qty</th>
                                             <th>Satuan</th>
                                             <th>Harga Satuan</th>
-                                            <th>Total</th>
+                                            <th>Jumlah</th>
                                             <th></th>
                                         </tr>
                                     </thead>
