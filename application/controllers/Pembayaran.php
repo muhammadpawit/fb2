@@ -447,6 +447,7 @@ class Pembayaran extends CI_Controller {
 		$total=0;
 		$saving=0;
 		$nominal=0;
+		//pre(substr("KM01_Simulasi", 0,3));
 		foreach($results as $r){
 			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['tim_potong_potongan']));
@@ -468,13 +469,16 @@ class Pembayaran extends CI_Controller {
 					'pcs'=>$r['hasil_pieces_potongan'],
 					'roll_utama'=>$roll->roll,
 					'roll_variasi'=>$rolv->roll,
-					'harga'=>number_format($harga['harga_potongan']),
-					'total'=>number_format($harga['harga_potongan']*$r['hasil_pieces_potongan']),
-					'price'=>($harga['harga_potongan']),
-					'totals'=>($harga['harga_potongan']*$r['hasil_pieces_potongan']),
+					'harga'=>!empty($harga)?number_format($harga['harga_potongan']):0,
+					'total'=>!empty($harga)?number_format($harga['harga_potongan']*$r['hasil_pieces_potongan']):0,
+					'price'=>!empty($harga)?($harga['harga_potongan']):0,
+					'totals'=>!empty($harga)?($harga['harga_potongan']*$r['hasil_pieces_potongan']):0,
 					'full'=>1,
 				);
-				$total+=($harga['harga_potongan']*$r['hasil_pieces_potongan']);
+				if(!empty($harga)){
+					$total+=($harga['harga_potongan']*$r['hasil_pieces_potongan']);
+				
+				}
 			}
 			$no++;
 		}

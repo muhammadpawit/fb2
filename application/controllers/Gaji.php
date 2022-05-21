@@ -107,7 +107,7 @@ class Gaji extends CI_Controller {
 		$data['title']='Tambah Gaji Karyawan Gudang ';
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 		//$data['harian']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0,'tipe'=>1));
-		$data['harian']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE 'GUDANG%' ");
+		$data['harian']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND lower(bagian) LIKE '%gudang%' ");
 		$data['action']=BASEURL.'Gaji/gudang_save';
 		$data['page']=$this->page.'finishing/gaji_finishing';
 		$this->load->view($this->page.'main',$data);
