@@ -104,6 +104,7 @@ class Pembayaran extends CI_Controller {
 		}else{
 			$cmt=0;
 		}
+		$data['cm']=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt));
 		$sql="SELECT * FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt='SABLON' ";
 		$sql.=" AND id_master_cmt='".$cmt."' AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and hapus=0";
 		$results=array();

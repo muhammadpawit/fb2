@@ -1165,6 +1165,9 @@ class Bordir extends CI_Controller {
 			//$po=$this->GlobalModel->getDataRow('master_po_luar',array('id'=>$post['namaPo']));
 			//$namapo=$po['nama'];
 		}
+
+		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('nomer_mesin'=>$post['mesin']));
+
 		$dataInsert = array(
 		'shift'	=> $post['shift'],
 		'kode_po' =>$post['namaPo'],
@@ -1181,11 +1184,16 @@ class Bordir extends CI_Controller {
 		'spon'  => $post['spon'],
 		'apl'  => $post['apl'],
 		'bagian_bordir'  => $post['yangdibordir'],
-		'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
+		//'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
+		'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],
+		'kepala'  =>$mesin['kepala'],
+		'persen' =>$mesin['persenan'],
+		'gaji'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15*$mesin['persenan']),
 		);		
+		//pre($dataInsert);
 		$this->GlobalModel->updateData('kelolapo_kirim_setor',array('kode_po'=>$post['namaPo']),array('status'=>1));
 		$this->GlobalModel->insertData('kelola_mesin_bordir',$dataInsert);
 		if($post['jenis']==1){

@@ -28,6 +28,7 @@
 		</div>
 	</div>
 </div>
+<?php echo ($cm['cmt_name'])?>
 <form method="post" action="<?php echo $action?>">
 	<div class="row">
 		<div class="col-md-6">
@@ -129,6 +130,7 @@
 				</tbody>
 			</table>
 			<br>
+			<?php if($cm['jenis_pembayaran']==1){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Bagi Hasil</caption>
 			<table class="table table-bordered">
@@ -144,7 +146,9 @@
 					<td><?php echo number_format($saldo*0.4)?></td>
 				</tbody>
 			</table>
+			<?php } ?>
 			<br>
+			<?php if($cm['jenis_pembayaran']==2){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Komisi</caption>
 			<?php 
@@ -195,6 +199,7 @@
 					<td><b><?php echo $tpo?></b></td>
 				</tfoot>
 			</table>
+			<?php } ?>
 		</div>
 	</div>
 </form>
