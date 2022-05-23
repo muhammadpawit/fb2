@@ -1185,7 +1185,7 @@ class Bordir extends CI_Controller {
 		'apl'  => $post['apl'],
 		'bagian_bordir'  => $post['yangdibordir'],
 		//'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
-		'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15),
+		'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.18),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],
