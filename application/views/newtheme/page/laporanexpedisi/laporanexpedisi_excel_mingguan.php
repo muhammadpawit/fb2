@@ -89,7 +89,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<tfoot>
 					<tr align="center" style="background-color:yellow;font-size:16px">
 			          <td colspan="3"><b>Saldo</b></td>
-			          <td><b><?php echo ($totalpt+$totalpd) ?></b></td>
+			          <td><b><?php echo ($totalpd-$totalpt) ?></b></td>
 			          <td></td>
 			          <td></td>
 			        </tr>

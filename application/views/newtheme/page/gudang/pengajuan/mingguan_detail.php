@@ -40,7 +40,8 @@
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
             <?php } ?>
-            <td>lusinan <?php echo number_format($d['jml_dz'])?></td>
+            <!-- <td>lusinan <?php echo number_format($d['jml_dz'])?></td> -->
+            <td><?php echo ($d['keterangan'])?></td>
           </tr>
           <?php $i++?>
           <?php 

@@ -880,21 +880,24 @@ class Bordir extends CI_Controller {
 					
 					
 					$data['bordir'][]=array(
-					'kode_po'=>$b['kode_po'],
-					'operator'=>$b['nama_operator'],
-					'mandor'=>$b['mandor'],
-					'nama_po'=>$b['kode_po'],
-					'mesin'=>$b['mesin_bordir'],
-					'created_date'=>date('d F Y',strtotime($b['created_date'])),
-					'bagian_bordir'=>$b['bagian_bordir'],
-					'size'=>$b['size'],
-					'stich'=>$b['stich'],
-					'jumlah_naik_mesin'=>$b['jumlah_naik_mesin'],
-					'perkalian_tarif'=>$b['perkalian_tarif'],
-					'hitung'=>round($b['total_stich']*$b['perkalian_tarif'])-$b['total_tarif'],
-					'total_stich'=>number_format($b['total_stich']),
-					'total_tarif'=>number_format($b['total_tarif']),
-					'action'=>$action,			);
+						'kode_po'=>$b['kode_po'],
+						'operator'=>$b['nama_operator'],
+						'mandor'=>$b['mandor'],
+						'nama_po'=>$b['kode_po'],
+						'mesin'=>$b['mesin_bordir'],
+						'created_date'=>date('d F Y',strtotime($b['created_date'])),
+						'bagian_bordir'=>$b['bagian_bordir'],
+						'size'=>$b['size'],
+						'stich'=>$b['stich'],
+						'jumlah_naik_mesin'=>$b['jumlah_naik_mesin'],
+						'perkalian_tarif'=>$b['perkalian_tarif'],
+						'hitung'=>round($b['total_stich']*$b['perkalian_tarif'])-$b['total_tarif'],
+						'total_stich'=>number_format($b['total_stich']),
+						'total_tarif'=>number_format($b['total_tarif']),
+						'action'=>$action,			
+						'persen'=>$b['persen'],
+						'gaji'=>$b['gaji'],
+					);
 				}						
 				$data['mesin'] = $this->GlobalModel->getData('master_mesin',null);
 				$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
@@ -1186,12 +1189,13 @@ class Bordir extends CI_Controller {
 		'bagian_bordir'  => $post['yangdibordir'],
 		//'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
 		'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.18),
+		'gaji'  => round(($post['totalStich']+$post['apl'])*$post['perkalianTarif']*$mesin['persenan']),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],
 		'kepala'  =>$mesin['kepala'],
 		'persen' =>$mesin['persenan'],
-		'gaji'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15*$mesin['persenan']),
+		//'gaji'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15*$mesin['persenan']),
 		);		
 		//pre($dataInsert);
 		$this->GlobalModel->updateData('kelolapo_kirim_setor',array('kode_po'=>$post['namaPo']),array('status'=>1));

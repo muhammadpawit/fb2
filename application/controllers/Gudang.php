@@ -206,6 +206,7 @@ class Gudang extends CI_Controller {
 				//'jml_ajuan'=>$data['jml_ajuan'],
 				'jml_ajuan'=>0,
 				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
+				//'keterangan'=>$data['keterangan'],
 			);
 			$this->db->insert('ajuan_mingguan',$am);
 			$id=$this->db->insert_id();

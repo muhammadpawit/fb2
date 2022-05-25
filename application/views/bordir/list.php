@@ -52,7 +52,10 @@
                             <th>Total Stich</th>
                             <th>Perkalian</th>
                             <th>Tarif</th>
-                            <th>Selisih</th>
+                            <!-- <th>Selisih</th> -->
+                            <th>Kepala</th>
+                            <th>Persen</th>
+                            <th>Gaji</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -72,7 +75,10 @@
                             <td><?php echo ($bod['total_stich']) ?></td>
                             <td><?php echo ($bod['perkalian_tarif']) ?></td>
                             <td><?php echo ($bod['total_tarif']) ?></td>
-                            <td><?php echo ($bod['hitung']) ?></td>
+                            <!-- <td><?php echo ($bod['hitung']) ?></td> -->
+                            <td><?php echo ($bod['kepala']) ?></td>
+                            <td><?php echo ($bod['persen']) ?></td>
+                            <td><?php echo ($bod['gaji']) ?></td>
                             <td class="right">
                                 <?php foreach ($bod['action'] as $action) { ?>
                                     <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
