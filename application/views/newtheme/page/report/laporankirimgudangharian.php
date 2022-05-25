@@ -100,7 +100,7 @@
 					<?php } ?>
 				<?php }?>
 				<tr style="background-color: yellow">
-					<td colspan="2"><b>Jumlah Kaos</b></td>
+					<td colspan="2"><b>Jumlah Kemeja</b></td>
 					<td><b><?php echo $jmlkaos?></b></td>
 					<td><b><?php echo number_format($jmldzk,2)?></b></td>
 				</tr>
@@ -119,7 +119,7 @@
 					<?php } ?>
 				<?php }?>
 					<tr style="background-color: yellow">
-						<td colspan="2"><b>Jumlah Kemeja</b></td>
+						<td colspan="2"><b>Jumlah Kaos</b></td>
 						<td><b><?php echo $jmlkemeja?></b></td>
 						<td><b><?php echo number_format($jmldzkmj,2)?></b></td>
 					</tr>
