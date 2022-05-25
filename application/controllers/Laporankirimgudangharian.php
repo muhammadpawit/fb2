@@ -58,6 +58,7 @@ class Laporankirimgudangharian extends CI_Controller {
 				'hari'=>$hari,
 				'tanggal'=>date('d-m-Y',strtotime($row['tanggal'])),
 				'jml'=>$row['jml'],
+				'dz'=>$row['pcs']/12,
 				'nama'=>$row['nama'],
 				'nilai'=>$row['nilai'],
 				'keterangan'=>'Dikirim Gudang Tanah Abang',
@@ -74,6 +75,7 @@ class Laporankirimgudangharian extends CI_Controller {
 				'jml'=>$row['jml'],
 				'nama'=>$row['nama'],
 				'nilai'=>$row['nilai'],
+				'dz'=>$row['pcs']/12,
 				'keterangan'=>'Dikirim Gudang Tanah Abang',
 			);
 		}
