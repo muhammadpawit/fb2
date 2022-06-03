@@ -38,6 +38,7 @@ class Gudang extends CI_Controller {
 		if(!empty($tanggal1)){
 			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
 		}
+		$sql.=" ORDER BY tanggal ASC ";
 		$data['kartustok']=$this->GlobalModel->queryManual($sql);
 
 		if(isset($get['excel'])){
@@ -1015,19 +1016,35 @@ class Gudang extends CI_Controller {
 						'harga'=>$p['harga'],
 						'hapus'=>0
 					);
-					$this->db->insert('penerimaan_item_detail',$itd);
-					$kartustok=array(
-						'tanggal'=>date('Y-m-d'),
-						'idproduct'=>$p['id_persediaan'],
-						'nama'=>$p['nama'],
-						'saldomasuk_uk'=>$p['ukuran'],
-						'saldomasuk_qty'=>$p['jumlah'],
-						'harga'=>$p['harga'],
-						'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
-					);
-					kartustok($kartustok,1);
-					$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', price='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
-					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."',harga_item='".$p['harga']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+					$this->db->insert('penerimaan_item_detail',$itd);					
+					if($data['jenis']==5){
+						$kartustok=array(
+							'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
+							'idproduct'=>$p['id_persediaan'],
+							'nama'=>$p['nama'],
+							'saldomasuk_uk'=>$p['jumlah'],
+							'saldomasuk_qty'=>0,
+							'harga'=>$p['harga'],
+							'sisa_qty'=>$p['jumlah'],
+							'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+						);
+						
+						$this->db->insert('kartustok_product',$kartustok);
+					}else{
+						$kartustok=array(
+							'tanggal'=>date('Y-m-d'),
+							'idproduct'=>$p['id_persediaan'],
+							'nama'=>$p['nama'],
+							'saldomasuk_uk'=>$p['ukuran'],
+							'saldomasuk_qty'=>$p['jumlah'],
+							'harga'=>$p['harga'],
+							'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+						);
+						kartustok($kartustok,1);
+						$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', price='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
+						$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."',harga_item='".$p['harga']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+					}
+					
 				}
 				$this->session->set_flashdata('msg','Data berhasil disimpan');
 				redirect(BASEURL.'gudang/penerimaanitem');

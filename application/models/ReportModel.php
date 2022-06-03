@@ -1679,4 +1679,37 @@ class ReportModel extends CI_Model {
 
 		return $hasil;
 	}
+
+	public function gaji_opt($idopt,$tanggal1,$tanggal2,$tempat){
+		$hasil=[];
+		foreach(looping_tanggal($tanggal1,$tanggal2) as $s ){
+			$sql="SELECT COALESCE(sum(gaji),0) as total FROM kelola_mesin_bordir WHERE hapus=0 ";
+			$sql.=" AND nama_operator='$idopt' AND DATE(created_date)='".$s['tanggal']."' ";
+			$d=$this->GlobalModel->QueryManualRow($sql);
+			$pot=$this->GlobalModel->QueryManualRow("SELECT COALESCE(sum(nominal),0) as total FROM potongan_operator WHERE hapus=0 AND tempat='".$tempat."' AND DATE(tanggal)='".$s['tanggal']."' AND idkaryawan='".$idopt."'");
+			if(!empty($d)){
+				$hasil[]=array(
+					'tanggal'=>date('d-m-Y',strtotime($s['tanggal'])),
+					'hari'=>hari(date('l',strtotime($s['tanggal']))),
+					'nominal'=>$d['total'],
+					'potongan'=>!empty($pot)?$pot['total']:0,
+				);
+			}
+		}
+		return $hasil;
+	}
+
+	public function klo_mingguan($idcmt,$tanggal1,$tanggal2,$kategori,$proses){
+		$hasil=[];
+		$sql="SELECT COUNT(*) as jmlpo, SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE hapus=0 ";
+		$sql.=" AND id_master_cmt='$idcmt' AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND kategori_cmt='".$kategori."' AND progress='".$proses."' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=array(
+				'jmlpo'=>$d['jmlpo'],
+				'dz'=>round($d['pcs']/12),
+			);
+		}
+		return $hasil;
+	}
 }

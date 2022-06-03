@@ -70,7 +70,7 @@
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<th colspan="2">Pengeluaran</th>
+						<th colspan="3">Pengeluaran</th>
 						<th>Rp</th>
 					</tr>
 				</thead>
@@ -80,6 +80,7 @@
 						<?php foreach($p['detail'] as $pd){?>
 							<tr>
 								<td colspan="2"><?php echo $pd['keterangan']?></td>
+								<td>:</td>
 								<td align="right"><?php echo number_format($pd['total'])?></td>
 							</tr>
 							<?php $totalpengeluaran+=($pd['total']); ?>

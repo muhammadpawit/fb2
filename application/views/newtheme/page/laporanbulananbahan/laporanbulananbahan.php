@@ -11,20 +11,20 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
 		</div>
 	</div>
 	<div class="col-md-3">
-<div class="form-group">
+						<div class="form-group">
                               <label>Supplier</label>
                               <select name="supplier" class="form-control select2bs4" data-live-search="true">
                                 <option value="0">Pilih</option>
@@ -35,6 +35,17 @@
                             </div>		
 	</div>							
 	<div class="col-md-3">
+						<div class="form-group">
+                              <label>Kategori</label>
+                              <select name="kategori" class="form-control select2bs4" data-live-search="true">
+                              	<option value="*">Semua</option>
+                                <option value="15">Bahan Kaos</option>
+                                <option value="16">Bahan Celana</option>
+                                <option value="17">Bahan Kemeja</option>
+                              </select>
+                            </div>		
+	</div>							
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filters()">Filter</button>
@@ -165,6 +176,12 @@
 
     if (supplier != '*') {
       url += '&supplier=' + encodeURIComponent(supplier);
+    }
+
+    var kategori = $('select[name=\'kategori\']').val();
+
+    if (kategori != '*') {
+      url += '&kategori=' + encodeURIComponent(supplier);
     }
 
     location =url;

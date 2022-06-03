@@ -86,6 +86,9 @@
                                 <option value="12">Spandek</option>
                                 <option value="13">ATK</option>
                                 <option value="14">Benang Konveksi</option>
+                                <option value="15">Bahan Kaos</option>
+                                <option value="16">Bahan Celana</option>
+                                <option value="17">Bahan Kemeja</option>
                               </select>
                             </div>
                             <div class="form-group">

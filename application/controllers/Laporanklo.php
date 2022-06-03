@@ -35,17 +35,6 @@ class Laporanklo extends CI_Controller {
 		$prods=[];
 		$jml=[];
 		$no=1;
-		
-		foreach($jenis as $t){
-			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan=1 ");
-			$data['oplet'][]=array(
-				'no'=>$no++,
-				'nama'=>$t['nama_jenis_po'],
-				'jml'=>$prods['jml'],
-				'dz'=>$prods['dz'],
-				'pcs'=>$prods['pcs'],
-			);
-		}
 
 		$noh=1;
 		$data['bupot']=[];
@@ -60,22 +49,32 @@ class Laporanklo extends CI_Controller {
 			);
 		}
 		//pre($data['bupot']);
-		$data['heru']=[];
-		foreach($jenis as $t){
-			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan=15 ");
-			$data['heru'][]=array(
-				'no'=>$noh++,
-				'nama'=>$t['nama_jenis_po'],
-				'jml'=>$prods['jml'],
-				'dz'=>$prods['dz'],
-				'pcs'=>$prods['pcs'],
-			);
-		}
 
 		
 		// kirim setor 
 
 		$data['sablon']=[]; // sablon
+		$results=[];
+		$nos=1;
+		$sqlsablon="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ";
+		//$sqlsablon.=" AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."') ";
+		$kirim=[];
+		$setor=[];
+		$cmtsablon=$this->GlobalModel->QueryManual($sqlsablon);
+		foreach($cmtsablon as $s){
+			$kirim=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','KIRIM');
+			$setor=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','SETOR');
+			$data['sablon'][]=array(
+				'id'=>$s['id_cmt'],
+				'no'=>$nos,
+				'nama'=>strtolower($s['cmt_name']),
+				'kirimjml'=>!empty($kirim)?$kirim['jmlpo']:0,
+				'kirimdz'=>!empty($kirim)?$kirim['dz']:0,
+				'setorjml'=>!empty($setor)?$setor['jmlpo']:0,
+				'setordz'=>!empty($setor)?$setor['dz']:0,
+			);
+			$nos++;
+		}
 		/*
 		$results_sablon=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ");
 		$no=1;

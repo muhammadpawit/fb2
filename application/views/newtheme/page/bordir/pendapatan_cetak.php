@@ -36,8 +36,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <th>0.2</th>
                   <th>0.15</th>
                   <!-- <th>0.18 YN</th> -->
-                  <th>Pendapatan</th>
-                  <th>Jumlah</th>
+                  <th>Jml Per Mesin (Rp)</th>
+                  <th>Pendapatan Per Mesin (Rp)</th>
                   <th>Keterangan</th>
                 </tr>
               </thead>

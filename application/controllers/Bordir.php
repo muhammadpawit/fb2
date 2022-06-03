@@ -223,6 +223,50 @@ class Bordir extends CI_Controller {
 			$tempat=null;
 		}
 
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['tempat']=$tempat;
+		$data['prods']=[];
+		$karyawan=[];
+		$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$data['harian']=[];
+		foreach($karyawan as $k){
+			$data['prods'][]=array(
+				'id'=>$k['id_master_karyawan_bordir'],
+				'nama'=>$k['nama_karyawan_bordir'],
+				'hari'=>$this->ReportModel->gaji_opt($k['id_master_karyawan_bordir'],$tanggal1,$tanggal2,$tempat),
+			);
+		}
+
+		//pre($data['prods']);
+		$data['action']=BASEURL.'Bordir/gajioperatorsave';
+		$data['batal']=BASEURL.'Bordir/gajioperator';
+		$data['page']=$this->page.'bordir/gaji_operator_new';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function gajioperatoradd_old(){
+		$data=[];
+		$data['title']='Gaji Operator Bordir';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("Sunday this week"));
+		}
+
+		if(isset($get['tempat'])){
+			$tempat=$get['tempat'];
+		}else{
+			$tempat=null;
+		}
+
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
@@ -266,9 +310,11 @@ class Bordir extends CI_Controller {
 		$data['page']=$this->page.'bordir/gaji_operator';
 		$this->load->view($this->page.'main',$data);
 	}
+
+
 	public function gajioperatorsave(){
 		$data=$this->input->post();
-		//pre($data);
+		pre($data);
 		$cek=$this->GlobalModel->getDataRow('gaji_operator',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'tempat'=>$data['tempat']));
 		
 		if(!empty($cek)){
@@ -897,6 +943,7 @@ class Bordir extends CI_Controller {
 						'action'=>$action,			
 						'persen'=>$b['persen'],
 						'gaji'=>$b['gaji'],
+						'kepala'=>$b['kepala'],
 					);
 				}						
 				$data['mesin'] = $this->GlobalModel->getData('master_mesin',null);
@@ -1187,8 +1234,8 @@ class Bordir extends CI_Controller {
 		'spon'  => $post['spon'],
 		'apl'  => $post['apl'],
 		'bagian_bordir'  => $post['yangdibordir'],
-		//'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
-		'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.18),
+		'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
+		//'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.18),
 		'gaji'  => round(($post['totalStich']+$post['apl'])*$post['perkalianTarif']*$mesin['persenan']),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
@@ -1325,6 +1372,8 @@ class Bordir extends CI_Controller {
 		$kodePo=0;
 		$viewData['title']='Tambah Buang Benang Bordir';
 		$viewData['cancel']=BASEURL.'Bordir/buangbenang';
+		$po=[];
+		$pot=[];
 		$po_one=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		foreach($po_one as $p){
 			$po[]=array(

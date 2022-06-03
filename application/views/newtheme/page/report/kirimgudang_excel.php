@@ -1,9 +1,9 @@
 <?php
 $namafile='Kirim_gudang_'.time();
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=".$namafile.".xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-<h1>Laporan Kirim Gudang Harian</h1>
+<h1>Laporan Kirim Gudang Minggu Ini</h1>
 <p>Periode : <?php echo date('d-m-Y',strtotime($tanggal1))?> s.d <?php echo date('d-m-Y',strtotime($tanggal2))?></p>
 <table border="1" style="border-collapse: collapse;width:100%">
 	<tr>
@@ -13,9 +13,12 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<tr>
 					<th>Hari</th>
 					<th>Tanggal</th>
-					<th>Jml PO</th>
+					<th>Total PO</th>
 					<th>Nama PO</th>
+					<th>Rincian PO</th>
+					<th>Jml PO (Dz)</th>
 					<th>Nilai PO (Rp)</th>
+					<th>Ket</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,9 +36,12 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							
 						</td>
 						<td><?php echo $p['tanggal']?></td>
-						<td><?php echo $p['jml']?></td>
+						<td></td>
 						<td><?php echo $p['nama']?></td>
+						<td><?php echo $p['jml']?></td>
+						<td><?php echo number_format($p['dz'],2)?></td>
 						<td><?php echo ($p['nilai'])?></td>
+						<td>Dikirim Gudang Tanah Abang</td>
 					</tr>
 				<?php
 					$jml+=($p['jml']);

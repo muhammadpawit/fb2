@@ -996,7 +996,7 @@ class Masterdata extends CI_Controller {
 				'text' => 'Edit',
 				'href' => BASEURL.'Masterdata/Edit/'.$result['product_id'],
 			);
-
+			
 			if(akseshapus()==1){
 				$action[] = array(
 					'text' => 'Hapus',

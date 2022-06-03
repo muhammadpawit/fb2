@@ -9,8 +9,13 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
+<<<<<<< HEAD
 	//'database' => 'forboys',
 	'database' => 'fb_berjalan',
+=======
+	'database' => 'fbnew',
+	//'database' => 'fb_berjalan',
+>>>>>>> updated
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -32,8 +37,13 @@ $db['production'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
+<<<<<<< HEAD
 	//'database' => 'forboys',
 	'database' => 'fb_berjalan',
+=======
+	'database' => 'fbnew',
+	//'database' => 'fb_berjalan',
+>>>>>>> updated
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

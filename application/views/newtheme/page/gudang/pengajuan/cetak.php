@@ -292,7 +292,7 @@
 
                                                 <br>
 
-                                                ( <?php echo strtoupper($adminkeu)?> )
+                                                ( Dwi )
 
                                             </td>
 

@@ -37,6 +37,7 @@
                                         <option value="2">Alat-alat Bordir</option>
                                         <option value="3">Alat-alat Konveksi</option>
                                         <option value="4">Sablon</option>
+                                        <option value="5">Penyesuaian Stok Awal</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
