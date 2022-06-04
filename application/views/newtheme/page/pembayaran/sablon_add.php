@@ -119,7 +119,7 @@
 						<th>Pendapatan</th>
 						<th>Pengeluaran</th>
 						<th>Sewa</th>
-						<th>Saldo</th>
+						<th>Provit</th>
 					</tr>
 				</thead>
 				<tbody>

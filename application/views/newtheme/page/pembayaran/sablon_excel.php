@@ -104,7 +104,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<th>Pendapatan</th>
 						<th>Pengeluaran</th>
 						<th>Sewa</th>
-						<th>Saldo</th>
+						<th>Provit</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -115,6 +115,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 			</table>
 			<br>
+			<?php if($cm['jenis_pembayaran']==1){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Bagi Hasil</caption>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
@@ -130,7 +131,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td><?php echo ($saldo*0.4)?></td>
 				</tbody>
 			</table>
+			<?php } ?>
 			<br>
+			<?php if($cm['jenis_pembayaran']==2){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Komisi</caption>
 			<?php 
@@ -180,5 +183,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td><b><?php echo $tpo?></b></td>
 				</tfoot>
 			</table>
+			<?php } ?>
 		</div>
 	</div>
