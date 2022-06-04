@@ -1683,7 +1683,7 @@ class ReportModel extends CI_Model {
 	public function gaji_opt($idopt,$tanggal1,$tanggal2,$tempat){
 		$hasil=[];
 		foreach(looping_tanggal($tanggal1,$tanggal2) as $s ){
-			$sql="SELECT COALESCE(sum(gaji),0) as total FROM kelola_mesin_bordir WHERE hapus=0 ";
+			$sql="SELECT COALESCE(sum(gaji),0) as total,shift,mandor FROM kelola_mesin_bordir WHERE hapus=0 ";
 			$sql.=" AND nama_operator='$idopt' AND DATE(created_date)='".$s['tanggal']."' ";
 			$d=$this->GlobalModel->QueryManualRow($sql);
 			$pot=$this->GlobalModel->QueryManualRow("SELECT COALESCE(sum(nominal),0) as total FROM potongan_operator WHERE hapus=0 AND tempat='".$tempat."' AND DATE(tanggal)='".$s['tanggal']."' AND idkaryawan='".$idopt."'");
@@ -1692,6 +1692,8 @@ class ReportModel extends CI_Model {
 					'tanggal'=>date('d-m-Y',strtotime($s['tanggal'])),
 					'hari'=>hari(date('l',strtotime($s['tanggal']))),
 					'nominal'=>$d['total'],
+					'shift'=>$d['shift'],
+					'mandor'=>$d['mandor'],
 					'potongan'=>!empty($pot)?$pot['total']:0,
 				);
 			}

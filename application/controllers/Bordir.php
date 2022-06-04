@@ -228,16 +228,17 @@ class Bordir extends CI_Controller {
 		$data['tempat']=$tempat;
 		$data['prods']=[];
 		$karyawan=[];
-		$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
-		$data['harian']=[];
-		foreach($karyawan as $k){
-			$data['prods'][]=array(
-				'id'=>$k['id_master_karyawan_bordir'],
-				'nama'=>$k['nama_karyawan_bordir'],
-				'hari'=>$this->ReportModel->gaji_opt($k['id_master_karyawan_bordir'],$tanggal1,$tanggal2,$tempat),
-			);
+		if(!empty($tempat)){
+			$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+			$data['harian']=[];
+			foreach($karyawan as $k){
+				$data['prods'][]=array(
+					'id'=>$k['id_master_karyawan_bordir'],
+					'nama'=>$k['nama_karyawan_bordir'],
+					'hari'=>$this->ReportModel->gaji_opt($k['id_master_karyawan_bordir'],$tanggal1,$tanggal2,$tempat),
+				);
+			}
 		}
-
 		//pre($data['prods']);
 		$data['action']=BASEURL.'Bordir/gajioperatorsave';
 		$data['batal']=BASEURL.'Bordir/gajioperator';
@@ -314,7 +315,7 @@ class Bordir extends CI_Controller {
 
 	public function gajioperatorsave(){
 		$data=$this->input->post();
-		pre($data);
+		//pre($data);
 		$cek=$this->GlobalModel->getDataRow('gaji_operator',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'tempat'=>$data['tempat']));
 		
 		if(!empty($cek)){
@@ -382,11 +383,10 @@ class Bordir extends CI_Controller {
 				$this->db->insert('gaji_operator_new',$ig);
 				$idig=$this->db->insert_id();
 				foreach($p['det'] as $d){
-					/*
+					/**/
 					$totalgaji+=($d['gaji']);
 					$totalum+=($d['um']);
 					$totalbonus+=($d['bonus']);
-					*/
 					$ig_detail=array(
 						'idgaji'=>$idig,
 						'idkaryawan'=>$p['idkaryawan'],
@@ -397,7 +397,7 @@ class Bordir extends CI_Controller {
 						'pot_absensi'=>isset($d['pot'])?$d['pot']:0,
 						'pot_pinjaman'=>isset($d['pinjaman'])?$d['pinjaman']:0,
 						'keterangan'=>$d['keterangan'],
-						'shift'=>$d['shift'],
+						'shift'=>isset($d['shift'])?$d['shift']:'',
 						'mandor'=>$d['mandor'],
 						'hapus'=>0,
 					);

@@ -65,8 +65,10 @@
 					<th><?php echo strtolower($p['nama'])?></th>
 					<th>Hari</th>
 					<th>Gaji</th>
-					<th>Bonus</th>
-					<th>Uang Makan</th>
+					<th>Shift</th>
+					<th>Mandor</th>
+					<!-- <th>Bonus</th>
+					<th>Uang Makan</th> -->
 					<th>Potongan</th>
 					<th>Keterangan</th>
 				</tr>
@@ -81,13 +83,16 @@
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][bonus]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][keterangan]" value="-">
-					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="-">
+					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="<?php echo $h['mandor'] ?>">
+					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][shift]" value="<?php echo $h['shift'] ?>">
 					<tr>
 						<td><?php echo date('d-m-Y',strtotime($h['tanggal']))?></td>
 						<td><?php echo $h['hari'] ?></td>
 						<td><?php echo $h['nominal'] ?></td>
-						<td>0</td>
-						<td>0</td>
+						<td><?php echo $h['shift'] ?></td>
+						<td><?php echo $h['mandor'] ?></td>
+						<!-- <td>0</td>
+						<td>0</td> -->
 						<td><?php echo $h['potongan'] ?></td>
 						<td>-</td>
 					</tr>
