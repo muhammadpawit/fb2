@@ -125,6 +125,7 @@ class Gaji extends CI_Controller {
 
 	public function gudang_save(){
 		$data=$this->input->post();
+		//pre($data);
 		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'bagian'=>'GUDANG'));
 		//pre($data);
 		if(!empty($cek)){
@@ -152,7 +153,7 @@ class Gaji extends CI_Controller {
 					'jumat'=>isset($p['jumat'])?1:0,
 					'sabtu'=>isset($p['sabtu'])?1:0,
 					'minggu'=>isset($p['minggu'])?1:0,
-					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
+					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);

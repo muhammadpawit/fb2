@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo $action?>">
+<form method="post" action="<?php echo $simpan?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="form-group">

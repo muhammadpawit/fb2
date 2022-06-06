@@ -44,7 +44,7 @@ class Laporanmingguankonveksi extends CI_Controller {
 		    	'hari'=>hari(date('l',strtotime($dt['tanggal']))),
 		    	'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
 		    	'transfer'=>$masuk_transfer,
-		    	'giro'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,20)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,5)),
+		    	'giro'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,20)),
 		    	'kasmasuk'=>$masuk_kas,
 		    	'kaskeluar'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,6),
 		    	'sisakas'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,7),

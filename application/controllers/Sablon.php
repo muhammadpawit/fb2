@@ -8,7 +8,7 @@ class Sablon extends CI_Controller {
 		sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
-		$this->url='Sablon/';
+		$this->url=BASEURL.'Sablon/';
 	}
 
 	public function sewarumah(){
@@ -83,7 +83,7 @@ class Sablon extends CI_Controller {
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['action']=BASEURL.'Sablon/sewarumah_save';
+		$data['simpan']=$this->url.'sewarumah_save';
 		$data['products']=array();
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['page']=$this->page.'sablon/sewarumah_add';
@@ -102,7 +102,7 @@ class Sablon extends CI_Controller {
 		);
 		$this->db->insert('sablon_sewarumah',$insert);
 		$this->session->set_flashdata('msg','data berhasil disimpan');
-		redirect(base_url().'Sablon/sewarumah');
+		redirect($this->url.'sewarumah');
 	}
 
 	public function sewarumah_add_potongan($id){
@@ -156,7 +156,7 @@ class Sablon extends CI_Controller {
 		$this->db->insert('sablon_sewarumah_detail',$insert);
 		$this->db->update('sablon_sewarumah',array('sisa'=>($saldo['sisa']-$data['totalpotongan'])),array('id'=>$data['idsewa']));
 		$this->session->set_flashdata('msg','data berhasil disimpan');
-		redirect(base_url().'Sablon/sewarumah');
+		redirect($this->url.'Sablon/sewarumah');
 	}
 
 
@@ -245,7 +245,7 @@ class Sablon extends CI_Controller {
 		);
 		$this->db->insert('pengeluaran_sablon',$insert);
 		$this->session->set_flashdata('msg','data berhasil disimpan');
-		redirect(base_url().'Sablon/pengeluaran');
+		redirect($this->url.'Sablon/pengeluaran');
 	}
 
 	public function potongan(){
