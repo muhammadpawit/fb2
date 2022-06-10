@@ -465,7 +465,10 @@
 
                                                 
                                                 <?php foreach ($bordirer as $key => $hasilBordir): ?>
-                                                    <?php $bordirHitung += $hasilBordir['total_tarif']; ?> 
+                                                    <?php 
+                                                        //$bordirHitung += $hasilBordir['total_tarif']; rumus lama
+                                                        $bordirHitung += ($hasilBordir['total_stich']*0.18); // rumus baru
+                                                    ?> 
                                                      
 
                                                 <?php endforeach ?>
