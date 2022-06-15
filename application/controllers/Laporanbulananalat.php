@@ -117,7 +117,7 @@ class Laporanbulananalat extends CI_Controller {
 				'stokakhirharga'=>$row['harga_item'],
 				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
 				//'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$supplier.' <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
-				'ket'=>!empty($barangmasukterakhir)?'Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
+				'ket'=>!empty($barangmasukterakhir)?'Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/hari'.'<br>'.$barangmasukterakhir['keterangan']:null,
 				'satuan'=>$row['satuan_jumlah_item'],
 				'masukterakhir'=>!empty($barangmasukterakhir)?$supplier.' '.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])):null,
 			);

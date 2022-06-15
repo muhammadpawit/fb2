@@ -113,6 +113,7 @@ class Gudang extends CI_Controller {
 				'tanggal'=>$result['tanggal'],
 				'kebutuhan'=>$result['kebutuhan'],
 				'jml_ajuan'=>$result['jml_ajuan'],
+				'jml_acc'=>$result['jml_acc'],
 				'keterangan'=>$result['keterangan'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
@@ -173,6 +174,7 @@ class Gudang extends CI_Controller {
 		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan',array('hapus'=>0,'id'=>$id));
 		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail',array('hapus'=>0,'idajuan'=>$id));
 		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['acc']=BASEURL.'Gudang/ajuanmingguanacc';
 		$get=$this->input->get();		
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
@@ -1014,6 +1016,7 @@ class Gudang extends CI_Controller {
 						'jumlah'=>$p['jumlah'],
 						'satuanJml'=>$p['satuanJml'],
 						'harga'=>$p['harga'],
+						'keterangan'=>$p['keterangan'],
 						'hapus'=>0
 					);
 					$this->db->insert('penerimaan_item_detail',$itd);					

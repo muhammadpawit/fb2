@@ -1,11 +1,11 @@
 <div class="row">
-  <div class="col-md-12">
-    <table  class="table table-bordered">
+    <div class="col-md-12">
+      <table class="table table-bordered">
         <tr>
-          <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></t>
+          <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></td>
         </tr>
         <tr>
-          <td colspan="10" align="center"><b>Untuk 1 Minggu</b></t>
+          <td colspan="10" align="center"><b>Untuk 1 Minggu</b></td>
         </tr>
         <tr>
           <td colspan="10">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
@@ -60,13 +60,32 @@
           <tr>
             <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
           </tr>
-    </table>
-  </div>
-  <div class="col-md-3">
-    <div class="form-group">
-      <a href="<?php echo $cancel?>" class="btn btn-danger btn-sm no-print text-white">Cancel</a>
-      <button class="btn btn-default btn-sm no-print" onclick="window.print()">Cetak</button>
-      <a href="<?php echo $excel?>" class="btn btn-success btn-sm no-print text-white">Excel</a>
+      </table>
+    </div>
+</div>
+<form method="POST" action="<?php echo $acc?>">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Jumlah Acc</label>
+        <input type="text" name="jml_acc" value="" class="form-control">
+      </div>
+      <div class="form-group">
+        <label></label>
+        <button type="submit" class="btn btn-success full">Setujui</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <a href="<?php echo $cancel?>" class="btn btn-danger btn-sm no-print text-white">Cancel</a>
+        <button class="btn btn-default btn-sm no-print" onclick="window.print()">Cetak</button>
+        <a href="<?php echo $excel?>" class="btn btn-success btn-sm no-print text-white">Excel</a>
+      </div>
     </div>
   </div>
+</form>
+<div class="row">
 </div>

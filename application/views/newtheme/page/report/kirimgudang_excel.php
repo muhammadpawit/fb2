@@ -13,8 +13,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<tr>
 					<th>Hari</th>
 					<th>Tanggal</th>
-					<th>Jml PO</th>
+					<th>Total PO</th>
 					<th>Nama PO</th>
+					<th>Jml PO</th>
 					<th>Jml Dz</th>
 					<th>Nilai PO (Rp)</th>
 					<th>Keterangan</th>
@@ -35,8 +36,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							
 						</td>
 						<td><?php echo $p['tanggal']?></td>
-						<td><?php echo $p['jml']?></td>
+						<td></td>
 						<td><?php echo $p['nama']?></td>
+						<td><?php echo $p['jml']?></td>
 						<td><?php echo number_format($p['dz'],2)?></td>
 						<td><?php echo number_format($p['nilai'])?></td>
 						<td><?php echo $p['keterangan']?></td>
@@ -66,7 +68,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<th>Resume</th>
 					<th>PO</th>
 					<th>JML</th>
-					<th>DZ</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -77,7 +78,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td></td>
 						<td><?php echo $r['nama']?></td>
 						<td><?php echo $r['jml']?></td>
-						<td><?php echo number_format($r['dz'],2)?></td>
 						<?php 
 							$jmlkaos+=$r['jml'];
 							$jmldzk+=($r['dz']);
@@ -88,7 +88,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<tr style="background-color: yellow">
 					<td colspan="2"><b>Jumlah Kemeja</b></td>
 					<td><b><?php echo $jmlkaos?></b></td>
-					<td><b><?php echo number_format($jmldzk,2)?></b></td>
 				</tr>
 				<?php foreach($resume as $r){?>
 					<?php if($r['id']==2){?>
@@ -96,7 +95,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td></td>
 						<td><?php echo $r['nama']?></td>
 						<td><?php echo $r['jml']?></td>
-						<td><?php echo number_format($r['dz'],2)?></td>
 						<?php 
 							$jmlkemeja+=$r['jml'];
 							$jmldzkmj+=($r['dz']);
@@ -107,7 +105,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr style="background-color: yellow">
 						<td colspan="2"><b>Jumlah Kaos</b></td>
 						<td><b><?php echo $jmlkemeja?></b></td>
-						<td><b><?php echo number_format($jmldzkmj,2)?></b></td>
 					</tr>
 				<?php $celana=0;$jmlc=0;?>
 				<?php foreach($resume as $r){?>
@@ -116,7 +113,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td></td>
 						<td><?php echo $r['nama']?></td>
 						<td><?php echo $r['jml']?></td>
-						<td><?php echo number_format($r['dz'],2)?></td>
 						<?php 
 							$celana+=$r['jml'];
 							$jmlc+=($r['dz']);
@@ -127,12 +123,10 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr style="background-color: yellow">
 						<td colspan="2"><b>Jumlah Celana</b></td>
 						<td><b><?php echo $celana?></b></td>
-						<td><b><?php echo number_format($jmlc,2)?></b></td>
 					</tr>
 					<tr style="background-color: yellow">
 						<td colspan="2"><b>Total</b></td>
 						<td><b><?php echo round($jmlkemeja+$jmlkaos+$celana)?></b></td>
-						<td><b><?php echo number_format(($jmldzk+$jmldzkmj+$jmlc),2)?></b></td>
 					</tr>
 			</tbody>
 		</table>

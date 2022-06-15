@@ -48,6 +48,9 @@
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-pendings-tab" data-toggle="pill" href="#custom-tabs-one-pendings" role="tab" aria-controls="custom-tabs-one-pendings" aria-selected="false">Pendingan <span class="badge bg-black"><?php echo count_mdetails(10)?></span></a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-returs-tab" data-toggle="pill" href="#custom-tabs-one-returs" role="tab" aria-controls="custom-tabs-one-pendings" aria-selected="false">Retur <span class="badge bg-black"><?php echo count_mdetails(12)?></span></a>
+                  </li>
 
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-selesais-tab" data-toggle="pill" href="#custom-tabs-one-selesais" role="tab" aria-controls="custom-tabs-one-selesais" aria-selected="false">Selesai <span class="badge bg-black"><?php //echo count_mdetails(11)?></span></a>
@@ -333,6 +336,35 @@
 								<label>Rincian PO</label>
 								<div style="height: 200px;overflow: auto">
 									<?php foreach(mdetails(10) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
+							</div>                      		
+                    	</div>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane fade" id="custom-tabs-one-returs" role="tabpanel" aria-labelledby="custom-tabs-one-returs-tab">
+                    <form method="post" action="<?php echo $action; ?>">
+                    	<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+		                    		<label>Kode PO</label>
+			                    	<select name="prods[][kode_po]" class="form-control select2" data-live-search="true" multiple="multiple">
+			                    		<?php foreach($po as $p){?>
+			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+			                    		<?php } ?>
+			                    	</select>
+		                    	</div>
+		                    	<div class="form-group">
+		                    		<input type="hidden" name="proses" value="10">
+		                    		<button class="btn btn-success btn-sm">Simpan</button>
+		                    	</div>
+							</div>
+							<div class="col-md-6">
+								<label>Rincian PO</label>
+								<div style="height: 200px;overflow: auto">
+									<?php foreach(mdetails(12) as $k){?>
 										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
 									<?php } ?>
 								</div>

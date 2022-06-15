@@ -41,6 +41,7 @@
                   <th>Tanggal</th>
                   <th>Kebutuhan</th>
                   <th>Jumlah Ajuan</th>
+                  <th>Jumlah ACC</th>
                   <th>Keterangan</th>
                   <th></th>
                 </tr>
@@ -53,6 +54,7 @@
                       <td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
+                      <td><?php echo $p['jml_acc']?></td>
                       <td><?php echo strtolower($p['keterangan'])?></td>
                       <td>
                         <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">detail</a>

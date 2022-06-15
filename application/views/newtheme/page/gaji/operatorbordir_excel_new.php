@@ -53,13 +53,13 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
-						<th colspan="4"><?php echo strtoupper($k['nama'])?></th>
+						<th colspan="2"><?php echo strtoupper($k['nama'])?></th>
 					</tr>
 					<tr>
 						<th>Hari</th>
 						<th>Gaji</th>
-						<th>Bonus</th>
-						<th>Um</th>
+						<!-- <th>Bonus</th>
+						<th>Um</th> -->
 						<th>Keterangan</th>
 					</tr>
 				</thead>
@@ -88,38 +88,38 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr>
 						<td><?php echo $kd['hari']?></td>
 						<td align="right"><?php echo $kd['gaji']?></td>
-						<td align="right"><?php echo $kd['bonus']?></td>
-						<td align="right"><?php echo $kd['um']?></td>
+						<!-- <td align="right"><?php echo $kd['bonus']?></td>
+						<td align="right"><?php echo $kd['um']?></td> -->
 						<td align="right"><?php echo $kd['keterangan']?></td>
 					</tr>
 					<?php 
 						$totalgajia+=($kd['gaji']);
-						$totalbonusa+=($kd['bonus']);
-						$totaluma+=($kd['um']);
+						//$totalbonusa+=($kd['bonus']);
+						//$totaluma+=($kd['um']);
 					?>
 					<?php }?>
 					
 					<tr>
 						<td><b class="besar">Pot.Absensi</b></td>
 						<td align="right"><b class="besar"><?php echo $absensia?></b></td>
-						<td></td>
-						<td></td>
+						<!-- <td></td>
+						<td></td> -->
 						<td></td>
 					</tr>
 
 					<tr>
 						<td><b class="besar">Pot.Claim</b></td>
 						<td align="right"><b class="besar"><?php echo $claima?></b></td>
-						<td></td>
-						<td></td>
+						<!-- <td></td>
+						<td></td> -->
 						<td align="right"><?php echo !empty($claima)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>
 						<td><b class="besar">Pot.Pinjaman</b></td>
 						<td align="right"><b class="besar"><?php echo $pinjamana?></b></td>
-						<td></td>
-						<td></td>
+						<!-- <td></td>
+						<td></td> -->
 						<td></td>
 					</tr>
 
@@ -127,13 +127,13 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr>
 						<td><b class="besar">Total</b></td>
 						<td align="right"><b class="besar"><?php echo $totalgajia-$potongan['total']?></b></td>
-						<td align="right"><b class="besar"><?php echo $totalbonusa?></b></td>
-						<td align="right"><b class="besar"><?php echo $totaluma?></b></td>
+						<!-- <td align="right"><b class="besar"><?php echo $totalbonusa?></b></td>
+						<td align="right"><b class="besar"><?php echo $totaluma?></b></td> -->
 					</tr>
 					
 					<tr class="besar" style="background-color:yellow">
 						<td><b class="besar">Gaji Diterima</b></td>
-						<td colspan="4" align="center"><label><?php echo pembulatangaji(($totalgajia+$totalbonusa+$totaluma-$potongan['total'])) ?></label></td>
+						<td colspan="2" align="center"><label><?php echo pembulatangaji(($totalgajia+$totalbonusa+$totaluma-$potongan['total'])) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -154,13 +154,13 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
-						<th colspan="4"><?php echo strtoupper($k['nama'])?></th>
+						<th colspan="2"><?php echo strtoupper($k['nama'])?></th>
 					</tr>
 					<tr>
 						<th>Hari</th>
 						<th>Gaji</th>
-						<th>Bonus</th>
-						<th>Um</th>
+						<!-- <th>Bonus</th>
+						<th>Um</th> -->
 						<th>Keterangan</th>
 					</tr>
 				</thead>
@@ -192,14 +192,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td><?php echo $kd['hari'];?></td>
 						<?php //} ?>
 						<td align="right"><?php echo $kd['gaji']?></td>
-						<td align="right"><?php echo $kd['bonus']?></td>
-						<td align="right"><?php echo $kd['um']?></td>
+						<!-- <td align="right"><?php echo $kd['bonus']?></td>
+						<td align="right"><?php echo $kd['um']?></td> -->
 						<td align="right"><?php echo $kd['keterangan']?></td>
 					</tr>
 					<?php 
 						$totalgajib+=($kd['gaji']);
-						$totalbonusb+=($kd['bonus']);
-						$totalumb+=($kd['um']);
+						//$totalbonusb+=($kd['bonus']);
+						//$totalumb+=($kd['um']);
 					?>
 					<?php }?>
 					
@@ -207,24 +207,24 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr>
 						<td><b class="besar">Pot.Absensi</b></td>
 						<td align="right"><b class="besar"><?php echo $absensib?></b></td>
-						<td></td>
-						<td></td>
+						<!-- <td></td>
+						<td></td> -->
 						<td></td>
 					</tr>
 
 					<tr>
 						<td><b class="besar">Pot.Claim</b></td>
 						<td align="right"><b class="besar"><?php echo $claimb?></b></td>
-						<td></td>
-						<td></td>
+						<!-- <td></td>
+						<td></td> -->
 						<td align="right"><?php echo !empty($claimb)?$sclaim['keterangan']:'';?></td>
 					</tr>
 
 					<tr>
 						<td><b class="besar">Pot.Pinjaman</b></td>
 						<td align="right"><b class="besar"><?php echo $pinjamanb?></b></td>
-						<td></td>
-						<td></td>
+						<!-- <td></td>
+						<td></td> -->
 						<td></td>
 					</tr>
 
@@ -232,14 +232,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<tr>
 						<td class="besar"><b class="besar">Total</b></td>
 						<td align="right"><b class="besar"><?php echo $totalgajib-$potongan['total']?></b></td>
-						<td align="right"><b class="besar"><?php echo $totalbonusb?></b></td>
-						<td align="right"><b class="besar"><?php echo $totalumb?></b></td>
+						<!-- <td align="right"><b class="besar"><?php echo $totalbonusb?></b></td>
+						<td align="right"><b class="besar"><?php echo $totalumb?></b></td> -->
 					</tr>
 					
 					<tr  class="besar" style="background-color:yellow">
 						<td><b class="besar">Gaji Diterima</b></td>
 						<?php //if($hr==0){?>
-						<td colspan="4" align="center"><label><?php echo pembulatangaji(($totalgajib+$totalbonusb+$totalumb-$potongan['total'])) ?></label></td>
+						<td colspan="2" align="center"><label><?php echo pembulatangaji(($totalgajib+$totalbonusb+$totalumb-$potongan['total'])) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -418,7 +418,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <b class="besar"r>  
 
-                                                (&nbsp;&nbsp;&nbsp;Udan&nbsp;&nbsp;&nbsp;)                                          
+                                                (&nbsp;&nbsp;&nbsp;Rasum&nbsp;&nbsp;&nbsp;)                                          
 
                                             </td>
                                             <td height="100" align="center" rowspan="6">
@@ -432,7 +432,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                                 <b class="besar"r>
 
                                                 <b class="besar"r>                                            
-                                                ( Tiara )
+                                                ( Tria )
                                             </td>
                                         </tr>
 

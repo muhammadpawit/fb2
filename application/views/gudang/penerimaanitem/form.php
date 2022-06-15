@@ -57,6 +57,7 @@
                                             <th>Satuan</th>
                                             <th>Harga Satuan</th>
                                             <th>Jumlah</th>
+                                            <th>Keterangan</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -101,7 +102,8 @@
         html += '<td><input type="number" class="form-control jumlah" step=0.01 name="products['+i+'][jumlah]" onblur="updatetotal('+i+')"></td>';
         html += '<td><input type="text" class="form-control satuanJml" name="products['+i+'][satuanJml]"></td>';
         html += '<td><input type="number" class="form-control harga" name="products['+i+'][harga]" onblur="updatetotal('+i+')" required></td>';
-        html+='<td><span class="total-'+i+'"></span></td>'
+        html+='<td><span class="total-'+i+'"></span></td>';
+        html += '<td><input type="text" class="form-control" name="products['+i+'][keterangan]" onblur="updatetotal('+i+')" required></td>';
         html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';
         $('#item-list').append(html);

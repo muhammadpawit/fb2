@@ -75,7 +75,7 @@
                                         <th>SIZE</th>
                                         <th>STICH</th>
                                         <th>TOTAL STICH</th>
-                                        <th>Target Perkalian Mesin</th>
+                                        <!-- <th>Target Perkalian Mesin</th> -->
                                         <th>Target Perkalian Tagihan</th>
                                     </tr>
                                     <tr>
@@ -84,8 +84,8 @@
                                         <td><input type="text" class="form-control" name="size" required></td>
                                         <td><input type="number" class="form-control" id="stich" name="stich" required></td>
                                         <td><input type="number" class="form-control" id="totalStich" name="totalStich" step=0.01 required></td>
-                                        <td><input type="number" class="form-control" id="perkalianTarget" name="perkalianTarget" step=0.01 required></td>
-                                        <td><input type="number" class="form-control" id="perkalianTarif" name="perkalianTarif" step=0.01 required></td>
+                                        <!-- <td></td> -->
+                                        <td><input type="hidden" class="form-control" id="perkalianTarget" name="perkalianTarget"><input type="number" class="form-control" id="perkalianTarif" name="perkalianTarif" value="0.15"></td>
                                     </tr>
                                 </table>
                                

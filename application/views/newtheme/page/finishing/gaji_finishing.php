@@ -51,41 +51,61 @@
 								<input type="hidden" name="products[<?php echo $i?>][nama]" value="<?php echo strtolower($h['nama'])?>"></td>
 							<th>Nama</th>
 							<th colspan="4"><?php echo strtolower($h['nama'])?> (<?php echo strtolower($h['bagian'])?>)</th>
+							<th>Jam Kerja</th>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][senin]" value="Senin" checked></td>
 							<td>Senin</td>
-							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							<td align="right" colspan="4"><?php echo number_format($h['gaji'])?></td>
+							<td>
+								<input type="text" name="products[<?php echo $i?>][seninjamkerja]" value="12">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][selasa]" value="Selasa" checked></td>
 							<td>Selasa</td>
-							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							<td align="right" colspan="4"><?php echo number_format($h['gaji'])?></td>
+							<td>
+								<input type="text" name="products[<?php echo $i?>][selasajamkerja]" value="12">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][rabu]" value="Rabu" checked></td>
 							<td>Rabu</td>
-							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							<td align="right" colspan="4"><?php echo number_format($h['gaji'])?></td>
+							<td>
+								<input type="text" name="products[<?php echo $i?>][rabujamkerja]" value="12">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][kamis]" value="Kamis" checked></td>
 							<td>Kamis</td>
-							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							<td align="right" colspan="4"><?php echo number_format($h['gaji'])?></td>
+							<td>
+								<input type="text" name="products[<?php echo $i?>][kamisjamkerja]" value="12">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][jumat]" value="Jumat" checked></td>
 							<td>Jum'at</td>
-							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							<td align="right" colspan="4"><?php echo number_format($h['gaji'])?></td>
+							<td>
+								<input type="text" name="products[<?php echo $i?>][jumatjamkerja]" value="12">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][sabtu]" value="Sabtu" checked></td>
 							<td>Sabtu</td>
-							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							<td align="right" colspan="4"><?php echo number_format($h['gaji'])?></td>
+							<td>
+								<input type="text" name="products[<?php echo $i?>][sabtujamkerja]" value="12">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][minggu]" value="Minggu"></td>
 							<td>Minggu</td>
 							<td align="right"><?php echo number_format($h['gaji'])?></td>
+							
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][lembur]" value="lembur"></td>

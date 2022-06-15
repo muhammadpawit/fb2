@@ -29,13 +29,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Kebutuhan</label>
-                <textarea name="kebutuhan" class="form-control" placeholder="contoh : Plastik, Size, dll" required="required"></textarea>
-                <!--<select name="kebutuhan" class="form-control select2bs4" data-live-search="true">
+                <!-- <textarea name="kebutuhan" class="form-control" placeholder="contoh : Plastik, Size, dll" required="required"></textarea> -->
+                <select name="kebutuhan" class="form-control select2bs4" data-live-search="true">
                   <option value="-">Pilih</option>
                   <?php foreach($products as $p){?>
                     <option value="<?php echo $p['nama']?>"><?php echo $p['nama']?></option>
                   <?php  } ?>
-                </select>-->
+                </select>
               </div>
             </div>
             <div class="col-md-12">
