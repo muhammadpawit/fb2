@@ -1215,7 +1215,7 @@ class ReportModel extends CI_Model {
 
 	public function total018($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.18%' ";
+		$sql="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 		$sql.= " AND mesin_bordir='$nomor' AND mesin_bordir<>11 AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1229,7 +1229,7 @@ class ReportModel extends CI_Model {
 
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 AND perkalian_tarif LIKE '%0.2%' ";
+		$sql="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1243,7 +1243,7 @@ class ReportModel extends CI_Model {
 
 	public function total015($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.15%' ";
+		$sql="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1287,7 +1287,7 @@ class ReportModel extends CI_Model {
 		}
 		$row3=$this->GlobalModel->QueryManualRow($sql3);
 		if(!empty($row3)){
-			$total3=$row3['total'];
+			//$total3=$row3['total'];
 		}
 		$hasil=($total1+$total2+$total3);
 		return $hasil;

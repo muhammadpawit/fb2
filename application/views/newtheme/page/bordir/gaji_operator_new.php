@@ -58,7 +58,7 @@
 <div class="row">
 	<?php $i=0;?>
 	<?php foreach($prods as $p){?>
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -82,7 +82,6 @@
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo $h['nominal']?>">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][bonus]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="0">
-					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][keterangan]" value="-">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="<?php echo $h['mandor'] ?>">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][shift]" value="<?php echo $h['shift'] ?>">
 					<tr>
@@ -94,7 +93,9 @@
 						<!-- <td>0</td>
 						<td>0</td> -->
 						<td><?php echo $h['potongan'] ?></td>
-						<td>-</td>
+						<td>
+							<input type="text" name="products[<?php echo $i?>][det][<?php echo $har?>][keterangan]" class="form-control" value="-">
+						</td>
 					</tr>
 				<?php $har++; ?>
 				<?php } ?>

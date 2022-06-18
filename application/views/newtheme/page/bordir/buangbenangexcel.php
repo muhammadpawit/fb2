@@ -10,7 +10,13 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
 
   .besar {font-size: 18px;}
 </style>
-<h3>Resume Upah Buang Benang Forboys</h3>
+<table>
+  <tr>
+    <td colspan="5" align="center">
+      <h3>Resume Upah Buang Benang Forboys</h3>
+    </td>
+  </tr>
+</table>
 <h5>Periode : <?php echo date('d',strtotime($tanggal1)) ?> - <?php echo date('d F Y ',strtotime($tanggal2)) ?></h5>
 
 <table border="1" style="width: 100%;border-collapse: collapse;" cellpadding="5">
@@ -42,6 +48,80 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
   </tr>
 </table>
 <b class="besar"r>
+  <table>
+        <tr>
+          <td colspan="2" align="right"></td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td>
+            <b class="besar">Jakarta, <?php echo date('d F Y',strtotime($tanggal2))?></b>
+          <table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
+
+                                        <tr>
+                                            <th>Disetujui</th>
+                                            <th>Mengetahui</th>
+                                            <th>Disusun</th>
+                                        </tr>
+
+                                        <tr align="center">
+                                            <td><b class="besar">SPV</b></td>
+                                            <td><b class="besar">Mandor</b></td>
+                                            <td><b class="besar">Adm Prod Bordir</b></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td height="100" align="center">
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                ( Muchlas)
+
+                                            </td>
+                                            <td height="100" align="center">
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>                                            
+
+                                            </td>
+                                            <td height="100" align="center">
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>
+
+                                                <b class="besar"r>                                            
+                                                ( Tria )
+                                            </td>
+                                        </tr>
+
+                                    </table>
+          </td>
+        </tr>
+      </table>
 <h3>Perincian Upah Pekerja Buang Benang</h3>
 <b class="besar"r>
 <?php $total=0;?>
@@ -131,67 +211,5 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
         <tr>
           <td colspan="5"></td>
           <td>
-            <b class="besar">Jakarta, <?php echo date('d F Y',strtotime($tanggal2))?></b>
-          <table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="5">
-
-                                        <tr>
-                                            <th>Disetujui</th>
-                                            <th>Mengetahui</th>
-                                            <th>Disusun</th>
-                                        </tr>
-
-                                        <tr align="center">
-                                            <td><b class="besar">SPV</b></td>
-                                            <td><b class="besar">Mandor</b></td>
-                                            <td><b class="besar">Adm Prod Bordir</b></td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td height="100" align="center">
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                ( Muchlas)
-
-                                            </td>
-                                            <td height="100" align="center">
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>                                            
-
-                                            </td>
-                                            <td height="100" align="center">
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>
-
-                                                <b class="besar"r>                                            
-                                                ( Tiara )
-                                            </td>
-                                        </tr>
-
-                                    </table>
-          </td>
         </tr>
       </table>

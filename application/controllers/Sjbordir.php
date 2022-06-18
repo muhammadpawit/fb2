@@ -108,7 +108,8 @@ class Sjbordir extends CI_Controller {
 		$data['pekerjaan']=$this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
 		$data['page']='produksi/kirimcmtbordir_form';
 		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['kodepo'] = $this->GlobalModel->queryManual('SELECT p.kode_po,p.nama_po FROM produksi_po p JOIN kelolapo_pengecekan_potongan kpp ON (kpp.kode_po=p.kode_po) WHERE p.kode_po NOT IN(SELECT kode_po FROM finishing_kirim_gudang) ORDER BY kode_po ASC ');
+		//$data['kodepo'] = $this->GlobalModel->queryManual('SELECT p.kode_po,p.nama_po FROM produksi_po p JOIN kelolapo_pengecekan_potongan kpp ON (kpp.kode_po=p.kode_po) WHERE p.kode_po NOT IN(SELECT kode_po FROM finishing_kirim_gudang) ORDER BY kode_po ASC ');
+		$data['kodepo']=$this->GlobalModel->queryManual('SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po ');
 		$this->load->view('newtheme/page/main',$data);
 		
 	}

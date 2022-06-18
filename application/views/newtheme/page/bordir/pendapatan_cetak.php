@@ -32,9 +32,9 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <th>No.Mesin</th>
                   <th>Shift</th>
                   <th>Stich</th>
+                  <th>0.15</th>
                   <th>0.18</th>
                   <th>0.2</th>
-                  <th>0.15</th>
                   <!-- <th>0.18 YN</th> -->
                   <th>Jml Per Mesin (Rp)</th>
                   <th>Pendapatan Per Mesin (Rp)</th>
@@ -51,9 +51,9 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td>Mesin <?php echo $p['nomesin']?></td>
                       <td><?php echo $p['shift']?></td>
                       <td><?php echo ($p['stich'])?></td>
+                      <td><?php echo ($p['0.15']); ?></td>
                       <td><?php echo ($p['0.18'])?></td>
                       <td><?php echo ($p['0.2']); ?></td>
-                      <td><?php echo ($p['0.15']); ?></td>
                       <!-- <td>0</td> -->
                       <td><?php echo ($p['pendapatan'])?></td>
                       <td align="right">
@@ -69,9 +69,9 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     <tr style="background-color: yellow">
                       <td colspan="2"><b>Total</b></td>
                       <td><?php echo round($t)?></td>
+                      <td><?php echo round($g015)?></td>
                       <td><?php echo round($g018)?></td>
                       <td><?php echo round($g02)?></td>
-                      <td><?php echo round($g015)?></td>
                       <!-- <td></td> -->
                       <td><?php echo round($gpendapatan)?></td>
                       <td><?php echo round($gpendapatan)?></td>
@@ -79,7 +79,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     </tr>
                 <?php }?>
                 <tr>
-                  <td colspan="8" align="right">
+                  <td colspan="9" align="right">
                     <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
                   </td>
                 </tr>

@@ -593,7 +593,7 @@ class Bordir extends CI_Controller {
 		$data=array();
 		$data['n']=1;
 		$data['action']=null;
-		$data['title']='Laporan Pendapatan Bordir';
+		$data['title']='Laporan Pendapatan Mesin Bordir';
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['products']=array();
 		$get=$this->input->get();
@@ -650,7 +650,7 @@ class Bordir extends CI_Controller {
 			$g018+=($total018);
 			$g02+=($total02);
 			$g015+=($total015);
-			$gpendapatan+=($total018+$total02+$total015);
+			$gpendapatan+=($total018+$total02);
 			$data['products'][]=array(
 				'tanggal'=>null,
 				'nomesin'=>$mes['nomor'],
@@ -671,38 +671,6 @@ class Bordir extends CI_Controller {
 		$data['g02']=$g02;
 		$data['g015']=$g015;
 		$data['gpendapatan']=$gpendapatan;
-		/*
-		foreach($products as $p){
-			$jumlah=$this->ReportModel->getjumlahpendapatan($p['mesin_bordir'],$p['created_date']);
-			$poluar=$this->GlobalModel->QueryManualRow("SELECT sum(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 AND mesin_bordir='".$p['mesin_bordir']."' AND date(created_date)='".$p['created_date']."' AND shift='".$p['shift']."' ");
-			if(!empty($poluar)){
-				$luar=$poluar['total'];
-			}
-			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
-			$totalstich+=($p['total_stich']);
-			$total018+=($p['total_stich']*0.18);
-			$total02+=($luar); // ambil dari po luar, ambil dari nomer mesinya
-			$data['products'][]=array(
-				'tanggal'=>date('d-m-Y',strtotime($p['created_date'])),
-				'nomesin'=>$p['mesin_bordir'],
-				'shift'=>$p['shift'],
-				'stich'=>round($p['total_stich']),
-				'0.18'=>round($p['total_stich']*0.18),
-				'0.2'=>round($luar), // ambil dari po luar, ambil dari nomer mesinya
-				'0.18yn'=>0,
-				'pendapatan'=>round((($p['total_stich']*0.18))+0),
-				'jumlah'=>round($jumlah),
-				'i'=>$i,
-				'keterangan'=>0,
-			);
-			
-			$i++;
-		}
-		$data['totalpendapatan']=round($totalpendapatan);
-		$data['totalstich']=round($totalstich);
-		$data['total018']=round($total018);
-		$data['total02']=round($total02);
-		*/
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
@@ -1236,7 +1204,7 @@ class Bordir extends CI_Controller {
 		'bagian_bordir'  => $post['yangdibordir'],
 		'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
 		//'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.18),
-		'gaji'  => round(($post['totalStich']+$post['apl'])*$post['perkalianTarif']*$mesin['persenan']),
+		'gaji'  => round(($post['totalStich']+$post['apl'])*0.15*$mesin['persenan']),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],

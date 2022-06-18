@@ -37,30 +37,30 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>Pendapatan PO Dalam</td>
-						<td>:</td>
+						<td colspan="2">Pendapatan PO Dalam</td>
+						<!-- <td>:</td> -->
 						<td align="right"><?php echo $totalpendapatan?></td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td>Pendapatan PO 0.15</td>
 						<td>:</td>
 						<td align="right"><?php echo $p15?></td>
-					</tr>
+					</tr> -->
 					<tr>
-						<td>Pendapatan PO Luar</td>
-						<td>:</td>
+						<td colspan="2">Pendapatan PO Luar</td>
+						<!-- <td>:</td> -->
 						<td align="right"><?php echo $totalpoluar?></td>
 					</tr>
 					<tr>
-						<td>Pendapatan PO Yuna</td>
-						<td>:</td>
+						<td colspan="2">Pendapatan PO Yuna</td>
+						<!-- <td>:</td> -->
 						<td align="right"></td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total Pendapatan</b></td>
-						<td align="right"><?php echo number_format($totalpen)?></td>
+						<td align="right"><b><?php echo number_format($totalpen)?></b></td>
 					</tr>
 				</tfoot>
 			</table>
@@ -70,7 +70,7 @@
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<th colspan="3">Pengeluaran</th>
+						<th colspan="2">Pengeluaran</th>
 						<th>Rp</th>
 					</tr>
 				</thead>
@@ -79,8 +79,8 @@
 					<?php foreach($pengeluarans as $p){?>
 						<?php foreach($p['detail'] as $pd){?>
 							<tr>
-								<td colspan="2"><?php echo $pd['keterangan']?></td>
-								<td>:</td>
+								<td colspan="2" width="155"><?php echo $pd['keterangan']?></td>
+								<!-- <td>:</td> -->
 								<td align="right"><?php echo number_format($pd['total'])?></td>
 							</tr>
 							<?php $totalpengeluaran+=($pd['total']); ?>
@@ -90,7 +90,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total Pengeluaran</b></td>
-						<td align="right"><?php echo number_format($totalpengeluaran)?></td>
+						<td align="right"><b><?php echo number_format($totalpengeluaran)?></b></td>
 					</tr>
 					<tr>
 						<td colspan="2"></td>
@@ -98,7 +98,7 @@
 					</tr>
 					<tr>
 						<td colspan="2"><b>Laba Produksi</b></td>
-						<td align="right"><?php echo number_format($totalpen-$totalpengeluaran)?></td>
+						<td align="right"><b><?php echo number_format($totalpen-$totalpengeluaran)?></b></td>
 					</tr>
 				</tfoot>
 			</table>

@@ -349,15 +349,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<table>
 				<tr>
 					<td colspan="4" align="left" valign="top">
-						<b class="besar">Catatan :</b><b class="besar"r>
+						<b class="besar">Catatan :</b><br>
 						<b class="besar">
-							1.Pembayaran bonus dibayar hanya 30%<b class="besar"r>
-							2.UM mandor terpisah dari bonus<b class="besar"r>
-							3.Kalau tidak ada bonus yang dihitung hanya UM saja<b class="besar"r>
-							4.Hari minggu pembayaran double<b class="besar"r>
-							5.Tanggal merah pembayaran double<b class="besar"r>
-							6.Rumus penghitungan lama kerja dari (12 jam) <b class="besar"r>Rumus 
-<table class="tg" border="4" style="border-collapse: collapse;">
+							1.Operator sudah sistem borongan<br>
+							2.Gaji dihitung dari Sabtu ke Jum'at<br>
+							3.Rumus perhitungan gaji borongan operator bordir<br>
+							<b>Rumus : Jumlah yang di bordir X Stich X Tarif X Jumlah persentase (%)</b>
+						</b>
+<!-- <table class="tg" border="4" style="border-collapse: collapse;">
 <thead>
   <tr>
     <td class="tg-lboi" valign="bottom">
@@ -369,7 +368,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
     <td class="tg-0pky">Jumlah jam kerja</td>
   </tr>
 </thead>
-</table>
+</table> -->
 						</b>
 					</td>
 					<td colspan="3"></td>

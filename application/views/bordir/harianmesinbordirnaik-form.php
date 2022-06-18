@@ -85,7 +85,7 @@
                                         <td><input type="number" class="form-control" id="stich" name="stich" required></td>
                                         <td><input type="number" class="form-control" id="totalStich" name="totalStich" step=0.01 required></td>
                                         <!-- <td></td> -->
-                                        <td><input type="hidden" class="form-control" id="perkalianTarget" name="perkalianTarget"><input type="number" class="form-control" id="perkalianTarif" name="perkalianTarif" value="0.15"></td>
+                                        <td><input type="hidden" class="form-control" id="perkalianTarget" name="perkalianTarget"><input type="number" class="form-control" id="perkalianTarif" name="perkalianTarif" value="0.18" readonly></td>
                                     </tr>
                                 </table>
                                
