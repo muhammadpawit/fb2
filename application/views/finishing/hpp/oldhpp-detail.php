@@ -170,10 +170,7 @@
 
                                     <td>BAHAN</td>
 
-                                    <td>
-                                        <?php //echo $produk['bahan_potongan'] ?>
-                                        <?php echo $namabahan['nama_item_keluar'] ?>
-                                    </td>
+                                    <td><?php echo $produk['bahan_potongan'] ?></td>
 
                                 </tr>
 
@@ -465,10 +462,7 @@
 
                                                 
                                                 <?php foreach ($bordirer as $key => $hasilBordir): ?>
-                                                    <?php 
-                                                        //$bordirHitung += $hasilBordir['total_tarif']; rumus lama
-                                                        $bordirHitung += ($hasilBordir['total_stich']*0.18); // rumus baru
-                                                    ?> 
+                                                    <?php $bordirHitung += $hasilBordir['total_tarif']; ?> 
                                                      
 
                                                 <?php endforeach ?>
@@ -546,7 +540,7 @@
 
                                     <?php $explodeBordir = explode(' ', $rinci['nama_item_keluar']); ?>
 
-                                    <?php if (strtoupper($rinci['nama_item_keluar']) == "KARET 555A") {?>
+                                    <?php if ($rinci['nama_item_keluar'] == "KARET 555A") {?>
 
                                     <tr>
                                     	<td><?php echo $no+=1?></td>
@@ -558,7 +552,7 @@
 
                                         <td class="text-center">
 
-                                            <?php echo $rinci['jumlah_item_perlusin'] ?> 
+                                            <?php echo $rinci['jumlah_item_perlusin'] ?>
 
                                         </td>
 
@@ -582,7 +576,7 @@
 
                                     </tr>
 
-                                <?php } elseif (strtoupper($rinci['nama_item_keluar']) == "KARET 11A") {?>
+                                <?php } elseif ($rinci['nama_item_keluar'] == "KARET 11A") {?>
 
                                     <tr>
                                     	<td><?php echo $no+=1?></td>
@@ -619,7 +613,7 @@
 
                                     </tr>
 
-                                    <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "PITA") {?>
+                                    <?php  } elseif ($rinci['nama_item_keluar'] == "PITA") {?>
 
                                     <tr>
                                     	<td><?php echo $no+=1?></td>
@@ -657,7 +651,7 @@
 
                                     </tr>
 
-                                   <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "LABEL 108") { ?>
+                                   <?php  } elseif ($rinci['nama_item_keluar'] == "LABEL 108") { ?>
 
                                     <tr>
                                     	<td><?php echo $no+=1?></td>
