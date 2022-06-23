@@ -6,7 +6,7 @@
                                 <select name="namaPo" class="form-control select2bs4" data-live-search="TRUE">
                                     <option value=""></option>
                                     <?php foreach($po as $p){?>
-                                        <option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+                                        <option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group col-6">
                                 <label>JUMLAH SIZE</label>
-                                <input type="number" class="form-control" name="jumlah_size" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
+                                <input type="text" class="form-control" name="jumlah_size" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
                             </div>
                             <div class="form-group col-6">
                                 <label>TANGGAL</label>

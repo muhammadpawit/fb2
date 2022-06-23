@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group col-6">
                                 <label>JUMLAH SIZE</label>
-                                <input type="number" class="form-control" name="jumlah_size" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
+                                <input type="text" class="form-control" name="jumlah_size" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
                             </div>
                             <div class="form-group col-6">
                                 <label>TANGGAL</label>
