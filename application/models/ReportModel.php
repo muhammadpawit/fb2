@@ -1714,4 +1714,15 @@ class ReportModel extends CI_Model {
 		}
 		return $hasil;
 	}
+
+	public function absenopt($tanggal){
+		$hasil=[];
+		$sql="SELECT DISTINCT master_karyawan_bordir.nama_karyawan_bordir as nama,kehadiran_operator,shift FROM kelola_mesin_bordir LEFT JOIN master_karyawan_bordir ON (master_karyawan_bordir.id_master_karyawan_bordir=kelola_mesin_bordir.nama_operator) WHERE kelola_mesin_bordir.hapus=0 ";
+		$sql.=" AND DATE(created_date)='".$tanggal."' ";
+		$d=$this->GlobalModel->QueryManual($sql);
+		if(!empty($d)){
+			$hasil=$d;
+		}
+		return $hasil;
+	}
 }
