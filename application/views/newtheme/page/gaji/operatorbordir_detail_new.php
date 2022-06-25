@@ -20,6 +20,10 @@
 						<th>Nama</th>
 						<th colspan="4"><?php echo $k['nama']?></th>
 					</tr>
+					<tr style="background-color:yellow">
+						<th>Shift</th>
+						<th colspan="4"><?php echo $k['shift']?></th>
+					</tr>
 					<tr>
 						<th>Hari</th>
 						<th>Gaji</th>

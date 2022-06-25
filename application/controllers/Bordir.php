@@ -163,13 +163,15 @@ class Bordir extends CI_Controller {
 		$ummalam=0;
 		if(!empty($data['gaji'])){
 			
-			$results=$this->GlobalModel->getData('gaji_operator_new',array('hapus'=>0,'idgajiopt'=>$id));
+			//$results=$this->GlobalModel->getData('gaji_operator_new',array('hapus'=>0,'idgajiopt'=>$id));
+			$results=$this->GlobalModel->QueryManual("SELECT * FROM gaji_operator_new WHERE hapus=0 AND idgajiopt='".$id."' ORDER BY shift asc");
 			foreach($results as $r){
 				$data['karyawans'][]=array(
 					'tgl1'=>$data['gaji']['tanggal1'],
 					'tgl2'=>$data['gaji']['tanggal2'],
 					'idkaryawan' =>$r['idkaryawan'],
 					'nama'=>$r['nama'],
+					'shift'=>$r['shift']==1?'PAGI':'MALAM',
 					'totalgaji'=>$r['totalgaji'],
 					'totalbonus'=>$r['totalbonus'],
 					'totalum'=>$r['totalum'],
@@ -372,6 +374,7 @@ class Bordir extends CI_Controller {
 					'tempat'=>$data['tempat'],
 					'idkaryawan'	=>$p['idkaryawan'],
 					'nama'=>$p['nama_karyawan_bordir'],
+					'shift'=>isset($p['shift'])?$p['shift']:'',
 					'totalgaji'	=>$totalgaji,
 					'totalum'	     =>$totalum,
 					'totalbonus'	=>$totalbonus,
@@ -397,7 +400,7 @@ class Bordir extends CI_Controller {
 						'pot_absensi'=>isset($d['pot'])?$d['pot']:0,
 						'pot_pinjaman'=>isset($d['pinjaman'])?$d['pinjaman']:0,
 						'keterangan'=>$d['keterangan'],
-						'shift'=>isset($d['shift'])?$d['shift']:'',
+						'shift'=>isset($p['shift'])?$p['shift']:'',
 						'mandor'=>$d['mandor'],
 						'hapus'=>0,
 					);

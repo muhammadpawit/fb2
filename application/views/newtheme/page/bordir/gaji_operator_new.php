@@ -71,6 +71,14 @@
 					<th>Uang Makan</th> -->
 					<th>Potongan</th>
 					<th>Keterangan</th>
+					<th>
+						Shift
+						<select name="products[<?php echo $i?>][shift]" required>
+							<option value="">Pilih</option>
+							<option value="1">Pagi</option>
+							<option value="2">Malam</option>
+						</select>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,6 +104,7 @@
 						<td>
 							<input type="text" name="products[<?php echo $i?>][det][<?php echo $har?>][keterangan]" class="form-control" value="-">
 						</td>
+						<td></td>
 					</tr>
 				<?php $har++; ?>
 				<?php } ?>
@@ -121,6 +130,10 @@
 			return false;
 		}
 		//console.log(tanggal1);
+		c=confirm("Pastikan semua Shift dipilih pada setiap operator");
+		if(c==false){
+			return false;
+		}
 		$("form").submit();
 	}
 

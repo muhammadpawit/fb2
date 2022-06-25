@@ -47,13 +47,20 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		<tr>
 			<?php $h=0;?>
 			<?php foreach($karyawans as $k){?>
-			<?php if($j%2==0){?>
+			<?php 
+				//if($j%2==0){
+				if($k['shift']=='PAGI'){
+			?>
 			<td>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
 						<th colspan="2"><?php echo strtoupper($k['nama'])?></th>
+					</tr>
+					<tr style="background-color:yellow">
+						<th>Shift</th>
+						<th colspan="2"><?php echo $k['shift']?></th>
 					</tr>
 					<tr>
 						<th>Hari</th>
@@ -144,17 +151,25 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 	<?php } ?>
 		</tr>
 	</table><b class="besar"r>
+		<br>
 	<table>
 		<tr>
 			<?php $hr=0;?>
 			<?php foreach($karyawans as $k){?>
-			<?php if($jk%2==1){?>
+			<?php 
+				//if($jk%2==1){
+				if($k['shift']=='MALAM'){
+			?>
 			<td>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr style="background-color:yellow">
 						<th>Nama Operator</th>
 						<th colspan="2"><?php echo strtoupper($k['nama'])?></th>
+					</tr>
+					<tr style="background-color:yellow">
+						<th>Shift</th>
+						<th colspan="2"><?php echo $k['shift']?></th>
 					</tr>
 					<tr>
 						<th>Hari</th>
