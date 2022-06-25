@@ -71,7 +71,7 @@
                       <td align="right">
                         <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                         <?php if($j%2==1){?>
-                        <?php echo number_format($p['jumlah']); ?>
+                        <?php echo number_format($p['jumlah']); ?>.
                         <?php } ?>
                       </td>
                       <td><?php //echo ?></td>

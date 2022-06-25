@@ -1243,7 +1243,7 @@ class ReportModel extends CI_Model {
 
 	public function total015($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1258,7 +1258,8 @@ class ReportModel extends CI_Model {
 	public function jumlahpendapatanbordir($nomor,$tanggal1,$tanggal2){
 		$hasil=0;
 		$total1=0;
-		$sql1="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.18%' ";
+		//$sql1="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.18%' ";
+		$sql1="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 		$sql1.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql1.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1269,7 +1270,8 @@ class ReportModel extends CI_Model {
 		}
 
 		$total2=0;
-		$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 AND perkalian_tarif LIKE '%0.2%' ";
+		//$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 AND perkalian_tarif LIKE '%0.2%' ";
+		$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql2.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql2.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1280,7 +1282,8 @@ class ReportModel extends CI_Model {
 		}
 
 		$total3=0;
-		$sql3="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.15%' ";
+		//$sql3="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.15%' ";
+		$sql3="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
 		$sql3.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql3.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
