@@ -58,10 +58,10 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<th>Nama Operator</th>
 						<th colspan="2"><?php echo strtoupper($k['nama'])?></th>
 					</tr>
-					<tr style="background-color:yellow">
+					<!-- <tr style="background-color:yellow">
 						<th>Shift</th>
 						<th colspan="2"><?php echo $k['shift']?></th>
-					</tr>
+					</tr> -->
 					<tr>
 						<th>Hari</th>
 						<th>Gaji</th>
@@ -167,9 +167,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<th>Nama Operator</th>
 						<th colspan="2"><?php echo strtoupper($k['nama'])?></th>
 					</tr>
-					<tr style="background-color:yellow">
+					<!-- <tr style="background-color:yellow">
 						<th>Shift</th>
-						<th colspan="2"><?php echo $k['shift']?></th>
+						<th colspan="2"><?php echo $k['shift']?></th> -->
 					</tr>
 					<tr>
 						<th>Hari</th>
