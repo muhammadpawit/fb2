@@ -1044,8 +1044,8 @@ class Gudang extends CI_Controller {
 							'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
 						);
 						kartustok($kartustok,1);
-						$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', price='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
-						$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."',harga_item='".$p['harga']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+						$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', harga_beli='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
+						$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
 					}
 					
 				}
