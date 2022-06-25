@@ -42,7 +42,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							<td colspan="2"></td>
 							<td><?php echo strtoupper($pd['nama'])?></td>
 							<td><?php echo $pd['shift']?></td>
-							<td><?php echo $pd['kehadiran_operator']?></td>
+							<td><?php echo !empty($pd['kehadiran_operator'])?$pd['kehadiran_operator']:'TIDAK HADIR'?></td>
 							<td></td>
 						</tr>
 					<?php } ?>

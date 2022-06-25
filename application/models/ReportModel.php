@@ -1726,6 +1726,8 @@ class ReportModel extends CI_Model {
 		if(!empty($d)){
 			$hasil=$d;
 		}
-		return $hasil;
+		$absen=$this->GlobalModel->QueryManual("SELECT nama_karyawan_bordir as nama FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir NOT IN (SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date)='".$tanggal."') AND tampil=1 ");
+		$e=array_merge($hasil,$absen);
+		return $e;
 	}
 }
