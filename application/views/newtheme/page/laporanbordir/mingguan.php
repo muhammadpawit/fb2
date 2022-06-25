@@ -47,15 +47,14 @@
 						<td align="right"><?php echo $p15?></td>
 					</tr> -->
 					<tr>
-						<td colspan="2">Pendapatan PO Luar</td>
+						<td colspan="2">Pendapatan PO Luar / PO Homie</td>
 						<!-- <td>:</td> -->
 						<td align="right"><?php echo $totalpoluar?></td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<td colspan="2">Pendapatan PO Yuna</td>
-						<!-- <td>:</td> -->
 						<td align="right"></td>
-					</tr>
+					</tr>-->
 				</tbody>
 				<tfoot>
 					<tr>
