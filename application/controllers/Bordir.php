@@ -728,14 +728,20 @@ class Bordir extends CI_Controller {
 
 	public function poluarsave(){
 		$data=$this->input->post();
-		$insert=array(
-			'nama'=>$data['nama'],
-			'idpemilik'=>$data['pemilik'],
-			'hapus'=>0,
-		);
-		$this->db->insert('master_po_luar',$insert);
-		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-		redirect(BASEURL.'Bordir/poluar');
+		$cek=$this->GlobalModel->getDataRow('master_po_luar',array('nama'=>$data['nama'],'hapus'=>0));
+		if(empty($cek)){
+			$insert=array(
+				'nama'=>$data['nama'],
+				'idpemilik'=>$data['pemilik'],
+				'hapus'=>0,
+			);
+			$this->db->insert('master_po_luar',$insert);
+			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+			redirect(BASEURL.'Bordir/poluar');
+		}else{
+			$this->session->set_flashdata('gagal','Data Gagal Di Simpan. PO '.$data['nama'].' Sudah ada');
+			redirect(BASEURL.'Bordir/poluar');
+		}
 	}
 
 	public function tagihanpoluar(){

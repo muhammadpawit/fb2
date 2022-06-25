@@ -14,6 +14,21 @@
 
                        <?php } ?>
 
+                       <?php if ($this->session->flashdata('gagal')) { ?>
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                                <span aria-hidden="true">×</span>
+
+                            </button>
+                               <?php echo $this->session->flashdata('gagal'); ?> 
+
+                        </div>
+
+                           <?php } ?>
+
                     </p>  
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
