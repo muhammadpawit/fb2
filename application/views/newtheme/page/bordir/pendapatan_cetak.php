@@ -7,6 +7,10 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
   .registered {
     font-family: 'Baskervville', serif;
   }
+
+  h3 {
+    text-decoration: underline;
+  }
 </style>
 <table style="border-collapse: collapse;width: 100%">
   <tr>
@@ -27,7 +31,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <?php } ?>
 <table border="1" style="border-collapse: collapse;width: 100%;">
               <thead>
-                <tr style="background-color: yellow">
+                <tr style="background-color: yellow;font-size: 16.5px;font-weight: bold;">
                   <!-- <th>Tanggal</th> -->
                   <th>No.Mesin</th>
                   <th>Shift</th>
@@ -48,15 +52,15 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <?php foreach($products as $p){?>
                     <tr>
                       <!-- <td><?php echo $p['tanggal']?></td> -->
-                      <td>Mesin <?php echo $p['nomesin']?></td>
-                      <td><?php echo $p['shift']?></td>
-                      <td><?php echo ($p['stich'])?></td>
-                      <td><?php echo ($p['0.15']); ?></td>
-                      <td><?php echo ($p['0.18'])?></td>
-                      <td><?php echo ($p['0.2']); ?></td>
+                      <td align="center">Mesin <?php echo $p['nomesin']?></td>
+                      <td align="center"><?php echo $p['shift']?></td>
+                      <td align="center"><?php echo ($p['stich'])?></td>
+                      <td align="center"><?php echo ($p['0.15']); ?></td>
+                      <td align="center"><?php echo ($p['0.18'])?></td>
+                      <td align="center"><?php echo ($p['0.2']); ?></td>
                       <!-- <td>0</td> -->
-                      <td><?php echo ($p['pendapatan'])?></td>
-                      <td align="right">
+                      <td align="center"><?php echo ($p['pendapatan'])?></td>
+                      <td align="center">
                         <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                         <?php if($j%2==1){?>
                         <?php echo ($p['jumlah']); ?>
@@ -66,15 +70,15 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     </tr>
                     <?php $j++;?>
                   <?php }?>
-                    <tr style="background-color: yellow">
-                      <td colspan="2"><b>Total</b></td>
-                      <td><?php echo round($t)?></td>
-                      <td><?php echo round($g015)?></td>
-                      <td><?php echo round($g018)?></td>
-                      <td><?php echo round($g02)?></td>
+                    <tr style="background-color: yellow;font-size: 16.5px;font-weight: bold;">
+                      <td align="center" colspan="2"><b>Total</b></td>
+                      <td align="center"><?php echo round($t)?></td>
+                      <td align="center"><?php echo round($g015)?></td>
+                      <td align="center"><?php echo round($g018)?></td>
+                      <td align="center"><?php echo round($g02)?></td>
                       <!-- <td></td> -->
-                      <td><?php echo round($gpendapatan)?></td>
-                      <td><?php echo round($gpendapatan)?></td>
+                      <td align="center"><?php echo round($gpendapatan)?></td>
+                      <td align="center"><?php echo round($gpendapatan)?></td>
                       <td></td>
                     </tr>
                 <?php }?>

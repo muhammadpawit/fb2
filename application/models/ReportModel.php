@@ -1765,4 +1765,43 @@ class ReportModel extends CI_Model {
 		
 		return $hasil;
 	}
+
+	public function bordirbulanan($data){
+		$lusin=array();
+		$hasil=array();
+		$sql="SELECT * FROM master_jenis_po WHERE status=1 ";
+		$po=$this->db->query($sql)->result_array();
+		$periode=$this->periode();
+		
+			for ($i = 0; $i < 12; $i++) {
+		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
+		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
+		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
+		    	$total=0;
+		    	$total2=0;
+				$sql="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+				$sql.= " AND mesin_bordir<>11 ";
+				 $sql.=" AND MONTH(created_date) ='$bulan' ";
+				$row=$this->GlobalModel->QueryManualRow($sql);
+				if(!empty($row)){
+					$total=$row['total'];
+				}
+				$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				$sql2.= " AND mesin_bordir<>11 ";
+				 $sql2.=" AND MONTH(created_date) ='$bulan' ";
+				$row2=$this->GlobalModel->QueryManualRow($sql2);
+				if(!empty($row2)){
+					$total2=$row2['total'];
+				}
+		    	$lusin['bulan'][]=array(
+		    		'bulan'=>$bulan,
+		    		'tahun'=>$tahun,
+		    		'total'=>$total==null?0:($total+$total2),
+		    	);
+			}
+
+			$hasil=$lusin['bulan'];
+		
+		return $hasil;
+	}
 }

@@ -638,7 +638,12 @@ class Bordir extends CI_Controller {
 		$g015=0;
 		$gpendapatan=0;
 		$total015=0;
-		$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
+		if(isset($get['cetak'])){
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+		}else{
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
+		}
+		
 		if(!empty($nomesin)){
 			$sm.=" AND nomor='$nomesin' ";
 		}

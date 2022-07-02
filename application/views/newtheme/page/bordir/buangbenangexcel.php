@@ -203,7 +203,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
 <?php } ?>            
 <table>
         <tr>
-          <td colspan="6" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+          <td colspan="8" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
         </tr>
         <tr>
           <td colspan="6"></td>

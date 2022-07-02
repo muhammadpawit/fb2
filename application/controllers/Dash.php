@@ -495,5 +495,244 @@ class Dash extends CI_Controller {
 		redirect('https://2122.forboysproduction.com');
 	}
 
+	/** Bordir **/
+
+	public function bordirharian(){
+		$data=array();
+		$data['title']='Laporan Pendapatan Mesin Bordir Harian ';
+		$data['n']=1;
+		$data['action']=null;
+		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['products']=array();
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-1 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("-1 days"));
+		}
+		if(isset($get['nomesin'])){
+			$nomesin=$get['nomesin'];
+		}else{
+			$nomesin=null;
+		}
+		$filter=array(
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
+			'nomesin'=>$nomesin,
+		);
+		$products=$this->ReportModel->pendapatanbordirall($filter);
+		$jumlah=0;
+		$i=0;
+		$j=array();
+		$totalpendapatan=0;
+		$totalstich=0;
+		$total018=0;
+		$total02=0;
+		$total015=0;
+		$prev=null;
+		$luar=0;
+		$poluar=[];
+		$globalstich=0;
+		$g018=0;
+		$g02=0;
+		$g015=0;
+		$gpendapatan=0;
+		$total015=0;
+		if(isset($get['cetak'])){
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+		}else{
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
+		}
+		
+		if(!empty($nomesin)){
+			$sm.=" AND nomor='$nomesin' ";
+		}
+		$mesin=$this->GlobalModel->QueryManual($sm);
+		foreach($mesin as $mes){
+			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total02=$this->ReportModel->total02($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total015=$this->ReportModel->total015($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$jumlah=$this->ReportModel->jumlahpendapatanbordir($mes['nomor'],$tanggal1,$tanggal2);
+			$globalstich+=($totalstich);
+			$g018+=($total018);
+			$g02+=($total02);
+			$g015+=($total015);
+			$gpendapatan+=($total018+$total02);
+			$data['products'][]=array(
+				'tanggal'=>null,
+				'nomesin'=>$mes['nomor'],
+				'shift'=>$mes['shift'],
+				'stich'=>round($totalstich),
+				'0.18'=>round($total018),
+				'0.2'=>round($total02),
+				'0.18yn'=>0,
+				'0.15'=>round($total015),
+				'pendapatan'=>round($total018+$total02),
+				'jumlah'=>round($jumlah),
+				'i'=>$i++,
+				'keterangan'=>null,
+			);
+		}
+		$data['t']=$globalstich;
+		$data['g018']=$g018;
+		$data['g02']=$g02;
+		$data['g015']=$g015;
+		$data['gpendapatan']=$gpendapatan;
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['nomesin']=$nomesin;
+		$data['page']=$this->page.'dash/bordirharian';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function bordirmingguan(){
+		$data=array();
+		$data['title']='Laporan Pendapatan Mesin Bordir Mingguan ';
+		$data['n']=1;
+		$data['action']=null;
+		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['products']=array();
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("-1 days"));
+		}
+		if(isset($get['nomesin'])){
+			$nomesin=$get['nomesin'];
+		}else{
+			$nomesin=null;
+		}
+		$filter=array(
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
+			'nomesin'=>$nomesin,
+		);
+		$products=$this->ReportModel->pendapatanbordirall($filter);
+		$jumlah=0;
+		$i=0;
+		$j=array();
+		$totalpendapatan=0;
+		$totalstich=0;
+		$total018=0;
+		$total02=0;
+		$total015=0;
+		$prev=null;
+		$luar=0;
+		$poluar=[];
+		$globalstich=0;
+		$g018=0;
+		$g02=0;
+		$g015=0;
+		$gpendapatan=0;
+		$total015=0;
+		if(isset($get['cetak'])){
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+		}else{
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
+		}
+		
+		if(!empty($nomesin)){
+			$sm.=" AND nomor='$nomesin' ";
+		}
+		$mesin=$this->GlobalModel->QueryManual($sm);
+		foreach($mesin as $mes){
+			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total02=$this->ReportModel->total02($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$total015=$this->ReportModel->total015($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
+			$jumlah=$this->ReportModel->jumlahpendapatanbordir($mes['nomor'],$tanggal1,$tanggal2);
+			$globalstich+=($totalstich);
+			$g018+=($total018);
+			$g02+=($total02);
+			$g015+=($total015);
+			$gpendapatan+=($total018+$total02);
+			$data['products'][]=array(
+				'tanggal'=>null,
+				'nomesin'=>$mes['nomor'],
+				'shift'=>$mes['shift'],
+				'stich'=>round($totalstich),
+				'0.18'=>round($total018),
+				'0.2'=>round($total02),
+				'0.18yn'=>0,
+				'0.15'=>round($total015),
+				'pendapatan'=>round($total018+$total02),
+				'jumlah'=>round($jumlah),
+				'i'=>$i++,
+				'keterangan'=>null,
+			);
+		}
+		$data['t']=$globalstich;
+		$data['g018']=$g018;
+		$data['g02']=$g02;
+		$data['g015']=$g015;
+		$data['gpendapatan']=$gpendapatan;
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['nomesin']=$nomesin;
+		$data['page']=$this->page.'dash/bordirharian';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function bordirbulanan(){
+		$data=[];
+		$data['title']='Grafik Pendapatan Mesin Bordir Bulanan';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-7 day"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['prods']=[];
+		$po=$this->ReportModel->getPO(array());
+		$kirimgudang=$this->ReportModel->getPOKirimGudang(array());
+		$data['po']=($po);
+		$bulan=$this->ReportModel->month();
+		$data['bulan']=json_encode($bulan);
+		$data['jml']=$this->ReportModel->grafikpendapatanbordirbulanan(array());
+		$data['jmls']=$this->ReportModel->bordirbulanan(array());
+		// pre($data['jml']);
+		$data['pr']=[];
+		foreach($data['jmls'] as $s){
+			$monthNum  = $s['bulan'];
+			$dateObj   = DateTime::createFromFormat('!m', $monthNum);
+			if($s['total']>0){
+				$data['pr'][]=array(
+					'bulan'=>$dateObj->format('F'),
+					'tahun'=>$s['tahun'],
+					'nominal'=>$s['total'],
+				);
+			}
+		}
+		//pre($data['pr']);
+		$data['page']=$this->page.'dash/bordirbulanan';
+		$this->load->view($this->page.'main',$data);
+	}
+
+
+
+
+
+	/** end bordir **/
 
 }
