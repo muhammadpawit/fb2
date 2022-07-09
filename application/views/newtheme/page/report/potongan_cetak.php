@@ -5,20 +5,30 @@ header("Content-Disposition: attachment; filename=Laporan_potongan.xls");
             <table>
               <thead style="text-align: center;">
                 <tr>
-                  <th colspan="13">Monitoring Gambar dan Potongan Bahan (MGPB)</th>
+                  <th colspan="12">Monitoring Gambar dan Potongan Bahan (MGPB)</th>
                 </tr>
                 <tr>
-                  <th colspan="13">PO Produksi Forboys</th>
+                  <th colspan="12">PO Produksi Forboys</th>
                 </tr>
               </thead>
-            </table><br><br>
-<label>Periode : <?php echo date('d F Y',strtotime($tanggal1)) ?> - <?php echo date('d F Y',strtotime($tanggal2))?></label>            
+            </table><br>
+            <table>
+              <thead>
+                <tr>
+                  <td colspan="10">
+                    <label>Periode : <?php echo date('d F Y',strtotime($tanggal1)) ?> - <?php echo date('d F Y',strtotime($tanggal2))?></label>
+                  </td>
+                  <td><?php echo $tim['nama'] ?></td>
+                </tr>
+              </thead>
+            </table>
+
 <table border="1" style="width: 100%">
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Tanggal</th>
-                  <th>Tim Potong</th>
+                  <!-- <th>Tim Potong</th> -->
                   <th>Nama PO</th>
                   <th>Roll Bahan</th>
                   <th>Panjang Gelaran</th>
@@ -37,7 +47,7 @@ header("Content-Disposition: attachment; filename=Laporan_potongan.xls");
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo $p['tanggal']?></td>
-                      <td><?php echo $p['timpotong']?></td>
+                      <!-- <td><?php echo $p['timpotong']?></td> -->
                       <td><?php echo $p['kode_po']?></td>
                       <td align="center"><?php echo $p['roll_utama']?> Roll</td>
                       <td align="center"><?php echo $p['panjang_gelaran_potongan_utama']?><?php echo $p['panjang_gelaran_variasi']?></td>
@@ -51,7 +61,7 @@ header("Content-Disposition: attachment; filename=Laporan_potongan.xls");
                     </tr>
                   <?php } ?>
                     <tr>
-                      <td colspan="8" align="center"><b>Total</b></td>
+                      <td colspan="7" align="center"><b>Total</b></td>
                       <td></td>
                       <td><?php echo number_format($totaldz,2)?></td>
                       <td><?php echo $totalpcs?></td>
@@ -64,7 +74,16 @@ header("Content-Disposition: attachment; filename=Laporan_potongan.xls");
             <table>
               <thead style="text-align: center;">
                 <tr>
-                  <th colspan="3">Yang Mengecek</th>
+                  <th colspan="3">
+                    Yang Mengecek
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    Agus
+                  </th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -72,7 +91,33 @@ header("Content-Disposition: attachment; filename=Laporan_potongan.xls");
                   <th></th>
                   <th></th>
                   <th></th>
-                  <th colspan="3">Yang Membuat</th>
+                  <th colspan="3">
+                      Yang Membuat
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      Dwi
+                  </th>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12" align="right">                  
+                    <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
+                  </td>
                 </tr>
               </thead>
             </table>     

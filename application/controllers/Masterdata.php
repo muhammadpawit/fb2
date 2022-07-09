@@ -1078,6 +1078,7 @@ class Masterdata extends CI_Controller {
 		$u=array(
 			'minstok'=>$post['minstok'],
 			'nama'=>$post['nama'],
+			'warna_item'=>$post['warna'],
 			'supplier'=>$post['supplier'],
 			'jenis'=>$post['jenis'],
 			'kategori'=>$post['kategori'],
@@ -1088,6 +1089,7 @@ class Masterdata extends CI_Controller {
 		$this->db->update('product',$u,array('product_id'=>$id));
 		$ug=array(
 			'nama_item'=>$post['nama'],
+			'warna_item'=>$post['warna'],
 			'supplier'=>$post['supplier'],
 			'jenis'=>$post['jenis'],
 			'satuan_jumlah_item'=>$post['satuan'],

@@ -219,15 +219,6 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 				<?php } ?>
 		</tr>
 	</table>
-			<table border="0" style="width: 100%;border-collapse: collapse;">
-				<tbody>
-				</tbody>
-				<tfoot>
-					<tr>
-			          <td colspan="24" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
-			        </tr>
-				</tfoot>
-			</table>
 	<p><b>Total table 2 : <?php echo $total2?></b></p>
 	<?php 
 		$totals=0;
@@ -239,3 +230,50 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 	<h3>Total Keseluruhan Rp. <?php echo (ceil($totals))?></h3>
 	<h3>Total Pembulatan Rp. <?php echo (pembulatangaji(ceil($totals)))?></h3>
 </div>
+<br><br>
+            <table>
+              <thead style="text-align: center;">
+                <tr>
+                  <th colspan="3">
+                    Dicek Oleh
+                    <br>
+                    Adm Keu
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    Agus
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th colspan="3">
+                      Dibuat Oleh
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      Dwi
+                  </th>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12"></td>
+                </tr>
+                <tr>
+                  <td colspan="12" align="right">                  
+                    <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
+                  </td>
+                </tr>
+              </thead>
+            </table>     

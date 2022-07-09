@@ -365,6 +365,7 @@ class Report extends CI_Controller {
 		$data['totalpcs']=$totalpcs;
 		$data['timpotong']=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
+		$data['tim']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$tim));
 		if(isset($get['cetak'])){
 			$this->load->view('newtheme/page/report/potongan_cetak',$data);
 		}else{

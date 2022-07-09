@@ -39,6 +39,10 @@
 				</select>
 			</div>
 			<div class="form-group">
+				<label>Warna</label>
+				<input type="text" name="warna" value="<?php echo $prod['warna_item']?>" class="form-control">
+			</div>
+			<div class="form-group">
 				<label>Minimal Stok</label>
 				<input type="text" name="minstok" value="<?php echo $prod['minstok']?>" class="form-control">
 			</div>

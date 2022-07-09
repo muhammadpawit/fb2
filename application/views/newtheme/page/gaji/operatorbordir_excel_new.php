@@ -10,7 +10,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
     font-family: 'Baskervville', serif;
   }
 
-  .besar {font-size: 18px;}
+  .besar {font-size: 14px;}
 </style>
 
 <table border="1" style="width: 100%;border-collapse: collapse;">
