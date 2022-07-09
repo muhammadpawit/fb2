@@ -1320,7 +1320,7 @@
 $(document).ready(function(){
       
     $( "table" ).addClass( "table-hover" );
-    $( "thead" ).addClass( "thead-light" );
+    //$( "thead" ).addClass( "thead-light" );
     // $("input").attr("autocomplete","on");
 
     $(document).on('change', '.kategoriPo', function(){

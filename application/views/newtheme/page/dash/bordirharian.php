@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-md-3">
     <div class="small-box bg-info">
       <div class="inner">
@@ -11,10 +11,14 @@
       <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
-</div>
-<table class="table table-bordered table-striped">
+</div> -->
+<center>
+  <h3 style="text-decoration: underline;">Laporan Harian Pendapatan Mesin Bordir</h3>
+</center>
+Periode <?php echo date('d F',strtotime($tanggal1)) ?> - <?php echo date('d F Y',strtotime($tanggal2)) ?>
+<table border="1" style="border-collapse: collapse;" cellpadding="10">
               <thead>
-                <tr style="background-color:yellow">
+                <tr style="background-color:yellow" align="center">
                   <!-- <th>Tanggal</th> -->
                   <th>No.Mesin</th>
                   <th>Shift</th>
@@ -39,17 +43,17 @@
                 <?php if($products){?>
                   <?php $j=0;?>
                   <?php foreach($products as $p){?>
-                    <tr>
+                    <tr align="center">
                       <!-- <td><?php echo $p['tanggal']?></td> -->
                       <td>Mesin <?php echo $p['nomesin']?></td>
                       <td><?php echo $p['shift']?></td>
-                      <td align="right"><?php echo number_format($p['stich'])?></td>
-                      <td align="right"><?php echo number_format($p['0.15']); ?></td>
-                      <td align="right"><?php echo number_format($p['0.18'])?></td>
-                      <td align="right"><?php echo number_format($p['0.2']); ?></td>
+                      <td align="center"><?php echo number_format($p['stich'])?></td>
+                      <td align="center"><?php echo number_format($p['0.15']); ?></td>
+                      <td align="center"><?php echo number_format($p['0.18'])?></td>
+                      <td align="center"><?php echo number_format($p['0.2']); ?></td>
                       <!-- <td>0</td> -->
-                      <td align="right"><?php echo number_format($p['pendapatan'])?></td>
-                      <td align="right">
+                      <td align="center"><?php echo number_format($p['pendapatan'])?></td>
+                      <td align="center">
                         <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                         <?php if($j%2==1){?>
                         <?php echo number_format($p['jumlah']); ?>.
@@ -59,15 +63,15 @@
                     </tr>
                     <?php $j++;?>
                   <?php }?>
-                    <tr>
-                      <td colspan="2"><b>Total</b></td>
-                      <td align="right"><?php echo number_format($t)?></td>
-                      <td align="right"><?php echo number_format($g015)?></td>
-                      <td align="right"><?php echo number_format($g018)?></td>
-                      <td align="right"><?php echo number_format($g02)?></td>
+                    <tr style="font-size: 16.5px;font-weight: bold;">
+                      <td colspan="2" align="center"><b>Total</b></td>
+                      <td align="center"><?php echo number_format($t)?></td>
+                      <td align="center"><?php echo number_format($g015)?></td>
+                      <td align="center"><?php echo number_format($g018)?></td>
+                      <td align="center"><?php echo number_format($g02)?></td>
                       <!-- <td></td> -->
-                      <td align="right"><?php echo number_format($gpendapatan)?></td>
-                      <td align="right"><?php echo number_format($gpendapatan)?></td>
+                      <td align="center"><?php echo number_format($gpendapatan)?></td>
+                      <td align="center"><?php echo number_format($gpendapatan)?></td>
                       <td></td>
                     </tr>
                 <?php }?>

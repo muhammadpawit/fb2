@@ -38,10 +38,10 @@
 						<div class="form-group">
                               <label>Kategori</label>
                               <select name="kategori" class="form-control select2bs4" data-live-search="true">
-                              	<option value="*">Semua</option>
-                                <option value="15">Bahan Kaos</option>
-                                <option value="16">Bahan Celana</option>
-                                <option value="17">Bahan Kemeja</option>
+                              	<option value="*">Semua </option>
+                                <option value="15" <?php echo $kategori==15?'selected':'';?>>Bahan Kaos</option>
+                                <option value="16" <?php echo $kategori==16?'selected':'';?>>Bahan Celana</option>
+                                <option value="17" <?php echo $kategori==16?'selected':'';?>>Bahan Kemeja</option>
                               </select>
                             </div>		
 	</div>							
@@ -106,16 +106,16 @@
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
 		        			<td><?php echo number_format($p['stokawalroll'])?></td>
-		        			<td><?php echo number_format($p['stokawalyard'])?></td>
+		        			<td><?php echo number_format($p['stokawalyard'],2)?></td>
 		        			<td><?php echo number_format($p['stokawalharga'])?></td>
 		        			<td><?php echo number_format($p['stokmasukroll'])?></td>
-		        			<td><?php echo number_format($p['stokmasukyard'])?></td>
+		        			<td><?php echo number_format($p['stokmasukyard'],2)?></td>
 		        			<td><?php echo number_format($p['stokmasukharga'])?></td>
 		        			<td><?php echo number_format($p['stokkeluarroll'])?></td>
-		        			<td><?php echo number_format($p['stokkeluaryard'])?></td>
+		        			<td><?php echo number_format($p['stokkeluaryard'],2)?></td>
 		        			<td><?php echo number_format($p['stokkeluarharga'])?></td>
 		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
-		        			<td><?php echo number_format($p['stokakhiryard'])?></td>
+		        			<td><?php echo number_format($p['stokakhiryard'],2)?></td>
 		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
 		        			<td><?php echo number_format($p['total'])?></td>
 		        			<td><?php echo $p['ket']?></td>
@@ -137,16 +137,16 @@
 		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
 		        		<td colspan="4" align="center"><b>Jumlah</b></td>
 		        		<td><?php echo number_format($stokawalroll)?></td>
-		        		<td><?php echo number_format($stokawalyard)?></td>
+		        		<td><?php echo number_format($stokawalyard,2)?></td>
 		        		<td></td>
 		        		<td><?php echo number_format($stokmasukroll)?></td>
-		        		<td><?php echo number_format($stokmasukyard)?></td>
+		        		<td><?php echo number_format($stokmasukyard,2)?></td>
 		        		<td></td>
 		        		<td><?php echo number_format($stokkeluarroll)?></td>
-		        		<td><?php echo number_format($stokkeluaryard)?></td>
+		        		<td><?php echo number_format($stokkeluaryard,2)?></td>
 		        		<td></td>
 		        		<td><?php echo number_format($stokakhirroll)?></td>
-		        		<td><?php echo number_format($stokakhiryard)?></td>
+		        		<td><?php echo number_format($stokakhiryard,2)?></td>
 		        		<td></td>
 		        		<td><?php echo number_format($total)?></td>
 		        		<td></td>
@@ -181,7 +181,7 @@
     var kategori = $('select[name=\'kategori\']').val();
 
     if (kategori != '*') {
-      url += '&kategori=' + encodeURIComponent(supplier);
+      url += '&kategori=' + encodeURIComponent(kategori);
     }
 
     location =url;
@@ -209,6 +209,13 @@
     if (supplier != '*') {
       url += '&supplier=' + encodeURIComponent(supplier);
     }
+
+     var kategori = $('select[name=\'kategori\']').val();
+
+    if (kategori != '*') {
+      url += '&kategori=' + encodeURIComponent(kategori);
+    }
+
 
     location =url;
   }

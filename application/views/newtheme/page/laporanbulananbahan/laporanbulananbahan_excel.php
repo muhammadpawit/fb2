@@ -54,19 +54,19 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        			<td><?php echo $p['nama']?></td>
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
-		        			<td><?php echo round($p['stokawalroll'])?></td>
-		        			<td><?php echo round($p['stokawalyard'])?></td>
-		        			<td><?php echo round($p['stokawalharga'])?></td>
-		        			<td><?php echo round($p['stokmasukroll'])?></td>
-		        			<td><?php echo round($p['stokmasukyard'])?></td>
-		        			<td><?php echo round($p['stokmasukharga'])?></td>
-		        			<td><?php echo round($p['stokkeluarroll'])?></td>
-		        			<td><?php echo round($p['stokkeluaryard'])?></td>
-		        			<td><?php echo round($p['stokkeluarharga'])?></td>
-		        			<td><?php echo round($p['stokakhirroll'])?></td>
-		        			<td><?php echo round($p['stokakhiryard'])?></td>
-		        			<td><?php echo round($p['stokakhirharga'])?></td>
-		        			<td><?php echo round($p['total'])?></td>
+		        			<td><?php echo number_format($p['stokawalroll'])?></td>
+		        			<td><?php echo number_format($p['stokawalyard'],2)?></td>
+		        			<td><?php echo number_format($p['stokawalharga'])?></td>
+		        			<td><?php echo number_format($p['stokmasukroll'])?></td>
+		        			<td><?php echo number_format($p['stokmasukyard'],2)?></td>
+		        			<td><?php echo number_format($p['stokmasukharga'])?></td>
+		        			<td><?php echo number_format($p['stokkeluarroll'])?></td>
+		        			<td><?php echo number_format($p['stokkeluaryard'],2)?></td>
+		        			<td><?php echo number_format($p['stokkeluarharga'])?></td>
+		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
+		        			<td><?php echo number_format($p['stokakhiryard'],2)?></td>
+		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
+		        			<td><?php echo number_format($p['total'])?></td>
 		        			<td><?php echo $p['ket']?></td>
 		        		</tr>
 		        		<?php
@@ -83,21 +83,21 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		        	<?php } ?>
 		        </tbody>
 		        <tfoot>
-		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
+		        	<tr style="backgnumber_format-color: #f0dd0a !important;font-size: 15px;">
 		        		<td colspan="4" align="center"><b>Jumlah</b></td>
-		        		<td><?php echo round($stokawalroll)?></td>
-		        		<td><?php echo round($stokawalyard)?></td>
+		        		<td><?php echo number_format($stokawalroll)?></td>
+		        		<td><?php echo number_format($stokawalyard,2)?></td>
 		        		<td></td>
-		        		<td><?php echo round($stokmasukroll)?></td>
-		        		<td><?php echo round($stokmasukyard)?></td>
+		        		<td><?php echo number_format($stokmasukroll)?></td>
+		        		<td><?php echo number_format($stokmasukyard,2)?></td>
 		        		<td></td>
-		        		<td><?php echo round($stokkeluarroll)?></td>
-		        		<td><?php echo round($stokkeluaryard)?></td>
+		        		<td><?php echo number_format($stokkeluarroll)?></td>
+		        		<td><?php echo number_format($stokkeluaryard,2)?></td>
 		        		<td></td>
-		        		<td><?php echo round($stokakhirroll)?></td>
-		        		<td><?php echo round($stokakhiryard)?></td>
+		        		<td><?php echo number_format($stokakhirroll)?></td>
+		        		<td><?php echo number_format($stokakhiryard,2)?></td>
 		        		<td></td>
-		        		<td><?php echo round($total)?></td>
+		        		<td><?php echo number_format($total)?></td>
 		        		<td></td>
 		        	</tr>
 		        </tfoot>

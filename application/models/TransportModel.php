@@ -58,7 +58,7 @@ class TransportModel extends CI_Model {
 		$hasil=[];
 		$sql=" SELECT * FROM transport_driver WHERE hapus=0 ";
 		if(!empty($data['tanggal1'])){
-			$sql .= " AND DATE(tanggal) BETWEEN ".$data['tanggal1'].'  AND '.$data['tanggal2'].'';
+			$sql .= " AND DATE(tanggal) BETWEEN '".$data['tanggal1']."'  AND '".$data['tanggal2']."' ";
 		}
 
 		$sql.=" ORDER BY id DESC ";

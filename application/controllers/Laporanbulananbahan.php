@@ -48,7 +48,7 @@ class Laporanbulananbahan extends CI_Controller {
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-
+		$data['kategori']=$kategori;
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
@@ -60,7 +60,7 @@ class Laporanbulananbahan extends CI_Controller {
 			$sql.=" AND gpi.supplier='".$supplier."'";
 		}
 		$results=$this->GlobalModel->QueryManual($sql);
-		//pre($results);
+		//pre($sql);
 		$no=1;
 		$stokawal=[];
 		$stokmasuk=[];
@@ -79,6 +79,7 @@ class Laporanbulananbahan extends CI_Controller {
 				'nama'	=>$row['nama_item'],
 				'warna'	=>$row['warna_item'],
 				'kode'=>null,
+				//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
 				'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
 				'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
 				'stokawalharga'=>$row['harga_item'],

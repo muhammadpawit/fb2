@@ -5,6 +5,7 @@ class ReportModel extends CI_Model {
 
 	function __construct() {
 		parent::__construct();
+		$this->tgl_stokawal='2022-04-30';
 	}
 
 
@@ -1318,12 +1319,29 @@ class ReportModel extends CI_Model {
 	}
 
 	public function stokawal($id,$tgl){
+		$date=$this->tgl_stokawal;
+		$tglendstok=date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $tgl) ) ));
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
 		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
 		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) < '".$tgl."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
-			$hasil=$d;
+			if($tglendstok=='2022-05-31'){
+				$hasil=array(
+					'roll'=>14,
+					'yard'=>14,
+				);
+			}else{
+				$sqlhistrory="SELECT saldoawal_uk as yard, saldoawal_qty as roll FROM kartustok_product WHERE idproduct='$id' ";
+				$sqlhistrory.=" AND DATE(tanggal) < '$tglendstok' ";
+				$sqlhistrory.=" ORDER BY id DESC limit 1 ";
+				$ds=$this->GlobalModel->QueryManualRow($sqlhistrory);
+				if(!empty($ds)){
+					$hasil=$ds;
+				}
+				//pre($hasil);
+			}
+			
 		}
 		return $hasil;
 	}
