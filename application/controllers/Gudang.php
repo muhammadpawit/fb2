@@ -110,11 +110,13 @@ class Gudang extends CI_Controller {
 		$results=$this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
 			$data['products'][]=array(
+				'id'=>$result['id'],
 				'tanggal'=>$result['tanggal'],
 				'kebutuhan'=>$result['kebutuhan'],
 				'jml_ajuan'=>$result['jml_ajuan'],
 				'jml_acc'=>$result['jml_acc'],
 				'keterangan'=>$result['keterangan'],
+				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
 			);
@@ -184,6 +186,26 @@ class Gudang extends CI_Controller {
 		}
 	}
 
+	public function ajuanmingguanedit($id){
+		$data=array();
+		$data['n']=1;
+		$data['title']='Edit Ajuan Mingguan';
+		$data['action']=BASEURL.'Gudang/ajuanmingguansave_edit';
+		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
+		$data['excel']=BASEURL.'Gudang/ajuanmingguandetail/'.$id.'?&excel=1';
+		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan',array('hapus'=>0,'id'=>$id));
+		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail',array('hapus'=>0,'idajuan'=>$id));
+		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['acc']=BASEURL.'Gudang/ajuanmingguanacc';
+		$get=$this->input->get();		
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
+		}else{
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_edit';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
 	public function ajuanmingguantambah(){
 		$data=array();
 		$data['title']='Form Ajuan Mingguan';
@@ -231,6 +253,41 @@ class Gudang extends CI_Controller {
 				$this->db->insert('ajuan_mingguan_detail',$insert);
 			}
 			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+		}
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Gudang/ajuanmingguan');
+	}
+
+	public function ajuanmingguansave_edit(){
+		$data=$this->input->post();
+		if(isset($data['products'])){
+			$am=array(
+				'tanggal'=>$data['tanggal'],
+				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
+				//'kebutuhan'=>$data['kebutuhan'],
+				'ajuan_kebutuhan'=>0,
+				'stok'=>$data['stok'],
+				'jml_ajuan'=>0,
+				//'keterangan'=>'kebutuhan '.$data['kebutuhan'],
+			);
+			$this->db->update('ajuan_mingguan',$am,array('id'=>$data['id']));
+			$totalajuan=0;
+			foreach($data['products'] as $p){
+				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
+				$insert=array(
+					'tanggal'=>$data['tanggal'],
+					'tanggal2'=>$data['tanggal'],
+					'kode_po'=>$p['kode_po'],
+					'jumlah_po'=>$p['jumlah_po'],
+					'rincian_po'=>$p['rincian_po'],
+					'jml_pcs'=>str_replace(".", "", $p['jml_pcs']),
+					'jml_dz'=>str_replace(".", "", $p['jml_dz']),
+					'keterangan'=>$p['keterangan'],
+					'hapus'=>0,
+				);
+				$this->db->update('ajuan_mingguan_detail',$insert,array('id'=>$p['id']));
+			}
+			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan');

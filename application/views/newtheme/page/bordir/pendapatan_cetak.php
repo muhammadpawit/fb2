@@ -39,6 +39,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <th>0.15</th>
                   <th>0.18</th>
                   <th>0.2</th>
+                  <th>0.3</th>
                   <!-- <th>0.18 YN</th> -->
                   <th>Jml Per Mesin (Rp)</th>
                   <th>Pendapatan Per Mesin (Rp)</th>
@@ -57,7 +58,16 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td align="center"><?php echo ($p['stich'])?></td>
                       <td align="center"><?php echo ($p['0.15']); ?></td>
                       <td align="center"><?php echo ($p['0.18'])?></td>
-                      <td align="center"><?php echo ($p['0.2']); ?></td>
+                      <td align="right">
+                        <?php if($tanggal2<='2022-07-18'){?>
+                        <?php echo number_format($p['0.2']); ?>
+                        <?php } ?>    
+                      </td>
+                      <td align="right">
+                        <?php if($tanggal2>'2022-07-18'){?>
+                          <?php echo number_format($p['0.2']); ?>
+                        <?php } ?>    
+                      </td>
                       <!-- <td>0</td> -->
                       <td align="center"><?php echo ($p['pendapatan'])?></td>
                       <td align="center">
@@ -75,7 +85,16 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td align="center"><?php echo round($t)?></td>
                       <td align="center"><?php echo round($g015)?></td>
                       <td align="center"><?php echo round($g018)?></td>
-                      <td align="center"><?php echo round($g02)?></td>
+                      <td align="right">
+                        <?php if($tanggal2<='2022-07-18'){?>
+                          <?php echo number_format($g02)?>
+                        <?php } ?>    
+                      </td>
+                      <td align="right">
+                        <?php if($tanggal2>'2022-07-18'){?>
+                          <?php echo number_format($g02)?>
+                        <?php } ?>        
+                      </td>
                       <!-- <td></td> -->
                       <td align="center"><?php echo round($gpendapatan)?></td>
                       <td align="center"><?php echo round($gpendapatan)?></td>

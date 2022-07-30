@@ -57,6 +57,7 @@
                       <td><?php echo $p['jml_acc']?></td>
                       <td><?php echo strtolower($p['keterangan'])?></td>
                       <td>
+                        <a href="<?php echo $p['edit']?>" class="btn btn-info btn-xs text-white">edit</a>
                         <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">detail</a>
                         <a href="<?php echo $p['excel']?>" class="btn btn-success btn-xs text-white">excel</a>
                       </td>

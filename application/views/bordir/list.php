@@ -11,13 +11,13 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Tanggal Awal</label>
             <input type="text" value="<?php echo $tanggalMulai?>" class="form-control" name="tanggalMulai">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Tanggal Akhir</label>
             <input type="text" class="form-control" name="tanggalEnd" value="<?php echo $tanggalEnd?>">
@@ -29,9 +29,19 @@
             <option value="*">Semua</option>
         </select>
     </div>
-    <div class="col-md-3">
+    <div class="col-3">
+        <label>Nama Operator</label>
+        <select name="oper" class="form-control select2bs4" data-live-search="true">
+            <option value="*">Semua</option>
+            <?php foreach($opt as $o){?>
+                <option value="<?php echo $o['id_master_karyawan_bordir']?>"><?php echo $o['nama_karyawan_bordir']?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <div class="col-md-2">
         <label>Aksi</label><br>
         <a onclick="filter()" class="btn btn-info text-white">Filter</a>
+        <a onclick="exceldalam()" class="btn btn-info text-white">Excel</a>
         <a href="<?php echo $tambah?>" class="btn btn-info">Tambah</a>
     </div>
 </div>
@@ -109,10 +119,46 @@
             url += '&tanggalEnd=' + encodeURIComponent(filter_date_end);
         }
 
-      var filter_status = $('select[name=\'namaPo\']').val();
+    var filter_status = $('select[name=\'namaPo\']').val();
 
         if (filter_status != '*') {
             url += '&namaPo=' + encodeURIComponent(filter_status);
+        }
+
+        var opt = $('select[name=\'oper\']').val();
+
+        if (opt != '*') {
+            url += '&oper=' + encodeURIComponent(opt);
+        }
+        location =url;
+        
+    }
+
+    function exceldalam(){
+        url='<?php echo $url;?>&excel=1';
+        
+        var filter_date_start = $('input[name=\'tanggalMulai\']').val();
+
+        if (filter_date_start) {
+            url += '&tanggalMulai=' + encodeURIComponent(filter_date_start);
+        }
+
+      var filter_date_end = $('input[name=\'tanggalEnd\']').val();
+
+        if (filter_date_end) {
+            url += '&tanggalEnd=' + encodeURIComponent(filter_date_end);
+        }
+
+    var filter_status = $('select[name=\'namaPo\']').val();
+
+        if (filter_status != '*') {
+            url += '&namaPo=' + encodeURIComponent(filter_status);
+        }
+
+        var opt = $('select[name=\'oper\']').val();
+
+        if (opt != '*') {
+            url += '&oper=' + encodeURIComponent(opt);
         }
         location =url;
         

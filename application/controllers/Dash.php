@@ -588,6 +588,8 @@ class Dash extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['nomesin']=$nomesin;
 		$data['page']=$this->page.'dash/bordirharian';
+		$data['periode']='Hari '.hari(date('l',strtotime($tanggal1))) .', Tgl '. date('d F Y',strtotime($tanggal2));
+		$data['judullap']='Laporan Pendapatan Harian Bordir ';
 		$this->load->view($this->page.'main',$data);
 	}
 
@@ -619,6 +621,8 @@ class Dash extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 			'nomesin'=>$nomesin,
 		);
+		$data['judullap']='Laporan Pendapatan Bordir Mingguan ';
+		$data['periode']='Periode '.date('d',strtotime($tanggal1)) .'-'. date('d F Y',strtotime($tanggal2));
 		$products=$this->ReportModel->pendapatanbordirall($filter);
 		$jumlah=0;
 		$i=0;

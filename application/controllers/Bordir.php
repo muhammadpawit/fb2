@@ -829,6 +829,7 @@ class Bordir extends CI_Controller {
 		$data['tambah']=BASEURL.'bordir/addharianmesin/1';	
 		$data['url']=BASEURL.'Bordir/inputharianmesinpodalam?';
 		$data['po'] = $this->GlobalModel->getData('produksi_po',null);		
+		$data['opt'] = $this->GlobalModel->getData('master_karyawan_bordir',array('hapus'=>0));		
 		$user=user();
 		$hapus=0;
 		if(isset($user['id_user'])){
@@ -875,6 +876,10 @@ class Bordir extends CI_Controller {
 				}		
 				}else {
 					$sql .= 'WHERE kmb.jenis=1 AND kmb.hapus=0 and DATE(kmb.created_date) BETWEEN "'.$data['tanggalMulai'].'" AND "'.$data['tanggalEnd'].'"';
+				}
+
+				if(isset($get['oper'])){
+					$sql.=" AND nama_operator='".$get['oper']."' ";
 				}
 				$sql.=' ORDER BY kmb.created_date DESC ';
 				if(!empty($get['tanggalMulai'])){
@@ -930,8 +935,12 @@ class Bordir extends CI_Controller {
 				}						
 				$data['mesin'] = $this->GlobalModel->getData('master_mesin',null);
 				$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
-				$data['page']='bordir/list';
-				$this->load->view('newtheme/page/main',$data);
+				if(isset($get['excel'])){
+					$this->load->view('bordir/list_excel',$data);
+				}else{
+					$data['page']='bordir/list';
+					$this->load->view('newtheme/page/main',$data);
+				}
 	}
 
 	public function mesinharian_edit($id){
@@ -1025,7 +1034,13 @@ class Bordir extends CI_Controller {
 				}		
 				}else {
 					$sql .= 'WHERE kmb.jenis=2 AND kmb.hapus=0 and DATE(kmb.created_date) BETWEEN "'.$data['tanggalMulai'].'" AND "'.$data['tanggalEnd'].'"';
-				}		$sql.=' ORDER BY kmb.created_date ASC ';
+				}		
+
+				if(isset($get['oper'])){
+					$sql.=" AND nama_operator='".$get['oper']."' ";
+				}
+
+				$sql.=' ORDER BY kmb.created_date ASC ';
 				$bordir=array();
 				//pre($sql);
 				$bordirs = $this->GlobalModel->queryManual($sql);
@@ -1055,14 +1070,23 @@ class Bordir extends CI_Controller {
 					'hitung'=>round($b['total_stich']*$b['perkalian_tarif'])-$b['total_tarif'],
 					'total_stich'=>number_format($b['total_stich']),
 					'total_tarif'=>number_format($b['total_tarif']),
-					'action'=>$action,			);
+					'action'=>$action,			
+					'persen'=>$b['persen'],
+					'gaji'=>$b['gaji'],
+					'kepala'=>$b['kepala'],
+					);
 				}	
 				
 				//pre($sql);
 				$data['mesin'] = $this->GlobalModel->getData('master_mesin',null);
 				$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
-				$data['page']='bordir/list_luar';
-				$this->load->view('newtheme/page/main',$data);
+				$data['opt'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+				if(isset($get['excel'])){
+					$this->load->view('bordir/list_excel',$data);
+				}else{
+					$data['page']='bordir/list_luar';
+					$this->load->view('newtheme/page/main',$data);
+				}
 	}
 
 	public function mesin(){		
@@ -1199,7 +1223,11 @@ class Bordir extends CI_Controller {
 		}
 
 		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('nomer_mesin'=>$post['mesin']));
-
+		if($post['mesin']==3 OR $post['mesin']==5){
+			$perkalian_mesin=0.18;
+		}else{
+			$perkalian_mesin=0.15;
+		}
 		$dataInsert = array(
 		'shift'	=> $post['shift'],
 		'kode_po' =>$post['namaPo'],
@@ -1218,7 +1246,7 @@ class Bordir extends CI_Controller {
 		'bagian_bordir'  => $post['yangdibordir'],
 		'total_tarif'  => round($post['totalStich']*$post['perkalianTarif']),
 		//'total_tarif'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.18),
-		'gaji'  => round(($post['totalStich']+$post['apl'])*0.15*$mesin['persenan']),
+		'gaji'  => round(($post['totalStich']+$post['apl'])*$perkalian_mesin*$mesin['persenan']),
 		'kehadiran_operator'=>$post['kehadiran'],
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],

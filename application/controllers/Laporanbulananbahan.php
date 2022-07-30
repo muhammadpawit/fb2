@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -76,8 +77,8 @@ class Laporanbulananbahan extends CI_Controller {
 			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
 			$data['prods'][]=array(
 				'no'=>$no++,
-				'nama'	=>$row['nama_item'],
-				'warna'	=>$row['warna_item'],
+				'nama'	=>strtolower($row['nama_item']),
+				'warna'	=>strtolower($row['warna_item']),
 				'kode'=>null,
 				//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
 				'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],

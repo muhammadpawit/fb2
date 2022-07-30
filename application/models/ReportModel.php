@@ -6,6 +6,7 @@ class ReportModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 		$this->tgl_stokawal='2022-04-30';
+		$this->tglperkalianbaru='2022-07-19';
 	}
 
 
@@ -1230,7 +1231,12 @@ class ReportModel extends CI_Model {
 
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		if($tanggal2>=$this->tglperkalianbaru){
+			$perkalian=0.3;
+		}else{
+			$perkalian=0.2;
+		}
+		$sql="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1272,7 +1278,12 @@ class ReportModel extends CI_Model {
 
 		$total2=0;
 		//$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 AND perkalian_tarif LIKE '%0.2%' ";
-		$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		if($tanggal2>=$this->tglperkalianbaru){
+			$perkalian=0.3;
+		}else{
+			$perkalian=0.2;
+		}
+		$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql2.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql2.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1500,6 +1511,24 @@ class ReportModel extends CI_Model {
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$hasil=$data['total'];
+		}
+
+		return $hasil;
+	}
+
+	public function sum_jumlah_bahan_used_po($id,$po,$tgl1,$tgl2){
+		$hasil=[];
+		$sql="SELECT SUM(ukuran_item_keluar) as yard, SUM(jumlah_item_keluar) as roll FROM gudang_bahan_keluar WHERE hapus=0  ";
+		if(!empty($tgl1)){
+			$sql.="AND DATE(created_date) BETWEEN '$tgl1' AND '$tgl2'  ";
+		}
+		$sql.=" AND lower(nama_item_keluar)='".strtolower($id)."' AND kode_po LIKE '".$po."%' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=array(
+				'yard'=>number_format($data['yard'],2),
+				'roll'=>number_format($data['roll'],2),
+			);
 		}
 
 		return $hasil;
@@ -1769,7 +1798,14 @@ class ReportModel extends CI_Model {
 				if(!empty($row)){
 					$total=$row['total'];
 				}
-				$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				if('2022-07-19'>=$this->tglperkalianbaru){
+					$perkalian=0.3;
+					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				}else{
+					$perkalian=0.2;
+					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				}
+				
 				$sql2.= " AND mesin_bordir<>11 ";
 				 $sql2.=" AND MONTH(created_date) ='$bulan' ";
 				$row2=$this->GlobalModel->QueryManualRow($sql2);
@@ -1804,7 +1840,14 @@ class ReportModel extends CI_Model {
 				if(!empty($row)){
 					$total=$row['total'];
 				}
-				$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				if('2022-07-19'>=$this->tglperkalianbaru){
+					$perkalian=0.3;
+					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				}else{
+					$perkalian=0.2;
+					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				}
+				
 				$sql2.= " AND mesin_bordir<>11 ";
 				 $sql2.=" AND MONTH(created_date) ='$bulan' ";
 				$row2=$this->GlobalModel->QueryManualRow($sql2);
@@ -1820,6 +1863,16 @@ class ReportModel extends CI_Model {
 
 			$hasil=$lusin['bulan'];
 		
+		return $hasil;
+	}
+
+	public function totalsup($id,$tanggal1,$tanggal2){
+		$hasil=0;
+		$sql="SELECT SUM(pid.jumlah*pid.harga) as total FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 and pid.hapus=0 AND pi.supplier='$id' AND DATE(pi.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d['total'];
+		}
 		return $hasil;
 	}
 }

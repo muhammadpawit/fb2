@@ -13,9 +13,9 @@
   </div>
 </div> -->
 <center>
-  <h3 style="text-decoration: underline;">Laporan Harian Pendapatan Mesin Bordir</h3>
+  <h3 style="text-decoration: underline;"><?php echo $judullap ?></h3>
 </center>
-Periode <?php echo date('d F',strtotime($tanggal1)) ?> - <?php echo date('d F Y',strtotime($tanggal2)) ?>
+<?php echo $periode ?>
 <table border="1" style="border-collapse: collapse;" cellpadding="10">
               <thead>
                 <tr style="background-color:yellow" align="center">

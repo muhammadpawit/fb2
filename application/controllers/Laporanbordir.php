@@ -48,7 +48,11 @@ class Laporanbordir extends CI_Controller {
 		$luar=$this->ReportModel->pendapatanbordir($filter,2);
 		$totalpoluar=0;
 		foreach($luar as $p){
-			$totalpoluar+=(((($p['total_stich']*0.2))+(0)));
+			if($tanggal2>='2022-07-19'){
+				$totalpoluar+=(((($p['total_stich']*0.3))+(0)));
+			}else{
+				$totalpoluar+=(((($p['total_stich']*0.2))+(0)));	
+			}			
 		}
 		$p15=0;
 		$pe15=[];

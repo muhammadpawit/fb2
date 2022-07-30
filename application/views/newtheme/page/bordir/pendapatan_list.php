@@ -41,6 +41,7 @@
                   <th>0.15</th>
                   <th>0.18</th>
                   <th>0.2</th>
+                  <th>0.3</th>
                   <!-- <th>0.18 YN</th> -->
                   <th>Jml Per Mesin (Rp)</th>
                   <th>Pendapatan Per Mesin (Rp)</th>
@@ -65,7 +66,16 @@
                       <td align="right"><?php echo number_format($p['stich'])?></td>
                       <td align="right"><?php echo number_format($p['0.15']); ?></td>
                       <td align="right"><?php echo number_format($p['0.18'])?></td>
-                      <td align="right"><?php echo number_format($p['0.2']); ?></td>
+                      <td align="right">
+                        <?php if($tanggal2<='2022-07-18'){?>
+                        <?php echo number_format($p['0.2']); ?>
+                        <?php } ?>    
+                      </td>
+                      <td align="right">
+                        <?php if($tanggal2>'2022-07-18'){?>
+                          <?php echo number_format($p['0.2']); ?>
+                        <?php } ?>    
+                      </td>
                       <!-- <td>0</td> -->
                       <td align="right"><?php echo number_format($p['pendapatan'])?></td>
                       <td align="right">
@@ -83,7 +93,16 @@
                       <td align="right"><?php echo number_format($t)?></td>
                       <td align="right"><?php echo number_format($g015)?></td>
                       <td align="right"><?php echo number_format($g018)?></td>
-                      <td align="right"><?php echo number_format($g02)?></td>
+                      <td align="right">
+                        <?php if($tanggal2<='2022-07-18'){?>
+                          <?php echo number_format($g02)?>
+                        <?php } ?>    
+                      </td>
+                      <td align="right">
+                        <?php if($tanggal2>'2022-07-18'){?>
+                          <?php echo number_format($g02)?>
+                        <?php } ?>        
+                      </td>
                       <!-- <td></td> -->
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
