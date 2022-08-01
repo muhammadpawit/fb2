@@ -36,6 +36,7 @@
 					<option value="15" <?php echo $prod['kategori']==15?'selected':''?>>Bahan Kaos</option>
 					<option value="16" <?php echo $prod['kategori']==16?'selected':''?>>Bahan Celana</option>
 					<option value="17" <?php echo $prod['kategori']==17?'selected':''?>>Bahan Kemeja</option>
+					<option value="18" <?php echo $prod['kategori']==18?'selected':''?>>Alat-alat PO</option>
 				</select>
 			</div>
 			<div class="form-group">

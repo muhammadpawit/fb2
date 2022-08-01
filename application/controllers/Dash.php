@@ -11,6 +11,7 @@ class Dash extends CI_Controller {
 		$this->load->model('ReportModel');
 		$this->load->model('GlobalModel');
 		$this->page='newtheme/page/';
+		$this->layout='newtheme/page/main';
 	}
 
 	public function index(){
@@ -738,5 +739,496 @@ class Dash extends CI_Controller {
 
 
 	/** end bordir **/
+
+	public function Laporanharianbahan(){
+		$data=[];
+		$data['title']='Laporan Harian Bahan';
+		$pi=$this->GlobalModel->QueryManualRow("SELECT * FROM penerimaan_item WHERE hapus=0 AND lower(keterangan)='bahan masuk' ORDER BY tanggal DESC LIMIT 1 ");
+		$bk=$this->GlobalModel->QueryManualRow("SELECT * FROM barangkeluar_harian WHERE hapus=0 AND jenis=3 ORDER BY tanggal DESC LIMIT 1 ");
+
+		$pidate = strtotime($pi['tanggal']);
+		$bkdate = strtotime($bk['tanggal']);
+		if($pidate>$bkdate){
+			$update=$pi['tanggal'];
+		}else{
+			$update=$bk['tanggal'];
+		}
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=$update;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=$update;
+		}
+
+		if(isset($get['jenis'])){
+			$jenis=$get['jenis'];
+		}else{
+			$jenis=4;
+		}
+
+		if(isset($get['kategori'])){
+			$kategori=$get['kategori'];
+		}else{
+			$kategori=null;
+		}
+
+		if(isset($get['supplier'])){
+			$supplier=$get['supplier'];
+		}else{
+			$supplier=null;
+		}
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['kategori']=$kategori;
+		$data['update']=$update;
+		//pre($pidate. '  bk ' .$bkdate);
+		$sql="SELECT gpi.* , p.kategori FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		if(!empty($jenis)){
+			$sql.=" AND p.jenis='".$jenis."'";
+		}
+		if(!empty($kategori)){
+			$sql.=" AND p.kategori='".$kategori."'";
+		}
+		if(!empty($supplier)){
+			$sql.=" AND gpi.supplier='".$supplier."'";
+		}
+		//$sql.=" GROUP BY p.nama ASC ,p.product_id ,p.kategori ASC ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($results);
+		$no=1;
+		$no2=1;
+		$no3=1;
+		$stokawal=[];
+		$stokmasuk=[];
+		$stokkeluar=[];
+		$stokakhirroll=0;
+		$stokakhiryard=0;
+		$stokakhirharga=0;
+		$warna=null;
+		$data['prods']=[];
+		foreach($results as $row){
+			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
+			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			//if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
+				
+				if($row['kategori']==15){
+					$data['kaos'][]=array(
+						'no'=>$no++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);
+				}
+				
+				if($row['kategori']==16){
+					$data['celana'][]=array(
+						'no'=>$no2++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);
+				}
+
+				if($row['kategori']==17){
+					$data['kemeja'][]=array(
+						'no'=>$no3++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);	
+				}
+				
+			//}
+		}
+		
+		//pre($data['kemeja']);
+		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
+		}else{
+			$data['page']=$this->page.'dash/laporanbulananbahan';
+			$this->load->view($this->layout,$data);	
+		}
+		
+	}
+
+	public function laporanmingguanbahan(){
+		$data=[];
+		$data['title']='Laporan Mingguan Bahan';
+		$pi=$this->GlobalModel->QueryManualRow("SELECT * FROM penerimaan_item WHERE hapus=0 AND lower(keterangan)='bahan masuk' ORDER BY tanggal DESC LIMIT 1 ");
+		$bk=$this->GlobalModel->QueryManualRow("SELECT * FROM barangkeluar_harian WHERE hapus=0 AND jenis=3 ORDER BY tanggal DESC LIMIT 1 ");
+
+		$pidate = strtotime($pi['tanggal']);
+		$bkdate = strtotime($bk['tanggal']);
+		if($pidate>$bkdate){
+			$update=$pi['tanggal'];
+		}else{
+			$update=$bk['tanggal'];
+		}
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime('monday this week'));;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+
+		if(isset($get['jenis'])){
+			$jenis=$get['jenis'];
+		}else{
+			$jenis=4;
+		}
+
+		if(isset($get['kategori'])){
+			$kategori=$get['kategori'];
+		}else{
+			$kategori=null;
+		}
+
+		if(isset($get['supplier'])){
+			$supplier=$get['supplier'];
+		}else{
+			$supplier=null;
+		}
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['kategori']=$kategori;
+		$data['update']=$update;
+		//pre($pidate. '  bk ' .$bkdate);
+		$sql="SELECT gpi.* , p.kategori FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		if(!empty($jenis)){
+			$sql.=" AND p.jenis='".$jenis."'";
+		}
+		if(!empty($kategori)){
+			$sql.=" AND p.kategori='".$kategori."'";
+		}
+		if(!empty($supplier)){
+			$sql.=" AND gpi.supplier='".$supplier."'";
+		}
+		//$sql.=" GROUP BY p.nama ASC ,p.product_id ,p.kategori ASC ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($results);
+		$no=1;
+		$no2=1;
+		$no3=1;
+		$stokawal=[];
+		$stokmasuk=[];
+		$stokkeluar=[];
+		$stokakhirroll=0;
+		$stokakhiryard=0;
+		$stokakhirharga=0;
+		$warna=null;
+		$data['prods']=[];
+		foreach($results as $row){
+			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
+			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			//if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
+				
+				if($row['kategori']==15){
+					$data['kaos'][]=array(
+						'no'=>$no++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);
+				}
+				
+				if($row['kategori']==16){
+					$data['celana'][]=array(
+						'no'=>$no2++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);
+				}
+
+				if($row['kategori']==17){
+					$data['kemeja'][]=array(
+						'no'=>$no3++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);	
+				}
+				
+			//}
+		}
+		
+		//pre($data['kemeja']);
+		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
+		}else{
+			$data['page']=$this->page.'dash/laporanbulananbahan';
+			$this->load->view($this->layout,$data);	
+		}
+		
+	}
+
+	public function Laporanbulananbahan(){
+		$data=[];
+		$data['title']='Laporan Bulanan Stok Bahan';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+		}
+
+		if(isset($get['jenis'])){
+			$jenis=$get['jenis'];
+		}else{
+			$jenis=4;
+		}
+
+		if(isset($get['kategori'])){
+			$kategori=$get['kategori'];
+		}else{
+			$kategori=null;
+		}
+
+		if(isset($get['supplier'])){
+			$supplier=$get['supplier'];
+		}else{
+			$supplier=null;
+		}
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['kategori']=$kategori;
+		$pi=$this->GlobalModel->QueryManualRow("SELECT * FROM penerimaan_item WHERE hapus=0 AND lower(keterangan)='bahan masuk' ORDER BY tanggal DESC LIMIT 1 ");
+		$bk=$this->GlobalModel->QueryManualRow("SELECT * FROM barangkeluar_harian WHERE hapus=0 AND jenis=3 ORDER BY tanggal DESC LIMIT 1 ");
+
+		$pidate = strtotime($pi['tanggal']);
+		$bkdate = strtotime($bk['tanggal']);
+		if($pidate>$bkdate){
+			$update=$pi['tanggal'];
+		}else{
+			$update=$bk['tanggal'];
+		}
+		$data['update']=$update;
+		//pre($pidate. '  bk ' .$bkdate);
+		$sql="SELECT gpi.* , p.kategori FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		if(!empty($jenis)){
+			$sql.=" AND p.jenis='".$jenis."'";
+		}
+		if(!empty($kategori)){
+			$sql.=" AND p.kategori='".$kategori."'";
+		}
+		if(!empty($supplier)){
+			$sql.=" AND gpi.supplier='".$supplier."'";
+		}
+		$sql.=" GROUP BY p.nama ASC ,p.kategori ASC ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($sql);
+		$no=1;
+		$no2=1;
+		$no3=1;
+		$stokawal=[];
+		$stokmasuk=[];
+		$stokkeluar=[];
+		$stokakhirroll=0;
+		$stokakhiryard=0;
+		$stokakhirharga=0;
+		$warna=null;
+		$data['prods']=[];
+		foreach($results as $row){
+			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
+			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
+				
+				if($row['kategori']==15){
+					$data['kaos'][]=array(
+						'no'=>$no++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);
+				}
+				
+				if($row['kategori']==16){
+					$data['celana'][]=array(
+						'no'=>$no2++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);
+				}
+
+				if($row['kategori']==17){
+					$data['kemeja'][]=array(
+						'no'=>$no3++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirharga'=>$row['harga_item'],
+						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'ket'=>null,
+					);	
+				}
+				
+			}
+		}
+		
+		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
+		}else{
+			$data['page']=$this->page.'dash/laporanbulananbahan';
+			$this->load->view($this->layout,$data);	
+		}
+		
+	}
 
 }

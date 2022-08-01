@@ -260,7 +260,9 @@ class Gudang extends CI_Controller {
 
 	public function ajuanmingguansave_edit(){
 		$data=$this->input->post();
+		//pre($data);
 		if(isset($data['products'])){
+			/*
 			$am=array(
 				'tanggal'=>$data['tanggal'],
 				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
@@ -286,6 +288,26 @@ class Gudang extends CI_Controller {
 					'hapus'=>0,
 				);
 				$this->db->update('ajuan_mingguan_detail',$insert,array('id'=>$p['id']));
+			}
+			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
+			*/
+			$this->db->update('ajuan_mingguan_detail',array('hapus'=>1),array('idajuan'=>$data['id']));
+			$totalajuan=0;
+			foreach($data['products'] as $p){
+				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
+				$insert=array(
+					'idajuan'=>$data['id'],
+					'tanggal'=>$data['tanggal'],
+					'tanggal2'=>$data['tanggal'],
+					'kode_po'=>$p['kode_po'],
+					'jumlah_po'=>$p['jumlah_po'],
+					'rincian_po'=>$p['rincian_po'],
+					'jml_pcs'=>str_replace(".", "", $p['jml_pcs']),
+					'jml_dz'=>str_replace(".", "", $p['jml_dz']),
+					'keterangan'=>$p['keterangan'],
+					'hapus'=>0,
+				);
+				$this->db->insert('ajuan_mingguan_detail',$insert);
 			}
 			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
 		}
@@ -342,7 +364,9 @@ class Gudang extends CI_Controller {
 		$products=$this->GlobalModel->queryManual($sql);
 		//$products=$this->GlobalModel->getData('barangkeluar_harian',array('hapus'=>0,'jenis'=>$jenis));
 		$no=1;
+		$bagian=null;
 		foreach($products as $p){
+			$bagian=$this->GlobalModel->GetDataRow('bagian_pengambilan',array('id'=>$p['bagian']));
 			$details=$this->GlobalModel->getData('barangkeluar_harian_detail',array('hapus'=>0,'idbarangkeluar'=>$p['id']));
 			$data['products'][]=array(
 				'no'=>$no++,
@@ -353,6 +377,9 @@ class Gudang extends CI_Controller {
 				'jenis'=>$p['jenis'],
 				'details'=>$details,
 				'edit'=>BASEURL.'barangkeluaredit/'.$p['id'],
+				'bagian'=>!empty($bagian['nama'])?$bagian['nama']:'-',
+				'pengambil'=>$p['pengambil'],
+				'gudang'=>$p['gudang'],
 				'othapus'=>akseshapus(),
 			);
 		}
@@ -374,10 +401,12 @@ class Gudang extends CI_Controller {
 		$data['action']=BASEURL.'Gudang/barangkeluarsave/'.$jenis;
 		$data['cancel']=BASEURL.'Gudang/barangkeluar/'.$jenis;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		//$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 ORDER BY nama_item ASC ");
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
+		$data['bagian']=$this->GlobalModel->getData('bagian_pengambilan',array());
 		$data['title']=$title;
 		$data['page']=$this->page.'barangkeluar/barangkeluar_form';
 		$this->load->view($this->page.'main',$data);
@@ -392,6 +421,9 @@ class Gudang extends CI_Controller {
 				'kode_po'=>$data['kode_po'],
 				'keterangan'=>$data['keterangan'],
 				'jenis'=>$data['jenis'],
+				'bagian'=>$data['bagian'],
+				'pengambil'=>$data['pengambil'],
+				'gudang'=>$data['gudang'],
 				'hapus'=>0
 			);
 			$this->db->insert('barangkeluar_harian',$insert);

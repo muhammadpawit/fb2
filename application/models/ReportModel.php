@@ -1678,7 +1678,14 @@ class ReportModel extends CI_Model {
 		if(empty($bulan)){
 			$bagi=7;
 		}
-		$hasil=($bk+$gd)/$bagi;
+		
+		if(!empty($bulan)){
+			//$hasil=($bk+$gd)/$bagi;
+			$hasil=$this->stokkeluar_alat($id,$tanggal1,$tanggal2)/30;
+		}else{
+			$hasil=$this->stokkeluar_alat($id,$tanggal1,$tanggal2)/7;
+		}
+		
 		//$hasil=$this->stokkeluar_alat($id,$tanggal1,$tanggal2)/$bagi;
 		return $hasil;
 	}

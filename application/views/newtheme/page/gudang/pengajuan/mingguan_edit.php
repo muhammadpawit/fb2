@@ -66,7 +66,7 @@
             ?>
           <?php } ?>
             <tr style="background-color: #ffe0fb">
-              <td colspan="4"><b>Total</b></td>
+              <td colspan="3"><b>Total</b></td>
               <td><b><?php echo $pcs?></b></td>
               <td><b><?php echo $dz?></b></td>
               <td align="center"><b><?php echo $k['ajuan_kebutuhan']?></b></td>
@@ -82,6 +82,39 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
+        <label>Stok</label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <input type="text" name="stok" value="<?php echo $k['stok']?>" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+              <caption>Tambahan</caption>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Nama PO</th>
+                    <th>Jumlah PO</th>
+                    <th>Rincian PO</th>
+                    <th>Jml Pcs</th>
+                    <th>Jml Dz</th>
+                    <th>Keterangan</th>
+                    <th align="right"><a onclick="tambah()" class="btn btn-info btn-sm text-white"><i class="fa fa-plus"></i></a></th>
+                  </tr>
+                </thead>
+                <tbody id="listajuan">
+                  
+                </tbody>
+              </table>
+            </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
         <button class="btn btn-success btn-sm full">Simpan</button>
       </div>
     </div>
@@ -92,3 +125,28 @@
     </div>
   </div>
 </form>
+
+<script type="text/javascript">
+  var i='<?php echo $i ?>';
+  function tambah() {
+    var html='<tr>';
+        html+='<td><input type="text" name="products['+i+'][kode_po]" class="form-control" required="required" value="-"></td>';
+        html+='<td><input type="text" name="products['+i+'][jumlah_po]" class="form-control" required="required" value="0"></td>';
+        html+='<td><textarea cols="50" rows="5" name="products['+i+'][rincian_po]" class="form-control" required="required"></textarea></td>';
+        html+='<td><input type="text" name="products['+i+'][jml_pcs]" class="form-control" required="required" value="0"></td>';
+        html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="-"></td>';
+        html+='<td><textarea cols="50" rows="5" name="products['+i+'][keterangan]" class="form-control" required="required"></textarea></td>';
+        html+='<td><i class="fa fa-trash remove"></i></td>';
+        html+='</tr>';
+        $("#listajuan").append(html);
+        $(".select2bs4").selectpicker('refresh');
+        i++;
+  }
+
+  $(document).on('click', '.remove', function(){
+
+        $(this).closest('tr').remove();
+
+    });
+
+</script>

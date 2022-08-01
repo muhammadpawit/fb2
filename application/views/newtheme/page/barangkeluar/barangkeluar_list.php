@@ -53,6 +53,7 @@
                   <th>Ukuran/Satuan</th>
                   <th>Jumlah/Satuan</th>
                   <th>Keterangan</th>
+                  <th>Pengambil</th>
                   <th></th>
                 </tr>
               </thead>
@@ -69,6 +70,7 @@
                         <td><?php echo $d['ukuran'].' '.$d['satuan_ukuran']?></td>
                         <td><?php echo $d['jumlah'].' '.$d['satuanJml']?></td>
                         <td><?php echo $p['keterangan']?></td>
+                        <td><?php echo $p['pengambil']?></td>
                         <td>
                           <!--<a href="<?php echo $p['edit']?>" class="btn btn-warning btn-sm text-white">Edit</a>-->
                           <?php if(akseshapus()==1){?>

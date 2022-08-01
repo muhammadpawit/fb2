@@ -49,6 +49,31 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label>Bagian</label>
+                    <select name="bagian" class="form-control select2bs4" data-live-search="true">
+                      <option value="-">Pilih</option>
+                      <?php foreach($bagian as $p){?>
+                        <option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label>Pengambil</label>
+                    <textarea class="form-control" name="pengambil" required placeholder="nama pengambil"></textarea>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label>Gudang</label>
+                    <textarea class="form-control" name="gudang" required>Pusat</textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-12">
                     <table class="table table-bordered" id="addbahankeluars">
                       <tr>

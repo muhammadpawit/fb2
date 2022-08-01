@@ -74,6 +74,8 @@ class Laporanbulananalat extends CI_Controller {
 		if(!empty($supplier)){
 			$sql.=" AND gpi.supplier='".$supplier."'";
 		}
+
+		$sql.=" GROUP BY p.nama ASC , p.kategori ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($results);
 		$no=1;

@@ -86,15 +86,9 @@
     var html='<tr>';
         html+='<td><input type="text" name="products['+i+'][kode_po]" class="form-control" required="required" value="-"></td>';
         html+='<td><input type="text" name="products['+i+'][jumlah_po]" class="form-control" required="required" value="0"></td>';
-        //html+='<td><input type="text" name="products['+i+'][rincian_po]" class="form-control" required="required" value="-"></td>';
         html+='<td><textarea cols="50" rows="5" name="products['+i+'][rincian_po]" class="form-control" required="required"></textarea></td>';
         html+='<td><input type="text" name="products['+i+'][jml_pcs]" class="form-control" required="required" value="0"></td>';
         html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="-"></td>';
-        //html+='<td><select name="products['+i+'][kode_po]" class="form-control select2bs4"><option value="-">Pilih</option><?php foreach ($po as $key => $item) { ?><option value="<?php echo $item['kode_po'] ?>" data-item="<?php echo $item['kode_po'] ?>"><?php echo $item['kode_po'] ?></option><?php } ?></select></td>';
-        // html+='<td><input type="text" name="products['+i+'][kebutuhan]" class="form-control" required="required" value="-"></td>';
-        // html+='<td><input type="text" name="products['+i+'][stok]" class="form-control" required="required" value="-"></td>';
-        // html+='<td><input type="text" name="products['+i+'][ajuan]" class="form-control" required="required" value="-"></td>';
-        //html+='<td><input type="text" name="products['+i+'][keterangan]" class="form-control" required="required" value="-"></td>';
         html+='<td><textarea cols="50" rows="5" name="products['+i+'][keterangan]" class="form-control" required="required"></textarea></td>';
         html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';
