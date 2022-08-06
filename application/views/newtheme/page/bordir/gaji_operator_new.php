@@ -102,7 +102,7 @@
 						<td>0</td> -->
 						<td><?php echo $h['potongan'] ?></td>
 						<td>
-							<input type="text" name="products[<?php echo $i?>][det][<?php echo $har?>][keterangan]" class="form-control" value="-">
+							<input type="text" name="products[<?php echo $i?>][det][<?php echo $har?>][keterangan]" class="form-control" value="<?php echo $h['keterangan']?>">
 						</td>
 						<td></td>
 					</tr>

@@ -1231,4 +1231,47 @@ class Dash extends CI_Controller {
 		
 	}
 
+
+	public function klolaporanbulananpotongan(){
+		$data=[];
+		$data['title']='Laporan Potongan Bulanan';
+		$get=$this->input->get();
+		$data['jenis']=[];
+		$results=array();
+		if(isset($get['bulan'])){
+			$bulan=$get['bulan'];
+		}else{
+			$bulan=date('n',strtotime("-1 month"));
+		}
+		if(isset($get['tahun'])){
+			$tahun=$get['tahun'];
+		}else{
+			$tahun=date('Y');
+		}
+		$data['bulan']=$bulan;
+		$data['tahun']=$tahun;
+
+		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE nama_jenis_po IN (SELECT SUBSTR(kode_po,1, 3) AS po FROM konveksi_buku_potongan ) ");
+		$tim=$this->GlobalModel->QueryManual("SELECT * FROM timpotong WHERE id IN (SELECT tim_potong_potongan FROM konveksi_buku_potongan WHERE hapus=0 AND MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' ) ");
+		$prods=[];
+		$jml=[];
+		$no=1;
+
+		$noh=1;
+		$data['bupot']=[];
+		$timptg=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
+		$detbupot=[];
+		foreach($tim as $t){
+			$detbupot=$this->ReportModel->bukupotongan_bulanan($t['id'],$bulan,$tahun);
+			$data['bupot'][]=array(
+				
+				'nama'=>$t['nama'],
+				'dets'=>$detbupot
+			);
+		}
+		
+		$data['page']='newtheme/page/laporantimpotong/bulanan';
+		$this->load->view($this->layout,$data);
+	}
+
 }
