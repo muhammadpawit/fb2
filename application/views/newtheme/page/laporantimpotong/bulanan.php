@@ -96,9 +96,9 @@
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total</b></td>
-						<td><?php echo $jmlks?></td>
-						<td><?php echo number_format($kaosdz,2)?></td>
-						<td><?php echo $kaospcs?></td>
+						<td><b><?php echo $jmlks?></b></td>
+						<td><b><?php echo number_format($kaosdz,2)?></b></td>
+						<td><b><?php echo $kaospcs?></b></td>
 					</tr>
 				</tfoot>
 			</table>
