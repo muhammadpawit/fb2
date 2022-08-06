@@ -16,6 +16,7 @@
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
 			<button class="btn btn-info btn-sm" onclick="cetak()">Print</button>
+			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
 		</div>
 	</div>
 </div>
@@ -39,7 +40,7 @@
 					<tr>
 						<td colspan="2">Pendapatan PO Dalam</td>
 						<!-- <td>:</td> -->
-						<td align="right"><?php echo $totalpendapatan?></td>
+						<td align="right"><?php echo number_format($totalpendapatan)?></td>
 					</tr>
 					<!-- <tr>
 						<td>Pendapatan PO 0.15</td>
@@ -49,7 +50,7 @@
 					<tr>
 						<td colspan="2">Pendapatan PO Luar / PO Homie</td>
 						<!-- <td>:</td> -->
-						<td align="right"><?php echo $totalpoluar?></td>
+						<td align="right"><?php echo number_format($totalpoluar)?></td>
 					</tr>
 					<!--<tr>
 						<td colspan="2">Pendapatan PO Yuna</td>

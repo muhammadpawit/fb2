@@ -1728,7 +1728,7 @@ class ReportModel extends CI_Model {
 			$hasil[]=array(
 				'no'=>$no++,
 				'nama'=>$t['nama_jenis_po'],
-				'jml'=>$prods['jml'],
+				'jml'=>$prods['jml']*$t['perkalian'],
 				'dz'=>$prods['dz'],
 				'pcs'=>$prods['pcs'],
 			);
@@ -1737,10 +1737,28 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function bukupotongan_bulanan($tim,$bulan,$tahun){
+		$hasil=[];
+		$no=1;
+		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE p.id_produksi_po IN(SELECT idpo FROM konveksi_buku_potongan WHERE MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' AND hapus=0 and tim_potong_potongan='$tim' ) AND mjp.tampil=1 GROUP BY nama_jenis_po ORDER BY nama_jenis_po ASC ");
+		foreach($jenis as $t){
+			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' and tim_potong_potongan='$tim' ");
+			$hasil[]=array(
+				'no'=>$no++,
+				'nama'=>$t['nama_jenis_po'],
+				'jml'=>$prods['jml']*$t['perkalian'],
+				'dz'=>$prods['dz'],
+				'pcs'=>$prods['pcs'],
+			);
+		}
+
+		return $hasil;
+	}	
+
 	public function gaji_opt($idopt,$tanggal1,$tanggal2,$tempat){
 		$hasil=[];
 		foreach(looping_tanggal($tanggal1,$tanggal2) as $s ){
-			$sql="SELECT COALESCE(sum(gaji),0) as total,shift,mandor FROM kelola_mesin_bordir WHERE hapus=0 ";
+			$sql="SELECT COALESCE(sum(gaji),0) as total,shift,mandor,mesin_bordir as mesin FROM kelola_mesin_bordir WHERE hapus=0 ";
 			$sql.=" AND nama_operator='$idopt' AND DATE(created_date)='".$s['tanggal']."' ";
 			$d=$this->GlobalModel->QueryManualRow($sql);
 			$pot=$this->GlobalModel->QueryManualRow("SELECT COALESCE(sum(nominal),0) as total FROM potongan_operator WHERE hapus=0 AND tempat='".$tempat."' AND DATE(tanggal)='".$s['tanggal']."' AND idkaryawan='".$idopt."'");
@@ -1752,6 +1770,7 @@ class ReportModel extends CI_Model {
 					'shift'=>$d['shift'],
 					'mandor'=>$d['mandor'],
 					'potongan'=>!empty($pot)?$pot['total']:0,
+					'keterangan'=>'Mesin '.$d['mesin'],
 				);
 			}
 		}

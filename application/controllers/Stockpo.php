@@ -233,6 +233,7 @@ class Stockpo extends CI_Controller {
 		$data['cmtf']=$cmt;
 		$data['bulan']=$this->ReportModel->month();
 		$bulannya=$this->ReportModel->month();
+		pre($kp);
 		$data['bulans']=json_encode($bulannya);
 		$data['excel']=BASEURL.'Stockpo/rekap?&excel=1&cmt='.$cmt;
 		$data['cetak']=BASEURL.'Stockpo/rekap?&cetak=1&cmt='.$cmt;

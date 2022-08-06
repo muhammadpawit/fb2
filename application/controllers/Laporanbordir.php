@@ -44,7 +44,7 @@ class Laporanbordir extends CI_Controller {
 		foreach($products as $p){
 			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
 		}
-		$data['totalpendapatan']=number_format($totalpendapatan);
+		$data['totalpendapatan']=($totalpendapatan);
 		$luar=$this->ReportModel->pendapatanbordir($filter,2);
 		$totalpoluar=0;
 		foreach($luar as $p){
@@ -62,8 +62,8 @@ class Laporanbordir extends CI_Controller {
 				$p15+=(((($p['total_stich']*0.15))+(0)));
 			}
 		}
-		$data['p15']=number_format($p15);
-		$data['totalpoluar']=number_format($totalpoluar);
+		$data['p15']=($p15);
+		$data['totalpoluar']=($totalpoluar);
 		$data['totalpen']=($totalpendapatan+$totalpoluar+$p15);
 		// end
 
