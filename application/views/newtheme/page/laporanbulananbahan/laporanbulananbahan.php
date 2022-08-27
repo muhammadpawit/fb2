@@ -41,7 +41,7 @@
                               	<option value="*">Semua </option>
                                 <option value="15" <?php echo $kategori==15?'selected':'';?>>Bahan Kaos</option>
                                 <option value="16" <?php echo $kategori==16?'selected':'';?>>Bahan Celana</option>
-                                <option value="17" <?php echo $kategori==16?'selected':'';?>>Bahan Kemeja</option>
+                                <option value="17" <?php echo $kategori==17?'selected':'';?>>Bahan Kemeja</option>
                               </select>
                             </div>		
 	</div>							

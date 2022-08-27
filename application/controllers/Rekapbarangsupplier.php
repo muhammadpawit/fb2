@@ -15,24 +15,63 @@ class Rekapbarangsupplier extends CI_Controller {
 	public function index(){
 		$data=array();
 		$data['title']='Rekap Barang Masuk Supplier';
+		$get=$this->input->get();
+		$url='';
+		if(isset($get['bulan'])){
+			$bulan=$get['bulan'];
+			$url.='&tanggal1='.$bulan;
+		}else{
+			$bulan=null;
+		}
+		if(isset($get['tahun'])){
+			$tahun=$get['tahun'];
+			$url.='&tahun='.$tahun;
+		}else{
+			$tahun=null;
+		}
+
+		if(isset($get['sup'])){
+			$sup=$get['sup'];
+			$url.='&sup='.$sup;
+		}else{
+			$sup=null;
+		}		
+		$data['bulans']=$bulan;
+		$data['tahun']=$tahun;
+		$data['sup']=$sup;
+		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
 		$data['n']=1;
 		$data['action']=$this->url.'rekapbarangsupplier_save';
 		$data['prods']=[];
+		$data['bulan']=bulan();
 		$sql="SELECT * FROM rekapbarangsupplier WHERE hapus=0 ";
+		if(!empty($sup)){
+			$sql.=" AND supplier='".$sup."' ";
+		}
+		$sql.=" ORDER BY id DESC ";
 		$results=$this->GlobalModel->QueryManual($sql);
+		$total=0;
 		foreach($results as $r){
 			$s=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$r['supplier']));
+			$total=$this->ReportModel->totalsuplaporan($r['supplier'],$r['id']);
 			$data['prods'][]=array(
 				'id'=>$r['id'],
 				'periode'=>$r['periode'],
 				'ket'=>$r['keterangan'],
 				'nama'=>$s['nama'],
+				'total'=>!empty($total)?$total:0,
 				'detail'=>$this->url.'detail/'.$r['id'],
 			);
 		}
+		//pre($data['prods']);
+
 		$data['tambah']=$this->url.'add';
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'excel',$data);
+		}else{
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}
 	}
 
 	public function add(){
@@ -63,6 +102,7 @@ class Rekapbarangsupplier extends CI_Controller {
 			);
 			$this->db->insert('rekapbarangsupplier_detail',$idd);
 		}
+		//pre($data);
 		$this->session->set_flashdata('msg','Berhasil Di Simpan');
 		redirect($this->url);
 	}

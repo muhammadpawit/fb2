@@ -11,18 +11,18 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-5">
+	<!-- <div class="col-md-3">
 		<div class="form-group">
 			<label>Pilih Bulan</label>
-			<select name="bulan" class="form-control select2bs4" data-live-search="true">
+			<select name="bulan" multiple="true" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
-				<?php foreach($bulan as $b){?>
-					<option value="<?php echo $b['bulan']?>" <?php echo $b['bulan']==$bulans?'selected':'';?>><?php echo $b['nama']?></option>
+				<?php foreach($bulan as $b=>$val){?>
+					<option value="<?php echo $b ?>" <?php echo $b==$bulans?'selected':'';?>><?php echo $val?></option>
 				<?php } ?>
 			</select>
 		</div>
 	</div>
-	<div class="col-md-5">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tahun</label>
 			<select name="tahun" class="form-control select2bs4" data-live-search="true">
@@ -32,11 +32,23 @@
 				<?php } ?>
 			</select>
 		</div>
+	</div> -->
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Supplier</label>
+			<select name="sup" class="form-control select2bs4" data-live-search="true">
+				<option value="*">Pilih</option>
+				<?php foreach($supplier as $s) {?>
+					<option value="<?php echo $s['id']?>" <?php echo $sup==$s['id']?'selected':'';?> ><?php echo $s['nama'] ?></option>
+				<?php } ?>
+			</select>
+		</div>
 	</div>
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filterbln()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="excel()">Excel</button>
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm">Tambah</a>
 		</div>
 	</div>
@@ -71,6 +83,7 @@
 <script type="text/javascript">
 	function filterbln(){
 	    var url='?';
+	   /*
 	    var bulan = $('select[name=\'bulan\']').val();	    
 	    if (bulan != '*') {
 	      url += '&bulan=' + encodeURIComponent(bulan);
@@ -79,6 +92,34 @@
 	    var tahun = $('select[name=\'tahun\']').val();
 	    if (tahun != '*') {
 	      url += '&tahun=' + encodeURIComponent(tahun);
+	    }
+		*/
+
+	    var sup = $('select[name=\'sup\']').val();
+	    if (sup != '*') {
+	      url += 'sup=' + encodeURIComponent(sup);
+	    }
+	    
+	    location =url;
+	  }
+
+	  function excel(){
+	    var url='?excel=1';
+	   /*
+	    var bulan = $('select[name=\'bulan\']').val();	    
+	    if (bulan != '*') {
+	      url += '&bulan=' + encodeURIComponent(bulan);
+	    }
+
+	    var tahun = $('select[name=\'tahun\']').val();
+	    if (tahun != '*') {
+	      url += '&tahun=' + encodeURIComponent(tahun);
+	    }
+		*/
+
+	    var sup = $('select[name=\'sup\']').val();
+	    if (sup != '*') {
+	      url += '&sup=' + encodeURIComponent(sup);
 	    }
 	    
 	    location =url;

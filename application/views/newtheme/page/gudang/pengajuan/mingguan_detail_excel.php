@@ -35,8 +35,8 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
             <td><?php echo $d['kode_po']?></td>
             <td><?php echo $d['jumlah_po']?> PO</td>
             <td><?php echo $d['rincian_po']?></td>
-            <td><?php echo number_format($d['jml_pcs'])?></td>
-            <td><?php echo number_format($d['jml_dz'])?></td>
+            <td><?php echo number_format($d['jml_pcs'],1)?></td>
+            <td><?php echo number_format($d['jml_dz'],1)?></td>
             <td valign="middle" style="vertical-align: middle !important;text-align: center !important;"><?php echo ($d['jumlah_po']*$d['jml_pcs'])?></td>
             <?php if(0==$i){?>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>

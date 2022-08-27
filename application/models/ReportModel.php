@@ -1901,4 +1901,52 @@ class ReportModel extends CI_Model {
 		}
 		return $hasil;
 	}
+
+	public function totalsuplaporan($supplier,$id){
+		$hasil=0;
+		$spid="SELECT tanggal_akhir FROM rekapbarangsupplier_detail where idrekap='".$id."' ORDER BY tanggal_akhir DESC LIMIT 1 ";
+		$pid=$this->GlobalModel->QueryManualRow($spid);
+		$sql="SELECT SUM(pid.jumlah*pid.harga) as total FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 and pid.hapus=0 AND pi.supplier='$supplier' AND MONTH(pi.tanggal)='".date('n',strtotime($pid['tanggal_akhir']))."' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d['total'];
+		}
+		return $hasil;
+	}
+
+	public function getrekapalat($penerima,$tanggal1,$tanggal2){
+		$hasil=[];
+		$sql="SELECT * FROM gudang_item_keluar WHERE hapus=0 AND LOWER(nama_penerima)='".strtolower($penerima)."' ";
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$sql.=" GROUP BY kode_po ";
+		$d=$this->GlobalModel->QueryManual($sql);
+		if(!empty($d)){
+			foreach($d as $dat){
+				$hasil[]=$dat['kode_po'];
+			}
+		}
+		return $hasil;
+	}
+
+	public function getrekapalatbulan($penerima,$tanggal1,$tanggal2){
+		$hasil=[];
+		$sql="SELECT * FROM gudang_item_keluar WHERE hapus=0 AND LOWER(nama_penerima)='".strtolower($penerima)."' ";
+		if(!empty($tanggal1)){
+			$sql.=" AND MONTH(created_date) = '".$tanggal1."' ";
+		}
+
+		if(!empty($tanggal1)){
+			$sql.=" AND YEAR(created_date) = '".$tanggal2."' ";
+		}
+		$sql.=" GROUP BY kode_po ";
+		$d=$this->GlobalModel->QueryManual($sql);
+		if(!empty($d)){
+			foreach($d as $dat){
+				$hasil[]=$dat['kode_po'];
+			}
+		}
+		return $hasil;
+	}
 }

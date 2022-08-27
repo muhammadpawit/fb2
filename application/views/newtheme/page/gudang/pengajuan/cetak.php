@@ -32,7 +32,7 @@
 
                                    echo "SABLON";
 
-                                } else if($parent['kategori'] == 2) { echo "BORDIR"; } else if($parent['kategori'] == 3) {echo "KONVEKSI";}?> FORBOYS</h4>
+                                } else if($parent['kategori'] == 2) { echo "BORDIR"; } else if($parent['kategori'] == 3) {echo "KONVEKSI";} else if($parent['kategori'] == 4) {echo "CABANG SUKABUMI";}?> FORBOYS</h4>
 
                         </div>
 
@@ -242,7 +242,20 @@
 
                                             <td><b>SPV</b></td>
                                             <td><b>ADM Keuangan</b></td>
-                                            <td><b>ADM Gudang</b></td>
+                                            <td>
+                                                <b>
+                                                ADM 
+                                                <?php 
+
+                                                    if($parent['kategori']==4){
+                                                        echo "Cab.Sukabumi";
+                                                    }else{
+                                                        echo "Gudang";
+                                                    }
+
+                                                ?>
+                                                </b>
+                                            </td>
 
                                         </tr>
 
@@ -292,7 +305,15 @@
 
                                                 <br>
 
-                                                ( Dwi )
+                                                <?php 
+
+                                                    if($parent['kategori']==4){
+                                                        echo "(Reta)";
+                                                    }else{
+                                                        echo "(Dwi)";
+                                                    }
+
+                                                ?>
 
                                             </td>
 

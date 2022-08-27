@@ -69,7 +69,7 @@ class Kelolapo extends CI_Controller {
 	public function kirimsetorhapus($kode_po,$idKelola){
 		$data=[];
 		$data['title']='Kirim Setor Hapus';
-		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE kks.kode_po="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
+		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE kks.kode_po="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt' => $data['poProd']['id_master_cmt']));
 		$data['masterCmt'] = $this->GlobalModel->getDataRow('master_cmt_job',array('id_master_cmt_job' => $data['poProd']['id_master_cmt_job']));
 		$data['progress'] = $this->GlobalModel->getData('master_progress',null);
@@ -86,6 +86,8 @@ class Kelolapo extends CI_Controller {
 	public function kirimsetorhapussave()
 	{
 		$post = $this->input->post();
+		$proses=$this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$post['kodeSetoran']));
+		//pre($proses);
 		//$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['cmt']));
 		//$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$post['job']));
 		//pre($post);
@@ -96,6 +98,16 @@ class Kelolapo extends CI_Controller {
 			'hapus'=>1,
 		);
 		//pre($update);
+		if($proses['kategori_cmt']=='JAHIT'){
+			if($proses['progress']=='KIRIM'){
+				$this->db->update('kirimcmt_detail',$update,array('kode_po'=>$post['kode_po']));
+			}
+
+			if($proses['progress']=='SETOR'){
+				//$this->GlobalModel->QueryManual("UPDATE setorcmt SET totalsetor=totalsetor-".$proses['qty_tot_pcs']." WHERE id='".$proses['kode_nota_cmt']."' ");
+				$this->db->update('setorcmt_detail',$update,array('kode_po'=>$post['kode_po']));
+			}
+		}
 		$this->db->update('kelolapo_kirim_setor',$update,array('id_kelolapo_kirim_setor'=>$post['kodeSetoran']));
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Kelolapo/kirimsetorcmt?&kode_po='.$post['kode_po']);

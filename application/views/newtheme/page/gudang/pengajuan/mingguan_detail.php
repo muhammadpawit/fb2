@@ -5,7 +5,7 @@
           <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></td>
         </tr>
         <tr>
-          <td colspan="10" align="center"><b>Untuk 1 Minggu</b></td>
+          <td colspan="10" align="center"><b><?php echo $k['keterangan2']?></b></td>
         </tr>
         <tr>
           <td colspan="10">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
@@ -33,8 +33,8 @@
             <td><?php echo $d['kode_po']?></td>
             <td><?php echo $d['jumlah_po']?> PO</td>
             <td><?php echo $d['rincian_po']?></td>
-            <td><?php echo number_format($d['jml_pcs'])?></td>
-            <td><?php echo number_format($d['jml_dz'])?></td>
+            <td><?php echo number_format($d['jml_pcs'],1)?></td>
+            <td><?php echo number_format($d['jml_dz'],1)?></td>
             <td valign="middle" style="vertical-align: middle !important;text-align: center !important;"><?php echo ($d['jumlah_po']*$d['jml_pcs'])?></td>
             <?php if(0==$i){?>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>

@@ -116,6 +116,7 @@ class Gudang extends CI_Controller {
 				'jml_ajuan'=>$result['jml_ajuan'],
 				'jml_acc'=>$result['jml_acc'],
 				'keterangan'=>$result['keterangan'],
+				'keterangan2'=>$result['keterangan2'],
 				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
@@ -231,6 +232,7 @@ class Gudang extends CI_Controller {
 				//'jml_ajuan'=>$data['jml_ajuan'],
 				'jml_ajuan'=>0,
 				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
+				'keterangan2'=>$data['keterangan2'],
 				//'keterangan'=>$data['keterangan'],
 			);
 			$this->db->insert('ajuan_mingguan',$am);
@@ -245,8 +247,10 @@ class Gudang extends CI_Controller {
 					'kode_po'=>$p['kode_po'],
 					'jumlah_po'=>$p['jumlah_po'],
 					'rincian_po'=>$p['rincian_po'],
-					'jml_pcs'=>str_replace(".", "", $p['jml_pcs']),
-					'jml_dz'=>str_replace(".", "", $p['jml_dz']),
+					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
+					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
+					'jml_pcs'=>$p['jml_pcs'],
+					'jml_dz'=>$p['jml_dz'],
 					'keterangan'=>$p['keterangan'],
 					'hapus'=>0,
 				);
@@ -302,14 +306,16 @@ class Gudang extends CI_Controller {
 					'kode_po'=>$p['kode_po'],
 					'jumlah_po'=>$p['jumlah_po'],
 					'rincian_po'=>$p['rincian_po'],
-					'jml_pcs'=>str_replace(".", "", $p['jml_pcs']),
-					'jml_dz'=>str_replace(".", "", $p['jml_dz']),
+					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
+					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
+					'jml_pcs'=>$p['jml_pcs'],
+					'jml_dz'=>$p['jml_dz'],
 					'keterangan'=>$p['keterangan'],
 					'hapus'=>0,
 				);
 				$this->db->insert('ajuan_mingguan_detail',$insert);
 			}
-			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
+			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan');
@@ -664,14 +670,14 @@ class Gudang extends CI_Controller {
 
 	public function pengajuanadd()
 	{
-		$viewData['title']='Form Ajuan Belanja Harian';
+		$viewData['title']='Form Ajuan Belanja ';
 		$viewData['action']=BASEURL.'Gudang/pengajuansave';
 		$viewData['batal']=BASEURL.'Gudang/pengajuan';
 		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier',null);
 		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
 
-		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI');
+		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI',4=>'SUKABUMI');
 		$viewData['page']='newtheme/page/gudang/pengajuan/tambah';
 		$this->load->view('newtheme/page/main',$viewData);
 	}
@@ -1548,6 +1554,7 @@ class Gudang extends CI_Controller {
 		//pre($data);
 		foreach($data['prods'] as $p){
 			$update=array(
+				'created_date'=>$data['tanggal'],
 				'jumlah_item_keluar'=>$p['jumlah_item_keluar'],
 				'harga_item' => $p['harga_item'],
 				'jumlah_item_perlusin'=>$p['jumlah_item_perlusin'],
@@ -1604,7 +1611,7 @@ class Gudang extends CI_Controller {
 						'satuan_item_keluar' 	=>	$post['satuanUkran'][$key],
 						'jumlah_item_keluar' 	=>	$post['jumlah'][$key],
 						'satuan_jumlah_keluar' 	=>	$post['satuanJml'][$key],
-						'created_date' 			=>	date('Y-m-d'),
+						'created_date' 			=>	isset($post['tanggal'])?$post['tanggal']:date('Y-m-d'),
 						'nama_penerima' 		=>	$post['namaPenerima'],
 						'faktur_no' 			=>	$post['noFaktur'].'TRF'.$post['namaPo'],
 						'tujuan_item'			=>	$post['tujuanItem'],
