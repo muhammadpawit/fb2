@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>Divisi</label>
+            <label>Divisi / Cabang</label>
             <select class="form-control select2bs4" name="kategoriPengajuan" data-live-search="true">
                 <?php foreach ($katpeng as $key => $value): ?>
                     <option value="<?php echo $key ?>"><?php echo $value ?></option>
@@ -71,7 +71,7 @@
         //html+='<td><span class="total-'+i+'"></span></td>';
         html += '<td><select name="products['+i+'][pembayaran]" class="form-control" required><option value="-"></option><option value="1">Cash</option><option value="2">Transfer</option></select></td>';
         //html += '<td><input type="text" value="-" class="form-control" name="products['+i+'][supplier]"></td>';
-        html+='<td><select type="text" data-dropup-auto="false" data-size="5" class="form-control brg" data-live-search="true" data-title="pilih item" name="products['+i+'][supplier]" required><option value="">Pilih</option><?php foreach (table('master_supplier') as $key => $item) { ?><option value="<?php echo $item['nama'] ?>"><?php echo $item['nama'] ?></option><?php } ?></select></td>';
+        html+='<td><select type="text" data-dropup-auto="false" data-size="5" class="form-control brg" data-live-search="true" data-title="pilih item" name="products['+i+'][supplier]" required><option value="-">-</option><?php foreach (table('master_supplier') as $key => $item) { ?><option value="<?php echo $item['nama'] ?>"><?php echo $item['nama'] ?></option><?php } ?></select></td>';
         html+='<td><textarea class="form-control" name="products['+i+'][keterangan]"></textarea></td>';
         html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';

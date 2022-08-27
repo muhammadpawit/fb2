@@ -37,6 +37,14 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Tanggal</label>
+                <input type="text" name="tanggal" class="form-control datepicker" required>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             <div class="form-group">
                 <table class="table table-bordered" id="addalat">

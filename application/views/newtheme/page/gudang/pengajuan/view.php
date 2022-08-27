@@ -33,12 +33,13 @@
                   <input type="text" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
                 </div>
                 <div class="col-md-3">
-                    <label>Divisi</label>
+                    <label>Divisi / Cabang</label>
                     <select name="cat" id="cat" class="form-control select2bs4">
                         <option value="*">Semua</option>
                         <option value="3" <?php echo $cat==3?'selected':'';?>>Konveksi</option>
                         <option value="2" <?php echo $cat==2?'selected':'';?>>Bordir</option>
                         <option value="1" <?php echo $cat==1?'selected':'';?>>Sablon</option>
+                         <option value="4" <?php echo $cat==4?'selected':'';?>>Sukabumi</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -61,7 +62,7 @@
 
                             <th>Tanggal</th>
 
-                            <th>Divisi</th>
+                            <th>Divisi / Cabang</th>
 
                             <th>Cash</th>
 
@@ -96,7 +97,8 @@
 
                                    echo "Sablon";
 
-                                } else if($us['kategori'] == 2) { echo "Bordir"; } else if($us['kategori'] == 3) {echo "Konveksi";}?></td>
+                                } else if($us['kategori'] == 2) { echo "Bordir"; } else if($us['kategori'] == 3) {echo "Konveksi";}
+                                else if($us['kategori'] == 4) {echo "Sukabumi";}?></td>
 
                                 <td><?php echo number_format($us['cash'])?></td>
                                 <td><?php echo number_format($us['transfer'])?></td>

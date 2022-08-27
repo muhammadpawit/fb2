@@ -14,7 +14,7 @@
             <div class="form-group">
                 <table style="font-size: 23pt;outline-style: solid;" cellpadding="3">
                                     <tr>
-                                        <td colspan="2"><strong>Jakarta</strong>, <?php echo date('Y-m-d') ?></td>
+                                        <td colspan="2"><strong>Jakarta</strong>, <input type="text" name="tanggal" class="form-control datepicker" value="<?php echo date('Y-m-d') ?>"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">Kepada Yth</td>

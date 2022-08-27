@@ -41,7 +41,7 @@
 			<?php foreach($d as $k){?>
 			  <tr>
 			    <td>
-			    	<?php echo date('d',strtotime($k['tanggal_awal']))?> - <?php echo date('d-m-Y',strtotime($k['tanggal_akhir']))?></td>
+			    	<?php echo date('d',strtotime($k['tanggal_awal']))?> - <?php echo date('d F Y',strtotime($k['tanggal_akhir']))?></td>
 			    <td><?php echo strtoupper($k['nama'])?></td>
 			    <td align="right"><?php echo number_format($k['total'],2)?></td>
 			    <td>

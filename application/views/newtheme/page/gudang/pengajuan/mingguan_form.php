@@ -53,6 +53,12 @@
               <label>Ajuan</label>
               <input type="number" name="jml_ajuan" class="form-control" value="0" readonly>
             </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Keterangan</label>
+                <input type="text" name="keterangan2" class="form-control" value="Untuk 1 minggu">
+              </div>
+            </div>
             <div class="col-md-12">
               <table class="table table-bordered">
                 <thead>

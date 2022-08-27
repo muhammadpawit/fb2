@@ -1,5 +1,5 @@
 <style type="text/css">
-	 body{text-transform:capitalize;font-size: 22px;}
+	 body{text-transform:capitalize;font-size: 20px;}
 	 .hs { font-size: 22px;font-weight: bold; }
 	 .break{ page-break-after: always; }
 </style>
@@ -117,7 +117,7 @@
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
-						<td align="center" height="100" valign="bottom">(ULPAH)</td>
+						<td align="center" height="100" valign="bottom">(DINDA)</td>
 						</tr>
 					</table>
 				</td>
