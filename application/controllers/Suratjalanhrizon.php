@@ -224,7 +224,7 @@ class Suratjalanhrizon extends CI_Controller {
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $r){
 			//$count=$this->GlobalModel->QueryManual("SELECT * FROM kelola_mesin_bordir WHERE hapus=0 AND kode_po='".$r['id']."' ");
-			$count=$this->GlobalModel->QueryManual("SELECT SUM(jumlah_naik_mesin) as jumlah_naik_mesin,stich,bagian_bordir,size FROM kelola_mesin_bordir WHERE hapus=0 AND kode_po='".$r['id']."' GROUP BY stich ");
+			$count=$this->GlobalModel->QueryManual("SELECT SUM(jumlah_naik_mesin) as jumlah_naik_mesin,stich,bagian_bordir,size,laporan_perkalian_tarif FROM kelola_mesin_bordir WHERE hapus=0 AND kode_po='".$r['id']."' GROUP BY stich,bagian_bordir ");
 			$json[]=array(
 				'value'=>$r['id'],
 				'label'=>$r['nama'],

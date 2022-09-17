@@ -122,8 +122,8 @@ function komplit(coba){
      //console.log(ui.item['details']);
      for (j = 0; j < ui.item.count; j++) {
       details_value = ui.item['details'][j];
-      var harga=Number(details_value['stich'])*Number(0.3);
-      var total=Number(details_value['jumlah_naik_mesin'])*(Number(details_value['stich'])*Number(0.3));
+      var harga=Number(details_value['stich'])*Number(details_value['laporan_perkalian_tarif']);
+      var total=Number(details_value['jumlah_naik_mesin'])*(Number(details_value['stich'])*Number(details_value['laporan_perkalian_tarif']));
       var totalsticth=Number(details_value['stich'])*Number(details_value['jumlah_naik_mesin']);
       var html='';
           html += '<tr>';

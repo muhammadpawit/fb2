@@ -17,7 +17,7 @@ class GlobalModel extends CI_Model {
 	// setor
 
 	public function getStokPOs($idcmt,$idjenis){
-		$query="SELECT count(*) as jmlpo,SUM(kd.totalsetor) as pcs FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND k.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$query="SELECT count(*) as jmlpo,SUM(kd.totalsetor) as pcs FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
 		$dataReturn = $this->db->query($query)->row_array();
 		return $dataReturn;
 	}
@@ -25,7 +25,7 @@ class GlobalModel extends CI_Model {
 	public function getStokrincianposetor($idcmt,$idjenis){
 		$rp=null;
 		$hasil=null;
-		$query="SELECT kd.kode_po FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.hapus=0 AND k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND kd.jumlah_pcs<>kd.totalsetor ";
+		$query="SELECT kd.kode_po FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.hapus=0 AND kd.hapus=0 AND k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND kd.jumlah_pcs<>kd.totalsetor ";
 		$dataReturn = $this->db->query($query)->result_array();
 		foreach($dataReturn as $r){
 				$rp[]=$r['kode_po'];
@@ -81,7 +81,7 @@ class GlobalModel extends CI_Model {
 	}
 
 	public function getStokPO($idcmt,$idjenis){
-		$query="SELECT count(*) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$query="SELECT count(*) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs,mjp.perkalian FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
 		$dataReturn = $this->db->query($query)->row_array();
 		return $dataReturn;
 	}

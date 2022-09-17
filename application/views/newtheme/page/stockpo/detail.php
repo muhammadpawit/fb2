@@ -13,9 +13,9 @@
 			<thead>
 				<tr>
 					<th>PO</th>
-					<?php foreach($jenis as $j){?>
-					<th><?php echo $j['nama_jenis_po']?></th>
-					<?php } ?>
+					<?php foreach($prods as $p){?>
+						<th><?php echo $p['nama']?></th>
+						<?php } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,9 +59,9 @@
 			<thead>
 				<tr>
 					<th>PO</th>
-					<?php foreach($jenis as $j){?>
-					<th><?php echo $j['nama_jenis_po']?></th>
-					<?php } ?>
+					<?php foreach($setors as $p){?>
+						<th><?php echo $p['nama']?></th>
+						<?php } ?>
 				</tr>
 			</thead>
 			<tbody>

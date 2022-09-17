@@ -30,8 +30,14 @@ class Laporanklo extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime("saturday this week"));
 		}
 
+		$data['tanggal1_bupot']=date('d M',strtotime($tanggal1."-3 days"));
+		$data['tanggal2_bupot']=date('d M Y',strtotime($tanggal1."+3 days"));
+
+		$tanggal1_bupot=date('Y-m-d',strtotime($tanggal1."-3 days"));
+		$tanggal2_bupot=date('Y-m-d',strtotime($tanggal1."+3 days"));
+
 		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE nama_jenis_po IN (SELECT SUBSTR(kode_po,1, 3) AS po FROM konveksi_buku_potongan ) ");
-		$tim=$this->GlobalModel->QueryManual("SELECT * FROM timpotong WHERE id IN (SELECT tim_potong_potongan FROM konveksi_buku_potongan ) ");
+		$tim=$this->GlobalModel->QueryManual("SELECT * FROM timpotong WHERE id IN (SELECT tim_potong_potongan FROM konveksi_buku_potongan  WHERE DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$prods=[];
 		$jml=[];
 		$no=1;
@@ -40,8 +46,8 @@ class Laporanklo extends CI_Controller {
 		$data['bupot']=[];
 		$timptg=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
 		$detbupot=[];
-		foreach($timptg as $t){
-			$detbupot=$this->ReportModel->bukupotongan($t['id'],$tanggal1,$tanggal2);
+		foreach($tim as $t){
+			$detbupot=$this->ReportModel->laporanbukupotonganklo($t['id'],$tanggal1_bupot,$tanggal2_bupot);
 			$data['bupot'][]=array(
 				
 				'nama'=>$t['nama'],
@@ -61,6 +67,7 @@ class Laporanklo extends CI_Controller {
 		$kirim=[];
 		$setor=[];
 		$sqlsablon="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ";
+		$sqlsablon.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtsablon=$this->GlobalModel->QueryManual($sqlsablon);
 		foreach($cmtsablon as $s){
 			$kirim=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','KIRIM');
@@ -76,131 +83,45 @@ class Laporanklo extends CI_Controller {
 			);
 			$nos++;
 		}
-		/*
-		$results_sablon=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ");
-		$no=1;
-		$stokawalkaosjml=0;
-		$stokawalkaosdz=0;
-		$stokawalkemejajml=0;
-		$stokawalkemejadz=0;
-		$setorkaosjml=0;
-		$setorkaosdz=0;
-		$setorkemejajml=0;
-		$setorkemejadz=0;
-		$kirimkaosjml=0;
-		$kirimkaosdz=0;
-		$stokakhirkaosjml=0;
-		$stokakhirkaosdz=0;
-		$stokakhirkemejajml=0;
-		$stokakhirkemejadz=0;
-		foreach($results_sablon as $c){
-			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			$setorkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR','SABLON');
-			$kirimkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
-			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
-			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
-			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM','SABLON');
-			$stoksablon=$this->ReportModel->getstoksablon($c['id_cmt']);
-			$data['sablon'][]=array(
-				'no'=>$no++,
-				'nama'=>strtolower($c['cmt_name']),
-				'stokawalkaosjml'=>$stokawalkaosjml,
-				'stokawalkaosdz'=>$stokawalkaosdz,
-				'stokawalkemejajml'=>$stokawalkemejajml,
-				'stokawalkemejadz'=>$stokawalkemejadz,
-				'setorkaosjml'=>$setorkaosjml,
-				'setorkaosdz'=>$setorkaosdz,
-				'setorkemejajml'=>$setorkemejajml,
-				'setorkemejadz'=>$setorkemejadz,
-				'kirimkaosjml'=>$kirimkaosjml,
-				'kirimkaosdz'=>$kirimkaosdz,
-				'kirimkemejajml'=>$kirimkemejajml,
-				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>!empty($stoksablon)?$stoksablon['count']:0,
-				'stokakhirkaosdz'=>!empty($stoksablon)?($stoksablon['dz']/12):0,
-				'stokakhirkemejajml'=>0,
-				'stokakhirkemejadz'=>0,
-			);
-		}
-		*/
+		
 		//pre($stoksablon);
 		$data['jahit']=[]; // kaos
 		$kjahit='JAHIT';
 		$sqljahit="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' ";
 		$sqljahit.=" AND jenis_po IN(1,3) ";
+		$sqljahit.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtjahit=$this->GlobalModel->QueryManual($sqljahit);
 		$no=1;
 		foreach($cmtjahit as $c){
 			$kirim=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','KIRIM');
 			$setor=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
+			$kirimjeans=$this->ReportModel->klo_mingguanjeans($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','KIRIM');
+			$setorjeans=$this->ReportModel->klo_mingguanjeans($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
 			$data['jahit'][]=array(
 				'no'=>$no++,
 				'nama'=>strtolower($c['cmt_name']),
 				'kirimkaosjml'=>!empty($kirim)?$kirim['jmlpo']:0,
 				'kirimkaosdz'=>!empty($kirim)?$kirim['dz']:0,
+				'kirimkaospcs'=>!empty($kirim)?$kirim['pcs']:0,
 				'setorkaosjml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setorkaosdz'=>!empty($setor)?$setor['dz']:0,
+				'setorkaospcs'=>!empty($setor)?$setor['pcs']:0,
 				'stokakhirkaosjml'=>0,
 				'stokakhirkaosdz'=>0,
+				'kirimjeansjml'=>!empty($kirimjeans)?$kirimjeans['jmlpo']:0,
+				'kirimjeansdz'=>!empty($kirimjeans)?$kirimjeans['dz']:0,
+				'kirimjeanspcs'=>!empty($kirimjeans)?$kirimjeans['pcs']:0,
+				'setorjeansjml'=>!empty($setorjeans)?$setorjeans['jmlpo']:0,
+				'setorjeansdz'=>!empty($setorjeans)?$setorjeans['dz']:0,
+				'setorjeanspcs'=>!empty($setorjeans)?$setorjeans['pcs']:0,
 			);
 		}
 		//pre($cmtjahit);
-		/*
-		$results=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE kategori_cmt='$kjahit') and jenis_po IN(1,3)  ");
-		$no=1;
-		$stokawalkaosjml=0;
-		$stokawalkaosdz=0;
-		$stokawalkemejajml=0;
-		$stokawalkemejadz=0;
-		$setorkaosjml=0;
-		$setorkaosdz=0;
-		$setorkemejajml=0;
-		$setorkemejadz=0;
-		$kirimkaosjml=0;
-		$kirimkaosdz=0;
-		$stokakhirkaosjml=0;
-		$stokakhirkaosdz=0;
-		$stokakhirkemejajml=0;
-		$stokakhirkemejadz=0;
-		$akhirjml=0;
-		$akhirpcs=0;
-		foreach($results as $c){
-			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$setorkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$kirimkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$akhirjml=$this->KirimsetorModel->stok_baru_kaos($c['id_cmt'],2,$tanggal1);
-			$data['jahit'][]=array(
-				'no'=>$no++,
-				'nama'=>strtolower($c['cmt_name']),
-				'stokawalkaosjml'=>$stokawalkaosjml,
-				'stokawalkaosdz'=>$stokawalkaosdz,
-				'stokawalkemejajml'=>$stokawalkemejajml,
-				'stokawalkemejadz'=>$stokawalkemejadz,
-				'setorkaosjml'=>$setorkaosjml,
-				'setorkaosdz'=>$setorkaosdz,
-				'setorkemejajml'=>$setorkemejajml,
-				'setorkemejadz'=>$setorkemejadz,
-				'kirimkaosjml'=>$kirimkaosjml,
-				'kirimkaosdz'=>$kirimkaosdz,
-				'kirimkemejajml'=>$kirimkemejajml,
-				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>($akhirjml['jml']),
-				'stokakhirkaosdz'=>($akhirjml['dz']),
-				'stokakhirkemejajml'=>0,
-				'stokakhirkemejadz'=>0,
-			);
-		}*/
+		
 		$data['jahitk']=[]; // kemeja
 		$slqkemeja="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' ";
 		$slqkemeja.=" AND jenis_po IN(2) ";
+		$slqkemeja.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtkemeja=$this->GlobalModel->QueryManual($slqkemeja);
 		$nok=1;
 		foreach($cmtkemeja as $c){
@@ -217,57 +138,7 @@ class Laporanklo extends CI_Controller {
 				'stokakhirkemejadz'=>0,
 			);
 		}
-		/*
-		$resultsk=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE kategori_cmt='$kjahit') and jenis_po IN(2,3) ");
-		$no=1;
-		$stokawalkaosjml=0;
-		$stokawalkaosdz=0;
-		$stokawalkemejajml=0;
-		$stokawalkemejadz=0;
-		$setorkaosjml=0;
-		$setorkaosdz=0;
-		$setorkemejajml=0;
-		$setorkemejadz=0;
-		$kirimkaosjml=0;
-		$kirimkaosdz=0;
-		$stokakhirkaosjml=0;
-		$stokakhirkaosdz=0;
-		$stokakhirkemejajml=0;
-		$stokakhirkemejadz=0;
-
-		foreach($resultsk as $c){
-
-			$setorkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$setorkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$setorkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$setorkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'SETOR',$kjahit);
-			$kirimkaosjml=$this->KirimsetorModel->jumlah(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$akhirjml=$this->KirimsetorModel->stok_baru($c['id_cmt'],1);
-			$data['jahitk'][]=array(
-				'no'=>$no++,
-				'nama'=>strtolower($c['cmt_name']),
-				'stokawalkaosjml'=>$stokawalkaosjml,
-				'stokawalkaosdz'=>$stokawalkaosdz,
-				'stokawalkemejajml'=>$stokawalkemejajml,
-				'stokawalkemejadz'=>$stokawalkemejadz,
-				'setorkaosjml'=>$setorkaosjml,
-				'setorkaosdz'=>$setorkaosdz,
-				'setorkemejajml'=>$setorkemejajml,
-				'setorkemejadz'=>$setorkemejadz,
-				'kirimkaosjml'=>$kirimkaosjml,
-				'kirimkaosdz'=>$kirimkaosdz,
-				'kirimkemejajml'=>$kirimkemejajml,
-				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>0,
-				'stokakhirkaosdz'=>0,
-				'stokakhirkemejajml'=>!empty($akhirjml)?$akhirjml:0,
-				'stokakhirkemejadz'=>!empty($akhirjml)?$akhirjml:0,
-			);
-		}
-		*/
+		
 		// end
 		$url='';
 		if(!empty($tanggal1)){

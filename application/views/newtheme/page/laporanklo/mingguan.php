@@ -29,8 +29,8 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
-			
-			<?php foreach($bupot as $b){?>
+			<caption>Periode : <?php echo $tanggal1_bupot ?> s.d <?php echo $tanggal2_bupot ?> </caption>
+			<?php foreach($bupot as $b){?> <br>
 
 			<label>Potongan <?php echo $b['nama']?></label>
 			<table class="table table-striped table-bordered">
@@ -139,17 +139,28 @@
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-		            <th colspan="2">Kirim Kaos</th>
-		            <th colspan="2">Setor Kaos</th>
-		            <th colspan="2">Stok Akhir Kaos</th>
+		            <th colspan="3">Kirim Kaos</th>
+		            <th colspan="3">Kirim PO<br> Jeans</th>
+		            <th colspan="3">Setor PO<br> Jeans</th>
+		            <th colspan="3">Setor Kaos</th>
+		            <th colspan="3">Stok Akhir Kaos</th>
 		          </tr>
 		          <tr>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
+		            <th>JML</th>
+		            <th>DZ</th>
+		            <th>PCS</th>
+		            <th>JML</th>
+		            <th>DZ</th>
+		            <th>PCS</th>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -160,10 +171,18 @@
 		        		$stokawalkemejadz=0;
 		        		$kirimkaosjml=0;
 		        		$kirimkaosdz=0;
+		        		$kirimkaospcs=0;
+		        		$kirimjeansjml=0;
+		        		$kirimjeansdz=0;
+		        		$kirimjeanspcs=0;
+		        		$setorjeansjml=0;
+		        		$setorjeansdz=0;
+		        		$setorjeanspcs=0;
 		        		$kirimkemejajml=0;
 		        		$kirimkemejadz=0;
 		        		$setorkaosjml=0;
 		        		$setorkaosdz=0;
+		        		$setorkaospcs=0;
 		        		$setorkemejajml=0;
 		        		$setorkemejadz=0;
 		        		$stokakhirkaosjml=0;
@@ -177,16 +196,33 @@
 		              <td><?php echo $p['nama']?></td>
 		              <td><?php echo ($p['kirimkaosjml']>0)?number_format($p['kirimkaosjml']):'';?></td>
 		              <td><?php echo $p['kirimkaosdz']>0?number_format($p['kirimkaosdz']):'';?></td>
+		              <td><?php echo $p['kirimkaospcs']>0?number_format($p['kirimkaospcs']):'';?></td>
+		              <td><?php echo ($p['kirimjeansjml']>0)?number_format($p['kirimjeansjml']):'';?></td>
+		              <td><?php echo $p['kirimjeansdz']>0?number_format($p['kirimjeansdz']):'';?></td>
+		              <td><?php echo $p['kirimjeanspcs']>0?number_format($p['kirimjeanspcs']):'';?></td>
+		              <td><?php echo ($p['setorjeansjml']>0)?number_format($p['kirimjeansjml']):'';?></td>
+		              <td><?php echo $p['setorjeansdz']>0?number_format($p['kirimjeansdz']):'';?></td>
+		              <td><?php echo $p['setorjeanspcs']>0?number_format($p['setorjeanspcs']):'';?></td>
 		              <td><?php echo ($p['setorkaosjml'])?></td>
 		              <td><?php echo $p['setorkaosdz']>0?number_format($p['setorkaosdz']):'';?></td>
+		              <td><?php echo $p['setorkaospcs']>0?number_format($p['setorkaospcs']):'';?></td>
 		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
 		              <td><?php echo $p['stokakhirkaosdz']>0?($p['stokakhirkaosdz']):'';?></td>
+		              <td></td>
 		            </tr>
 		            <?php 
 		        		$kirimkaosjml+=($p['kirimkaosjml']);
 		        		$kirimkaosdz+=($p['kirimkaosdz']);
+		        		$kirimkaospcs+=($p['kirimkaospcs']);
+		        		$kirimjeansjml+=($p['kirimjeansjml']);
+		        		$kirimjeansdz+=($p['kirimjeansdz']);
+		        		$kirimjeanspcs=($p['kirimjeanspcs']);
+		        		$setorjeansjml+=($p['setorjeansjml']);
+		        		$setorjeansdz+=($p['setorjeansdz']);
+		        		$setorjeanspcs=($p['setorjeanspcs']);
 		        		$setorkaosjml+=($p['setorkaosjml']);
 		        		$setorkaosdz+=($p['setorkaosdz']);
+		        		$setorkaospcs+=($p['setorkaospcs']);
 		        		$stokakhirkaosdz+=0;
 		        	 ?>
 		          <?php }?>
@@ -194,10 +230,19 @@
 		          	<td colspan="2"><b>Total</b></td>
 		          	<td><?php echo number_format($kirimkaosjml,2)?></td>
 		          	<td><?php echo number_format($kirimkaosdz,2)?></td>
+		          	<td><?php echo number_format($kirimkaospcs,2)?></td>
+		          	<td><?php echo number_format($kirimjeansjml,2)?></td>
+		          	<td><?php echo number_format($kirimjeansdz,2)?></td>
+		          	<td><?php echo number_format($kirimjeanspcs,2)?></td>
+		          	<td><?php echo number_format($setorjeansjml,2)?></td>
+		          	<td><?php echo number_format($setorjeansdz,2)?></td>
+		          	<td><?php echo number_format($setorjeanspcs,2)?></td>
 		          	<td><?php echo number_format($setorkaosjml,2)?></td>
 		          	<td><?php echo number_format($setorkaosdz,2)?></td>
+		          	<td><?php echo number_format($setorkaospcs,2)?></td>
 		          	<td><?php echo number_format($stokakhirkaosjml,2)?></td>
 		          	<td><?php echo number_format($stokakhirkaosdz,2)?></td>
+		          	<td>0</td>
 		          </tr>
 		        </tbody>
 		    </table>

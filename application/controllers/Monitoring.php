@@ -22,7 +22,7 @@ class Monitoring extends CI_Controller {
 			$rekap1=$get['tanggal1'];
 		}else{
 			//$tanggal1=date('Y-m-d',strtotime("first day of this month"));
-			$tanggal1='2021-05-25';
+			$tanggal1=periodeproduksi()['tahun'].'-'.periodeproduksi()['bulan'].'-01';
 		}
 
 		if(isset($get['tanggal2'])){

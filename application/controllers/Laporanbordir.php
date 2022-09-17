@@ -45,15 +45,8 @@ class Laporanbordir extends CI_Controller {
 			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
 		}
 		$data['totalpendapatan']=($totalpendapatan);
-		$luar=$this->ReportModel->pendapatanbordir($filter,2);
-		$totalpoluar=0;
-		foreach($luar as $p){
-			if($tanggal2>='2022-07-19'){
-				$totalpoluar+=(((($p['total_stich']*0.3))+(0)));
-			}else{
-				$totalpoluar+=(((($p['total_stich']*0.2))+(0)));	
-			}			
-		}
+				$totalpoluar=0;
+		$totalpoluar=$this->ReportModel->getSumPendapatanpoluar($filter,2);
 		$p15=0;
 		$pe15=[];
 		$pe15=$this->ReportModel->pendapatanbordirdalam15($filter,1);
@@ -63,8 +56,8 @@ class Laporanbordir extends CI_Controller {
 			}
 		}
 		$data['p15']=($p15);
-		$data['totalpoluar']=($totalpoluar);
-		$data['totalpen']=($totalpendapatan+$totalpoluar+$p15);
+		$data['totalpoluar']=round($totalpoluar);
+		$data['totalpen']=round($totalpendapatan+$totalpoluar+$p15);
 		// end
 
 		// pengeluaran bordir

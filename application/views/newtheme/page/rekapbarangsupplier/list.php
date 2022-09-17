@@ -11,13 +11,13 @@
   </div>
 </div>
 <div class="row">
-	<!-- <div class="col-md-3">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Pilih Bulan</label>
-			<select name="bulan" multiple="true" class="form-control select2bs4" data-live-search="true">
+			<select name="bulan" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
-				<?php foreach($bulan as $b=>$val){?>
-					<option value="<?php echo $b ?>" <?php echo $b==$bulans?'selected':'';?>><?php echo $val?></option>
+				<?php foreach($bulan as $b){?>
+					<option value="<?php echo $b['bulan']?>" <?php echo $b['bulan']==$bulans?'selected':'';?>><?php echo $b['nama']?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -32,14 +32,14 @@
 				<?php } ?>
 			</select>
 		</div>
-	</div> -->
+	</div>
 	<div class="col-md-3">
 		<div class="form-group">
 			<label>Supplier</label>
-			<select name="sup" class="form-control select2bs4" data-live-search="true">
+			<select name="supplier" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
-				<?php foreach($supplier as $s) {?>
-					<option value="<?php echo $s['id']?>" <?php echo $sup==$s['id']?'selected':'';?> ><?php echo $s['nama'] ?></option>
+				<?php foreach($supp as $s) {?>
+					<option value="<?php echo $s['id']?>" <?php echo $s['id']==$supplier?'selected':'';?> ><?php echo $s['nama']?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -48,8 +48,8 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filterbln()">Filter</button>
-			<button class="btn btn-info btn-sm" onclick="excel()">Excel</button>
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm">Tambah</a>
+			<button class="btn btn-info btn-sm" onclick="downloadexcel()">Excel</button>
 		</div>
 	</div>
 </div>
@@ -83,7 +83,6 @@
 <script type="text/javascript">
 	function filterbln(){
 	    var url='?';
-	   /*
 	    var bulan = $('select[name=\'bulan\']').val();	    
 	    if (bulan != '*') {
 	      url += '&bulan=' + encodeURIComponent(bulan);
@@ -93,19 +92,17 @@
 	    if (tahun != '*') {
 	      url += '&tahun=' + encodeURIComponent(tahun);
 	    }
-		*/
 
-	    var sup = $('select[name=\'sup\']').val();
-	    if (sup != '*') {
-	      url += 'sup=' + encodeURIComponent(sup);
+	    var supplier = $('select[name=\'supplier\']').val();
+	    if (supplier != '*') {
+	      url += '&supplier=' + encodeURIComponent(supplier);
 	    }
 	    
 	    location =url;
 	  }
 
-	  function excel(){
-	    var url='?excel=1';
-	   /*
+	function downloadexcel(){
+	    var url='?excel=1&';
 	    var bulan = $('select[name=\'bulan\']').val();	    
 	    if (bulan != '*') {
 	      url += '&bulan=' + encodeURIComponent(bulan);
@@ -115,11 +112,10 @@
 	    if (tahun != '*') {
 	      url += '&tahun=' + encodeURIComponent(tahun);
 	    }
-		*/
 
-	    var sup = $('select[name=\'sup\']').val();
-	    if (sup != '*') {
-	      url += '&sup=' + encodeURIComponent(sup);
+	    var supplier = $('select[name=\'supplier\']').val();
+	    if (supplier != '*') {
+	      url += '&supplier=' + encodeURIComponent(supplier);
 	    }
 	    
 	    location =url;

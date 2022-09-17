@@ -15,63 +15,116 @@ class Rekapbarangsupplier extends CI_Controller {
 	public function index(){
 		$data=array();
 		$data['title']='Rekap Barang Masuk Supplier';
+		$data['n']=1;
+		$data['action']=$this->url.'rekapbarangsupplier_save';
+		$data['prods']=[];
+		$data['bulan']=nama_bulan();
+		$data['supp']=$this->GlobalModel->getData('master_supplier',array('hapus'=>0));
 		$get=$this->input->get();
-		$url='';
+		
 		if(isset($get['bulan'])){
 			$bulan=$get['bulan'];
-			$url.='&tanggal1='.$bulan;
 		}else{
 			$bulan=null;
 		}
+
 		if(isset($get['tahun'])){
 			$tahun=$get['tahun'];
-			$url.='&tahun='.$tahun;
 		}else{
 			$tahun=null;
 		}
 
-		if(isset($get['sup'])){
-			$sup=$get['sup'];
-			$url.='&sup='.$sup;
+		if(isset($get['supplier'])){
+			$supplier=$get['supplier'];
 		}else{
-			$sup=null;
-		}		
-		$data['bulans']=$bulan;
-		$data['tahun']=$tahun;
-		$data['sup']=$sup;
-		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
-		$data['n']=1;
-		$data['action']=$this->url.'rekapbarangsupplier_save';
-		$data['prods']=[];
-		$data['bulan']=bulan();
-		$sql="SELECT * FROM rekapbarangsupplier WHERE hapus=0 ";
-		if(!empty($sup)){
-			$sql.=" AND supplier='".$sup."' ";
+			$supplier=null;
 		}
-		$sql.=" ORDER BY id DESC ";
+
+		$data['tahun']=$tahun;
+		$data['bulans']=$bulan;
+		$data['supplier']=$supplier;
+		//pre(bulan());
+		$sql="SELECT rekapbarangsupplier.* FROM rekapbarangsupplier ";
+
+		if(!empty($bulan)  && !empty($tahun)){
+			$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
+			$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
+			$sql.=" AND MONTH(tanggal_awal)='".$bulan."' AND YEAR(tanggal_awal)='".$tahun."' ";
+			
+			if(!empty($supplier)){
+				$sql.=" AND supplier='".$supplier."' ";
+			}
+
+			$sql.=" GROUP BY supplier ";
+		}else if(!empty($tahun)){
+			$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
+			$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
+			$sql.=" AND YEAR(tanggal_awal)='".$tahun."' ";
+			
+			if(!empty($supplier)){
+				$sql.=" AND supplier='".$supplier."' ";
+			}
+
+			$sql.=" GROUP BY supplier ";
+		}else if(!empty($bulan)){
+			$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
+			$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
+			$sql.=" AND MONTH(tanggal_awal)='".$bulan."'  ";
+			
+			if(!empty($supplier)){
+				$sql.=" AND supplier='".$supplier."' ";
+			}
+
+			$sql.=" GROUP BY supplier ";
+		}else{
+			$sql.="  WHERE hapus=0 ";
+			if(!empty($supplier)){
+				$sql.=" AND supplier='".$supplier."' ";
+			}
+		}
+
+
 		$results=$this->GlobalModel->QueryManual($sql);
-		$total=0;
+		$details=[];
 		foreach($results as $r){
 			$s=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$r['supplier']));
-			$total=$this->ReportModel->totalsuplaporan($r['supplier'],$r['id']);
 			$data['prods'][]=array(
 				'id'=>$r['id'],
 				'periode'=>$r['periode'],
 				'ket'=>$r['keterangan'],
 				'nama'=>$s['nama'],
-				'total'=>!empty($total)?$total:0,
 				'detail'=>$this->url.'detail/'.$r['id'],
+				'rincian'=>$this->rincian($r['id']),
 			);
 		}
-		//pre($data['prods']);
-
 		$data['tambah']=$this->url.'add';
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'excel',$data);
+			$this->load->view($this->page.'list_excel',$data);
 		}else{
 			$data['page']=$this->page.'list';
 			$this->load->view($this->layout,$data);
 		}
+	}
+
+	public function rincian($id){
+		$data['d']=array();
+		$data['title']='Detail Rekap Barang Masuk Supplier';
+		$data['cancel']=$this->url;
+		$data['k']=$this->GlobalModel->getDataRow('rekapbarangsupplier',array('hapus'=>0,'id'=>$id));
+		$s=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$data['k']['supplier']));
+		$data['nama']=$s['nama'];
+		$results=$this->GlobalModel->getData('rekapbarangsupplier_detail',array('hapus'=>0,'idrekap'=>$id));
+		$total=0;
+		foreach($results as $r){
+			$total=$this->ReportModel->totalsup($data['k']['supplier'],$r['tanggal_awal'],$r['tanggal_akhir']);
+			$data['d'][]=array(
+				'tanggal_awal'=>$r['tanggal_awal'],
+				'tanggal_akhir'=>$r['tanggal_akhir'],
+				'nama'=>$s['nama'],
+				'total'=>!empty($total)?$total:0,
+			);
+		}
+		return $data['d'];
 	}
 
 	public function add(){

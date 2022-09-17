@@ -38,42 +38,47 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <th>Stich</th>
                   <th>0.15</th>
                   <th>0.18</th>
+                  <?php foreach($luar as $l){?>
+                    <th><?php echo $l['perkalian']?></th>
+                  <?php } ?>
+                  <!--
                   <th>0.2</th>
                   <th>0.3</th>
-                  <!-- <th>0.18 YN</th> -->
+                  <th>0.18 YN</th> -->
                   <th>Jml Per Mesin (Rp)</th>
                   <th>Pendapatan Per Mesin (Rp)</th>
                   <th>Keterangan</th>
                 </tr>
-              </thead>
               <tbody>
                 <?php $rowspan=0;?>
-                <?php $j=0;?>
+                <?php foreach($products as $p){?>
+                    <?php 
+                      $mesin[]=$p['nomesin'];
+                      $d[]=$p['0.2'];
+                    ?>
+                  <?php } ?>
                 <?php if($products){?>
+                  <?php $j=0;?>
                   <?php foreach($products as $p){?>
                     <tr>
                       <!-- <td><?php echo $p['tanggal']?></td> -->
                       <td align="center">Mesin <?php echo $p['nomesin']?></td>
                       <td align="center"><?php echo $p['shift']?></td>
-                      <td align="center"><?php echo ($p['stich'])?></td>
-                      <td align="center"><?php echo ($p['0.15']); ?></td>
-                      <td align="center"><?php echo ($p['0.18'])?></td>
-                      <td align="right">
-                        <?php if($tanggal2<='2022-07-18'){?>
-                        <?php echo number_format($p['0.2']); ?>
-                        <?php } ?>    
+                      <td align="center"><?php echo number_format($p['stich'])?></td>
+                      <td align="center"><?php echo number_format($p['0.15']); ?></td>
+                      <td align="center"><?php echo number_format($p['0.18'])?></td>
+                      <?php foreach($luar as $b){?>
+                      <td align="center">
+                        <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
+                          <?php echo number_format($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
+                        <?php //} ?>
                       </td>
-                      <td align="right">
-                        <?php if($tanggal2>'2022-07-18'){?>
-                          <?php echo number_format($p['0.2']); ?>
-                        <?php } ?>    
-                      </td>
-                      <!-- <td>0</td> -->
-                      <td align="center"><?php echo ($p['pendapatan'])?></td>
+                    <?php } ?>
+                      <td align="center"><?php echo number_format($p['pendapatan'])?></td>
                       <td align="center">
                         <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                         <?php if($j%2==1){?>
-                        <?php echo ($p['jumlah']); ?>
+                        <?php echo number_format($p['jumlah']); ?>.
                         <?php } ?>
                       </td>
                       <td><?php //echo ?></td>
@@ -82,22 +87,15 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <?php }?>
                     <tr style="background-color: yellow;font-size: 16.5px;font-weight: bold;">
                       <td align="center" colspan="2"><b>Total</b></td>
-                      <td align="center"><?php echo round($t)?></td>
-                      <td align="center"><?php echo round($g015)?></td>
-                      <td align="center"><?php echo round($g018)?></td>
-                      <td align="right">
-                        <?php if($tanggal2<='2022-07-18'){?>
-                          <?php echo number_format($g02)?>
-                        <?php } ?>    
-                      </td>
-                      <td align="right">
-                        <?php if($tanggal2>'2022-07-18'){?>
-                          <?php echo number_format($g02)?>
-                        <?php } ?>        
+                      <td align="center"><?php echo number_format($t)?></td>
+                      <td align="center"><?php echo number_format($g015)?></td>
+                      <td align="center"><?php echo number_format($g018)?></td>
+                      <td align="center" colspan="<?php echo count($luar)?>">
+                          <?php echo number_format($g02)?> 
                       </td>
                       <!-- <td></td> -->
-                      <td align="center"><?php echo round($gpendapatan)?></td>
-                      <td align="center"><?php echo round($gpendapatan)?></td>
+                      <td align="center"><?php echo number_format($gpendapatan)?></td>
+                      <td align="center"><?php echo number_format($gpendapatan)?></td>
                       <td></td>
                     </tr>
                 <?php }?>

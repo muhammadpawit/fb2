@@ -62,7 +62,9 @@ class Json extends CI_Controller {
 
 	public function search_po_for_input_potongan(){
 		$data=$this->input->get();
-		$sql="SELECT po.* FROM produksi_po po JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=po.nama_po) WHERE po.hapus=0 and po.kode_po NOT IN(SELECT kode_po FROM konveksi_buku_potongan WHERE kode_po NOT LIKE 'BJF%' AND kode_po NOT LIKE 'BJK%' ) ";
+		//$sql="SELECT po.* FROM produksi_po po JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=po.nama_po) WHERE po.hapus=0 and po.kode_po NOT IN(SELECT kode_po FROM konveksi_buku_potongan WHERE kode_po NOT LIKE 'BJF%' AND kode_po NOT LIKE 'BJK%' ) ";
+		//$sql="SELECT po.* FROM produksi_po po JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=po.nama_po) WHERE po.hapus=0 and po.kode_po NOT IN(SELECT kode_po FROM konveksi_buku_potongan WHERE kode_po NOT LIKE 'BJF%' AND kode_po NOT LIKE 'BJK%' AND kode_po NOT LIKE 'FBS%' AND kode_po NOT LIKE 'KDS%' ) ";
+		$sql="SELECT po.* FROM produksi_po po JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=po.nama_po) WHERE po.hapus=0 ";
 		if(!empty($data['term'])){
 			$sql .= " AND lower(po.kode_po) LIKE '%".strtolower($data['term'])."%' ";
 		}

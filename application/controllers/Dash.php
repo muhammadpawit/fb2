@@ -489,6 +489,29 @@ class Dash extends CI_Controller {
 
 	public function welcome(){
 		$data['title']='welcome';
+		$user=user();
+		$setujui=0;
+		if(isset($user['id_user'])){
+			$setujui=akses($user['id_user'],3);
+		}
+		$data['setujui']=$setujui;
+		$njo=1;
+		$data['request']=[];
+		$sql="SELECT * FROM user_request WHERE hapus=0 and status=0 ";
+		$sql.=" ORDER BY id DESC ";
+		$results=$this->GlobalModel->queryManual($sql);
+		$oto=null;
+		foreach($results as $r){
+			$data['request'][]=array(
+				'no'=>$njo++,
+				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
+				'nama'=>strtolower($r['nama']),
+				'keterangan'=>strtolower($r['keterangan']),
+				'setujui'=>BASEURL.'User/accreq/'.$r['aksestable'].'/'.$r['userid'].'/'.$r['id'],
+				'status'=>$r['status']==1?'sudah diproses':'belum diproses',
+			);
+		}
+		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
 	}
 
@@ -1104,16 +1127,24 @@ class Dash extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['kategori']=$kategori;
+		$data['trans']=[];
 		$pi=$this->GlobalModel->QueryManualRow("SELECT * FROM penerimaan_item WHERE hapus=0 AND lower(keterangan)='bahan masuk' ORDER BY tanggal DESC LIMIT 1 ");
 		$bk=$this->GlobalModel->QueryManualRow("SELECT * FROM barangkeluar_harian WHERE hapus=0 AND jenis=3 ORDER BY tanggal DESC LIMIT 1 ");
-
+		
 		$pidate = strtotime($pi['tanggal']);
 		$bkdate = strtotime($bk['tanggal']);
 		if($pidate>$bkdate){
 			$update=$pi['tanggal'];
+				$data['trans']=array(
+					'keterangan'=>$pi['keterangan'],
+				);
 		}else{
 			$update=$bk['tanggal'];
+				$data['trans']=array(
+					'keterangan'=>'Keluar Bahan untuk po '.$bk['keterangan'].' pengambil '.$bk['pengambil'].' tanggal '.date('d F Y',strtotime($bk['tanggal'])),
+				);
 		}
+		//pre($bk);
 		$data['update']=$update;
 		//pre($pidate. '  bk ' .$bkdate);
 		$sql="SELECT gpi.* , p.kategori FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";

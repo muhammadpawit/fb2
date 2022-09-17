@@ -38,10 +38,10 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['bulan']?></td>
-						<td align="right"><?php echo number_format($p['jmlkemeja'])?></td>
-						<td align="right"><?php echo number_format($p['kemeja'],2)?></td>
 						<td align="right"><?php echo number_format($p['jmlkaos'])?></td>
 						<td align="right"><?php echo number_format($p['kaos'],2)?></td>
+						<td align="right"><?php echo number_format($p['jmlkemeja'])?></td>
+						<td align="right"><?php echo number_format($p['kemeja'],2)?></td>
 						<td align="right"><?php echo number_format($p['jmlcelana'])?></td>
 						<td align="right"><?php echo number_format($p['celana'],2)?></td>
 						<td align="right"><?php echo number_format(($p['jmlkemeja']+$p['jmlkaos']+$p['jmlcelana']))?></td>
@@ -64,10 +64,10 @@
 			<tfoot>
 				<tr>
 					<td><b>Total</b></td>
-					<td align="right"><b><?php echo number_format($jmlkemeja)?></b></td>
-					<td align="right"><b><?php echo number_format($kemeja,2)?></b></td>
 					<td align="right"><b><?php echo number_format($jmlkaos)?></b></td>
 					<td align="right"><b><?php echo number_format($kaos,2)?></b></td>
+					<td align="right"><b><?php echo number_format($jmlkemeja)?></b></td>
+					<td align="right"><b><?php echo number_format($kemeja,2)?></b></td>
 					<td align="right"><b><?php echo number_format($jmlcelana)?></b></td>
 					<td align="right"><b><?php echo number_format($celana,2)?></b></td>
 					<td align="right"><b><?php echo number_format($jmltotal)?></b></td>
