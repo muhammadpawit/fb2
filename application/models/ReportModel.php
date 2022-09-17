@@ -215,7 +215,7 @@ class ReportModel extends CI_Model {
 	public function ge($jenis,$type,$tanggal1,$tanggal2){
 		$hasil=0;
 		if($type==1){
-			$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
+			$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
 		}else if($type==2){
 			$sql="SELECT SUM(hasil_lusinan_potongan) as total ,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
 		}else{
@@ -330,7 +330,7 @@ class ReportModel extends CI_Model {
 	public function ppcsjml_filter($jenis,$tanggal1,$tanggal2){
 		$hasil=0;
 		//$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.idjenis = '".$jenis."' ";
-		$sql="SELECT count(*) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po<>'SKF' and mjp.tampil=1 ";
+		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po<>'SKF' and mjp.tampil=1 ";
 		$sql.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -342,7 +342,7 @@ class ReportModel extends CI_Model {
 		}
 
 		$hasil2=0;
-		$sql2="SELECT count(*) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po='SKF' and mjp.tampil=1 ";
+		$sql2="SELECT count(DISTINCT kbp.kode_po) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po='SKF' and mjp.tampil=1 ";
 		$sql2.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
 		if(!empty($tanggal1)){
 			$sql2.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -878,6 +878,9 @@ class ReportModel extends CI_Model {
 	public function stockjumlah($data,$idcmt){
 		//$sql="SELECT count(*) as total FROM kirimcmt WHERE hapus=0 AND idcmt='$idcmt' and status=0 ";
 		$sql="SELECT count(kd.kode_po) as total FROM kirimcmt_detail kd JOIN kirimcmt k ON (k.id=kd.idkirim) WHERE k.hapus=0 AND kd.hapus=0 AND  k.idcmt='$idcmt' AND kd.jumlah_pcs<>kd.totalsetor ";
+		if(!empty($data['tanggal1'])){
+			$sql.=" AND DATE(k.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		}
 		$data=$this->db->query($sql)->row_array();
 		$hasil=$data['total'];
 		return $hasil;
@@ -885,6 +888,9 @@ class ReportModel extends CI_Model {
 
 	public function stockpcs($data,$idcmt){
 		$sql="SELECT sum(totalkirim-totalsetor) as total FROM kirimcmt WHERE hapus=0 AND idcmt='$idcmt'";
+		if(!empty($data['tanggal1'])){
+			$sql.=" AND DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		}
 		$data=$this->db->query($sql)->row_array();
 		$hasil=$data['total'];
 		return $hasil;
@@ -1012,6 +1018,12 @@ class ReportModel extends CI_Model {
 		$sql.=" ORDER BY date(created_date) ASC, kode_po ASC ";
 		$data=$this->db->query($sql);
 		return $data->result_array();
+	}
+
+	public function getangkapotongan($kode_po){
+		$hasil=0;
+		$d=$this->GlobalModel->QueryManualRow("SELECT SUM(hasil_lusinan_potongan) as lusin FROM konveksi_buku_potongan WHERE hapus=0 AND kode_po='".$kode_po."' ");
+		return !empty($d)?$d['lusin']:0;
 	}
 
 	public function getPO($data){
@@ -1231,21 +1243,56 @@ class ReportModel extends CI_Model {
 
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		if($tanggal2>=$this->tglperkalianbaru){
-			$perkalian=0.3;
-		}else{
-			$perkalian=0.2;
-		}
-		$sql="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 		$row=$this->GlobalModel->QueryManualRow($sql);
+		//pre($sql);
 		if(!empty($row)){
 			$total=$row['total'];
 		}
 		return $total;
+	}
+
+	public function total02_array($nomor,$shift,$tanggal1,$tanggal2){
+		$total=['total'=>0,'0.2'=>0,'0.3'=>0];
+		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total,laporan_perkalian_tarif as tarif FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$sql.=" AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif ";
+		$row=$this->GlobalModel->QueryManual($sql);
+		//pre($sql);
+		$tarif=0;
+		if(!empty($row)){
+			foreach($row as $r){
+				$total[$r['tarif']]=$r['total'];
+			}
+		}
+		return $total;
+	}
+
+	public function total02sql($nomor,$shift,$tanggal1,$tanggal2){
+		$total=0;
+		if($tanggal2>=$this->tglperkalianbaru){
+			$perkalian=0.3;
+		}else{
+			$perkalian=0.2;
+		}
+		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$row=$this->GlobalModel->QueryManualRow($sql);
+		//pre($sql);
+		if(!empty($row)){
+			$total=$row['total'];
+		}
+		return $sql;
 	}
 
 	public function total015($nomor,$shift,$tanggal1,$tanggal2){
@@ -1565,18 +1612,36 @@ class ReportModel extends CI_Model {
 	}
 
 	public function jmlpotonganbulanan($bulan,$tahun,$jenis){
-		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis and mjp.tampil=1 ";
-		if(!empty($bulan)){
-			$sql.=" AND MONTH(kbp.created_date) ='".$bulan."' and YEAR(kbp.created_date)='".$tahun."' ";
-		}
-		$row=$this->db->query($sql)->row_array();
-		$hasil=$row;
-		if($hasil['total']>0){
-			return ($hasil['total']*$hasil['perkalian']);
-		}else{
-			$out=0;
+		if($jenis==2){
+			$hasil=null;
+			$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis and mjp.tampil=1 ";
+			if(!empty($bulan)){
+				$sql.=" AND MONTH(kbp.created_date) ='".$bulan."' and YEAR(kbp.created_date)='".$tahun."' ";
+			}
+			$row=$this->db->query($sql)->row_array();
+			$hasil=$row;
+			if($hasil['total']>0){
+				$out =($hasil['total']*$hasil['perkalian']);
+			}else{
+				$out=0;
+			}
 			return $out;
+		}else{
+			$hasil=0;
+			$sql="SELECT count(*) as total,mjp.perkalian FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' AND mjp.tampil=1 ";
+			$sql.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
+			if(!empty($bulan)){
+				$sql.=" AND MONTH(kbp.created_date) ='".$bulan."' and YEAR(kbp.created_date)='".$tahun."' ";
+			}
+			$sql.=" GROUP BY perkalian ";
+			$d=$this->GlobalModel->queryManual($sql);
+			if(!empty($d)){
+				foreach($d as $e){
+					$hasil+=($e['total']*$e['perkalian']);
+				}
+			}
+
+			return $hasil;
 		}
 	}
 
@@ -1742,7 +1807,7 @@ class ReportModel extends CI_Model {
 		$no=1;
 		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE p.id_produksi_po IN(SELECT idpo FROM konveksi_buku_potongan WHERE MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' AND hapus=0 and tim_potong_potongan='$tim' ) AND mjp.tampil=1 GROUP BY nama_jenis_po ORDER BY nama_jenis_po ASC ");
 		foreach($jenis as $t){
-			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan WHERE kode_po LIKE '".$t['nama_jenis_po']."%' AND MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' and tim_potong_potongan='$tim' ");
+			$prods=$this->GlobalModel->QueryManualRow("SELECT count(DISTINCT kbp.kode_po) as jml,SUM(hasil_lusinan_potongan) as dz,SUM(hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan kbp JOIN produksi_po p ON p.kode_po=kbp.kode_po LEFT JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po WHERE mjp.nama_jenis_po ='".$t['nama_jenis_po']."' AND MONTH(kbp.created_date)='".$bulan."' AND YEAR(kbp.created_date)='".$tahun."' and tim_potong_potongan='$tim' ");
 			$hasil[]=array(
 				'no'=>$no++,
 				'nama'=>$t['nama_jenis_po'],
@@ -1779,12 +1844,30 @@ class ReportModel extends CI_Model {
 
 	public function klo_mingguan($idcmt,$tanggal1,$tanggal2,$kategori,$proses){
 		$hasil=[];
-		$sql="SELECT COUNT(*) as jmlpo, SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE hapus=0 ";
-		$sql.=" AND id_master_cmt='$idcmt' AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND kategori_cmt='".$kategori."' AND progress='".$proses."' ";
+		$sql="SELECT COUNT(kks.kode_po) as jmlpo, SUM(kks.qty_tot_pcs) as pcs FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
+		$sql.=" AND mjp.id_jenis_po NOT IN (42,37,36)";
+		$sql.=" AND kks.id_master_cmt='$idcmt' AND DATE(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND kks.kategori_cmt='".$kategori."' AND kks.progress='".$proses."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=array(
 				'jmlpo'=>$d['jmlpo'],
+				'pcs'=>round($d['pcs']),
+				'dz'=>round($d['pcs']/12),
+			);
+		}
+		return $hasil;
+	}
+
+	public function klo_mingguanjeans($idcmt,$tanggal1,$tanggal2,$kategori,$proses){
+		$hasil=[];
+		$sql="SELECT COUNT(kks.kode_po) as jmlpo, SUM(kks.qty_tot_pcs) as pcs FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
+		$sql.=" AND mjp.id_jenis_po IN (42,37,36)";
+		$sql.=" AND kks.id_master_cmt='$idcmt' AND DATE(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND kks.kategori_cmt='".$kategori."' AND kks.progress='".$proses."' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=array(
+				'jmlpo'=>$d['jmlpo'],
+				'pcs'=>round($d['pcs']),
 				'dz'=>round($d['pcs']/12),
 			);
 		}
@@ -1894,7 +1977,7 @@ class ReportModel extends CI_Model {
 
 	public function totalsup($id,$tanggal1,$tanggal2){
 		$hasil=0;
-		$sql="SELECT SUM(pid.jumlah*pid.harga) as total FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 and pid.hapus=0 AND pi.supplier='$id' AND DATE(pi.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql="SELECT ROUND(SUM(pid.jumlah*pid.harga)) as total FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 and pid.hapus=0 AND pi.supplier='$id' AND DATE(pi.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d['total'];
@@ -1946,6 +2029,41 @@ class ReportModel extends CI_Model {
 			foreach($d as $dat){
 				$hasil[]=$dat['kode_po'];
 			}
+		}
+		return $hasil;
+	}
+
+	// fungsi baru untuk laporan pendapatan po luar bordir
+	public function getSumPendapatanpoluar($data,$jenis){
+		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=$jenis ";
+		if(!empty($data['tanggal1'])){
+			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		}
+		if(!empty($data['nomesin'])){
+			$sql.=" AND mesin_bordir='".$data['nomesin']."' ";
+		}
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		$hasil=0;
+		if(!empty($d)){
+			$hasil=(int)$d['total'];
+		}
+		return $hasil;
+	}
+
+	// laporan buku potongan yang digabung dengan laporan mingguan klo karena berbeda harinya
+	public function laporanbukupotonganklo($tim,$tanggal1,$tanggal2){
+		$hasil=[];
+		$no=1;
+		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE p.id_produksi_po IN(SELECT idpo FROM konveksi_buku_potongan WHERE DATE(created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan='$tim' ) AND mjp.tampil=1 GROUP BY nama_jenis_po ORDER BY nama_jenis_po ASC ");
+		foreach($jenis as $t){
+			$prods=$this->GlobalModel->QueryManualRow("SELECT count(kbp.kode_po) as jml,SUM(kbp.hasil_lusinan_potongan) as dz,SUM(kbp.hasil_pieces_potongan) as pcs FROM konveksi_buku_potongan kbp LEFT JOIN produksi_po p ON p.id_produksi_po=kbp.idpo WHERE p.nama_po = '".$t['nama_jenis_po']."' AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' and '".$tanggal2."' and tim_potong_potongan='$tim' ");
+			$hasil[]=array(
+				'no'=>$no++,
+				'nama'=>$t['nama_jenis_po'],
+				'jml'=>$prods['jml']*$t['perkalian'],
+				'dz'=>$prods['dz'],
+				'pcs'=>$prods['pcs'],
+			);
 		}
 		return $hasil;
 	}

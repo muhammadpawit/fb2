@@ -231,7 +231,12 @@ class Bordir extends CI_Controller {
 		$data['prods']=[];
 		$karyawan=[];
 		if(!empty($tempat)){
-			$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+			if($tempat==1){
+				$mesin='1,2,3,4,5,6';
+			}else{
+				$mesin='7,8,9,10';
+			}
+			$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND mesin_bordir IN (".$mesin.") ) ");
 			$data['harian']=[];
 			foreach($karyawan as $k){
 				$data['prods'][]=array(
@@ -648,6 +653,9 @@ class Bordir extends CI_Controller {
 			$sm.=" AND nomor='$nomesin' ";
 		}
 		$mesin=$this->GlobalModel->QueryManual($sm);
+		$data['luar']=[];
+		$data['luar']=$this->GlobalModel->QueryManual("SELECT laporan_perkalian_tarif as perkalian FROM kelola_mesin_bordir WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif");
+		
 		foreach($mesin as $mes){
 			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
@@ -665,15 +673,17 @@ class Bordir extends CI_Controller {
 				'shift'=>$mes['shift'],
 				'stich'=>round($totalstich),
 				'0.18'=>round($total018),
-				'0.2'=>round($total02),
+				'0.2'=>($total02),
 				'0.18yn'=>0,
 				'0.15'=>round($total015),
 				'pendapatan'=>round($total018+$total02),
 				'jumlah'=>round($jumlah),
 				'i'=>$i++,
 				'keterangan'=>null,
+				'dets'=>$this->ReportModel->total02_array($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2),
 			);
 		}
+		//pre($data['products']);
 		$data['t']=$globalstich;
 		$data['g018']=$g018;
 		$data['g02']=$g02;
@@ -805,7 +815,9 @@ class Bordir extends CI_Controller {
 	public function tagihanpoluarsave(){
 		$data=$this->input->post();
 		$po=$this->GlobalModel->getDataRow('master_po_luar',array('id'=>$data['idpoluar']));
-		$harga=($data['sticth']*0.2);
+		$kali=$this->GlobalModel->getDataRow('kelola_mesin_bordir',array('kode_po'=>$data['idpoluar']));
+		$harga=($data['sticth']*$kali['laporan_perkalian_tarif']);
+		//pre($kali);
 		$insert=array(
 			'idpemilik'=>$po['idpemilik'],
 			'tanggal'=>$data['tanggal'],
@@ -1217,13 +1229,15 @@ class Bordir extends CI_Controller {
 		if($post['jenis']==1){
 			$this->GlobalModel->updateData('produksi_po',array('kode_po' => $post['namaPo']),$dataKode);
 			//$namapo= $post['namaPo'];
+			$laporan_perkalian_tarif='0.18';
 		}else{
 			//$po=$this->GlobalModel->getDataRow('master_po_luar',array('id'=>$post['namaPo']));
 			//$namapo=$po['nama'];
+			$laporan_perkalian_tarif=$post['perkalianTarif'];
 		}
 
 		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('nomer_mesin'=>$post['mesin']));
-		if($post['mesin']==3 OR $post['mesin']==5){
+		if($post['jenis']==2){
 			$perkalian_mesin=0.18;
 		}else{
 			$perkalian_mesin=0.15;
@@ -1252,6 +1266,7 @@ class Bordir extends CI_Controller {
 		'jenis'=>$post['jenis'],
 		'kepala'  =>$mesin['kepala'],
 		'persen' =>$mesin['persenan'],
+		'laporan_perkalian_tarif'=>$laporan_perkalian_tarif,
 		//'gaji'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15*$mesin['persenan']),
 		);		
 		//pre($dataInsert);

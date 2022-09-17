@@ -35,7 +35,7 @@
 		<div class="form-group">
 			<label>Tahun Mulai Produksi</label>
 			<select name="tahun" class="form-control">
-							<?php for($i=2020;$i<=2050;$i++){?>
+							<?php for($i=2021;$i<=date('Y',strtotime("+1 Year"));$i++){?>
 								<option value="<?php echo $i;?>" <?php echo $s['tahun']==$i?'selected':'';?>><?php echo $i;?></option>
 							<?php } ?>
 						</select>

@@ -14,13 +14,13 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
-			<input type="date" name="tanggal1" id="tanggal1" class="form-control">
+			<input type="date" name="tanggal1" id="tanggal1" class="form-control" value="<?php echo $tanggal1?>">
 		</div>
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
-			<input type="date" name="tanggal2" id="tanggal2" class="form-control">
+			<input type="date" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -37,7 +37,7 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label>Action</label><br>
-			<button class="btn btn-info btn-sm">filter</button>
+			<button class="btn btn-info btn-sm" onclick="filterwithcmt()">Filter</button>
 		</div>
 	</div>
 </div>

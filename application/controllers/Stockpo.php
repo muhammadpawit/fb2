@@ -24,12 +24,12 @@ class Stockpo extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("tuesday previous week"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d');
+			$tanggal2=date('Y-m-d',strtotime("monday this week"));
 		}
 
 		if(isset($get['cmt'])){
@@ -48,7 +48,11 @@ class Stockpo extends CI_Controller {
 		);
 		//$results=$this->ReportModel->stockpo($filter);
 		//pre($results);
-		$list=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		$sql=" SELECT * FROM master_cmt WHERE cmt_job_desk='JAHIT'  and hapus=0 AND id_cmt IN(select idcmt FROM kirimcmt WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
+		if(!empty($cmt)){
+			$sql.=" AND id_cmt='".$cmt."' ";
+		}
+		$list=$this->GlobalModel->QueryManual($sql);
 		$no=1;
 		$jumlah=0;
 		$pcs=0;
@@ -96,21 +100,27 @@ class Stockpo extends CI_Controller {
 		foreach($jenis as $j){
 			$po = $this->GlobalModel->getStokPO($idcmt,$j['id_jenis_po']);
 			$rpo = $this->GlobalModel->getStokrincianpo($idcmt,$j['id_jenis_po']);
-			$data['prods'][]=array(
-				'no'=>$no,
-				'jmlpo'=>$po['jmlpo']==0?'':$po['jmlpo'],
-				'pcspo'=>$po['pcs'],
-				'rincian'=>$rpo,
-			);
+			if(!empty($rpo)){
+				$data['prods'][]=array(
+					'no'=>$no,
+					'nama'=>$j['nama_jenis_po'],
+					'jmlpo'=>$po['jmlpo']==0?'':$po['jmlpo']*$po['perkalian'],
+					'pcspo'=>$po['pcs'],
+					'rincian'=>$rpo,
+				);
+			}
 
 			$pos = $this->GlobalModel->getStokPOs($idcmt,$j['id_jenis_po']);
 			$rposetor = $this->GlobalModel->getStokrincianposetor($idcmt,$j['id_jenis_po']);
-			$data['setors'][]=array(
-				'no'=>$no,
-				'jmlpo'=>$pos['jmlpo']==0?'':$pos['jmlpo'],
-				'pcspo'=>$pos['pcs'],
-				'rincian'=>$rposetor,
-			);
+			if(!empty($rposetor)){
+				$data['setors'][]=array(
+					'no'=>$no,
+					'nama'=>$j['nama_jenis_po'],
+					'jmlpo'=>$pos['jmlpo']==0?'':$pos['jmlpo'],
+					'pcspo'=>$pos['pcs'],
+					'rincian'=>$rposetor,
+				);
+			}
 			$no++;
 		}
 		//pre($data['prods']);
@@ -233,7 +243,6 @@ class Stockpo extends CI_Controller {
 		$data['cmtf']=$cmt;
 		$data['bulan']=$this->ReportModel->month();
 		$bulannya=$this->ReportModel->month();
-		pre($kp);
 		$data['bulans']=json_encode($bulannya);
 		$data['excel']=BASEURL.'Stockpo/rekap?&excel=1&cmt='.$cmt;
 		$data['cetak']=BASEURL.'Stockpo/rekap?&cetak=1&cmt='.$cmt;

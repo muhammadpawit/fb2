@@ -6,6 +6,13 @@
 		$row=$CI->GlobalModel->queryManualRow($sql);
 		return $row['nama'];
 	}
+
+	function PeriodeProduksi(){
+		$CI =& get_instance();
+		$sql="SELECT * FROM periodeproduksi LIMIT 1";
+		$row=$CI->GlobalModel->queryManualRow($sql);
+		return $row;
+	}
 	
 	function push($pesan){
 		$CI =& get_instance();

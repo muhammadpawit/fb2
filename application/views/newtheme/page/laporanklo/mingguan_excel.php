@@ -57,31 +57,16 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		<td></td>
 		<td>
 			<caption>Sablon</caption>
-			<table border="1" style="width: 100%;border-collapse: collapse;">
+		    <table  border="1" style="width: 100%;border-collapse: collapse;">
 		        <thead style="text-align: center;">
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-		            <!-- <th colspan="2">Stok Awal Kaos</th> -->
-		            <!-- <th colspan="2">Stok Awal Kemeja</th> -->
 		            <th colspan="2">Kirim Kaos</th>
-		            <!-- <th colspan="2">Kirim Kemeja</th> -->
 		            <th colspan="2">Setor Kaos</th>
-		            <!-- <th colspan="2">Setor Kemeja</th> -->
 		            <th colspan="2">Stok Akhir Kaos</th>
-		            <!-- <th colspan="2">Stok Akhir Kemeja</th> -->
 		          </tr>
 		          <tr>
-		            <!-- <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th> -->
 		            <th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
@@ -103,40 +88,28 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <!-- <td><?php echo ($p['stokawalkaosjml'])?></td>
-		              <td><?php echo $p['stokawalkaosdz']>0?($p['stokawalkaosdz']):'';?></td>
-		              <td><?php echo ($p['stokawalkemejajml'])?></td>
-		              <td><?php echo $p['stokawalkemejadz']>0?($p['stokawalkemejadz']):'';?></td> -->
-		              <td><?php echo ($p['kirimkaosjml'])?></td>
-		              <td><?php echo $p['kirimkaosdz']>0?round($p['kirimkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['kirimkemejajml'])?></td>
-		              <td><?php echo $p['kirimkemejadz']>0?($p['kirimkemejadz']):'';?></td> -->
-		              <td><?php echo ($p['setorkaosjml'])?></td>
-		              <td><?php echo $p['setorkaosdz']>0?round($p['setorkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['setorkemejajml'])?></td>
-		              <td><?php echo $p['setorkemejadz']>0?($p['setorkemejadz']):'';?></td> -->
-		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
-		              <td><?php echo $p['stokakhirkaosdz']>0?round($p['stokakhirkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['stokakhirkemejajml'])?></td>
-		              <td><?php echo $p['stokakhirkemejadz']>0?($p['stokakhirkemejadz']):'';?></td> -->
+		              <td><?php echo $p['kirimjml']?></td>
+		              <td><?php echo number_format($p['kirimdz'],2)?></td>
+		              <td><?php echo $p['setorjml']?></td>
+		              <td><?php echo number_format($p['setordz'],2)?></td>
+		              <td><?php echo ($p['kirimjml']-$p['setorjml'])?></td>
+		              <td><?php echo ($p['kirimdz']-$p['setordz'])?></td>
 		            </tr>
 		            <?php 
-		        		$skirimjml+=($p['kirimkaosjml']);
-		        		$skirimdz+=($p['kirimkaosdz']);
-		        		$ssetorjml+=($p['setorkaosjml']);
-		        		$ssetordz+=($p['setorkaosdz']);
-		        		$sstokjml+=($p['stokakhirkaosjml']);
-		        		$sstokdz+=($p['stokakhirkaosdz']);
+		        		$skirimjml+=($p['kirimjml']);
+		        		$skirimdz+=($p['kirimdz']);
+		        		$ssetorjml+=($p['setorjml']);
+		        		$ssetordz+=($p['setordz']);
 		        	 ?>
 		          <?php }?>
 		          <tr>
 		          	<td colspan="2"><b>Total</b></td>
-		          	<td><?php echo ($skirimjml)?></td>
-		          	<td><?php echo round($skirimdz,2)?></td>
-		          	<td><?php echo ($ssetorjml)?></td>
-		          	<td><?php echo round($ssetordz,2)?></td>
-		          	<td><?php echo ($sstokjml)?></td>
-		          	<td><?php echo round($sstokdz,2)?></td>
+		          	<td><?php echo number_format($skirimjml,2)?></td>
+		          	<td><?php echo number_format($skirimdz,2)?></td>
+		          	<td><?php echo number_format($ssetorjml,2)?></td>
+		          	<td><?php echo number_format($ssetordz,2)?></td>
+		          	<td><?php echo number_format(($skirimjml-$ssetorjml),2)?></td>
+		          	<td><?php echo number_format(($skirimdz-$ssetordz),2)?></td>
 		          </tr>
 		        </tbody>
 		    </table>
@@ -147,32 +120,28 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-		            <th colspan="2">Stok Awal Kaos</th>
-		            <!-- <th colspan="2">Stok Awal Kemeja</th> -->
-		            <th colspan="2">Kirim Kaos</th>
-		            <!-- <th colspan="2">Kirim Kemeja</th> -->
-		            <th colspan="2">Setor Kaos</th>
-		            <!-- <th colspan="2">Setor Kemeja</th> -->
-		            <th colspan="2">Stok Akhir Kaos</th>
-		            <!-- <th colspan="2">Stok Akhir Kemeja</th> -->
+		            <th colspan="3">Kirim Kaos</th>
+		            <th colspan="3">Kirim PO<br> Jeans</th>
+		            <th colspan="3">Setor PO<br> Jeans</th>
+		            <th colspan="3">Setor Kaos</th>
+		            <th colspan="3">Stok Akhir Kaos</th>
 		          </tr>
 		          <tr>
-		            <!-- <th>JML</th>
-		            <th>DZ</th>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
 		            <th>JML</th>
 		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th> -->
-		            <th>JML</th>
-		            <th>DZ</th>
+		            <th>PCS</th>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
 		            <th>JML</th>
 		            <th>DZ</th>
+		            <th>PCS</th>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -183,10 +152,18 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		        		$stokawalkemejadz=0;
 		        		$kirimkaosjml=0;
 		        		$kirimkaosdz=0;
+		        		$kirimkaospcs=0;
+		        		$kirimjeansjml=0;
+		        		$kirimjeansdz=0;
+		        		$kirimjeanspcs=0;
+		        		$setorjeansjml=0;
+		        		$setorjeansdz=0;
+		        		$setorjeanspcs=0;
 		        		$kirimkemejajml=0;
 		        		$kirimkemejadz=0;
 		        		$setorkaosjml=0;
 		        		$setorkaosdz=0;
+		        		$setorkaospcs=0;
 		        		$setorkemejajml=0;
 		        		$setorkemejadz=0;
 		        		$stokakhirkaosjml=0;
@@ -198,60 +175,55 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <td><?php echo ($p['stokawalkaosjml'])?></td>
-		              <td><?php echo $p['stokawalkaosdz']>0?round($p['stokawalkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['stokawalkemejajml'])?></td>
-		              <td><?php echo $p['stokawalkemejadz']>0?($p['stokawalkemejadz']):'';?></td> -->
-		              <td><?php echo ($p['kirimkaosjml'])?></td>
-		              <td><?php echo $p['kirimkaosdz']>0?round($p['kirimkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['kirimkemejajml'])?></td>
-		              <td><?php echo $p['kirimkemejadz']>0?($p['kirimkemejadz']):'';?></td> -->
+		              <td><?php echo ($p['kirimkaosjml']>0)?number_format($p['kirimkaosjml']):'';?></td>
+		              <td><?php echo $p['kirimkaosdz']>0?number_format($p['kirimkaosdz']):'';?></td>
+		              <td><?php echo $p['kirimkaospcs']>0?number_format($p['kirimkaospcs']):'';?></td>
+		              <td><?php echo ($p['kirimjeansjml']>0)?number_format($p['kirimjeansjml']):'';?></td>
+		              <td><?php echo $p['kirimjeansdz']>0?number_format($p['kirimjeansdz']):'';?></td>
+		              <td><?php echo $p['kirimjeanspcs']>0?number_format($p['kirimjeanspcs']):'';?></td>
+		              <td><?php echo ($p['setorjeansjml']>0)?number_format($p['kirimjeansjml']):'';?></td>
+		              <td><?php echo $p['setorjeansdz']>0?number_format($p['kirimjeansdz']):'';?></td>
+		              <td><?php echo $p['setorjeanspcs']>0?number_format($p['setorjeanspcs']):'';?></td>
 		              <td><?php echo ($p['setorkaosjml'])?></td>
-		              <td><?php echo $p['setorkaosdz']>0?round($p['setorkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['setorkemejajml'])?></td>
-		              <td><?php echo $p['setorkemejadz']>0?($p['setorkemejadz']):'';?></td> -->
+		              <td><?php echo $p['setorkaosdz']>0?number_format($p['setorkaosdz']):'';?></td>
+		              <td><?php echo $p['setorkaospcs']>0?number_format($p['setorkaospcs']):'';?></td>
 		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
-		              <td><?php echo $p['stokakhirkaosdz']>0?round($p['stokakhirkaosdz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['stokakhirkemejajml'])?></td>
-		              <td><?php echo $p['stokakhirkemejadz']>0?($p['stokakhirkemejadz']):'';?></td> -->
+		              <td><?php echo $p['stokakhirkaosdz']>0?($p['stokakhirkaosdz']):'';?></td>
+		              <td></td>
 		            </tr>
 		            <?php 
-		        		$stokawalkaosjml+=($p['stokawalkaosjml']);
-		        		$stokawalkaosdz+=($p['stokawalkaosdz']);
-		        		$stokawalkemejajml+=($p['stokawalkemejajml']);
-		        		$stokawalkemejadz+=($p['stokawalkemejadz']);
 		        		$kirimkaosjml+=($p['kirimkaosjml']);
 		        		$kirimkaosdz+=($p['kirimkaosdz']);
-		        		$kirimkemejajml+=($p['kirimkemejajml']);
-		        		$kirimkemejadz+=($p['kirimkemejadz']);
+		        		$kirimkaospcs+=($p['kirimkaospcs']);
+		        		$kirimjeansjml+=($p['kirimjeansjml']);
+		        		$kirimjeansdz+=($p['kirimjeansdz']);
+		        		$kirimjeanspcs=($p['kirimjeanspcs']);
+		        		$setorjeansjml+=($p['setorjeansjml']);
+		        		$setorjeansdz+=($p['setorjeansdz']);
+		        		$setorjeanspcs=($p['setorjeanspcs']);
 		        		$setorkaosjml+=($p['setorkaosjml']);
 		        		$setorkaosdz+=($p['setorkaosdz']);
-		        		$setorkemejajml+=($p['setorkemejajml']);
-		        		$setorkemejadz+=($p['setorkemejadz']);
-		        		$stokakhirkaosjml+=($p['stokakhirkaosjml']);
-		        		$stokakhirkaosdz+=($p['stokakhirkaosdz']);
-		        		$stokakhirkemejajml+=($p['stokakhirkemejajml']);
-		        		$stokakhirkemejadz+=($p['stokakhirkemejadz']);
+		        		$setorkaospcs+=($p['setorkaospcs']);
+		        		$stokakhirkaosdz+=0;
 		        	 ?>
 		          <?php }?>
 		          <tr>
 		          	<td colspan="2"><b>Total</b></td>
-		          	<td><?php echo ($stokawalkaosjml)?></td>
-		          	<td><?php echo round($stokawalkaosdz,2)?></td>
-		          	<!-- <td><?php echo ($stokawalkemejajml)?></td>
-		          	<td><?php echo ($stokawalkemejadz)?></td> -->
-		          	<td><?php echo ($kirimkaosjml)?></td>
-		          	<td><?php echo round($kirimkaosdz,2)?></td>
-		          	<!-- <td><?php echo ($kirimkemejajml)?></td>
-		          	<td><?php echo ($kirimkemejadz)?></td> -->
-		          	<td><?php echo ($setorkaosjml)?></td>
-		          	<td><?php echo round($setorkaosdz,2)?></td>
-		          	<!-- <td><?php echo ($setorkemejajml)?></td>
-		          	<td><?php echo ($setorkemejadz)?></td> -->
-		          	<td><?php echo ($stokakhirkaosjml)?></td>
-		          	<td><?php echo round($stokakhirkaosdz,2)?></td>
-		          	<!-- <td><?php echo ($stokakhirkemejajml)?></td>
-		          	<td><?php echo ($stokakhirkemejadz)?></td> -->
+		          	<td><?php echo number_format($kirimkaosjml,2)?></td>
+		          	<td><?php echo number_format($kirimkaosdz,2)?></td>
+		          	<td><?php echo number_format($kirimkaospcs,2)?></td>
+		          	<td><?php echo number_format($kirimjeansjml,2)?></td>
+		          	<td><?php echo number_format($kirimjeansdz,2)?></td>
+		          	<td><?php echo number_format($kirimjeanspcs,2)?></td>
+		          	<td><?php echo number_format($setorjeansjml,2)?></td>
+		          	<td><?php echo number_format($setorjeansdz,2)?></td>
+		          	<td><?php echo number_format($setorjeanspcs,2)?></td>
+		          	<td><?php echo number_format($setorkaosjml,2)?></td>
+		          	<td><?php echo number_format($setorkaosdz,2)?></td>
+		          	<td><?php echo number_format($setorkaospcs,2)?></td>
+		          	<td><?php echo number_format($stokakhirkaosjml,2)?></td>
+		          	<td><?php echo number_format($stokakhirkaosdz,2)?></td>
+		          	<td>0</td>
 		          </tr>
 		        </tbody>
 		    </table>
@@ -262,26 +234,11 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-		            <!-- <th colspan="2">Stok Awal Kaos</th> -->
-		            <th colspan="2">Stok Awal Kemeja</th>
-		            <!-- <th colspan="2">Kirim Kaos</th> -->
 		            <th colspan="2">Kirim Kemeja</th>
-		            <!-- <th colspan="2">Setor Kaos</th> -->
 		            <th colspan="2">Setor Kemeja</th>
-		            <!-- <th colspan="2">Stok Akhir Kaos</th> -->
 		            <th colspan="2">Stok Akhir Kemeja</th>
 		          </tr>
 		          <tr>
-		            <!-- <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th>
-		            <th>JML</th>
-		            <th>DZ</th> -->
-		            <th>JML</th>
-		            <th>DZ</th>
 		            <th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
@@ -313,60 +270,28 @@ header("Content-Disposition: attachment; filename=Laporan_KLO_".time().".xls");
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <!-- <td><?php echo ($p['stokawalkaosjml'])?></td>
-		              <td><?php echo $p['stokawalkaosdz']>0?($p['stokawalkaosdz']):'';?></td> -->
-		              <td><?php echo ($p['stokawalkemejajml'])?></td>
-		              <td><?php echo $p['stokawalkemejadz']>0?round($p['stokawalkemejadz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['kirimkaosjml'])?></td>
-		              <td><?php echo $p['kirimkaosdz']>0?($p['kirimkaosdz']):'';?></td> -->
 		              <td><?php echo ($p['kirimkemejajml'])?></td>
-		              <td><?php echo $p['kirimkemejadz']>0?round($p['kirimkemejadz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['setorkaosjml'])?></td>
-		              <td><?php echo $p['setorkaosdz']>0?($p['setorkaosdz']):'';?></td> -->
+		              <td><?php echo $p['kirimkemejadz']>0?number_format($p['kirimkemejadz']):'';?></td>
 		              <td><?php echo ($p['setorkemejajml'])?></td>
-		              <td><?php echo $p['setorkemejadz']>0?round($p['setorkemejadz'],2):'';?></td>
-		              <!-- <td><?php echo ($p['stokakhirkaosjml'])?></td>
-		              <td><?php echo $p['stokakhirkaosdz']>0?($p['stokakhirkaosdz']):'';?></td> -->
+		              <td><?php echo $p['setorkemejadz']>0?number_format($p['setorkemejadz']):'';?></td>
 		              <td><?php echo ($p['stokakhirkemejajml'])?></td>
-		              <td><?php echo $p['stokakhirkemejadz']>0?round($p['stokakhirkemejadz'],2):'';?></td>
+		              <td><?php echo $p['stokakhirkemejadz']>0?number_format($p['stokakhirkemejadz']):'';?></td>
 		            </tr>
 		            <?php 
-		        		$stokawalkaosjml+=($p['stokawalkaosjml']);
-		        		$stokawalkaosdz+=($p['stokawalkaosdz']);
-		        		$stokawalkemejajml+=($p['stokawalkemejajml']);
-		        		$stokawalkemejadz+=($p['stokawalkemejadz']);
-		        		$kirimkaosjml+=($p['kirimkaosjml']);
-		        		$kirimkaosdz+=($p['kirimkaosdz']);
 		        		$kirimkemejajml+=($p['kirimkemejajml']);
 		        		$kirimkemejadz+=($p['kirimkemejadz']);
-		        		$setorkaosjml+=($p['setorkaosjml']);
-		        		$setorkaosdz+=($p['setorkaosdz']);
 		        		$setorkemejajml+=($p['setorkemejajml']);
 		        		$setorkemejadz+=($p['setorkemejadz']);
-		        		$stokakhirkaosjml+=($p['stokakhirkaosjml']);
-		        		$stokakhirkaosdz+=($p['stokakhirkaosdz']);
-		        		$stokakhirkemejajml+=($p['stokakhirkemejajml']);
-		        		$stokakhirkemejadz+=($p['stokakhirkemejadz']);
 		        	 ?>
 		          <?php }?>
 		          <tr>
 		          	<td colspan="2"><b>Total</b></td>
-		          	<!-- <td><?php echo ($stokawalkaosjml)?></td>
-		          	<td><?php echo ($stokawalkaosdz)?></td> -->
-		          	<td><?php echo ($stokawalkemejajml)?></td>
-		          	<td><?php echo round($stokawalkemejadz,2)?></td>
-		          	<!-- <td><?php echo ($kirimkaosjml)?></td>
-		          	<td><?php echo ($kirimkaosdz)?></td> -->
-		          	<td><?php echo ($kirimkemejajml)?></td>
-		          	<td><?php echo round($kirimkemejadz,2)?></td>
-		          	<!-- <td><?php echo ($setorkaosjml)?></td>
-		          	<td><?php echo ($setorkaosdz)?></td> -->
-		          	<td><?php echo ($setorkemejajml)?></td>
-		          	<td><?php echo round($setorkemejadz,2)?></td>
-		          	<!-- <td><?php echo ($stokakhirkaosjml)?></td>
-		          	<td><?php echo ($stokakhirkaosdz)?></td> -->
-		          	<td><?php echo ($stokakhirkemejajml)?></td>
-		          	<td><?php echo round($stokakhirkemejadz,2)?></td>
+		          	<td><?php echo number_format($kirimkemejajml,2)?></td>
+		          	<td><?php echo number_format($kirimkemejadz,2)?></td>
+		          	<td><?php echo number_format($setorkemejajml,2)?></td>
+		          	<td><?php echo number_format($setorkemejadz,2)?></td>
+		          	<td><?php echo number_format($stokakhirkemejajml,2)?></td>
+		          	<td><?php echo number_format($stokakhirkemejadz,2)?></td>
 		          </tr>
 		        </tbody>
 		        <tfoot>

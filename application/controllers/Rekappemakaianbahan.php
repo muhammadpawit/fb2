@@ -15,7 +15,7 @@ class Rekappemakaianbahan extends CI_Controller {
 	public function index()
 	{
 		$data=[];
-		$data['title']='Rekap Pemakaian Alat-alat ';
+		$data['title']='Rekap Pemakaian Bahan ';
 		$data['products']=array();
 		$no=1;
 		$get=$this->input->get();

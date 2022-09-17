@@ -449,11 +449,13 @@ class Pembayaran extends CI_Controller {
 		$saving=0;
 		$nominal=0;
 		//pre(substr("KM01_Simulasi", 0,3));
+		$angka=0;
 		foreach($results as $r){
 			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['tim_potong_potongan']));
 			$roll=$this->ReportModel->getsumroll($r['kode_po'],'UTAMA');
 			$rolv=$this->ReportModel->getsumroll($r['kode_po'],'CELANA');
+			$angka=$this->ReportModel->getangkapotongan($r['kode_po']);
 			$totaldz+=($r['hasil_lusinan_potongan']);
 			$totalpcs+=($r['hasil_pieces_potongan']);
 			if(!empty($tim)){
@@ -466,18 +468,18 @@ class Pembayaran extends CI_Controller {
 					'pemakaian_bahan_utama'=>$r['pemakaian_bahan_utama'],
 					'jumlah_pemakaian_bahan_variasi'=>$r['jumlah_pemakaian_bahan_variasi'],
 					'size_potongan'=>$r['size_potongan'],
-					'lusin'=>$r['hasil_lusinan_potongan'],
-					'pcs'=>$r['hasil_pieces_potongan'],
+					'lusin'=>$angka,
+					'pcs'=>($angka*12),
 					'roll_utama'=>$roll->roll,
 					'roll_variasi'=>$rolv->roll,
 					'harga'=>!empty($harga)?number_format($harga['harga_potongan']):0,
-					'total'=>!empty($harga)?number_format($harga['harga_potongan']*$r['hasil_pieces_potongan']):0,
+					'total'=>!empty($harga)?number_format($harga['harga_potongan']* ($angka*12) ):0,
 					'price'=>!empty($harga)?($harga['harga_potongan']):0,
-					'totals'=>!empty($harga)?($harga['harga_potongan']*$r['hasil_pieces_potongan']):0,
+					'totals'=>!empty($harga)?($harga['harga_potongan']* ($angka*12) ):0,
 					'full'=>1,
 				);
 				if(!empty($harga)){
-					$total+=($harga['harga_potongan']*$r['hasil_pieces_potongan']);
+					$total+=($harga['harga_potongan']* ($angka*12) );
 				
 				}
 			}
@@ -548,10 +550,10 @@ class Pembayaran extends CI_Controller {
 			foreach($data['products'] as $p){
 				if($p['perkalian']==1){
 					$perkalian=1;
-				}else if($p['perkalian']==2){
-					$perkalian=2;
-				}else{
+				}else if($p['perkalian']==0){
 					$perkalian=0;
+				}else{
+					$perkalian=2;
 				}
 				$total+=($p['harga']*$p['pcs']*$p['perkalian']);
 				$detail=array(

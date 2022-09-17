@@ -85,7 +85,7 @@
                                         <td><input type="number" class="form-control" id="stich" name="stich" required></td>
                                         <td><input type="number" class="form-control" id="totalStich" name="totalStich" step=0.01 required></td>
                                         <!-- <td></td> -->
-                                        <td><input type="hidden" class="form-control" id="perkalianTarget" name="perkalianTarget"><input type="number" class="form-control" id="perkalianTarif" name="perkalianTarif" value="0.18" readonly></td>
+                                        <td><input type="hidden" class="form-control" id="perkalianTarget" name="perkalianTarget"><input type="text" class="form-control" id="perkalianTarif" name="perkalianTarif" value="" required></td>
                                     </tr>
                                 </table>
                                
@@ -100,7 +100,7 @@
                                     <tr>
                                         <td><input type="number" class="form-control" name="spon" required></td>
                                         <td><input type="number" class="form-control" name="apl" required></td>
-                                        <td><input type="text" class="form-control" name="yangdibordir" step=0.01 required></td>
+                                        <td><input type="text" class="form-control" name="yangdibordir" required></td>
                                         <td><input type="text" class="form-control" id="tarif" name="tarif" required></td>
                                         <td><input type="text" class="form-control" id="target" name="target" required></td>
                                     </tr>
@@ -141,20 +141,20 @@ $( "#stich" ).keyup(function() {
 $(document).on('click', '.add', function(){
     var html = '';
     html += '<tr>';
-    html += '<td><input type="number" class="form-control" name="jmlNaik" step=0.01 required></td>';
-    html += '<td><input type="number" class="form-control" name="jmlTurun" step=0.01 required></td>';
+    html += '<td><input type="number" class="form-control" name="jmlNaik" required></td>';
+    html += '<td><input type="number" class="form-control" name="jmlTurun"  required></td>';
     html += '<td><input type="text" class="form-control" name="size" ></td>';
     html += '<td><input type="number" class="form-control" name="stich" required></td>';
-    html += '<td><input type="number" class="form-control" name="totalStich" step=0.01 required></td>';
-    html += '<td><input type="number" class="form-control" name="perkalianTarif" step=0.01 required></td>';
-    html += '<td><input type="number" class="form-control" name="perkalianTarget" step=0.01 required></td>';
+    html += '<td><input type="number" class="form-control" name="totalStich" required></td>';
+    html += '<td><input type="number" class="form-control" name="perkalianTarif" required></td>';
+    html += '<td><input type="number" class="form-control" name="perkalianTarget" required></td>';
 
     html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
     var html2 = '';
     html2 += '<tr>';
     html2 += '<td><input type="number" class="form-control" name="spon" ></td>';
     html2 += '<td><input type="number" class="form-control" name="apl" required></td>';
-    html2 += '<td><input type="text" class="form-control" name="yangdibordir" step=0.01 required></td>';
+    html2 += '<td><input type="text" class="form-control" name="yangdibordir" required></td>';
     html2 += '<td><input type="text" class="form-control" name="kendala"></td>';
     html2 += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
     

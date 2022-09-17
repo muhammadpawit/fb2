@@ -1,8 +1,11 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="table-responsive">
-			<caption><?php echo $tanggal1 ?></caption>
-			<h2>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?></h2>
+			<b>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?></b>
+			<br>
+			<b>
+				&bull; <?php echo $trans['keterangan'];?>
+			</b>
 			<hr>
 			<h5>Bahan Kaos</h5>
 			<table class="table table-bordered table-striped">

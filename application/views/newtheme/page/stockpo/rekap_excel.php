@@ -7,7 +7,7 @@ header("Content-Disposition: attachment; filename=Kirim_Setor_CMT_".strtoupper($
 	table { border-collapse: collapse;width: 100% }
 </style>
 <h4>Kirim Setor CMT : <?php echo strtoupper($cmts['cmt_name'])?></h4>
-<table border="2" cellpadding="10">
+<table border="1" style="width: 100%;border-collapse: collapse;">
 			<thead class="thead-light">
 				<tr>
 					<th rowspan="2" style="vertical-align: middle;text-align: center;">Bulan</th>
@@ -50,118 +50,28 @@ header("Content-Disposition: attachment; filename=Kirim_Setor_CMT_".strtoupper($
 		<div id="grafikkirimsetor" style="width:100%; height:400px;"></div>
 	</div>
 </div>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript">
-	Highcharts.chart('grafikkirimsetor', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Grafik Kirim Setor'
-    },
-    subtitle: {
-        text: 'www.forboysproduction.com'
-    },
-    xAxis: {
-        categories:<?php echo $bulans?>,
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Kirim (dz)'
-        }
-    },
-    tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} dz</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [
 
-    {
-       name:'Kirim',
-       data: [<?php echo $kp?>]
-    },
-    {
-       name:'Setor',
-       data: [<?php echo $sp?>]
-    },
-         ]
-  });
+<br>
+<br>
+Insert Grafik
+<br>
+<br>
 
-	function filter(){
-		url='?';
-		/*
-		var bulan1 = $('select[name=\'bulan1\']').val();
-
-		if (bulan1 != '*') {
-			url += '&bulan1=' + encodeURIComponent(bulan1);
-		}
-
-		var bulan2 = $('select[name=\'bulan2\']').val();
-
-		if (bulan2 != '*') {
-			url += '&bulan2=' + encodeURIComponent(bulan2);
-		}
-
-		
-	  	var tahun = $('select[name=\'tahun\']').val();
-
-		if (tahun != '*') {
-			url += '&tahun=' + encodeURIComponent(tahun);
-		}
-
-		*/
-
-	  var cmt = $('select[name=\'cmt\']').val();
-
-		if (cmt != '*') {
-			url += '&cmt=' + encodeURIComponent(cmt);
-		}
-		location =url;
-		
-	}
-
-	function excel(){
-		url='?&excel=1';
-		/*
-		var bulan1 = $('select[name=\'bulan1\']').val();
-
-		if (bulan1 != '*') {
-			url += '&bulan1=' + encodeURIComponent(bulan1);
-		}
-
-		var bulan2 = $('select[name=\'bulan2\']').val();
-
-		if (bulan2 != '*') {
-			url += '&bulan2=' + encodeURIComponent(bulan2);
-		}
-
-		
-	  	var tahun = $('select[name=\'tahun\']').val();
-
-		if (tahun != '*') {
-			url += '&tahun=' + encodeURIComponent(tahun);
-		}
-
-		*/
-
-	  var cmt = $('select[name=\'cmt\']').val();
-
-		if (cmt != '*') {
-			url += '&cmt=' + encodeURIComponent(cmt);
-		}
-		location =url;
-		
-	}
-</script>
+<h2>
+	Kesimpulan
+</h2>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2>
+	Kendala
+</h2>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2>Solusi</h2>

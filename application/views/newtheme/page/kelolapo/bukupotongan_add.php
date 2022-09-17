@@ -216,7 +216,7 @@ $(document).on('change', '#poSelect', function(){
        console.log(json);
        if(json==''){
         var html='';
-        html+='<tr><td colspan="8" style="color:red !important">Bahan keluar belum diinput untuk PO '+explode[1]+'</td></tr>';
+        html+='<tr><td colspan="8" style="color:red !important">Tidak Ada Data untuk PO '+explode[1]+'</td></tr>';
         $("#listbahanutama").append(html); 
        }else{
         $("#listbahanutama").append(json); 
@@ -227,7 +227,7 @@ $(document).on('change', '#poSelect', function(){
        console.log(json);
        if(json==''){
         var html='';
-        html+='<tr><td colspan="8" style="color:red !important">Bahan keluar belum diinput untuk PO '+explode[1]+'</td></tr>';
+        html+='<tr><td colspan="8" style="color:red !important">Tidak Ada Data untuk PO '+explode[1]+'</td></tr>';
         $("#listbahan").append(html); 
        }else{
         $("#listbahan").append(json); 

@@ -649,7 +649,7 @@ class Kelolapo extends CI_Controller {
 		//$bahans=$this->GlobalModel->getData("gudang_bahan_keluar",array('kode_po'=>$kodepo,'hapus'=>0,'bahan_kategori'=>'UTAMA','bahan_kategori'=>'VARIASI'));
 		//pre($post);
 		//$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE 'UTAMA%' OR bahan_kategori LIKE 'VARIASI%' ");
-		$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE '%UTAMA%' ");
+		$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE '%UTAMA%' AND nama_item_keluar NOT IN (SELECT kode_bahan_potongan FROM konveksi_buku_potongan_utama WHERE hapus=0 AND kode_po='$kode_po' ) AND warna_item_keluar NOT IN (SELECT warna_potongan FROM konveksi_buku_potongan_utama WHERE hapus=0 AND kode_po='$kode_po' ) ");
 		foreach($bahans as $b){
 			echo "<tr>";
 			echo "<td><input type='hidden' value='-' class='form-control' name='bidangBahan[]'></td>";
@@ -666,10 +666,11 @@ class Kelolapo extends CI_Controller {
 	
 	public function searchPObahan(){
 		$post = $this->input->post();
-		$kodepo=$post['kodepo'];
+		$kode_po=$post['kodepo'];
 		$hasil=array();
 		$bahans=array();
-		$bahans=$this->GlobalModel->getData("gudang_bahan_keluar",array('kode_po'=>$kodepo,'hapus'=>0,'bahan_kategori'=>'CELANA'));
+		//$bahans=$this->GlobalModel->getData("gudang_bahan_keluar",array('kode_po'=>$kodepo,'hapus'=>0,'bahan_kategori'=>'CELANA'));
+		$bahans=$this->GlobalModel->QueryManual("SELECT * FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kode_po' AND bahan_kategori LIKE '%CELANA%' AND nama_item_keluar NOT IN (SELECT kode_bahan_potongan FROM konveksi_buku_potongan_variasi WHERE hapus=0 AND kode_po='$kode_po' ) AND warna_item_keluar NOT IN (SELECT warna_potongan FROM konveksi_buku_potongan_variasi WHERE hapus=0 AND kode_po='$kode_po' ) ");
 		foreach($bahans as $b){
 			echo "<tr>";
 			echo "<td><input type='hidden' value='-' class='form-control' name='bidangBahanVar[]'></td>";
@@ -701,12 +702,12 @@ class Kelolapo extends CI_Controller {
 			}else{
 				$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1]));
 			}
-			
+			/*
 			if(!empty($dataCek)) {
 				$pesan='Data Gagal disimpan, Karena inputan dengan PO '.$explode[1].' data sudah ada';
 				$this->session->set_flashdata('msg',$pesan);
 				redirect(BASEURL.'kelolapo/bukupotonganTambah');
-			}
+			}*/
 			//if (empty($dataCek)) {
 				$config['upload_path']          = './document/image/';
 		        $config['allowed_types']        = 'gif|jpg|png|jpeg';
@@ -811,7 +812,7 @@ class Kelolapo extends CI_Controller {
 					}
 				}
 			
-				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF"){
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
 						'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
@@ -950,7 +951,7 @@ class Kelolapo extends CI_Controller {
 				'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
 			);
 			$this->GlobalModel->updateData('konveksi_buku_potongan',array('kode_po'=>$explode[1]),$dataInsert);
-				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF"){
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
 					'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,

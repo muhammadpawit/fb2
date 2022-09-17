@@ -34,7 +34,7 @@
 		</tr>
 	</thead>
 </table>
-<table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;font-size: 21px !important;">
+<table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;font-size: 19.5px !important;">
 									<thead>
 										<tr>
 											<th class="center">No</th>
@@ -48,13 +48,14 @@
 								<tbody>
 								<?php foreach($kirims as $k){?>
 									<tr>
-										<td align="center" width="2%"><?php echo $no++?></td>
+										<td align="center" width="2%"><?php echo $no?></td>
 										<td align="center" width="6%"><?php echo $k['kode_po']?></td>
 										<td align="center" width="10%"><?php echo $k['rincian_po']?></td>
 										<td align="center" width="7%"><?php echo $k['jumlah_pcs']?></td>
 										<td align="center" width="5%"><?php echo $k['jml_barang']?></td>
 										<td align="center" width="10%"><?php echo $k['keterangan']?></td>
 									</tr>
+									<?php $no++; ?>
 								<?php } ?>
 								</tbody>
 								<tfoot>
