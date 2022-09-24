@@ -50,7 +50,8 @@ class Alokasitransferbordir extends CI_Controller {
 		$data=$this->input->post();
 		$insert=array(
 			'tanggal'=>$data['tanggal'],
-			'bagian'=>$data['bagian'],
+			//'bagian'=>$data['bagian'],
+			'bagian'=>2,
 			'nominal'=>$data['nominal'],
 			'keterangan'=>$data['keterangan'],
 			'pengalokasian'=>$data['pengalokasian'],

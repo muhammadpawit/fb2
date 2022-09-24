@@ -55,8 +55,8 @@
           <?php }else{ ?>
           <div class="form-group" id="tglkeluar" style="display: none">
           <?php } ?>
-            <label>Tanggal Keluar</label>
-            <input type="date" name="tglkeluar" value="<?php echo $products['tglkeluar']?>" class="form-control">
+            <label>Tanggal Keluar / resign</label>
+            <input type="text" name="tglkeluar" value="<?php echo $products['tglkeluar']?>" class="form-control datepicker">
           </div>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" href="<?php echo $batal?>">Batal</a>

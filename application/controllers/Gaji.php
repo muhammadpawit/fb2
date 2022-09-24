@@ -36,6 +36,7 @@ class Gaji extends CI_Controller {
 				'bagian'=>'Gudang',
 				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
 				'detail'=>BASEURL.'Gaji/gudangdetail/'.$r['id'],
+				'hapus'=>BASEURL.'Gaji/pressqchapus/'.$r['id'],
 				'excel'=>BASEURL.'Gaji/gudangdetail/'.$r['id'].'?&excel=1',
 			);
 			$no++;
@@ -66,15 +67,17 @@ class Gaji extends CI_Controller {
 				$data['karyawans'][]=array(
 					'idkaryawan'=>$d['idkaryawan'],
 					'nama'=>strtolower($d['nama']),
-					'senin'=>$d['senin']==1?$gaji['gaji']:0,
-					'selasa'=>$d['selasa']==1?$gaji['gaji']:0,
-					'rabu'=>$d['rabu']==1?$gaji['gaji']:0,
-					'kamis'=>$d['kamis']==1?$gaji['gaji']:0,
-					'jumat'=>$d['jumat']==1?$gaji['gaji']:0,
-					'sabtu'=>$d['sabtu']==1?$gaji['gaji']:0,
+					'senin'=>round($gaji['gaji']/12*$d['senin']),
+					'selasa'=>round($gaji['gaji']/12*$d['selasa']),
+					'rabu'=>round($gaji['gaji']/12*$d['rabu']),
+					'kamis'=>round($gaji['gaji']/12*$d['kamis']),
+					'jumat'=>round($gaji['gaji']/12*$d['jumat']),
+					'sabtu'=>round($gaji['gaji']/12*$d['sabtu']),
 					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+					'claim'=>$d['claim'],
+					'pinjaman'=>$d['pinjaman'],
 				);
 			}
 		}
@@ -146,12 +149,12 @@ class Gaji extends CI_Controller {
 					'idgaji'=>$id,
 					'idkaryawan'=>$p['idkaryawan'],
 					'nama'=>$p['nama'],
-					'senin'=>isset($p['senin'])?1:0,
-					'selasa'=>isset($p['selasa'])?1:0,
-					'rabu'=>isset($p['rabu'])?1:0,
-					'kamis'=>isset($p['kamis'])?1:0,
-					'jumat'=>isset($p['jumat'])?1:0,
-					'sabtu'=>isset($p['sabtu'])?1:0,
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
@@ -190,6 +193,7 @@ class Gaji extends CI_Controller {
 				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
 				'bagian'=>'Harian '.$r['bagian'],
 				'detail'=>BASEURL.'Gaji/pressqcdetail/'.$r['id'],
+				'hapus'=>BASEURL.'Gaji/pressqchapus/'.$r['id'],
 				'excel'=>BASEURL.'Gaji/pressqcdetail/'.$r['id'].'?&excel=1',
 			);
 			$no++;
@@ -257,18 +261,19 @@ class Gaji extends CI_Controller {
 		);
 		$this->db->insert('gaji_finishing',$insert);
 		$id=$this->db->insert_id();
+		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
 		foreach($data['products'] as $p){
 			if(isset($p['idkaryawan'])){
 				$detail=array(
 					'idgaji'=>$id,
 					'idkaryawan'=>$p['idkaryawan'],
 					'nama'=>$p['nama'],
-					'senin'=>isset($p['senin'])?1:0,
-					'selasa'=>isset($p['selasa'])?1:0,
-					'rabu'=>isset($p['rabu'])?1:0,
-					'kamis'=>isset($p['kamis'])?1:0,
-					'jumat'=>isset($p['jumat'])?1:0,
-					'sabtu'=>isset($p['sabtu'])?1:0,
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
@@ -282,6 +287,18 @@ class Gaji extends CI_Controller {
 		redirect(BASEURL.'Gaji/pressqc');
 	}
 
+	public function pressqchapus($id){
+		$update=array(
+			'hapus'=>1
+		);
+		$where=array(
+			'id'=>$id
+		);
+		$this->db->update('gaji_finishing',$update,$where);
+		$this->session->set_flashdata('msg',' Berhasil Di Hapus');
+		redirect(BASEURL.'Gaji/pressqc');
+	}
+
 	public function pressqcdetail($id){
 		$data=[];
 		$data['karyawans']=[];
@@ -289,6 +306,7 @@ class Gaji extends CI_Controller {
 		$details=[];
 		$data['title']='Resume Gaji Karyawan Finishing Forboys';
 		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('hapus'=>0,'id'=>$id));
+		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
 		if(!empty($data['gaji'])){
 			$details=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id));
 			$gaji=0;
@@ -297,12 +315,12 @@ class Gaji extends CI_Controller {
 				$data['karyawans'][]=array(
 					'idkaryawan'=>$d['idkaryawan'],
 					'nama'=>strtolower($d['nama']),
-					'senin'=>$d['senin']==1?$gaji['gaji']:0,
-					'selasa'=>$d['selasa']==1?$gaji['gaji']:0,
-					'rabu'=>$d['rabu']==1?$gaji['gaji']:0,
-					'kamis'=>$d['kamis']==1?$gaji['gaji']:0,
-					'jumat'=>$d['jumat']==1?$gaji['gaji']:0,
-					'sabtu'=>$d['sabtu']==1?$gaji['gaji']:0,
+					'senin'=>round($gaji['gaji']/12*$d['senin']),
+					'selasa'=>round($gaji['gaji']/12*$d['selasa']),
+					'rabu'=>round($gaji['gaji']/12*$d['rabu']),
+					'kamis'=>round($gaji['gaji']/12*$d['kamis']),
+					'jumat'=>round($gaji['gaji']/12*$d['jumat']),
+					'sabtu'=>round($gaji['gaji']/12*$d['sabtu']),
 					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
