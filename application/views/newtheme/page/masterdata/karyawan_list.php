@@ -83,7 +83,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered yessearch">
               <thead>
                 <tr>
                   <th>#</th>
@@ -145,7 +145,7 @@
                 <tr>
                   <td colspan="10">
                     <?php 
-                      echo $this->pagination->create_links();
+                      //echo $this->pagination->create_links();
                     ?>
                   </td>
                 </tr>

@@ -64,9 +64,10 @@ class Laporanklo extends CI_Controller {
 		$nos=1;
 		
 		//$sqlsablon.=" AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."') ";
+		$notinidcmt=" AND id_cmt NOT IN (63) ";
 		$kirim=[];
 		$setor=[];
-		$sqlsablon="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ";
+		$sqlsablon="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ".$notinidcmt;
 		$sqlsablon.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtsablon=$this->GlobalModel->QueryManual($sqlsablon);
 		foreach($cmtsablon as $s){
@@ -88,7 +89,7 @@ class Laporanklo extends CI_Controller {
 		$data['jahit']=[]; // kaos
 		$kjahit='JAHIT';
 		$sqljahit="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' ";
-		$sqljahit.=" AND jenis_po IN(1,3) ";
+		$sqljahit.=" AND jenis_po IN(1,3) ".$notinidcmt;
 		$sqljahit.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtjahit=$this->GlobalModel->QueryManual($sqljahit);
 		$no=1;
@@ -120,7 +121,7 @@ class Laporanklo extends CI_Controller {
 		
 		$data['jahitk']=[]; // kemeja
 		$slqkemeja="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' ";
-		$slqkemeja.=" AND jenis_po IN(2) ";
+		$slqkemeja.=" AND jenis_po IN(2) ".$notinidcmt;
 		$slqkemeja.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtkemeja=$this->GlobalModel->QueryManual($slqkemeja);
 		$nok=1;

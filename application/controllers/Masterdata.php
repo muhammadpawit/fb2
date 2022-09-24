@@ -819,7 +819,8 @@ class Masterdata extends CI_Controller {
         $config['last_tagl_close']  = '</span></li>';
 		$from = $this->uri->segment(3);
 		$this->pagination->initialize($config);		
-		$products = $this->GlobalModel->data('karyawan',$config['per_page'],$from);
+		//$products = $this->GlobalModel->data('karyawan',$config['per_page'],$from);
+		$products = $this->GlobalModel->getData('karyawan',array('hapus'=>0));
 		$data['products']=array();
 		$tahun=null;
 		$bulan=null;
