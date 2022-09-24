@@ -55,7 +55,7 @@
           <?php }else{ ?>
           <div class="form-group" id="tglkeluar" style="display: none">
           <?php } ?>
-            <label>Tanggal Keluar / resign</label>
+            <label>Tanggal Keluar / Tanggal resign</label>
             <input type="text" name="tglkeluar" value="<?php echo $products['tglkeluar']?>" class="form-control datepicker">
           </div>
           <button type="submit" class="btn btn-info">Simpan</button>
