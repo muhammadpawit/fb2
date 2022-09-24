@@ -69,6 +69,11 @@
 	</div>
 </div>
 <div class="row">
+	<div class="col-md-12 text-center">
+		<h3>Laporan Stok Alat-alat</h3>
+	</div>
+</div>
+<div class="row">
 	<div class="col-md-12">
 		<div class="table-responsive">
 			<caption>Periode : <?php echo date('d F Y',strtotime($tanggal1))?> - <?php echo date('d F Y',strtotime($tanggal2))?></caption>

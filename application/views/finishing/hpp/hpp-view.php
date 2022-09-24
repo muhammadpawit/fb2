@@ -29,9 +29,9 @@
                                 <td><?php echo $po['created_date'] ?></td>
                                 <th>
                                     <?php if($po['harga_satuan']>0){?>
-                                        <a href="<?php echo BASEURL.'finishing/hppproduksidetail/'.$po['kode_po'] ?>" class="btn btn-success btn-xs text-white" style="width: 100%"><i class="fi-paper">Re-Check</i></a>
+                                        <a href="<?php echo BASEURL.'finishing/hppproduksidetail/'.$po['id_produksi_po'] ?>" class="btn btn-success btn-xs text-white" style="width: 100%"><i class="fi-paper">Re-Check</i></a>
                                     <?php }else{?>
-                                        <a href="<?php echo BASEURL.'finishing/hppproduksidetail/'.$po['kode_po'] ?>" class="btn btn-warning btn-xs text-white" style="width: 100%"><i class="fi-paper">Cek</i></a>
+                                        <a href="<?php echo BASEURL.'finishing/hppproduksidetail/'.$po['id_produksi_po'] ?>" class="btn btn-warning btn-xs text-white" style="width: 100%"><i class="fi-paper">Cek</i></a>
                                     <?php } ?>
                                 </th>
                             </tr>

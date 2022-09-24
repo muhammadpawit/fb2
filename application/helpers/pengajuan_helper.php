@@ -1,5 +1,12 @@
 <?php 
     
+    function GetDetailPo($kodepo){
+		$CI =& get_instance();
+		$sql="SELECT * FROM produksi_po WHERE hapus=0 and kode_po='$kodepo' ";
+		$row=$CI->GlobalModel->queryManualRow($sql);
+		return $row;
+	}
+
     function GetName($table,$id){
 		$CI =& get_instance();
 		$sql="SELECT * FROM $table WHERE hapus=0 and id='$id' ";
