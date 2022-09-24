@@ -134,6 +134,7 @@ class Setorancmt extends CI_Controller {
 		$totalkirim=0;
 		$jobprice=0;
 		$totalsetor=0;
+		$masterpo=[];
 		if(isset($post['products'])){
 			//$job=explode("-",$post['cmtJob']);
 			$cmt=explode('-', $post['cmtName']);
@@ -184,6 +185,7 @@ class Setorancmt extends CI_Controller {
 	   				$this->db->insert('setorcmt_detail',$detail);
 	   				
 	   				// setor
+	   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
 	   				$insertkks=array(
 	   					'kode_po'=>$p['kode_po'],
 	   					'create_date'=>$post['tanggal'],
@@ -206,6 +208,7 @@ class Setorancmt extends CI_Controller {
 	   					'qty_claim'=>0,
 	   					'status_keu'=>0,
 	   					'tglinput'=>date('Y-m-d'),
+	   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
 	   				);
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
 	   				$iks = $this->db->insert_id();

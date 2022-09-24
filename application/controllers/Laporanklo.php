@@ -116,7 +116,7 @@ class Laporanklo extends CI_Controller {
 				'setorjeanspcs'=>!empty($setorjeans)?$setorjeans['pcs']:0,
 			);
 		}
-		//pre($cmtjahit);
+		//pre($data['jahit']);
 		
 		$data['jahitk']=[]; // kemeja
 		$slqkemeja="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' ";

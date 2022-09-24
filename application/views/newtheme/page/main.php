@@ -1456,6 +1456,8 @@ $(document).on('click', '.remove', function(){
           dateFormat: 'yy-mm-dd',
           maxDate:+1,
           yearRange: '2019:2030',
+          changeMonth: true,
+          changeYear: true
         });
         // Default Datatable
         $('#datatable').dataTable( {
