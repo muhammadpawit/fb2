@@ -1213,6 +1213,7 @@ class Kelolapo extends CI_Controller {
 		$totalbawah=0;
 		$totalkirim=0;
 		$jobprice=0;
+		$masterpo=[];
 		if(isset($post['tanggal'])){
 			$insert=array(
 				'tanggal'=>$post['tanggal'],
@@ -1244,7 +1245,7 @@ class Kelolapo extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmtsablon_detail',$detail);
-
+   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$post['tanggal'],
@@ -1267,6 +1268,7 @@ class Kelolapo extends CI_Controller {
    					'qty_claim'=>0,
    					'status_keu'=>0,
    					'tglinput'=>date('Y-m-d'),
+   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
    				);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);
    				$iks = $this->db->insert_id();
@@ -1347,7 +1349,7 @@ class Kelolapo extends CI_Controller {
 		$this->load->view('newtheme/page/main',$data);
 	}
 
-	public function kirimcmtsabloncetak($id='',$type=''){
+	/*public function kirimcmtsabloncetak($id='',$type=''){
 		$rincian=array();
 		$data=array();
 		$data['no']=1;
@@ -1360,6 +1362,54 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$this->load->view('produksi/kirimcmt_excel',$data);
 		}
+		
+	}*/
+
+	public function kirimcmtsabloncetak($id='',$type=''){
+		$rincian=array();
+		$data=array();
+		$data['no']=1;
+		$data['nota']='Sablon';
+		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
+		$data['kirims']=$this->GlobalModel->getData('kirimcmtsablon_detail',array('idkirim'=>$id));
+		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		if($type==2){
+			$pdf=false;
+		}else{
+			$pdf=true;
+		}
+		
+		if($pdf==true){
+			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			
+			$html =  $this->load->view('produksi/kirimcmt_pdf',$data,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+	        // setting paper
+	        //$paper = 'A4';
+	        $paper = array(0,0,800,850);
+	        //orientasi paper potrait / landscape
+	        $orientation = "landscape";
+	        
+			$this->load->view('laporan_pdf',$this->data, true);	    
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}else{
+			if($type==1){
+				//$this->load->view('produksi/kirimcmt_cetak',$data);
+				$this->load->view('produksi/kirimcmt_pdf',$data);
+			}else{
+				$this->load->view('produksi/kirimcmt_excel',$data);
+			}	
+		}
+		
 		
 	}
 
@@ -1560,6 +1610,7 @@ class Kelolapo extends CI_Controller {
 		$totalbawah=0;
 		$totalkirim=0;
 		$jobprice=0;
+		$masterpo=[];
 		if(isset($post['tanggal'])){
 			$cmt=explode('-', $post['cmtName']);
 			$insert=array(
@@ -1580,6 +1631,7 @@ class Kelolapo extends CI_Controller {
    			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt[0]));
    			foreach($post['products'] as $p){
    				$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
+
    				$totalkirim+=($p['jumlah_pcs']);
    				$detail=array(
    					'idkirim'=>$id,
@@ -1592,7 +1644,7 @@ class Kelolapo extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
-
+   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$post['tanggal'],
@@ -1616,6 +1668,7 @@ class Kelolapo extends CI_Controller {
    					'qty_claim'=>0,
    					'status_keu'=>0,
    					'tglinput'=>date('Y-m-d'),
+   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
    				);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);
    				$iks = $this->db->insert_id();

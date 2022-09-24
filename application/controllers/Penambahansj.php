@@ -120,6 +120,7 @@ class Penambahansj extends CI_Controller {
 		$totalbawah=0;
 		$totalkirim=0;
 		$jobprice=0;
+		$masterpo=[];
 		$id=$post['sj'];
 		if(isset($post['sj'])){
 			$cmt=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
@@ -138,6 +139,7 @@ class Penambahansj extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
+   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$cmt['tanggal'],
@@ -161,6 +163,7 @@ class Penambahansj extends CI_Controller {
    					'qty_claim'=>0,
    					'status_keu'=>0,
    					'tglinput'=>date('Y-m-d'),
+   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
    				);
    				//pre($totalkirim);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);

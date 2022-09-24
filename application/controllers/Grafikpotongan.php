@@ -36,6 +36,7 @@ class Grafikpotongan extends CI_Controller {
 				$data['prods'][]=array(
 					'bulan'=>$val,
 					'bln'=>$month,
+					'perminggu'=>$this->url.'perminggu/'.$month.'/'.$y,
 					'year'=>$y,
 					'kemeja'=>$this->ReportModel->potonganbulanan($month,$y,1),
 					'jmlkemeja'=>$this->ReportModel->jmlpotonganbulanan($month,$y,1),

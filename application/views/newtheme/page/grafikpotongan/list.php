@@ -37,7 +37,7 @@
 				?>
 				<?php foreach($prods as $p){?>
 					<tr>
-						<td><?php echo $p['bulan']?></td>
+						<td><a href="<?php echo $p['perminggu']?>"><?php echo $p['bulan']?></a></td>
 						<td align="right"><?php echo number_format($p['jmlkaos'])?></td>
 						<td align="right"><?php echo number_format($p['kaos'],2)?></td>
 						<td align="right"><?php echo number_format($p['jmlkemeja'])?></td>
