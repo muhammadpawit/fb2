@@ -185,7 +185,7 @@ public function save(){
 	   				$this->db->insert('setorcmt_sablon_detail',$detail);
 	   				
 	   				// setor
-	   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
+	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
 	   				$insertkks=array(
 	   					'kode_po'=>$p['kode_po'],
 	   					'create_date'=>$post['tanggal'],
