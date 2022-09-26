@@ -1665,11 +1665,36 @@ class Masterdata extends CI_Controller {
 	{
 		$data=[];
 		$data['title']='Master Nama PO';
-		$data['satuan']	= $this->GlobalModel->getData('master_jenis_po',null);
+		$data['satuan']	= $this->GlobalModel->getData('master_jenis_po',array());
 		$data['page']='master/po/po-view';
 		$this->load->view($this->page.'main',$data);
 
 
+	}
+
+	public function editnamapo($id)
+
+	{
+		$data=[];
+		$data['title']='Master Nama PO';
+		$data['p']	= $this->GlobalModel->getDataRow('master_jenis_po',array('id_jenis_po'=>$id));
+		$data['page']='master/po/namapo-edit';
+		$this->load->view($this->page.'main',$data);
+		
+
+	}
+
+	public function simpaneditnama(){
+		$post=$this->input->post();
+		$update=array(
+			'tampil'=>$post['tampil'],
+		);
+		$where=array(
+			'id_jenis_po'=>$post['id_jenis_po'],
+		);
+		$this->db->update('master_jenis_po',$update,$where);
+		$this->session->set_flashdata('msg','Data berhasil didelete');
+		redirect(BASEURL.'Masterdata/namapo');
 	}
 
 

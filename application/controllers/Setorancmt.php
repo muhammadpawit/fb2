@@ -60,6 +60,13 @@ class Setorancmt extends CI_Controller {
 				'href' => BASEURL.'Setorancmt/kirimcmtview/'.$result['id'],
 			);
 
+			if(akseshapus()==1 && empty($result['nosj']) ){
+				$action[] = array(
+					'text' => 'Hapus',
+					'href' => BASEURL.'Setorancmt/hapussetoran/'.$result['id'],
+				);
+			}
+
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			
 			$data['products'][]=array(
@@ -185,7 +192,7 @@ class Setorancmt extends CI_Controller {
 	   				$this->db->insert('setorcmt_detail',$detail);
 	   				
 	   				// setor
-	   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
+	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
 	   				$insertkks=array(
 	   					'kode_po'=>$p['kode_po'],
 	   					'create_date'=>$post['tanggal'],
@@ -274,6 +281,7 @@ class Setorancmt extends CI_Controller {
 	   					'qty_claim'=>0,
 	   					'status_keu'=>0,
 	   					'tglinput'=>date('Y-m-d'),
+	   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
 	   				);
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks2);
 	   				$iks2 = $this->db->insert_id();
@@ -324,6 +332,32 @@ class Setorancmt extends CI_Controller {
 		}else{
 			echo "Gagal. Tanggal kirim harus diisi";
 		}
+	}
+
+	public function hapussetoran($id){
+		$data=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
+		$detail=$this->GlobalModel->getData('setorcmt_detail',array('idsetor'=>$id));
+		if(!empty($detail)){
+			foreach($detail as $d){
+				$sql="UPDATE kirimcmt SET totalsetor=totalsetor-".$d['totalsetor']." WHERE id='".$d['idkirim']."' AND hapus=0 ";
+				$this->db->query($sql);
+
+				$sql2="UPDATE kirimcmt_detail SET totalsetor=totalsetor-".$d['totalsetor']." WHERE idkirim='".$d['idkirim']."' AND kode_po='".$d['kode_po']."' AND hapus=0 ";
+				$this->db->query($sql2);
+			}
+		}
+		//pre($detail);
+		$update=array('hapus'=>1);
+		$where=array(
+			'id'=>$id,
+		);
+		$this->db->update('setorcmt',$update,$where);
+		$where2=array(
+			'idsetor'=>$id,
+		);
+		$this->db->update('setorcmt_detail',$update,$where2);
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect(BASEURL.'Setorancmt');
 	}
 
 	public function caripo(){

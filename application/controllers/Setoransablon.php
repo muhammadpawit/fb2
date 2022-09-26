@@ -122,7 +122,7 @@ class Setoransablon extends CI_Controller {
 		$this->load->view($this->layout.'main',$data);
 	}
 
-	public function save(){
+public function save(){
 		$post=$this->input->post();
 		//pre($post);
 		//$po=implode(",", $post['namaPo']);
@@ -134,6 +134,7 @@ class Setoransablon extends CI_Controller {
 		$totalkirim=0;
 		$jobprice=0;
 		$totalsetor=0;
+		$masterpo=[];
 		if(isset($post['products'])){
 			//$job=explode("-",$post['cmtJob']);
 			$cmt=explode('-', $post['cmtName']);
@@ -152,7 +153,7 @@ class Setoransablon extends CI_Controller {
 				'dibuat'=>date('Y-m-d H:i:s'),
 				'hapus'=>0,
 			);
-			$this->db->insert('setorcmt_sablon', $insert);
+			$this->db->insert('setorcmt', $insert);
    			$idsetor = $this->db->insert_id();
 
    			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt[0]));
@@ -161,7 +162,7 @@ class Setoransablon extends CI_Controller {
    					// eksekusi di table kirim
    					$this->db->query("UPDATE kirimcmtsablon set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE id='".$p['idkirim']."' ");
    					$this->db->query("UPDATE kirimcmtsablon_detail set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE idkirim='".$p['idkirim']."' AND kode_po='".$p['kode_po']."' ");
-   					$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
+   					$jobprice=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$p['cmtjob']));
 	   				$totalsetor+=($p['totalsetor']);
 
 	   				$totalkirim=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$p['idkirim']));
@@ -184,6 +185,7 @@ class Setoransablon extends CI_Controller {
 	   				$this->db->insert('setorcmt_sablon_detail',$detail);
 	   				
 	   				// setor
+	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
 	   				$insertkks=array(
 	   					'kode_po'=>$p['kode_po'],
 	   					'create_date'=>$post['tanggal'],
@@ -206,11 +208,51 @@ class Setoransablon extends CI_Controller {
 	   					'qty_claim'=>0,
 	   					'status_keu'=>0,
 	   					'tglinput'=>date('Y-m-d'),
+	   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
 	   				);
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
+	   				$iks = $this->db->insert_id();
+	   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+	   				if(!empty($atas)){
+		   				foreach($atas as $a){
+		   					$ia=array(
+		   						'id_kelolapo_kirim_setor'=>$iks,
+		   						'kode_po'=>$a['kode_po'],
+		   						'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
+		   						'warna_potongan_atas'=>$a['warna_potongan_atas'],
+		   						'jumlah_potongan'=>$a['jumlah_potongan'],
+		   						'keterangan_potongan'=>$a['keterangan_potongan'],
+		   						'created_date'=>$post['tanggal'],
+		   						'qty_bangke_atas'=>0,
+		   						'qty_reject_atas'=>0,
+		   						'qty_hilang_atas'=>0,
+		   						'qty_claim_atas'=>0,
+		   					);
+		   					$this->db->insert('kelolapo_kirim_setor_atas',$ia);
+		   				}
+		   			}
+		   			$bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
+		   			if(!empty($bawah)){
+		   				foreach($bawah as $b){
+		   					$ib=array(
+		   						'id_kelolapo_kirim_setor'=>$iks,
+		   						'kode_po'=>$b['kode_po'],
+		   						'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
+		   						'warna_potongan_atas'=>$b['warna_potongan_bawah'],
+		   						'jumlah_potongan'=>$b['jumlah_potongan'],
+		   						'keterangan_potongan'=>$a['keterangan_potongan'],
+		   						'created_date'=>$post['tanggal'],
+		   						'qty_bangke_atas'=>0,
+		   						'qty_reject_atas'=>0,
+		   						'qty_hilang_atas'=>0,
+		   						'qty_claim_atas'=>0,
+		   					);
+		   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
+		   				}
+		   			}
    				}
    			}
-	   		$nosj='STFB'.'-'.date('Y-m').'-'.$idsetor;
+	   		$nosj='STSBFB'.'-'.date('Y-m').'-'.$idsetor;
 	   		$this->db->update('setorcmt_sablon',array('totalsetor'=>$totalsetor,'nosj'=>$nosj),array('id'=>$idsetor));
    			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect($this->link);

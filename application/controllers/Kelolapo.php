@@ -454,6 +454,8 @@ class Kelolapo extends CI_Controller {
 
 	public function editgambar($kodepo){
 		$data=[];
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
+		$kodepo=$po['kode_po'];
 		$data['title']='Edit Gambar '.strtoupper($kodepo);
 		$data['kode_po']=$kodepo;
 		$data['prods']=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po'=>$kodepo));
@@ -568,31 +570,31 @@ class Kelolapo extends CI_Controller {
 			if($edit==1){
 				$action[] = array(
 					'text' => '&nbsp;Edit',
-					'href' => BASEURL.'kelolapo/bukupotonganEdit/'.$result['kode_po'],
+					'href' => BASEURL.'kelolapo/bukupotonganEdit/'.$result['idpo'],
 				);	
 			}
 			
 
 			$action[] = array(
 				'text' => '&nbsp;Detail',
-				'href' => BASEURL.'kelolapo/bukupotonganDetail/'.$result['kode_po'],
+				'href' => BASEURL.'kelolapo/bukupotonganDetail/'.$result['idpo'],
 			);
 
 			//if(empty($cp)){
-				$action[] = array(
-					'text' => '&nbsp;Pengecekan',
-					'href' => BASEURL.'kelolapo/formpengecekanpotonganEdit/'.$result['kode_po'],
-				);
+				// $action[] = array(
+				// 	'text' => '&nbsp;Pengecekan',
+				// 	'href' => BASEURL.'kelolapo/formpengecekanpotonganEdit/'.$result['id_potongan'],
+				// );
 			//}
 
-			$action[] = array(
-				'text' => 'Kirim Sablon',
-				'href' => BASEURL.'kelolapo/kirimsetortambah/'.$result['kode_po'].'',
-			);
+			// $action[] = array(
+			// 	'text' => 'Kirim Sablon',
+			// 	'href' => BASEURL.'kelolapo/kirimsetortambah/'.$result['idpo'].'',
+			// );
 
 			$action[] = array(
 				'text' => 'Edit Gambar',
-				'href' => BASEURL.'kelolapo/editgambar/'.$result['kode_po'].'',
+				'href' => BASEURL.'kelolapo/editgambar/'.$result['idpo'].'',
 			);
 
 			$action[] = array(
@@ -864,6 +866,8 @@ class Kelolapo extends CI_Controller {
 
 	public function bukupotonganEdit($id='')
 	{
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
+		$id=$po['kode_po'];
 		$viewData['title']='Ubah Buku Potongan '.$id;
 		$viewData['action']=BASEURL.'Kelolapo/bukupotonganEditOnUpdate';
 		$viewData['tgl']=date('Y-m-d');
@@ -973,6 +977,8 @@ class Kelolapo extends CI_Controller {
 
 	public function bukupotonganDetail($kode='')
 	{
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kode));
+		$kode=$po['kode_po'];
 		$viewData['kembali']=BASEURL.'kelolapo/bukupotongan';
 		$kodePOArr = array(
 			'kode_po' => $kode,
@@ -1245,7 +1251,7 @@ class Kelolapo extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmtsablon_detail',$detail);
-   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
+   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$post['tanggal'],
@@ -1644,7 +1650,7 @@ class Kelolapo extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
-   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
+   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$post['tanggal'],

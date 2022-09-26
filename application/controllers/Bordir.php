@@ -906,13 +906,13 @@ class Bordir extends CI_Controller {
 					$action=array();
 					$action[]= array(
 						'text' => 'Detail',
-						'href' => BASEURL.'bordir/mesinbordirdetail/'.$b['kode_po'],
+						'href' => BASEURL.'bordir/mesinbordirdetail/'.$b['idpo'],
 					);
 					
 					if(aksesedit()==1){
 						$action[]=array(
 							'text'=>'Edit',
-							'href'=>BASEURL.'Bordir/mesinharian_edit/'.$b['kode_po'],
+							'href'=>BASEURL.'Bordir/mesinharian_edit/'.$b['idpo'],
 						);
 					}
 
@@ -957,6 +957,8 @@ class Bordir extends CI_Controller {
 
 	public function mesinharian_edit($id){
 		$data=[];
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
+		$id=$po['kode_po'];
 		$data['title']='Edit Inputan Mesin Bordir '.$id;
 		$data['kode_po']=$id;
 		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'kode_po'=>$id));
@@ -1230,10 +1232,12 @@ class Bordir extends CI_Controller {
 			$this->GlobalModel->updateData('produksi_po',array('kode_po' => $post['namaPo']),$dataKode);
 			//$namapo= $post['namaPo'];
 			$laporan_perkalian_tarif='0.18';
+			$idpo=GetDetailPo($post['namaPo'])['id_produksi_po'];
 		}else{
 			//$po=$this->GlobalModel->getDataRow('master_po_luar',array('id'=>$post['namaPo']));
 			//$namapo=$po['nama'];
 			$laporan_perkalian_tarif=$post['perkalianTarif'];
+			$idpo=$post['namaPo'];
 		}
 
 		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('nomer_mesin'=>$post['mesin']));
@@ -1267,6 +1271,7 @@ class Bordir extends CI_Controller {
 		'kepala'  =>$mesin['kepala'],
 		'persen' =>$mesin['persenan'],
 		'laporan_perkalian_tarif'=>$laporan_perkalian_tarif,
+		'idpo'=>$idpo,
 		//'gaji'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15*$mesin['persenan']),
 		);		
 		//pre($dataInsert);
@@ -1326,7 +1331,8 @@ class Bordir extends CI_Controller {
 
 	public function mesinbordirdetail($kodePo='')
 	{
-
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodePo));
+		$kodePo=$po['kode_po'];
 		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE kmb.kode_po="'.$kodePo.'" ');
 		$viewData['title']="Detail Bordir";
 		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb WHERE kmb.kode_po="'.$kodePo.'" ');

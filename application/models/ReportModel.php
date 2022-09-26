@@ -1330,7 +1330,7 @@ class ReportModel extends CI_Model {
 		}else{
 			$perkalian=0.2;
 		}
-		$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql2="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql2.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql2.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
