@@ -105,6 +105,11 @@
                     <td></td>
                 </tr>
                 <tr>
+                    <td colspan="9" align="center"><b>Potongan Alat</b></td>
+                    <td align="center"><b><?php echo number_format($detail['potongan_alat'])?></b></td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
                     <td align="center"><b><?php echo number_format($detail['biaya_transport']-$detail['potongan_transport'])?></b></td>
                     <td></td>
@@ -253,6 +258,52 @@
                 <tr>
                     <td colspan="4" align="center">Total</td>
                     <td><b><?php echo number_format($bang)?></b></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <?php } ?>
+    <?php if(!empty($alat)){?>
+    <div class="col-md-6">
+        <label>Potongan Alat</label>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Rincian</th>
+                    <th>Jumlah</th>
+                    <th>Harga</th>
+                    <th>Total</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $nomor=1;$al=0;?>
+                <?php foreach($alat as $b){?>
+                    <tr>
+                        <td><?php echo $nomor++?></td>
+                        <td><?php echo strtoupper($b['rincian'])?></td>
+                        <td><?php echo $b['qty']?></td>
+                        <td><?php echo number_format($b['harga'])?></td>
+                        <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                        <td><?php echo strtolower($b['keterangan'])?></td>
+                    </tr>
+                    <?php $al+=($b['qty']*$b['harga']);?>
+                <?php } ?>
+                <?php for($j=1;$j<=5;$j++){?>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <?php } ?>
+                <tr>
+                    <td colspan="4" align="center">Total</td>
+                    <td><b><?php echo number_format($al)?></b></td>
                     <td></td>
                 </tr>
             </tbody>
