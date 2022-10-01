@@ -132,6 +132,23 @@
             
             <tfoot></tfoot>
         </table>
+        Potongan Alat-alat
+        <table class="table table-bordered" id="alat">
+            <thead>
+                <tr>
+                    <th>Nama Alat</th>
+                    <th>Jumlah</th>
+                    <th>Harga</th>
+                    <th>Keterangan</th>
+                    <th align="right">
+                        <a onclick="tambahalat()" class="btn btn-success btn-sm text-white"><i class="fa fa-plus"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <?php $bangke=0;?>
+            
+            <tfoot></tfoot>
+        </table>
     </div>
 </div>
 <div class="row">
@@ -250,6 +267,20 @@
         $("#kbangke tfoot").before(html);
         $('.select2bs4').selectpicker('refresh');
         k++;
+    }
+
+    var l=0;
+    function tambahalat(){
+        var html='<tbody data-parent="0" id="product-row' + l + '" data="'+l+'"><tr>';
+        html += '<td><input type="text" class="form-control" name="alat['+l+'][rincian]" required</td>';
+        html +='<td><input type="text" class="form-control" name="alat['+l+'][qty]" required></td>';
+        html +='<td><input type="text" class="form-control" name="alat['+l+'][harga]" required ></td>';
+        html +='<td><input type="text" class="form-control" name="alat['+l+'][keterangan]" value="-" required ></td>';
+        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
+        html +='</tr><tbody>';
+        $("#alat tfoot").before(html);
+        $('.select2bs4').selectpicker('refresh');
+        l++;
     }
 
     

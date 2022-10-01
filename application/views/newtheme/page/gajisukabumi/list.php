@@ -17,16 +17,7 @@
   </div>
   <div class="col-md-3">
     <label>Tanggal Akhir</label>
-    <input type="text" value="<?php echo $tanggal2?>" name="tanggal2" class="form-control datepicker">
-  </div>
-  <div class="col-md-3">
-    <label>Nama CMT</label>
-    <select name="cmt" class="form-control select2bs4" data-live-search="true">
-      <option value="*">Semua</option>
-      <?php foreach($cmt as $c){?>
-        <option value="<?php echo $c['id_cmt']?>"><?php echo strtolower($c['cmt_name'])?></option>
-      <?php } ?>
-    </select>
+    <input type="text" value="<?php echo $tanggal2?>" name="tanggal1" class="form-control datepicker">
   </div>
   <div class="col-md-3">
     <label>Action</label><br>
@@ -40,24 +31,18 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>No.SJ</th>
                           <th>Tanggal</th>
-                          <!--<th>Nama PO</th>-->
-                          <th>Nama CMT</th>
-                          <th>Quantity (Pcs)</th>
+                          <th>Total</th>
                           <th>Keterangan</th>
-                          <th></th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php foreach($products as $p){?>
                         <tr>
                           <td><?php echo $p['no']?></td>
-                          <td><?php echo $p['nosj']?></td>
                           <td><?php echo $p['tanggal']?></td>
-                          <!--<td><?php echo $p['kode_po']?></td>-->
-                          <td><?php echo $p['namacmt']?></td>
-                          <td><?php echo $p['quantity']?></td>
+                          <td><?php echo number_format($p['total'])?></td>
                           <td><?php echo $p['keterangan']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
@@ -83,13 +68,6 @@
     if (filter_date_end) {
       url += '&tanggal2=' + encodeURIComponent(filter_date_end);
     }
-
-    var filter_status = $('select[name=\'cmt\']').val();
-
-    if (filter_status != '*') {
-      url += '&cmt=' + encodeURIComponent(filter_status);
-    }
-
     location =url;
   }
 </script>

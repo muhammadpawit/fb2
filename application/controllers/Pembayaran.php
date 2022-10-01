@@ -796,6 +796,7 @@ class Pembayaran extends CI_Controller {
 			);
 		}
 		$data['bangke']=$this->GlobalModel->getData('potongan_bangke',array('idpembayaran'=>$id));
+		$data['alat']=$this->GlobalModel->getData('potongan_alat',array('idpembayaran'=>$id));
 		$data['kembalianbangke']=$this->GlobalModel->getData('pengembalian_bangke',array('idpembayaran'=>$id));
 		$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$data['detail']['idcmt']));
 		$data['harga']=$this->GlobalModel->getdata('daftarharga_cmt',array('hapus'=>0,'idcmt'=>$data['detail']['idcmt']));
@@ -848,6 +849,7 @@ class Pembayaran extends CI_Controller {
 		$totaldz=0;
 		$btransport=0;
 		$pottripke2=0;
+		$totalalat=0;
 		//echo 'Sedang dalam perbaikan.. Mohon tunggu beberapa saat lagi';exit;
 		//pre($data);
 		if(isset($data['cmt'])){
@@ -888,6 +890,7 @@ class Pembayaran extends CI_Controller {
 					'idcmt'=>$data['cmt'],
 					'pengembalian_bangke'=>0,
 					'potongan_bangke'=>0,
+					'potongan_alat'=>0,
 					//'biaya_transport'=>$data['biaya_transport'],
 					'biaya_transport'=>$btransport,
 					'potongan_lainnya'=>$data['potongan_lainnya'],
@@ -939,6 +942,21 @@ class Pembayaran extends CI_Controller {
 						$this->db->insert('potongan_bangke',$bangke);
 					}
 				}
+				if(isset($data['alat'])){
+					foreach($data['alat'] as $p){
+						$alat=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalalat+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_alat',$alat);
+					}
+				}
 				if(isset($data['kembalianbangke'])){
 					foreach($data['kembalianbangke'] as $kb){
 						$kbangke=array(
@@ -957,7 +975,8 @@ class Pembayaran extends CI_Controller {
 				$update=array(
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
 					'potongan_bangke'	=>$totalbangke,
-					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']),
+					'potongan_alat' =>$totalalat,
+					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']-$totalalat),
 				);
 				//pre($potptm);
 				$where=array(
