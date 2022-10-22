@@ -5,8 +5,8 @@ class Finishing extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
 		$this->load->model('KirimsetorModel');
 	}
@@ -1290,8 +1290,10 @@ class Finishing extends CI_Controller {
 	{
 		$post = $this->input->post();
 		//pre($post);
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kodepo']));
+		$kodepo=$po['id_produksi_po'];
 		$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kodepo']),array('harga_satuan'=>$post['hargasatuan']));
-		redirect(BASEURL.'finishing/hppproduksidetail/'.$post['kodepo']);
+		redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
 	public function submitImageHppsat()
@@ -1299,11 +1301,14 @@ class Finishing extends CI_Controller {
 		$config['upload_path']          = './uploads/hpp/';
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $post = $this->input->post();
+        $po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
+		$kodepo=$po['id_produksi_po'];
+
         $this->load->library('upload', $config);
         $this->upload->do_upload('gambarPO1');
         $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
         $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po'=>$fileName));
-        redirect(BASEURL.'finishing/hppproduksidetail/'.$post['kode_po']);
+        redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
 	public function submitImageHppdua()
@@ -1311,12 +1316,13 @@ class Finishing extends CI_Controller {
 		$config['upload_path']          = './uploads/hpp/';
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $post = $this->input->post();
-
+        $po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
+		$kodepo=$po['id_produksi_po'];
         $this->load->library('upload', $config);
         $this->upload->do_upload('gambarPO2');
         $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
         $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po2'=>$fileName));
-        redirect(BASEURL.'finishing/hppproduksidetail/'.$post['kode_po']);
+        redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
 
@@ -1325,12 +1331,13 @@ class Finishing extends CI_Controller {
 	{
 
 		$post = $this->input->post();
-
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
+		$kodepo=$po['id_produksi_po'];
 		//if ($post['button'] == "SUBMIT") {
 
 			$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('operaitonal_price'=>$post['valOperation']));
 
-        	redirect(BASEURL.'finishing/hppproduksidetail/'.$post['kode_po']);
+        	redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 
 		/*} else {
 

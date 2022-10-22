@@ -6,8 +6,8 @@ class Dash extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->load->model('ReportModel');
 		$this->load->model('GlobalModel');
 		$this->page='newtheme/page/';
@@ -399,9 +399,17 @@ class Dash extends CI_Controller {
     public function monitoring_progress(){
     	$data=[];
     	$nomors=1;
+    	$get=$this->input->get();
+    	if(isset($get['jenispo'])){
+    		$data['jenispo']=$get['jenispo'];
+    	}else{
+    		$data['jenispo']=null;
+    	}
+    	$data['title']='Laporan Monitoring Proses Produksi Berjalan ';
     	$data['allpo']=[];
     	$data['allpos']=[];
 		$allpo=[];
+		$data['jenis']=$this->GlobalModel->GetData('master_jenis_po',array('tampil'=>1));
 		$data['page']=$this->page.'report/all';
 		$this->load->view('newtheme/page/main',$data);
     }
@@ -523,9 +531,9 @@ class Dash extends CI_Controller {
 
 	public function bordirharian(){
 		$data=array();
-		$data['title']='Laporan Pendapatan Mesin Bordir Harian ';
 		$data['n']=1;
 		$data['action']=null;
+		$data['title']='Laporan Pendapatan Mesin Bordir';
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['products']=array();
 		$get=$this->input->get();
@@ -570,13 +578,16 @@ class Dash extends CI_Controller {
 		if(isset($get['cetak'])){
 			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
 		}else{
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
 		}
 		
 		if(!empty($nomesin)){
 			$sm.=" AND nomor='$nomesin' ";
 		}
 		$mesin=$this->GlobalModel->QueryManual($sm);
+		$data['luar']=[];
+		$data['luar']=$this->GlobalModel->QueryManual("SELECT laporan_perkalian_tarif as perkalian FROM kelola_mesin_bordir WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif");
+		
 		foreach($mesin as $mes){
 			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
@@ -594,20 +605,23 @@ class Dash extends CI_Controller {
 				'shift'=>$mes['shift'],
 				'stich'=>round($totalstich),
 				'0.18'=>round($total018),
-				'0.2'=>round($total02),
+				'0.2'=>($total02),
 				'0.18yn'=>0,
 				'0.15'=>round($total015),
 				'pendapatan'=>round($total018+$total02),
 				'jumlah'=>round($jumlah),
 				'i'=>$i++,
 				'keterangan'=>null,
+				'dets'=>$this->ReportModel->total02_array($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2),
 			);
 		}
+		//pre($data['products']);
 		$data['t']=$globalstich;
 		$data['g018']=$g018;
 		$data['g02']=$g02;
 		$data['g015']=$g015;
 		$data['gpendapatan']=$gpendapatan;
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['nomesin']=$nomesin;
@@ -668,13 +682,16 @@ class Dash extends CI_Controller {
 		if(isset($get['cetak'])){
 			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
 		}else{
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11) ";
 		}
 		
 		if(!empty($nomesin)){
 			$sm.=" AND nomor='$nomesin' ";
 		}
 		$mesin=$this->GlobalModel->QueryManual($sm);
+		$data['luar']=[];
+		$data['luar']=$this->GlobalModel->QueryManual("SELECT laporan_perkalian_tarif as perkalian FROM kelola_mesin_bordir WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif");
+		
 		foreach($mesin as $mes){
 			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
@@ -692,15 +709,17 @@ class Dash extends CI_Controller {
 				'shift'=>$mes['shift'],
 				'stich'=>round($totalstich),
 				'0.18'=>round($total018),
-				'0.2'=>round($total02),
+				'0.2'=>($total02),
 				'0.18yn'=>0,
 				'0.15'=>round($total015),
 				'pendapatan'=>round($total018+$total02),
 				'jumlah'=>round($jumlah),
 				'i'=>$i++,
 				'keterangan'=>null,
+				'dets'=>$this->ReportModel->total02_array($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2),
 			);
 		}
+		//pre($data['products']);
 		$data['t']=$globalstich;
 		$data['g018']=$g018;
 		$data['g02']=$g02;
