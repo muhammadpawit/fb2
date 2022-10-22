@@ -36,9 +36,9 @@ class Setoransablon extends CI_Controller {
 		$data['tambah']=$this->link.'add';
 		$data['products']=array();
 		//$data['products']=$this->GlobalModel->getData('setorcmt',array('hapus'=>0));
-		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$results=array();
-		$sql='SELECT * FROM setorcmt_sablon WHERE hapus=0 ';
+		$sql="SELECT * FROM setorcmt WHERE hapus=0 AND cmtKat='SABLON' ";
 		
 		if(!empty($cmt)){
 			$sql.=" AND idcmt='".$cmt."' ";
@@ -86,7 +86,7 @@ class Setoransablon extends CI_Controller {
 		$data['no']=1;
 		$data['cetak']=$this->link.'kirimcmtcetak/'.$id.'/1';
 		$data['excel']=$this->link.'kirimcmtcetak/'.$id.'/2';
-		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt_sablon',array('id'=>$id));
+		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
 		$kirims=$this->GlobalModel->getData('setorcmt_sablon_detail',array('idsetor'=>$id));
 		$job=null;
 		$data['kirims']=[];
@@ -253,7 +253,7 @@ public function save(){
    				}
    			}
 	   		$nosj='STSBFB'.'-'.date('Y-m').'-'.$idsetor;
-	   		$this->db->update('setorcmt_sablon',array('totalsetor'=>$totalsetor,'nosj'=>$nosj),array('id'=>$idsetor));
+	   		$this->db->update('setorcmt',array('totalsetor'=>$totalsetor,'nosj'=>$nosj),array('id'=>$idsetor));
    			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect($this->link);
 		}else{

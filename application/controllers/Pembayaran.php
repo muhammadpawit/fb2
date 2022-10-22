@@ -797,6 +797,8 @@ class Pembayaran extends CI_Controller {
 		}
 		$data['bangke']=$this->GlobalModel->getData('potongan_bangke',array('idpembayaran'=>$id));
 		$data['alat']=$this->GlobalModel->getData('potongan_alat',array('idpembayaran'=>$id));
+		$data['mesin']=$this->GlobalModel->getData('potongan_mesin',array('idpembayaran'=>$id));
+		$data['vermak']=$this->GlobalModel->getData('potongan_vermak',array('idpembayaran'=>$id));
 		$data['kembalianbangke']=$this->GlobalModel->getData('pengembalian_bangke',array('idpembayaran'=>$id));
 		$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$data['detail']['idcmt']));
 		$data['harga']=$this->GlobalModel->getdata('daftarharga_cmt',array('hapus'=>0,'idcmt'=>$data['detail']['idcmt']));
@@ -843,6 +845,12 @@ class Pembayaran extends CI_Controller {
 		$data=$this->input->post();
 		$transport=isset($data['pot_transport'])?explode('-',$data['pot_transport']):0;
 		//pre($data);
+		if($data['pot_pinjaman']==1){
+			if($data['potongan_lainnya'] < 0){
+				$this->session->set_flashdata('msg','Nilai Potongan harus lebih besar dari 0');
+				redirect(BASEURL.'Pembayaran/cmtjahittambah');
+			}
+		}
 		$totalbayar=0;
 		$totalbangke=0;
 		$totalpengembalianbangke=0;
@@ -850,6 +858,8 @@ class Pembayaran extends CI_Controller {
 		$btransport=0;
 		$pottripke2=0;
 		$totalalat=0;
+		$totalpotmesin=0;
+		$totalvermak=0;
 		//echo 'Sedang dalam perbaikan.. Mohon tunggu beberapa saat lagi';exit;
 		//pre($data);
 		if(isset($data['cmt'])){
@@ -901,10 +911,39 @@ class Pembayaran extends CI_Controller {
 					'potongan_transport'=>isset($data['pot_transport'])?$transport[1]:0,
 					'transport_dari_id'=>isset($data['pot_transport'])?$transport[0]:0,
 					'tripke'=>isset($data['tripke'])?$data['tripke']:1,
+					'potongan_alat'=>0,
+					'potongan_mesin'=>0,
+					'potongan_vermak'=>0,
 				);
 				//pre(($totalbayar+$totalpengembalianbangke-25000-($btransport-$tripke1)-$data['potongan_lainnya']));
 				$this->db->insert('pembayaran_cmt',$insert);
 				$id=$this->db->insert_id();
+				if($data['pot_pinjaman']==1){
+					$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmt']."' AND status NOT IN (3) AND hapus=0 ");
+					if(!empty($cek)){
+						$insert_pot_pinjaman=array(
+							'idcmt'=>$data['cmt'],
+							'idpinjaman'=>$cek['id'],
+							'tanggal'=>$data['tanggal'],
+							'totalpotongan'=>$data['potongan_lainnya'],
+							'sisa'=>($cek['totalpinjaman']-$cek['totalpotongan']-$data['potongan_lainnya']),
+							'keterangan'=>'Potongan Pinjaman tanggal '.$data['tanggal'],
+							'hapus'=>0,
+							'idpembayaran'=>$id,
+						);
+						$this->db->insert('potongan_pinjaman_cmt',$insert_pot_pinjaman);
+
+						$cek2=$this->GlobalModel->QueryManualRow("SELECT SUM(totalpotongan) as totalpotongan FROM potongan_pinjaman_cmt WHERE idcmt='".$data['cmt']."' AND hapus=0 AND idpinjaman='".$cek['id']."' ");
+
+						if(!empty($cek2)){
+							if($cek2['totalpotongan']==$cek['totalpinjaman']){
+								$this->db->update('pinjaman_cmt',array('status'=>3,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+							}else{
+								$this->db->update('pinjaman_cmt',array('status'=>2,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+							}
+						}
+					}
+				}
 				foreach($data['products'] as $p){
 					$potptm=explode(",",$p['potpertama']);
 					$ids=array(
@@ -957,6 +996,39 @@ class Pembayaran extends CI_Controller {
 						$this->db->insert('potongan_alat',$alat);
 					}
 				}
+				if(isset($data['mesin'])){
+					foreach($data['mesin'] as $p){
+						$insert_mesin=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalpotmesin+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_mesin',$insert_mesin);
+					}
+				}
+
+				if(isset($data['vermak'])){
+					foreach($data['vermak'] as $p){
+						$insert_vermak=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalvermak+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_vermak',$insert_vermak);
+					}
+				}
+
+
 				if(isset($data['kembalianbangke'])){
 					foreach($data['kembalianbangke'] as $kb){
 						$kbangke=array(
@@ -976,7 +1048,9 @@ class Pembayaran extends CI_Controller {
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
 					'potongan_bangke'	=>$totalbangke,
 					'potongan_alat' =>$totalalat,
-					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']-$totalalat),
+					'potongan_mesin'=>$totalpotmesin,
+					'potongan_vermak'=>$totalvermak,
+					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']-$totalalat-$totalpotmesin-$totalvermak),
 				);
 				//pre($potptm);
 				$where=array(

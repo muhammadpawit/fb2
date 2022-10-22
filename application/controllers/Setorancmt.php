@@ -38,7 +38,7 @@ class Setorancmt extends CI_Controller {
 		//$data['products']=$this->GlobalModel->getData('setorcmt',array('hapus'=>0));
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
 		$results=array();
-		$sql='SELECT * FROM setorcmt WHERE hapus=0 ';
+		$sql="SELECT * FROM setorcmt WHERE hapus=0 AND cmtKat='JAHIT' ";
 		
 		if(!empty($cmt)){
 			$sql.=" AND idcmt='".$cmt."' ";

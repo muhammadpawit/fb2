@@ -304,7 +304,7 @@ class Monitoring extends CI_Controller {
 				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
 				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
 				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>0,
+				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
 			);
 		}
 
@@ -323,7 +323,7 @@ class Monitoring extends CI_Controller {
 				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
 				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
 				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>0,
+				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
 			);
 		}
 

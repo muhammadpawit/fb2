@@ -154,14 +154,20 @@ class Gajisukabumi extends CI_Controller {
 
 	public function detail($id){
 		$data=[];
+		$get=$this->input->get();
 		$data['title']='Rincian Gaji Karyawan Sukabumi';
 		$data['batal']=$this->link;
 		$data['p']=$this->GlobalModel->GetDataRow('gajisukabumi',array('hapus'=>0,'id'=>$id));
 		$data['detail']=$this->GlobalModel->GetData('gajisukabumi_detail',array('hapus'=>0,'idgaji'=>$id));
 		$data['a']=$this->GlobalModel->GetDataRow('anggaran_operasional_sukabumi',array('hapus'=>0,'id'=>$id));
 		$data['sd']=$this->GlobalModel->GetData('anggaran_operasional_sukabumi_detail',array('hapus'=>0,'idanggaran'=>$id));
-		$data['page']=$this->page.'detail';
-		$this->load->view($this->layout,$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'excel',$data);
+		}else{
+			$data['page']=$this->page.'detail';
+			$this->load->view($this->layout,$data);
+		}
+		
 	}
 
 }

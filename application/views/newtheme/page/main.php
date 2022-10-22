@@ -1866,7 +1866,6 @@ $(document).ready(function(){
           console.log(data);
           $('#sub1').append(data);
       });
-
     });
 
     $('.autopoid').select2({

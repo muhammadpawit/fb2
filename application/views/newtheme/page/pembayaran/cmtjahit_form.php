@@ -19,7 +19,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Nama Cmt</label>
-            <select name="cmt" id="cmt" class="form-control select2bs4 byrcmt" data-live-search="true" required="required">
+            <select name="cmt" id="cmt" class="form-control select2bs4 byrcmt" onchange="ubahcmt()" data-live-search="true" required="required">
                 <option value="*">Pilih</option>
                 <?php foreach($cmt as $c){?>
                     <option value="<?php echo $c['id_cmt']?>"><?php echo strtolower($c['cmt_name'])?></option>
@@ -41,8 +41,9 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Potongan Pinjaman / Potongan Claim</label>
-            <input type="number" name="potongan_lainnya" class="form-control" value="0">
+            <label><input type="radio" name="pot_pinjaman" value="1">Potongan Pinjaman</label>
+            <label><input type="radio" name="pot_pinjaman" value="2" checked>Potongan Claim</label>
+            <input type="number" id="potongan_lainnya" name="potongan_lainnya" class="form-control" value="0">
         </div>
     </div>
     <div class="col-md-3">
@@ -149,6 +150,41 @@
             
             <tfoot></tfoot>
         </table>
+        Potongan Mesin
+        <table class="table table-bordered" id="mesin">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Jumlah</th>
+                    <th>Potongan</th>
+                    <th>Keterangan</th>
+                    <th align="right">
+                        <a onclick="tambahmesin()" class="btn btn-success btn-sm text-white"><i class="fa fa-plus"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <?php $mesin=0;?>
+            
+            <tfoot></tfoot>
+        </table>
+
+        Potongan Vermak
+        <table class="table table-bordered" id="vermak">
+            <thead>
+                <tr>
+                    <th>Rincian</th>
+                    <th>Jumlah</th>
+                    <th>Potongan</th>
+                    <th>Keterangan</th>
+                    <th align="right">
+                        <a onclick="tambahvermak()" class="btn btn-success btn-sm text-white"><i class="fa fa-plus"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <?php $vermak=0;?>
+            
+            <tfoot></tfoot>
+        </table>
     </div>
 </div>
 <div class="row">
@@ -183,7 +219,7 @@
         html+='<td><input type="text" size="4" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
         html+='<td><input type="text" size="5" class="harga" name="products['+i+'][harga]"></td>';
         html+='<td><input type="text" size="10" class="total" name="products['+i+'][total]" readonly></td>';
-        html+='<td><select name="products['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0">0%</option></select></td>';
+        html+='<td><select name="products['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0.4">40%</option><option value="0.3">30%</option><option value="0.2">20%</option><option value="0">0%</option></select></td>';
         //html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
         html+='<td><textarea class="keterangan" name="products['+i+'][keterangan]" cols="10" rows="5"></textarea></td>';
         html += '<td><span class="pot1"></span><select type="text" style="width:80px" class="select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
@@ -239,6 +275,52 @@
         
     });
 
+    $(document).on('change', '.kodepo', function(e){
+        var kode_po = $(this).find(':selected').val();
+        //alert(dataItem);
+        
+        $.get(uri+'checkpinjaman?&cmt='+cmts, 
+                function(data){   
+                  console.log(data);
+                  if(data == '' ){
+                    $('#potongan_lainnya').val(0);
+                    $("input[name=pot_pinjaman][value=" + 2 + "]").prop('checked', true);
+                  }else{
+                    $('#potongan_lainnya').val(data);
+                    $("input[name=pot_pinjaman][value=" + 1 + "]").prop('checked', true);
+                  }
+                  
+              });
+        
+        /**/
+        
+    });
+    
+
+        function ubahcmt() {
+            info =window.location.origin;
+           if(info=='http://localhost'){
+            var uri=window.location.origin+'/fb2/Json/';
+           }else{
+            var uri=window.location.origin+'/Json/';
+           }
+            var cmts = $('select[name=\'cmt\']').val();
+            //alert(cmts);
+              $.get(uri+'checkpinjaman?&cmt='+cmts, 
+                function(data){   
+                  console.log(data);
+                  if(data == '' ){
+                    $('#potongan_lainnya').val(0);
+                    $("input[name=pot_pinjaman][value=" + 2 + "]").prop('checked', true);
+                  }else{
+                    $('#potongan_lainnya').val(data);
+                    $("input[name=pot_pinjaman][value=" + 1 + "]").prop('checked', true);
+                  }
+                  
+              });
+        }
+    
+
     
 
     var j=0;
@@ -281,6 +363,34 @@
         $("#alat tfoot").before(html);
         $('.select2bs4').selectpicker('refresh');
         l++;
+    }
+
+    var m=0;
+    function tambahmesin(){
+        var html='<tbody data-parent="0" id="product-row' + m + '" data="'+m+'"><tr>';
+        html += '<td><input type="text" class="form-control" name="mesin['+m+'][rincian]" required</td>';
+        html +='<td><input type="text" class="form-control" name="mesin['+m+'][qty]" required></td>';
+        html +='<td><input type="text" class="form-control" name="mesin['+m+'][harga]" required ></td>';
+        html +='<td><input type="text" class="form-control" name="mesin['+m+'][keterangan]" value="-" required ></td>';
+        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
+        html +='</tr><tbody>';
+        $("#mesin tfoot").before(html);
+        $('.select2bs4').selectpicker('refresh');
+        m++;
+    }
+
+    var v=0;
+    function tambahvermak(){
+        var html='<tbody data-parent="0" id="product-row' + v + '" data="'+v+'"><tr>';
+        html += '<td><input type="text" class="form-control" name="vermak['+v+'][rincian]" required</td>';
+        html +='<td><input type="text" class="form-control" name="vermak['+v+'][qty]" required></td>';
+        html +='<td><input type="text" class="form-control" name="vermak['+v+'][harga]" required ></td>';
+        html +='<td><input type="text" class="form-control" name="vermak['+v+'][keterangan]" value="-" required ></td>';
+        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
+        html +='</tr><tbody>';
+        $("#vermak tfoot").before(html);
+        $('.select2bs4').selectpicker('refresh');
+        v++;
     }
 
     

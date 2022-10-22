@@ -25,6 +25,7 @@ class Grafikpotongan extends CI_Controller {
 		$kemeja=[];
 		$kaos=[];
 		$celana=[];
+		$data['perminggu']=[];
 		$total=0;
 		foreach($bulan as $b=>$val){
 			$b=explode(" ", $val);
@@ -37,6 +38,7 @@ class Grafikpotongan extends CI_Controller {
 					'bulan'=>$val,
 					'bln'=>$month,
 					'year'=>$y,
+					'perminggu'=>null,
 					'kemeja'=>$this->ReportModel->potonganbulanan($month,$y,1),
 					'jmlkemeja'=>$this->ReportModel->jmlpotonganbulanan($month,$y,1),
 					'kaos'=>$this->ReportModel->potonganbulanan($month,$y,2),
