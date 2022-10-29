@@ -69,6 +69,16 @@
 		}
 		return $menu;
 	}
+
+	function ajuanpending_skb(){
+		$CI =& get_instance();
+		$menu=0;
+		$d=$CI->GlobalModel->queryManualRow("SELECT count(*) as total FROM pengajuan_harian_new WHERE hapus=0 and status IN(0) and kategori=4 ");
+		if(!empty($d)){
+			$menu=$d['total'];
+		}
+		return $menu;
+	}
 	
 	function kartustok($data,$type){
 		$CI =& get_instance();
@@ -133,6 +143,7 @@
 	}
 
 	function pembulatangaji($value){
+		/*
 		$total_harga=0;
 		$totalharga =$value;
 		$bulat=substr($totalharga,-3);
@@ -148,17 +159,26 @@
 			$total_harga=round($totalharga,-3);
 		}
 		return $total_harga;
+		*/
 
-		/*
-		if($bulat>0 && $bulat<=499){
-			return $total_harga=round($totalharga,-3);
-		}else if($totalharga>101 && $totalharga==500) {
-		   return $total_harga=round($totalharga,-3);
-		}else if($totalharga>100 && $totalharga<=499) {
-		   return $total_harga=round($totalharga,-3)+500;
+		// pembulatan gaji terbaru
+		$total_harga=0;
+		$totalharga =$value;
+		$bulat=substr($totalharga,-3);
+		$totalharga=ceil($totalharga);
+		
+		if ($bulat==000){
+			$total_harga=round($totalharga,-3);
+		}else if($bulat==500){
+			$total_harga=($totalharga)-500;
+			//}else if($bulat > 0 && $bulat<501){
+		}else if($bulat > 500 && $bulat <= 509){
+			$total_harga=round($totalharga,-3)-1000;
 		}else{
-			return round($totalharga,-3);
-		}*/ 
+			$total_harga=round($totalharga,-3);
+		}
+		return $total_harga;
+		
 	}
 
 	function myself(){
