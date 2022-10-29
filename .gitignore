@@ -32,7 +32,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-workspace
 *.sublime-project
 .editorconfig
-.htaccess
+#.htaccess
 application/.htaccess
 application/cache/.htaccess
 application/cache/index.html
