@@ -242,6 +242,21 @@ class Stockpo extends CI_Controller {
 		$data['bulans']=json_encode($bulannya);
 		$data['excel']=BASEURL.'Stockpo/rekap?&excel=1&cmt='.$cmt;
 		$data['cetak']=BASEURL.'Stockpo/rekap?&cetak=1&cmt='.$cmt;
+
+		if(isset($get['bulan'])){
+			$bulan=$get['bulan'];
+		}else{
+			$bulan=null;
+		}
+
+		if(isset($get['tahun'])){
+			$tahun=$get['tahun'];
+		}else{
+			$tahun=null;
+		}
+		$data['bulan']=$bulan;
+		$data['tahun']=$tahun;
+		
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'rekap_excel',$data);
 		}else if(isset($get['cetak'])){
