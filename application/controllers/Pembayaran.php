@@ -5,8 +5,8 @@ class Pembayaran extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
 		$this->load->model('ReportModel');
 	}
@@ -674,7 +674,8 @@ class Pembayaran extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['cmtf']=$cmt;
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
-		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['kodepo']=$this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC ");
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_list_excel',$data);
 		}else{
@@ -819,7 +820,8 @@ class Pembayaran extends CI_Controller {
 		$data['action']=BASEURL.'Pembayaran/cmtjahitsave';
 		$data['page']=$this->page.'pembayaran/cmtjahit_form';
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
-		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['kodepo']=$this->GlobalModel->QueryManual('SELECT * FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
 		$this->load->view($this->page.'main',$data);
 	}
 
@@ -946,26 +948,48 @@ class Pembayaran extends CI_Controller {
 				}
 				foreach($data['products'] as $p){
 					$potptm=explode(",",$p['potpertama']);
-					$ids=array(
-						'idpembayaran'=>$id,
-						'kode_po'=>$p['kode_po'],
-						'jumlah_po_dz'=>$p['jumlah_po_dz'], // qty potongan
-						'jumlah_po_pcs'=>$p['jumlah_po_pcs'], // qty potongan
-						'jumlah_dz'=>$p['jumlah_dz'], // qty setor
-						'jumlah_pcs'=>$p['jumlah_pcs'], // qty setor
-						'jumlah_bangke'=>0,
-						'harga'=>$p['harga'],
-						'total'=>$p['total'],
-						'keterangan'=>$p['keterangan'],
-						'potpertama'=>$potptm[0],
-						'idpembayaranpertama'=>$potptm[1],
-						'popembayaran'=>$potptm[2],
-						'trans'=>$p['trans'],
-						'potongan'=>$p['potongan'],
-						'kirimpcs'=>$p['kirimpcs'],
-					);
+					if($p['potpertama']==0){
+						$ids=array(
+							'idpembayaran'=>$id,
+							'kode_po'=>$p['kode_po'],
+							'jumlah_po_dz'=>$p['jumlah_po_dz'], // qty potongan
+							'jumlah_po_pcs'=>$p['jumlah_po_pcs'], // qty potongan
+							'jumlah_dz'=>$p['jumlah_dz'], // qty setor
+							'jumlah_pcs'=>$p['jumlah_pcs'], // qty setor
+							'jumlah_bangke'=>0,
+							'harga'=>$p['harga'],
+							'total'=>$p['total'],
+							'keterangan'=>$p['keterangan'],
+							'potpertama'=>0,
+							'idpembayaranpertama'=>0,
+							'popembayaran'=>0,
+							'trans'=>$p['trans'],
+							'potongan'=>$p['potongan'],
+							'kirimpcs'=>$p['kirimpcs'],
+						);
+					}else{
+						$ids=array(
+							'idpembayaran'=>$id,
+							'kode_po'=>$p['kode_po'],
+							'jumlah_po_dz'=>$p['jumlah_po_dz'], // qty potongan
+							'jumlah_po_pcs'=>$p['jumlah_po_pcs'], // qty potongan
+							'jumlah_dz'=>$p['jumlah_dz'], // qty setor
+							'jumlah_pcs'=>$p['jumlah_pcs'], // qty setor
+							'jumlah_bangke'=>0,
+							'harga'=>$p['harga'],
+							'total'=>$p['total'],
+							'keterangan'=>$p['keterangan'],
+							'potpertama'=>$potptm[0],
+							'idpembayaranpertama'=>$potptm[1],
+							'popembayaran'=>$potptm[2],
+							'trans'=>$p['trans'],
+							'potongan'=>$p['potongan'],
+							'kirimpcs'=>$p['kirimpcs'],
+						);
+					}
 					$this->db->insert('pembayaran_cmt_detail',$ids);
 				}
+				
 				if(isset($data['bangke'])){
 					foreach($data['bangke'] as $p){
 						$bangke=array(
@@ -1044,6 +1068,7 @@ class Pembayaran extends CI_Controller {
 						$this->db->insert('pengembalian_bangke',$kbangke);
 					}
 				}
+				
 				$update=array(
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
 					'potongan_bangke'	=>$totalbangke,

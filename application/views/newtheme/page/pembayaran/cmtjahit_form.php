@@ -219,7 +219,7 @@
         html+='<td><input type="text" size="4" class="jumlahPc pcs" name="products['+i+'][jumlah_pcs]" onblur="updatepcs('+i+')"  required ></td>';
         html+='<td><input type="text" size="5" class="harga" name="products['+i+'][harga]"></td>';
         html+='<td><input type="text" size="10" class="total" name="products['+i+'][total]" readonly></td>';
-        html+='<td><select name="products['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0.4">40%</option><option value="0.3">30%</option><option value="0.2">20%</option><option value="0">0%</option></select></td>';
+        html+='<td><select name="products['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option><option value="0.7">70%</option><option value="0.5">50%</option><option value="0.4">40%</option><option value="0.3">30%</option><option value="0.2">20%</option><option value="0.1">10%</option><option value="0">0%</option></select></td>';
         //html+='<td><input type="text" class="keterangan" name="products['+i+'][keterangan]" value="-" required ></td>';
         html+='<td><textarea class="keterangan" name="products['+i+'][keterangan]" cols="10" rows="5"></textarea></td>';
         html += '<td><span class="pot1"></span><select type="text" style="width:80px" class="select2 potpertama" data-id="'+i+'" name="products['+i+'][potpertama]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="0" selected>0</option></td>';
@@ -265,7 +265,8 @@
     $(document).on('change', '.pmb', function(e){
         var dataItem = $(this).find(':selected').val();
         var dai = $(this).closest('tr');
-        var pcs=dai.find(".kirimpcs").val();
+        var pcs=dai.find(".pcs").val();
+        //alert(pcs);
         var harga=dai.find(".harga").val();
         var t=dai.find(".total").val();
         var hasil=Number( ((pcs/12)*harga) * dataItem);
@@ -274,6 +275,31 @@
         /**/
         
     });
+    
+
+        function ubahcmt() {
+            info =window.location.origin;
+           if(info=='http://localhost'){
+            var uri=window.location.origin+'/fb2/Json/';
+           }else{
+            var uri=window.location.origin+'/Json/';
+           }
+            var cmts = $('select[name=\'cmt\']').val();
+            //alert(cmts);
+              $.get(uri+'checkpinjaman?&cmt='+cmts, 
+                function(data){   
+                  console.log(data);
+                  if(data == '' ){
+                    $('#potongan_lainnya').val(0);
+                    $("input[name=pot_pinjaman][value=" + 2 + "]").prop('checked', true);
+                  }else{
+                    $('#potongan_lainnya').val(data);
+                    $("input[name=pot_pinjaman][value=" + 1 + "]").prop('checked', true);
+                  }
+                  
+              });
+        }
+    
 
     $(document).on('change', '.kodepo', function(e){
         var kode_po = $(this).find(':selected').val();

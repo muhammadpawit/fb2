@@ -12,9 +12,9 @@ class Masterdata extends CI_Controller {
 
 		parent::__construct();
 
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';

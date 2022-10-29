@@ -6,8 +6,8 @@ class Gudang extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
 	}
 
@@ -649,6 +649,8 @@ class Gudang extends CI_Controller {
 		$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		if(!empty($cat)){
 			$sql.=" AND kategori='".$cat."' ";
+		}else{
+			$sql.=" AND kategori NOT IN (4) ";
 		}
 		$sql.=" ORDER BY id DESC ";
 		if( isset($get['tanggal1']) OR isset($get['cat']) ){
@@ -874,7 +876,7 @@ class Gudang extends CI_Controller {
 		$transfer=0;
 		$status=0;
 		if(isset($data['editacc'])){
-			$status=1;
+			// $status=1; // request jika edit maka perlu acc ulang, 24 Oktober 2022
 		}
 		//pre($data);
 		if(isset($data['products'])){

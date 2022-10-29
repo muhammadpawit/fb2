@@ -6,8 +6,8 @@ class Penggajian extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
 		$this->main='newtheme/page/main';
 		$this->type=$this->db->query("SELECT * FROM master_harga_gaji WHERE hapus=0")->result_array();

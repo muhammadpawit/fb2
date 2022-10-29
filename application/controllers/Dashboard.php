@@ -5,8 +5,8 @@ class Dashboard extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		
 	}
 
@@ -20,7 +20,7 @@ class Dashboard extends CI_Controller {
 			$setujui=akses($user['id_user'],3);
 		}
 		$viewData['setujui']=$setujui;
-		// session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		// //session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->load->view('global/header');
 		$this->load->view('dashboard',$viewData);
 		$this->load->view('global/footer');
