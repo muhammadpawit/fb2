@@ -5,8 +5,8 @@ class Grafikpotongan extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/grafikpotongan/';
 		$this->url=BASEURL.'Grafikpotongan/';
@@ -25,6 +25,7 @@ class Grafikpotongan extends CI_Controller {
 		$kemeja=[];
 		$kaos=[];
 		$celana=[];
+		$data['perminggu']=[];
 		$total=0;
 		foreach($bulan as $b=>$val){
 			$b=explode(" ", $val);
@@ -37,6 +38,7 @@ class Grafikpotongan extends CI_Controller {
 					'bulan'=>$val,
 					'bln'=>$month,
 					'year'=>$y,
+					'perminggu'=>null,
 					'kemeja'=>$this->ReportModel->potonganbulanan($month,$y,1),
 					'jmlkemeja'=>$this->ReportModel->jmlpotonganbulanan($month,$y,1),
 					'kaos'=>$this->ReportModel->potonganbulanan($month,$y,2),

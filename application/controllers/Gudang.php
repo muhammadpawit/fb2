@@ -6,8 +6,8 @@ class Gudang extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
 	}
 
@@ -649,6 +649,8 @@ class Gudang extends CI_Controller {
 		$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		if(!empty($cat)){
 			$sql.=" AND kategori='".$cat."' ";
+		}else{
+			$sql.=" AND kategori NOT IN (4) ";
 		}
 		$sql.=" ORDER BY id DESC ";
 		if( isset($get['tanggal1']) OR isset($get['cat']) ){
@@ -1950,6 +1952,7 @@ class Gudang extends CI_Controller {
 						'ukuran_item'	=> ($persediaan['ukuran_item']-$post['ukuran'][$key])
 					);
 					//$this->GlobalModel->updateData('gudang_persediaan_item',array('id_persediaan'=>$post['id'][$key]),$dataInsertPersediaan);
+					$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$post['namaPo']));
 					$dataInserted = array(
 						'nama_item_keluar' 		=>	$nama,
 						'kode_po'				=>	$post['namaPo'],
@@ -1962,7 +1965,8 @@ class Gudang extends CI_Controller {
 						'faktur_no' 			=>	$post['noFaktur'].'TRF'.$post['namaPo'],
 						'tujuan_item'			=>	$post['tujuanItem'],
 						'harga_item'			=> 	$post['harga'][$key],
-						'bahan_kategori'		=>  $post['bahanUntuk'][$key]
+						'bahan_kategori'		=>  $post['bahanUntuk'][$key],
+						'idpo'					=> $idpo['id_produksi_po'],
 					);
 					$this->GlobalModel->insertData('gudang_bahan_keluar',$dataInserted);
 					$insert_id = $this->db->insert_id();

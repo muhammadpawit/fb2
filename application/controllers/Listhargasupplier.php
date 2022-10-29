@@ -5,8 +5,8 @@ class Listhargasupplier extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		sessionLogin(URLPATH."\\".$this->uri->segment(1));
-		session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
+		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/listhargasupplier/';
 		$this->url=BASEURL.'Listhargasupplier/';
