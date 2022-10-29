@@ -13,6 +13,8 @@
 					<option value="2" <?php echo $prod['jenis']==2?'selected':''?>>Bordir</option>
 					<option value="3" <?php echo $prod['jenis']==3?'selected':''?>>Sablon</option>
 					<option value="4" <?php echo $prod['jenis']==4?'selected':''?>>Bahan</option>
+					<option value="5" <?php echo $prod['jenis']==5?'selected':''?>>Alat Sisa Produksi Konveksi</option>
+					<option value="6" <?php echo $prod['jenis']==6?'selected':''?>>Alat Sisa Produksi Bordir</option>
 				</select>
 			</div>
 			<div class="form-group">

@@ -36,6 +36,8 @@
                                 ?>
                                    <option value="1" <?php echo $jenis==1?'selected':''?>>Konveksi</option>
 	                                <option value="2"  <?php echo $jenis==2?'selected':''?>>Bordir</option>
+	                                <option value="5" <?php echo $jenis==5?'selected':''?>>Alat Sisa Produksi Konveksi</option>
+									<option value="6" <?php echo $jenis==6?'selected':''?>>Alat Sisa Produksi Bordir</option>
                               </select>
                             </div>		
 	</div>				

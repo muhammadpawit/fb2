@@ -66,6 +66,8 @@
                                 <option value="2">Bordir</option>
                                 <option value="3">Sablon</option>
                                 <option value="4">Bahan</option>
+                                <option value="5">Alat Sisa Produksi Konveksi</option>
+                                <option value="6">Alat Sisa Produksi Bordir</option>
                               </select>
                             </div>
                             <div class="form-group">
@@ -139,6 +141,8 @@
   		<option value="2">Bordir</option>
   		<option value="3">Sablon</option>
   		<option value="4">Bahan</option>
+      <option value="5">Alat Sisa Produksi Konveksi</option>
+      <option value="6">Alat Sisa Produksi Bordir</option>
   	</select>
   </div>
   <div class="col-md-3">
