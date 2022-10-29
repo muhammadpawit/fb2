@@ -46,7 +46,13 @@ class Laporanrinciansetoran extends CI_Controller {
 		$res=$this->GlobalModel->QueryManual($sql);
 		$no=1;
 		$data['prods']=[];
+		$cabang=null;
+		$lokasi=null;
 		foreach($res as $r){
+			$cabang=$this->GlobalModel->QueryManualRow("SELECT * FROM master_cmt WHERE lower(cmt_name)='".strtolower($r['nama_cmt'])."' AND hapus=0 ");
+			if(!empty($cabang)){
+				$lokasi=$this->GlobalModel->GetDataRow('lokasi_cmt',array('id'=>$cabang['lokasi']));
+			}
 			$potong=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('kode_po'=>$r['kode_po']));
 			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_pcs) as total FROM kirimcmt_detail WHERE kode_po='".$r['kode_po']."' ");
 			$data['prods'][]=array(
@@ -61,7 +67,7 @@ class Laporanrinciansetoran extends CI_Controller {
 				'size'=>$this->GlobalModel->GetData('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$r['kode_po'])),
 				'bangke'=>$r['bangke_qty'],
 				'bs'=>$r['barang_cacad_qty'],
-				'cabang'=>null,
+				'cabang'=>!empty($lokasi)?$lokasi['lokasi']:'',
 				'cmt'=>$r['nama_cmt'],
 				'keterangan'=>null,
 			);
