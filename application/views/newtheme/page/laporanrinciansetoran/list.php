@@ -76,7 +76,7 @@
 						<td><?php echo $p['pcs_bagus']?></td>
 						<td>
 							<?php foreach($p['size'] as $s){?>
-								<?php echo $s['rincian_size']?> : <?php echo $s['rincian_lusin']?> DZ<br>
+								<?php echo $s['rincian_size']?> : <?php echo $s['rincian_lusin']?> DZ <?php echo $s['rincian_piece']>0?$s['rincian_piece'].' pcs':'';?><br>
 							<?php } ?>
 						</td>
 						<td><?php echo $p['bangke']?></td>

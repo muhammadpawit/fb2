@@ -57,7 +57,7 @@ class Laporanrinciansetoran extends CI_Controller {
 				'tgl_kirim'=>null,
 				'pcs_kirim'=>$pcs_kirim['total'],
 				'pcs_setor'=>$r['jml_setor_qty'],
-				'pcs_bagus'=>$r['jumlah_piece_diterima'],
+				'pcs_bagus'=>($r['jumlah_piece_diterima']-$r['bangke_qty']),
 				'size'=>$this->GlobalModel->GetData('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$r['kode_po'])),
 				'bangke'=>$r['bangke_qty'],
 				'bs'=>$r['barang_cacad_qty'],
