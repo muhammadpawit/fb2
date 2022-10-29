@@ -191,6 +191,8 @@
                           <i class="nav-icon fas fa-circle"></i>
                           <?php if($sub1['id']==111){?>
                             <p><?php echo $sub1['nama']?> <span class="right badge bg-success" style="text-align: right;font-size: 12px;"><?php echo ajuanpending()?></span></p>
+                          <?php } else if($sub1['id']==317){ ?>
+                            <p><?php echo $sub1['nama']?> <span class="right badge bg-success" style="text-align: right;font-size: 12px;"><?php echo ajuanpending_skb()?></span></p>
                           <?php }else{?>
                             <p><?php echo $sub1['nama']?> <span class="badge" style="text-align: right;"></span></p>
                           <?php } ?>
