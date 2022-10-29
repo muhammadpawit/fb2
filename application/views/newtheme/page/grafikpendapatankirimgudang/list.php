@@ -8,8 +8,8 @@
 				    <th rowspan="2">Keterangan</th>
 				</tr>
 				<tr align="center">
-				    <th>Kaos</th>
 				    <th>Kemeja</th>
+				    <th>Kaos</th>
 				    <th>Celana</th>
 				    <th>Total</th>
 				</tr>

@@ -106,6 +106,11 @@ Periode : <?php echo $detail['keterangan'] ?>
                     <td></td>
                 </tr>
                 <tr>
+                    <td colspan="9" align="center"><b>Potongan Mesin</b></td>
+                    <td align="center"><b><?php echo $detail['potongan_mesin']?></b></td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
                     <td align="center"><b><?php echo ($detail['biaya_transport']-$detail['potongan_transport'])?></b></td>
                     <td></td>
@@ -226,6 +231,101 @@ Periode : <?php echo $detail['keterangan'] ?>
                 </table>
             </div>
             <?php } ?>
+
+            <?php if(!empty($mesin)){?>
+            <div class="col-md-6">
+                <label>Potongan Mesin</label>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Rincian</th>
+                            <th>Jumlah</th>
+                            <th>Potongan</th>
+                            <th>Total</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $nomor=1;$am=0;?>
+                        <?php foreach($mesin as $b){?>
+                            <tr>
+                                <td><?php echo $nomor++?></td>
+                                <td><?php echo strtoupper($b['rincian'])?></td>
+                                <td><?php echo $b['qty']?></td>
+                                <td><?php echo ($b['harga'])?></td>
+                                <td><?php echo ($b['qty']*$b['harga'])?></td>
+                                <td><?php echo strtolower($b['keterangan'])?></td>
+                            </tr>
+                            <?php $am+=($b['qty']*$b['harga']);?>
+                        <?php } ?>
+                        <?php for($j=1;$j<=5;$j++){?>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+                        <tr>
+                            <td colspan="4" align="center">Total</td>
+                            <td><b><?php echo ($am)?></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
+
+            <?php if(!empty($vermak)){?>
+            <div class="col-md-6">
+                <label>Potongan Vermak</label>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Rincian</th>
+                            <th>Jumlah</th>
+                            <th>Potongan</th>
+                            <th>Total</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $nomor=1;$av=0;?>
+                        <?php foreach($vermak as $b){?>
+                            <tr>
+                                <td><?php echo $nomor++?></td>
+                                <td><?php echo strtoupper($b['rincian'])?></td>
+                                <td><?php echo $b['qty']?></td>
+                                <td><?php echo ($b['harga'])?></td>
+                                <td><?php echo ($b['qty']*$b['harga'])?></td>
+                                <td><?php echo strtolower($b['keterangan'])?></td>
+                            </tr>
+                            <?php $av+=($b['qty']*$b['harga']);?>
+                        <?php } ?>
+                        <?php for($j=1;$j<=5;$j++){?>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+                        <tr>
+                            <td colspan="4" align="center">Total</td>
+                            <td><b><?php echo ($av)?></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
+
     <?php if(!empty($kembalianbangke)){?>
     <div class="col-md-6">
         <label>Pengembalian Bangke</label>

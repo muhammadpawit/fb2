@@ -301,6 +301,52 @@
         }
     
 
+    $(document).on('change', '.kodepo', function(e){
+        var kode_po = $(this).find(':selected').val();
+        //alert(dataItem);
+        
+        $.get(uri+'checkpinjaman?&cmt='+cmts, 
+                function(data){   
+                  console.log(data);
+                  if(data == '' ){
+                    $('#potongan_lainnya').val(0);
+                    $("input[name=pot_pinjaman][value=" + 2 + "]").prop('checked', true);
+                  }else{
+                    $('#potongan_lainnya').val(data);
+                    $("input[name=pot_pinjaman][value=" + 1 + "]").prop('checked', true);
+                  }
+                  
+              });
+        
+        /**/
+        
+    });
+    
+
+        function ubahcmt() {
+            info =window.location.origin;
+           if(info=='http://localhost'){
+            var uri=window.location.origin+'/fb2/Json/';
+           }else{
+            var uri=window.location.origin+'/Json/';
+           }
+            var cmts = $('select[name=\'cmt\']').val();
+            //alert(cmts);
+              $.get(uri+'checkpinjaman?&cmt='+cmts, 
+                function(data){   
+                  console.log(data);
+                  if(data == '' ){
+                    $('#potongan_lainnya').val(0);
+                    $("input[name=pot_pinjaman][value=" + 2 + "]").prop('checked', true);
+                  }else{
+                    $('#potongan_lainnya').val(data);
+                    $("input[name=pot_pinjaman][value=" + 1 + "]").prop('checked', true);
+                  }
+                  
+              });
+        }
+    
+
     
 
     var j=0;

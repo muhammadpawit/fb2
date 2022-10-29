@@ -64,11 +64,15 @@
                 <thead>
                   <tr>
                     <th>Nama PO</th>
-                    <th>Jumlah PO</th>
-                    <th>Rincian PO</th>
-                    <th>Jml Pcs</th>
-                    <th>Jml Dz</th>
-                    <th>Keterangan</th>
+                    <th>Plastik UK 23</th>
+                    <th>Plastik UK 35</th>
+                    <th>Plastik UK 25</th>
+                    <th>Plastik UK 38</th>
+                    <th>Plastik 28</th>
+                    <th>Plastik 40</th>
+                    <th>Pita</th>
+                    <th>Karet</th>
+                    <th>Size Bordir</th>
                     <th align="right"><a onclick="tambah()" class="btn btn-info btn-sm text-white"><i class="fa fa-plus"></i></a></th>
                   </tr>
                 </thead>
@@ -89,19 +93,72 @@
 <script type="text/javascript">
   var i=0;
   function tambah() {
-    var html='<tr>';
-        html+='<td><input type="text" name="products['+i+'][kode_po]" class="form-control" required="required" value="-"></td>';
-        html+='<td><input type="text" name="products['+i+'][jumlah_po]" class="form-control" required="required" value="0"></td>';
-        html+='<td><textarea cols="50" rows="5" name="products['+i+'][rincian_po]" class="form-control" required="required"></textarea></td>';
-        html+='<td><input type="text" name="products['+i+'][jml_pcs]" class="form-control" required="required" value="0"></td>';
-        html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="-"></td>';
-        html+='<td><textarea cols="50" rows="5" name="products['+i+'][keterangan]" class="form-control" required="required"></textarea></td>';
-        html+='<td><i class="fa fa-trash remove"></i></td>';
+    var html='<tr id="product-row' + i + '">';
+        //html+='<td><input type="text" name="products['+i+'][kode_po]" class="form-control" required="required" value="-"></td>';
+        html += '<td><input type="text" class="form-control" name="products['+i+'][kode_po]" data-id="'+i+'" onkeyup="komplit('+i+')" ></td>';
+        // html+='<td><input type="text" name="products['+i+'][jumlah_po]" class="form-control" required="required" value="0"></td>';
+        // html+='<td><textarea cols="50" rows="5" name="products['+i+'][rincian_po]" class="form-control" required="required"></textarea></td>';
+        // html+='<td><input type="text" name="products['+i+'][jml_pcs]" class="form-control" required="required" value="0"></td>';
+        // html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="-"></td>';
+        // html+='<td><textarea cols="50" rows="5" name="products['+i+'][keterangan]" class="form-control" required="required"></textarea></td>';
+        // html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';
         $("#listajuan").append(html);
         $(".select2bs4").selectpicker('refresh');
         i++;
   }
+
+function komplit(coba){
+ // Single Select
+ $("input[name='products["+coba+"][kode_po]']").autocomplete({
+  source: function( request, response ) {
+   // Fetch data
+   $.ajax({
+    url: "<?php echo BASEURL.'Json/search_po_pot' ?>",
+    type: 'GET',
+    dataType: "json",
+    data: {
+     search: request.term
+    },
+    success: function( data ) {
+     response( data );
+    }
+   });
+  },
+  select: function (event, ui) {
+     // Set selection
+     $('#autocomplete').val(ui.item.label); // display the selected text
+     $('#selectuser_id').val(ui.item.value); // save selected id to input
+     var column=$(this).data("id");
+     $('#product-row'+coba).remove();
+     //console.log(ui.item['details']);
+     for (j = 0; j < ui.item.count; j++) {
+      details_value = ui.item['details'][j];
+      var html='';
+          html += '<tr>';
+          html += '<td><input type="hidden" class="form-control" name="products['+coba+'][idpo]" value="'+ui.item.value+'"><input type="hidden" class="form-control" name="products['+coba+'][kode_po]" value="'+ui.item.label+'">'+ui.item.label+'</td>';
+
+          html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
+
+          html += '</tr>';
+
+        $('#listajuan tbody').before(html);
+        coba++;
+        product_row=coba;
+        $( ".datepicker" ).datepicker({ 
+          dateFormat: 'yy-mm-dd',
+          maxDate:+1,
+          yearRange: '2019:2070',
+        });
+     }
+  },
+  focus: function(event, ui){
+     $( "#autocomplete" ).val( ui.item.label );
+     $( "#selectuser_id" ).val( ui.item.value );
+     return false;
+   },
+ });
+}
 
   $(document).on('click', '.remove', function(){
 

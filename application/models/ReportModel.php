@@ -1439,6 +1439,19 @@ class ReportModel extends CI_Model {
 		return $h;
 	}
 
+	public function pcs_monitoring_kirimgudang_harga_det($jenis,$tgl1,$tgl2){
+		$h=0;
+		$sql="SELECT SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.id_jenis_po ='$jenis' ";	
+		if(!empty($tgl1)){
+			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
+		}	
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$h=$data['total'];
+		}
+		return $h;
+	}
+
 	public function stokawal_alat($id,$tgl){
 		//$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
 		/*$sql = "SELECT SUM(pid.jumlah) as total,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
@@ -1900,28 +1913,31 @@ class ReportModel extends CI_Model {
 		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
 		    	$total=0;
 		    	$total2=0;
-				$sql="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		    	$pengeluaran=0;
+				$sql="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 				$sql.= " AND mesin_bordir<>11 ";
-				 $sql.=" AND MONTH(created_date) ='$bulan' ";
+				 $sql.=" AND MONTH(created_date) ='".$bulan."' ";
 				$row=$this->GlobalModel->QueryManualRow($sql);
 				if(!empty($row)){
 					$total=$row['total'];
 				}
-				if('2022-07-19'>=$this->tglperkalianbaru){
-					$perkalian=0.3;
-					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
-				}else{
-					$perkalian=0.2;
-					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
-				}
+					$sql2="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				
 				
 				$sql2.= " AND mesin_bordir<>11 ";
-				 $sql2.=" AND MONTH(created_date) ='$bulan' ";
+				 $sql2.=" AND MONTH(created_date) ='".$bulan."' ";
 				$row2=$this->GlobalModel->QueryManualRow($sql2);
 				if(!empty($row2)){
 					$total2=$row2['total'];
 				}
-		    	$lusin['bulan'][]=$total==null?0:($total+$total2);
+
+				// pengeluaran
+				$peng=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM `pengeluaran_bordir` WHERE hapus=0 AND MONTH(tanggal)='".$bulan."' ");
+				if(!empty($peng)){
+					$pengeluaran=$peng['total'];
+				}
+
+		    	$lusin['bulan'][]=$total==null?0:($total+$total2-$pengeluaran);
 			}
 
 			$hasil=$lusin['bulan'];
@@ -1942,31 +1958,34 @@ class ReportModel extends CI_Model {
 		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
 		    	$total=0;
 		    	$total2=0;
-				$sql="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		    	$pengeluaran=1000;
+				$sql="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 				$sql.= " AND mesin_bordir<>11 ";
-				 $sql.=" AND MONTH(created_date) ='$bulan' ";
+				 $sql.=" AND MONTH(created_date) ='".$bulan."' ";
 				$row=$this->GlobalModel->QueryManualRow($sql);
 				if(!empty($row)){
 					$total=$row['total'];
 				}
-				if('2022-07-19'>=$this->tglperkalianbaru){
-					$perkalian=0.3;
-					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
-				}else{
-					$perkalian=0.2;
-					$sql2="SELECT SUM(total_stich*$perkalian) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
-				}
+
+					$sql2="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+				
 				
 				$sql2.= " AND mesin_bordir<>11 ";
-				 $sql2.=" AND MONTH(created_date) ='$bulan' ";
+				 $sql2.=" AND MONTH(created_date) ='".$bulan."' ";
 				$row2=$this->GlobalModel->QueryManualRow($sql2);
 				if(!empty($row2)){
 					$total2=$row2['total'];
 				}
+				// pengeluaran
+				$peng=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM `pengeluaran_bordir` WHERE hapus=0 AND MONTH(tanggal)='".$bulan."' ");
+				if(!empty($peng)){
+					$pengeluaran=$peng['total'];
+				}
+
 		    	$lusin['bulan'][]=array(
 		    		'bulan'=>$bulan,
 		    		'tahun'=>$tahun,
-		    		'total'=>$total==null?0:($total+$total2),
+		    		'total'=>$total==null?0:($total+$total2-$pengeluaran),
 		    	);
 			}
 
