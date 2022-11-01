@@ -1339,7 +1339,7 @@ $(document).ready(function(){
         $.get( "<?php echo BASEURL.'konveksi/jenisPoKodeArtikel' ?>", { id: select } )
           .done(function( data ) {
             var obj = JSON.parse(data);
-            console.log(obj);
+            //console.log(obj);
             $(".artikel").val(obj.artikel_jenis_po);
             
         });
@@ -1356,12 +1356,12 @@ $(document).on('change', '#poSelect', function(){
     $('#item_table').empty();
     var poid = $(this).children("option:selected").val();
     var explode = poid.split("-");
-    console.log(explode[1]);
+    //console.log(explode[1]);
     var i=0;
     $('#item_table').empty();
     var poid = $(this).children("option:selected").val();
     $.post( "<?php echo BASEURL.'Kelolapo/searchPO' ?>",{kodepo: explode[1] }).done(function( json ) {
-       console.log(json);
+       //console.log(json);
        if(json==''){
         var html='';
         html+='<tr><td colspan="8" style="color:red !important">Bahan keluar belum diinput untuk PO '+explode[1]+'</td></tr>';
@@ -1641,7 +1641,7 @@ $(document).on('change', '#cmtName', function(){
 
     var jobCmt = $(this).children("option:selected").val();
     $.post( "<?php echo BASEURL.'kelolapo/searchCmtJob' ?>",{jobCmt: jobCmt }).done(function( html ) {
-      console.log(html);
+      //console.log(html);
             $('#cmtJob').html(html);
       });
 });
@@ -1651,12 +1651,12 @@ $(document).on('change', '#poSelect', function(){
     $('#item_table').empty();
     var poid = $(this).children("option:selected").val();
     $.post( "<?php echo BASEURL.'Produksi/searchPO' ?>",{POid: poid }).done(function( html ) {
-      console.log(html);
+      //console.log(html);
             $('#item_table').append(html);
     });
 
     $.post( "<?php echo BASEURL.'Produksi/searchPObahan' ?>",{POid: poid }).done(function( rincian ) {
-      console.log(rincian);
+      //console.log(rincian);
             $('#rincianbahan').html(rincian);
     });
   */
@@ -1865,7 +1865,7 @@ $(document).ready(function(){
       var cmts = $(this).val();
       $.get(uri+'pot_transport?&cmt='+cmts, 
         function(data){   
-          console.log(data);
+          //console.log(data);
           $('#sub1').append(data);
       });
     });

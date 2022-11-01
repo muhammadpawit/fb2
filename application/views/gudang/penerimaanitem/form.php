@@ -108,8 +108,8 @@
         html+='</tr>';
         $('#item-list').append(html);
         i++;
-        //$('.select2bs4').select2();
-        $(".select2bs4").selectpicker('refresh');
+        $('.select2bs4').select2();
+        //$(".select2bs4").selectpicker('refresh');
         $(document).on('change', '.select2bs4', function(e){
             var dataItem = $(this).find(':selected').data('item');
             var dai = $(this).closest('tr');

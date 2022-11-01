@@ -1,60 +1,60 @@
-/*
-Template Name: Highdmin - Responsive Bootstrap 4 Admin Dashboard
-Author: CoderThemes
-Email: coderthemes@gmail.com
-File: Main Css File
+/*
+Template Name: Highdmin - Responsive Bootstrap 4 Admin Dashboard
+Author: CoderThemes
+Email: coderthemes@gmail.com
+File: Main Css File
 */
-/*
-1. Menu
-2. Common
-3. Helper
-4. Bootstrap Reset
-5. Waves Effect
-6. Card
-7. Buttons
-8. Ribbons
-9. Popovers and Tooltips
-10. Checkbox & Radio
-11. Alerts
-12. Modal
-13. Spinners
-14. Widgets
-15. Tabs
-16. Progress
-17. Sweet Alert
-18. Charts
-19. Email
-20. Form Elements
-21. Form Advanced
-22. Form Validation
-23. Form Pickers
-24. Form Wizard
-25. Summernote
-26. Wysiwig
-27. Form Uploads
-28. Tables
-29. Maps
-30. Calendar
-31. Tickets
-32. taskboards
-33. Projects
-34. Companies
-35. File Manager
-36. Timeline
-37. Profile
-38. Print
-39. FAQ
-40. Pricing
-41. Account-Pages
-42. Search Results
-43. Gallery
-44. Coming Soon
-45. Responsive
+/*
+1. Menu
+2. Common
+3. Helper
+4. Bootstrap Reset
+5. Waves Effect
+6. Card
+7. Buttons
+8. Ribbons
+9. Popovers and Tooltips
+10. Checkbox & Radio
+11. Alerts
+12. Modal
+13. Spinners
+14. Widgets
+15. Tabs
+16. Progress
+17. Sweet Alert
+18. Charts
+19. Email
+20. Form Elements
+21. Form Advanced
+22. Form Validation
+23. Form Pickers
+24. Form Wizard
+25. Summernote
+26. Wysiwig
+27. Form Uploads
+28. Tables
+29. Maps
+30. Calendar
+31. Tickets
+32. taskboards
+33. Projects
+34. Companies
+35. File Manager
+36. Timeline
+37. Profile
+38. Print
+39. FAQ
+40. Pricing
+41. Account-Pages
+42. Search Results
+43. Gallery
+44. Coming Soon
+45. Responsive
 */
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
 @import url("https://fonts.googleapis.com/css?family=Rubik:300,400,500,700");
-/* =============
-  Menu
+/* =============
+  Menu
 ============= */
 /* Metis Menu css */
 .metismenu {
@@ -826,8 +826,8 @@ body.enlarged.bg-transparent {
   }
 }
 
-/* =============
-   Common
+/* =============
+   Common
 ============= */
 body {
   margin: 0;
@@ -941,8 +941,8 @@ a:focus {
   background-color: transparent;
 }
 
-/* =============
-   Helper classes
+/* =============
+   Helper classes
 ============= */
 .m-b-30 {
   margin-bottom: 30px;
@@ -1149,8 +1149,8 @@ a:focus {
   border: 2px solid #797979;
 }
 
-/* =============
-   Bootstrap-custom
+/* =============
+   Bootstrap-custom
 ============= */
 .breadcrumb {
   background-color: transparent;
@@ -1483,16 +1483,16 @@ code {
   color: fade(#ffffff, 70%);
 }
 
-/* =============
-   Waves Effect
+/* =============
+   Waves Effect
 ============= */
-/*!
- * Waves v0.6.0
- * http://fian.my.id/Waves
- *
- * Copyright 2014 Alfiana E. Sibuea and other contributors
- * Released under the MIT license
- * https://github.com/fians/Waves/blob/master/LICENSE
+/*!
+ * Waves v0.6.0
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
+ * https://github.com/fians/Waves/blob/master/LICENSE
  */
 .waves-effect {
   position: relative;
@@ -1614,8 +1614,8 @@ code {
   background-color: rgba(119, 126, 221, 0.4);
 }
 
-/* =============
-   Card
+/* =============
+   Card
 ============= */
 /* Card Box */
 .card-box {
@@ -1643,8 +1643,8 @@ code {
   border-top-color: #d3dee6;
 }
 
-/* =============
-   Buttons
+/* =============
+   Buttons
 ============= */
 .btn {
   border-radius: 2px;
@@ -2031,8 +2031,8 @@ code {
   background-color: #171515;
 }
 
-/* =================
-   Ribbons
+/* =================
+   Ribbons
 ==================== */
 .ribbon-box {
   position: relative;
@@ -2316,8 +2316,8 @@ code {
   border-top: 3px solid #121519;
 }
 
-/* =================
-   Popover / Tooltips
+/* =================
+   Popover / Tooltips
 ==================== */
 /* Popover */
 .popover {
@@ -2387,8 +2387,8 @@ code {
   border-right-color: #02c0ce;
 }
 
-/* =============
-   Checkbox and Radios
+/* =============
+   Checkbox and Radios
 ============= */
 .checkbox label {
   display: inline-block;
@@ -2752,8 +2752,8 @@ code {
   background-color: #ff679b;
 }
 
-/* =============
-   Alerts
+/* =============
+   Alerts
 ============= */
 .alert-custom {
   color: #02c0ce;
@@ -2876,8 +2876,8 @@ code {
   border-radius: 0;
 }
 
-/* =============
-   Modals
+/* =============
+   Modals
 ============= */
 .modal .modal-dialog .close {
   top: 0;
@@ -2984,8 +2984,8 @@ code {
   z-index: 9999;
 }
 
-/* =================
-   Spinners
+/* =================
+   Spinners
 ==================== */
 .sk-rotating-plane, .sk-double-bounce .sk-child, .sk-wave .sk-rect, .sk-wandering-cubes .sk-cube, .sk-spinner-pulse,
 .sk-chasing-dots .sk-child, .sk-three-bounce .sk-child, .sk-circle .sk-child:before, .sk-cube-grid .sk-cube,
@@ -2997,8 +2997,8 @@ code {
   margin-top: 0;
 }
 
-/* =============
-   Widgets
+/* =============
+   Widgets
 ============= */
 .widget-flat {
   border: 2px solid #313a46;
@@ -3140,8 +3140,8 @@ code {
   margin-left: 30px;
 }
 
-/* =============
-   Tabs
+/* =============
+   Tabs
 ============= */
 .tab-content {
   padding: 20px 0 0 0;
@@ -3217,8 +3217,8 @@ code {
   background: #02c0ce;
 }
 
-/* =============
-   Progressbars
+/* =============
+   Progressbars
 ============= */
 .progress {
   -webkit-box-shadow: none;
@@ -3405,8 +3405,8 @@ code {
   background-color: rgba(49, 58, 70, 0.9);
 }
 
-/* =============
-   Charts
+/* =============
+   Charts
 ============= */
 /* Flot chart */
 #flotTip {
@@ -3564,8 +3564,8 @@ code {
   line-height: 18px !important;
 }
 
-/* =============
-   Email
+/* =============
+   Email
 ============= */
 .inbox-leftbar {
   width: 240px;
@@ -3775,8 +3775,8 @@ code {
   }
 }
 
-/* =============
-   Form
+/* =============
+   Form
 ============= */
 label {
   font-size: 14px;
@@ -3865,8 +3865,8 @@ input[type="color"] {
   position: absolute;
 }
 
-/* =============
-   Form Advanced
+/* =============
+   Form Advanced
 ============= */
 /* Select 2 */
 .select2-container {
@@ -4099,8 +4099,8 @@ input[type="color"] {
   line-height: 24px;
 }
 
-/* =============
-   Form Validation
+/* =============
+   Form Validation
 ============= */
 .parsley-errors-list {
   margin: 0;
@@ -4123,8 +4123,8 @@ input[type="color"] {
   top: -1px;
 }
 
-/* =============
-   Form Pickers
+/* =============
+   Form Pickers
 ============= */
 /* Time Picker */
 .bootstrap-timepicker-widget table td input {
@@ -4244,8 +4244,8 @@ input[type="color"] {
   fill: #b7f9fe;
 }
 
-/* =============
-   Form Wizard
+/* =============
+   Form Wizard
 ============= */
 .wizard > .content {
   background: #ffffff;
@@ -4348,8 +4348,8 @@ input[type="color"] {
   border: none;
 }
 
-/* =============
-   Summernote
+/* =============
+   Summernote
 ============= */
 .note-editor.note-frame {
   border: 3px solid #edf1f5;
@@ -4378,8 +4378,8 @@ input[type="color"] {
   box-shadow: none !important;
 }
 
-/* =============
-   Wysiwig
+/* =============
+   Wysiwig
 ============= */
 .mce-panel {
   border: 1px solid #edf1f5 !important;
@@ -4441,8 +4441,8 @@ input[type="color"] {
   padding: 5px !important;
 }
 
-/* =============
-   Form Uploads
+/* =============
+   Form Uploads
 ============= */
 /* Dropzone */
 .dropzone {
@@ -4456,8 +4456,8 @@ input[type="color"] {
   font-size: 30px;
 }
 
-/* =============
-   Tables
+/* =============
+   Tables
 ============= */
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
   padding: 12px 10px;
@@ -4802,8 +4802,8 @@ table.dataTable > tbody > tr.child span.dtr-title {
   color: #02c0ce;
 }
 
-/* =============
-   Maps
+/* =============
+   Maps
 ============= */
 .gmaps,
 .gmaps-panaroma {
@@ -4921,8 +4921,8 @@ table.dataTable > tbody > tr.child span.dtr-title {
   top: 50px;
 }
 
-/* =============
-   Calendar
+/* =============
+   Calendar
 ============= */
 .calendar {
   float: left;
@@ -5049,8 +5049,8 @@ table.dataTable > tbody > tr.child span.dtr-title {
   color: #ffffff;
 }
 
-/* ===========
-Tickets
+/* ===========
+Tickets
 ============== */
 .tickets-list a {
   color: #98a6ad;
@@ -5066,8 +5066,8 @@ Tickets
   vertical-align: middle;
 }
 
-/* =============
-   Task board
+/* =============
+   Task board
 ============= */
 .taskList {
   min-height: 40px;
@@ -5152,8 +5152,8 @@ Tickets
   border-radius: 50%;
 }
 
-/* =============
-   Projects
+/* =============
+   Projects
 ============= */
 .project-sort-item .form-group {
   margin-right: 30px;
@@ -5196,8 +5196,8 @@ Tickets
   margin-left: 0;
 }
 
-/* ===========
-Companies
+/* ===========
+Companies
 ============== */
 .company-card .company-logo {
   float: left;
@@ -5210,8 +5210,8 @@ Companies
   margin: 0 0 50px 75px;
 }
 
-/* ===========
-File Manager
+/* ===========
+File Manager
 ============== */
 .file-man-box {
   padding: 20px;
@@ -5263,8 +5263,8 @@ File Manager
   visibility: visible;
 }
 
-/* =============
-   Timeline
+/* =============
+   Timeline
 ============= */
 .timeline {
   border-collapse: collapse;
@@ -5463,16 +5463,16 @@ h3.timeline-title {
   padding: 8px;
 }
 
-/* =============
-   Profile
+/* =============
+   Profile
 ============= */
 .profile-user-box {
   position: relative;
   border-radius: 5px;
 }
 
-/* =============
-   Print css
+/* =============
+   Print css
 ============= */
 @media print {
   .page-title-box, .topbar-left, .hidden-print, .breadcrumb, .page-title, .footer, .topbar {
@@ -5498,8 +5498,8 @@ h3.timeline-title {
   }
 }
 
-/* =============
-   FAQ
+/* =============
+   FAQ
 ============= */
 .question-q-box {
   height: 30px;
@@ -5525,8 +5525,8 @@ h3.timeline-title {
   margin-bottom: 40px;
 }
 
-/* =============
-   Pricing
+/* =============
+   Pricing
 ============= */
 .pricing-plan {
   padding-bottom: 50px;
@@ -5656,8 +5656,8 @@ h3.timeline-title {
   margin-top: 30px;
 }
 
-/* ==============
-  Account Pages
+/* ==============
+  Account Pages
 ===================*/
 .accountbg {
   position: absolute;
@@ -5793,8 +5793,8 @@ h3.timeline-title {
   }
 }
 
-/* =============
-   Search result
+/* =============
+   Search result
 ============= */
 .search-result-box .tab-content {
   padding: 30px 30px 10px 30px;
@@ -5809,8 +5809,8 @@ h3.timeline-title {
   margin-bottom: 20px;
 }
 
-/* =============
-   Gallery
+/* =============
+   Gallery
 ============= */
 .port {
   margin-bottom: 30px;
@@ -5919,8 +5919,8 @@ h3.timeline-title {
   transform: scale(1.05);
 }
 
-/* =============
-   Count Down - Coming Soon
+/* =============
+   Count Down - Coming Soon
 ============= */
 .svg-rocket {
   height: 80px;
@@ -5978,8 +5978,8 @@ h3.timeline-title {
   }
 }
 
-/* =============
-   Responsive
+/* =============
+   Responsive
 ============= */
 @media (max-width: 768px) {
   .dataTables_wrapper .col-xs-6 {
