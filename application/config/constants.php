@@ -86,7 +86,8 @@ define('JS', ASSETS.'js/');
 define('PLUGINS', BASEURL.'plugins/');
 define('IMAGES', ASSETS.'images/');
 
-define('NEWTHEME', BASEURL.'assets/newtheme/');
+//define('NEWTHEME', BASEURL.'assets/newtheme/');
+define('NEWTHEME', BASEURL.'assets/theme/');
 
 defined('EXIT_SUCCESS')        OR define('EXIT_SUCCESS', 0); // no errors
 defined('EXIT_ERROR')          OR define('EXIT_ERROR', 1); // generic error
