@@ -101,11 +101,14 @@ class Gudang extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-
+		$data['cat']=$cat;
 		$data['products']=array();
 		$data['n']=1;
 		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0";
 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		if(!empty($cat)){
+			$sql.=" AND jenis='".$cat."' ";
+		}
 		$sql.=" ORDER BY id DESC ";
 		$results=$this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
@@ -155,7 +158,13 @@ class Gudang extends CI_Controller {
 		$date=looping_tanggal($tanggal1,$tanggal2);
 		$ajuan=[];
 		foreach($date as $d){
-			$ajuan=$this->GlobalModel->Getdata('ajuan_mingguan',array('hapus'=>0,'tanggal'=>$d['tanggal']));
+			//$ajuan=$this->GlobalModel->Getdata('ajuan_mingguan',array('hapus'=>0,'tanggal'=>$d['tanggal']));
+			$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND DATE(tanggal)='".$d['tanggal']."' ";
+			if(!empty($cat)){
+				$sql.=" AND jenis='".$cat."' ";
+			}
+			$ajuan=$this->GlobalModel->queryManual($sql);
+			
 			$data['prods'][]=array(
 				'tanggal'=>$d['tanggal'],
 				'ajuan'=>$ajuan,
