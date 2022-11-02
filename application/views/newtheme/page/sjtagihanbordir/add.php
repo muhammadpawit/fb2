@@ -60,6 +60,16 @@
 <link rel="stylesheet" href="https://forboysproduction.com/assets/js/jquery-ui.css">
 <script src="https://forboysproduction.com/assets/js/jquery-ui.js"></script>
 <script type="text/javascript">
+  $.noConflict();
+  jQuery( document ).ready(function( $ ) {
+    // Code that uses jQuery's $ can follow here.
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+    $('#datepicker').datepicker({
+        
+         autoclose: true
+    });
+  });
+// Code that uses other library's $ can follow here.
     //$.noConflict();
     var product_row=0;
       function addbahankeluars(){
