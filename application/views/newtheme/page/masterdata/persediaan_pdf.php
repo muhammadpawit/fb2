@@ -2,7 +2,7 @@
   body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
   table{
     font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;
-    border: 1px #8b948d black;border-collapse: collapse;
+    border: 1px #8b948d black;border-collapse: collapse;color: blue !important;
   }
   .clear{
     clear: both;
@@ -10,6 +10,7 @@
   .print{ display:none !important}
   h1{
     text-align: center;
+    color: blue;
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
