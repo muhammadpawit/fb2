@@ -387,23 +387,7 @@
     });
 
 
-    $('.yessearch').DataTable({
-      'paging'      : false,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : false,
-      'info'        : false,
-      'autoWidth'   : false,
-    });
-
-    $('.nosearch').DataTable({
-      'paging'      : false,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : false,
-      'info'        : false,
-      'autoWidth'   : false,
-    });
+    
 
     
   })
@@ -412,7 +396,24 @@
 
 <script>
   $(document).ready(function () {
-    $('.sidebar-menu').tree()
+      $('.sidebar-menu').tree();
+      $('.yessearch').DataTable({
+        'paging'      : false,
+        'lengthChange': false,
+        'searching'   : true,
+        'ordering'    : false,
+        'info'        : false,
+        'autoWidth'   : false,
+      });
+
+      $('.nosearch').DataTable({
+        'paging'      : false,
+        'lengthChange': false,
+        'searching'   : false,
+        'ordering'    : false,
+        'info'        : false,
+        'autoWidth'   : false,
+      });
   })
 </script>
 <?php //$this->load->view('newtheme/page/script');?>
