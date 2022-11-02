@@ -99,7 +99,7 @@
     
 function komplit(coba){
  // Single Select
- $("input[name='products["+coba+"][kode_po]']").autocomplete({
+ $("input[name='products["+coba+"][kode_po]']").select2({
   source: function( request, response ) {
    // Fetch data
    $.ajax({
