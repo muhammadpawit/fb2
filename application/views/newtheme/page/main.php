@@ -405,7 +405,7 @@
     var uri=window.location.origin+'/Json/';
    }
    
-   $('.select2').select2();
+   
 
     $('.autopo').select2({
       theme: 'bootstrap4',
