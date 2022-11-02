@@ -68,7 +68,7 @@
         
          autoclose: true
     });
-  });
+
 // Code that uses other library's $ can follow here.
     //$.noConflict();
     var product_row=0;
@@ -107,7 +107,7 @@
         $(this).closest('tr').remove();
     });
 
-    
+      });
 function komplit(coba){
  // Single Select
  $("input[name='products["+coba+"][kode_po]']").autocomplete({
