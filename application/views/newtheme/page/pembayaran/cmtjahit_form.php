@@ -228,12 +228,11 @@
         html+='</tr><tbody>';
         $("#tbls tfoot").before(html);
         //$('.select2bs4').selectpicker('refresh');
-        $('.select2bs4').select2();
         i++;
-        
-        $(".select2").select2({
-            theme:"classic",
-        });
+        $('.select2bs4').select2();
+        // $(".select2").select2({
+        //     theme:"classic",
+        // });
         $(".potpertama").select2({
           ajax: {
           url:"<?php echo BASEURL?>Pembayaran/caripembayaran",
@@ -252,7 +251,7 @@
           },
           //cache: true
         },
-        theme:"classic"
+        //theme:"classic"
         }).on("select2:select",function(e){
             id=$(this).val();
             var s=id.split(",");
