@@ -1,5 +1,4 @@
-<!-- Start Page content -->
-<div class="content">
+
     <div class="container-fluid">
 
         <div class="row">
@@ -14,15 +13,6 @@
                            <?php echo $this->session->flashdata('msg'); ?> 
                     </div>
                        <?php } ?>
-                    <div class="row">
-                        <div class="col-6">
-                        </div>
-                        <div class="col-md-12">
-                            
-                        </div>
-                        
-                    </div>
-                    <hr>
                    <form action="<?php echo BASEURL.'finishing/kirimgudangforProd' ?>" method="POST">
                             
                         <div class="row">
@@ -85,8 +75,6 @@
         <!-- end row -->
 
     </div> <!-- container -->
-
-</div> <!-- content -->
  
  <script type="text/javascript">
 $(document).ready(function(){
@@ -101,7 +89,8 @@ $(document).ready(function(){
         html += '<td><input type="text" class="form-control keterangan" name="keterangan[]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#addkirimgudang').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
