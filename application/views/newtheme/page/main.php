@@ -398,7 +398,7 @@
   $(document).ready(function () {
       $('.sidebar-menu').tree();
       $('.yessearch').DataTable({
-        'paging'      : false,
+        'paging'      : true,
         'lengthChange': false,
         'searching'   : true,
         'ordering'    : false,
@@ -407,7 +407,7 @@
       });
 
       $('.nosearch').DataTable({
-        'paging'      : false,
+        'paging'      : true,
         'lengthChange': false,
         'searching'   : false,
         'ordering'    : false,
