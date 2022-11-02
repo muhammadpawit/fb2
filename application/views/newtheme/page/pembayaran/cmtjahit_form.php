@@ -314,7 +314,8 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html+='</tr><tbody>';
         $("#bangke tfoot").before(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         j++;
     }
 
@@ -328,7 +329,8 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html+='</tr><tbody>';
         $("#kbangke tfoot").before(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         k++;
     }
 
@@ -342,7 +344,8 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html +='</tr><tbody>';
         $("#alat tfoot").before(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         l++;
     }
 
@@ -356,7 +359,8 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html +='</tr><tbody>';
         $("#mesin tfoot").before(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         m++;
     }
 
@@ -370,7 +374,8 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html +='</tr><tbody>';
         $("#vermak tfoot").before(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         v++;
     }
 
