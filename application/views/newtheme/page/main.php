@@ -211,11 +211,13 @@
          
         </div>
         <div class="box-body">
-          <?php if(isset($page)){?>
+          <div class="content">
+            <?php if(isset($page)){?>
                  
                   <?php $this->load->view('newtheme/page/script');?>
                   <?php $this->load->view($page);?>
                     <?php } ?>
+          </div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -396,6 +398,190 @@
 
 <script>
   $(document).ready(function () {
+      info =window.location.origin;
+   if(info=='http://localhost'){
+    var uri=window.location.origin+'/fb2/Json/';
+   }else{
+    var uri=window.location.origin+'/Json/';
+   }
+   
+   $('.select2').select2();
+
+    $('.autopo').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_po',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+    $('.autopoluar').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_po_luar',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+
+    $('.autopoiinputpotongan').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_po_for_input_potongan',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+
+    $('.autopobawahansablon').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_po_bawahansablon',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+
+    $('.autocmtbawahansablon').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_cmt_bawahansablon',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+
+    $('.autojobbawahansablon').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_job_bawahansablon',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+    $('.autooperator').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_operator',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+
+    $('.autojenispotongan').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_jenispotongan',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+    $('.sj').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_sj',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
+    $( ".byrcmt" ).change(function() {
+      $('#sub1').empty();
+      var cmts = $(this).val();
+      $.get(uri+'pot_transport?&cmt='+cmts, 
+        function(data){   
+          //console.log(data);
+          $('#sub1').append(data);
+      });
+    });
+
+    $('.autopoid').select2({
+      theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'autopoid',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
       $('.sidebar-menu').tree();
       $('.yessearch').DataTable({
         'paging'      : true,
@@ -414,7 +600,7 @@
         'info'        : false,
         'autoWidth'   : false,
       });
-  })
+  });
 </script>
 <?php //$this->load->view('newtheme/page/script');?>
 </body>

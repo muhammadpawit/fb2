@@ -4,16 +4,16 @@
                                 <label>No Faktur</label>
                                 <input type="text" class="form-control" name="noFaktur" value="<?php echo generateReferenceNumber(); ?>" readonly>
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-md-3">
                                 <label>Pembuatan </label>
                                 <input type="text" class="form-control"  name="tujuanItem">
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-md-3">
                                 <label>Nama PO </label>
                                 <select class="form-control autopo" title="Pilih PO" name="namaPo" id="namapo" data-size="5"  data-live-search="true" required>
                                 </select>
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-md-3">
                                 <label>Proggress</label>
                                 <select class="form-control select2bs4" name="proggress" title="Pilih PO" required>
                                     <?php foreach ($proggres as $key => $prog): ?>
@@ -62,7 +62,8 @@ $(document).ready(function(){
         html += '<td><select class="form-control bahanUntuk" name="bahanUntuk[]"><option value="UTAMA">UTAMA</option><option value="CELANA">CELANA</option><option value="KAINKANTONG">KAINKANTONG</option><option value="VARIASI">VARIASI</option></select></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#addbahankeluar').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
