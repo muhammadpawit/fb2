@@ -228,6 +228,7 @@
         html+='</tr><tbody>';
         $("#tbls tfoot").before(html);
         $('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         i++;
         
         $(".select2").select2({
