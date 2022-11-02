@@ -805,7 +805,7 @@ class Bordir extends CI_Controller {
 				'totalsticth'=>number_format($p['totalsticth']),
 				'harga'=>number_format($p['harga']),
 				'total'=>number_format($p['total']),
-				'ket'=>$p['ket'],
+				'ket'=>!empty($p['ket'])?$p['ket']:'-',
 			);
 		}
 		$data['page']=$this->page.'bordir/tagihanpoluar';
