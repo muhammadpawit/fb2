@@ -13,9 +13,11 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/Ionicons/css/ionicons.min.css">
 
-<link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/select2/dist/css/select2.min.css">
 
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo NEWTHEME?>dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -355,7 +357,7 @@
     location =url;
   }
 
-  
+
   $(function () {
     //Initialize Select2 Elements
     //$('.select2').select2();
@@ -382,7 +384,26 @@
     $('.datepicker').datepicker({
         
          autoclose: true
-    })
+    });
+
+
+    $('.yessearch').DataTable({
+      'paging'      : false,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : false,
+      'info'        : false,
+      'autoWidth'   : false,
+    });
+
+    $('.nosearch').DataTable({
+      'paging'      : false,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : false,
+      'autoWidth'   : false,
+    });
 
     
   })

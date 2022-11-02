@@ -6,6 +6,9 @@
 
 <script src="<?php echo NEWTHEME?>bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="<?php echo NEWTHEME?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- DataTables -->
+<script src="<?php echo NEWTHEME?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo NEWTHEME?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <!-- SlimScroll -->
 <script src="<?php echo NEWTHEME?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
