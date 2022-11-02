@@ -1,27 +1,7 @@
-                    <p class="text-muted font-14 m-b-30">
-                      <?php if ($this->session->flashdata('msg')) { ?>
-
-                      <div class="alert alert-success alert-dismissible fade show" role="alert">
-
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
-                              <span aria-hidden="true">×</span>
-
-                          </button>
-                             <?php echo $this->session->flashdata('msg'); ?> 
-
-                      </div>
-
-                       <?php } ?>
-                    </p>                        
-      <!-- Default box -->
-      <div class="card card-info">
-        <div class="card-header">
-          <h3 class="card-title">Tambah Barang Keluar <?php echo $title?></h3>
-        </div>
-
-        <div class="card-body">
-            <form class="form-group" method="post" action="<?php echo $action?>">
+<div class="row">
+  <div class="col-md-12">
+    <div class="content">
+      <form class="form-group" method="post" action="<?php echo $action?>">
               <input type="hidden" name="jenis" value="<?php echo $jenis?>">
               <div class="row">
                 <div class="col-4">
@@ -100,13 +80,6 @@
                 </div>
               </div>
             </form>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          
-        </div>
-        <!-- /.card-footer-->
-      </div>
       <!-- /.card -->
 <script type="text/javascript">
 $(document).ready(function(){
@@ -127,7 +100,8 @@ $(document).ready(function(){
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addbahankeluars').append(html);
-         $('.select2bs4').selectpicker('refresh');
+         //$('.select2bs4').selectpicker('refresh');
+         $('.select2bs4').select2();
         //$('.barang').select2({
           //theme: 'bootstrap4'
         //});
@@ -160,3 +134,6 @@ $(document).ready(function(){
     });
 });
  </script>      
+    </div>
+  </div>
+</div>

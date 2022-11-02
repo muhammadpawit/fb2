@@ -403,16 +403,18 @@ class Gudang extends CI_Controller {
 	}
 
 	public function barangkeluartambah($jenis){
-		$title=null;
+		$title='sadasd';
 		if($jenis==1){
 			$title="Bordir";
 		}else if($jenis==2){
 			$title="Konveksi";
 		}else{
-			$title=null;
+			$title='Bahan Keluar Harian';
 		}
 		$data=array();
 		$data['jenis']=$jenis;
+		$data['title']=$title;
+		//pre($data);
 		$data['action']=BASEURL.'Gudang/barangkeluarsave/'.$jenis;
 		$data['cancel']=BASEURL.'Gudang/barangkeluar/'.$jenis;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
@@ -422,7 +424,6 @@ class Gudang extends CI_Controller {
 		$data['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$data['bagian']=$this->GlobalModel->getData('bagian_pengambilan',array());
-		$data['title']=$title;
 		$data['page']=$this->page.'barangkeluar/barangkeluar_form';
 		$this->load->view($this->page.'main',$data);
 	}
