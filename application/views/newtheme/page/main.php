@@ -371,6 +371,8 @@
 
 
   $(function () {
+
+
     //Initialize Select2 Elements
     //$('.select2').select2();
     $('.select2bs4').select2();
@@ -410,6 +412,7 @@
   $(document).ready(function () {
       info =window.location.origin;
 
+      
       jQuery.noConflict();
       
    if(info=='http://localhost'){
