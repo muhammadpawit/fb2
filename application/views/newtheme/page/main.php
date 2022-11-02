@@ -243,6 +243,119 @@
 </div>
 <!-- ./wrapper -->
 <script>
+
+  function cetak(){
+    window.print();
+  }
+  function filterwithpo(){
+    url='?';
+    
+    var filter_date_start = $('input[name=\'tanggal1\']').val();
+
+    if (filter_date_start) {
+      url += '&tanggal1=' + encodeURIComponent(filter_date_start);
+    }
+
+    var filter_date_end = $('input[name=\'tanggal2\']').val();
+
+    if (filter_date_end) {
+      url += '&tanggal2=' + encodeURIComponent(filter_date_end);
+    }
+
+    var filter_status = $('select[name=\'kode_po\']').val();
+
+    if (filter_status != '*') {
+      url += '&kode_po=' + encodeURIComponent(filter_status);
+    }
+    location =url;
+  }
+
+  function filterwithcmt(){
+    url='?';
+    
+    var filter_date_start = $('input[name=\'tanggal1\']').val();
+
+    if (filter_date_start) {
+      url += '&tanggal1=' + encodeURIComponent(filter_date_start);
+    }
+
+    var filter_date_end = $('input[name=\'tanggal2\']').val();
+
+    if (filter_date_end) {
+      url += '&tanggal2=' + encodeURIComponent(filter_date_end);
+    }
+
+    var filter_status = $('select[name=\'cmt\']').val();
+
+    if (filter_status != '*') {
+      url += '&cmt=' + encodeURIComponent(filter_status);
+    }
+
+    var sj = $('select[name=\'sj\']').val();
+
+    if (sj != '*') {
+      url += '&sj=' + encodeURIComponent(sj);
+    }
+    location =url;
+  }
+
+  function filtertglonly(){
+    var url='?';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+
+  function filterbulan(){
+    var url='?';
+    var tanggal1 =$("#bulan").val();
+    var tanggal2 =$("#tahun").val();
+    if(tanggal1){
+      url+='&bulan='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tahun='+tanggal2;
+    }
+    location =url;
+  }
+
+  function filterbulancmt(){
+    var url='?';
+    var tanggal1 =$("#bulan").val();
+    var tanggal2 =$("#tahun").val();
+    var cmt =$("#cmt").val();
+    if(tanggal1){
+      url+='&bulan='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tahun='+tanggal2;
+    }
+    if(cmt!='*'){
+      url+='&cmt='+cmt;
+    }
+    location =url;
+  }
+
+  function excelwithtgl(){
+    var url='?&excel=1';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+
+  
   $(function () {
     //Initialize Select2 Elements
     //$('.select2').select2();
