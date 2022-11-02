@@ -15,10 +15,10 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Proggress</label>
-                                <select class="form-control select2bs4" name="proggress" title="Pilih PO" required>
-                                    <?php foreach ($proggres as $key => $prog): ?>
+                                <select class="form-control" name="proggress" title="Pilih PO" required>
+                                    <?php foreach ($proggres as $key => $prog){ ?>
                                         <option value="<?php echo $prog['id_proggresion_po'] ?>"><?php echo $prog['nama_progress'] ?></option>   
-                                    <?php endforeach ?>
+                                    <?php } ?>
                                 </select>
                             </div>
     </div>
