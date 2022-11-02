@@ -413,8 +413,8 @@
       info =window.location.origin;
 
       
-      jQuery.noConflict();
-      
+      //jQuery.noConflict();
+
    if(info=='http://localhost'){
     var uri=window.location.origin+'/fb2/Json/';
    }else{
