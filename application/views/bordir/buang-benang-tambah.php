@@ -26,54 +26,7 @@
   </div>
 </div>
 
-<div class="content">
-
-    <div class="container-fluid">
-
-
-
-        <div class="row">
-
-            <div class="col-md-12">
-
-
-
-                <div class="card-box">
-
-                    <?php if ($this->session->flashdata('msg')) { ?>
-
-                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
-
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
-                            <span aria-hidden="true">×</span>
-
-                        </button>
-
-                           <?php echo $this->session->flashdata('msg'); ?> 
-
-                    </div>
-
-                    <?php } ?>
-
-                    <div class="row">
-
-                        <div class="col-6">
-
-
-                        </div>
-
-                        <div class="col-6 text-right">
-
-<!--                             <a href="<?php echo BASEURL.'bordir/harianbuangbenangdetail/'.$project['kode_po'] ?>" class="btn btn-info" target="_blank">Detail Buang Benang</a> -->
-
-                        </div>
-
-                    </div>
-
-                    <hr>
-
-                   <form action="<?php echo BASEURL.'bordir/harianbuangbenangAct' ?>" method="POST">
+<form action="<?php echo BASEURL.'bordir/harianbuangbenangAct' ?>" method="POST">
 
                             
 
@@ -147,28 +100,6 @@
 
                    </form>
 
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-        </div>
-
-        <!-- end row -->
-
-
-
-    </div> <!-- container -->
-
-
-
-</div> <!-- content -->
-
  <script type="text/javascript">
 
 $(document).ready(function(){
@@ -212,8 +143,8 @@ $(document).on('click', '.addbbbordir', function(){
    
 
     $('#bbbordir').append(html);
-    //$('.select2bs4').select2();
-    $('.select2bs4').selectpicker('refresh');
+    $('.select2bs4').select2();
+    //$('.select2bs4').selectpicker('refresh');
 
  });
 
