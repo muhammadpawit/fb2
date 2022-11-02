@@ -57,6 +57,7 @@
                 </div>
               </div>
             </form>
+<link rel="stylesheet" href="<?php echo BASEURL ?>assets/js/jquery-ui.css">            
 <script type="text/javascript">
     //$.noConflict();
     var product_row=0;
