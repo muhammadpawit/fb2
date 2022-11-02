@@ -57,8 +57,8 @@
                 </div>
               </div>
             </form>
-<link rel="stylesheet" href="<?php echo BASEURL ?>assets/js/jquery-ui.css">
-<script src="<?php echo BASEURL ?>myjs/autocomplete.js" type="text/javascript"></script>
+<!-- <link rel="stylesheet" href="<?php echo BASEURL ?>assets/js/jquery-ui.css">
+<script src="<?php echo BASEURL ?>myjs/autocomplete.js" type="text/javascript"></script> -->
             
 <script type="text/javascript">
     //$.noConflict();
