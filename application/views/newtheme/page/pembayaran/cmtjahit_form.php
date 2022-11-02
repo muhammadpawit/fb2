@@ -232,7 +232,7 @@
         i++;
         
         $(".select2").select2({
-            theme:"classic",
+            //theme:"classic",
         });
         $(".potpertama").select2({
           ajax: {
@@ -252,7 +252,7 @@
           },
           //cache: true
         },
-        theme:"classic"
+            //theme:"classic"
         }).on("select2:select",function(e){
             id=$(this).val();
             var s=id.split(",");
