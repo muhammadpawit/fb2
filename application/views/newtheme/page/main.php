@@ -409,6 +409,9 @@
 <script>
   $(document).ready(function () {
       info =window.location.origin;
+
+      jQuery.noConflict();
+      
    if(info=='http://localhost'){
     var uri=window.location.origin+'/fb2/Json/';
    }else{
