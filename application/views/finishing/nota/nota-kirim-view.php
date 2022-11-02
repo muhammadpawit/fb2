@@ -8,12 +8,6 @@
                     </div>
                        <?php } ?>
                 </p>
-<!-- Start Page content -->
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card-box table-responsive">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -34,62 +28,58 @@
                                 <a href="<?php echo BASEURL.'Finishing/kirimgudang' ?>" class="btn btn-info btn-sm text-white"><i class="fa fa-plus"></i> Tambah</a>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="card-tools">
-                        
-                    </div> -->
-                    <table class="table table-bordered yessearch">
-                        <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>No.Faktur</th>
-                            <th>Nama PO</th>
-                            <th>Kuantitas Kirim (pcs)</th>
-                            <th>Tujuan</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($notarincian as $key => $sat): ?>
-                            <tr>
-                                <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
-                                <td><?php echo $sat['nofaktur'] ?></td>
-                                <td><?php echo strtoupper($sat['kode_po']) ?></td>
-                                <td><?php echo $sat['jumlah_piece_diterima']?></td>
-                                <td><?php echo strtolower($sat['tujuan']) ?></td>
-                                <td>
-                                    <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
-                                    <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['kode_po'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
+                    </div>  
 
-                                    <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>
-                                    <?php } ?>
-                                    <?php if(substr($sat['kode_po'],0,3)=="HGO"){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGO" class="btn btn-info btn-xs">Cetak SJ HGO</a>
-                                    <?php } ?>
-                                    <?php if(substr($sat['kode_po'],0,3)=="HGW"){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGW" class="btn btn-info btn-xs">Cetak SJ HGW</a>
-                                    <?php } ?>
-                                    <?php if(substr($sat['kode_po'],0,3)=="SWH"){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=SWH" class="btn btn-info btn-xs">Cetak SJ SWH</a>
-                                    <?php } ?>
-                                    <?php if(aksesedit()==1){?>
-                                        <a href="<?php echo BASEURL.'Notakirim/edit/'.$sat['nofaktur'] ?>" class="btn btn-warning btn-xs text-white">Edit Rincian</a>
-                                    <?php } ?>
-                                    <?php if(akseshapus()==1){?>
-                                        <a href="<?php echo BASEURL.'Finishing/hapuskgudang/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-danger btn-xs text-white">Hapus</a>
-                                    <?php } ?>
-                                </td>
-                            </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> <!-- end row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered yessearch">
+                                <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>No.Faktur</th>
+                                    <th>Nama PO</th>
+                                    <th>Kuantitas Kirim (pcs)</th>
+                                    <th>Tujuan</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($notarincian as $key => $sat): ?>
+                                    <tr>
+                                        <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
+                                        <td><?php echo $sat['nofaktur'] ?></td>
+                                        <td><?php echo strtoupper($sat['kode_po']) ?></td>
+                                        <td><?php echo $sat['jumlah_piece_diterima']?></td>
+                                        <td><?php echo strtolower($sat['tujuan']) ?></td>
+                                        <td>
+                                            <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
+                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['kode_po'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
 
-    </div>
-</div>
+                                            <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
+                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>
+                                            <?php } ?>
+                                            <?php if(substr($sat['kode_po'],0,3)=="HGO"){?>
+                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGO" class="btn btn-info btn-xs">Cetak SJ HGO</a>
+                                            <?php } ?>
+                                            <?php if(substr($sat['kode_po'],0,3)=="HGW"){?>
+                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGW" class="btn btn-info btn-xs">Cetak SJ HGW</a>
+                                            <?php } ?>
+                                            <?php if(substr($sat['kode_po'],0,3)=="SWH"){?>
+                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=SWH" class="btn btn-info btn-xs">Cetak SJ SWH</a>
+                                            <?php } ?>
+                                            <?php if(aksesedit()==1){?>
+                                                <a href="<?php echo BASEURL.'Notakirim/edit/'.$sat['nofaktur'] ?>" class="btn btn-warning btn-xs text-white">Edit Rincian</a>
+                                            <?php } ?>
+                                            <?php if(akseshapus()==1){?>
+                                                <a href="<?php echo BASEURL.'Finishing/hapuskgudang/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-danger btn-xs text-white">Hapus</a>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>              
 <script type="text/javascript">
     function filter(){
         url ='?';

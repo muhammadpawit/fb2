@@ -33,6 +33,12 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+      .registered {
+        font-family: 'Baskervville', serif;
+      }
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -220,8 +226,8 @@
           </div>
         </div>
         <!-- /.box-body -->
-        <div class="box-footer">
-          Copyright &copy; 2014-2019 
+        <div class="box-footer registered">
+          Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?>
         </div>
         <!-- /.box-footer-->
       </div>
