@@ -9,6 +9,8 @@
 <!-- DataTables -->
 <script src="<?php echo NEWTHEME?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo NEWTHEME?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script src="<?php echo BASEURL ?>myjs/autocomplete.js" type="text/javascript"></script>
 <!-- SlimScroll -->
 <script src="<?php echo NEWTHEME?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->

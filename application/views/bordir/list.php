@@ -23,13 +23,13 @@
             <input type="text" class="form-control" name="tanggalEnd" value="<?php echo $tanggalEnd?>">
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-md-2">
         <label>Nama PO</label>
         <select name="namaPo" class="form-control autopo" data-live-search="true">
             <option value="*">Semua</option>
         </select>
     </div>
-    <div class="col-3">
+    <div class="col-md-2">
         <label>Nama Operator</label>
         <select name="oper" class="form-control select2bs4" data-live-search="true">
             <option value="*">Semua</option>
@@ -38,7 +38,7 @@
             <?php } ?>
         </select>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
         <label>Aksi</label><br>
         <a onclick="filter()" class="btn btn-info text-white">Filter</a>
         <a onclick="exceldalam()" class="btn btn-info text-white">Excel</a>

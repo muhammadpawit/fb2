@@ -38,6 +38,10 @@
       .registered {
         font-family: 'Baskervville', serif;
       }
+
+      .full {
+        width: 100% !important;
+      }
   </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

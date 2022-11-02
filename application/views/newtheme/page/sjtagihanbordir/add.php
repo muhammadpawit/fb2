@@ -80,7 +80,8 @@
      
         product_row++;
         $('#addbahankeluars tbody').before(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
         $( ".datepicker" ).datepicker({ 
           dateFormat: 'yy-mm-dd',
           maxDate:+1,
