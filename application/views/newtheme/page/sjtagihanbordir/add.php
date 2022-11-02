@@ -57,7 +57,9 @@
                 </div>
               </div>
             </form>
-<link rel="stylesheet" href="<?php echo BASEURL ?>assets/js/jquery-ui.css">            
+<link rel="stylesheet" href="<?php echo BASEURL ?>assets/js/jquery-ui.css">
+<script src="<?php echo BASEURL ?>myjs/autocomplete.js" type="text/javascript"></script>
+            
 <script type="text/javascript">
     //$.noConflict();
     var product_row=0;
