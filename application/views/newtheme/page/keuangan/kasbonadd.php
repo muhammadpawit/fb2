@@ -35,10 +35,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
-    $('.select2').select2({
-      theme: "classic",
-      placeholder: 'Select an option'
-    });
+    // $('.select2').select2({
+    //   theme: "classic",
+    //   placeholder: 'Select an option'
+    // });
 
     
 
@@ -63,7 +63,8 @@
     html+='</tr>';
     $("#addkasbon").append(html);
     $(".tgl").html(t);
-    $('.select2').selectpicker();
+    //$('.select2').selectpicker();
+    $('.select2').select2();
     $(document).on('change', '.karyawan', function(e){
             var select = $(this).find(':selected').val();
             var dai = $(this).closest('tr');
