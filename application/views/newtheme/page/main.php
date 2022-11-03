@@ -18,6 +18,8 @@
   
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+   <!-- Responsive datatable examples -->
+  <link href="<?php echo PLUGINS ?>datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo NEWTHEME?>dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -608,6 +610,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+        responsive: true
       });
 
       $('.yessearch').DataTable({
@@ -617,6 +620,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+        responsive: true
       });
 
       $('.nosearch').DataTable({
@@ -626,6 +630,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+        responsive: true
       });
   });
 </script>
