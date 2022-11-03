@@ -39,8 +39,12 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info">Simpan</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info">Simpan</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -59,7 +63,8 @@ $(document).ready(function(){
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#item_table').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
