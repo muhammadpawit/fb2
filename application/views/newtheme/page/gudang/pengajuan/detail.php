@@ -153,7 +153,7 @@
                                             } ?>
 
                                             <td width="125">Rp. <?php echo number_format($tem['jumlah'] * $tem['harga']) ;?></td>
-                                            <td><?php echo ($tem['pembayaran']==1)?'Cash':$tem['pembayaran']==2?'Transfer':'-'; ?></td>
+                                            <td><?php echo ($tem['pembayaran']==1)?'Cash':($tem['pembayaran']==2?'Transfer':'-'); ?></td>
                                             <td><?php echo $tem['supplier']; ?></td>
 
                                             <td><?php echo $tem['keterangan']; ?></td>
