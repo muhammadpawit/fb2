@@ -57,7 +57,8 @@
 		 html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
 		html+='</tr>';
 		$("#lisc").append(html);
-		$('.select2bs4').selectpicker('refresh');
+		//$('.select2bs4').selectpicker('refresh');
+		$('.select2bs4').select2();
 		i++;
 	}
 </script>

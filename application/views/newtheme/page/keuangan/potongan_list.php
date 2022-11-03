@@ -105,7 +105,7 @@
 
       <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
 
-      <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
+      <span><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
 
     </div>
 
