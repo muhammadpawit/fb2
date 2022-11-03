@@ -333,6 +333,10 @@ class Masterdata extends CI_Controller {
 			'hapus'=>0,
 		);
 		$this->db->insert('timpotong',$insert);
+		$insert2=array(
+			'nama'=>$data['nama'],
+		);
+		$this->db->insert('bagian_pengambilan',$insert2);
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
 		redirect(BASEURL.'Masterdata/timpotong');
 	}
