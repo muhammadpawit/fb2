@@ -45,6 +45,8 @@
       .full {
         width: 100% !important;
       }
+
+      select { width: 15.5em !important }
   </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
