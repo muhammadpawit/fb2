@@ -67,7 +67,8 @@ $(document).ready(function(){
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addbahankeluars').append(html);
-         $('.select2bs4').selectpicker('refresh');
+         //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
         //$('.barang').select2({
           //theme: 'bootstrap4'
         //});

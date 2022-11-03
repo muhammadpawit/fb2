@@ -105,7 +105,8 @@ $(document).ready(function(){
         html += '<td><input type="number" class="form-control itemPerlusin" name="itemPerlusin[]" required></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#addalat').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
