@@ -46,7 +46,8 @@
           maxDate:+1,
           yearRange: '2019:2030',
         });
-        $(".select2bs4").selectpicker('refresh');
+        //$(".select2bs4").selectpicker('refresh');
+        $(".select2bs4").select2();
         $(document).on('change', '.select2bs4', function(e){
             var dataItem = $(this).find(':selected').data('item');
             var dai = $(this).closest('tr');
