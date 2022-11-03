@@ -34,7 +34,8 @@
 			html+='<td><i class="fa fa-trash remove"></i></td>';
 			html+='</tr>';
 			$("#po").append(html);
-			$('.selectpicker').selectpicker('refresh');
+			//$('.selectpicker').selectpicker('refresh');
+			$('.selectpicker').select2();
 			$( ".datepicker" ).datepicker({ 
 	          dateFormat: 'yy-mm-dd',
 	          maxDate:+1,
