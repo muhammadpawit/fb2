@@ -25,7 +25,8 @@
         <h4 class="modal-title">Tambah Master Persediaan</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?php echo $action?>">
+        <div class="content">
+          <form method="post" action="<?php echo $action?>">
                         <div class="row">
                           <div class="col-12">
                             <div class="form-group">
@@ -118,6 +119,7 @@
                           </div>
                         </div>
                       </form>
+        </div>
       </div>
       <div class="modal-footer">
         

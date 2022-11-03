@@ -1025,6 +1025,7 @@ class Masterdata extends CI_Controller {
 				'satuanqty'=>$result['satuan'],
 				'color'=>$result['jenis']==4?'#ed8664':'',
 				'price'=>($result['price']),
+				'harga_beli'=>$result['harga_beli'],
 				'action'=>$action,
 			);
 		}
