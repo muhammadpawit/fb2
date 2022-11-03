@@ -68,7 +68,7 @@ $(document).ready(function(){
         i++;
         $('#addbahankeluars').append(html);
          //$('.selectpicker').selectpicker('refresh');
-        $('.selectpicker').select2();
+        $('.barang').select2();
         //$('.barang').select2({
           //theme: 'bootstrap4'
         //});
