@@ -63,9 +63,10 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addkirimgudang').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
         $('.kirimautopo').select2({
-          theme: 'bootstrap4',
+          //theme: 'bootstrap4',
           placeholder: '--- Pilih ---',
             ajax: {
               url: uri+'search_po_kirimjahitpenambahan',
