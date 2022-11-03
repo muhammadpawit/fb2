@@ -32,7 +32,7 @@
 							</div>
 
 							<div class="table-responsive-sm">
-								<table class="table" border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;" cellspacing="3" cellpadding="10">
+								<table class="table">
 									<thead>
 										<tr>
 											<th class="center">#</th>
