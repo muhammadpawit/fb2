@@ -54,7 +54,8 @@ $(document).ready(function(){
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#item_table').append(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
      });
 
     $(document).on('click', '.remove', function(){
