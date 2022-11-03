@@ -45,7 +45,7 @@
                 <div class="col-md-3">
                   <label>Action</label><br>
                   <button onclick="filter()" class="btn btn-info btn-sm">Filter</button>
-                  <span class="pull-right"><a href="<?php echo $tambah?>" class="btn btn-sm btn-info">Tambah</a></span>
+                  <span><a href="<?php echo $tambah?>" class="btn btn-sm btn-info">Tambah</a></span>
                   <button onclick="excel()" class="btn btn-info btn-sm">Excel</button>
                 </div>
 </div>
