@@ -34,8 +34,8 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <style type="text/css">
-    body{text-transform:capitalize !important;}
     @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+    body{text-transform:capitalize !important;}    
       .registered {
         font-family: 'Baskervville', serif;
       }
