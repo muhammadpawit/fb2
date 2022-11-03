@@ -70,7 +70,8 @@ $(document).ready(function(){
         html += '<td><input type="text" class="form-control keterangan" name="keterangan[]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#item_table').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
