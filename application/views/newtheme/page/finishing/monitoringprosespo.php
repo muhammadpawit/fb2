@@ -77,7 +77,7 @@
 		                    	</div>
 							</div>
 							<div class="col-md-6">
-								<label>Rincian PO</label>
+								<label>Rincian PO di QC</label>
 								<div style="height: 200px;overflow: auto">
 									<?php foreach(mdetails(1) as $k){?>
 										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
@@ -105,7 +105,7 @@
 		                    	</div>
 							</div>
 							<div class="col-md-6">
-								<label>Rincian PO</label>
+								<label>Rincian PO di Lobang Kancing</label>
 								<div style="height: 200px;overflow: auto">
 									<?php foreach(mdetails(2) as $k){?>
 										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
