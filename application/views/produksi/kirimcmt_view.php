@@ -32,7 +32,7 @@
 							</div>
 
 							<div class="table-responsive-sm">
-								<table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;" cellspacing="3" cellpadding="10">
+								<table class="table" border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;" cellspacing="3" cellpadding="10">
 									<thead>
 										<tr>
 											<th class="center">#</th>
@@ -45,16 +45,18 @@
 										</tr>
 									</thead>
 								<tbody>
-								<?php foreach($kirims as $k){?>
-									<tr>
-										<td><?php echo $no++?></td>
-										<td><?php echo $k['kode_po']?></td>
-										<td><?php echo $k['rincian_po']?></td>
-										<td class="no-print"><?php echo $k['job']?></td>
-										<td align="right"><?php echo $k['jumlah_pcs']?></td>
-										<td><?php echo $k['jml_barang']?></td>
-										<td><?php echo $k['keterangan']?></td>
-									</tr>
+								<?php if(isset($kirims)){?>
+									<?php foreach($kirims as $k){?>
+										<tr>
+											<td><?php echo $no++?></td>
+											<td><?php echo $k['kode_po']?></td>
+											<td><?php echo $k['rincian_po']?></td>
+											<td class="no-print"><?php echo $k['job']?></td>
+											<td align="right"><?php echo $k['jumlah_pcs']?></td>
+											<td><?php echo $k['jml_barang']?></td>
+											<td><?php echo $k['keterangan']?></td>
+										</tr>
+									<?php } ?>
 								<?php } ?>
 								</tbody>
 								<tfoot>
