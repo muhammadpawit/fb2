@@ -118,7 +118,8 @@
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addkirimgudang').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        //$('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
      }
 $(document).ready(function(){
 
@@ -189,7 +190,8 @@ $(document).on('click', '.remove', function(){
     $.post( "<?php echo BASEURL.'kelolapo/searchCmt' ?>", { jobCmt: jobCmt } ).done(function( html ) {
 
         $('#cmtNames').html(html);
-        $('.select2bs4').selectpicker('refresh');
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
     
   });;
 });
@@ -200,7 +202,8 @@ $(document).on('change', '#cmtNames', function(){
     $.post( "<?php echo BASEURL.'kelolapo/searchCmtJob' ?>",{jobCmt: jobCmt }).done(function( html ) {
       console.log(html);
             $('#cmtJob').html(html);
-            $('.select2bs4').selectpicker('refresh');
+            //$('.select2bs4').selectpicker('refresh');
+            $('.select2bs4').select2();
       });
 });
 
