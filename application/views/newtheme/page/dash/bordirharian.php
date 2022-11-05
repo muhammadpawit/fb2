@@ -16,7 +16,7 @@
   <h3 style="text-decoration: underline;"><?php echo $judullap ?></h3>
 </center>
 <?php echo $periode ?>
-<table border="1" style="border-collapse: collapse;" cellpadding="10">
+<table class="table table-bordered">
               <thead>
                 <tr style="background-color:yellow">
                   <!-- <th>Tanggal</th> -->
