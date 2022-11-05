@@ -130,15 +130,15 @@
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
-                                            <td><?php echo $no++; ?></td>
+                                            <td align="center"><?php echo $no++; ?></td>
 
                                             <td><?php echo $tem['nama_item'] ?></td>
 
-                                            <td><?php echo $tem['jumlah'] ?></td>
+                                            <td align="center"><?php echo $tem['jumlah'] ?></td>
 
                                             <td><?php echo $tem['satuan'] ?></td>
 
-                                            <td width="125"><?php echo number_format($tem['harga']) ?></td>
+                                            <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
 
                                             <?php if ($tem['pembayaran'] == 2){ 
 
