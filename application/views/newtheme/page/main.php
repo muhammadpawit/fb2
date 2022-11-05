@@ -447,7 +447,7 @@
   <?php } else { ?>
 <script type="text/javascript">
   $(document).ready(function () {
-      $('#alertfoto').modal({backdrop: 'static', keyboard: false});
+      //$('#alertfoto').modal({backdrop: 'static', keyboard: false});
   });
 </script>
 <?php } ?>
