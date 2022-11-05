@@ -533,7 +533,7 @@ class Dash extends CI_Controller {
 		$data=array();
 		$data['n']=1;
 		$data['action']=null;
-		$data['title']='Laporan Pendapatan Mesin Bordir';
+		$data['title']=null;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['products']=array();
 		$get=$this->input->get();
@@ -682,7 +682,7 @@ class Dash extends CI_Controller {
 
 	public function bordirmingguan(){
 		$data=array();
-		$data['title']='Laporan Pendapatan Mesin Bordir Mingguan ';
+		$data['title']=null;
 		$data['n']=1;
 		$data['action']=null;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
@@ -833,7 +833,7 @@ class Dash extends CI_Controller {
 
 	public function bordirbulanan(){
 		$data=array();
-		$data['title']='Laporan Pendapatan Mesin Bordir Bulanan ';
+		$data['title']=null;
 		$data['n']=1;
 		$data['action']=null;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
