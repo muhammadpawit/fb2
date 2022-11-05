@@ -270,6 +270,26 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+
+<div class="modal fade" id="alertfoto">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Peringatan</h4>
+              </div>
+              <div class="modal-body">
+                <p>Harap ubah foto anda&hellip; <a href="<?php echo BASEURL?>User/myprofile" class="btn btn-info">Ok</a></p>
+              </div>
+              <div class="modal-footer">
+                <a href="<?php echo BASEURL?>User/myprofile"></a>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 <script>
 
   function cetak(){
@@ -421,8 +441,17 @@
     
   })
 </script>
+<?php if( foto(callSessUser('id_user'))=='no_image.png'){?>
+  <?php if(isset($pic)){ ?>
 
-
+  <?php } else { ?>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('#alertfoto').modal({backdrop: 'static', keyboard: false});
+  });
+</script>
+<?php } ?>
+<?php } ?>
 <script>
   $(document).ready(function () {
       info =window.location.origin;

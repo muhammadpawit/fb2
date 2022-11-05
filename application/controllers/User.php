@@ -13,6 +13,7 @@ class User extends CI_Controller {
 
 	public function myprofile(){
 		$data=[];
+		$data['pic']=1;
 		$data['title']='Pengaturan Profil Saya';
 		$data['page']=$this->page.'user/myprofile';
 		$data['save']=$this->url.'update_myprofile';
