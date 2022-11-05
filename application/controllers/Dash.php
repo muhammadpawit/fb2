@@ -625,6 +625,55 @@ class Dash extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['nomesin']=$nomesin;
+		// rincian pendapatan dan pengeluaran
+
+		$jumlah=0;
+		$i=0;
+		$j=array();
+		$totalpendapatan=0;
+		foreach($products as $p){
+			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
+		}
+		$data['totalpendapatan']=($totalpendapatan);
+				$totalpoluar=0;
+		$totalpoluar=$this->ReportModel->getSumPendapatanpoluar($filter,2);
+		$p15=0;
+		$pe15=[];
+		$pe15=$this->ReportModel->pendapatanbordirdalam15($filter,1);
+		if(!empty($pe15)){
+			foreach($pe15 as $p){
+				$p15+=(((($p['total_stich']*0.15))+(0)));
+			}
+		}
+		$data['p15']=($p15);
+		$data['totalpoluar']=round($totalpoluar);
+		$data['totalpen']=round($totalpendapatan+$totalpoluar+$p15);
+		// end
+
+		// pengeluaran bordir
+		$sql="SELECT SUM(total) as total, keterangan FROM pengeluaran_bordir_detail WHERE hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" GROUP BY keterangan ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($sql);
+		$nom=1;
+		$data['pengeluarans']=[];
+		$details=[];
+		$totalpengeluaran=0;
+		foreach($results as $r){
+			//$details=$this->GlobalModel->Getdata('pengeluaran_bordir_detail',array('hapus'=>0,'idpengeluaran'=>$r['id']));
+			$data['pengeluarans'][]=array(
+				'no'=>$nom++,
+				// 'id'=>$r['id'],
+				// 'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+				'total'=>$r['total'],
+				'keterangan'=>$r['keterangan'],
+				//'detail'=>$details,
+			);
+			$totalpengeluaran+=($r['total']);
+		}
+
+		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
 		$data['page']=$this->page.'dash/bordirharian';
 		$data['periode']='Hari '.hari(date('l',strtotime($tanggal1))) .', Tgl '. date('d F Y',strtotime($tanggal2));
 		$data['judullap']='Laporan Pendapatan Harian Bordir ';
@@ -729,6 +778,55 @@ class Dash extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['nomesin']=$nomesin;
+		// rincian pendapatan dan pengeluaran
+
+		$jumlah=0;
+		$i=0;
+		$j=array();
+		$totalpendapatan=0;
+		foreach($products as $p){
+			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
+		}
+		$data['totalpendapatan']=($totalpendapatan);
+				$totalpoluar=0;
+		$totalpoluar=$this->ReportModel->getSumPendapatanpoluar($filter,2);
+		$p15=0;
+		$pe15=[];
+		$pe15=$this->ReportModel->pendapatanbordirdalam15($filter,1);
+		if(!empty($pe15)){
+			foreach($pe15 as $p){
+				$p15+=(((($p['total_stich']*0.15))+(0)));
+			}
+		}
+		$data['p15']=($p15);
+		$data['totalpoluar']=round($totalpoluar);
+		$data['totalpen']=round($totalpendapatan+$totalpoluar+$p15);
+		// end
+
+		// pengeluaran bordir
+		$sql="SELECT SUM(total) as total, keterangan FROM pengeluaran_bordir_detail WHERE hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" GROUP BY keterangan ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($sql);
+		$nom=1;
+		$data['pengeluarans']=[];
+		$details=[];
+		$totalpengeluaran=0;
+		foreach($results as $r){
+			//$details=$this->GlobalModel->Getdata('pengeluaran_bordir_detail',array('hapus'=>0,'idpengeluaran'=>$r['id']));
+			$data['pengeluarans'][]=array(
+				'no'=>$nom++,
+				// 'id'=>$r['id'],
+				// 'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+				'total'=>$r['total'],
+				'keterangan'=>$r['keterangan'],
+				//'detail'=>$details,
+			);
+			$totalpengeluaran+=($r['total']);
+		}
+
+		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
 		$data['page']=$this->page.'dash/bordirharian';
 		$this->load->view($this->page.'main',$data);
 	}
