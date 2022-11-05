@@ -189,6 +189,7 @@ class Bordir extends CI_Controller {
 			//$data['umsiang']=$umsiang;
 			$data['umsiang']=0;
 			//$data['ummalam']=!empty($ummalam)?21000:0;
+			pre(count($this->ReportModel->getMandor($id,2)));
 			$data['ummalam']=21000;
 		}
 		$data['kembali']=BASEURL.'Bordir/gajioperator';
