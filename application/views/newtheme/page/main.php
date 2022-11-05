@@ -102,7 +102,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="<?php echo BASEURL?>User/myprofile" class="btn btn-default btn-flat">My Profile</a>
+                  <a href="#" class="btn btn-default btn-flat"><?php echo date('d F Y') ?></a>
                 </div>
                 <div class="pull-right">
                   <a href="<?php echo BASEURL.'login/signout' ?>" class="btn btn-default btn-flat">Sign out</a>
@@ -126,7 +126,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <div class="user-panel">
+      <div class="user-panel" style="height: 4vw;">
         <div class="pull-left image">
           <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
         </div>
@@ -136,7 +136,7 @@
         </div>
       </div>
       <!-- search form -->
-      <!-- <form action="#" method="get" class="sidebar-form">
+      <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -144,7 +144,7 @@
                 </button>
               </span>
         </div>
-      </form> -->
+      </form>
       <!-- /.search form -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
