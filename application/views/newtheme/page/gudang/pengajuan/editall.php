@@ -367,7 +367,8 @@
         html+='</tr>';
         $('#itemajaun').after(html);
         i++;
-        $(".brg").selectpicker('refresh');
+        //$(".brg").selectpicker('refresh');
+        $(".brg").select2();
         $(document).on('change', '.brg', function(e){
             var dataItem = $(this).find(':selected').data('item');
             var dai = $(this).closest('tr');

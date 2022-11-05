@@ -47,6 +47,15 @@
       }
 
       select { width: 13.5em !important }
+
+      @media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
   </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -235,7 +244,7 @@
           </div>
         </div>
         <!-- /.box-body -->
-        <div class="box-footer registered">
+        <div class="box-footer registered no-print">
           Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?>
         </div>
         <!-- /.box-footer-->
@@ -247,7 +256,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+  <footer class="main-footer no-print">
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.18
     </div>

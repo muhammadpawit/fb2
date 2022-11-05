@@ -73,10 +73,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tr>
 				<tr align="center">
 					<td colspan="2">(Muchlas)</td>
-					<td colspan="2"></td>
-					<td colspan="2">(Tiara)</td>
+					<td colspan="2">(Rasum)</td>
+					<td colspan="2">(<?php echo $admin ?>)</td>
 				</tr>
 			</table>
 		</td>
 	</tr>
-</table>            
+</table>     
+<table>
+  <tr>
+          <td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+        </tr>
+</table>         

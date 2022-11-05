@@ -92,6 +92,7 @@ class Suratjalanhrizon extends CI_Controller {
 	{
 		$data=[];
 		$data['title']='Surat Jalan Tagihan Bordir ';
+		$data['admin']='TRIA';
 		$data['products']=array();
 		$no=1;
 		$get=$this->input->get();
@@ -126,7 +127,7 @@ class Suratjalanhrizon extends CI_Controller {
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(std.tgl) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" ORDER BY std.id DESC ";
+		$sql.=" ORDER BY std.tgl ASC ";
 		$data['products']=[];
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
@@ -137,7 +138,7 @@ class Suratjalanhrizon extends CI_Controller {
 				'idpo'=>$row['idpo'],
 				'namapo'=>$row['namapo'],
 				'keterangan'=>$row['keterangan'],
-				'size'=>$row['size'],
+				'size'=>"'".$row['size'],
 				'sticth'=>$row['sticth'],
 				'qty'=>$row['qty'],
 				'totalsticth'=>$row['totalsticth'],
