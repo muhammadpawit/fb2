@@ -28,6 +28,7 @@ class Login extends CI_Controller {
 					'email_user'	=> $dataUser['email_user'], 
 					'status_user'	=> $dataUser['status_user'], 
 					'menu_flag'		=> $dataUser['menu_flag'],
+					'foto'			=> $dataUser['foto'],
 					'LOGIN'			=> TRUE
 				);
 				$this->session->set_userdata($dataSession);

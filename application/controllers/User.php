@@ -8,6 +8,28 @@ class User extends CI_Controller {
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
+		$this->url=BASEURL.'User/';
+	}
+
+	public function myprofile(){
+		$data=[];
+		$data['title']='Pengaturan Profil Saya';
+		$data['page']=$this->page.'user/myprofile';
+		$data['save']=$this->url.'update_myprofile';
+		$data['p']=$this->GlobalModel->getDataRow('user',array('id_user'=>callSessUser('id_user')));
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function update_myprofile(){
+		$config['upload_path']          = './uploads/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $post = $this->input->post();
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('foto');
+        $fileName = 'uploads/'.$this->upload->data('file_name');
+        $this->db->update('user',array('foto'=>$fileName),array('id_user'=>$post['id_user']));
+        $this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+        redirect($this->url.'myprofile');
 	}
 
 	public function request(){

@@ -86,13 +86,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo NEWTHEME?>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo callSessUser('nama_user') ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?php echo NEWTHEME?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
 
                 <p>
                   <?php echo callSessUser('nama_user') ?>
@@ -102,7 +102,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat"><?php echo date('d F Y') ?></a>
+                  <a href="<?php echo BASEURL?>User/myprofile" class="btn btn-default btn-flat">My Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="<?php echo BASEURL.'login/signout' ?>" class="btn btn-default btn-flat">Sign out</a>
@@ -128,7 +128,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?php echo NEWTHEME?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo callSessUser('nama_user') ?></p>
@@ -136,7 +136,7 @@
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <!-- <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -144,7 +144,7 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form> -->
       <!-- /.search form -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>

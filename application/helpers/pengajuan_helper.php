@@ -1,4 +1,11 @@
 <?php 
+
+	function foto($id){
+		$CI =& get_instance();
+		$sql="SELECT * FROM user WHERE id_user='$id' ";
+		$row=$CI->GlobalModel->queryManualRow($sql);
+		return $row['foto'];
+	}
     
     function GetDetailPo($kodepo){
 		$CI =& get_instance();
