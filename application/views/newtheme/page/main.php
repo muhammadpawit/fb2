@@ -102,7 +102,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat"><?php echo date('d F Y') ?></a>
+                  <a href="<?php echo BASEURL?>User/myprofile" class="btn btn-default btn-flat">My Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="<?php echo BASEURL.'login/signout' ?>" class="btn btn-default btn-flat">Sign out</a>
