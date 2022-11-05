@@ -190,7 +190,8 @@ class Bordir extends CI_Controller {
 			$data['umsiang']=0;
 			//$data['ummalam']=!empty($ummalam)?21000:0;
 			//pre(count($this->ReportModel->getMandor($id,2)));
-			$data['ummalam']=21000;
+			$man=$this->ReportModel->getMandor_c($id,2);
+			$data['ummalam']=(21000*$man);
 		}
 		$data['kembali']=BASEURL.'Bordir/gajioperator';
 		$data['excel']=BASEURL.'Bordir/operatorbordirdetail/'.$id.'?&excel=1';
@@ -1241,11 +1242,11 @@ class Bordir extends CI_Controller {
 			$idpo=$post['namaPo'];
 		}
 
-		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('nomer_mesin'=>$post['mesin']));
-		if($post['jenis']==2){
+		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$post['jenis'],'nomer_mesin'=>$post['mesin']));
+		if($post['jenis']==2){ // po luar
 			$perkalian_mesin=0.18;
 		}else{
-			$perkalian_mesin=0.15;
+			$perkalian_mesin=0.15; // po dalam
 		}
 		$dataInsert = array(
 		'shift'	=> $post['shift'],

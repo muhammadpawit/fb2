@@ -1532,7 +1532,7 @@ class ReportModel extends CI_Model {
 
 	public function getMandor($id,$shift){
 		$hasil=[];
-		$sql = "SELECT lower(mandor) as mandor,COUNT(lower(mandor)) as jml FROM gaji_operator go JOIN gaji_operator_new gon ON(gon.idgajiopt=go.id) JOIN gaji_operator_detail_new godn ON(godn.idgaji=gon.id) AND go.id='$id' AND godn.shift='$shift' and godn.hapus=0 GROUP BY lower(mandor) HAVING jml >6";
+		$sql = "SELECT lower(mandor) as mandor,COUNT(lower(mandor)) as jml FROM gaji_operator go JOIN gaji_operator_new gon ON(gon.idgajiopt=go.id) JOIN gaji_operator_detail_new godn ON(godn.idgaji=gon.id) AND go.id='$id' AND godn.shift='$shift' AND godn.gaji >0 and godn.hapus=0 GROUP BY lower(mandor) HAVING jml >6";
 		$d=$this->GlobalModel->QueryManual($sql);
 		if(!empty($d)){
 			foreach($d as $de){
@@ -1540,6 +1540,18 @@ class ReportModel extends CI_Model {
 			}
 		}
 		return implode(",", $hasil);
+	}
+
+	public function getMandor_c($id,$shift){
+		$hasil=[];
+		$sql = "SELECT lower(mandor) as mandor,COUNT(lower(mandor)) as jml FROM gaji_operator go JOIN gaji_operator_new gon ON(gon.idgajiopt=go.id) JOIN gaji_operator_detail_new godn ON(godn.idgaji=gon.id) AND go.id='$id' AND godn.shift='$shift' AND godn.gaji >0 and godn.hapus=0 GROUP BY lower(mandor) HAVING jml >6";
+		$d=$this->GlobalModel->QueryManual($sql);
+		if(!empty($d)){
+			foreach($d as $de){
+				$hasil[]=!empty($de['mandor'])?$de['mandor']:null;
+			}
+		}
+		return count($hasil);
 	}
 
 	public function rekap_cmt($idcmt,$proses,$bulan,$tahun){
