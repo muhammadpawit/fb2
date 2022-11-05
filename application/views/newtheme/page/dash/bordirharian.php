@@ -89,6 +89,89 @@
                 <?php }?>
               </tbody>
             </table>
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h3>Laporan Pendapatan dan Pengeluaran Bordir Forboys</h3><br>
+    <p>Update per-tanggal <?php echo date('d-F-Y',strtotime($tanggal1)); ?> s.d <?php echo date('d-F-Y',strtotime($tanggal2)); ?></p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="form-group">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th colspan="2">Pendapatan</th>
+            <th>Rp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2">Pendapatan PO Dalam</td>
+            <!-- <td>:</td> -->
+            <td align="right"><?php echo number_format($totalpendapatan)?></td>
+          </tr>
+          <!-- <tr>
+            <td>Pendapatan PO 0.15</td>
+            <td>:</td>
+            <td align="right"><?php echo $p15?></td>
+          </tr> -->
+          <tr>
+            <td colspan="2">Pendapatan PO Luar / PO Homie</td>
+            <!-- <td>:</td> -->
+            <td align="right"><?php echo number_format($totalpoluar)?></td>
+          </tr>
+          <!--<tr>
+            <td colspan="2">Pendapatan PO Yuna</td>
+            <td align="right"></td>
+          </tr>-->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"><b>Total Pendapatan</b></td>
+            <td align="right"><b><?php echo number_format($totalpen)?></b></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="form-group">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th colspan="2">Pengeluaran</th>
+            <th>Rp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php $totalpengeluaran=0; ?>
+          <?php foreach($pengeluarans as $pd){?>
+              <tr>
+                <td colspan="2" width="155"><?php echo $pd['keterangan']?></td>
+                <!-- <td>:</td> -->
+                <td align="right"><?php echo number_format($pd['total'])?></td>
+              </tr>
+              <?php $totalpengeluaran+=($pd['total']); ?>
+          <?php } ?>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"><b>Total Pengeluaran</b></td>
+            <td align="right"><b><?php echo number_format($totalpengeluaran)?></b></td>
+          </tr>
+          <tr>
+            <td colspan="2"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="2"><b>Laba Produksi</b></td>
+            <td align="right"><b><?php echo number_format($totalpen-$totalpengeluaran)?></b></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>            
 <script type="text/javascript">
   function filter(){
     var url='?';
