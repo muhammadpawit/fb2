@@ -27,7 +27,7 @@
 						<th>Foto</th>
 						<th>:</th>
 						<th>
-							<img src="<?php echo BASEURL?><?php echo $users['foto']?>">
+							<img src="<?php echo BASEURL?><?php echo $users['foto']?>" class="profile-user-img img-responsive">
 						</th>
 					</tr>
 				</thead>
