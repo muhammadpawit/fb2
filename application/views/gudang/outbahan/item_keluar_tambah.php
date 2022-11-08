@@ -53,7 +53,7 @@ $(document).ready(function(){
         html += '<tr>';
         html += '<td style="display:none;"><input type="hidden" class="form-control id" name="id[]" ></td>';
         html += '<td><select type="text" class="form-control selectpicker" name="nama[]" data-live-search="true" data-title="Pilih item" required><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo strtolower($item['nama_item']) ?></option><?php } ?></select></td>';
-        html += '<td><input type="text" class="form-control warna" name="warna[]" ></td>';
+        html += '<td><input type="hidden" class="form-control warna" name="warna[]" ><span class="wrn"></span></td>';
         html += '<td><input type="number" class="form-control ukuran" name="ukuran[]" min="0" step=0.01 required></td>';
         html += '<td><select class="form-control satuanUkran" name="satuanUkran[]" readonly><?php foreach ($satuan as $key => $satt): ?><option value="<?php echo $satt['kode_satuan_barang'] ?>"><?php echo $satt['kode_satuan_barang'] ?></option><?php endforeach ?></select></td>';
         html += '<td><input type="number" class="form-control jumlah" step=0.01 name="jumlah[]" ></td>';
@@ -78,6 +78,7 @@ $(document).ready(function(){
             var obj = JSON.parse(data);
             console.log(obj);
             dai.find(".warna").val(obj.warna_item);
+            dai.find(".wrn").html(obj.warna_item);
             dai.find(".ukuran").val(obj.ukuran_item);
             dai.find(".satuanUkran").val(obj.satuan_ukuran_item);
             dai.find(".jumlah").val(obj.jumlah_item);
