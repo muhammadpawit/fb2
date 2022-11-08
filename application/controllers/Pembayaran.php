@@ -126,6 +126,30 @@ class Pembayaran extends CI_Controller {
 			
 		}
 
+		//rekap
+
+		$sql="SELECT SUM(kks.qty_tot_pcs/12) as dz, grouping, price_group FROM kelolapo_kirim_setor kks LEFT JOIN master_job mj ON mj.id=kks.id_master_cmt_job WHERE progress='SETOR' AND kategori_cmt='SABLON' ";
+		$sql.=" AND id_master_cmt='".$cmt."' AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and kks.hapus=0";
+		$sql.=" GROUP BY mj.grouping";
+		$results=array();
+		$data['rekap']=[];
+		$results=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		foreach($results as $r){
+			//$job=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$r['id_master_cmt_job']));
+			$data['rekap'][]=array(
+				'no'=>$no++,
+				'jenis'=>$r['grouping']==1?'Full Print':'Biasa',
+				'dz'=>$r['dz'],
+				'harga'=>$r['price_group'],
+				'jumlah'=>($r['dz']*$r['price_group']),
+			);
+			
+		}
+
+		//pre($data['rekap']);
+
+
 		// pengeluaran
 		$data['pengeluaran']=[];
 		$sqlp="SELECT * FROM pengeluaran_sablon WHERE hapus=0 ";
