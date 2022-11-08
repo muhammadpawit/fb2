@@ -501,7 +501,7 @@
 
 
     $('.autopoiinputpotongan').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_po_for_input_potongan',
@@ -518,7 +518,7 @@
 
 
     $('.autopobawahansablon').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_po_bawahansablon',
@@ -535,7 +535,7 @@
 
 
     $('.autocmtbawahansablon').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_cmt_bawahansablon',
@@ -552,7 +552,7 @@
 
 
     $('.autojobbawahansablon').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_job_bawahansablon',
@@ -568,7 +568,7 @@
     });
 
     $('.autooperator').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_operator',
@@ -585,7 +585,7 @@
 
 
     $('.autojenispotongan').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_jenispotongan',
@@ -601,7 +601,7 @@
     });
 
     $('.sj').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_sj',
@@ -627,7 +627,7 @@
     });
 
     $('.autopoid').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'autopoid',
