@@ -40,19 +40,24 @@
 
 
                     <?php if($parent['status']==0){?>
-                        <div style="z-index: 999;position: absolute;top:2%;right: 1%" class="alert alert-danger">
-                            <h1>Pengajuan ini belum disetujui</h1>
+                        <div class="alert alert-danger alert-dismissible">
+                            <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> -->
+                            <h4><i class="icon fa fa-ban"></i> Warning!</h4>
+                                Pengajuan ini belum disetujui
                         </div>
+                       <!--  <div class="alert alert-danger">
+                            <h1>Pengajuan ini belum disetujui</h1>
+                        </div> -->
                     <?php } ?>
 
 
                     <div class="row">
 
-                        <div class="col-6">
+                        <div class="col-md-5">
 
-                            <div class="pull-left mt-3">
+                            <div class="pull-left">
 
-                                <table width="200" border="2" cellpadding="5">
+                                <table class="table" width="200" border="2" cellpadding="5">
 
                                     <tr>
 
@@ -190,11 +195,11 @@
                     </form>
                     <div class="row">
 
-                        <div class="col-6">
+                        <div class="col-md-4">
 
                             <div class="float-left">
 
-                                <table width="200" class="text-center" border="2">
+                                <table class="table" width="200" class="text-center" border="2">
 
                                     <tr>
 
@@ -220,21 +225,21 @@
 
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-8">
 
                             <div class="clearfix pt-5">
 
                                 <div class="float-right">
 
-                                    <table width="400" border="2" class="text-center">
+                                    <table class="table" width="400" border="2" class="text-center"  style="text-align: center !important;">
 
                                         <tr>
 
-                                            <th>Menyetujui</th>
+                                            <th><center>Menyetujui</center></th>
 
-                                            <th>Di Periksa oleh:</th>
+                                            <th><center>Di Periksa oleh:</center></th>
 
-                                            <th>Di Buat oleh:</th>
+                                            <th><center>Di Buat oleh:</center></th>
 
                                         </tr>
 
