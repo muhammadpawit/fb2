@@ -23,6 +23,13 @@
 						<th>:</th>
 						<th><input type="password" name="password_user" class="form-control"></th>
 					</tr>
+					<tr>
+						<th>Foto</th>
+						<th>:</th>
+						<th>
+							<img src="<?php echo BASEURL?><?php echo $users['foto']?>">
+						</th>
+					</tr>
 				</thead>
 			</table>
 		</div>
