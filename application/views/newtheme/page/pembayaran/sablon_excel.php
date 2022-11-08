@@ -155,34 +155,111 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
+					<!-- <?php $b=0;?>
+					<?php //foreach(array_unique($pekerjaan) as $p =>$val){?>
 					<tr>
 						<td>
 							<?php
-								$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
-								echo !empty($name)?$name['nama_job']:'';
+								//$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
+								//echo !empty($name)?$name['nama_job']:'';
 							?>
 						</td>
-						<td><?php echo array_sum($dzs[$val]);?></td>
-						<td><?php echo (3000)?></td>
-						<td><?php echo (3000*array_sum($dzs[$val]))?></td>
-						<td><?php echo count($dzs[$val]);?> PO </td>
+						<td><?php //$b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
+						<td><?php //echo number_format(3000)?></td>
+						<td><?php //echo number_format(3000*array_sum($dzs[$val]))?></td>
+						<td><?php //echo count($dzs[$val]);?> PO </td>
 					</tr>
 					<?php 
-						$tdz+=array_sum($dzs[$val]);
-						$tjml+=3000*array_sum($dzs[$val]);
-						$tpo+=count($dzs[$val]);
+						// $tdz+=array_sum($dzs[$val]);
+						// $tjml+=3000*array_sum($dzs[$val]);
+						// $tpo+=count($dzs[$val]);
 					?>
+					<?php } ?> -->
+					<?php foreach($rekap as $r){?>
+						<tr>	
+							<td><?php echo $r['jenis']?></td>
+							<td><?php echo number_format($r['dz'],2)?></td>
+							<td><?php echo $r['harga']?></td>
+							<td><?php echo $r['jumlah']?></td>
+							<td></td>
+						</tr>
+						<?php 
+							$tdz+=($r['dz']);
+							$tjml+=($r['jumlah']);
+							//$tpo+=count($dzs[$val]);
+						?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
 					<td><b>Total Diterima</b></td>
-					<td><b><?php echo $tdz?></b></td>
+					<td><b><?php echo number_format($tdz,2)?></b></td>
 					<td></td>
 					<td><b><?php echo ($tjml)?></b></td>
 					<td><b><?php echo $tpo?></b></td>
 				</tfoot>
+				
 			</table>
-			<?php } ?>
+			<?php //} ?>
 		</div>
 	</div>
+	<br>
+	<table>
+
+                                        <tr>
+                                            <th colspan="5"></th>
+                                            <th>Menyetujui</th>
+                                            
+                                            <th>Di Buat oleh:</th>
+
+                                        </tr>
+
+                                        <tr align="center">
+                                            <td colspan="5"></td>
+                                            <td><b>SPV</b></td>
+                                            <td><b>ADM Keuangan</b></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="5"></td>
+                                            <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Muchlas )
+
+                                            </td>
+                                             <td height="100" align="center">
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                <br>
+
+                                                ( Dinda )
+
+                                            </td>
+                                           
+
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="7"></td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="7" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+                                        </tr>
+                                    </table>
