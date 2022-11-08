@@ -9,7 +9,7 @@
                                 <input type="text" class="form-control"  name="tujuanItem">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>Nama PO </label>
+                                <label>Nama PO </label><br>
                                 <select class="form-control autopo" title="Pilih PO" name="namaPo" id="namapo" data-size="5"  data-live-search="true" required>
                                 </select>
                             </div>

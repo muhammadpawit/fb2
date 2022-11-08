@@ -468,7 +468,7 @@
    
 
     $('.autopo').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_po',
@@ -484,7 +484,7 @@
     });
 
     $('.autopoluar').select2({
-      theme: 'bootstrap4',
+      //theme: 'bootstrap4',
       placeholder: '--- Pilih ---',
         ajax: {
           url: uri+'search_po_luar',
