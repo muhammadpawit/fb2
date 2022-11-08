@@ -99,7 +99,7 @@
         html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';
         $("#listajuan").append(html);
-        $(".select2bs4").selectpicker('refresh');
+        //$(".select2bs4").select2();
         i++;
   }
 
