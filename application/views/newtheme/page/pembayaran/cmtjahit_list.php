@@ -37,8 +37,8 @@
             <label>Lokasi Cmt</label><br>
             <select name="lokasicmt" id="lokasicmt" class="form-control select2bs4">
                 <option value="*">Semua</option>
-                <option value="1" <?php echo $lokasi==1?'selected':'';?>>Jawa</option>
-                <option value="2" <?php echo $lokasi==2?'selected':'';?>>Serang</option>
+                <option value="1" <?php echo $lokasi==1?'selected':'';?>>Serang</option>
+                <option value="2" <?php echo $lokasi==2?'selected':'';?>>Jawa</option>
                 <option value="3" <?php echo $lokasi==3?'selected':'';?>>Sukabumi</option>
             </select>
         </div>
