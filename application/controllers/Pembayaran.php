@@ -569,7 +569,7 @@ class Pembayaran extends CI_Controller {
 				'nominal'=>0,
 				'keterangan'=>'Gaji tim potong periode '.$data['periode'],
 				'hapus'=>0,
-				'claim'=>$data['claim'],
+				'claim'=>$data['nominal'],
 			);
 			$this->db->insert('gaji_timpotong',$insert);
 			$id=$this->db->insert_id();
