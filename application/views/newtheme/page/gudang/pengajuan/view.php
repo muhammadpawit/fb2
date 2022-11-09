@@ -44,9 +44,9 @@
                 </div>
                 <div class="col-md-3">
                   <label>Action</label><br>
-                  <button onclick="filter()" class="btn btn-info btn-sm">Filter</button>
-                  <span><a href="<?php echo $tambah?>" class="btn btn-sm btn-info">Tambah</a></span>
-                  <button onclick="excel()" class="btn btn-info btn-sm">Excel</button>
+                  <button onclick="filter()" class="btn btn-info ">Filter</button>
+                  <span><a href="<?php echo $tambah?>" class="btn  btn-info">Tambah</a></span>
+                  <button onclick="excel()" class="btn btn-info ">Excel</button>
                 </div>
 </div>
 <div class="row">
@@ -110,13 +110,13 @@
 
                                 <?php 
                                     if($us['status']==0){
-                                        echo '<span class="badge bg-primary text-white">Diajukan</span>';
+                                        echo '<span class="badge bg-navy color-palette text-white">Diajukan</span>';
                                     }else if($us['status']==1){
-                                        echo '<span class="badge bg-success text-white">Disetujui</span>';
+                                        echo '<span class="badge bg-green color-palette text-white">Disetujui</span>';
                                     }else if($us['status']==3){
-                                        echo '<span class="badge bg-danger text-white">Revisi</span>';
+                                        echo '<span class="badge bg-red color-palette text-white">Revisi</span>';
                                     }else{
-                                        echo '<span class="badge bg-danger text-white">Ditolak</span>';
+                                        echo '<span class="badge bg-red color-palette text-white">Ditolak</span>';
                                     }
 
                                 ?>        
@@ -124,31 +124,31 @@
                                 </td>
 
                                 <td>
-                                    <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-warning btn-lg text-white">Lihat</a>
+                                    <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info  text-white">Lihat</a>
                                 </td>
                                 <td>
                                   <?php if($us['status']==1 && aksesedit()==1){?>
-                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-dark btn-lg text-white">Edit</a>
+                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a>
                                     <?php }?>
                                 </td>
                                 <td>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-dark btn-lg text-white">Edit</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-warning  text-white">Edit</a>
                                     <?php } ?>
                                 </td>                                
                                 <td>
                                   <?php if($setujui==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success btn-lg text-white">Setujui</a>
+                                      <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success  text-white">Setujui</a>
                                     <?php } ?>
                                 </td>
                                 <td>
                                   <?php if($setujui==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/pengajuandetail/'.$us['id']; ?>" class="btn btn-success btn-lg text-white">Komentar</a>
+                                      <a href="<?php echo BASEURL.'Gudang/pengajuandetail/'.$us['id']; ?>" class="btn btn-success  text-white">Komentar</a>
                                     <?php } ?>
                                 </td>
                                 <td>
                                   <?php if(akseshapus()==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" class="btn btn-danger btn-lg text-white">Hapus</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" class="btn btn-danger  text-white">Hapus</a>
                                     <?php } ?>
                                 </td>
                                 <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td>
