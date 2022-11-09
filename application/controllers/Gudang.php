@@ -1124,6 +1124,8 @@ class Gudang extends CI_Controller {
 						'satuanJml'=>$p['satuanJml'],
 						'harga'=>$p['harga'],
 						'keterangan'=>$p['keterangan'],
+						'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
+						'jenis'=>$data['jenis'],
 						'hapus'=>0
 					);
 					$this->db->insert('penerimaan_item_detail',$itd);					
