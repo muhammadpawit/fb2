@@ -9,13 +9,13 @@
                        <?php } ?>
                 </p>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Tanggal Awal</label>
             <input type="text" name="tanggal1" id="tanggal1" class="form-control" value="<?php echo $tanggal1?>">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Tanggal Akhir</label>
             <input type="text" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nama Cmt</label>
+            <label>Nama Cmt</label><br>
             <select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
                 <option value="*">Semua</option>
                 <?php foreach($cmt as $c){?>
@@ -33,6 +33,17 @@
         </div>
     </div>
     <div class="col-md-3">
+        <div class="form-group">
+            <label>Lokasi Cmt</label><br>
+            <select name="lokasicmt" id="lokasicmt" class="form-control select2bs4">
+                <option value="*">Semua</option>
+                <option value="1" <?php echo $lokasi==1?'selected':'';?>>Jawa</option>
+                <option value="2" <?php echo $lokasi==2?'selected':'';?>>Serang</option>
+                <option value="3" <?php echo $lokasi==3?'selected':'';?>>Sukabumi</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
         <label>Action</label><br>
         <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
         <button class="btn btn-info btn-sm" onclick="excel()">Excel</button>
@@ -87,6 +98,7 @@
         var tanggal1=$("#tanggal1").val();
         var tanggal2=$("#tanggal2").val();
         var cmt=$("#cmt").val();
+        var lokasicmt=$("#lokasicmt").val();
         var url='?';
         if(tanggal1){
             url+='&tanggal1='+tanggal1;
@@ -97,6 +109,9 @@
         if(cmt!="*"){
             url+='&cmt='+cmt;
         }
+        if(lokasicmt!="*"){
+            url+='&lokasicmt='+lokasicmt;
+        }
         location=url;
     }
 
@@ -104,6 +119,7 @@
         var tanggal1=$("#tanggal1").val();
         var tanggal2=$("#tanggal2").val();
         var cmt=$("#cmt").val();
+        var lokasicmt=$("#lokasicmt").val();
         var url='?&excel=1';
         if(tanggal1){
             url+='&tanggal1='+tanggal1;
@@ -113,6 +129,9 @@
         }
         if(cmt!="*"){
             url+='&cmt='+cmt;
+        }
+        if(lokasicmt!="*"){
+            url+='&lokasicmt='+lokasicmt;
         }
         location=url;
     }

@@ -738,8 +738,22 @@ class Pembayaran extends CI_Controller {
 		}else{
 			$cmt=null;
 		}
+
+		if(isset($get['lokasicmt'])){
+			$lokasicmt=$get['lokasicmt'];
+		}else{
+			$lokasicmt=null;
+		}
+
+		$data['lokasi']=$lokasicmt;
 		$data['cmtf']=$cmt;
-		$sql="SELECT * FROM pembayaran_cmt WHERE hapus=0 ";
+		$sql="SELECT * FROM pembayaran_cmt ";
+		if(!empty($lokasicmt)){
+			$sql.=" JOIN master_cmt ON master_cmt.id_cmt=pembayaran_cmt.idcmt WHERE pembayaran_cmt.hapus=0 AND master_cmt.lokasi='".$lokasicmt."' ";
+		}else{
+			$sql.=" WHERE hapus=0 ";
+		}
+		
 		if(!empty($tanggal1)){
 			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";	
 		}
