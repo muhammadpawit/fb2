@@ -39,6 +39,7 @@
 					<th>Nama Tim Potong</th>
 					<th>Total</th>
 					<th>Saving</th>
+          <th>Claim</th>
 					<th>Yang Diterima Bersih</th>
 					<th></th>
 				</tr>
@@ -52,6 +53,7 @@
 						<td><?php echo $p['nama']?></td>
 						<td><?php echo $p['total']?></td>
 						<td><?php echo $p['saving']?></td>
+            <td><?php echo $p['claim']?></td>
 						<td><?php echo $p['nominal']?></td>
 						<td><a href="<?php echo $p['detail']?>">Detail</a></td>
 					</tr>

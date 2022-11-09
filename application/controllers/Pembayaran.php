@@ -316,6 +316,7 @@ class Pembayaran extends CI_Controller {
 				'nama'=>strtolower($nama['nama']),
 				'total'=>number_format($r['total']),
 				'saving'=>number_format($r['saving']),
+				'claim'=>number_format($r['claim']),
 				'nominal'=>number_format($r['nominal']),
 				'keterangan'=>strtolower($r['keterangan']),
 				'detail'=>BASEURL.'Pembayaran/timpotongdetail/'.$r['id'],
@@ -380,6 +381,8 @@ class Pembayaran extends CI_Controller {
 		$saving=0;
 		$nominal=0;
 		$data['prods']=$this->GlobalModel->getDataRow('gaji_timpotong',array('id'=>$id));
+		$data['claims']=$this->GlobalModel->getDataRow('claim_timpotong',array('id_pembayaran'=>$id));
+		$data['claim']=!empty($data['claims'])?$data['claims']['nominal']:0;
 		$data['timnya']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
 		$results=$this->GlobalModel->getData('gaji_timpotong_detail',array('idgaji'=>$id));
 		$bukupotongan=null;
@@ -408,6 +411,7 @@ class Pembayaran extends CI_Controller {
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);
 		$data['nominal']=number_format($total-$saving);
+		$data['bersih']=number_format($total-$saving-$data['claim']);
 		$data['totals']=($total);
 		$data['savings']=($saving);
 		$data['nominals']=($total-$saving);
@@ -604,7 +608,20 @@ class Pembayaran extends CI_Controller {
 				$this->db->update('gaji_timpotong_detail',$up,$wup);
 			}
 			$saving=0.05*$total;
-			$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving)),array('id'=>$id));
+			if(isset($data['nominal'])){
+				if($data['nominal'] > 0){
+					$claim=array(
+						'id_pembayaran'=>$id,
+						'tanggal'=>date('Y-m-d'),
+						'id_timpotong'=>$data['tim'],
+						'nominal'=>$data['nominal'],
+						'keterangan'=>$data['keterangan'],
+						'hapus'=>0,
+					);
+					$this->db->insert('claim_timpotong',$claim);
+				}
+			}
+			$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving-$data['nominal'])),array('id'=>$id));
 			$this->session->set_flashdata('msg','Data berhasil ditambah');
 			redirect(BASEURL.'Pembayaran/timpotong');
 		}else{

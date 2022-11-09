@@ -36,23 +36,33 @@
 					</tr>
 				<?php } ?>
 				<tr>
-					<td colspan="6"><b></b></td>
+					<td colspan="8"><b></b></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Total</b></td>
+					<td colspan="8"><b>Subtotal</b></td>
 					<td><b><?php echo $total?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Saving 5%</b></td>
+					<td colspan="8"><b>Saving 5%</b></td>
 					<td><b><?php echo $saving?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Total yang diterima</b></td>
+					<td colspan="8"><b>Jumlah</b></td>
 					<td><b><?php echo $nominal?></b></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="8"><b>Total Claim</b></td>
+					<td><b><?php echo number_format($claim)?></b></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="8"><b>Total Yang Diterima Bersih</b></td>
+					<td><b><?php echo ($bersih)?></b></td>
 					<td></td>
 				</tr>
 			</tbody>

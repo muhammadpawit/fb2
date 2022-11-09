@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="col-md-3">
-		<label>Tim Potong</label>
+		<label>Tim Potong</label><br>
 		<select name="tim" class="form-control select2bs4" data-live-search="true" required>
 			<option value="*">Pilih</option>
 			<?php foreach($tp as $t){?>
@@ -117,11 +117,24 @@
 </div>
 <?php if(!empty($products)){?>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-6">
 		<div class="form-group">
 			<label>Untuk Periode </label>
 			<input type="text" name="periode" class="form-control" required="required">&nbsp;
 			<input type="hidden" name="tim" class="form-control" value="<?php echo $tim?>">&nbsp;
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Potongan Claim </label>
+			<input type="text" name="nominal" value="0" class="form-control" required="required">&nbsp;
+			<input type="hidden" name="tim" class="form-control" value="<?php echo $tim?>">&nbsp;
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Keterangan Claim </label>
+			<input type="text" name="keterangan" class="form-control" required="required">&nbsp;
 		</div>
 	</div>
 </div>	
