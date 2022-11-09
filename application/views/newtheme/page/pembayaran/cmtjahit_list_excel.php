@@ -54,9 +54,9 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
                         <tr>
                             <td colspan="4"><b>Total</b></td>
                             <td></td>
-                            <td><?php echo $jmlkirim?></td>
-                            <td><?php echo $jmlsetor?></td>
-                            <td align="right"><?php echo $totals?>&nbsp;</td>
+                            <td><b><?php echo $jmlkirim?></b></td>
+                            <td><b><?php echo $jmlsetor?></b></td>
+                            <td align="right"><b><?php echo $totals?>&nbsp;</b></td>
                             <td></td>
                         </tr>
                 <?php }else{ ?>
