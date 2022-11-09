@@ -57,7 +57,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="8"><b>Total Claim</b></td>
+					<td colspan="6"><b>Total Claim</b></td>
 					<td><b><?php echo ($claim)?></b></td>
 					<td></td>
 				</tr>
