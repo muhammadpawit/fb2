@@ -53,11 +53,11 @@
 
                     <div class="row">
 
-                        <div class="col-6">
+                        <div class="col-md-4">
 
-                            <div class="pull-left mt-3">
+                            <div class="pull-left">
 
-                                <table width="200" border="2" cellpadding="5">
+                                <table class="table nosearch" border="2" cellpadding="5">
 
                                     <tr>
 
@@ -100,7 +100,7 @@
 
                             <div class="table-responsive">
 
-                                <table class="table mt-4" >
+                                <table class="table nosearch" >
 
                                     <thead>
 
