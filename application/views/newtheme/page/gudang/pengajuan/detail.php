@@ -40,9 +40,14 @@
 
 
                     <?php if($parent['status']==0){?>
-                        <div style="z-index: 999;position: absolute;top:2%;right: 1%" class="alert alert-danger">
-                            <h1>Pengajuan ini belum disetujui</h1>
+                         <div class="alert alert-danger alert-dismissible">
+                            <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> -->
+                            <h4><i class="icon fa fa-ban"></i> Warning!</h4>
+                                Pengajuan ini belum disetujui
                         </div>
+                       <!--  <div class="alert alert-danger">
+                            <h1>Pengajuan ini belum disetujui</h1>
+                        </div> -->
                     <?php } ?>
 
 
