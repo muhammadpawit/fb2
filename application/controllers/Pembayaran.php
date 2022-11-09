@@ -414,7 +414,7 @@ class Pembayaran extends CI_Controller {
 		$data['bersih']=number_format($total-$saving-$data['claim']);
 		$data['totals']=($total);
 		$data['savings']=($saving);
-		$data['nominals']=($total-$saving);
+		$data['nominals']=($total-$saving-$data['claim']);
 		$data['action']=BASEURL.'Pembayaran/gajitimpotongsave';
 		$data['batal']=BASEURL.'Pembayaran/timpotong';
 		if(isset($get['excel'])){

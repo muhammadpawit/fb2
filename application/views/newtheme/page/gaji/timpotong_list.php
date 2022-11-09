@@ -12,7 +12,7 @@
                 </div>
               </div>
               <div class="col-sm-3">
-                <label>Tim Potong</label>
+                <label>Tim Potong</label><br>
                 <select name="tim" id="tim" class="form-control select2bs4" data-live-search="true">
                   <option value="*">Pilih</option>
                   <?php foreach($timpotong as $t){?>
