@@ -9,22 +9,22 @@
                        <?php } ?>
                 </p>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Tanggal Awal</label>
             <input type="date" name="tanggal1" id="tanggal1" class="form-control" value="<?php echo $tanggal1?>">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Tanggal Akhir</label>
             <input type="date" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-5">
         <div class="form-group">
-            <label>Nama Cmt</label>
-            <select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
+            <label>Nama Cmt</label><br>
+            <select name="cmt" id="cmt" class="form-control select2bs4">
                 <option value="*">Semua</option>
                 <?php foreach($cmt as $c){?>
                     <option value="<?php echo $c['id_cmt']?>" <?php echo $cmtf==$c['id_cmt']?'selected':'';?>><?php echo strtolower($c['cmt_name'])?></option>

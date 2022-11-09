@@ -738,6 +738,7 @@ class Pembayaran extends CI_Controller {
 		}else{
 			$cmt=null;
 		}
+		$data['cmtf']=$cmt;
 		$sql="SELECT * FROM pembayaran_cmt WHERE hapus=0 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";	
@@ -778,7 +779,7 @@ class Pembayaran extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['cmtf']=$cmt;
+		
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		if(isset($get['excel'])){
