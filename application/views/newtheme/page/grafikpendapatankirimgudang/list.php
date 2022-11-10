@@ -56,6 +56,11 @@
 		<div id="grafikpendapatan"></div>
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-6">
+		<button onclick="excelwithtgl()" class="btn btn-success">Excel</button>
+	</div>
+</div>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>  
 <!-- optional -->  

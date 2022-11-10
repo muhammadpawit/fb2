@@ -17,7 +17,7 @@ class Laporankirimgudangbulanan extends CI_Controller {
 		$data =[];
 
 		$data['title'] ='Grafik Pendapatan Kirim Gudang';
-
+		$get=$this->input->get();
 		$periode=$this->ReportModel->periode();
 
 		for ($i = 0; $i < 12; $i++) {
@@ -102,9 +102,13 @@ class Laporankirimgudangbulanan extends CI_Controller {
 
 		$data['bulan']=json_encode($bulan);
 
-		$data['page']=$this->page.'list';
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'excel',$data);
+		}else{
+			$data['page']=$this->page.'list';
 
-		$this->load->view($this->layout,$data);
+			$this->load->view($this->layout,$data);
+		}
 
 	}
 }
