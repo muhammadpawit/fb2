@@ -474,6 +474,8 @@ class Gudang extends CI_Controller {
 					'satuanJml'=>$p['satuanJml'],
 					'harga'=>$p['harga'],
 					'hapus'=>0,
+					'tanggal'=>$data['tanggal'],
+					'jenis'=>$data['jenis'],
 				);
 				$this->db->insert('barangkeluar_harian_detail',$detail);
 			}
