@@ -31,14 +31,14 @@ class Laporanbahankeluar extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['prods']=[];
 		$no=1;
-		$sql="SELECT tanggal,id_persediaan,nama, SUM(jumlah) as roll, SUM(ukuran) as yardkg, SUM(ukuran*harga) as total, harga FROM penerimaan_item_detail WHERE hapus=0 ";
-		$sql.=" AND jenis=1 AND keterangan NOT lIKE 'Penyesuaian%' ";
+		$sql="SELECT tanggal,id_persediaan,nama, satuan_ukuran, SUM(jumlah) as roll, SUM(ukuran) as yardkg, SUM(ukuran*harga) as total, harga FROM barangkeluar_harian_detail WHERE hapus=0 ";
+		$sql.=" AND jenis=3 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND MONTH(tanggal)='".date('m',strtotime($tanggal1))."' ";
 			$sql.=" AND YEAR(tanggal)='".date('Y',strtotime($tanggal1))."' ";
 		}
-		$sql.=" GROUP BY id_persediaan, tanggal ";
-		$sql.=" ORDER BY tanggal ASC ";		
+		$sql.=" GROUP BY id_persediaan ";
+		$sql.=" ORDER BY satuan_ukuran ASC, nama ASC ";		
 		$results=$this->GlobalModel->QueryManual($sql);
 		$roll=0;
 		$yardkg=0;
@@ -54,6 +54,7 @@ class Laporanbahankeluar extends CI_Controller {
 				'nama'=>$r['nama'],
 				'roll'=>$r['roll'],
 				'yardkg'=>$r['yardkg'],
+				'satuan'=>$r['satuan_ukuran'],
 				'harga'=>$r['harga'],
 				'total'=>$r['total'],
 			);
