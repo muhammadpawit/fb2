@@ -93,7 +93,7 @@
   function perhari(){
 
   }
-  simpan(){
+  function simpan(){
     $("form").submit();
   }
 </script>      
