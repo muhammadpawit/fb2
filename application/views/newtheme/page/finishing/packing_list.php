@@ -50,7 +50,7 @@
 							<?php foreach($products as $p){?>
 							<tr>
 								<td><?php echo date('d-m-Y',strtotime($p['creted_date']))?></td>
-								<td><?php echo strtolower($p['nama_po']) ?></td>
+								<td><?php echo strtoupper($p['nama_po']) ?></td>
 								<td><?php echo $p['jumlah_dz']?></td>
 								<td><?php echo $p['harga_dz'] ?></td>
 								<td><?php echo number_format($p['jumlah_pendapatan']) ?></td>
