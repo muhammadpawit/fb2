@@ -1,27 +1,29 @@
 <form method="post" action="<?php echo $action?>">
+    <input type="hidden" name="kategoriBorongan" value="PACKING">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <input type="text" name="creted_date" class="form-control datepicker" required>
                                 </div>
+                                <!-- <div class="form-group">
+                                    <label>Kategori</label><br>
+                                    <select class="form-control select2bs4" name="kategoriBorongan" data-live-search="true">
+                                        <option value="PACKING" selected="selected">PACKING</option>
+                                    </select>
+                                </div> -->
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nama Karyawan</label>
-                                    <select name="idkaryawanharian" class="form-control select2bs4" data-live-search="true">
+                                    <label>Nama Karyawan</label><br>
+                                    <select name="idkaryawanharian" class="form-control select2bs4" data-live-search="true" required>
                                         <option value="">Pilih</option>
                                         <?php foreach($karyawan as $k){?>
                                             <option value="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Kategori</label>
-                                    <select class="form-control select2bs4" name="kategoriBorongan" data-live-search="true">
-                                        <option value="PACKING" selected="selected">PACKING</option>
-                                    </select>
-                                </div>
                             </div>
-                            <div class="col-md-4"></div>
                             <div class="col-md-12">
                                 <table class="table table-bordered" id="item_table">
                                     <tr>
@@ -35,8 +37,15 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info">Simpan</button>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <a href="<?php echo BASEURL?>Finishing/packing" class="btn btn-danger full">Batal</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info full">Simpan</button>
+                                </div>
                             </div>
                         </div>
                     </form>

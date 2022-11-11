@@ -46,7 +46,7 @@
         width: 100% !important;
       }
 
-      select { width: 13.5em !important }
+      select { width: 100% !important }
 
       @media print
 {    
