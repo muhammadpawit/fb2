@@ -109,10 +109,10 @@ class Laporanbahankeluar extends CI_Controller {
 					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,17,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
 				);
 			$kaos[]=array(
-					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,15,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
+					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,15,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,15,$month,$y):0,
 				);
 			$celana[]=array(
-					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,16,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
+					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,16,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,16,$month,$y):0,
 				);
 		}
 		$data['kem']=implode(",", array_column($kemeja, 'tot'));
