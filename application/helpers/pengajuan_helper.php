@@ -150,7 +150,7 @@
 	}
 
 	function pembulatangaji($value){
-		/*
+		
 		$total_harga=0;
 		$totalharga =$value;
 		$bulat=substr($totalharga,-3);
@@ -160,16 +160,16 @@
 			$total_harga=round($totalharga,-3);
 		}else if($bulat==500){
 			$total_harga=($totalharga);
-		}else if($bulat > 0 && $bulat<501){
+		}else if($bulat > 500 && $bulat<501){
 			$total_harga=round($totalharga,-3)+500;
 		}else{
 			$total_harga=round($totalharga,-3);
 		}
 		return $total_harga;
-		*/
+		
 
 		// pembulatan gaji terbaru
-		$total_harga=0;
+		/*$total_harga=0;
 		$totalharga =$value;
 		$bulat=substr($totalharga,-3);
 		$totalharga=ceil($totalharga);
@@ -184,7 +184,7 @@
 		}else{
 			$total_harga=round($totalharga,-3);
 		}
-		return $total_harga;
+		return $total_harga;*/
 		
 	}
 
