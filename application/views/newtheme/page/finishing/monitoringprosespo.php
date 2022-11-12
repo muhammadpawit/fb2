@@ -468,13 +468,6 @@
 						<th>Type/Jenis</th>
 						<td>Jumlah PO</td>
 						<td>QC</td>
-						<td>LB Kancing</td>
-						<td>Siap Cucian</td>
-						<td>Proses Cucian</td>
-						<td>Siap Buang Benang</td>
-						<td>Proses Buang Benang</td>
-						<td>Siap Packing</td>
-						<td>Proses Packing</td>
 						<td>Siap Kirim Gudang</td>
 						<td>Pending</td>
 					</tr>
@@ -485,13 +478,6 @@
 							<td><?php echo $k['nama']?></td>
 							<td><?php echo $k['jmlpo']?></td>
 							<td><?php echo $k['qc']?></td>
-							<td><?php echo $k['kancing']?></td>
-							<td><?php echo $k['siapcucian']?></td>
-							<td><?php echo $k['prosescucian']?></td>
-							<td><?php echo $k['siapbuangbenang']?></td>
-							<td><?php echo $k['prosesbuangbenang']?></td>
-							<td><?php echo $k['siappacking']?></td>
-							<td><?php echo $k['prosespacking']?></td>
 							<td><?php echo $k['siapkirimgudang']?></td>
 							<td><?php echo $k['pending']?></td>
 						</tr>
