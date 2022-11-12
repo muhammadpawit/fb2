@@ -54,7 +54,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 <div class="col-md-5">
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Kemeja</h3>
-			<table class="table table-bordered">
+			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr align="center">
 					    <!-- <td rowspan="2">No</td> -->
@@ -95,7 +95,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		</div>
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Spandek</h3>
-			<table class="table table-bordered">
+			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr align="center">
 					    <!-- <td rowspan="2">No</td> -->
@@ -136,7 +136,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		</div>
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Celana</h3>
-			<table class="table table-bordered">
+			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr align="center">
 					    <!-- <td rowspan="2">No</td> -->
