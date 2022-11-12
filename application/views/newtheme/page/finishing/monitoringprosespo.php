@@ -65,7 +65,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($po as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -93,7 +93,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($qc as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -121,7 +121,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($kancing as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -149,7 +149,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($siapcucian as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -177,7 +177,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($prosescucian as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -205,7 +205,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($siapbuangbenang as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -234,7 +234,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($prosesbuangbenang as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -263,7 +263,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($siappacking as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -292,7 +292,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($po as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -321,7 +321,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($siapkirimgudang as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -350,7 +350,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($po as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
@@ -379,7 +379,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 		                    		<label>Kode PO</label>
-			                    	<select name="prods[][kode_po]" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
 			                    		<?php foreach($pending as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
