@@ -1,6 +1,6 @@
  <?php
-//header("Content-type: application/vnd-ms-excel");
-//header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d F Y',strtotime($tanggal2)).".xls");
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d F Y',strtotime($tanggal2)).".xls");
 ?>
 <style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -10,7 +10,7 @@
 </style>
 <table style="width: 100%;">
     <tr>
-        <td align="center" style="text-align: center;" colspan="9">Rekap Laporan Transfer CMT</td>
+        <td align="center" style="text-align: center;" colspan="9"><h2>Rekap Laporan Transfer CMT</h2></td>
     </tr>
 </table>
 <table style="width: 100%;">
