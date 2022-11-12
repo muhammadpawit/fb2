@@ -37,7 +37,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-7">
 		<div class="form-group">
 			<table class="table table-bordered">
 				<thead>
@@ -75,6 +75,11 @@
 					</tr>
 				</tfoot>
 			</table>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div class="form-group">
+			<h3 class="text-center">Rekap Perbulan Bahan Keluar Kemeja</h3>
 		</div>
 	</div>
 </div>

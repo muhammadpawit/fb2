@@ -814,6 +814,14 @@ class Pembayaran extends CI_Controller {
 		
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		// rekapan gaji sukabumi
+		$data['gajiskb']=[];
+		$data['opsskb']=[];
+		$data['vermak']=0;
+		if(!empty($cmt)){
+			$data['gajiskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM gajisukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['opsskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+		}
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_list_excel',$data);
 		}else{

@@ -1,6 +1,6 @@
  <?php
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d F Y',strtotime($tanggal2)).".xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d F Y',strtotime($tanggal2)).".xls");
 ?>
 <style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -59,6 +59,40 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
                             <td align="right"><b><?php echo $totals?>&nbsp;</b></td>
                             <td></td>
                         </tr>
+                        <?php if(isset($gajiskb)){ ?>
+                            <tr>
+                                <td colspan="4"><b>Transferan Anak Harian</b></td>
+                                <td></td>
+                                <td><b></b></td>
+                                <td><b></b></td>
+                                <td align="right"><b><?php echo $gajiskb['total']?>&nbsp;</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><b>Transferan Borongan (Permak)</b></td>
+                                <td></td>
+                                <td><b></b></td>
+                                <td><b></b></td>
+                                <td align="right"><b><?php echo $vermak?>&nbsp;</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><b>Transferan Ops Cab. Sukabumi</b></td>
+                                <td></td>
+                                <td><b></b></td>
+                                <td><b></b></td>
+                                <td align="right"><b><?php echo $opsskb['total']?>&nbsp;</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><b>Total Transferan Cab. Sukabumi</b></td>
+                                <td></td>
+                                <td><b></b></td>
+                                <td><b></b></td>
+                                <td align="right"><b><?php echo ($totals+$gajiskb['total']+$opsskb['total'])?>&nbsp;</b></td>
+                                <td></td>
+                            </tr>
+                        <?php } ?>
                 <?php }else{ ?>
                 <tr>
                     <td colspan="8">Data tidak ditemukan</td>
@@ -73,12 +107,12 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
         <td style="text-align: center;width: 40%">
             <table style="width: 100%;border-collapse: collapse;" border="1">
                 <tr>
-                    <td style="text-align: center;width: 50%">Admin Keu</td>
-                    <td style="text-align: center;width: 50%" colspan="2">SPV</td>
+                    <td style="text-align: center;width: 50%">SPV</td>
+                    <td style="text-align: center;width: 50%" colspan="2">Admin Keu</td>
                 </tr>
                 <tr>
-                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom">Dinda Dahlia</td>
-                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom" colspan="2">Muchlas</td>
+                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom">Muchlas</td>
+                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom" colspan="2">Dinda Dahlia</td>
                 </tr>
             </table>        
         </td>
