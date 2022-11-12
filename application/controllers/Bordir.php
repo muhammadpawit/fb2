@@ -645,11 +645,7 @@ class Bordir extends CI_Controller {
 		$g015=0;
 		$gpendapatan=0;
 		$total015=0;
-		if(isset($get['cetak'])){
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
-		}else{
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
-		}
+		$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11) ";
 		
 		if(!empty($nomesin)){
 			$sm.=" AND nomor='$nomesin' ";
@@ -1217,7 +1213,7 @@ class Bordir extends CI_Controller {
 		}
 		$data['po'] = $po;
 		//$data['kembali']=$link;
-		$data['mesin'] = $this->GlobalModel->getData('master_mesin',null);
+		$data['mesin'] = $this->GlobalModel->getData('master_mesin',array('input'=>1));
 		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
 		$this->load->view('newtheme/page/main',$data);
 				
