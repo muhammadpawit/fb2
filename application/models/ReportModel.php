@@ -24,6 +24,7 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+
 	public function uangmakanbordir($idkaryawan,$tanggal1){
 		$hasil=0;
 		$sql1="SELECT * FROM absensi_bordir ab JOIN absensi_bordir_detail abd ON(ab.id=abd.idabsensi) WHERE DATE(ab.tanggal) ='$tanggal1' AND idkaryawan='$idkaryawan' and ab.hapus=0 AND ab.shift='Malam' AND abd.hapus=0 ";

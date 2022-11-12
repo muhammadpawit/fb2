@@ -106,18 +106,21 @@ class Laporanbahankeluar extends CI_Controller {
 					'yard'=>$this->ReportModel->barangkeluar_bulanan(2,16,$month,$y),
 				);
 			$kemeja[]=array(
-					'tot'=>$this->ReportModel->potonganbulanan($month,$y,1)==null?0:$this->ReportModel->potonganbulanan($month,$y,1),
+					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,17,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
 				);
 			$kaos[]=array(
-					'tot'=>$this->ReportModel->potonganbulanan($month,$y,2)==null?0:$this->ReportModel->potonganbulanan($month,$y,2),
+					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,15,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
 				);
 			$celana[]=array(
-					'tot'=>$this->ReportModel->potonganbulanan($month,$y,3)==null?0:$this->ReportModel->potonganbulanan($month,$y,3),
+					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,16,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
 				);
 		}
 		$data['kem']=implode(",", array_column($kemeja, 'tot'));
+		//pre($data['kem']);
 		$data['kao']=implode(",", array_column($kaos, 'tot'));
 		$data['cel']=implode(",", array_column($celana, 'tot'));
+		$bulan=$this->ReportModel->month();
+		$data['bulan']=json_encode($bulan);
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
 		}else{
