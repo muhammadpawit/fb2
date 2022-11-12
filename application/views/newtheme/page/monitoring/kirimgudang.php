@@ -103,6 +103,8 @@
 	                        <th>Dz</th>
 	                        <th>Pcs</th>
 	                        <th>Total</th>
+	                        <th>Harga HPP (Dz)</th>
+	                        <th>Harga HPP (Pcs)</th>
 	                    </tr>
 	                </thead>
 	            <tbody>
@@ -112,9 +114,11 @@
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
-	                    <td><?php echo number_format($r['dz'])?></td>
+	                    <td><?php echo number_format($r['dz'],2)?></td>
 	                    <td><?php echo number_format($r['pcs'])?></td>
 	                    <td><?php echo number_format($r['total'])?></td>
+	                    <td><?php echo number_format($r['hppdz'],2)?></td>
+	                    <td><?php echo number_format($r['hpppcs'])?></td>
 	                </tr>
 	                <?php
 	                    $po+=($r['po']);
@@ -126,7 +130,7 @@
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
 	                    <td><b><?php echo number_format($po)?></b></td>
-	                    <td><b><?php echo number_format($dz)?></b></td>
+	                    <td><b><?php echo number_format($dz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
 	                    <td><b><?php echo number_format($total)?></b></td>
 	                </tr>
@@ -144,6 +148,8 @@
 	                        <th>Dz</th>
 	                        <th>Pcs</th>
 	                        <th>Total</th>
+	                        <th>Harga HPP (Dz)</th>
+	                        <th>Harga HPP (Pcs)</th>
 	                    </tr>
 	                </thead>
 	            <tbody>
@@ -153,7 +159,7 @@
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
-	                    <td><?php echo number_format($r['dz'])?></td>
+	                    <td><?php echo number_format($r['dz'],2)?></td>
 	                    <td><?php echo number_format($r['pcs'])?></td>
 	                    <td><?php echo number_format($r['total'])?></td>
 	                </tr>
@@ -167,7 +173,7 @@
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
 	                    <td><b><?php echo number_format($po)?></b></td>
-	                    <td><b><?php echo number_format($dz)?></b></td>
+	                    <td><b><?php echo number_format($dz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
 	                    <td><b><?php echo number_format($total)?></b></td>
 	                </tr>
@@ -187,6 +193,8 @@
 	                        <th>Dz</th>
 	                        <th>Pcs</th>
 	                        <th>Total</th>
+	                        <th>Harga HPP (Dz)</th>
+	                        <th>Harga HPP (Pcs)</th>
 	                    </tr>
 	                </thead>
 	            <tbody>
@@ -196,9 +204,11 @@
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
-	                    <td><?php echo number_format($r['dz'])?></td>
+	                    <td><?php echo number_format($r['dz'],2)?></td>
 	                    <td><?php echo number_format($r['pcs'])?></td>
 	                    <td><?php echo number_format($r['total'])?></td>
+	                    <td><?php echo number_format($r['hppdz'],2)?></td>
+	                    <td><?php echo number_format($r['hpppcs'])?></td>
 	                </tr>
 	                <?php
 	                    $po+=($r['po']);
@@ -210,7 +220,7 @@
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
 	                    <td><b><?php echo number_format($po)?></b></td>
-	                    <td><b><?php echo number_format($dz)?></b></td>
+	                    <td><b><?php echo number_format($dz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
 	                    <td><b><?php echo number_format($total)?></b></td>
 	                </tr>

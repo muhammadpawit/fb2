@@ -19,7 +19,7 @@
                                         <select name="cmt" class="form-control select2bs4" data-live-search="true" required>
                                             <option value="">Pilih</option>
                                             <?php foreach($listcmt as $c){?>
-                                                <option value="<?php echo $c['id_cmt']?>" <?php echo $cmt['cmt_name']==$c['id_cmt']?'selected':''; ?>><?php echo strtolower($c['cmt_name'])?></option>
+                                                <option value="<?php echo $c['id_cmt']?>" <?php echo $cmt['id_cmt']==$c['id_cmt']?'selected':''; ?>><?php echo strtolower($c['cmt_name'])?></option>
                                             <?php } ?>
                                         </select>                                            
                                         </td>
