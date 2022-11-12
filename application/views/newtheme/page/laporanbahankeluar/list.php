@@ -80,6 +80,126 @@
 	<div class="col-md-5">
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Kemeja</h3>
+			<table class="table table-bordered">
+				<thead>
+					<tr align="center">
+					    <!-- <td rowspan="2">No</td> -->
+					    <td rowspan="2">Bulan</td>
+					    <td colspan="2">Satuan</td>
+					</tr>
+					<tr align="center">
+					    <td>Roll</td>
+					    <td>Yard</td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $kmj=0;$kmj2=0; ?>
+					<?php foreach($rkemeja as $k){?>
+						<tr align="center">
+							<td>
+								<?php echo $k['bulan'] ?>
+							</td>
+							<td>
+								<?php echo $k['roll']?>
+							</td>
+							<td>
+								<?php echo $k['yard']?>
+							</td>
+						</tr>
+						<?php $kmj+=($k['roll']);?>
+						<?php $kmj2+=($k['yard']);?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr align="center">
+						<td><b>Total</b></td>
+						<td><b><?php echo $kmj ?></b></td>
+						<td><b><?php echo $kmj2?></b></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="form-group">
+			<h3 class="text-center">Rekap Perbulan Bahan Keluar Spandek</h3>
+			<table class="table table-bordered">
+				<thead>
+					<tr align="center">
+					    <!-- <td rowspan="2">No</td> -->
+					    <td rowspan="2">Bulan</td>
+					    <td colspan="2">Satuan</td>
+					</tr>
+					<tr align="center">
+					    <td>Roll</td>
+					    <td>Kg</td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $kos=0;$kos2=0; ?>
+					<?php foreach($rkaos as $k){?>
+						<tr align="center">
+							<td>
+								<?php echo $k['bulan'] ?>
+							</td>
+							<td>
+								<?php echo $k['roll']?>
+							</td>
+							<td>
+								<?php echo $k['kg']?>
+							</td>
+						</tr>
+						<?php $kos+=($k['roll']);?>
+						<?php $kos2+=($k['kg']);?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr align="center">
+						<td><b>Total</b></td>
+						<td><b><?php echo $kos ?></b></td>
+						<td><b><?php echo $kos2?></b></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="form-group">
+			<h3 class="text-center">Rekap Perbulan Bahan Keluar Celana</h3>
+			<table class="table table-bordered">
+				<thead>
+					<tr align="center">
+					    <!-- <td rowspan="2">No</td> -->
+					    <td rowspan="2">Bulan</td>
+					    <td colspan="2">Satuan</td>
+					</tr>
+					<tr align="center">
+					    <td>Roll</td>
+					    <td>Yard</td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $cln=0; $cln2=0;?>
+					<?php foreach($rcelana as $k){?>
+						<tr align="center">
+							<td>
+								<?php echo $k['bulan'] ?>
+							</td>
+							<td>
+								<?php echo $k['roll']?>
+							</td>
+							<td>
+								<?php echo $k['yard']?>
+							</td>
+						</tr>
+						<?php $cln+=($k['roll']);?>
+						<?php $cln2+=($k['yard']);?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr align="center">
+						<td><b>Total</b></td>
+						<td><b><?php echo $cln ?></b></td>
+						<td><b><?php echo $cln2?></b></td>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
 	</div>
 </div>

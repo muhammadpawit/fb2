@@ -9,6 +9,20 @@ class ReportModel extends CI_Model {
 		$this->tglperkalianbaru='2022-07-19';
 	}
 
+	public function barangkeluar_bulanan($type,$jenis,$bulan,$tahun){
+		$hasil=0;
+		if($type==1){ // roll
+			$sql=" SELECT SUM(jumlah) as total ";
+		}else{
+			$sql=" SELECT SUM(ukuran) as total "; // yard
+		}
+		$sql.=" FROM barangkeluar_harian_detail LEFT JOIN product ON product.product_id=barangkeluar_harian_detail.id_persediaan WHERE barangkeluar_harian_detail.hapus=0 AND barangkeluar_harian_detail.jenis=3 AND MONTH(tanggal)='$bulan' AND YEAR(tanggal)='$tahun' AND product.kategori='$jenis' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total'];
+		}
+		return $hasil;
+	}
 
 	public function uangmakanbordir($idkaryawan,$tanggal1){
 		$hasil=0;
