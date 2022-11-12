@@ -26,13 +26,14 @@
       </div>
       <div class="modal-body">
         <form method="post" action="<?php echo $action?>">
-          <div class="form-group">
+          <div class="col-md-12">
+            <div class="form-group">
             <label>Tanggal Kirim</label>
             <input type="date" name="tanggal" class="form-control" required>
           </div>
           <div class="form-group">
-            <label>Nama PO</label>
-            <select name="idpoluar" class="form-control select2bs4" data-live-search="true" required="required">
+            <label>Nama PO</label><br>
+            <select name="idpoluar" class="form-control select2bs4" data-live-search="true" required="required" style="width: 100% !important;">
               <option value="">Pilih</option>
               <?php foreach($po as $p){?>
                 <option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option>
@@ -55,8 +56,13 @@
             <label>Qty</label>
             <input type="number" name="qty" class="form-control" required="required">
           </div>
-          <button type="submit" class="btn btn-info">Simpan</button>
-          <a class="btn btn-danger text-white" data-dismiss="modal">Batal</a>
+          </div>
+          <div class="col-md-6">
+            <a class="btn btn-danger text-white full" data-dismiss="modal">Batal</a>
+          </div>
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-info full">Simpan</button>            
+          </div>
         </form>
       </div>
       <div class="modal-footer">
