@@ -53,7 +53,7 @@
                   </li>
 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-one-selesais-tab" data-toggle="pill" href="#custom-tabs-one-selesais" role="tab" aria-controls="custom-tabs-one-selesais" aria-selected="false">Selesai <span class="badge bg-black"><?php //echo count_mdetails(11)?></span></a>
+                    <a class="nav-link" id="custom-tabs-one-selesais-tab" data-toggle="pill" href="#custom-tabs-one-selesais" role="tab" aria-controls="custom-tabs-one-selesais" aria-selected="false">Selesai <span class="badge bg-black"><?php echo count_mdetails(11)?></span></a>
                   </li>
                 </ul>
               </div>
@@ -391,12 +391,12 @@
 		                    	</div>
 							</div>
 							<div class="col-md-6">
-								<!--<label>Rincian PO</label>
+								<label>Rincian PO</label>
 								<div style="height: 200px;overflow: auto">
-									<?php //foreach(mdetails(11) as $k){?>
-										<span class="badge bg-green"><?php //echo $k['kode_po']?></span>
-									<?php //} ?>
-								</div> -->
+									<?php foreach(mdetails(11) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
 							</div>                      		
                     	</div>
                     </form>
