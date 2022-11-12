@@ -160,7 +160,7 @@
 			$total_harga=round($totalharga,-3);
 		}else if($bulat==500){
 			$total_harga=($totalharga);
-		}else if($bulat > 500 && $bulat<501){
+		}else if($bulat > 9 && $bulat<501){
 			$total_harga=round($totalharga,-3)+500;
 		}else{
 			$total_harga=round($totalharga,-3);
