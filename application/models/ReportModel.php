@@ -1730,7 +1730,7 @@ class ReportModel extends CI_Model {
 	public function barangmasukterakhir($id,$tanggal1,$tanggal2){
 		$hasil=[];
 		$sql="SELECT pid.*, pi.tanggal FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND DATE(pid.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		//$sql.=" AND DATE(tanggal) <= '".$tanggal2."' ";
 		$sql.=" AND pid.id_persediaan='".$id."' AND jumlah > 0 ";
 		$sql.=" ORDER BY pi.id DESC ";
@@ -1740,7 +1740,7 @@ class ReportModel extends CI_Model {
 		}else{
 			$sql="SELECT pid.*, pi.tanggal FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 ";
 			//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-			$sql.=" AND DATE(tanggal) <= '".$tanggal2."' ";
+			$sql.=" AND DATE(pid.tanggal) <= '".$tanggal2."' ";
 			$sql.=" AND pid.id_persediaan='".$id."' ";
 			$sql.=" ORDER BY pi.id DESC LIMIT 1";
 			$d=$this->GlobalModel->queryManualRow($sql);

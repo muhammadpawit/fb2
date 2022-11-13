@@ -95,7 +95,7 @@ class Laporanbulananalat extends CI_Controller {
 			$barangmasukterakhir=$this->ReportModel->barangmasukterakhir($row['id_persediaan'],$tanggal1,$tanggal2);
 			$ratarata=$this->ReportModel->rataratabarangkeluar($row['id_persediaan'],$tanggal1,$tanggal2,$bulan);
 			$sql2="SELECT pi.supplier FROM penerimaan_item pi JOIN penerimaan_item_detail pid ON (pid.penerimaan_item_id=pi.id) WHERE pi.hapus=0 and pid.id_persediaan= '".$row['id_persediaan']."' ";
-			$sql2.=" AND date(tanggal) <='".$tanggal2."' ORDER BY date(tanggal) DESC LIMIT 1 ";
+			$sql2.=" AND date(pid.tanggal) <='".$tanggal2."' ORDER BY date(pid.tanggal) DESC LIMIT 1 ";
 			$s=$this->GlobalModel->QueryManualRow($sql2);
 			$sn=!empty($s)?$this->GlobalModel->getDataRow('master_supplier',array('id'=>$s['supplier'])):null;
 			$supplier=!empty($sn)?$sn['nama']:null;
