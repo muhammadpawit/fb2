@@ -32,7 +32,7 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Lokasi Cmt</label><br>
             <select name="lokasicmt" id="lokasicmt" class="form-control select2bs4">
@@ -43,11 +43,16 @@
             </select>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <label>Action</label><br>
         <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
         <button class="btn btn-info btn-sm" onclick="excel()">Excel</button>
         <button class="btn btn-info btn-sm" onclick="tambah()">Tambah</button>
+        <?php if(isset($lokasi)) {?>
+            <?php if($lokasi==3){ ?>
+                <button class="btn btn-info btn-sm" onclick="rekap()">Rekap Per PO</button>
+            <?php } ?>
+        <?php } ?>
     </div>
     <div class="col-md-12">
         <table class="table table-bordered nosearch">
@@ -70,9 +75,9 @@
                             <td><?php echo $p['no']?></td>
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['nama']?></td>
-                            <td><?php echo $p['potongan_bangke']?></td>
-                            <td><?php echo $p['biaya_transport']?></td>
-                            <td><?php echo $p['total']?></td>
+                            <td><?php echo number_format($p['potongan_bangke'])?></td>
+                            <td><?php echo number_format($p['biaya_transport'])?></td>
+                            <td><?php echo number_format($p['total'])?></td>
                             <td><?php echo $p['keterangan']?></td>
                             <td>
                                 <a href="<?php echo $p['detail']?>" class="btn btn-success btn-xs text-white">Detail</a>
@@ -121,6 +126,27 @@
         var cmt=$("#cmt").val();
         var lokasicmt=$("#lokasicmt").val();
         var url='?&excel=1';
+        if(tanggal1){
+            url+='&tanggal1='+tanggal1;
+        }
+        if(tanggal2){
+            url+='&tanggal2='+tanggal2;
+        }
+        if(cmt!="*"){
+            url+='&cmt='+cmt;
+        }
+        if(lokasicmt!="*"){
+            url+='&lokasicmt='+lokasicmt;
+        }
+        location=url;
+    }
+
+    function rekap(){
+        var tanggal1=$("#tanggal1").val();
+        var tanggal2=$("#tanggal2").val();
+        var cmt=$("#cmt").val();
+        var lokasicmt=$("#lokasicmt").val();
+        var url='?&rekap=1';
         if(tanggal1){
             url+='&tanggal1='+tanggal1;
         }

@@ -795,9 +795,11 @@ class Pembayaran extends CI_Controller {
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
 				'periode'=>strtolower($result['periode']),
 				'nama'=>strtolower($cmt['cmt_name']),
-				'total'=>number_format($result['total']),
-				'potongan_bangke'=>number_format($result['potongan_bangke']),
-				'biaya_transport'=>number_format($result['biaya_transport']-$result['potongan_transport']),
+				'total'=>($result['total']),
+				'potongan_bangke'=>($result['potongan_bangke']),
+				'potongan_alat'=>($result['potongan_alat']),
+				'potongan_mesin'=>($result['potongan_mesin']),
+				'biaya_transport'=>($result['biaya_transport']-$result['potongan_transport']),
 				'keterangan'=>strtolower($result['keterangan']),
 				'detail'=>BASEURL.'Pembayaran/cmtjahitdetail/'.$result['id'],
 				'hapus'=>BASEURL.'Pembayaran/cmtjahithapus/'.$result['id'],
@@ -807,6 +809,7 @@ class Pembayaran extends CI_Controller {
 				'bank'=>$cmt['bank'],
 				'jmlkirim'=>$jmlkirim['total'],
 				'jmlsetor'=>$jmlsetor['total'],
+				'det'=>$this->GlobalModel->getData('pembayaran_cmt_detail',array('idpembayaran'=>$result['id'])),
 			);
 		}
 		$data['tanggal1']=$tanggal1;
@@ -824,6 +827,8 @@ class Pembayaran extends CI_Controller {
 		}
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_list_excel',$data);
+		}else if(isset($get['rekap'])){
+			$this->load->view($this->page.'pembayaran/cmtjahit_rekap',$data);
 		}else{
 			$data['page']=$this->page.'pembayaran/cmtjahit_list';
 			$this->load->view($this->page.'main',$data);
