@@ -11,7 +11,7 @@ class AlatsukabumiModel extends CI_Model {
 		$hasil=[];
 		$sql="SELECT als.*, p.nama FROM alat_sukabumi als JOIN product p ON(p.product_id=als.idproduk) WHERE als.hapus=0 ";
 		if(!empty($data['tanggal1'])){
-			$sql=" DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+			$sql.=" AND DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
 
 		$sql.=" ORDER BY id DESC ";

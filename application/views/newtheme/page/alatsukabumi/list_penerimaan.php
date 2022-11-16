@@ -27,7 +27,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
-			<!-- <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a> -->
+			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
 		</div>
 	</div>
 </div>

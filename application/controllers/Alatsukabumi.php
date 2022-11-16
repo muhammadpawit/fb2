@@ -37,7 +37,37 @@ class Alatsukabumi extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 		);
 		$data['prods']=$this->AlatsukabumiModel->show($filter);
+		$data['tambah']=$this->url.'tambah';
 		$data['page']=$this->page.'list_penerimaan';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function tambah(){
+		$data=[];
+		$data['title']='Terima Alat-alat Di Sukabumi';
+		$get=$this->input->get();
+		$url='';
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+			$url.='&tanggal1='.$tanggal1;
+		}else{
+			$tanggal1=null;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+			$url.='&tanggal2='.$tanggal2;
+		}else{
+			$tanggal2=null;
+		}		
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$filter=array(
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
+		);
+		
+		$data['simpan']=$this->url.'save';
+		$data['page']=$this->page.'tambah';
 		$this->load->view($this->layout,$data);
 	}
 
