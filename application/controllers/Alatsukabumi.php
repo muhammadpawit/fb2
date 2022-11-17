@@ -65,10 +65,28 @@ class Alatsukabumi extends CI_Controller {
 			'tanggal1'=>$tanggal1,
 			'tanggal2'=>$tanggal2,
 		);
-		
+		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND id_persediaan IN (SELECT idpersediaan FROM barangkeluarharian_detail WHERE hapus=0 GROUP BY idpersediaan) ORDER BY nama_item ASC");
 		$data['simpan']=$this->url.'save';
+		$data['cancel']=$this->url;
 		$data['page']=$this->page.'tambah';
 		$this->load->view($this->layout,$data);
+	}
+
+	public function cari($id='')
+	{
+		$tgl = $this->input->get('tgl');
+		$getId = $this->input->get('id');
+		//$data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
+		$sql="SELECT * FROM barangkeluarharian_detail WHERE hapus=0 and idpersediaan='".$getId."' AND tanggal <='".$tgl."' ORDER BY tanggal DESC LIMIT 1 ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		echo json_encode($data);
+	}
+
+	public function save(){
+		$data=$this->input->post();
+		$this->AlatsukabumiModel->insert($data);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url);
 	}
 
 }
