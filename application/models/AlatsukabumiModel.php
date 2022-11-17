@@ -76,4 +76,22 @@ class AlatsukabumiModel extends CI_Model {
 		$this->db->update('alat_sukabumi',$update,$where);
 	}
 
+	public function stock($data){
+		$hasil=[];
+		$sql="SELECT * FROM stok_barang_skb WHERE hapus=0 ";
+		$sql.=" ORDER BY nama ASC ";
+		$result=$this->GlobalModel->QueryManual($sql);
+		if(!empty($result)){
+			foreach($result as $r){
+				$hasil[]=array(
+					'id'=>$r['id_persediaan'],
+					'nama'=>$r['nama'],
+					'jumlah'=>$r['stock'],
+					'satuan'=>$r['satuan'],
+				);
+			}
+		}
+		return $hasil;
+	}
+
 }
