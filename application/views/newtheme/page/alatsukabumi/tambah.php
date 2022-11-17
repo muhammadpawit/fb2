@@ -47,9 +47,6 @@ $(document).ready(function(){
         $('#addbahankeluars').append(html);
          //$('.selectpicker').selectpicker('refresh');
         $('.barang').select2();
-        //$('.barang').select2({
-          //theme: 'bootstrap4'
-        //});
      });
 
     $(document).on('click', '.remove', function(){

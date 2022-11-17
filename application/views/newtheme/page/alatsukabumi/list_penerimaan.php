@@ -58,7 +58,7 @@
 						<td><?php echo $p['satuan']?></td>
 						<td><?php echo $p['keterangan']?></td>
 						<td>
-							<a href="<?php echo BASEURL ?>Alatsukabumi/terima" class="btn btn-sm btn-success">Terima</a>
+							<!-- <a href="<?php echo BASEURL ?>Alatsukabumi/terima" class="btn btn-sm btn-success">Terima</a> -->
 						</td>
 					</tr>
 				<?php } ?>
