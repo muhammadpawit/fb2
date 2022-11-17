@@ -8,7 +8,7 @@ class Alatsukabumi extends CI_Controller {
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->layout='newtheme/page/main';
-		$this->page='newtheme/page/Alatsukabumi/';
+		$this->page='newtheme/page/alatsukabumi/';
 		$this->url=BASEURL.'Alatsukabumi/';
 		$this->load->model('AlatsukabumiModel');
 	}
