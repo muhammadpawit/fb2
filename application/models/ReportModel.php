@@ -1030,6 +1030,7 @@ class ReportModel extends CI_Model {
 				$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 			}
 		}
+		$sql.=" GROUP BY kode_po ";
 		$sql.=" ORDER BY date(created_date) ASC, kode_po ASC ";
 		$data=$this->db->query($sql);
 		return $data->result_array();
