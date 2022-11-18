@@ -1011,7 +1011,7 @@ class ReportModel extends CI_Model {
 		return $d->result_array();
 	}
 	public function potongan($data){
-		$sql="SELECT * FROM konveksi_buku_potongan WHERE id_potongan>0 ";
+		$sql="SELECT * FROM konveksi_buku_potongan WHERE hapus=0 ";
 
 		$sql.=" AND kode_po NOT LIKE 'BJF%' ";
 		$sql.=" AND kode_po NOT LIKE 'BJK%' ";
