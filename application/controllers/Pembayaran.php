@@ -786,7 +786,7 @@ class Pembayaran extends CI_Controller {
 		$jmlsetor=0;
 		$jmlkirim=0;
 		foreach($results as $result){
-			$jmlkirim=$this->GlobalModel->QueryManualRow("SELECT SUM(jk.jumlah_pcs) as total FROM kirimcmt_detail jk JOIN pembayaran_cmt_detail pcd ON(pcd.kode_po=jk.kode_po) WHERE idpembayaran='".$result['id']."' and jk.hapus=0 ");
+			$jmlkirim=$this->GlobalModel->QueryManualRow("SELECT SUM(jk.jumlah_pcs) as total FROM kirimcmt_detail jk JOIN kirimcmt kc ON(kc.id=jk.idkirim) JOIN pembayaran_cmt_detail pcd ON(pcd.kode_po=jk.kode_po) WHERE idpembayaran='".$result['id']."' and jk.hapus=0 AND kc.idcmt='".$result['idcmt']."' ");
 			$jmlsetor=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_pcs) as total FROM pembayaran_cmt_detail WHERE idpembayaran='".$result['id']."' ");
 			$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			$data['products'][]=array(
