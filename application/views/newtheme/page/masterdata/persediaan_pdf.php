@@ -1,5 +1,5 @@
 <style type="text/css">
-  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;color:blue !important;}
+  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;color:blue !important; }
   table{
     font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;
     border: 1px #8b948d black;border-collapse: collapse;
