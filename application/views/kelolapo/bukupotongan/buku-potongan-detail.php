@@ -40,7 +40,7 @@
 
                     <div class="row mt-3">
                         <div class="col-4">
-                            <table class="table-satu" border="5" style="width: 200px;">
+                            <table class="table table-satu" border="5" style="width: 200px;">
                                 <tr>
                                     <td>Tanggal</td>
                                     <td><strong><?php echo date('d-m-Y',strtotime($potonganHead['created_date'])) ?></strong></td>
@@ -61,7 +61,7 @@
                                 <h4 class="m-0"> <span style="display: none;" id="sj">SURAT JALAN</span> BUKU POTONGAN</h4>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4">
                            <table class="table-satu" width="100%">
                                <tr>
                                    <td>Tim Potong</td>
@@ -74,10 +74,10 @@
                            </table>
                         </div>
                     </div>
-
-                    <div class="row mt-4">
-                        <div class="col-3">
-                            <table class="table-satu"  style="text-align: center;">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <table class="table table-satu"  style="text-align: center;">
                                 <tr height="40%">
                                     <th>SAMPLE BAHAN UTAMA</th>
                                 </tr>
@@ -86,8 +86,8 @@
                             </table>
                         </div>
                         
-                        <div class="col-9">
-                            <table style="text-align: center;">
+                        <div class="col-md-9">
+                            <table class="table table-bordered" style="text-align: center;">
                                 <tr>
                                    <th>BIDANG BAHAN</th>
                                     <th>WARNA</th>
@@ -96,7 +96,7 @@
                                     <th>SISA BAHAN(KG)</th>
                                     <th>PEMAKAIAN BAHAN</th>
                                     <th>BANYAKNYA LAPIS</th> 
-                                    <th>Hapus</th>
+                                    <th><span class="hidden-print">Hapus</span></th>
                                 </tr>
                                     
                                 <?php $jumPb=0; $jumBl=0; foreach ($potonganUtama as $key => $utama): ?>
@@ -109,7 +109,7 @@
                                         <td><?php echo $utama['pemakaian_bahan_potongan']; ?></td>
                                         <td><?php echo $utama['banyak_lapis_potongan']; ?></td>
                                         <td>
-                                            <a href="<?php echo BASEURL?>Kelolapo/hapusdetailutama/<?php echo $utama['id_potongan_utama']?>/<?php echo $potonganHead['kode_po'] ?>" class="btn btn-xs btn-danger text-white"><i class="fa fa-window-close"></i></a>
+                                            <a href="<?php echo BASEURL?>Kelolapo/hapusdetailutama/<?php echo $utama['id_potongan_utama']?>/<?php echo $potonganHead['kode_po'] ?>" class="btn btn-xs btn-danger text-white hidden-print"><i class="fa fa-window-close"></i></a>
                                         </td>
                                     </tr>
                                     <?php $jumPb += $utama['pemakaian_bahan_potongan']; ?>
@@ -149,16 +149,20 @@
                                     </tr>
                             </table>
                         </div>
-                        <div class="col-3">
-                            <table class="table-satu"  style="text-align: center;">
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                            <table class="table table-satu"  style="text-align: center;">
                                 <tr height="40%">
                                     <th>SAMPLE BAHAN VARIASI</th>
                                 </tr>
                                 <td><img style="height: 249px;width: 100%;" src="<?php echo $potonganHead['sample_bahan_variasi_img'] ?>"><br><img style="height: 249px;width: 100%;" src="<?php echo $potonganHead['sample_bahan_variasi_img2'] ?>"></td>
                             </table>
                         </div>
-                        <div class="col-9">
-                            <table style="text-align: center;margin-top: 20px;">
+                        <div class="col-md-9">
+                            <table class="table table-bordered" style="text-align: center;margin-top: 20px;">
                                 <tr>
                                     <th colspan="8">VARIASI</th>
                                 </tr>
@@ -170,7 +174,7 @@
                                     <th>SISA BAHAN</th>
                                     <th>PEMAKAIAN BAHAN</th>
                                     <th>BANYAKNYA LAPIS</th> 
-                                    <th>Hapus</th>
+                                    <th><span class="hidden-print">Hapus</span></th>
                                 </tr>
                                 <?php $jumPbv=0; $jumBlv=0; foreach ($potonganVariasi as $key => $variasi): ?>
                                 <tr>
@@ -222,6 +226,7 @@
                                     </th>
                                 </tr>
                             </table>
+                        </div>
                         </div>
                     </div>
 
