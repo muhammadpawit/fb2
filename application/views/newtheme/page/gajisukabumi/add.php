@@ -3,7 +3,7 @@
 		<div class="col-md-2">
 			<div class="form-group">
 				<label>Tanggal / Periode </label>
-				<input type="text" name="tanggal" class="form-control datepicker" required="required" readonly>
+				<input type="text" name="tanggal" value="<?php echo date('Y-m-d') ?>" class="form-control datepicker" required="required" readonly>
 			</div>
 		</div>
 		<div class="col-md-10">
@@ -73,16 +73,29 @@
 	var i=0;
 	function additem(){
 		html ='<tr>';
-		html +='<td><input type="text" name="prods['+i+'][nama]"></td>';
-		html +='<td><input type="text" name="prods['+i+'][bagian]"></td>';
+		//html +='<td><input type="text" name="prods['+i+'][nama]"></td>';
+		html += '<td><select type="text" class="form-control selectpicker" name="prods['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><?php foreach ($karyawan as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['nama'] ?>"><?php echo strtoupper($item['nama']) ?></option><?php } ?></select></td>';
+		html +='<td><input type="text" class="bagian" name="prods['+i+'][bagian]"></td>';
 		html +='<td><input type="text" name="prods['+i+'][jml_hari_kerja]"></td>';
-		html +='<td><input type="text" name="prods['+i+'][upah]"></td>';
+		html +='<td><input type="text" class="upah" name="prods['+i+'][upah]"></td>';
 		html +='<td><select name="prods['+i+'][keterangan]" class="form-control" required><option value="">Mohon dipilih</option><option value="1">UPAH HARIAN</option><option value="2">KASBON</option></select></td>';
 		html +='<td><i class="fa fa-trash remove"></i></td>';
 		html +='</tr>';
 
 		$("#bod").append(html);
 		i++;
+		$(document).on('change', '.selectpicker', function(e){
+        var dataItem = $(this).find(':selected').data('item');
+        var dai = $(this).closest('tr');
+        var jumlahItem = $('#piecesPo').val();
+        $.get( "<?php echo BASEURL.'Gajisukabumi/itemkeluarSearchId' ?>", { id: dataItem } )
+          .done(function( data ) {
+            var obj = JSON.parse(data);
+            console.log(obj.bagian);
+            dai.find(".bagian").val(obj.bagian);
+            dai.find(".upah").val(obj.nominal);
+        });
+    });
 	}
 
 

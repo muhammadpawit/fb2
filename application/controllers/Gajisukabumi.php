@@ -78,7 +78,15 @@ class Gajisukabumi extends CI_Controller {
 		$data['batal']=$this->link;
 		$data['action']=$this->link.'save';
 		$data['page']=$this->page.'add';
+		$data['karyawan']=$this->GlobalModel->queryManual("SELECT nama FROM karyawan WHERE cabang=2 and hapus=0 union SELECT nama from karyawan_skb WHERE hapus=0;");
 		$this->load->view($this->layout,$data);
+	}
+
+	public function itemkeluarSearchId($id='')
+	{
+		$getId = $this->input->get('id');
+		$data = $this->GlobalModel->queryManualRow("SELECT karyawan.nama, gajipokok as nominal, jabatan.nama as bagian FROM karyawan LEFT JOIN jabatan ON jabatan.id=karyawan.jabatan WHERE cabang=2 AND karyawan.nama='".$getId."' and karyawan.hapus=0 union SELECT karyawan_skb.nama, upah as nominal, bagian as bagian from karyawan_skb WHERE karyawan_skb.hapus=0 AND karyawan_skb.nama='".$getId."'  ");
+		echo json_encode($data);
 	}
 
 	public function save(){
