@@ -128,7 +128,7 @@ class Pembayaran extends CI_Controller {
 
 		//rekap
 
-		$sql="SELECT SUM(kks.qty_tot_pcs/12) as dz, grouping, price_group FROM kelolapo_kirim_setor kks LEFT JOIN master_job mj ON mj.id=kks.id_master_cmt_job WHERE progress='SETOR' AND kategori_cmt='SABLON' ";
+		$sql="SELECT COALESCE(SUM(kks.qty_tot_pcs/12),0) as dz, grouping, price_group FROM kelolapo_kirim_setor kks LEFT JOIN master_job mj ON mj.id=kks.id_master_cmt_job WHERE progress='SETOR' AND kategori_cmt='SABLON' ";
 		$sql.=" AND id_master_cmt='".$cmt."' AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and kks.hapus=0";
 		$sql.=" GROUP BY mj.grouping";
 		$results=array();
