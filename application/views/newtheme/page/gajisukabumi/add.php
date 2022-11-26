@@ -83,6 +83,7 @@
 		html +='</tr>';
 
 		$("#bod").append(html);
+		$(".selectpicker").select2();
 		i++;
 		$(document).on('change', '.selectpicker', function(e){
         var dataItem = $(this).find(':selected').data('item');
