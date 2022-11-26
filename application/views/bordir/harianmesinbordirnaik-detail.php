@@ -40,6 +40,7 @@
                                         <th>Target</th>
                                     </tr></thead>
                                     <tbody>
+                                        <?php $naik=0;$turun=0;$stich=0;$totalstich=0;$tarif=0;?>
                                         <?php foreach ($detail as $key => $det): ?>
                                         <tr>
                                             <td><?php echo strtoupper($det['nama_operator']);?></td>
@@ -62,8 +63,31 @@
                                             <td><?php echo number_format($det['total_tarif']) ?></td>
                                             <td><?php echo number_format($det['total_stich'] * 0.13) ?></td>
                                         </tr>
+                                        <?php
+                                            $naik+=($det['jumlah_naik_mesin']);
+                                            $turun+=($det['jumlah_turun_mesin']);
+                                            $stich+=($det['stich']);
+                                            $totalstich+=($det['total_stich']);
+                                            $tarif+=($det['total_tarif']);
+                                        ?>
                                         <?php endforeach ?>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" align="center"><b>Total</b></td>
+                                            <td><b><?php echo $naik?></b></td>
+                                            <td></td>
+                                            <td><b><?php echo $turun?></b></td>
+                                            <td></td>
+                                            <td><b><?php echo $stich?></b></td>
+                                            <td><b><?php echo $totalstich?></b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><b><?php echo $tarif ?></b></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
