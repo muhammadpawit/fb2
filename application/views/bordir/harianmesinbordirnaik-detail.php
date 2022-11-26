@@ -42,7 +42,7 @@
                                     <tbody>
                                         <?php foreach ($detail as $key => $det): ?>
                                         <tr>
-                                            <td><?php echo $det['nama_operator'];?></td>
+                                            <td><?php echo strtoupper($det['nama_operator']);?></td>
                                             <td><?php echo $det['mesin_bordir'];?></td>
                                             <?php if($det['jenis']==1){?>
                                                 <td><?php echo $det['kode_po'] ?></td>

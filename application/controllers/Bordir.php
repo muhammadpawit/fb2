@@ -1349,7 +1349,7 @@ class Bordir extends CI_Controller {
 		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE kmb.kode_po="'.$kodePo.'" ');
 		$viewData['title']="Detail Bordir";
 		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb WHERE kmb.kode_po="'.$kodePo.'" ');
-		$viewData['detail'] = $this->GlobalModel->queryManual('SELECT kmb.*, mkb.nama_karyawan_bordir as nama_operator FROM kelola_mesin_bordir kmb LEFT JOIN master_karyawan_bordir mkb ON(mkb.id_master_karyawan_bordir=kmb.nama_operator) WHERE kmb.kode_po="'.$kodePo.'" ');
+		$viewData['detail'] = $this->GlobalModel->queryManual('SELECT kmb.*, mkb.nama_karyawan_bordir as nama_operator FROM kelola_mesin_bordir kmb LEFT JOIN master_karyawan_bordir mkb ON(mkb.id_master_karyawan_bordir=kmb.nama_operator) WHERE kmb.kode_po="'.$kodePo.'" AND kmb.hapus=0 ORDER by mkb.nama_karyawan_bordir ASC ');
 		//pre($viewData['detail']);
 		//$this->load->view('global/header');
 		$viewData['page']='bordir/harianmesinbordirnaik-detail';
