@@ -132,7 +132,7 @@ function komplit(coba){
           html += '<td><input type="text" class="form-control datepicker" name="products['+coba+'][tgl]"></td>';
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][idpo]" value="'+ui.item.value+'"><input type="hidden" class="form-control" name="products['+coba+'][namapo]" value="'+ui.item.label+'">'+ui.item.label+'</td>';
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][keterangan]" value="'+details_value['bagian_bordir']+'">'+details_value['bagian_bordir']+'</td>';
-          html += '<td><input type="hidden" class="form-control" name="products['+coba+'][size]" value="'+details_value['size']+'">'+details_value['size']+'</td>';
+          html += '<td><input type="text" class="form-control" name="products['+coba+'][size]" value="'+details_value['size']+'"></td>';
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][sticth]" value="'+details_value['stich']+'">'+details_value['stich']+'</td>';
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][qty]" value="'+details_value['jumlah_naik_mesin']+'">'+details_value['jumlah_naik_mesin']+'</td>';
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][totalsticth]" value="'+totalsticth.toFixed(0)+'">'+totalsticth.toFixed(0)+'</td>';
