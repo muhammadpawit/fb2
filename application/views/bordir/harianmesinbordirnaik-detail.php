@@ -18,30 +18,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="m-0 text-center">Mesin Bordir Detail</h4>
-                            <table class="" width="200">
-                                <tr>
-                                    <td>Nama Operator</td>
-                                    <?php if (isset($detail[0])): ?>
-                                    <td>: <strong><?php echo $detail[0]['nama_operator'] ?></strong></td>
-                                    <?php endif ?>
-                                </tr>
-                                <tr>
-                                    <td>Shift</td>
-                                <?php if (isset($detail[0])): ?>
-                                    <td>: <strong><?php echo $detail[0]['shift'] ?></strong></td>
-                                <?php endif ?>
-                                </tr>
-                                <tr>
-                                    <td>Mesin</td>
-                                <?php if (isset($detail[0])): ?>
-                                    <td>: <strong><?php echo $detail[0]['mesin_bordir'] ?></strong></td>
-                                <?php endif ?>
-                                </tr>
-                            </table>
+                            
                             <div class="table-responsive">
                                 <table class="table mt-4 table-bordered">
                                     <thead>
                                     <tr>
+                                        <th>Operator</th>
+                                        <th>Mesin</th>
                                         <th>NAMA PO</th>
                                         <th>Tanggal Naik</th>
                                         <th>Jml Naik</th>
@@ -59,6 +42,8 @@
                                     <tbody>
                                         <?php foreach ($detail as $key => $det): ?>
                                         <tr>
+                                            <td><?php echo $det['nama_operator'];?></td>
+                                            <td><?php echo $det['mesin_bordir'];?></td>
                                             <?php if($det['jenis']==1){?>
                                                 <td><?php echo $det['kode_po'] ?></td>
                                             <?php }else{ ?>

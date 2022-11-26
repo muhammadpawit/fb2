@@ -1060,7 +1060,7 @@ class Bordir extends CI_Controller {
 					$action=array();
 					$action[]= array(
 						'text' => 'Detail',
-						'href' => BASEURL.'bordir/mesinbordirdetail/'.$b['kode_po'],
+						'href' => BASEURL.'bordir/mesinbordirdetailluar/'.$b['kode_po'],
 					);
 					if($hapus==1){
 						$action[]=array(
@@ -1331,6 +1331,21 @@ class Bordir extends CI_Controller {
 	{
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodePo));
 		$kodePo=$po['kode_po'];
+		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE kmb.kode_po="'.$kodePo.'" ');
+		$viewData['title']="Detail Bordir";
+		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb WHERE kmb.kode_po="'.$kodePo.'" ');
+		$viewData['detail'] = $this->GlobalModel->queryManual('SELECT kmb.*, mkb.nama_karyawan_bordir as nama_operator FROM kelola_mesin_bordir kmb LEFT JOIN master_karyawan_bordir mkb ON(mkb.id_master_karyawan_bordir=kmb.nama_operator) WHERE kmb.kode_po="'.$kodePo.'" ');
+		//pre($viewData['detail']);
+		//$this->load->view('global/header');
+		$viewData['page']='bordir/harianmesinbordirnaik-detail';
+		$this->load->view('newtheme/page/main',$viewData);
+		//$this->load->view('global/footer');
+	}
+
+	public function mesinbordirdetailluar($kodePo='')
+	{
+		$po=$this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$kodePo));
+		$kodePo=$po['id'];
 		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE kmb.kode_po="'.$kodePo.'" ');
 		$viewData['title']="Detail Bordir";
 		//$viewData['detail'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb WHERE kmb.kode_po="'.$kodePo.'" ');
