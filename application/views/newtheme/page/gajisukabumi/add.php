@@ -74,7 +74,7 @@
 	function additem(){
 		html ='<tr>';
 		//html +='<td><input type="text" name="prods['+i+'][nama]"></td>';
-		html += '<td><select type="text" class="form-control selectpicker" name="prods['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><?php foreach ($karyawan as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['nama'] ?>"><?php echo strtoupper($item['nama']) ?></option><?php } ?></select></td>';
+		html += '<td><select type="text" class="form-control selectpicker" name="prods['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><option value="">Mohon dipilih</option><?php foreach ($karyawan as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['nama'] ?>"><?php echo strtoupper($item['nama']) ?></option><?php } ?></select></td>';
 		html +='<td><input type="text" class="bagian" name="prods['+i+'][bagian]"></td>';
 		html +='<td><input type="text" name="prods['+i+'][jml_hari_kerja]"></td>';
 		html +='<td><input type="text" class="upah" name="prods['+i+'][upah]"></td>';
