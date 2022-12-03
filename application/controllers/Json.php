@@ -65,8 +65,8 @@ class Json extends CI_Controller {
 		foreach($results as $row){
 			$hasil[]=array(
 				'id'=>$row['kode_po'],
-				'label'=>$row['kode_po'].' '.$row['serian'],
-				'text'=>$row['kode_po'],
+				'label'=>$row['kode_po'],
+				'text'=>$row['kode_po'].' '.$row['serian'],
 			);
 		}
 
@@ -91,7 +91,7 @@ class Json extends CI_Controller {
 			$hasil[]=array(
 				'id'=>$row['kode_po'],
 				'label'=>$row['kode_po'],
-				'text'=>$row['kode_po'],
+				'text'=>$row['kode_po'].' '.$row['serian'],
 			);
 		}
 
@@ -111,8 +111,8 @@ class Json extends CI_Controller {
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
 			$hasil[]=array(
-				'id'=>$row['nama_po'].'-'.$row['kode_po'],
-				'text'=>$row['kode_po'],
+				'id'=>$row['nama_po'],
+				'text'=>$row['kode_po'].' '.$row['serian'],
 			);
 		}
 
@@ -362,8 +362,8 @@ class Json extends CI_Controller {
 		foreach($results as $row){
 			$hasil[]=array(
 				'id'=>$row['kode_po'],
-				'label'=>$row['kode_po'].' '.$row['serian'],
-				'text'=>$row['kode_po'].'kjkjk',
+				'label'=>$row['kode_po'],
+				'text'=>$row['kode_po'].' '.$row['serian'],
 			);
 		}
 
