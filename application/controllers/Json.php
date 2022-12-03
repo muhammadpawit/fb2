@@ -363,7 +363,7 @@ class Json extends CI_Controller {
 			$hasil[]=array(
 				'id'=>$row['kode_po'],
 				'label'=>$row['kode_po'].' '.$row['serian'],
-				'text'=>$row['kode_po'],
+				'text'=>$row['kode_po'].'kjkjk',
 			);
 		}
 
