@@ -1,9 +1,13 @@
 <form action="<?php echo $action ?>" method="post">
 <div class="row">
     <div class="col-md-12">
-        <div class="form-group">
+                        <div class="form-group">
                             <label>Kode PO</label>
                             <input type="text" class="form-control kodePO" name="kodePO" value="" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Serian PO</label>
+                            <input type="text" class="form-control " name="serian" value="" required>
                         </div>
                         <div class="form-group">
                           <label>Nama PO</label>

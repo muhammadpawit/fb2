@@ -17,6 +17,13 @@
 					</th>
 				</tr>
 				<tr>
+					<th>Serian PO</th>
+					<th>:</th>
+					<th>
+						<input type="text" name="serian" value="<?php echo $detail['serian']?>" class="form-control">		
+					</th>
+				</tr>
+				<tr>
 					<th>Nama Hpp PO</th>
 					<th>:</th>
 					<th>

@@ -31,6 +31,7 @@ class Kelolapo extends CI_Controller {
 			'jenis_po'	=>$data['jenis_po'],
 			'nama_hpp' =>$data['nama_hpp'],
 			'kode_po'	=>$data['kode_po'],
+			'serian'	=>$data['serian'],
 			'harga_satuan'=>$data['harga_satuan'],
 		);
 		$where=array(
@@ -445,6 +446,7 @@ class Kelolapo extends CI_Controller {
 			'jenis_po'	=> $post['jenisPo'],
 			'status'=>0,
 			'tahun'=>date('Y').date('Y',strtotime("+1 year")),
+			'serian'=>$post['serian'],
 		);
 		$this->GlobalModel->insertData('produksi_po',$dataInsert);
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
@@ -1742,8 +1744,9 @@ class Kelolapo extends CI_Controller {
 		$job=null;
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['kode_po'],
+				'kode_po'=>$k['kode_po'].' '.$po['serian'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>$job['nama_job'],
 				'jumlah_pcs'=>$k['jumlah_pcs'],
