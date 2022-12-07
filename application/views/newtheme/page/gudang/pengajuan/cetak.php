@@ -97,7 +97,7 @@
 
                             <div class="table-responsive">
 
-                                <table class="table mt-4" >
+                                <table class="table" >
 
                                     <thead>
 
@@ -131,7 +131,7 @@
 
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
-                                    <?php foreach ($item as $key => $tem): ?>
+                                    <?php foreach ($item_cash as $key => $tem): ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
@@ -169,12 +169,104 @@
                                         <?php $i++?>
                                     <?php endforeach ?>
                                         <tr style="background-color: yellow" class="yaprint">
-                                            <td colspan="2">Total (Rp)</td>
+                                            <td colspan="2">Total Cash (Rp)</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td>
-                                                <?php echo number_format($parent['cash'] + $parent['transfer']) ;?>
+                                                <?php //echo number_format($parent['cash'] + $parent['transfer']) ;?>
+                                                 <?php echo number_format($parent['cash']) ;?>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <?php if($parent['status']!=1){?>
+                                            <td></td>
+                                            <?php } ?>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                                <table class="table" >
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>NO.</th>
+
+                                            <th>DAFTAR ITEM AJUAN OPS</th>
+
+                                            <th>JUMLAH <br>BARANG</th>
+
+                                            <th>SATUAN</th>
+
+                                            <th width="125">HARGA SATUAN (Rp)</th>
+
+                                            <th width="125">TOTAL (Rp)</th>
+
+                                            <th>PEMBAYARAN</th>
+
+                                            <th>SUPPLIER</th>
+
+                                            <th>KET.</th>
+                                            <?php if($parent['status']!=1){?>
+                                            <th width="200">KOMENTAR</th>
+                                            <?php }?>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                    <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
+
+                                    <?php foreach ($item_tf as $key => $tem): ?>
+                                        <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
+                                        <tr>
+
+                                            <td align="center"><?php echo $no++; ?></td>
+
+                                            <td><?php echo $tem['nama_item'] ?></td>
+
+                                            <td align="center"><?php echo $tem['jumlah'] ?></td>
+
+                                            <td><?php echo $tem['satuan'] ?></td>
+
+                                            <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
+
+                                            <?php if ($tem['pembayaran'] == 2){ 
+
+                                                $totalTF+=$tem['jumlah'] * $tem['harga'];
+
+                                            } else { 
+
+                                                $totalCash+=$tem['jumlah'] * $tem['harga'];
+
+                                            } ?>
+
+                                            <td width="125"><?php echo number_format($tem['jumlah'] * $tem['harga']) ;?></td>
+
+                                            <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
+
+                                            <td><?php echo $tem['supplier']; ?></td>
+
+                                            <td><?php echo $tem['keterangan']; ?></td>
+                                            <?php if($parent['status']!=1){?>
+                                            <td><span class="no-print"><?php echo $tem['komentar']?></span></td>
+                                            <?php } ?>
+                                        </tr>
+                                        <?php $i++?>
+                                    <?php endforeach ?>
+                                        <tr style="background-color: yellow" class="yaprint">
+                                            <td colspan="2">Total Transfer (Rp)</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <?php //echo number_format($parent['cash'] + $parent['transfer']) ;?>
+                                                 <?php echo number_format($parent['transfer']) ;?>
                                             </td>
                                             <td></td>
                                             <td></td>
@@ -216,6 +308,15 @@
                                         <td>Rp <?php echo number_format($parent['transfer']) ?></td>
 
                                     </tr>
+
+                                     <tr>
+
+                                        <td>Total </td>
+
+                                        <td>Rp <?php echo number_format($parent['cash']+$parent['transfer']) ?></td>
+
+                                    </tr>
+
 
                                 </table>
 

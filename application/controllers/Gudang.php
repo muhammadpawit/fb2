@@ -807,7 +807,9 @@ class Gudang extends CI_Controller {
 	}
 
 	public function pengajuancetak($kode=''){
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('idpengajuan'=>$kode,'hapus'=>0));
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>1,'idpengajuan'=>$kode,'hapus'=>0));
+		$viewData['item_cash'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>1,'idpengajuan'=>$kode,'hapus'=>0));
+		$viewData['item_tf'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>2,'idpengajuan'=>$kode,'hapus'=>0));
 
 		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
 		$adminkeu=null;
