@@ -363,7 +363,8 @@ class Finishing extends CI_Controller {
 	public function edit_tanggal($id){
 		$data=[];
 		$data['title']='Ubah tanggal pengiriman';
-		$data['k'] = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po'=>$id));
+		$kodepo=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
+		$data['k'] = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po'=>$kodepo['kode_po']));
 		$data['simpan']=BASEURL.'Finishing/edit_tanggal_save';
 		$data['cancel']=BASEURL.'Finishing/pengirimangudang';
 		$data['page']='finishing/nota/edit_tanggal';

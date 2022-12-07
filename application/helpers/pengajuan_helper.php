@@ -14,6 +14,13 @@
 		return $row;
 	}
 
+    function GetName_cmt($id){
+		$CI =& get_instance();
+		$sql="SELECT * FROM master_cmt WHERE hapus=0 and id_cmt='$id' ";
+		$row=$CI->GlobalModel->queryManualRow($sql);
+		return $row['cmt_name'];
+	}
+
     function GetName($table,$id){
 		$CI =& get_instance();
 		$sql="SELECT * FROM $table WHERE hapus=0 and id='$id' ";

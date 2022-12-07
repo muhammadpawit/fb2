@@ -710,6 +710,7 @@ class Pembayaran extends CI_Controller {
 				'harga'=>$result['harga'],
 				'total'=>$result['total'],
 				'keterangan'=>$result['keterangan'],
+				'detail'=>BASEURL.'Pembayaran/cmtjahit_allpo_rincian/'.$result['kode_po'],
 			);
 		}
 		$data['tanggal1']=$tanggal1;
@@ -724,6 +725,11 @@ class Pembayaran extends CI_Controller {
 			$data['page']=$this->page.'pembayaran/cmtjahit_list_allpo';
 			$this->load->view($this->page.'main',$data);
 		}
+	}
+
+	public function cmtjahit_allpo_rincian($kode_po){
+		$kodepo=explode("_", $kode_po);
+		pre($kodepo[0]);
 	}
 
 	public function cmtjahit(){
@@ -893,6 +899,265 @@ class Pembayaran extends CI_Controller {
 		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['kodepo']=$this->GlobalModel->QueryManual('SELECT * FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
 		$this->load->view($this->page.'main',$data);
+	}
+
+	public function cmtjahittambah_skb(){
+		$data=array();
+		$data['title']='Form Pembayaran CMT Jahit Sukabumi';
+		$get=$this->input->get();
+		$results=array();
+		if(isset($get['tanggal'])){
+			$tanggal=$get['tanggal'];
+		}else{
+			//$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+			$tanggal=null;
+		}
+
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+
+		if(isset($get['kode_po'])){
+			$kode_po=explode("_", $get['kode_po']);
+		}else{
+			$kode_po=array('0');
+		}
+
+		$data['kode_po']=$kode_po[0];
+		
+		$data['kirim']=[];
+		if(!empty($kode_po)){
+			$data['kirim']=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$cmt."' AND hapus=0 ");
+		}
+
+		$data['setor']=[];
+		if(!empty($kode_po)){
+			$data['setor']=$this->GlobalModel->QueryManual("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$cmt."' AND hapus=0 GROUP BY create_date ");
+		}
+		//pre($data['setor']);
+		$data['action']=BASEURL.'Pembayaran/cmtjahitsave_skb';
+		$data['page']=$this->page.'pembayaran/cmtjahit_form_skb';
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['kodepo']=$this->GlobalModel->QueryManual('SELECT * FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function cmtjahit_skb(){
+		$data['title']='Rincian Pembayaran CMT Jahit Sukabumi';
+		$data['tambah']=BASEURL.'Pembayaran/cmtjahittambah_skb';
+		$data['products']=array();
+		$user=user();
+		$menghapus=0;
+		if(isset($user['id_user'])){
+			$menghapus=akses($user['id_user'],2);
+		}
+		$data['menghapus']=akseshapus();
+		$get=$this->input->get();
+		$results=array();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			//$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+			$tanggal1=null;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=null;
+		}
+
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+
+		if(isset($get['lokasicmt'])){
+			$lokasicmt=$get['lokasicmt'];
+		}else{
+			$lokasicmt=null;
+		}
+
+		$data['lokasi']=$lokasicmt;
+		$data['cmtf']=$cmt;
+		$sql="SELECT * FROM pembayaran_skb ";
+		if(!empty($lokasicmt)){
+			$sql.=" JOIN master_cmt ON master_cmt.id_cmt=pembayaran_skb.id_cmt WHERE pembayaran_cmt.hapus=0 AND master_cmt.lokasi='".$lokasicmt."' ";
+		}else{
+			$sql.=" WHERE hapus=0 ";
+		}
+		
+		if(!empty($tanggal1)){
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";	
+		}
+		
+		if(!empty($cmt)){
+			$sql.=" AND id_cmt='".$cmt."' ";
+		}
+		$sql.=" ORDER BY id DESC ";
+		$results=array();
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($results);
+		$no=1;
+		$jmlsetor=0;
+		$jmlkirim=0;
+		foreach($results as $result){
+			$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$result['id_cmt']));
+			$data['products'][]=array(
+				'no'=>$no++,
+				'id'=>$result['id'],
+				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'nama'=>strtolower($cmt['cmt_name']),
+				'kode_po'=>$result['kode_po'],
+				'tagihan'=>$result['tagihan'],
+				'detail'=>BASEURL.'Pembayaran/cmtjahit_skb_detail/'.$result['id'],
+				'hapus'=>BASEURL.'Pembayaran/cmtjahit_skb_hapus/'.$result['id'],
+			);
+		}
+		//pre($data['products']);
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		// rekapan gaji sukabumi
+		$data['gajiskb']=[];
+		$data['opsskb']=[];
+		$data['vermak']=0;
+		if(!empty($cmt)){
+			$data['gajiskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM gajisukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['opsskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+		}
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'pembayaran/cmtjahit_list_excel',$data);
+		}else if(isset($get['rekap'])){
+			$this->load->view($this->page.'pembayaran/cmtjahit_rekap',$data);
+		}else{
+			$data['page']=$this->page.'pembayaran/cmtjahit_list_skb';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
+	public function cmtjahit_skb_detail($id){
+		$data['title']='Detail Pembayaran CMT Sukabumi';
+		$data['prods']=$this->GlobalModel->GetDataRow('pembayaran_skb',array('id'=>$id));
+		$data['setor']=$this->GlobalModel->GetData('pembayaran_skb_setor',array('id_pembayaran_skb'=>$id));
+		$data['pmby']=$this->GlobalModel->GetData('pembayaran_skb_pmb',array('id_pembayaran_skb'=>$id));
+		$data['alat']=$this->GlobalModel->GetData('pembayaran_skb_alat',array('idpembayaran'=>$id));
+		$kode_po=explode("_", $data['prods']['kode_po']);
+		$cmt=$data['prods']['id_cmt'];
+		$data['cmt']=$cmt;
+		$data['kode_po']=$kode_po[0];
+		$data['action']=null;
+		$data['kirim']=[];
+		if(!empty($kode_po)){
+			$data['kirim']=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$cmt."' AND hapus=0 ");
+		}
+		$get=$this->input->get();
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'pembayaran/cmtjahit_detail_skb_excel',$data);
+		}else{
+			$data['page']=$this->page.'pembayaran/cmtjahit_detail_skb';
+			$this->load->view($this->page.'main',$data);
+		}
+			
+	}
+	public function cmtjahitsave_skb(){
+		$data=$this->input->post();
+		//pre($data);		
+		$po=$this->GlobalModel->QueryManualRow("SELECT * FROM produksi_po WHERE kode_po LIKE '%".$data['kode_po']."%' LIMIT 1 ");
+		$insert=array(
+			'tanggal'=>$data['tgl'],
+			'idpo'=>$po['id_produksi_po'],
+			'kode_po'=>$data['kode_po'],
+			'id_cmt'=>$data['id_cmt'],
+			'tagihan'=>$data['tagihan'],
+			'hapus'=>0,
+		);
+		$this->db->insert('pembayaran_skb',$insert);
+		$id=$this->db->insert_id();
+		// po
+		foreach($data['po'] as $p){
+			$pembayaran_skb_po=array(
+				'id_pembayaran_skb'=>$id,
+				'tanggal'=>$p['tanggal'],
+				'idpo'=>$po['id_produksi_po'],
+				'kode_po'=>$data['kode_po'],
+				'jumlah_dz'=>$p['dz'],
+				'jumlah_pcs'=>$p['pcs'],
+				'harga'=>$p['harga'],
+				'total'=>$p['nilaipo'],
+				'hapus'=>0,
+			);
+			$this->db->insert('pembayaran_skb_po',$pembayaran_skb_po);
+		}
+
+		// po setor
+		foreach($data['setor'] as $p){
+			$pembayaran_skb_setor=array(
+				'id_pembayaran_skb'=>$id,
+				'tanggal'=>$p['tanggal'],
+				'idpo'=>$po['id_produksi_po'],
+				'kode_po'=>$data['kode_po'],
+				'jumlah_pcs_kirim'=>$p['kirim_pcs']==0?null:$p['kirim_pcs'],
+				'jumlah_pcs_setor'=>$p['setor_pcs']==0?null:$p['setor_pcs'],
+				'hapus'=>0,
+			);
+			$this->db->insert('pembayaran_skb_setor',$pembayaran_skb_setor);
+		}
+
+		// pembayaran
+		if(isset($data['pmby'])){
+			foreach($data['pmby'] as $p){
+				$pembayaran_skb_pmb=array(
+					'id_pembayaran_skb'=>$id,
+					'tanggal'=>$p['tgl'],
+					'rincian'=>$p['rincian'],
+					'kredit'=>$p['kredit'],
+					'saldo'=>$p['saldo'],
+					'keterangan'=>'Pembayaran '.($p['percent']*100).' %',
+					'hapus'=>0,
+				);
+				$this->db->insert('pembayaran_skb_pmb',$pembayaran_skb_pmb);
+			}
+		}else{
+			$kode_po=explode("_", $data['kode_po']);
+			$p=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$data['id_cmt']."' AND hapus=0 ");
+				$pembayaran_skb_pmb=array(
+					'id_pembayaran_skb'=>$id,
+					'tanggal'=>$p['tanggal'],
+					'rincian'=>$p['pcs'],
+					'kredit'=>0,
+					'saldo'=>$data['tagihan'],
+					'keterangan'=>'Pembayaran 100 %',
+					'hapus'=>0,
+				);
+				$this->db->insert('pembayaran_skb_pmb',$pembayaran_skb_pmb);
+		}
+
+		// alat
+				if(isset($data['alat'])){
+					foreach($data['alat'] as $p){
+						$pembayaran_skb_alat=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalalat+=($p['qty']*$p['harga']);
+						$this->db->insert('pembayaran_skb_alat',$pembayaran_skb_alat);
+					}
+				}
+
+		$this->session->set_flashdata('msg','Data berhasil ditambah');
+		redirect(BASEURL.'Pembayaran/cmtjahit_skb');
+
 	}
 
 	public function caripembayaran(){

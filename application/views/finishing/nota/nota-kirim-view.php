@@ -12,13 +12,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Tanggal Awal</label>
-                                <input type="date" name="tanggal1" id="tanggal1" class="form-control" value="<?php echo $tanggal1?>">
+                                <input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1?>">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Tanggal Akhir</label>
-                                <input type="date" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
+                                <input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2?>">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -53,7 +53,7 @@
                                         <td><?php echo strtolower($sat['tujuan']) ?></td>
                                         <td>
                                             <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
-                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['kode_po'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
+                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['idpo'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
 
                                             <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
                                                 <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>

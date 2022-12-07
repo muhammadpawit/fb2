@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <label>Nama Cmt</label>
+            <label>Nama Cmt</label><br>
             <select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
                 <option value="*">Semua</option>
                 <?php foreach($cmt as $c){?>
@@ -32,19 +32,27 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
-            <label>Nama PO</label>
-            <select name="kode_po" id="kode_po" class="form-control autopo" data-live-search="true">
+            <label>Lokasi Cmt</label><br>
+            <select name="lokasicmt" id="lokasicmt" class="form-control select2bs4">
                 <option value="*">Semua</option>
+                <option value="1" <?php echo $lokasi==1?'selected':'';?>>Serang</option>
+                <option value="2" <?php echo $lokasi==2?'selected':'';?>>Jawa</option>
+                <option value="3" <?php echo $lokasi==3?'selected':'';?>>Sukabumi</option>
             </select>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <label>Action</label><br>
         <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
-        <button class="btn btn-info btn-sm" onclick="excel()">Excel</button>
+        <!-- <button class="btn btn-info btn-sm" onclick="excel()">Excel</button> -->
         <button class="btn btn-info btn-sm" onclick="tambah()">Tambah</button>
+        <?php if(isset($lokasi)) {?>
+            <?php if($lokasi==3){ ?>
+                <button class="btn btn-info btn-sm" onclick="rekap()">Rekap Per PO</button>
+            <?php } ?>
+        <?php } ?>
     </div>
     <div class="col-md-12">
         <table class="table table-bordered nosearch">
@@ -53,11 +61,8 @@
                     <th>No</th>
                     <th>Tanggal</th>
                     <th>Nama CMT</th>
-                    <th>Nama PO</th>
-                    <th>Kirim</th>
-                    <th>Harga</th>
-                    <th>Total Pembayaran</th>
-                    <th>Keterangan</th>
+                    <th>Kode PO</th>
+                    <th>Total Tagihan</th>
                     <th></th>
                 </tr>
             </thead>
@@ -68,13 +73,13 @@
                             <td><?php echo $p['no']?></td>
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['nama']?></td>
-                            <td><?php echo $p['kode_po']?></td>
-                            <td><?php echo $p['kirim']?></td>
-                            <td><?php echo $p['harga']?></td>
-                            <td><?php echo $p['total']?></td>
-                            <td><?php echo $p['keterangan']?></td>
+                            <td><?php echo ($p['kode_po'])?></td>
+                            <td><?php echo number_format($p['tagihan'])?></td>
                             <td>
-                                <a href="<?php echo $p['detail']?>" class="btn btn-success btn-sm">Get</a>
+                                <a href="<?php echo $p['detail']?>" class="btn btn-success btn-xs text-white">Detail</a>
+                                <?php if($menghapus==1){?>
+                                    <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs text-white">Hapus</a>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php } ?>
@@ -94,7 +99,7 @@
         var tanggal1=$("#tanggal1").val();
         var tanggal2=$("#tanggal2").val();
         var cmt=$("#cmt").val();
-        var po=$("#kode_po").val();
+        var lokasicmt=$("#lokasicmt").val();
         var url='?';
         if(tanggal1){
             url+='&tanggal1='+tanggal1;
@@ -105,11 +110,9 @@
         if(cmt!="*"){
             url+='&cmt='+cmt;
         }
-
-        if(po!="*"){
-            url+='&kode_po='+po;
+        if(lokasicmt!="*"){
+            url+='&lokasicmt='+lokasicmt;
         }
-
         location=url;
     }
 
@@ -117,7 +120,7 @@
         var tanggal1=$("#tanggal1").val();
         var tanggal2=$("#tanggal2").val();
         var cmt=$("#cmt").val();
-        var po=$("#kode_po").val();
+        var lokasicmt=$("#lokasicmt").val();
         var url='?&excel=1';
         if(tanggal1){
             url+='&tanggal1='+tanggal1;
@@ -128,11 +131,30 @@
         if(cmt!="*"){
             url+='&cmt='+cmt;
         }
-
-        if(po!="*"){
-            url+='&kode_po='+po;
+        if(lokasicmt!="*"){
+            url+='&lokasicmt='+lokasicmt;
         }
-        
+        location=url;
+    }
+
+    function rekap(){
+        var tanggal1=$("#tanggal1").val();
+        var tanggal2=$("#tanggal2").val();
+        var cmt=$("#cmt").val();
+        var lokasicmt=$("#lokasicmt").val();
+        var url='?&rekap=1';
+        if(tanggal1){
+            url+='&tanggal1='+tanggal1;
+        }
+        if(tanggal2){
+            url+='&tanggal2='+tanggal2;
+        }
+        if(cmt!="*"){
+            url+='&cmt='+cmt;
+        }
+        if(lokasicmt!="*"){
+            url+='&lokasicmt='+lokasicmt;
+        }
         location=url;
     }
 
