@@ -112,7 +112,7 @@ class Json extends CI_Controller {
 		foreach($results as $row){
 			$hasil[]=array(
 				'id'=>$row['nama_po'],
-				'text'=>$row['kode_po'].' '.$row['serian'],
+				'text'=>$row['kode_po'],
 			);
 		}
 
