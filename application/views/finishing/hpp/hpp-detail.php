@@ -694,7 +694,7 @@
 
                                     </tr>
 
-                                    <?php  } elseif ($explodeBordir[1] == "BORDIR") {  ;?>
+                                    <?php  } elseif (strtolower($explodeBordir[1]) == "bordir") {  ;?>
 
                                     <tr>
 
