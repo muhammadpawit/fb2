@@ -111,8 +111,8 @@ class Json extends CI_Controller {
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
 			$hasil[]=array(
-				'id'=>$row['nama_po'],
-				'text'=>$row['kode_po'],
+				'id'=>$row['nama_po'].'-'.$row['kode_po'],
+				'text'=>$row['kode_po'].' '.$row['serian'],
 			);
 		}
 
