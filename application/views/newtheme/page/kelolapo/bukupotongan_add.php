@@ -193,9 +193,13 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-         <a href="<?php echo BASEURL.'kelolapo/bukupotongan';?>" class="btn btn-danger">Batal</a>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+    <div class="col-md-6">
+         <a href="<?php echo BASEURL.'kelolapo/bukupotongan';?>" class="btn btn-danger full">Batal</a>
+        
+    </div>
+    <div class="col-md-6">
+         
+        <button type="submit" class="btn btn-primary full">Simpan</button>
     </div>
 </div>
 </form>
