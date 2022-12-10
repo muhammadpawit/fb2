@@ -364,7 +364,8 @@ class Setorancmt extends CI_Controller {
 		$data=$this->input->post();
 		$idcmt=explode("-",$data['namacmt']);
 		//$sql="SELECT k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
-		$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
+		//$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
+		$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0  ";
 		$sj=$this->GlobalModel->queryManual($sql);
 		$i=0;
 		$no=1;
