@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-12">
        <div class="alert" style="background-color: #eb4034 !important;color: white">
-           Stok Barang Gudang Dibawah Minimum Stok
+           Warning ! Stok Gudang Menipis dan Habis
        </div>
         <table class="table table-bordered yessearch">
             <thead>
