@@ -74,7 +74,7 @@
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['nama']?></td>
                             <td><?php echo ($p['kode_po'])?></td>
-                            <td><?php echo number_format($p['tagihan'])?></td>
+                            <td><?php echo number_format($p['tagihan']-$p['potongan_alat'])?></td>
                             <td>
                                 <a href="<?php echo $p['detail']?>" class="btn btn-success btn-xs text-white">Detail</a>
                                 <?php if($menghapus==1){?>
