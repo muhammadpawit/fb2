@@ -45,6 +45,7 @@ header("Content-Disposition: attachment; filename=Pemnbayaran_cmt_jahit_detail_p
             </tr>
         </table>
     </div>
+    <br>
     <div class="form-group">
         <label>Setoran PO CMT</label>
         <table border="1" style="border-collapse: collapse;width: 100%">
@@ -80,6 +81,7 @@ header("Content-Disposition: attachment; filename=Pemnbayaran_cmt_jahit_detail_p
             </tr>
         </table>
     </div>
+    <br>
     <div class="form-group">
         <label>Pembayaran CMT</label>
         <table border="1" style="border-collapse: collapse;width: 100%">
@@ -94,7 +96,9 @@ header("Content-Disposition: attachment; filename=Pemnbayaran_cmt_jahit_detail_p
             </tr>
             </thead>
             <tbody>
+                <?php $saldo=0;?>
                 <?php foreach($pmby as $pm){?>
+                    <?php $saldo+=($pm['saldo']);?>
                     <tr align="center">
                         <td><?php echo $pm['tanggal']?></td>
                         <td><?php echo $pm['rincian']?></td>
@@ -104,8 +108,22 @@ header("Content-Disposition: attachment; filename=Pemnbayaran_cmt_jahit_detail_p
                     </tr>
                 <?php } ?>
             </tbody>
+            <?php 
+            $pengurang=0;
+            foreach($alat as $a){
+                $pengurang+=($a['total']);
+            }
+
+            ?>
+            <tfoot>
+                <tr>
+                    <td colspan="3" align="center"><b>Total Yang Harus Dibayarkan</b></td>
+                    <td align="center"><b><?php echo ($saldo-$pengurang) ?></b></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
+    <br>
     <div class="form-group">
         <label>Pembelian Alat-alat</label>
         <table border="1" style="border-collapse: collapse;width: 100%">

@@ -10,6 +10,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 ?>
 <style type="text/css">
   @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  body{text-transform:capitalize !important;/*color:blue !important;*/} 
   .registered {
     font-family: 'Baskervville', serif;
   }
