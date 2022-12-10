@@ -371,7 +371,7 @@ class Setorancmt extends CI_Controller {
 		$no=1;
 		if(!empty($sj)){
 			foreach($sj as $s){
-				if( ($s['jumlah_pcs']-$s['totalsetor'])>0 ){
+				if( ($s['jumlah_pcs']-$s['totalsetor'])>2 ){
 					echo "<tr>";
 					echo '<td>'.$no.' <input type="checkbox" name="products['.$i.'][pilih]"><input type="hidden" name="products['.$i.'][kode_po] class="form-control" value="'.$s['kode_po'].'"><input type="hidden" name="products['.$i.'][idkirim] class="form-control" value="'.$s['idkirim'].'"></td>';
 					echo '<td>'.$s['kode_po'].'</td>';
