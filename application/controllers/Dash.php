@@ -519,6 +519,8 @@ class Dash extends CI_Controller {
 				'status'=>$r['status']==1?'sudah diproses':'belum diproses',
 			);
 		}
+		$data['menipis']=[];
+		$data['menipis']=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
 	}
