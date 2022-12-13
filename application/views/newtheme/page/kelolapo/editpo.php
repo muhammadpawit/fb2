@@ -8,7 +8,18 @@
 					<th>Kode Artikel</th>
 					<th>:</th>
 					<th><input type="text" name="kode_artikel" value="<?php echo $detail['kode_artikel']?>" class="form-control"></th>
-				</tr>				
+				</tr>	
+				<tr>
+					<th>Nama PO</th>
+					<th>:</th>
+					<td>
+						<select class="form-control selectpicker select2bs4" name="namaPO" data-title="Pilih Jenis PO" data-live-search="true">
+                            <?php foreach ($JenisPo as $key => $jenis): ?>
+                                <option value="<?php echo $jenis['nama_jenis_po'] ?>" <?php echo (strtolower($jenis['nama_jenis_po'])==strtolower($detail['nama_po']))?'selected':''; ?>><?php echo $jenis['nama_jenis_po'] ?></option>
+                            <?php endforeach ?>
+                        </select>
+					</td>
+				</tr>			
 				<tr>
 					<th>Kode PO</th>
 					<th>:</th>
