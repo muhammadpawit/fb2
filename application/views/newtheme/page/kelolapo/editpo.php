@@ -14,8 +14,8 @@
 					<th>:</th>
 					<td>
 						<select class="form-control selectpicker select2bs4" name="namaPO" data-title="Pilih Jenis PO" data-live-search="true">
-                            <?php foreach ($JenisPo as $key => $jenis): ?>
-                                <option value="<?php echo $jenis['nama_jenis_po'] ?>" <?php echo (strtolower($jenis['nama_jenis_po'])==strtolower($detail['nama_po']))?'selected':''; ?>><?php echo $jenis['nama_jenis_po'] ?></option>
+                            <?php foreach ($namapo as $key => $nama): ?>
+                                <option value="<?php echo $nama['nama_jenis_po'] ?>" <?php echo (strtolower($nama['nama_jenis_po'])==strtolower($detail['nama_po']))?'selected':''; ?>><?php echo $nama['nama_jenis_po'] ?></option>
                             <?php endforeach ?>
                         </select>
 					</td>

@@ -16,7 +16,7 @@ class Kelolapo extends CI_Controller {
 		$data=[];
 		$data['title']='Edit PO ';
 		$data['detail']=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$kode_po));
-		$data['JenisPo'] = $this->GlobalModel->getData('master_jenis_po',null);
+		$data['namapo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
 		$data['page']=$this->page.'editpo';
 		$data['batal']=BASEURL.'Kelolapo/produksipo';
