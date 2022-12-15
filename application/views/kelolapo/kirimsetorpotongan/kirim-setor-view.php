@@ -80,7 +80,11 @@
                                 <td><?php echo $sat['progress'] ?></td>
                                 <td>
                                   <?php if($sat['progress']=="KIRIM"){?>
+                                    <?php if(strtolower($sat['kategori_cmt'])=="sablon"){?>
+                                      <a target="_blank" href="<?php echo BASEURL?>Kelolapo/kirimcmtsablonview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                    <?php }else{ ?>
                                     <a target="_blank" href="<?php echo BASEURL?>Kelolapo/kirimcmtview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                  <?php } ?>
                                   <?php } ?>
 
                                   <?php if($sat['progress']=="SETOR"){?>
