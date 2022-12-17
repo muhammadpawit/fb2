@@ -1398,7 +1398,9 @@ class Finishing extends CI_Controller {
 					$this->GlobalModel->insertData('finishing_kirim_gudang_faktur',$dataKirim);
 
 					$setorFinishRinci = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$kodepo));
+					$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$kodepo));
 						$dataInsert = array(
+							'idpo'				=> $idpo['id_produksi_po'],
 							'nofaktur'			=> 	$post['noFaktur'],
 							'nama_penerima'		=>  $post['namaPenerima'],
 							'tujuan'			=>	$post['tujuanItem'],
