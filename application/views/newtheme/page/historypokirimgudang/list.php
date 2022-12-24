@@ -17,13 +17,16 @@
 			<label>Rincian Setoran</label>
 			<table class="table table-bordered">
 				<thead>
-					<th>Tanggal Setoran</th>
+					<th>No</th>
+					<th>Hari / Tanggal</th>
 					<th>Kode PO</th>
 					<th>Rincian</th>
 				</thead>
 				<tbody>
+					<?php $nom=1;?>
 					<?php foreach($results['setoran'] as $s){?>
 						<tr>
+							<td><?php echo $nom++; ?></td>
 							<td><?php echo $s['tgl']?></td>
 							<td><?php echo $s['kode_po']?></td>
 							<td>
@@ -50,7 +53,7 @@
 			<table class="table table-bordered">
 				<thead>
 					<th>No</th>
-					<th>Tanggal Kirim Gudang</th>
+					<th>Hari / Tanggal</th>
 					<th>Kode PO</th>
 					<th>Rincian</th>
 				</thead>
@@ -91,7 +94,7 @@
 					<?php foreach($results['stok'] as $key=>$val){?>
 						<tr>
 							<td><?php echo $key ?></td>
-							<td><?php echo $val ?> Dz</td>
+							<td><b><?php echo $val ?> Dz</b></td>
 						</tr>
 					<?php } ?>
 				</tbody>

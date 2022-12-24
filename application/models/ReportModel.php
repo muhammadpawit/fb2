@@ -2126,7 +2126,7 @@ class ReportModel extends CI_Model {
 			$st[] = array(
 				'id'=>$s['id_kelolapo_rincian_setor_cmt'],
 				'kode_po'=>$s['kode_po'],
-				'tgl'=>date('d-m-Y',strtotime($s['created_date'])),
+				'tgl'=>hari(date('l',strtotime($s['created_date']))).', '.date('d-m-Y',strtotime($s['created_date'])),
 				'detail'=>$this->GlobalModel->GetData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$s['id_kelolapo_rincian_setor_cmt'])),
 			);
 		}
@@ -2139,7 +2139,7 @@ class ReportModel extends CI_Model {
 				'id_finishing_kirim_gudang'=>$kg['id_finishing_kirim_gudang'],
 				'kode_po'=>$kg['kode_po'],
 				'kirim'=>$kg['jumlah_piece_diterima'],
-				'tgl'=>hari(date('l',strtotime($kg['created_date']))).','.date('d-m-Y',strtotime($kg['created_date'])),
+				'tgl'=>hari(date('l',strtotime($kg['created_date']))).', '.date('d-m-Y',strtotime($kg['created_date'])),
 				'detail'=>$this->GlobalModel->GetData('finishing_kirim_gudang_rincian',array('id_finishing_kirim_gudang'=>$kg['id_finishing_kirim_gudang'])),
 			);
 		}
