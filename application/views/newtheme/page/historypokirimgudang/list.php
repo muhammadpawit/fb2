@@ -94,7 +94,7 @@
 					<?php foreach($results['stok'] as $key=>$val){?>
 						<tr>
 							<td><?php echo $key ?></td>
-							<td><b><?php echo $val ?> Dz</b></td>
+							<td><b><?php echo ($val==0)?'<i class="text-danger">Habis</i>':$val.' Dz' ?></b></td>
 						</tr>
 					<?php } ?>
 				</tbody>
