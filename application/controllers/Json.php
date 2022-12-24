@@ -172,6 +172,7 @@ class Json extends CI_Controller {
 		$bordir=0;
 		$kirimjahit=0;
 		$setorjahit=0;
+		$stokfinishing=0;
 		
 		if(!empty($allpos)){
 			foreach($allpos as $p){
@@ -202,6 +203,7 @@ class Json extends CI_Controller {
 					$setorcmt,
 					$kirimgudang,
 					$selisih,
+					($setorcmt-$kirimgudang),
 				);
 				$nomors++;
 			}

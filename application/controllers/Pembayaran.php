@@ -1044,6 +1044,18 @@ class Pembayaran extends CI_Controller {
 		}
 	}
 
+	public function cmtjahit_skb_hapus($id){
+		$update = array(
+			'hapus'=>1,
+		);
+		$where = array(
+			'id'=>$id
+		);
+		$this->db->update('pembayaran_skb',$update,$where);
+		$this->session->set_flashdata('msg','Data berhasil ditambah');
+		redirect(BASEURL.'Pembayaran/cmtjahit_skb');
+	}
+
 	public function cmtjahit_skb_detail($id){
 		$data['title']='Detail Pembayaran CMT Sukabumi';
 		$data['prods']=$this->GlobalModel->GetDataRow('pembayaran_skb',array('id'=>$id));

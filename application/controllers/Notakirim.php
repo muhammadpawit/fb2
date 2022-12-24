@@ -108,6 +108,7 @@ class Notakirim extends CI_Controller {
 		foreach ($viewData['gudangfb'] as $key => $idkirim) {
 			$data[$idkirim['kode_po']] = $this->GlobalModel->getData('finishing_kirim_gudang_rincian',array('id_finishing_kirim_gudang'=>$idkirim['id_finishing_kirim_gudang']));
 		}
+		//pre($data);
 		$viewData['dataRinci'] = $data;
 		$viewData['cancel']=$this->link;
 		$viewData['excel']=$this->link.'Detail/'.$noFaktur.'?&excel=1'.$url;
@@ -229,6 +230,67 @@ class Notakirim extends CI_Controller {
 		$viewData['no']=1;
 		$viewData['page']='finishing/nota/edit';
 		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	public function kirim_next($noFaktur='')
+	{
+		$viewData['gudangfb'] = $this->GlobalModel->queryManual('SELECT fkg.idpo,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.idpo="'.$noFaktur.'" ');
+			$data = array();
+		foreach ($viewData['gudangfb'] as $key => $idkirim) {
+			$data[$idkirim['kode_po']] = $this->GlobalModel->queryManual('SELECT * FROM finishing_kirim_gudang_rincian WHERE susulan=1 GROUP BY rincian_size');
+		}
+		$viewData['dataRinci'] = $data;
+		$viewData['cancel']=$this->link;
+		$viewData['edit']=BASEURL.'Notakirim/next_save';
+		$viewData['no']=1;
+		$viewData['page']='finishing/nota/next';
+		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	public function next_save(){
+		$post = $this->input->post();
+		//pre($post);
+		$dz=0;
+		$pcs=0;
+		$totalterima=0;
+						$idpo=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
+						//pre($idpo);
+						foreach($post['rincian'] as $r){
+							$dz+=($r['dz']);
+						}
+						$dataInsert = array(
+							'idpo'				=> $idpo['id_produksi_po'],
+							'nofaktur'			=> 	$post['nofaktur'],
+							'nama_penerima'		=>  'Gudang Forboys',
+							'tujuan'			=>	'Tanah Abang',
+							'artikel_po'			=>	$idpo['kode_artikel'], 
+							'kode_po'			=> 	$idpo['kode_po'],
+							'harga_satuan'		=> 	$idpo['harga_satuan'],
+							'jumlah_harga_piece'	=> ($dz*12) * $idpo['harga_satuan'],
+							'jumlah_piece_diterima'	=>($dz*12),
+							'keterangan'		=>'',
+							'created_date'		=> date('Y-m-d H:i:s'),
+							'tanggal_kirim'		=>	$post['tanggal_kirim'],
+							'susulan'			=> 1,
+
+						);
+						 $this->GlobalModel->insertData('finishing_kirim_gudang',$dataInsert);
+						 $lastId = $this->db->insert_id();
+
+						foreach($post['rincian'] as $r){
+							$dataRincian = array(
+								'id_finishing_kirim_gudang'		=> $lastId,
+								'rincian_size'		=> $r['rincian_size'], 
+								'rincian_lusin'		=> $r['dz'], 
+								'rincian_piece'		=> $r['pcs'],
+								'created_date'		=> date('Y-m-d H:i:s')
+							);
+							$this->GlobalModel->insertData('finishing_kirim_gudang_rincian',$dataRincian);
+						}
+
+		$this->session->set_flashdata('msg','Berhasil Di Simpan');
+		redirect(BASEURL.'Finishing/pengirimangudang');				
+		//pre($post);
 	}
 
 	public function editsave(){

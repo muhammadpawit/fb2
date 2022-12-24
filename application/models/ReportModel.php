@@ -2114,4 +2114,64 @@ class ReportModel extends CI_Model {
 		}
 		return $hasil;
 	}
+
+	public function historypokirimgudang($idpo){
+		$hasil=[];
+		// rincian setoran
+		$setoran=[];
+		$setoran=$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_rincian_setor_cmt WHERE idpo = '".$idpo."'");
+		$st=[];
+		$std=[];
+		foreach($setoran as $s){
+			$st[] = array(
+				'id'=>$s['id_kelolapo_rincian_setor_cmt'],
+				'kode_po'=>$s['kode_po'],
+				'tgl'=>date('d-m-Y',strtotime($s['created_date'])),
+				'detail'=>$this->GlobalModel->GetData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$s['id_kelolapo_rincian_setor_cmt'])),
+			);
+		}
+		$kirimgudang=[];
+		$kirimgudang=$this->GlobalModel->QueryManual("SELECT * FROM finishing_kirim_gudang WHERE idpo = '".$idpo."'");
+		$detail=[];
+		$kirimgd=[];
+		foreach($kirimgudang as $kg){
+			$kirimgd[]=array(
+				'id_finishing_kirim_gudang'=>$kg['id_finishing_kirim_gudang'],
+				'kode_po'=>$kg['kode_po'],
+				'kirim'=>$kg['jumlah_piece_diterima'],
+				'tgl'=>date('d-m-Y',strtotime($kg['created_date'])),
+				'detail'=>$this->GlobalModel->GetData('finishing_kirim_gudang_rincian',array('id_finishing_kirim_gudang'=>$kg['id_finishing_kirim_gudang'])),
+			);
+		}
+
+		$stokset=[];
+		//pre($st);
+		foreach($st as $s){
+			foreach($s['detail'] as $sd){
+				$stokset[$sd['rincian_size']]+=$sd['rincian_lusin'];
+			}
+		}
+
+		foreach($kirimgd as $s){
+			foreach($s['detail'] as $sd){
+				$kirimgdset[$sd['rincian_size']]+=$sd['rincian_lusin'];
+			}
+		}
+
+		$merge=[];
+		foreach($st as $s){
+			foreach($s['detail'] as $sd){
+				$merge[$sd['rincian_size']]=$sd['rincian_lusin']-$kirimgdset[$sd['rincian_size']];
+			}
+		}
+
+		$hasil=array(
+			'setoran'=>$st,
+			'kirimgudang'=>$kirimgd,
+			'stokset'=>$stokset,
+			'kirimgdset'=>$kirimgdset,
+			'stok'=>$merge,
+		);
+		return $hasil;
+	}
 }

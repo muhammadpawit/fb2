@@ -73,6 +73,7 @@
                                             <?php if(akseshapus()==1){?>
                                                 <a href="<?php echo BASEURL.'Finishing/hapuskgudang/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-danger btn-xs text-white">Hapus</a>
                                             <?php } ?>
+                                            <a href="<?php echo BASEURL.'Notakirim/kirim_next/'.$sat['idpo'] ?>" class="btn btn-warning btn-xs text-white">Pengiriman Selanjutnya</a>
                                         </td>
                                     </tr>
                                     <?php endforeach ?>
