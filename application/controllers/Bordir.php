@@ -969,7 +969,9 @@ class Bordir extends CI_Controller {
 
 	public function mesinharian_save(){
 		$data=$this->input->post();
+		$mesin=[];
 		foreach($data['prods'] as $p){
+			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>1,'nomer_mesin'=>$p['mesin_bordir']));
 			$update=array(
 				'created_date'=>$p['created_date'],
 				'nama_operator'=>$p['nama_operator'],
@@ -978,6 +980,7 @@ class Bordir extends CI_Controller {
 				'perkalian_tarif'=>$p['perkalian_tarif'],
 				'total_stich'=>round($p['jumlah_naik_mesin']*$p['stich']),
 				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
+				'gaji'  => round(($p['jumlah_naik_mesin']*$p['stich'])*0.15*$mesin['persenan']),
 			);
 			$where=array(
 				'id_kelola_mesin_bordir' => $p['id'],
