@@ -2,7 +2,12 @@
 	 body{text-transform:capitalize;font-size: 20px;}
 	 .hs { font-size: 22px;font-weight: bold; }
 	 .break{ page-break-after: always; }
+	 @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+	  .registered {
+	    font-family: 'Baskervville', serif;
+	  }
 	 footer {
+	 	font-family: 'Baskervville', serif;
                 position: fixed; 
                 bottom: 0cm; 
                 left: 0cm; 
@@ -141,5 +146,5 @@
 
 
 		 <footer>
-            Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?>
+            <i>Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i>
         </footer>
