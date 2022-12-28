@@ -10,9 +10,9 @@
                 height: 2cm;
 
                 /** Extra personal styles **/
-                background-color: #03a9f4;
+                /*background-color: #03a9f4;*/
                 color: white;
-                text-align: center;
+                text-align: right;
                 line-height: 1.5cm;
             }
 </style>
