@@ -11,7 +11,7 @@
 
                 /** Extra personal styles **/
                 /*background-color: #03a9f4;*/
-                color: white;
+                color: blue;
                 text-align: right;
                 line-height: 1.5cm;
             }
