@@ -146,5 +146,5 @@
 
 
 		 <footer>
-            <i>Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i>
+            <i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
         </footer>
