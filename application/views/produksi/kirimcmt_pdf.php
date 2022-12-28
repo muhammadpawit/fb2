@@ -2,6 +2,19 @@
 	 body{text-transform:capitalize;font-size: 20px;}
 	 .hs { font-size: 22px;font-weight: bold; }
 	 .break{ page-break-after: always; }
+	 footer {
+                position: fixed; 
+                bottom: 0cm; 
+                left: 0cm; 
+                right: 0cm;
+                height: 2cm;
+
+                /** Extra personal styles **/
+                background-color: #03a9f4;
+                color: white;
+                text-align: center;
+                line-height: 1.5cm;
+            }
 </style>
 <div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
 	<div class="logo" style="border:0px solid yellow;background-image: url('https://forboysproduction.com/assets/images/0001.jpg');height: 200px;width: 220px;background-position: top;background-size: contain;background-repeat: no-repeat;float: left;display: block;">
@@ -125,3 +138,8 @@
 				</td>
 			</tr>
 		</table>
+
+
+		 <footer>
+            Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?>
+        </footer>
