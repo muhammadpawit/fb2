@@ -190,7 +190,7 @@ class Barangkeluar extends CI_Controller {
 		$data = $this->input->post();
 		//pre($data);
 		$dataInserted = array(
-			'tanggal'=>$data['tanggal'],
+			'tanggal'=>$data['tgl'],
 			'bagian'=>$data['bagian'],
 			'pengambil'=>$data['pengambil'],
 			'gudang'=>$data['gudang'],
@@ -202,7 +202,7 @@ class Barangkeluar extends CI_Controller {
 		$id=$this->db->insert_id();
 		foreach($data['products'] as $p){
 			$detail=array(
-				'tanggal'=>$data['tanggal'],
+				'tanggal'=>$data['tgl'],
 				'idbarangkeluarharian'=>$id,
 				'idpersediaan'=>$p['idpersediaan'],
 				'nama'=>$p['nama'],
@@ -213,7 +213,7 @@ class Barangkeluar extends CI_Controller {
 			);
 			$this->db->insert('barangkeluarharian_detail',$detail);
 			$kartustok=array(
-				'tanggal'=>$data['tanggal'],
+				'tanggal'=>date($data['tgl'].' H:i:s'),
 				'idproduct'=>$p['idpersediaan'],
 				'nama'=>$p['nama'],
 				'saldomasuk_uk'=>0,
