@@ -1104,7 +1104,7 @@ class Gudang extends CI_Controller {
 
 	public function penerimaanitemsave(){
 		$data=$this->input->post();
-		pre($data);
+		//pre($data);
 		if(isset($data['products'])){
 			if(!empty($data['products'])){
 				$it=array(
