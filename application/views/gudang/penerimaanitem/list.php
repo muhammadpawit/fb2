@@ -60,40 +60,44 @@
                   <th>Bagian</th>
                   <th>Tanggal</th>
                   <th>Nama Supplier</th>
-                  <th>No Surat Jalan / Nota</th>
+                  <th>Nama Item</th>
+                  <th style="text-align: center !important;">Jumlah</th>
                   <th>Keterangan</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <?php foreach($items as $i){?>
-                  <tr>
-                    <td><?php echo $n++?></td>
-                    <td>
-                      <?php 
-                        if($i['jenis']==1){
-                          echo "Konveksi";
-                        }else if($i['jenis']==2){
-                          echo "Bordir";
-                        }else if($i['jenis']==3){
-                          echo "Alat-alat Konveksi";
-                        }else if($i['jenis']==4){
-                          echo "Sablon";
-                        }else{
-                          echo "Default";
-                        }
-                      ?>
-                    </td>
-                    <td><?php echo $i['tanggal']?></td>
-                    <td><?php echo $i['supplier']?></td>
-                    <td><?php echo $i['nosj']?></td>
-                    <td><?php echo $i['keterangan']?></td>
-                    <td class="right">
-                      <?php foreach ($i['action'] as $action) { ?>
-                        <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
-                          <?php } ?>
-                    </td>
-                  </tr>
+                  <?php foreach($i['prods'] as $p){?>
+                    <tr>
+                      <td><?php echo $n++?></td>
+                      <td>
+                        <?php 
+                          if($i['jenis']==1){
+                            echo "Konveksi";
+                          }else if($i['jenis']==2){
+                            echo "Bordir";
+                          }else if($i['jenis']==3){
+                            echo "Alat-alat Konveksi";
+                          }else if($i['jenis']==4){
+                            echo "Sablon";
+                          }else{
+                            echo "Default";
+                          }
+                        ?>
+                      </td>
+                      <td><?php echo $i['tanggal']?></td>
+                      <td><?php echo $i['supplier']?></td>
+                      <td><?php echo $p['nama']?></td>
+                      <td align="center"><?php echo $p['jumlah']?></td>
+                      <td><?php echo $p['keterangan']?></td>
+                      <td class="right">
+                        <?php foreach ($i['action'] as $action) { ?>
+                          <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                            <?php } ?>
+                      </td>
+                    </tr>
+                  <?php } ?>
                 <?php } ?>
               </tbody>
             </table>

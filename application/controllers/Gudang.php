@@ -1059,7 +1059,7 @@ class Gudang extends CI_Controller {
 				'href'=>BASEURL.'Gudang/penerimaanitemdetail/'.$result['id'],
 			);
 			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
-			$products=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$result['id']));
+			$products=$this->GlobalModel->getData('penerimaan_item_detail',array('hapus'=>0,'penerimaan_item_id'=>$result['id']));
 			$data['items'][]=array(
 				'id'=>$result['id'],
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
@@ -1104,11 +1104,11 @@ class Gudang extends CI_Controller {
 
 	public function penerimaanitemsave(){
 		$data=$this->input->post();
-		
+		pre($data);
 		if(isset($data['products'])){
 			if(!empty($data['products'])){
 				$it=array(
-					'tanggal'=>isset($data['tgl'])?$data['tgl']:date('Y-m-d'),
+					'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
 					'supplier'=>$data['supplier'],
 					'nosj'=>$data['nosj'],
 					'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
@@ -1128,14 +1128,14 @@ class Gudang extends CI_Controller {
 						'satuanJml'=>$p['satuanJml'],
 						'harga'=>$p['harga'],
 						'keterangan'=>$p['keterangan'],
-						'tanggal'=>isset($data['tgl'])?$data['tgl']:date('Y-m-d'),
+						'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
 						'jenis'=>$data['jenis'],
 						'hapus'=>0
 					);
 					$this->db->insert('penerimaan_item_detail',$itd);					
 					if($data['jenis']==5){
 						$kartustok=array(
-							'tanggal'=>isset($data['tgl'])?$data['tgl']:date('Y-m-d'),
+							'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
 							'idproduct'=>$p['id_persediaan'],
 							'nama'=>$p['nama'],
 							'saldomasuk_uk'=>$p['jumlah'],
@@ -1148,7 +1148,7 @@ class Gudang extends CI_Controller {
 						$this->db->insert('kartustok_product',$kartustok);
 					}else{
 						$kartustok=array(
-							'tanggal'=>isset($data['tgl'])?$data['tgl']:date('Y-m-d'),
+							'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
 							'idproduct'=>$p['id_persediaan'],
 							'nama'=>$p['nama'],
 							'saldomasuk_uk'=>$p['ukuran'],
