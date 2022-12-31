@@ -232,9 +232,9 @@ class ReportModel extends CI_Model {
 		if($type==1){
 			$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
 		}else if($type==2){
-			$sql="SELECT SUM(hasil_lusinan_potongan) as total ,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
+			$sql="SELECT COALESCE(SUM(hasil_lusinan_potongan),0) as total ,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
 		}else{
-			$sql="SELECT SUM(hasil_pieces_potongan) as total ,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
+			$sql="SELECT COALESCE(SUM(hasil_pieces_potongan),0) as total ,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
 		}
 		$sql.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
 		$sql.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1231,7 +1231,7 @@ class ReportModel extends CI_Model {
 	
 	public function totalStich($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich) as total FROM kelola_mesin_bordir WHERE hapus=0";
+		$sql="SELECT COALESCE(SUM(total_stich),0) as total FROM kelola_mesin_bordir WHERE hapus=0";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1245,7 +1245,7 @@ class ReportModel extends CI_Model {
 
 	public function total018($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql="SELECT COALESCE(SUM(total_stich*0.18),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 		$sql.= " AND mesin_bordir='$nomor' AND mesin_bordir<>11 AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1259,7 +1259,7 @@ class ReportModel extends CI_Model {
 
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1274,7 +1274,7 @@ class ReportModel extends CI_Model {
 
 	public function total02_array($nomor,$shift,$tanggal1,$tanggal2){
 		$total=['total'=>0,'0.2'=>0,'0.3'=>0];
-		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total,laporan_perkalian_tarif as tarif FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total,laporan_perkalian_tarif as tarif FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1298,7 +1298,7 @@ class ReportModel extends CI_Model {
 		}else{
 			$perkalian=0.2;
 		}
-		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1313,7 +1313,7 @@ class ReportModel extends CI_Model {
 
 	public function total015($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
+		$sql="SELECT COALESCE(SUM(total_stich*0.15),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1329,7 +1329,7 @@ class ReportModel extends CI_Model {
 		$hasil=0;
 		$total1=0;
 		//$sql1="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.18%' ";
-		$sql1="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql1="SELECT COALESCE(SUM(total_stich*0.18),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 		$sql1.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql1.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1346,7 +1346,7 @@ class ReportModel extends CI_Model {
 		}else{
 			$perkalian=0.2;
 		}
-		$sql2="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql2="SELECT COALESCE(SUM(total_stich*laporan_perkalian_tarif),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql2.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql2.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1358,7 +1358,7 @@ class ReportModel extends CI_Model {
 
 		$total3=0;
 		//$sql3="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.15%' ";
-		$sql3="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
+		$sql3="SELECT COALESCE(SUM(total_stich*0.15),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
 		$sql3.= " AND mesin_bordir='$nomor'";
 		if(!empty($tanggal1)){
 			$sql3.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -1372,7 +1372,7 @@ class ReportModel extends CI_Model {
 	}
 
 	public function pendapatanbordirdalam($data,$jenis){
-		$sql="SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 and perkalian_tarif LIKE '%0.18%' ";
+		$sql="SELECT COALESCE(sum(total_stich),0) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 and perkalian_tarif LIKE '%0.18%' ";
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
@@ -1384,7 +1384,7 @@ class ReportModel extends CI_Model {
 	}
 
 	public function pendapatanbordirdalam15($data,$jenis){
-		$sql="SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 AND mesin_bordir=11 ";
+		$sql="SELECT COALESCE(sum(total_stich),0) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 AND mesin_bordir=11 ";
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}

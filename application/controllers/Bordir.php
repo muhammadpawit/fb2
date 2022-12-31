@@ -670,7 +670,7 @@ class Bordir extends CI_Controller {
 				'nomesin'=>$mes['nomor'],
 				'shift'=>$mes['shift'],
 				'stich'=>round($totalstich),
-				'0.18'=>round($total018),
+				'0.18'=>!empty($total018)?round($total018):0,
 				'0.2'=>($total02),
 				'0.18yn'=>0,
 				'0.15'=>round($total015),

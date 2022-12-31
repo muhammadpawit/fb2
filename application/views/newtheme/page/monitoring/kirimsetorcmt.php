@@ -27,8 +27,8 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4"></div>
-	<div class="col-md-4">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
 		<div class="alert" style="background-color: #3D6AA2 !important;color: white">Update <?php echo date('d F Y')?></div>
 		<table class="table table-bordered">
             <thead>
@@ -104,7 +104,7 @@
             </tbody>
         </table>
 	</div>
-	<div class="col-md-4"></div>
+	<div class="col-md-2"></div>
 </div>
 <div class="row">
 	<div class="col-md-6">
