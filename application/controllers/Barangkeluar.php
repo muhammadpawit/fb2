@@ -227,7 +227,7 @@ class Barangkeluar extends CI_Controller {
 			);
 			$this->db->insert('barangkeluarharian_detail',$detail);
 			$kartustok=array(
-				'tanggal'=>date($data['tgl'].' H:i:s'),
+				'tanggal'=>date('Y-m-d H:i:s'),
 				'idproduct'=>$p['idpersediaan'],
 				'nama'=>$p['nama'],
 				'saldomasuk_uk'=>0,
