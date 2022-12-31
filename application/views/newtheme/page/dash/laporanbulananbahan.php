@@ -4,7 +4,7 @@
 			<b>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?></b>
 			<br>
 			<b>
-				&bull; <?php echo $trans['keterangan'];?>
+				&bull; <?php echo isset($trans)?$trans['keterangan']:'';?>
 			</b>
 			<hr>
 			<h5>Bahan Kaos</h5>

@@ -28,11 +28,11 @@ class Historypokirimgudang extends CI_Controller {
 			$tanggal2=date('Y-m-d');
 		}
 		$data['kode_po']=$kode_po;
-		$idpo=explode("-", $kode_po);
+		$idpo=!empty($kode_po)?explode("-", $kode_po):null;
 		//pre($idpo);
 		$data['tanggal2']=$tanggal2;
 		$data['results']=[];
-		$results=$this->ReportModel->historypokirimgudang($idpo[0]);
+		$results=$this->ReportModel->historypokirimgudang(!empty($idpo)?$idpo[0]:0);
 		//pre($results);
 		$data['results']=$results;
 		if(isset($get['excel'])){

@@ -1993,7 +1993,7 @@ class ReportModel extends CI_Model {
 
 	public function klo_mingguan($idcmt,$tanggal1,$tanggal2,$kategori,$proses){
 		$hasil=[];
-		$sql="SELECT COUNT(kks.kode_po) as jmlpo, SUM(kks.qty_tot_pcs) as pcs FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
+		$sql="SELECT COUNT(kks.kode_po) as jmlpo, COALESCE(SUM(kks.qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
 		$sql.=" AND mjp.id_jenis_po NOT IN (42,37,36)";
 		$sql.=" AND kks.id_master_cmt='$idcmt' AND DATE(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND kks.kategori_cmt='".$kategori."' AND kks.progress='".$proses."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
@@ -2009,7 +2009,7 @@ class ReportModel extends CI_Model {
 
 	public function klo_mingguanjeans($idcmt,$tanggal1,$tanggal2,$kategori,$proses){
 		$hasil=[];
-		$sql="SELECT COUNT(kks.kode_po) as jmlpo, SUM(kks.qty_tot_pcs) as pcs FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
+		$sql="SELECT COUNT(kks.kode_po) as jmlpo, COALESCE(SUM(kks.qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
 		$sql.=" AND mjp.id_jenis_po IN (42,37,36)";
 		$sql.=" AND kks.id_master_cmt='$idcmt' AND DATE(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND kks.kategori_cmt='".$kategori."' AND kks.progress='".$proses."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
@@ -2282,7 +2282,7 @@ class ReportModel extends CI_Model {
 			'setoran'=>$st,
 			'kirimgudang'=>$kirimgd,
 			'stokset'=>$stokset,
-			'kirimgdset'=>$kirimgdset,
+			'kirimgdset'=>!empty($kirimgdset)?$kirimgdset:null,
 			'stok'=>$merge,
 		);
 		return $hasil;
