@@ -64,6 +64,7 @@
                   <th style="text-align: center !important;">Jumlah</th>
                   <th>Keterangan</th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -90,11 +91,16 @@
                       <td><?php echo strtolower($i['supplier']) ?></td>
                       <td><?php echo strtolower($p['nama']) ?></td>
                       <td align="center"><?php echo $p['jumlah']?></td>
-                      <td><?php echo strtolower($p['keterangan']) ?></td>
+                      <td><?php echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td>
                       <td class="right">
                         <?php foreach ($i['action'] as $action) { ?>
                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
                             <?php } ?>
+                      </td>
+                      <td>
+                        <?php if(akseshapus()==1){?>
+                          <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-sm">Hapus</a>
+                        <?php } ?>
                       </td>
                     </tr>
                   <?php } ?>

@@ -9,6 +9,7 @@ class Gudang extends CI_Controller {
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
+		$this->url=BASEURL.'Gudang/penerimaanitem';
 	}
 
 	public function kartustok($id){
@@ -1176,6 +1177,27 @@ class Gudang extends CI_Controller {
 		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id));
 		$data['page']='gudang/penerimaanitem/detail';
 		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function penerimaanitem_hapus($id){
+		$p=$this->GlobalModel->GetDataRow('penerimaan_item_detail',array('hapus'=>0,'id'=>$id));
+		//pre($p);
+		$kartustok=array(
+				'tanggal'=>date('Y-m-d H:i:s'),
+				'idproduct'=>$p['id_persediaan'],
+				'nama'=>$p['nama'],
+				'saldomasuk_uk'=>$p['ukuran'],
+				'saldomasuk_qty'=>$p['jumlah'],
+				'harga'=>0,
+				'keterangan'=>'Pembatalan Penerimaan item masuk oleh '.callSessUser('nama_user'),
+			);
+			kartustok($kartustok,2);
+		$this->db->query("UPDATE product set ukuran_item =ukuran_item-'".$p['ukuran']."', quantity = quantity-'".$p['jumlah']."' WHERE product_id='".$p['id_persediaan']."' ");
+			$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'".$p['ukuran']."', jumlah_item = jumlah_item-'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+		$this->db->update('penerimaan_item_detail',array('hapus'=>1),array('id'=>$id));
+
+		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
+		redirect($this->url);
 	}
 
 	public function itemmasuk()
