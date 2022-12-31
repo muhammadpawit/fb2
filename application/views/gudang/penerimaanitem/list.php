@@ -87,10 +87,10 @@
                         ?>
                       </td>
                       <td><?php echo $i['tanggal']?></td>
-                      <td><?php echo $i['supplier']?></td>
-                      <td><?php echo $p['nama']?></td>
+                      <td><?php echo strtolower($i['supplier']) ?></td>
+                      <td><?php echo strtolower($p['nama']) ?></td>
                       <td align="center"><?php echo $p['jumlah']?></td>
-                      <td><?php echo $p['keterangan']?></td>
+                      <td><?php echo strtolower($p['keterangan']) ?></td>
                       <td class="right">
                         <?php foreach ($i['action'] as $action) { ?>
                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
