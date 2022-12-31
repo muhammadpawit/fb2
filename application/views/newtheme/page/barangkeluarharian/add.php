@@ -3,7 +3,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Tanggal</label>
-                    <input type="text" name="tanggal" class="form-control" value="<?php echo date('Y-m-d')?>">
+                    <input type="text" name="tanggal" class="form-control datelockback" value="<?php echo date('Y-m-d')?>">
                   </div>
                 </div>
                 <div class="col-6">
