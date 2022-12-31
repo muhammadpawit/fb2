@@ -32,21 +32,6 @@ class AjuanbenangModel extends CI_Model {
 		$this->db->insert('ajuan_benang',$insert);
 		$id=$this->db->insert_id();
 
-		CREATE TABLE ajuan_benang_detail(
-		id int(10) primary key auto_increment,
-		id_ajuan_benang int(10),
-		tanggal date,
-		id_persediaan int(10),
-		nama varchar(50),
-		kebutuhan double,
-		stok_jkt double,
-		stok_skb double,
-		ajuan double,
-		satuan varchar(20),
-		keterangan varchar(100),
-		hapus int(1) default 0
-		);
-
 		foreach($data['prods'] as $$p){
 			$detail=array(
 				'id_ajuan_benang'=>$id,

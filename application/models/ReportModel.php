@@ -1594,7 +1594,7 @@ class ReportModel extends CI_Model {
 		$hasil=0;
 		$total=0;
 		$sql = "SELECT (sisa_qty) as total FROM kartustok_product WHERE hapus=0";
-		$sql.=" AND idproduct='$id' AND DATE(tanggal) < '".$tgl."' ORDER BY id DESC LIMIT 1";
+		$sql.=" AND idproduct='$id' AND DATE(tanggal) < '".$tgl."' ORDER BY tanggal DESC LIMIT 1";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d['total'];
