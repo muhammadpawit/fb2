@@ -416,6 +416,7 @@
         $("input[name=\'tanggal\']").attr('type', 'text');
         $("input[name=\'tanggal\']").addClass("datepicker");
         $("input[name=\'tanggal\']").attr("readonly",true);
+        $("input[name=\'tgl\']").attr("readonly",true);
         $("input[name=\'tanggalMulai\']").attr('type', 'text');
         $("input[name=\'tanggalEnd\']").attr('type', 'text');
         $("input[name=\'tanggalMulai\']").addClass("datepicker");
