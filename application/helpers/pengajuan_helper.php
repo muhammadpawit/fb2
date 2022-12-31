@@ -105,7 +105,7 @@
 		$qty=$CI->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$data['idproduct']));
 		if($type==1){
 			$insert=array(
-				'tanggal'=>$data['tanggal'],
+				'tanggal'=>date($data['tanggal'].' H:i:s'),
 				'idproduct'=>$data['idproduct'],
 				'nama'=>$data['nama'],
 				'saldoawal_uk'=>$saldoawal_uk,
@@ -122,7 +122,7 @@
 			);
 		}else{
 			$insert=array(
-				'tanggal'=>$data['tanggal'],
+				'tanggal'=>date($data['tanggal'].' H:i:s'),
 				'idproduct'=>$data['idproduct'],
 				'nama'=>$data['nama'],
 				'saldoawal_uk'=>$saldoawal_uk,
