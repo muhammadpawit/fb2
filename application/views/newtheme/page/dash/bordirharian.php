@@ -1,3 +1,55 @@
+<?php if(!empty($bulan)){?>
+<div class="row">
+  <div class="col-md-4">
+    <label>Pilih Bulan</label>
+    <select name="bulan" class="form-control select2bs4" id="bulan">
+      <?php foreach(bulan() as $b=>$val){?>
+        <option value="<?php echo $b ?>" <?php echo $b==$bulan?'selected':''; ?>><?php echo $val ?></option>
+      <?php } ?>      
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label>Pilih Tahun</label>
+    <select name="tahun" class="form-control select2bs4" id="tahun">
+      <?php for($i=2019;$i<=date('Y',strtotime("+1 year"));$i++){?>
+        <option value="<?php echo $i ?>" <?php echo $i==$tahun?'selected':''; ?>><?php echo $i ?></option>
+      <?php } ?>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <br>
+    <button class="btn btn-primary" onclick="filter_month_year()">Tampilkan</button>
+  </div>
+</div>
+<?php } ?>
+<?php if(isset($harian)){?>
+<div class="row">
+  <div class="col-md-4">
+    <label>Pilih Tanggal</label>
+    <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1 ?>" class="form-control datepicker">
+  </div>
+  <div class="col-md-4">
+    <br>
+    <button class="btn btn-primary" onclick="filter()">Tampilkan</button>
+  </div>
+</div>
+<?php } ?>
+<?php if(isset($mingguan)){?>
+<div class="row">
+  <div class="col-md-4">
+    <label>Pilih Tanggal</label>
+    <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1 ?>" class="form-control datepicker">
+  </div>
+  <div class="col-md-4">
+    <label>Pilih Tanggal</label>
+    <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2 ?>" class="form-control datepicker">
+  </div>
+  <div class="col-md-4">
+    <br>
+    <button class="btn btn-primary" onclick="filter()">Tampilkan</button>
+  </div>
+</div>
+<?php } ?>
 <!-- <div class="row">
   <div class="col-md-3">
     <div class="small-box bg-info">
@@ -16,6 +68,9 @@
   <h3 style="text-decoration: underline;"><?php echo $judullap ?></h3>
 </center>
 <?php echo $periode ?>
+<?php foreach(bulan() as $b=>$val){?>
+        <?php echo $b==$bulan?$val.' '.$tahun:''; ?>
+      <?php } ?>
 <table class="table table-bordered">
               <thead>
                 <tr style="background-color:yellow">
@@ -58,7 +113,7 @@
                       <?php foreach($luar as $b){?>
                       <td align="right">
                         <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php echo number_format($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
+                          <?php echo number_format(isset($p['dets'][$b['perkalian']])?$p['dets'][$b['perkalian']]:0);//echo json_encode($p['dets']) ?> 
                         <?php //} ?>
                       </td>
                     <?php } ?>
@@ -96,20 +151,20 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="form-group">
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
-            <th colspan="2">Pendapatan</th>
-            <th>Rp</th>
+            <th colspan="2" width="100">Pendapatan</th>
+            <th width="300">Rp</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colspan="2">Pendapatan PO Dalam</td>
+            <td colspan="2" width="100">Pendapatan PO Dalam</td>
             <!-- <td>:</td> -->
-            <td align="right"><?php echo number_format($totalpendapatan)?></td>
+            <td align="right" width="300"><?php echo number_format($totalpendapatan)?></td>
           </tr>
           <!-- <tr>
             <td>Pendapatan PO 0.15</td>
@@ -117,9 +172,9 @@
             <td align="right"><?php echo $p15?></td>
           </tr> -->
           <tr>
-            <td colspan="2">Pendapatan PO Luar / PO Homie</td>
+            <td colspan="2" width="100">Pendapatan PO Luar / PO Homie</td>
             <!-- <td>:</td> -->
-            <td align="right"><?php echo number_format($totalpoluar)?></td>
+            <td align="right" width="300"><?php echo number_format($totalpoluar)?></td>
           </tr>
           <!--<tr>
             <td colspan="2">Pendapatan PO Yuna</td>
@@ -139,17 +194,17 @@
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
-            <th colspan="2">Pengeluaran</th>
-            <th>Rp</th>
+            <th colspan="2" width="100">Pengeluaran</th>
+            <th width="300">Rp</th>
           </tr>
         </thead>
         <tbody>
           <?php $totalpengeluaran=0; ?>
           <?php foreach($pengeluarans as $pd){?>
               <tr>
-                <td colspan="2" width="155"><?php echo $pd['keterangan']?></td>
+                <td colspan="2" width="100"><?php echo $pd['keterangan']?></td>
                 <!-- <td>:</td> -->
-                <td align="right"><?php echo number_format($pd['total'])?></td>
+                <td align="right" width="300"><?php echo number_format($pd['total'])?></td>
               </tr>
               <?php $totalpengeluaran+=($pd['total']); ?>
           <?php } ?>
@@ -164,7 +219,7 @@
             <td></td>
           </tr>
           <tr>
-            <td colspan="2"><b>Laba Produksi</b></td>
+            <td colspan="2"><b>Laba Produksi Bordir</b></td>
             <td align="right"><b><?php echo number_format($totalpen-$totalpengeluaran)?></b></td>
           </tr>
         </tfoot>
@@ -173,6 +228,26 @@
   </div>
 </div>            
 <script type="text/javascript">
+
+  function filter_month_year(){
+    var url='?';
+    var tanggal1=$("#bulan").val();
+    var tanggal2=$("#tahun").val();
+    var nomesin=$("#nomesin").val();
+
+    if(tanggal1){
+      url+='&bulan='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tahun='+tanggal2;
+    }
+
+  
+
+    location=url;
+  }
+
   function filter(){
     var url='?';
     var tanggal1=$("#tanggal1").val();
@@ -188,7 +263,7 @@
     }
 
     if(nomesin!="*"){
-      url+='&nomesin='+nomesin;
+      //url+='&nomesin='+nomesin;
     }
 
     location=url;
@@ -209,7 +284,7 @@
     }
 
     if(nomesin!="*"){
-      url+='&nomesin='+nomesin;
+      //url+='&nomesin='+nomesin;
     }
 
     location=url;

@@ -998,13 +998,18 @@ class ReportModel extends CI_Model {
 		return $d->result_array();
 	}
 	public function pendapatanbordirall($data){
-		$sql="SELECT sum(total_stich) as total_stich,shift,mesin_bordir,created_date FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1";
-		if(!empty($data['tanggal1'])){
-			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql="SELECT COALESCE(sum(total_stich),0) as total_stich,shift,mesin_bordir,created_date FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1";
+		if(isset($data['bulan'])){
+			$sql .=" AND MONTH(created_date)='".$data['bulan']."' AND YEAR(created_date)='".$data['tahun']."' ";
+		}else{
+			if(!empty($data['tanggal1'])){
+				$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+			}
+			if(!empty($data['nomesin'])){
+				$sql.=" AND mesin_bordir='".$data['nomesin']."' ";
+			}
 		}
-		if(!empty($data['nomesin'])){
-			$sql.=" AND mesin_bordir='".$data['nomesin']."' ";
-		}
+		
 		$sql.=' GROUP BY mesin_bordir,shift,created_date';
 		$sql.=" ORDER BY mesin_bordir ASC";
 		$d=$this->db->query($sql);
@@ -1243,6 +1248,42 @@ class ReportModel extends CI_Model {
 		return $total;
 	}
 
+	public function totalStich_bulan($nomor,$shift,$bulan,$tahun){
+		$total=0;
+		$sql="SELECT COALESCE(SUM(total_stich),0) as total FROM kelola_mesin_bordir WHERE hapus=0";
+		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
+		if(!empty($bulan)){
+			$sql.=" AND MONTH(created_date) = '".$bulan."' AND YEAR(created_date)='".$tahun."' ";
+		}
+		$row=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($row)){
+			$total=$row['total'];
+		}
+		return $total;
+	}
+
+	public function total018_bulan($nomor,$shift,$bulan,$tahun,$jenis,$perkalian){
+		$total=0;
+		if($jenis==1){
+			$sql="SELECT COALESCE(SUM(total_stich*$perkalian),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis='".$jenis."' ";
+		}else if($jenis==2){
+			$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		}else{
+			$sql="SELECT COALESCE(SUM(total_stich*$perkalian),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
+		}
+		
+		$sql.= " AND mesin_bordir='$nomor' AND mesin_bordir<>11 AND shift='$shift' ";
+		if(!empty($bulan)){
+			$sql.=" AND MONTH(created_date) = '".$bulan."' AND YEAR(created_date)='".$tahun."' ";
+		}
+		
+		$row=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($row)){
+			$total=$row['total'];
+		}
+		return $total;
+	}
+
 	public function total018($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
 		$sql="SELECT COALESCE(SUM(total_stich*0.18),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
@@ -1268,6 +1309,27 @@ class ReportModel extends CI_Model {
 		//pre($sql);
 		if(!empty($row)){
 			$total=$row['total'];
+		}
+		return $total;
+	}
+
+	
+
+	public function total02_array_bulan($nomor,$shift,$tanggal1,$tanggal2){
+		$total=['total'=>0,'0.2'=>0,'0.3'=>0];
+		$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total,laporan_perkalian_tarif as tarif FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
+		if(!empty($bulan)){
+			$sql.=" AND MONTH(created_date)='".$tanggal1."' AND YEAR(created_date)='".$tahun."' ";
+		}
+		$sql.=" AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif ";
+		$row=$this->GlobalModel->QueryManual($sql);
+		//pre($sql);
+		$tarif=0;
+		if(!empty($row)){
+			foreach($row as $r){
+				$total[$r['tarif']]=$r['total'];
+			}
 		}
 		return $total;
 	}
@@ -1371,6 +1433,47 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function jumlahpendapatanbordir_bulan($nomor,$bulan,$tahun){
+		$hasil=0;
+		$total1=0;
+		//$sql1="SELECT SUM(total_stich*0.18) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.18%' ";
+		$sql1="SELECT COALESCE(SUM(total_stich*0.18),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql1.= " AND mesin_bordir='$nomor'";
+		if(!empty($bulan)){
+			$sql1.=" AND MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' ";
+		}
+		$row1=$this->GlobalModel->QueryManualRow($sql1);
+		if(!empty($row1)){
+			$total1=$row1['total'];
+		}
+
+		$total2=0;
+		//$sql2="SELECT SUM(total_stich*0.2) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 AND perkalian_tarif LIKE '%0.2%' ";
+		$sql2="SELECT COALESCE(SUM(total_stich*laporan_perkalian_tarif),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		$sql2.= " AND mesin_bordir='$nomor'";
+		if(!empty($bulan)){
+			$sql2.=" AND MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' ";
+		}
+		$row2=$this->GlobalModel->QueryManualRow($sql2);
+		if(!empty($row2)){
+			$total2=$row2['total'];
+		}
+
+		$total3=0;
+		//$sql3="SELECT SUM(total_stich*0.15) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 AND perkalian_tarif LIKE '%0.15%' ";
+		$sql3="SELECT COALESCE(SUM(total_stich*0.15),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis IN(1,2) ";
+		$sql3.= " AND mesin_bordir='$nomor'";
+		if(!empty($bulan)){
+			$sql3.=" AND MONTH(created_date)='".$bulan."' AND YEAR(created_date)='".$tahun."' ";
+		}
+		$row3=$this->GlobalModel->QueryManualRow($sql3);
+		if(!empty($row3)){
+			//$total3=$row3['total'];
+		}
+		$hasil=($total1+$total2+$total3);
+		return $hasil;
+	}
+
 	public function pendapatanbordirdalam($data,$jenis){
 		$sql="SELECT COALESCE(sum(total_stich),0) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 and perkalian_tarif LIKE '%0.18%' ";
 		if(!empty($data['tanggal1'])){
@@ -1385,9 +1488,14 @@ class ReportModel extends CI_Model {
 
 	public function pendapatanbordirdalam15($data,$jenis){
 		$sql="SELECT COALESCE(sum(total_stich),0) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 AND mesin_bordir=11 ";
-		if(!empty($data['tanggal1'])){
-			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		if(isset($data['bulan'])){
+			$sql.=" AND MONTH(created_date)='".$data['bulan']."' AND  YEAR(created_date)='".$data['tahun']."' ";
+		}else{
+			if(!empty($data['tanggal1'])){
+				$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+			}
 		}
+		
 		$d=$this->db->query($sql);
 		return $d->result_array();
 	}
@@ -2083,9 +2191,14 @@ class ReportModel extends CI_Model {
 	// fungsi baru untuk laporan pendapatan po luar bordir
 	public function getSumPendapatanpoluar($data,$jenis){
 		$sql="SELECT sum(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=$jenis ";
-		if(!empty($data['tanggal1'])){
-			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		if(isset($data['bulan'])){
+			$sql .=" AND MONTH(created_date)='".$data['bulan']."' AND YEAR(created_date)='".$data['tahun']."' ";
+		}else{
+			if(!empty($data['tanggal1'])){
+				$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+			}
 		}
+		
 		if(!empty($data['nomesin'])){
 			$sql.=" AND mesin_bordir='".$data['nomesin']."' ";
 		}

@@ -544,8 +544,8 @@ class Dash extends CI_Controller {
 		}else{
 			$tanggal1=date('Y-m-d',strtotime("-1 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
+		if(isset($get['tanggal1'])){
+			$tanggal2=$get['tanggal1'];
 		}else{
 			$tanggal2=date('Y-m-d',strtotime("-1 days"));
 		}
@@ -559,6 +559,10 @@ class Dash extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 			'nomesin'=>$nomesin,
 		);
+		$data['bulan']=null;
+		$data['tahun']=null;
+		$data['tanggal1']=$tanggal1;
+		$data['harian']=1;
 		$products=$this->ReportModel->pendapatanbordirall($filter);
 		$jumlah=0;
 		$i=0;
@@ -710,6 +714,11 @@ class Dash extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 			'nomesin'=>$nomesin,
 		);
+		$data['bulan']=null;
+		$data['tahun']=null;
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['mingguan']=1;
 		$data['judullap']='Laporan Pendapatan Bordir Mingguan ';
 		$data['periode']='Periode '.date('d',strtotime($tanggal1)) .'-'. date('d F Y',strtotime($tanggal2));
 		$products=$this->ReportModel->pendapatanbordirall($filter);
@@ -856,13 +865,27 @@ class Dash extends CI_Controller {
 		}else{
 			$nomesin=null;
 		}
+		if(isset($get['bulan'])){
+			$bulan=$get['bulan'];
+		}else{
+			$bulan=date('m');
+		}
+		if(isset($get['tahun'])){
+			$tahun=$get['tahun'];
+		}else{
+			$tahun=date('Y');
+		}
 		$filter=array(
 			'tanggal1'=>$tanggal1,
 			'tanggal2'=>$tanggal2,
 			'nomesin'=>$nomesin,
+			'bulan'=>$bulan,
+			'tahun'=>$tahun,
 		);
+		$data['bulan']=$bulan;
+		$data['tahun']=$tahun;
 		$data['judullap']='Laporan Pendapatan Bordir Bulanan ';
-		$data['periode']='Periode '.date('d',strtotime($tanggal1)) .'-'. date('d F Y',strtotime($tanggal2));
+		$data['periode']='Periode';
 		$products=$this->ReportModel->pendapatanbordirall($filter);
 		$jumlah=0;
 		$i=0;
@@ -892,14 +915,14 @@ class Dash extends CI_Controller {
 		}
 		$mesin=$this->GlobalModel->QueryManual($sm);
 		$data['luar']=[];
-		$data['luar']=$this->GlobalModel->QueryManual("SELECT laporan_perkalian_tarif as perkalian FROM kelola_mesin_bordir WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif");
+		$data['luar']=$this->GlobalModel->QueryManual("SELECT laporan_perkalian_tarif as perkalian FROM kelola_mesin_bordir WHERE jenis=2 AND MONTH(created_date) ='".$bulan."' AND YEAR(created_date)='".$tahun."'  AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif");
 		
 		foreach($mesin as $mes){
-			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$total02=$this->ReportModel->total02($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$total015=$this->ReportModel->total015($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$jumlah=$this->ReportModel->jumlahpendapatanbordir($mes['nomor'],$tanggal1,$tanggal2);
+			$totalstich=$this->ReportModel->totalStich_bulan($mes['nomor'],$mes['shift'],$bulan,$tahun);
+			$total018=$this->ReportModel->total018_bulan($mes['nomor'],$mes['shift'],$bulan,$tahun,1,0.18);
+			$total02=$this->ReportModel->total018_bulan($mes['nomor'],$mes['shift'],$bulan,$tahun,2,0.2);
+			$total015=$this->ReportModel->total018_bulan($mes['nomor'],$mes['shift'],$bulan,$tahun,3,0.15);
+			$jumlah=$this->ReportModel->jumlahpendapatanbordir_bulan($mes['nomor'],$bulan,$tahun);
 			$globalstich+=($totalstich);
 			$g018+=($total018);
 			$g02+=($total02);
@@ -918,7 +941,7 @@ class Dash extends CI_Controller {
 				'jumlah'=>round($jumlah),
 				'i'=>$i++,
 				'keterangan'=>null,
-				'dets'=>$this->ReportModel->total02_array($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2),
+				'dets'=>$this->ReportModel->total02_array_bulan($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2),
 			);
 		}
 		//pre($data['products']);
@@ -958,7 +981,7 @@ class Dash extends CI_Controller {
 
 		// pengeluaran bordir
 		$sql="SELECT SUM(total) as total, keterangan FROM pengeluaran_bordir_detail WHERE hapus=0 ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND MONTH(tanggal)='".$bulan."' AND YEAR(tanggal)='".$tahun."' ";
 		$sql.=" GROUP BY keterangan ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
