@@ -1148,7 +1148,7 @@ class Gudang extends CI_Controller {
 						$this->db->insert('kartustok_product',$kartustok);
 					}else{
 						$kartustok=array(
-							'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
+							'tanggal'=>date('Y-m-d'),
 							'idproduct'=>$p['id_persediaan'],
 							'nama'=>$p['nama'],
 							'saldomasuk_uk'=>$p['ukuran'],
