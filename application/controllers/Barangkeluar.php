@@ -65,7 +65,7 @@ class Barangkeluar extends CI_Controller {
 				'gudang'=>$row['gudang'],
 				'details'=>$details,
 				'detail'=>$this->url.'detail/'.$row['id'],
-				'hapus'=>$this->url.'hapus/'.$row['id'],
+				//'hapus'=>$this->url.'hapus/'.$row['id'],
 			);
 		}
 		$data['tambah']=$this->url.'add';
@@ -180,7 +180,21 @@ class Barangkeluar extends CI_Controller {
 	}
 
 	public function hapus($id){
+		$p=$this->GlobalModel->GetDataRow('barangkeluarharian_detail',array('hapus'=>0,'id'=>$id));
+		$kartustok=array(
+				'tanggal'=>date('Y-m-d H:i:s'),
+				'idproduct'=>$p['idpersediaan'],
+				'nama'=>$p['nama'],
+				'saldomasuk_uk'=>0,
+				'saldomasuk_qty'=>$p['jumlah'],
+				'harga'=>0,
+				'keterangan'=>'Pembatalan Pengeluaran barang harian',
+			);
+			kartustok($kartustok,1);
+		$this->db->query("UPDATE product set quantity = quantity+'".$p['jumlah']."' WHERE product_id='".$p['idpersediaan']."' ");
+			$this->db->query("UPDATE gudang_persediaan_item set jumlah_item = jumlah_item+'".$p['jumlah']."' WHERE id_persediaan='".$p['idpersediaan']."' ");
 		$this->db->update('barangkeluarharian_detail',array('hapus'=>1),array('id'=>$id));
+
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
 		redirect($this->url);
 	}

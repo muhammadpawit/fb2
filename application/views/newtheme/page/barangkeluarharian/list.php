@@ -73,7 +73,7 @@
                         <td>
                         	<!-- <a href="<?php echo $p['detail']?>" class="btn btn-primary btn-sm text-white">Detail</a> -->
                         	<?php if(akseshapus()==1){?>
-                        		<a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-sm text-white">Hapus</a>
+                        		<a href="<?php echo BASEURL.'Barangkeluar/hapus/'.$d['id']?>" class="btn btn-danger btn-sm text-white">Hapus</a>
                         	<?php } ?>
                         </td>
                       </tr>
