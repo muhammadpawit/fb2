@@ -235,11 +235,14 @@ class Notakirim extends CI_Controller {
 	public function kirim_next($noFaktur='')
 	{
 		$viewData['gudangfb'] = $this->GlobalModel->queryManual('SELECT fkg.idpo,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.idpo="'.$noFaktur.'" ');
+		//pre($viewData['gudangfb']);
 			$data = array();
 		foreach ($viewData['gudangfb'] as $key => $idkirim) {
-			$data[$idkirim['kode_po']] = $this->GlobalModel->queryManual('SELECT * FROM finishing_kirim_gudang_rincian WHERE susulan=1 GROUP BY rincian_size');
+			$data[$idkirim['kode_po']] = $this->GlobalModel->queryManual("SELECT * FROM finishing_kirim_gudang_rincian WHERE id_finishing_kirim_gudang='".$idkirim['id_finishing_kirim_gudang']."' GROUP BY rincian_size");
 		}
+		//pre($viewData['gudangfb']);
 		$viewData['dataRinci'] = $data;
+		//pre($data);
 		$viewData['cancel']=$this->link;
 		$viewData['edit']=BASEURL.'Notakirim/next_save';
 		$viewData['no']=1;
