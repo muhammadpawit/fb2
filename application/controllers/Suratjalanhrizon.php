@@ -185,7 +185,7 @@ class Suratjalanhrizon extends CI_Controller {
 	public function save()
 	{
 		$data = $this->input->post();
-		pre($data);
+		//pre($data);
 		$dataInserted = array(
 			'tanggal'=>$data['tanggal1'],
 			'periode'=>date('d F Y',strtotime($data['tanggal1'])).'-'.date('d F Y',strtotime($data['tanggal2'])),
