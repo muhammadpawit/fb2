@@ -77,8 +77,8 @@
 					<th>
 						<img src="<?php echo BASEURL.$detail['gambar_po2'] ?>" style="width: 100%;"  >
 					</th>
-					<th>
-						<textarea name="spesifikasi" id="spesifikasi">
+					<th valign="top">
+						<textarea name="spesifikasi" id="spesifikasi" rows="20">
 							<?php 
                                                     if(empty($po['spesifikasi'])){
                                                         echo "<br>
