@@ -77,7 +77,9 @@
                                             <div class="no-print">
                                                 <textarea name="spesifikasi" rows="25"><?php echo $po['spesifikasi']?></textarea>
                                             </div>
-                                            <div class="print" style="display: none;"><?php echo $po['spesifikasi']?></div>
+                                            <div class="print" style="display: none;">
+                                                <small><?php echo $po['spesifikasi']?></small>
+                                            </div>
                                             <button type="submit" class="no-print">Submit</button>
                                         </form>
                                     </td>
