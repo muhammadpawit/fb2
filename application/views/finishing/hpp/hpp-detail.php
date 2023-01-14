@@ -77,15 +77,11 @@
                                             <div class="no-print">
                                                 <textarea name="spesifikasi" rows="25"><?php echo $po['spesifikasi']?></textarea>
                                             </div>
-                                            <div class="print" style="display: none;font-size: 22px !important">
+                                            <div class="print" style="display: none;font-size: 23.5px !important">
                                                 <small><?php echo $po['spesifikasi']?></small>
                                             </div>
                                             <button type="submit" class="no-print">Submit</button>
                                         </form>
-                                    </td>
-                                    <td rowspan="8" colspan="2" class="print" style="display: none;">
-                                        <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;float: left;"  >
-                                        <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
                                     </td>
                                     <td rowspan="8" width="25%" height="70%">
 
