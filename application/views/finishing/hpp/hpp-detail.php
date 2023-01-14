@@ -149,7 +149,7 @@
 
                                     <td>ARTIKEL</td>
 
-                                    <td><?php echo $produk['kode_artikel'] ?></td>
+                                    <td><?php echo $po['kode_artikel'] ?></td>
 
                                     
 
@@ -159,7 +159,7 @@
 
                                     <td>JENIS</td>
 
-                                    <td><?php echo $produk['jenis_po'] ?></td>
+                                    <td><?php echo $po['jenis_po'] ?></td>
 
                                 </tr>
 

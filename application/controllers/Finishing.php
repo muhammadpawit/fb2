@@ -1181,6 +1181,7 @@ class Finishing extends CI_Controller {
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$viewData['po']=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$kodepo=$po['kode_po'];
+		$viewData['pot'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po WHERE pp.kode_po="'.$kodepo.'"');
 		$viewData['produk'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE pp.kode_po="'.$kodepo.'" LIMIT 20');
 		$kirim=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','kode_po'=>$kodepo));
 		$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('cmt_job_desk'=>'JAHIT','id_cmt'=>!empty($kirim)?$kirim['id_master_cmt']:0));
@@ -1190,11 +1191,11 @@ class Finishing extends CI_Controller {
 		//pre($viewData['produk']);
 		//pre($viewData['produk']['kode_po']);
 		$timpotong=$this->GlobalModel->getDataRow("konveksi_buku_potongan",array('kode_po'=>$kodepo));
-		$namatim=$this->GlobalModel->getDataRow("timpotong",array('id'=>$viewData['produk']['tim_potong_potongan']));
+		$namatim=$this->GlobalModel->getDataRow("timpotong",array('id'=>$viewData['pot']['tim_potong_potongan']));
 		if(!empty($namatim)){
 			$viewData['timpotong']=$namatim['nama'];
 		}else{
-			$viewData['timpotong']=$viewData['produk']['tim_potong_potongan'];
+			$viewData['timpotong']=$viewData['pot']['tim_potong_potongan'];
 		}
 
 		$namapo=$viewData['po']['nama_po'];
@@ -1208,11 +1209,11 @@ class Finishing extends CI_Controller {
 		}
 		$viewData['jenispo']=$jenis;
 		$viewData['cucianhpp']=$this->GlobalModel->getDataRow('master_jenis_po',array('nama_jenis_po'=>$namapo));
-		$viewData['perincian'] = $this->GlobalModel->getData('gudang_item_keluar',array('kode_po'=>$viewData['produk']['kode_po'],'hapus'=>0));
+		$viewData['perincian'] = $this->GlobalModel->getData('gudang_item_keluar',array('kode_po'=>$viewData['po']['kode_po'],'hapus'=>0));
 
-		$viewData['cmt'] =	$this->GlobalModel->getData('kelolapo_kirim_setor',array('kode_po'=>$viewData['produk']['kode_po'],'progress'=>'KIRIM','hapus'=>0));
+		$viewData['cmt'] =	$this->GlobalModel->getData('kelolapo_kirim_setor',array('kode_po'=>$viewData['po']['kode_po'],'progress'=>'KIRIM','hapus'=>0));
 		// pre($viewData['cmt']);
-		$viewData['master_harga_potongan'] = $this->GlobalTwoModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$viewData['produk']['nama_po']));
+		$viewData['master_harga_potongan'] = $this->GlobalTwoModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$viewData['po']['nama_po']));
 
 		$bi	= $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' => $kodepo));
 		$b2	= $this->GlobalModel->QueryManualRow("SELECT jumlah_pemakaian_bahan_variasi FROM konveksi_buku_potongan WHERE refpo='".$kodepo."' ");
@@ -1250,7 +1251,7 @@ class Finishing extends CI_Controller {
 		$viewData['buangbenang']=[];
 		$viewData['buangbenang']= $this->GlobalModel->getData('buang_benang_finishing',array('kode_po'=>$kodepo,'hapus'=>0));
 		$viewData['packing']=[];
-		$namapo=$viewData['produk']['nama_po'];
+		$namapo=$viewData['po']['nama_po'];
 		if(strtolower($namapo)=="kfb" OR strtolower($namapo)=="kkf"){
 			$viewData['packing']=array(
 				array(
