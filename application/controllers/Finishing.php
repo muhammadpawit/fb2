@@ -1161,7 +1161,7 @@ class Finishing extends CI_Controller {
 			$kode_po=null;
 		}
 		$viewData['kode_po']=$kode_po;
-		$sql='SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_kirim_setor krsc ON pp.kode_po = krsc.kode_po WHERE id_produksi_po >0 LIMIT 50 ';
+		$sql='SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_kirim_setor krsc ON pp.kode_po = krsc.kode_po WHERE id_produksi_po >0 ';
 		if(!empty($kode_po)){
 			$sql.=" AND pp.kode_po LIKE '$kode_po%' ";
 		}
