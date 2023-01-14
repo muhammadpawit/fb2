@@ -129,6 +129,7 @@ Bordir Celana : ....
                                                     }else{
                                                         echo $po['spesifikasi'];
                                                     }
+                                                    ?>
                                                 </small>
                                             </div>
                                             <button type="submit" class="no-print">Submit</button>
