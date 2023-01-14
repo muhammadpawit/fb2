@@ -68,6 +68,7 @@
 				<tr align="center">
 					<th>Gambar Depan</th>
 					<th>Gambar Belakang</th>
+					<th>Spesifikasi Gambar</th>
 				</tr>
 				<tr>
 					<th>
@@ -75,6 +76,35 @@
 					</th>
 					<th>
 						<img src="<?php echo BASEURL.$detail['gambar_po2'] ?>" style="width: 100%;"  >
+					</th>
+					<th>
+						<textarea name="spesifikasi" id="spesifikasi">
+							<?php 
+                                                    if(empty($po['spesifikasi'])){
+                                                        echo "<br>
+<b>Atasan</b> :<br>
+Sablon tangan : ....<br>
+Sablon bdn depan : ....<br>
+Sablon bdn belakang : ....<br>
+Sablon Mangkok : .... <br>
+Sablon : ....<br>
+Bordir tangan : ....<br>
+Bordir bdn depan : ....<br>
+Bordir bdn belakang : ....<br>
+Bordir Mangkok : -
+<br>
+<br>
+<b>Bawahan </b>:<br>
+Celana : katun / jeans<br>
+Bordir Celana : ....
+<br>
+<br>
+<b>Sablon </b>:<br>";
+                                                    }else{
+                                                        echo $po['spesifikasi'];
+                                                    }
+                                                    ?>
+						</textarea>
 					</th>
 				</tr>
 			</thead>
