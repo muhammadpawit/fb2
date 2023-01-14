@@ -1166,7 +1166,7 @@ class Finishing extends CI_Controller {
 			$sql.=" AND pp.kode_po LIKE '$kode_po%' ";
 		}
 		$sql.=" GROUP BY pp.id_produksi_po ";
-		$sql.=" ORDER BY pp.id_produksi_po DESC LIMIT 50";
+		$sql.=" ORDER BY pp.id_produksi_po DESC LIMIT 20";
 		$viewData['produk'] = $this->GlobalModel->queryManual($sql);		
  		// $this->load->view('global/header');
 		// $this->load->view('finishing/hpp/hpp-view',$viewData);
