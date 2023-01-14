@@ -78,22 +78,22 @@
                                                 <textarea name="spesifikasi" rows="25">
                                                     <?php 
                                                     if(empty($po['spesifikasi'])){
-                                                        echo "Spesifikasi PO :<br>
+                                                        echo "<br>
 <b>Atasan</b> :<br>
 Sablon tangan : ....<br>
 Sablon bdn depan : ....<br>
-Sablon bdn belakang : dark green<br>
-Sablon Mangkok : dark green <br>
+Sablon bdn belakang : ....<br>
+Sablon Mangkok : .... <br>
 Sablon : ....<br>
 Bordir tangan : ....<br>
-Bordir bdn depan : dark green<br>
+Bordir bdn depan : ....<br>
 Bordir bdn belakang : ....<br>
 Bordir Mangkok : -
 <br>
 <br>
 <b>Bawahan </b>:<br>
 Celana : katun / jeans<br>
-Bordir Celana
+Bordir Celana : ....
 <br>
 <br>
 <b>Sablon </b>:<br>";
