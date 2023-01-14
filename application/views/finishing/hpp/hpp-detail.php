@@ -83,7 +83,11 @@
                                             <button type="submit" class="no-print">Submit</button>
                                         </form>
                                     </td>
-                                    <td rowspan="8" width="25%" height="70%">
+                                    <td rowspan="8" width="25%" height="70%" colspan="2" class="print" style="display: none;">
+                                        <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;float: left;"  >
+                                        <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
+                                    </td>
+                                    <td rowspan="8" width="25%" height="70%" class="no-print">
 
                                         <?php //if (!empty($produk['gambar_po'])){ ?>
 
@@ -119,7 +123,7 @@
 
                                     </td>
 
-                                    <td rowspan="8" width="25%" height="70%">
+                                    <td rowspan="8" width="25%" height="70%" class="no-print">
 
                                         <?php //if (!empty($produk['gambar_po2'])){ ?>
 
