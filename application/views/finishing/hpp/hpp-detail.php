@@ -35,11 +35,11 @@
     <div class="container-fluid">
 
         <div class="row no-print">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <a href="<?php echo $back ?>" class="btn btn-danger btn-sm full">Kembali</a>
             </div>
         </div>
-        <br><br>
+        <br>
 
         <div class="row">
 
