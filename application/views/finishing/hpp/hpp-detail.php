@@ -89,7 +89,7 @@
 
                                             <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
                                             <span class="print" style="display: none;">
-                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
+                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;margin-top: 5%"  >
                                             </span>
                                         <?php //} else { ?>
 
