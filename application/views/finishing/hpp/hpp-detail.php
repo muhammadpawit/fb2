@@ -167,7 +167,7 @@
 
                                     <td>SIZE</td>
 
-                                    <td><?php echo $produk['size_potongan'] ?></td>
+                                    <td><?php echo $pot['size_potongan'] ?></td>
 
                                 </tr>
 
