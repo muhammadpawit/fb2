@@ -939,13 +939,13 @@
 
                                             <div class="col-12">
 											<span class="print">
-												<?php $opr=0;$opr= (empty($produk['operaitonal_price'])) ? $operation['val_operational'] : $produk['operaitonal_price']; echo 'Rp. '.number_format($opr); ?>
+												<?php $opr=0;$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); ?>
 											</span>
-                                            <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo (empty($produk['operaitonal_price'])) ?0 : $produk['operaitonal_price'] ?>">
+                                            <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo (empty($po['operaitonal_price'])) ?0 : $po['operaitonal_price'] ?>">
 	
                                             </div>
 
-                                            <input type="hidden" value="<?php echo $produk['kode_po'] ?>" name="kode_po">
+                                            <input type="hidden" value="<?php echo $po['kode_po'] ?>" name="kode_po">
 
                                             <div class="col-12 mt-1">
 
@@ -969,7 +969,7 @@
 
                                     <td id="grandTotal">
 
-                                        Rp. <?php $grand= $produk['operaitonal_price'] + $total + $totalAlat; 
+                                        Rp. <?php $grand= $po['operaitonal_price'] + $total + $totalAlat; 
 
                                             echo number_format($grand);?> 
 
@@ -995,9 +995,9 @@
 
                                         <div class="row">
 
-                                            <div class="col-6"></div>
+                                            <div class="col-2"></div>
 
-                                            <div class="col-6 text-center">
+                                            <div class="col-4 text-right" style="padding-right: 14px;">
 
                                                 <h6>PARAF PERSETUJUAN / ACC PIMPINAN</h6>
 
@@ -1005,9 +1005,10 @@
 
                                                 <br><br><br><br><br><br>
 
-                                                <h6>( H.RICKO WENDRA )</h6>
+                                                <h6 style="padding-right: 80px">( H.RICKO WENDRA )</h6>
 
                                             </div>
+                                            <div class="col-6">&nbsp;&nbsp;&nbsp;&nbsp;</div>
 
                                         </div>
 
@@ -1060,7 +1061,7 @@
 
                                         <input type="hidden" name="hargasatuan" value="<?php echo ($grand / 12) ?>">
 
-                                        <input type="hidden" name="kodepo" value="<?php echo $produk['kode_po'] ?>">
+                                        <input type="hidden" name="kodepo" value="<?php echo $po['kode_po'] ?>">
                                         <!--
                                         <button type="submit" class="btn btn-info no-print">submit</button>-->
                                     </form>
