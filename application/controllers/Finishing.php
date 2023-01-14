@@ -1179,6 +1179,7 @@ class Finishing extends CI_Controller {
 	public function hppproduksidetail($kodepo='')
 	{
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
+		$data['po']=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$kodepo=$po['kode_po'];
 		$viewData['produk'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE pp.kode_po="'.$kodepo.'" LIMIT 20');
 		$kirim=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','kode_po'=>$kodepo));

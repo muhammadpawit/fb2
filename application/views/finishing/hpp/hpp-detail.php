@@ -69,13 +69,13 @@
 
                                     <td>PO</td>
 
-                                    <td><?php echo $produk['nama_po'].' '.$produk['nama_hpp'] ?></td>
+                                    <td><?php echo $po['nama_po'].' '.$po['nama_hpp'] ?></td>
 
                                     <td rowspan="8" width="25%" height="70%">
 
                                         <?php //if (!empty($produk['gambar_po'])){ ?>
 
-                                            <img src="<?php echo BASEURL.$produk['gambar_po'] ?>" style="width: 100%;"  >
+                                            <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
 
                                         <?php //} else { ?>
 
@@ -89,7 +89,7 @@
 
                                                     <input type="file" name="gambarPO1" class="form-control">
 
-                                                    <input type="hidden" name="kode_po" value="<?php echo $produk['kode_po'] ?>">
+                                                    <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
 
                                                 </div>
 
@@ -111,7 +111,7 @@
 
                                         <?php //if (!empty($produk['gambar_po2'])){ ?>
 
-                                            <img src="<?php echo BASEURL.$produk['gambar_po2'] ?>" style="width: 100%;"  >
+                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
 
                                         <?php //} else { ?>
 
@@ -125,7 +125,7 @@
 
                                                     <input type="file" name="gambarPO2" class="form-control">
 
-                                                    <input type="hidden" name="kode_po" value="<?php echo $produk['kode_po'] ?>">
+                                                    <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
 
                                                 </div>
 
