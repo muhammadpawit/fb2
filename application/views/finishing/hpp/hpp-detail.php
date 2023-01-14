@@ -87,7 +87,7 @@
 
                                         <?php //if (!empty($produk['gambar_po'])){ ?>
 
-                                            <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
+                                            <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="height: 100vh: 100%;"  >
 
                                         <?php //} else { ?>
 
@@ -123,7 +123,7 @@
 
                                         <?php //if (!empty($produk['gambar_po2'])){ ?>
 
-                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
+                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="height: 100vh;width: 100%;"  >
 
                                         <?php //} else { ?>
 
