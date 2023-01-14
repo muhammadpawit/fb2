@@ -71,11 +71,37 @@
 
                                     <td><?php echo $po['nama_po'].' '.$po['nama_hpp'] ?></td>
                                     <td rowspan="8" width="25%" height="70%">
-                                        Spesifikasi Gambar <small class="no-print"><pre>Gunakan &#60;br&#62; untuk enter </pre></small>
+                                        Spesifikasi PO <small class="no-print"><pre>Gunakan &#60;br&#62; untuk enter </pre></small>
                                         <form method="post" action="<?php echo BASEURL?>Finishing/save_spesifikasi">
                                             <input type="hidden" name="idpo" value="<?php echo $po['id_produksi_po']?>">
                                             <div class="no-print">
-                                                <textarea name="spesifikasi" rows="25"><?php echo $po['spesifikasi']?></textarea>
+                                                <textarea name="spesifikasi" rows="25">
+                                                    <?php 
+                                                    if(empty($po['spesifikasi'])){
+                                                        echo "Spesifikasi PO :<br>
+<b>Atasan</b> :<br>
+Sablon tangan : ....<br>
+Sablon bdn depan : ....<br>
+Sablon bdn belakang : dark green<br>
+Sablon Mangkok : dark green <br>
+Sablon : ....<br>
+Bordir tangan : ....<br>
+Bordir bdn depan : dark green<br>
+Bordir bdn belakang : ....<br>
+Bordir Mangkok : -
+<br>
+<br>
+<b>Bawahan </b>:<br>
+Celana : katun / jeans<br>
+Bordir Celana
+<br>
+<br>
+<b>Sablon </b>:<br>";
+                                                    }else{
+                                                        echo $po['spesifikasi'];
+                                                    }
+                                                    
+                                                    ?></textarea>
                                             </div>
                                             <div class="print" style="display: none;font-size: 23.5px !important">
                                                 <small><?php echo $po['spesifikasi']?></small>
