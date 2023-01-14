@@ -88,7 +88,7 @@
                                         <?php //if (!empty($produk['gambar_po'])){ ?>
 
                                             <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
-                                            <div style="margin-top: 5%"></div>
+                                            <div style="margin-top: 10%"></div>
                                             <span class="print" style="display: none;">
                                             <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%"  >
                                             </span>
