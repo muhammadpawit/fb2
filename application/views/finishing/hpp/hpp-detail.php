@@ -57,7 +57,7 @@
 
                                 <tr>
 
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
 
                                         <h3>HPP <?php echo $jenis?> </h3>
 
@@ -70,7 +70,17 @@
                                     <td>PO</td>
 
                                     <td><?php echo $po['nama_po'].' '.$po['nama_hpp'] ?></td>
-
+                                    <td rowspan="8" width="25%" height="70%">
+                                        Spesifikasi Gambar <small class="no-print"><pre>Gunakan &#60;br&#62; untuk enter </pre></small>
+                                        <form method="post" action="<?php echo BASEURL?>Finishing/save_spesifikasi">
+                                            <input type="hidden" name="idpo" value="<?php echo $po['id_produksi_po']?>">
+                                            <div class="no-print">
+                                                <textarea name="spesifikasi"><?php echo $po['spesifikasi']?></textarea>
+                                            </div>
+                                            <div class="print" style="display: none;"><?php echo $po['spesifikasi']?></div>
+                                            <button type="submit" class="no-print">Submit</button>
+                                        </form>
+                                    </td>
                                     <td rowspan="8" width="25%" height="70%">
 
                                         <?php //if (!empty($produk['gambar_po'])){ ?>
@@ -201,9 +211,6 @@
                                 <tr>
 
                                     <td>NAMA CMT</td>
-
-                                    <!-- <td><?php echo strtoupper($produk['nama_cmt']) ?></td> 
-                                    -->
 
 
                                     <td><?php echo strtoupper($namacmt) ?></td>
@@ -1123,8 +1130,8 @@ $( document ).ready(function() {
 });
 
 function printsubmit(){
+        window.print();
     $("#submit").submit();
-    window.print();
 }
 
 </script>

@@ -221,7 +221,7 @@
 
       <!-- Default box -->
       <div class="box">
-        <div class="box-header with-border no-print">
+        <div class="box-header with-border">
           <h3 class="box-title">
             <?php 
                       if(isset($title)){

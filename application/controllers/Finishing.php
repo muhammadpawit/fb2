@@ -1301,6 +1301,16 @@ class Finishing extends CI_Controller {
 		redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
+	function save_spesifikasi(){
+		$post = $this->input->post();
+		$update = array(
+			'spesifikasi'=>$post['spesifikasi'],
+		);
+		$this->db->update('produksi_po',$update,array('id_produksi_po'=>$post['idpo']));
+		redirect(BASEURL.'finishing/hppproduksidetail/'.$post['idpo']);
+		pre($post);
+	}
+
 	public function submitImageHppsat()
 	{
 		$config['upload_path']          = './uploads/hpp/';
