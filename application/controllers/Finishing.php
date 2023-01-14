@@ -1197,7 +1197,7 @@ class Finishing extends CI_Controller {
 			$viewData['timpotong']=$viewData['produk']['tim_potong_potongan'];
 		}
 
-		$namapo=$viewData['produk']['nama_po'];
+		$namapo=$viewData['po']['nama_po'];
 		$jenis=$this->GlobalModel->getDataRow('master_jenis_po',array('nama_jenis_po'=>$namapo));
 		if($jenis['idjenis']==1){
 			$viewData['jenis'] ='KEMEJA';
