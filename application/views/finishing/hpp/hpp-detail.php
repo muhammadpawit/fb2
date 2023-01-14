@@ -194,7 +194,7 @@
 
                                     <td>JUMLAH PO</td>
 
-                                    <td><?php echo $produk['jml_setor_qty'] ?> PCS</td>
+                                    <td><?php echo isset( $produk['jml_setor_qty'])? $produk['jml_setor_qty']:0 ?> PCS</td>
 
                                 </tr>
 

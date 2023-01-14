@@ -1,7 +1,9 @@
 <div class="row">
     <div class="col-md-6">
         <label>Kode PO</label>
-        <input type="text" name="kode_po" value="<?php echo $kode_po; ?>" class="form-control">
+        <select class="form-control autopo" name="kode_po" id="kode_po" data-live-search="true">
+                    <option value="*">Semua</option>
+                  </select>
     </div>
     <div class="col-md-6">
         <label>Aksi</label>
@@ -56,7 +58,7 @@
       url += '&tanggal2=' + encodeURIComponent(filter_date_end);
     }
 
-    var filter_status = $('input[name=\'kode_po\']').val();
+    var filter_status = $('select[name=\'kode_po\']').val();
 
     if (filter_status != '*') {
       url += '&kode_po=' + encodeURIComponent(filter_status);

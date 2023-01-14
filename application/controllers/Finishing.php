@@ -1180,7 +1180,7 @@ class Finishing extends CI_Controller {
 	{
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$kodepo=$po['kode_po'];
-		$viewData['produk'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_kirim_setor krsc ON pp.kode_po = krsc.kode_po WHERE pp.kode_po="'.$kodepo.'" LIMIT 20');
+		$viewData['produk'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po JOIN kelolapo_rincian_setor_cmt krsc ON pp.kode_po = krsc.kode_po WHERE pp.kode_po="'.$kodepo.'" LIMIT 20');
 		$kirim=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','kode_po'=>$kodepo));
 		$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('cmt_job_desk'=>'JAHIT','id_cmt'=>!empty($kirim)?$kirim['id_master_cmt']:0));
 		$viewData['namacmt']=!empty($cmt)?$cmt['cmt_name']:'';
@@ -1280,7 +1280,7 @@ class Finishing extends CI_Controller {
 		$cmt=$this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kategori_cmt'=>'JAHIT','progress'=>'SETOR','kode_po'=>$kodepo));
 		//pre($cmt);
 		$biayalain=null;
-		$biayalain=$this->GlobalModel->getData('biaya_hpp',array('hapus'=>0,'namapo'=>$namapo,'idcmt'=>$cmt['id_master_cmt']));
+		$biayalain=!empty($cmt)?$this->GlobalModel->getData('biaya_hpp',array('hapus'=>0,'namapo'=>$namapo,'idcmt'=>$cmt['id_master_cmt'])):null;
 		$viewData['biayalain']=$biayalain;
 		$viewData['bawahansablon']=$bawahansablon;
 		$viewData['namabahan']=$this->GlobalModel->QueryManualRow("SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po='$kodepo' AND bahan_kategori='UTAMA' ORDER BY id_item_keluar ASC LIMIT 1 ");
