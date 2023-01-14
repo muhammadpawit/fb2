@@ -75,7 +75,7 @@
                                         <form method="post" action="<?php echo BASEURL?>Finishing/save_spesifikasi">
                                             <input type="hidden" name="idpo" value="<?php echo $po['id_produksi_po']?>">
                                             <div class="no-print">
-                                                <textarea name="spesifikasi"><?php echo $po['spesifikasi']?></textarea>
+                                                <textarea name="spesifikasi" rows="25"><?php echo $po['spesifikasi']?></textarea>
                                             </div>
                                             <div class="print" style="display: none;"><?php echo $po['spesifikasi']?></div>
                                             <button type="submit" class="no-print">Submit</button>
