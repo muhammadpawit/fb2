@@ -88,10 +88,7 @@
                                         <?php //if (!empty($produk['gambar_po'])){ ?>
 
                                             <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
-                                            <div style="margin-top: 10%"></div>
-                                            <span class="print" style="display: none;">
-                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%"  >
-                                            </span>
+
                                         <?php //} else { ?>
 
                                         <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST">
@@ -122,7 +119,7 @@
 
                                     </td>
 
-                                    <td rowspan="8" width="25%" height="70%" class="no-print">
+                                    <td rowspan="8" width="25%" height="70%">
 
                                         <?php //if (!empty($produk['gambar_po2'])){ ?>
 
