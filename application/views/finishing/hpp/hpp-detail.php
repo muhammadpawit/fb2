@@ -39,6 +39,7 @@
                 <a href="<?php echo $back ?>" class="btn btn-danger btn-sm full">Kembali</a>
             </div>
         </div>
+        <br><br>
 
         <div class="row">
 
