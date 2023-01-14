@@ -1012,7 +1012,7 @@
 
                                                 <h6>TANGGAL : <?php echo date('d F Y') ?></h6>
 
-                                                <br><br><br><br><br><br>
+                                                <br><br><br>
 
                                                 <h6 style="padding-right: 80px">( H.RICKO WENDRA )</h6>
 
