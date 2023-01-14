@@ -80,7 +80,7 @@
 					<th valign="top">
 						<textarea name="spesifikasi" id="spesifikasi" rows="20">
 							<?php 
-                                                    if(empty($po['spesifikasi'])){
+                                                    if(empty($detail['spesifikasi'])){
                                                         echo "<br>
 <b>Atasan</b> :<br>
 Sablon tangan : ....<br>
@@ -101,7 +101,7 @@ Bordir Celana : ....
 <br>
 <b>Sablon </b>:<br>";
                                                     }else{
-                                                        echo $po['spesifikasi'];
+                                                        echo $detail['spesifikasi'];
                                                     }
                                                     ?>
 						</textarea>
