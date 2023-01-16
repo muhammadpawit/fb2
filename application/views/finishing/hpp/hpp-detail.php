@@ -86,6 +86,7 @@
                                             <b>Bawahan</b><br>
                                             Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[11]):''; ?><br>
                                             Bordir Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[12]):''; ?>
+                                            Sablon Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[13]):''; ?>
                                         </div>
 
                                     </td>

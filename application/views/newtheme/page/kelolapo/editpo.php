@@ -199,6 +199,12 @@
 						<input type="text" name="bawahan_bordir_celana" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[12]):''; ?>" class="form-control">
 					</th>
 				</tr>
+				<tr>
+					<th colspan="3">Sablon Celana</th>
+					<th>
+						<input type="text" name="bawahan_bordir_celana" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[13]):''; ?>" class="form-control">
+					</th>
+				</tr>
 			</thead>
 		</table>
 		</div>
