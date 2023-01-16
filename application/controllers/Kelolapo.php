@@ -47,7 +47,7 @@ class Kelolapo extends CI_Controller {
 			'serian'	=>$data['serian'],
 			'harga_satuan'=>$data['harga_satuan'],
 			'nama_po'=>$data['namaPO'],
-			'spesifikasi'=>$spesifikasi,
+			//'spesifikasi'=>$spesifikasi,
 		);
 		$where=array(
 			'id_produksi_po'=>$data['id'],

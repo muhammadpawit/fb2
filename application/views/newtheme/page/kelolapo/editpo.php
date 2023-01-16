@@ -87,7 +87,7 @@
 				</tr>
 				<tr>
 					<th colspan="2" align="center">
-						<img src="<?php echo BASEURL.$detail['gambar_po'] ?>" class="image img-responsive" style="height:150px;">
+						<img src="<?php echo BASEURL.$detail['gambar_po'] ?>" class="image img-responsive" style="height:350px;">
                                         <form action="<?php echo BASEURL.'Kelolapo/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST">
                                                     <input type="file" name="gambarPO1" class="form-control">
 
@@ -101,7 +101,7 @@
                                         </form>
 					</th>
 					<th colspan="2" align="center">
-						<img src="<?php echo BASEURL.$detail['gambar_po2'] ?>" class="image img-responsive" style="height: 150px;">
+						<img src="<?php echo BASEURL.$detail['gambar_po2'] ?>" class="image img-responsive" style="height: 350px;">
                                          <form action="<?php echo BASEURL.'Kelolapo/submitImageHppdua' ?>" enctype="multipart/form-data" method="POST">
                                                     <input type="file" name="gambarPO2" class="form-control">
 
