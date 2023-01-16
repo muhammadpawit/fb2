@@ -73,20 +73,13 @@
                                     <td rowspan="8" width="25%" height="70%">
                                        <b> Spesifikasi PO <small class="no-print"></small></b>
                                         <div style="font-size: 23.5px !important">
-                                            <b>Atasan</b><br>
-                                            Sablon Tangan : <?php echo !empty($spek)?str_replace("<br>","",$spek[1]):''; ?><br>
-                                            Sablon Badan Depan : <?php echo !empty($spek)?str_replace("<br>","",$spek[2]):''; ?><br>
-                                            Sablon Badan Belakang : <?php echo !empty($spek)?str_replace("<br>","",$spek[3]):''; ?><br>
-                                            Sablon Mangkok : <?php echo !empty($spek)?str_replace("<br>","",$spek[4]):''; ?><br>
-                                            Sablon : <?php echo !empty($spek)?str_replace("<br>","",$spek[5]):''; ?><br>
-                                            Bordir Tangan : <?php echo !empty($spek)?str_replace("<br>","",$spek[6]):''; ?><br>
-                                            Bordir Badan Depan : <?php echo !empty($spek)?str_replace("<br>","",$spek[7]):''; ?><br>
-                                            Bordir Badan Belakang : <?php echo !empty($spek)?str_replace("<br>","",$spek[8]):''; ?><br>
-                                            Bordir Mangkok : <?php echo !empty($spek)?str_replace("<br>","",$spek[9]):''; ?><br>
-                                            <b>Bawahan</b><br>
-                                            Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[11]):''; ?><br>
-                                            Bordir Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[12]):''; ?>
-                                            Sablon Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[13]):''; ?>
+                                            <?php if(!empty($spek)){ ?>
+                                                <?php 
+                                                    foreach($spek as $s){
+                                                        echo $s['kolom'].' : '.$s['isi'].'<br>';
+                                                    }
+                                                ?>
+                                            <?php } ?>
                                         </div>
 
                                     </td>

@@ -115,101 +115,36 @@
                                         </form>
 					</th>
 				</tr>
-				<form method="post" action="<?php echo $editsave ?>">
-				<tr>
-					<th colspan="4">Spesifikasi PO</th>
-				</tr>
-				<tr>
-					<th colspan="4" align="center">Atasan</th>
-				</tr>
-				<tr>
-					<th colspan="3">Sablon Tangan</th>
-					<th>
-						<input type="text" name="sablon_tangan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[1]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Sablon Badan Depan</th>
-					<th>
-						<input type="text" name="sablon_bdepan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[2]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Sablon Badan Belakang</th>
-					<th>
-						<input type="text" name="sablon_bbelakang" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[3]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Sablon Mangkok</th>
-					<th>
-						<input type="text" name="sablon_mangkok" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[4]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Sablon</th>
-					<th>
-						<select name="sablon" class="form-control select2bs4">
-							<option value="-">Pilih</option>
-							<option value="Biasa">Biasa</option>
-							<option value="Full Print">Full Print</option>
-						</select>
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Bordir Tangan</th>
-					<th>
-						<input type="text" name="bordir_tangan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[6]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Bordir Badan Depan</th>
-					<th>
-						<input type="text" name="bordir_bdepan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[7]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Bordir Badan Belakang</th>
-					<th>
-						<input type="text" name="bordir_bbelakang" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[8]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Bordir Mangkok</th>
-					<th>
-						<input type="text" name="bordir_mangkok" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[9]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="4" align="center">Bawahan</th>
-				</tr>
-				<tr>
-					<th colspan="3">Celana</th>
-					<th>
-						<select name="bawahan_celana" class="form-control select2bs4">
-							<option value="-">Pilih</option>
-							<option value="Jeans">Jeans</option>
-							<option value="Katun">Katun</option>
-						</select>
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Bordir Celana</th>
-					<th>
-						<input type="text" name="bawahan_bordir_celana" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[12]):''; ?>" class="form-control">
-					</th>
-				</tr>
-				<tr>
-					<th colspan="3">Sablon Celana</th>
-					<th>
-						<input type="text" name="bawahan_bordir_celana" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[13]):''; ?>" class="form-control">
-					</th>
-				</tr>
+				
 			</thead>
 		</table>
 		</div>
 	</div>
+<form method="post" action="<?php echo $editsave ?>">
 	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+								<th>Bagian</th>
+								<th>Spesifikasi</th>
+								<th width="15"><a onclick="addspek()" class="btn btn-info"><i class="fa fa-plus"></i></a></th>
+							</tr>
+				</thead>
+							<tbody id="speklist">
+								<?php $i=0;?>
+								 <?php if(!empty($spek)){ ?>
+                                       <?php foreach($spek as $s){ ?>
+                                       	<tr>
+                                       		<td><input type="text" class="form-control" name="kolom[<?php echo $i ?>][kolom]" value="<?php echo $s['kolom']?>"></td>
+                                       		<td><input type="text" class="form-control" name="kolom[<?php echo $i ?>][isi]" value="<?php echo $s['isi']?>"></td>
+                                       		<td><i class="fa fa-trash remove"></i></td>
+                                       	</tr>
+                                       <?php } ?>
+                                 <?php } ?>
+							</tbody>
+						</table>
+		</div>
 		<div class="col-md-12">
 			<a href="<?php echo $batal?>" class="btn btn-danger btn-sm">Kembali</a>
 			<button class="btn btn-info btn-sm">Simpan</button>
@@ -217,4 +152,26 @@
 	</div>
 	<input type="hidden" name="id" value="<?php echo $detail['id_produksi_po']?>">
 </form>
+
+<script type="text/javascript">
+	var i='<?php echo count($spek) ?>';
+
+	function addspek(){
+		var html ='<tr>';
+
+		html +='<td><input name="kolom['+i+'][kolom]" class="form-control"></td>';
+		html +='<td><input name="kolom['+i+'][isi]" class="form-control"></td>';
+		html+='<td><i class="fa fa-trash remove"></i></td>';
+		i++;
+		$("#speklist").append(html);
+
+		html +='</tr>';
+	}
+
+	$(document).on('click', '.remove', function(){
+
+    $(this).closest('tr').remove();
+
+});
+</script>
 <?php } ?>

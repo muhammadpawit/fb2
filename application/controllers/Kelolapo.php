@@ -148,8 +148,8 @@ class Kelolapo extends CI_Controller {
 		$data['title']='Edit PO ';
 		$data['design']=1;
 		$data['detail']=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$kode_po));
+		$data['spek']	= $this->GlobalModel->GetData('spesifikasi_gambar_po',array('idpo'=>$kode_po));
 		$data['title'].=$data['detail']['kode_po'];
-		$data['spek']	= !empty($data['detail']['spesifikasi'])?explode(",", $data['detail']['spesifikasi']):null;
 		$data['namapo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
 		$data['page']=$this->page.'editpo';
@@ -191,18 +191,19 @@ class Kelolapo extends CI_Controller {
 
 	public function spesifikasi_edit_save(){
 		$data=$this->input->post();
-		///pre($data);
-		$spesifikasi = '<b>Atasan</b><br>,<br>'.$data['sablon_tangan'].',<br>';
-		$spesifikasi .= $data['sablon_bdepan'].',<br>';
-		$spesifikasi .= $data['sablon_bbelakang'].',<br>';
-		$spesifikasi .= $data['sablon_mangkok'].',<br>';
-		$spesifikasi .= $data['sablon'].',<br>';
-		$spesifikasi .= $data['bordir_tangan'].',<br>';
-		$spesifikasi .= $data['bordir_bdepan'].',<br>';
-		$spesifikasi .= $data['bordir_bbelakang'].',<br>';
-		$spesifikasi .= $data['bordir_mangkok'].',<br>';
-		$spesifikasi .= '<br><b>Bawahan</b>,<br>'.$data['bawahan_celana'].',<br>';
-		$spesifikasi .= $data['bawahan_bordir_celana'].',<br>';
+		//pre($data);
+		/*
+		$spesifikasi = '<b>Atasan</b><br>,<br>'.!empty($data['sablon_tangan'])?$data['sablon_tangan']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['sablon_bdepan'])?$data['sablon_bdepan']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['sablon_bbelakang'])?$data['sablon_bbelakang']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['sablon_mangkok'])?$data['sablon_mangkok']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['sablon'])?$data['sablon']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['bordir_tangan'])?$data['bordir_tangan']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['bordir_bdepan'])?$data['bordir_bdepan']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['bordir_bbelakang'])?$data['bordir_bbelakang']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['bordir_mangkok'])?$data['bordir_mangkok']:'...,'.',<br>';
+		$spesifikasi .= '<br><b>Bawahan</b>,<br>'.!empty($data['bawahan_celana'])?$data['bawahan_celana']:'...,'.',<br>';
+		$spesifikasi .= !empty($data['bawahan_bordir_celana'])?$data['bawahan_bordir_celana']:'...,'.',<br>';
 
 		$update=array(
 			'spesifikasi'=>$spesifikasi,
@@ -210,7 +211,16 @@ class Kelolapo extends CI_Controller {
 		$where=array(
 			'id_produksi_po'=>$data['id'],
 		);
-		$this->db->update('produksi_po',$update,$where);
+		$this->db->update('produksi_po',$update,$where);*/
+		$this->db->delete('spesifikasi_gambar_po',array('idpo'=>$data['id']));
+		foreach($data['kolom'] as $k){
+			$insert = array(
+				'idpo' => $data['id'],
+				'kolom' => $k['kolom'],
+				'isi'	=> $k['isi'],
+			);
+			$this->db->insert('spesifikasi_gambar_po',$insert);
+		}
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
         redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$data['id']);
 	}

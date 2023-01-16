@@ -1180,7 +1180,7 @@ class Finishing extends CI_Controller {
 	{
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$viewData['po']=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
-		$viewData['spek']	= !empty($viewData['po']['spesifikasi'])?explode(",", $viewData['po']['spesifikasi']):null;
+		$viewData['spek']	= $this->GlobalModel->GetData('spesifikasi_gambar_po',array('idpo'=>$po['id_produksi_po']));
 		//pre($viewData['spek']);
 		$kodepo=$po['kode_po'];
 		$viewData['pot'] = $this->GlobalModel->queryManualRow('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po = kbp.kode_po WHERE pp.kode_po="'.$kodepo.'"');
