@@ -1,7 +1,8 @@
+<?php if(!isset($design)){ ?>
 <form method="post" action="<?php echo $editsave?>">
 	<input type="hidden" name="id" value="<?php echo $detail['id_produksi_po']?>">
 	<div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -63,52 +64,6 @@
 				</tr>
 			</thead>
 		</table>
-		<table class="table table-bordered">
-			<thead>
-				<tr align="center">
-					<th>Gambar Depan</th>
-					<th>Gambar Belakang</th>
-					<th>Spesifikasi Gambar</th>
-				</tr>
-				<tr>
-					<th>
-						<img src="<?php echo BASEURL.$detail['gambar_po'] ?>" style="width: 100%;"  >
-					</th>
-					<th>
-						<img src="<?php echo BASEURL.$detail['gambar_po2'] ?>" style="width: 100%;"  >
-					</th>
-					<th valign="top">
-						<textarea name="spesifikasi" id="spesifikasi" rows="20">
-							<?php 
-                                                    if(empty($detail['spesifikasi'])){
-                                                        echo "<br>
-<b>Atasan</b> :<br>
-Sablon tangan : ....<br>
-Sablon bdn depan : ....<br>
-Sablon bdn belakang : ....<br>
-Sablon Mangkok : .... <br>
-Sablon : ....<br>
-Bordir tangan : ....<br>
-Bordir bdn depan : ....<br>
-Bordir bdn belakang : ....<br>
-Bordir Mangkok : -
-<br>
-<br>
-<b>Bawahan </b>:<br>
-Celana : katun / jeans<br>
-Bordir Celana : ....
-<br>
-<br>
-<b>Sablon </b>:<br>";
-                                                    }else{
-                                                        echo $detail['spesifikasi'];
-                                                    }
-                                                    ?>
-						</textarea>
-					</th>
-				</tr>
-			</thead>
-		</table>
 	</div>
 	<div class="col-md-6">
 		
@@ -121,3 +76,139 @@ Bordir Celana : ....
 	</div>
 </div>
 </form>
+<?php }else {?>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered">
+			<thead>
+				<tr align="center">
+					<th colspan="2">Gambar Depan</th>
+					<th colspan="2">Gambar Belakang</th>
+				</tr>
+				<tr>
+					<th colspan="2" align="center">
+						<img src="<?php echo BASEURL.$detail['gambar_po'] ?>" class="image img-responsive" style="height:150px;">
+                                        <form action="<?php echo BASEURL.'Kelolapo/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST">
+                                                    <input type="file" name="gambarPO1" class="form-control">
+
+                                                    <input type="hidden" name="kode_po" value="<?php echo $detail['kode_po'] ?>">
+
+                                              	<br>
+
+                                                    <button type="submit" class="btn btn-warning"> SUBMIT</button>
+
+
+                                        </form>
+					</th>
+					<th colspan="2" align="center">
+						<img src="<?php echo BASEURL.$detail['gambar_po2'] ?>" class="image img-responsive" style="height: 150px;">
+                                         <form action="<?php echo BASEURL.'Kelolapo/submitImageHppdua' ?>" enctype="multipart/form-data" method="POST">
+                                                    <input type="file" name="gambarPO2" class="form-control">
+
+                                                    <input type="hidden" name="kode_po" value="<?php echo $detail['kode_po'] ?>">
+
+                                              	<br>
+
+                                                    <button type="submit" class="btn btn-warning"> SUBMIT</button>
+
+
+                                        </form>
+					</th>
+				</tr>
+				<form method="post" action="<?php echo $editsave ?>">
+				<tr>
+					<th colspan="4">Spesifikasi PO</th>
+				</tr>
+				<tr>
+					<th colspan="4" align="center">Atasan</th>
+				</tr>
+				<tr>
+					<th colspan="3">Sablon Tangan</th>
+					<th>
+						<input type="text" name="sablon_tangan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[1]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Sablon Badan Depan</th>
+					<th>
+						<input type="text" name="sablon_bdepan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[2]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Sablon Badan Belakang</th>
+					<th>
+						<input type="text" name="sablon_bbelakang" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[3]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Sablon Mangkok</th>
+					<th>
+						<input type="text" name="sablon_mangkok" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[4]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Sablon</th>
+					<th>
+						<select name="sablon" class="form-control select2bs4">
+							<option value="-">Pilih</option>
+							<option value="Biasa">Biasa</option>
+							<option value="Full Print">Full Print</option>
+						</select>
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Bordir Tangan</th>
+					<th>
+						<input type="text" name="bordir_tangan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[6]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Bordir Badan Depan</th>
+					<th>
+						<input type="text" name="bordir_bdepan" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[7]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Bordir Badan Belakang</th>
+					<th>
+						<input type="text" name="bordir_bbelakang" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[8]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Bordir Mangkok</th>
+					<th>
+						<input type="text" name="bordir_mangkok" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[9]):''; ?>" class="form-control">
+					</th>
+				</tr>
+				<tr>
+					<th colspan="4" align="center">Bawahan</th>
+				</tr>
+				<tr>
+					<th colspan="3">Celana</th>
+					<th>
+						<select name="bawahan_celana" class="form-control select2bs4">
+							<option value="-">Pilih</option>
+							<option value="Jeans">Jeans</option>
+							<option value="Katun">Katun</option>
+						</select>
+					</th>
+				</tr>
+				<tr>
+					<th colspan="3">Bordir Celana</th>
+					<th>
+						<input type="text" name="bawahan_bordir_celana" value="<?php echo !empty($spek)?str_replace("<br>","",$spek[12]):''; ?>" class="form-control">
+					</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<a href="<?php echo $batal?>" class="btn btn-danger btn-sm">Kembali</a>
+			<button class="btn btn-info btn-sm">Simpan</button>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="<?php echo $detail['id_produksi_po']?>">
+</form>
+<?php } ?>

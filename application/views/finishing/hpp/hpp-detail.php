@@ -71,69 +71,23 @@
 
                                     <td><?php echo $po['nama_po'].' '.$po['nama_hpp'] ?></td>
                                     <td rowspan="8" width="25%" height="70%">
-                                        Spesifikasi PO <small class="no-print"><pre>Gunakan &#60;br&#62; untuk enter </pre></small>
-                                        <form method="post" action="<?php echo BASEURL?>Finishing/save_spesifikasi">
-                                            <input type="hidden" name="idpo" value="<?php echo $po['id_produksi_po']?>">
-                                            <div class="no-print">
-                                                <textarea name="spesifikasi" rows="25">
-                                                    <?php 
-                                                    if(empty($po['spesifikasi'])){
-                                                        echo "<br>
-<b>Atasan</b> :<br>
-Sablon tangan : ....<br>
-Sablon bdn depan : ....<br>
-Sablon bdn belakang : ....<br>
-Sablon Mangkok : .... <br>
-Sablon : ....<br>
-Bordir tangan : ....<br>
-Bordir bdn depan : ....<br>
-Bordir bdn belakang : ....<br>
-Bordir Mangkok : -
-<br>
-<br>
-<b>Bawahan </b>:<br>
-Celana : katun / jeans<br>
-Bordir Celana : ....
-<br>
-<br>
-<b>Sablon </b>:<br>";
-                                                    }else{
-                                                        echo $po['spesifikasi'];
-                                                    }
-                                                    
-                                                    ?></textarea>
-                                            </div>
-                                            <div class="print" style="display: none;font-size: 23.5px !important">
-                                                <small>
-                                                     <?php 
-                                                    if(empty($po['spesifikasi'])){
-                                                        echo "<br>
-<b>Atasan</b> :<br>
-Sablon tangan : ....<br>
-Sablon bdn depan : ....<br>
-Sablon bdn belakang : ....<br>
-Sablon Mangkok : .... <br>
-Sablon : ....<br>
-Bordir tangan : ....<br>
-Bordir bdn depan : ....<br>
-Bordir bdn belakang : ....<br>
-Bordir Mangkok : -
-<br>
-<br>
-<b>Bawahan </b>:<br>
-Celana : katun / jeans<br>
-Bordir Celana : ....
-<br>
-<br>
-<b>Sablon </b>:<br>";
-                                                    }else{
-                                                        echo $po['spesifikasi'];
-                                                    }
-                                                    ?>
-                                                </small>
-                                            </div>
-                                            <button type="submit" class="no-print">Submit</button>
-                                        </form>
+                                       <b> Spesifikasi PO <small class="no-print"></small></b>
+                                        <div style="font-size: 23.5px !important">
+                                            <b>Atasan</b><br>
+                                            Sablon Tangan : <?php echo !empty($spek)?str_replace("<br>","",$spek[1]):''; ?><br>
+                                            Sablon Badan Depan : <?php echo !empty($spek)?str_replace("<br>","",$spek[2]):''; ?><br>
+                                            Sablon Badan Belakang : <?php echo !empty($spek)?str_replace("<br>","",$spek[3]):''; ?><br>
+                                            Sablon Mangkok : <?php echo !empty($spek)?str_replace("<br>","",$spek[4]):''; ?><br>
+                                            Sablon : <?php echo !empty($spek)?str_replace("<br>","",$spek[5]):''; ?><br>
+                                            Bordir Tangan : <?php echo !empty($spek)?str_replace("<br>","",$spek[6]):''; ?><br>
+                                            Bordir Badan Depan : <?php echo !empty($spek)?str_replace("<br>","",$spek[7]):''; ?><br>
+                                            Bordir Badan Belakang : <?php echo !empty($spek)?str_replace("<br>","",$spek[8]):''; ?><br>
+                                            Bordir Mangkok : <?php echo !empty($spek)?str_replace("<br>","",$spek[9]):''; ?><br>
+                                            <b>Bawahan</b><br>
+                                            Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[11]):''; ?><br>
+                                            Bordir Celana : <?php echo !empty($spek)?str_replace("<br>","",$spek[12]):''; ?>
+                                        </div>
+
                                     </td>
                                     <td rowspan="8" width="25%" height="70%">
 
@@ -145,7 +99,7 @@ Bordir Celana : ....
 
                                         <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST">
 
-                                            <div class="row no-print">
+                                            <div class="row no-print" style="display: none;">
 
                                                 <div class="form-group col-12 text-center">
 
@@ -181,7 +135,7 @@ Bordir Celana : ....
 
                                         <form action="<?php echo BASEURL.'finishing/submitImageHppdua' ?>" enctype="multipart/form-data" method="POST">
 
-                                            <div class="row no-print">
+                                            <div class="row no-print" style="display: none;">
 
                                                 <div class="form-group col-12 text-center">
 

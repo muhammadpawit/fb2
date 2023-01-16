@@ -16,6 +16,7 @@ class Kelolapo extends CI_Controller {
 		$data=[];
 		$data['title']='Edit PO ';
 		$data['detail']=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$kode_po));
+		$data['spek']	= !empty($data['detail']['spesifikasi'])?explode(",", $data['detail']['spesifikasi']):null;
 		$data['namapo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
 		$data['page']=$this->page.'editpo';
@@ -26,7 +27,18 @@ class Kelolapo extends CI_Controller {
 
 	public function produksipoedit_save(){
 		$data=$this->input->post();
-		//pre($data);
+		$spesifikasi = '<b>Atasan</b><br>,<br>'.$data['sablon_tangan'].',<br>';
+		$spesifikasi .= $data['sablon_bdepan'].',<br>';
+		$spesifikasi .= $data['sablon_bbelakang'].',<br>';
+		$spesifikasi .= $data['sablon_mangkok'].',<br>';
+		$spesifikasi .= $data['sablon'].',<br>';
+		$spesifikasi .= $data['bordir_tangan'].',<br>';
+		$spesifikasi .= $data['bordir_bdepan'].',<br>';
+		$spesifikasi .= $data['bordir_bbelakang'].',<br>';
+		$spesifikasi .= $data['bordir_mangkok'].',<br>';
+		$spesifikasi .= '<br><b>Bawahan</b>,<br>'.$data['bawahan_celana'].',<br>';
+		$spesifikasi .= $data['bawahan_bordir_celana'].',<br>';
+
 		$update=array(
 			'kode_artikel'=>$data['kode_artikel'],
 			'jenis_po'	=>$data['jenis_po'],
@@ -35,7 +47,7 @@ class Kelolapo extends CI_Controller {
 			'serian'	=>$data['serian'],
 			'harga_satuan'=>$data['harga_satuan'],
 			'nama_po'=>$data['namaPO'],
-			'spesifikasi'=>$data['spesifikasi'],
+			'spesifikasi'=>$spesifikasi,
 		);
 		$where=array(
 			'id_produksi_po'=>$data['id'],
@@ -43,6 +55,164 @@ class Kelolapo extends CI_Controller {
 		$this->db->update('produksi_po',$update,$where);
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'Kelolapo/produksipo');
+	}
+
+	public function spesifikasi(){
+		$data=array();
+		$data['n']=1;
+		$get=$this->input->get();
+		if(isset($get['kode_po'])){
+			$kode_po=$get['kode_po'];
+		}else{
+			$kode_po=null;
+		}
+		if(isset($get['jenis_po'])){
+			$jenis_po=$get['jenis_po'];
+		}else{
+			$jenis_po=null;
+		}
+		$filter=array(
+			'kode_po'=>$kode_po,
+			'jenis_po'=>$jenis_po,
+		);
+		$url='';
+		if(isset($get['kode_po'])){
+			$url.='&kode_po='.$get['kode_po'];
+		}
+		if(isset($get['jenis_po'])){
+			$url.='&jenis_po='.$get['jenis_po'];
+		}
+		$this->load->database();
+		$data['jenis']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
+		$jumlah_data = $this->GlobalModel->jumlah_data_where('produksi_po',$filter);
+		$this->load->library('pagination');
+		
+		$data['po']=array();
+		//$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
+		$sql="SELECT * FROM produksi_po WHERE hapus=0 ";
+
+		if(!empty($kode_po)){
+			$sql.=" AND kode_po='$kode_po' ";
+		}
+
+		if(!empty($jenis_po)){
+			$sql.=" AND nama_po='$jenis_po' ";
+		}
+
+		$sql.=" ORDER BY id_produksi_po DESC ";
+		$results = $this->GlobalModel->queryManual($sql);
+		foreach($results as $result){
+			$action=array();
+			//if($result['status']==0){
+				$action[] = array(
+					'text' => '<i class="fa fa-pencil"></i>&nbsp;Edit',
+					'href' =>  BASEURL.'kelolapo/spesifikasiedit/'.$result['id_produksi_po'],
+				);	
+			//}
+			
+			$action[] = array(
+				'text' => '<i class="fa fa-eye"></i>&nbsp;Detail',
+				'href' =>  BASEURL.'kelolapo/produksipodetail/'.$result['id_produksi_po'],
+			);
+			$progress=$this->GlobalModel->getDataRow('proggresion_po',array('id_proggresion_po'=>$result['id_proggresion_po']));
+			$data['po'][]=array(
+				'id_produksi_po'=>$result['id_produksi_po'],
+				'kode_artikel'=>$result['kode_artikel'],
+				'kode_po'=>$result['kode_po'],
+				'nama_po'=>$result['nama_po'],
+				'jenis_po'=>$result['jenis_po'],
+				'kategori'=>$result['kategori_po'],
+				'tanggal'=>date('d-m-Y',strtotime($result['created_date'])),
+				'status'=>$result['status'],
+				//'nama_progress'=>$progress['nama_progress'],
+				'nama_progress'=>null,
+				'action'=>$action,
+			);
+		}
+		$data['page']='newtheme/page/kelolapo/polist';
+		$data['title']='Master Kode PO';
+		$data['tambah']=BASEURL.'Kelolapo/spesifikasi';
+		$data['action']=BASEURL.'Kelolapo/spesifikasi';
+		$data['url']=BASEURL.'Kelolapo/spesifikasi';
+		$data['namaPO']	= $this->GlobalModel->getData('produksi_po',null);
+		$data['progress'] = $this->GlobalModel->getData('proggresion_po',null);
+		$data['JenisPo'] = $this->GlobalModel->getData('master_jenis_po',null);
+		$data['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
+		$this->load->view('newtheme/layout/header');
+		$this->load->view('newtheme/page/main',$data);
+		$this->load->view('newtheme/layout/footer');
+	}
+
+	public function spesifikasiedit($kode_po){
+		$data=[];
+		$data['title']='Edit PO ';
+		$data['design']=1;
+		$data['detail']=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$kode_po));
+		$data['title'].=$data['detail']['kode_po'];
+		$data['spek']	= !empty($data['detail']['spesifikasi'])?explode(",", $data['detail']['spesifikasi']):null;
+		$data['namapo'] = $this->GlobalModel->getData('master_jenis_po',null);
+		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
+		$data['page']=$this->page.'editpo';
+		$data['batal']=BASEURL.'Kelolapo/spesifikasi';
+		$data['editsave']=BASEURL.'Kelolapo/spesifikasi_edit_save';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function submitImageHppsat()
+	{
+		$config['upload_path']          = './uploads/hpp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $post = $this->input->post();
+        $po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
+		$kodepo=$po['id_produksi_po'];
+
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('gambarPO1');
+        $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
+        $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po'=>$fileName));
+        $this->session->set_flashdata('msg','Data berhasil diupdate');
+        redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$kodepo);
+	}
+
+	public function submitImageHppdua()
+	{
+		$config['upload_path']          = './uploads/hpp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $post = $this->input->post();
+        $po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
+		$kodepo=$po['id_produksi_po'];
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('gambarPO2');
+        $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
+        $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po2'=>$fileName));
+        $this->session->set_flashdata('msg','Data berhasil diupdate');
+        redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$kodepo);
+	}
+
+	public function spesifikasi_edit_save(){
+		$data=$this->input->post();
+		///pre($data);
+		$spesifikasi = '<b>Atasan</b><br>,<br>'.$data['sablon_tangan'].',<br>';
+		$spesifikasi .= $data['sablon_bdepan'].',<br>';
+		$spesifikasi .= $data['sablon_bbelakang'].',<br>';
+		$spesifikasi .= $data['sablon_mangkok'].',<br>';
+		$spesifikasi .= $data['sablon'].',<br>';
+		$spesifikasi .= $data['bordir_tangan'].',<br>';
+		$spesifikasi .= $data['bordir_bdepan'].',<br>';
+		$spesifikasi .= $data['bordir_bbelakang'].',<br>';
+		$spesifikasi .= $data['bordir_mangkok'].',<br>';
+		$spesifikasi .= '<br><b>Bawahan</b>,<br>'.$data['bawahan_celana'].',<br>';
+		$spesifikasi .= $data['bawahan_bordir_celana'].',<br>';
+
+		$update=array(
+			'spesifikasi'=>$spesifikasi,
+		);
+		$where=array(
+			'id_produksi_po'=>$data['id'],
+		);
+		$this->db->update('produksi_po',$update,$where);
+		$this->session->set_flashdata('msg','Data berhasil diupdate');
+        redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$data['id']);
 	}
 	public function produksipodetail($kode_po){
 		$data=[];
