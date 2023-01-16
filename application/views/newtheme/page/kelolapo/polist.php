@@ -14,7 +14,7 @@
   <div class="col-md-5">
                 <div class="form-group">
                   <label>Kode Po</label>
-                  <select class="form-control autopo" name="kode_po" id="kode_po" data-live-search="true">
+                  <select class="form-control autopoid" name="kode_po" id="kode_po" data-live-search="true">
                     <option value="*">Semua</option>
                   </select>
                 </div>
@@ -38,7 +38,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered nosearch">
+    <table class="table table-bordered yessearch">
               <thead>
                 <tr>
                   <th>TANGGAL</th>

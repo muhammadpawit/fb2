@@ -92,7 +92,7 @@ class Kelolapo extends CI_Controller {
 		$sql="SELECT * FROM produksi_po WHERE hapus=0 ";
 
 		if(!empty($kode_po)){
-			$sql.=" AND kode_po='$kode_po' ";
+			$sql.=" AND id_produksi_po='$kode_po' ";
 		}
 
 		if(!empty($jenis_po)){
@@ -533,7 +533,7 @@ class Kelolapo extends CI_Controller {
 		$sql="SELECT * FROM produksi_po WHERE hapus=0 ";
 
 		if(!empty($kode_po)){
-			$sql.=" AND kode_po='$kode_po' ";
+			$sql.=" AND id_produksi_po='$kode_po' ";
 		}
 
 		if(!empty($jenis_po)){
