@@ -163,45 +163,49 @@
     		<label>Jumlah Potongan(Yang Di Terima)</label>
     		<input type="text" class="form-control" name="jumlahditerima" required >
     	</div>
-        <div class="form-group col-sm-12 col-lg-3">
-        <label>Progress</label>
-        <select class="form-control selectpicker" id="poSelect" name="progresName" title="Select Progress" data-live-search="true" required>
-            <?php foreach ($progress as $key => $pro): ?>
-            <option selected="selected" value="<?php echo $pro['id_proggresion_po'] ?>"><?php echo $pro['nama_progress'] ?></option>
-            <?php endforeach ?>
-        </select>
-    </div>
-    <br><br>
-    <div class="table-responsive">
-        <table class="table table-bordered" id="item_table3">
-            <tr>
-                <th>SIZE</th>
-                <th>DZ(Lusin)</th>
-                <th>PIECES</th>
-                <th>BANGKE</th>
-                <th>REJECT</th>
-                <th>HILANG</th>
-                <th>CLAIM</th>
-                <th>KETERANGAN</th>
-                <th><button type="button" name="add" class="btn btn-success btn-sm add3"><i class="fa fa-plus"></i></button></th>
-            </tr>
-            <?php if (!empty($setorcmtjahititem)): ?>
-                <?php // pre($setorcmtjahititem) ?>
-                <?php foreach ($setorcmtjahititem as $key => $jahitItem): ?>
-            	<tr>
-				    <td><input type="text" class="form-control" name="rinciansize[]" value="<?php echo $jahitItem['rincian_size'] ?>" required ></td>
-				    <td><input type="text" class="form-control" name="rincianlusin[]" value="<?php echo $jahitItem['rincian_lusin'] ?>" required ></td>
-				    <td><input type="number" class="form-control" name="rincianpiece[]" value="<?php echo $jahitItem['rincian_piece'] ?>" required  ></td>
-				    <td><input type="number" name="banke[]" class="form-control" value="<?php echo $jahitItem['rincian_bangke'] ?>" required></td>
-				    <td><input type="number" class="form-control" name="barangCacad[]" value="<?php echo $jahitItem['rincian_reject'] ?>" required></td>
-				    <td><input type="number" class="form-control" name="hilangBarang[]" value="<?php echo $jahitItem['rincian_hilang'] ?>" required></td>
-                    <td><input type="number" class="form-control" name="claimBarang[]" value="<?php echo $jahitItem['rincian_claim'] ?>" required></td>
-                    <td><input type="text" class="form-control" name="keterangan[]" value="<?php echo $jahitItem['rincian_keterangan'] ?>" ></td>
-				    <td></td>
-				</tr>
+        <div class="form-group col-sm-12 col-lg-12">
+            <label>Progress</label>
+            <select class="form-control selectpicker" id="poSelect" name="progresName" title="Select Progress" data-live-search="true" required>
+                <?php foreach ($progress as $key => $pro): ?>
+                <option selected="selected" value="<?php echo $pro['id_proggresion_po'] ?>"><?php echo $pro['nama_progress'] ?></option>
                 <?php endforeach ?>
-            <?php endif ?>
-        </table>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="item_table3">
+                    <tr>
+                        <th>SIZE</th>
+                        <th>DZ(Lusin)</th>
+                        <th>PIECES</th>
+                        <th>BANGKE</th>
+                        <th>REJECT</th>
+                        <th>HILANG</th>
+                        <th>CLAIM</th>
+                        <th>KETERANGAN</th>
+                        <th><button type="button" name="add" class="btn btn-success btn-sm add3"><i class="fa fa-plus"></i></button></th>
+                    </tr>
+                    <?php if (!empty($setorcmtjahititem)): ?>
+                        <?php // pre($setorcmtjahititem) ?>
+                        <?php foreach ($setorcmtjahititem as $key => $jahitItem): ?>
+                        <tr>
+                            <td><input type="text" class="form-control" name="rinciansize[]" value="<?php echo $jahitItem['rincian_size'] ?>" required ></td>
+                            <td><input type="text" class="form-control" name="rincianlusin[]" value="<?php echo $jahitItem['rincian_lusin'] ?>" required ></td>
+                            <td><input type="number" class="form-control" name="rincianpiece[]" value="<?php echo $jahitItem['rincian_piece'] ?>" required  ></td>
+                            <td><input type="number" name="banke[]" class="form-control" value="<?php echo $jahitItem['rincian_bangke'] ?>" required></td>
+                            <td><input type="number" class="form-control" name="barangCacad[]" value="<?php echo $jahitItem['rincian_reject'] ?>" required></td>
+                            <td><input type="number" class="form-control" name="hilangBarang[]" value="<?php echo $jahitItem['rincian_hilang'] ?>" required></td>
+                            <td><input type="number" class="form-control" name="claimBarang[]" value="<?php echo $jahitItem['rincian_claim'] ?>" required></td>
+                            <td><input type="text" class="form-control" name="keterangan[]" value="<?php echo $jahitItem['rincian_keterangan'] ?>" ></td>
+                            <td></td>
+                        </tr>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                </table>
+            </div>
+        </div>
     </div>
     <?php if (empty($setorcmtjahititem)){ ?>
     <button class="btn btn-info" type="submit">submit</button>
