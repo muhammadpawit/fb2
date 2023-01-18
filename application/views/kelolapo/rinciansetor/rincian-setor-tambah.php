@@ -177,7 +177,7 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="item_table3">
                     <tr>
-                        <th>SIZE</th>
+                        <th width="250">SIZE</th>
                         <th>DZ(Lusin)</th>
                         <th>PIECES</th>
                         <th>BANGKE</th>
