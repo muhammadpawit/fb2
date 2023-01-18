@@ -171,6 +171,7 @@
             <?php endforeach ?>
         </select>
     </div>
+    <br><br>
     <div class="table-responsive">
         <table class="table table-bordered" id="item_table3">
             <tr>
