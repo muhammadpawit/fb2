@@ -20,7 +20,7 @@ class Laporanpoberedarcmt extends CI_Controller {
 		if(isset($get['cmt'])){
 			$datcmt = $get['cmt'];
 		}else{
-			$datcmt = null;
+			$datcmt = 0;
 		}
 
 		$results 		= [];
