@@ -82,15 +82,15 @@ $(document).ready(function(){
         var html = '';
         html += '<tr>';
         html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
-        html += '<td><input type="text" class="form-control artikel" name="artikel[]"  required readonly></td>';
-        html += '<td><input type="number" class="form-control hargasatuan"  name="hargasatuan[]" required readonly></td>';
+        html += '<td><input type="text" class="form-control artikel" name="artikel[]"  required value="" readonly></td>';
+        html += '<td><input type="number" class="form-control hargasatuan"  name="hargasatuan[]" required value="" readonly></td>';
         html += '<td><input type="number" class="form-control jumlah" name="jumlahRinci[]" required></td>';
         html += '<td><input type="number" class="form-control jumlahRp" name="jumlahRp[]" required></td>';
         html += '<td><input type="text" class="form-control keterangan" name="keterangan[]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#addkirimgudang').append(html);
         //$('.selectpicker').selectpicker('refresh');
-        $('.selectpicker').select2();
+        //$('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
@@ -104,6 +104,11 @@ $(document).ready(function(){
           .done(function( data ) {
             var obj = JSON.parse(data);
             console.log(obj);
+            if(obj.harga_satuan==0){
+                alert("PO Belum dibuat HPP. Silahkan buat HPPnya terlebih dahulu."); 
+                 dai.remove();
+                return  false;
+            }
             dai.find(".artikel").val(obj.kode_artikel);
             dai.find(".hargasatuan").val(Math.round(obj.harga_satuan));
             dai.find(".jumlah").val(obj.jumlah_pcs_po);
