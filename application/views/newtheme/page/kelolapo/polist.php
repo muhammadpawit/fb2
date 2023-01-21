@@ -57,7 +57,7 @@
                             <tr>
                                 <td>
                                   <?php if(isset($gbr)){ ?>
-                                    <img src="<?php echo BASEURL.$sat['gambar1']?>" height="75">
+                                    <img src="<?php echo BASEURL.$sat['gambar1']?>" class="img-responsive img-thumbnail">
                                   <?php } ?>
                                 </td>
                                 <td><?php echo $sat['tanggal'] ?></td>
