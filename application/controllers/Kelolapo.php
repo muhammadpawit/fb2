@@ -99,7 +99,7 @@ class Kelolapo extends CI_Controller {
 			$sql.=" AND nama_po='$jenis_po' ";
 		}
 
-		$sql.=" ORDER BY id_produksi_po DESC LIMIT 20";
+		$sql.=" ORDER BY updated_date DESC LIMIT 20";
 		$results = $this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
 			$action=array();
@@ -225,6 +225,8 @@ class Kelolapo extends CI_Controller {
 			);
 			$this->db->insert('spesifikasi_gambar_po',$insert);
 		}
+		$u = array('updated_date'=> date('Y-m-d H:i:s'));
+		$this->db->update('produksi_po',$u,array('id_produksi_po'=>$data['id']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
         redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$data['id']);
 	}
