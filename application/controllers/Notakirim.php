@@ -243,7 +243,7 @@ class Notakirim extends CI_Controller {
 		//pre($viewData['gudangfb']);
 		$viewData['dataRinci'] = $data;
 		//pre($data);
-		$viewData['cancel']=$this->link;
+		$viewData['cancel']=BASEURL.'Finishing/pengirimangudang';
 		$viewData['edit']=BASEURL.'Notakirim/next_save';
 		$viewData['no']=1;
 		$viewData['page']='finishing/nota/next';
