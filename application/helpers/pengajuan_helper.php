@@ -1,5 +1,22 @@
 <?php 
 
+	function rand_color(){
+		$array = [
+			'#96180f',
+			'#7d4b0a',
+			'#0c6b09',
+			'#034954',
+			'#070f59',
+			'#673391',
+			'#610e53',
+			'#700835',
+			'#065753'
+		];
+
+		$k = array_rand($array);
+		$v = $array[$k];
+		return $v;
+	}
 	function foto($id){
 		$CI =& get_instance();
 		$sql="SELECT * FROM user WHERE id_user='$id' ";

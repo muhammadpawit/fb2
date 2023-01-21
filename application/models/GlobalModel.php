@@ -93,6 +93,7 @@ class GlobalModel extends CI_Model {
 		$dataReturn = $this->db->query($query)->result_array();
 		foreach($dataReturn as $r){
 				$rp[]=$r['kode_po'];
+				//$rp[]='<a href="'.BASEURL.'Kelolapo/kirimsetorcmt?kode_po='.$r['kode_po'].'">'.$r['kode_po'].'</a>';
 		}
 		if(!empty($dataReturn)){
 			$hasil=implode(",<br>", $rp);
