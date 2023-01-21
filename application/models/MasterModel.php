@@ -14,7 +14,10 @@ class MasterModel extends CI_Model {
 	}
 
 	function cmt_in($in){
-		$sql="SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN (".$in.") ";
+		$sql ="SELECT * FROM master_cmt WHERE hapus=0 ";
+		if(!empty($in)){
+			$sql .=" AND id_cmt IN (".$in.") ";
+		}
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
