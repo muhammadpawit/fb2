@@ -90,7 +90,7 @@ $(document).ready(function(){
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#addkirimgudang').append(html);
         //$('.selectpicker').selectpicker('refresh');
-        //$('.selectpicker').select2();
+        $('.selectpicker').select2();
      });
 
     $(document).on('click', '.remove', function(){
