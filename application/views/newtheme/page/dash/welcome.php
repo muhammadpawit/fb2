@@ -1,3 +1,27 @@
+<?php if(!empty($reqharga)){?>
+<div class="row">
+    <div class="col-md-12">
+       <div class="alert" style="background-color: #3D6AA2 !important;color: white">
+           Request Perubahan Harga
+       </div>
+        <table class="table table-bordered nosearch">
+            <?php foreach($reqharga as $req){?>
+            <tr> 
+                <td><?php echo $req['tgl']?></td>  
+                <td><?php echo $req['oleh']?></td>  
+                <td><?php echo $req['alesan']?></td>
+                <td>
+                    <?php if(callSessUser('id_user')=='10' OR callSessUser('id_user')=='11'){?>
+                    <a href="<?php echo BASEURL?>Gudang/penerimaanitemdetail_ubahharga/<?php echo $req['id_penerimaan'] ?>" class="btn btn-success btn-xs text-white">Proses</a>
+                    <?php }?>
+                </td>    
+            </tr>
+            <?php } ?>
+        </table>
+    </div>
+</div>
+<?php } ?>
+
 <?php //if(!empty($request) & callSessUser('id_user')=='10' OR callSessUser('id_user')=='11'){?>
 <div class="row">
     <div class="col-md-12">
@@ -26,6 +50,7 @@
         </table>
     </div>
 </div>
+
 <?php if(!empty($request)){?>
 <div class="row">
     <div class="col-md-12">

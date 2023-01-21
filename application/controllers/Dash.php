@@ -521,6 +521,7 @@ class Dash extends CI_Controller {
 		}
 		$data['menipis']=[];
 		$data['menipis']=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
+		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
 	}

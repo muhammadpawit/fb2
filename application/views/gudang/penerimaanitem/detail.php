@@ -1,4 +1,93 @@
-      <div class="row">
+      <?php if(isset($ubahharga)){ ?>
+        <div class="row">
+          <form method="post" action="<?php echo $request_harga ?>">
+            <input type="hidden" name="idrequest" value="<?php echo !empty($cek)?$cek['id']:0; ?>">
+          <div class="col-md-12">
+              <div class="form-group">
+                <input type="hidden" name="id" value="<?php echo $results['id']?>">
+                <strong>Terima Dari <?php echo GetName('master_supplier',$results['supplier'])?></strong><br>
+              </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Nama Barang</th>
+                  <?php if(!empty($cek)){ ?>
+                    <?php if($cek['status']==0){ ?>
+                  <th>Harga Perubahan</th>
+                  <?php } ?>
+                  <th>Harga</th>
+                  <?php } ?>
+
+                  <?php if(!empty($cek)){ ?>
+                    <?php if($cek['status']==0){ ?>
+                  <th>Harga Perubahan</th>
+                  <?php } ?>
+                  <?php } ?>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $total=0;?>
+                <?php foreach($products as $p){?>
+                  <tr>
+                    <td><?php echo $p['nama']?></td>
+                    <td><?php echo number_format($p['harga'],2)?></td>
+                    <td>
+                      <input type="hidden" name="prods[<?php echo $total ?>][id]" value="<?php echo $p['id'] ?>">
+                      <?php if(!empty($cek)){ ?>
+                          <?php if($cek['status']==0){ ?>
+                              <input type="text" name="prods[<?php echo $total ?>][harga]" required>
+                          <?php } ?>
+                      <?php } ?>
+                    </td>
+                  </tr>
+                    <?php $total++ ?>
+                    <?php } ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Penjelasan Kenapa Mengalami Perubahan Harga</label>
+              <?php //pre($cek) ?>
+              <?php if(!empty($cek)){ ?>
+                <div class="alert">
+                  <?php echo $cek['oleh'] ?> Berkata : <i><b><?php echo $cek['alesan'] ?></b></i>
+                </div>
+              <?php } else { ?>
+              <textarea class="form-control" name="alesan" required></textarea>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <?php if(empty($cek)){ ?>
+
+              <button class="btn btn-success full">Request</button>
+
+            <?php }else{ ?>
+
+                <?php if(callSessUser('id_user')==10 || callSessUser('id_user')==11 && $cek['status']==0){ ?>
+                  <button class="btn btn-success full" id="acc">Acc</button>
+                <?php }elseif($cek['status']==1){ ?>
+                  <div class="alert alert-success">
+                    Sudah di ACC 
+                  </div>
+                <?php }else{ ?>
+                    <i><b>Menunggu ACC SPV ...</b></i>
+                <?php } ?>
+
+            <?php } ?>
+          </div>
+          </form>
+        </div>
+
+      <?php }else{ ?>
+
+
+              <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
             <i class="fa fa-globe"></i> Bukti Penerimaan Item Masuk
@@ -111,7 +200,6 @@
         </div>
         <!-- /.col -->
       </div>
-
       <div class="row no-print">
         <div class="col-xs-12">
           <!-- <a onclick="cetak()" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
@@ -122,3 +210,5 @@
           </a>
         </div>
       </div>
+
+      <?php } ?>

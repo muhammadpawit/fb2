@@ -1059,6 +1059,13 @@ class Gudang extends CI_Controller {
 				'text'=>'Detail',
 				'href'=>BASEURL.'Gudang/penerimaanitemdetail/'.$result['id'],
 			);
+
+			$action[]=array(
+				'text'=>'Ajukan Perubahan harga',
+				'href'=>BASEURL.'Gudang/penerimaanitemdetail_ubahharga/'.$result['id'],
+			);
+
+
 			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
 			$products=$this->GlobalModel->getData('penerimaan_item_detail',array('hapus'=>0,'penerimaan_item_id'=>$result['id']));
 			$data['items'][]=array(
@@ -1177,6 +1184,51 @@ class Gudang extends CI_Controller {
 		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id));
 		$data['page']='gudang/penerimaanitem/detail';
 		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function penerimaanitemdetail_ubahharga($id){
+		$data=array();
+		$data['title'] ='Ubah Harga Penerimaan ';
+		$data['ubahharga'] =1;
+		$results=array();
+		$products=array();
+		$data['cek']=$this->GlobalModel->getDataRow('request_harga',array('id_penerimaan'=>$id));
+		$data['results']=$this->GlobalModel->getDataRow('penerimaan_item',array('id'=>$id));
+		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id));
+		$data['request_harga'] = !empty($data['cek'])?BASEURL.'Gudang/acc_harga':BASEURL.'Gudang/request_harga';
+		$data['page']='gudang/penerimaanitem/detail';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function request_harga(){
+		$post 	= $this->input->post();
+		$insert = array(
+			'id_penerimaan' => $post['id'],
+			'alesan'		=> $post['alesan'],
+			'tgl'			=> date('Y-m-d H:i:s'),
+			'oleh'			=> callSessUser('nama_user'),
+		);
+		$this->db->insert('request_harga',$insert);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'gudang/penerimaanitemdetail_ubahharga/'.$post['id']);
+	}
+
+	public function acc_harga(){
+		$post 	= $this->input->post();
+		//pre($post);
+		foreach($post['prods'] as $p ){
+			$update = array(
+				'harga' => $p['harga'],
+			);
+			$where = array(
+				'id' => $p['id'],
+			);
+			$this->db->update('penerimaan_item_detail',$update,$where);
+		}
+
+		$this->db->update('request_harga',array('status'=>1),array('id'=>$post['idrequest']));
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'gudang/penerimaanitemdetail_ubahharga/'.$post['id']);
 	}
 
 	public function penerimaanitem_hapus($id){

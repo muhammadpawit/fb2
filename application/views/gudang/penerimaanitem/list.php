@@ -94,7 +94,7 @@
                       <td><?php echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td>
                       <td class="right">
                         <?php foreach ($i['action'] as $action) { ?>
-                          <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                          <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect" style="margin-bottom: 3%"><?php echo $action['text']; ?></a>
                             <?php } ?>
                       </td>
                       <td>
