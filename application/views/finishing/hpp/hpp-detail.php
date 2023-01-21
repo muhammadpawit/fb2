@@ -954,7 +954,7 @@
                                             <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo (empty($po['operaitonal_price'])) ?0 : $po['operaitonal_price'] ?>">
 	
                                             </div>
-
+                                            <span  class="no-print">
                                             <input type="hidden" value="<?php echo $po['kode_po'] ?>" name="kode_po">
 
                                             <div class="col-12 mt-1">
@@ -962,6 +962,7 @@
                                                 <input class="btn btn-info no-print" type="submit" id="" name="button" value="UPDATE">
 
                                             </div>
+                                            </span>
 
                                         </div>
 
