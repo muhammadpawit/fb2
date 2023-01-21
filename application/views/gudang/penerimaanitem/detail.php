@@ -16,7 +16,6 @@
                   <th>Nama Barang</th>
                   <?php if(!empty($cek)){ ?>
                     <?php if($cek['status']==0){ ?>
-                  <th>Harga Perubahan</th>
                   <?php } ?>
                   <th>Harga</th>
                   <?php } ?>
