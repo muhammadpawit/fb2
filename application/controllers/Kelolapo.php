@@ -218,6 +218,7 @@ class Kelolapo extends CI_Controller {
 				'idpo' => $data['id'],
 				'kolom' => $k['kolom'],
 				'isi'	=> $k['isi'],
+				'date_input' => date('Y-m-d H:i:s'),
 			);
 			$this->db->insert('spesifikasi_gambar_po',$insert);
 		}
