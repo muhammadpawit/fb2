@@ -1207,6 +1207,7 @@ class Gudang extends CI_Controller {
 			'alesan'		=> $post['alesan'],
 			'tgl'			=> date('Y-m-d H:i:s'),
 			'oleh'			=> callSessUser('nama_user'),
+			'status'		=> 0,
 		);
 		$this->db->insert('request_harga',$insert);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
