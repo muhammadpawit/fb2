@@ -118,7 +118,7 @@
                                         <?php //} ?>
 
                                     </td>
-
+                                    <?php if(!empty($po['gambar_po2'])){ ?>
                                     <td rowspan="8" width="25%" height="70%">
 
                                         <?php //if (!empty($produk['gambar_po2'])){ ?>
@@ -154,6 +154,7 @@
                                         <?php //} ?>
 
                                     </td>
+                                    <?php } ?>
 
                                 </tr>
 
