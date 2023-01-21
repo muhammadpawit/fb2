@@ -948,11 +948,10 @@
                                         <div class="row">
 
                                             <div class="col-12">
-											<span class="print">
+											<div class="print" style="text-align: right;padding-right: 10%">
 												<?php $opr=0;$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); ?>
-											</span>
+											</div>
                                             <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo (empty($po['operaitonal_price'])) ?0 : $po['operaitonal_price'] ?>">
-	
                                             </div>
                                             <span  class="no-print">
                                             <input type="hidden" value="<?php echo $po['kode_po'] ?>" name="kode_po">
