@@ -99,7 +99,7 @@ class Kelolapo extends CI_Controller {
 			$sql.=" AND nama_po='$jenis_po' ";
 		}
 
-		$sql.=" ORDER BY id_produksi_po DESC ";
+		$sql.=" ORDER BY id_produksi_po DESC LIMIT 20";
 		$results = $this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
 			$action=array();
@@ -110,10 +110,10 @@ class Kelolapo extends CI_Controller {
 				);	
 			//}
 			
-			$action[] = array(
-				'text' => '<i class="fa fa-eye"></i>&nbsp;Detail',
-				'href' =>  BASEURL.'kelolapo/produksipodetail/'.$result['id_produksi_po'],
-			);
+			// $action[] = array(
+			// 	'text' => '<i class="fa fa-eye"></i>&nbsp;Detail',
+			// 	'href' =>  BASEURL.'kelolapo/produksipodetail/'.$result['id_produksi_po'],
+			// );
 			$progress=$this->GlobalModel->getDataRow('proggresion_po',array('id_proggresion_po'=>$result['id_proggresion_po']));
 			$data['po'][]=array(
 				'id_produksi_po'=>$result['id_produksi_po'],
@@ -121,6 +121,8 @@ class Kelolapo extends CI_Controller {
 				'kode_po'=>$result['kode_po'],
 				'nama_po'=>$result['nama_po'],
 				'jenis_po'=>$result['jenis_po'],
+				'gambar1' => $result['gambar_po'],
+				'gambar2' => $result['gambar_po2'],
 				'kategori'=>$result['kategori_po'],
 				'tanggal'=>date('d-m-Y',strtotime($result['created_date'])),
 				'status'=>$result['status'],
@@ -129,6 +131,7 @@ class Kelolapo extends CI_Controller {
 				'action'=>$action,
 			);
 		}
+		$data['gbr']=1;
 		$data['page']='newtheme/page/kelolapo/polist';
 		$data['title']='Master Kode PO';
 		$data['tambah']=BASEURL.'Kelolapo/spesifikasi';

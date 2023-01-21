@@ -41,6 +41,7 @@
     <table class="table table-bordered yessearch">
               <thead>
                 <tr>
+                  <th></th>
                   <th>TANGGAL</th>
                   <th>KODE ARTIKEL</th>
                   <th>NAMA PO</th>
@@ -54,6 +55,11 @@
               <tbody>
                 <?php foreach ($po as $key => $sat): ?>
                             <tr>
+                                <td>
+                                  <?php if(isset($gbr)){ ?>
+                                    <img src="<?php echo BASEURL.'uploads/hpp/'.$sat['gambar1']?>" height="75">
+                                  <?php } ?>
+                                </td>
                                 <td><?php echo $sat['tanggal'] ?></td>
                                 <td><?php echo $sat['kode_artikel'] ?></td>
                                 <td><?php echo $sat['nama_po'] ?></td>
