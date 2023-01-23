@@ -1055,6 +1055,10 @@ class Bordir extends CI_Controller {
 					$sql.=" AND nama_operator='".$get['oper']."' ";
 				}
 
+				if(isset($get['pemilik'])){
+					$sql .=" AND idpemilik='".$get['pemilik']."' ";
+				}
+
 				$sql.=' ORDER BY kmb.created_date ASC ';
 				$bordir=array();
 				//pre($sql);
@@ -1075,6 +1079,7 @@ class Bordir extends CI_Controller {
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
 					'mesin'=>$b['mesin_bordir'],
+					'mandor'=>$b['mandor'],
 					'nama_po'=>$b['nama'],
 					'created_date'=>date('d F Y',strtotime($b['created_date'])),
 					'bagian_bordir'=>$b['bagian_bordir'],
@@ -1095,7 +1100,9 @@ class Bordir extends CI_Controller {
 				//pre($sql);
 				$data['mesin'] = $this->GlobalModel->getData('master_mesin',null);
 				$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
+				$data['pemilik']=$this->GlobalModel->getData('pemilik_poluar',array('hapus'=>0));
 				$data['opt'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+				$data['milik'] = $get['pemilik'];
 				if(isset($get['excel'])){
 					$this->load->view('bordir/list_excel',$data);
 				}else{

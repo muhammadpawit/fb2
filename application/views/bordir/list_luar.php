@@ -13,13 +13,13 @@
 <div class="row">
     <div class="col-md-2">
         <div class="form-group">
-            <label>Tanggal Awal</label>
+            <label>Tanggal</label>
             <input type="text" value="<?php echo $tanggalMulai?>" class="form-control" name="tanggalMulai">
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <label>Tanggal Akhir</label>
+            <label>Tanggal</label>
             <input type="text" class="form-control" name="tanggalEnd" value="<?php echo $tanggalEnd?>">
         </div>
     </div>
@@ -27,6 +27,15 @@
         <label>Nama PO</label>
         <select name="namaPo" class="form-control autopoluar" data-live-search="true">
             <option value="*">Semua</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label>Pemilik PO</label>
+        <select name="pemilik" class="form-control select2bs4" required="required">
+              <option value="">Pilih</option>
+              <?php foreach($pemilik as $p){?>
+                <option value="<?php echo $p['id']?>" <?php echo $milik==$p['id']?'selected':'';?>><?php echo $p['nama']?></option>
+              <?php } ?>
         </select>
     </div>
     <div class="col-md-2">
@@ -38,11 +47,11 @@
             <?php } ?>
         </select>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <label>Aksi</label><br>
-        <a onclick="filter()" class="btn btn-info text-white">Filter</a>
-        <a onclick="exceldalam()" class="btn btn-info text-white">Excel</a>
-        <a href="<?php echo $tambah?>" class="btn btn-info">Tambah</a>
+        <a onclick="filter()" class="btn btn-info btn-sm text-white">Filter</a>
+        <a onclick="exceldalam()" class="btn btn-info btn-sm text-white">Excel</a>
+        <a href="<?php echo $tambah?>" class="btn btn-info btn-sm">Tambah</a>
     </div>
 </div>
 <div class="row">
@@ -111,11 +120,17 @@
             url += '&tanggalEnd=' + encodeURIComponent(filter_date_end);
         }
 
-    var filter_status = $('select[name=\'namaPo\']').val();
+        var filter_status = $('select[name=\'namaPo\']').val();
 
-        if (filter_status != '*') {
-            url += '&namaPo=' + encodeURIComponent(filter_status);
-        }
+            if (filter_status != '*') {
+                url += '&namaPo=' + encodeURIComponent(filter_status);
+            }
+
+        var pemilik = $('select[name=\'pemilik\']').val();
+
+            if (pemilik != '*') {
+                url += '&pemilik=' + encodeURIComponent(pemilik);
+            }
 
         var opt = $('select[name=\'oper\']').val();
 
@@ -147,6 +162,12 @@
         if (filter_status != '*') {
             url += '&namaPo=' + encodeURIComponent(filter_status);
         }
+
+        var pemilik = $('select[name=\'pemilik\']').val();
+
+            if (pemilik != '*') {
+                url += '&pemilik=' + encodeURIComponent(pemilik);
+            }
 
         var opt = $('select[name=\'oper\']').val();
 

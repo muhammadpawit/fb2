@@ -23,7 +23,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                             <th>Kepala</th>
                             <th>Persen</th>
                             <th>Gaji</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,11 +45,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                             <td><?php echo ($bod['kepala']) ?></td>
                             <td><?php echo ($bod['persen']) ?></td>
                             <td><?php echo ($bod['gaji']) ?></td>
-                            <td class="right">
-                                <?php foreach ($bod['action'] as $action) { ?>
-                                    <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
-                                <?php } ?>
-                            </td>
+                            
                         </tr>
                         <?php endforeach ?>
                         <?php } ?>
