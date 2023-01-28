@@ -1,4 +1,5 @@
 <form action="<?php echo $action ?>" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="idpotongan" value="<?php echo $potongan['id_potongan']?>">
 <div class="row">
     <div class="col-md-12">
         <table class="table">

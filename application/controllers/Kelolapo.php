@@ -1083,16 +1083,19 @@ class Kelolapo extends CI_Controller {
 	public function bukupotonganEditOnUpdate($value='')
 	{
 		$post = $this->input->post();
-		//pre($post);
 		$jumBl=0;
 		$jumBls=0;
 		$explode = explode('-',$post['namaPo']);
-		
+		$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
+		$po2022celana = substr($explode[1], 6);
+		//pre(substr($explode[1], 6));
 		updateDataProdPO(2,$explode[1]);
 			if(isset($post['bidangBahan'])){
 				$this->GlobalModel->deleteData('konveksi_buku_potongan_utama',array('kode_po'=>$explode[1]));
 				foreach ($post['bidangBahan'] as $key => $bidangBahan) {
 					$dataPotonganUtama = array(
+						'idbukupotongan'			=> $post['idpotongan'],
+						'idpo'						=> $idpo['id_produksi_po'],
 						'kode_po'					=> $explode[1],
 						'bidang_bahan_potongan'		=> $bidangBahan,
 						'warna_potongan'			=> $post['warna'][$key],
@@ -1112,6 +1115,8 @@ class Kelolapo extends CI_Controller {
 				$this->GlobalModel->deleteData('konveksi_buku_potongan_variasi',array('kode_po'=>$explode[1]));
 				foreach ($post['bidangBahanVar'] as $key => $bidangBahanVar) {
 					$dataPotonganVariasi = array(
+						'idbukupotongan'				=> $post['idpotongan'],
+						'idpo'							=> $idpo['id_produksi_po'],
 						'kode_po'						=>	$explode[1],
 						'bidang_bahan_potongan'			=>	$bidangBahanVar,
 						'warna_potongan'				=>	$post['warnaVar'][$key],
@@ -1150,12 +1155,23 @@ class Kelolapo extends CI_Controller {
 				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
-					'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+						'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
 					);
 					$where=array(
 						'kode_po'	=>$explode[1],
 					);
 					$this->db->update('konveksi_buku_potongan',$up,$where);
+				}else{
+					if($po2022celana == '_2022' ){
+						$up=array(
+							'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
+							'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+						);
+						$where=array(
+							'kode_po'	=>$explode[1],
+						);
+						$this->db->update('konveksi_buku_potongan',$up,$where);
+					}
 				}
 
 			$this->session->set_flashdata('msg','Data berhasil diubah');
