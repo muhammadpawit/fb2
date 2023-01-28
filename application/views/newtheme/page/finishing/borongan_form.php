@@ -82,11 +82,16 @@ $(document).ready(function(){
         var dataItem = $(this).find(':selected').data('item');
         var dai = $(this).closest('tr');
         var jumlahItem = $('#piecesPo').val();
-        $.get( "<?php echo BASEURL.'finishing/kirimgudangsendRincinan' ?>", { kodepo: dataItem } )
+        $.get( "<?php echo BASEURL.'finishing/biaya_finishing_borongan' ?>", { kodepo: dataItem,halaman:'<?php echo $jenis?>' } )
           .done(function( data ) {
             var obj = JSON.parse(data);
             console.log(obj);
+            if(obj.biaya == 0 || obj.biaya == null){
+                alert("Biaya Finishing Belum di setting. Hubungi SPV ");
+                dai.remove();
+            }
             dai.find(".jumlahPc").val(obj.jumlah_pcs_po);
+            dai.find(".jumlah").val(obj.biaya);
         });
 
         $.get( "<?php echo BASEURL.'finishing/cek' ?>", { kodepo: dataItem,jenis:'<?php echo $jenis?>' } )

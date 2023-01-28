@@ -86,6 +86,53 @@ class Masterdata extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+	public function biayafinishing($page){
+		$data=[];
+		$data['title']='Master harga '.$page;
+		$data['halaman']	=$page;
+		$jenis=$this->GlobalModel->QueryManual("SELECT id_jenis_po, nama_jenis_po, $page as harga FROM master_jenis_po WHERE status=1 ");
+		// if( strtolower($page) =='cucian_finishing' ){
+		// 	$jenis=$this->GlobalModel->QueryManual("SELECT id_jenis_po, nama_jenis_po, cucian_finishing as harga FROM master_jenis_po WHERE status=1 ");
+		// }elseif( strtolower($page) =='buangbenang' ){
+
+		// }elseif( strtolower($page) =='lobangkancing' ){
+
+		// }elseif( strtolower($page) =='cucian_finishing' ){
+
+		// }else{
+
+		// }
+		$no=0;
+		foreach($jenis as $j){
+			$data['products'][]=array(
+				'no'=>$no++,
+				'id'=>$j['id_jenis_po'],
+				'nama'=>$j['nama_jenis_po'],
+				'harga'=>!empty($j['harga'])?$j['harga']:0
+			);
+		}
+		$data['page']=$this->page.'masterdata/hargapacking';
+		$data['update']=BASEURL.'Masterdata/updatehargafinishing';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function updatehargafinishing(){
+		$data=$this->input->post();
+		//pre($data);
+		foreach($data['products'] as $p){
+			$update=array(
+				$data['page']=>$p['harga'],
+			);
+			$where=array(
+				'id_jenis_po'=>$p['id'],
+			);
+			$this->db->update('master_jenis_po',$update,$where);
+		}
+		//pre($update);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Masterdata/biayafinishing/'.$data['page']);
+	}
+
 	public function updatepacking(){
 		$data=$this->input->post();
 		//pre($data);

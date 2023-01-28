@@ -13,6 +13,7 @@
   </div>
 </div>
 <form method="post" action="<?php echo $update?>">
+	<input type="hidden" name="page" value="<?php echo isset($halaman)?$halaman:''; ?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="table-responsive">

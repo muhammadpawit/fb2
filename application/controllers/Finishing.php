@@ -455,6 +455,16 @@ class Finishing extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function biaya_finishing_cucian()
+	{
+		$post = $this->input->get();
+		$query = "SELECT p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan, p.nama_po, mjp.cucian_finishing as biaya FROM produksi_po p ";
+		$query .=" LEFT JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po ";
+		$query .=" WHERE p.kode_po='".$post['kodepo']."' ";
+		$data = $this->GlobalModel->queryManualRow($query);
+		echo json_encode($data);
+	}
+
 	public function cuciansave(){
 		$data=$this->input->post();
 		if(isset($data['products'])){
@@ -525,6 +535,16 @@ class Finishing extends CI_Controller {
 		}
 		$data['page']=$this->page.'finishing/buangbenang_list';
 		$this->load->view($this->page.'main',$data);
+	}
+
+	public function biaya_finishing()
+	{
+		$post = $this->input->get();
+		$query = "SELECT p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan, p.nama_po, mjp.buangbenang as biaya FROM produksi_po p ";
+		$query .=" LEFT JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po ";
+		$query .=" WHERE p.kode_po='".$post['kodepo']."' ";
+		$data = $this->GlobalModel->queryManualRow($query);
+		echo json_encode($data);
 	}
 
 	public function hapusbb($id){
@@ -786,6 +806,7 @@ class Finishing extends CI_Controller {
 			$kategori="TRESS";
 		}
 		$data['ket']=$ket;
+		$data['halaman']=$jenis;
 		$data['title']=$title;
 		$data['kategori']=$kategori;
 		$data['jenis']=$jenis;
@@ -795,6 +816,24 @@ class Finishing extends CI_Controller {
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['page']=$this->page.'finishing/borongan_form';
 		$this->load->view($this->page.'main',$data);
+	}
+
+	public function biaya_finishing_borongan()
+	{
+		$post = $this->input->get();
+		$halaman = $post['halaman'];
+		if($halaman==1){
+			$page='lobangkancing';
+		}elseif($halaman==2){
+			$page='pasangkancing';
+		}else{
+			$page='buangbenang';
+		}
+		$query = "SELECT p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan, p.nama_po, mjp.$page as biaya FROM produksi_po p ";
+		$query .=" LEFT JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po ";
+		$query .=" WHERE p.kode_po='".$post['kodepo']."' ";
+		$data = $this->GlobalModel->queryManualRow($query);
+		echo json_encode($data);
 	}
 
 	public function borongantambahsave($jenis){

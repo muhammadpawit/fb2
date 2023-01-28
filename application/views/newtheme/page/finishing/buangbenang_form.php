@@ -65,11 +65,12 @@ $(document).ready(function(){
         var dataItem = $(this).find(':selected').data('item');
         var dai = $(this).closest('tr');
         var jumlahItem = $('#piecesPo').val();
-        $.get( "<?php echo BASEURL.'finishing/kirimgudangsendRincinan' ?>", { kodepo: dataItem } )
+        $.get( "<?php echo BASEURL.'finishing/biaya_finishing' ?>", { kodepo: dataItem } )
           .done(function( data ) {
             var obj = JSON.parse(data);
-            console.log(obj);
+            //alert(data);
             dai.find(".jumlahPc").val(obj.jumlah_pcs_po);
+            dai.find(".harga").val(obj.biaya);
         });
     });
 });
