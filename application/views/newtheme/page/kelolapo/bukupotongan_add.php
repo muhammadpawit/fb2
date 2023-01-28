@@ -85,7 +85,13 @@
                                 <tr>
                                     <td><label>Size </label></td>
                                     <td>
-                                        <input type="text" class="form-control" name="sizeBahan" required>
+                                        <!-- <input type="text" class="form-control" name="sizeBahan" required> -->
+                                         <select name="sizeBahan" class="form-control select2bs4" data-live-search="true" required="required">
+                                            <option value="">Pilih Size</option>
+                                            <?php foreach($mastersize as $tp){ ?>
+                                                <option value="<?php echo $tp['size']?>"><?php echo $tp['size']?></option>
+                                            <?php }?>
+                                       </select>
                                     </td>
                                 </tr>
                                 <tr>

@@ -829,6 +829,7 @@ class Kelolapo extends CI_Controller {
 		$data['title']='Tambah buku potongan';
 		$data['poProd'] = $this->GlobalModel->getData('produksi_po',null);
 		$data['timpotong']= $this->GlobalModel->getData('timpotong',array('hapus'=>0));
+		$data['mastersize']= $this->GlobalModel->getData('mastersize_potongan',array('hapus'=>0));
 		$data['tgl']=Date('Y-m-d');
 		$data['action']=BASEURL.'kelolapo/bukupotonganTambahOnCreate';
 		$data['page']='newtheme/page/kelolapo/bukupotongan_add';
