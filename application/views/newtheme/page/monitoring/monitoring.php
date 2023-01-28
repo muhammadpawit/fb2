@@ -186,7 +186,7 @@
 	                <?php $pdz+=($rp['pdz']);$pcs+=($rp['ppcs']);$jmlpo+=($rp['jmlpo'])?>
 	                <?php } ?>
 	                <tr>
-	                    <td colspan="2"><b>Total</b></td>
+	                    <td colspan="3"><b>Total</b></td>
 	                    <td><b><?php echo number_format($jmlpo)?></b></td>
 	                    <td><b><?php echo number_format($pdz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
