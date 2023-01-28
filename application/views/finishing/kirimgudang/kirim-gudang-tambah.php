@@ -54,7 +54,7 @@
                                     <th>Nama PO</th>
                                     <th>Artikel</th>
                                     <th>Harga Satuan</th>
-                                    <th>Jumlah Rinci(PO)</th>
+                                    <th>Jumlah Pcs(PO)</th>
                                     <th>Jumlah (Rp)</th>
                                     <th>Keterangan</th>
                                     <th><button type="button" name="add" class="btn btn-success btn-sm addkirimgudang"><i class="fa fa-plus"></i></button></th>

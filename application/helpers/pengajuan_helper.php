@@ -212,6 +212,19 @@
 		
 	}
 
+	function status_oto(){
+		$hasil 			= [];
+		$CI =& get_instance();
+		$menu=$CI->GlobalModel->queryManualRow("SELECT * FROM aksesdata WHERE user_id='".callSessUser('id_user')."' limit 1 ");
+		if(!empty($menu)){
+			$satuan= ($menu['waktu'] > 59);
+			$hasil = 'Anda diberikan hak untuk edit dan menghapus data selama ';
+		}
+		return $hasil;
+
+
+	}
+
 	function myself(){
 		$CI =& get_instance();
 		$menu=$CI->GlobalModel->queryManualRow("SELECT * FROM user WHERE id_user='".callSessUser('id_user')."' ");

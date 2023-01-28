@@ -1383,7 +1383,11 @@ class Finishing extends CI_Controller {
 	public function kirimgudangsendRincinan()
 	{
 		$post = $this->input->get();
-		$data = $this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$post['kodepo']));
+		$query = "SELECT COALESCE(SUM(krs.jumlah_piece_diterima-kg.jumlah_piece_diterima)) as jumlah_pcs_po, p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan FROM kelolapo_rincian_setor_cmt krs ";
+		$query .=" LEFT JOIN produksi_po p ON p.id_produksi_po=krs.idpo ";
+		$query .=" LEFT JOIN finishing_kirim_gudang kg ON kg.idpo=krs.idpo";
+		$query .=" WHERE p.kode_po='".$post['kodepo']."' ";
+		$data = $this->GlobalModel->queryManualRow($query);
 		echo json_encode($data);
 	}
 
