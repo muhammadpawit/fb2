@@ -978,6 +978,7 @@ class Bordir extends CI_Controller {
 				'mesin_bordir'=>$p['mesin_bordir'],
 				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
 				'perkalian_tarif'=>$p['perkalian_tarif'],
+				'stich'		=> $p['stich'],
 				'total_stich'=>round($p['jumlah_naik_mesin']*$p['stich']),
 				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
 				'gaji'  => round(($p['jumlah_naik_mesin']*$p['stich'])*0.15*$mesin['persenan']),
