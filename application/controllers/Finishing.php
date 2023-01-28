@@ -1375,7 +1375,7 @@ class Finishing extends CI_Controller {
 		$viewData['po'] = $this->GlobalModel->getData('produksi_po',NULL);
 		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$viewData['poproduksi'] = $this->GlobalModel->getData('produksi_po',null);
-		$viewData['rincian'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="'.'SELESAI'.'" OR kks.progress="'.'FINISHING'.'" ORDER BY kks.kode_po ASC');
+		$viewData['rincian'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="'.'SELESAI'.'" OR kks.progress="'.'FINISHING'.'" AND pp.idpo NOT IN(SELECT idpo FROM finishing_kirim_gudang) ORDER BY kks.kode_po ASC');
 		$viewData['page']='finishing/kirimgudang/kirim-gudang-tambah';
 		$this->load->view($this->page.'main',$viewData);
 	}
