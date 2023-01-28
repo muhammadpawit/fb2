@@ -127,7 +127,7 @@
 	                        <td><?php echo $rp['nama']?></td>
 	                        <td><?php echo $rp['jmlpo']?></td>
 	                        <td><?php echo number_format($rp['pdz'],2)?></td>
-	                        <td><?php echo $rp['ppcs']?></td>
+	                        <td><?php echo number_format($rp['ppcs'],2)?></td>
 	                    </tr>
 	                <?php $pdz+=($rp['pdz']);$pcs+=($rp['ppcs']);$jmlpo+=($rp['jmlpo'])?>
 	                <?php } ?>
