@@ -86,12 +86,16 @@ class Monitoring extends CI_Controller {
 		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>2,'tampil'=>1));
 		$nokaos=1;
 		foreach($kaos as $k){
+			$pos = strpos($k['nama_jenis_po'],"J");
+			$po = substr($k['nama_jenis_po'], 0,3);
+
 			$data['kaos'][]=array(
 				'no'=>$nokaos++,
-				'nama'=>strtoupper($k['nama_jenis_po']),
+				'nama'=>!empty($pos)?$po.'-'.substr($k['nama_jenis_po'], $pos):$k['nama_jenis_po'],
 				'jmlpo'=>$this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2),
 				'pdz'=>$this->ReportModel->ge($k['nama_jenis_po'],2,$tanggal1,$tanggal2),
 				'ppcs'=>$this->ReportModel->ge($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
+				'size'=>$this->ReportModel->ge_size($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
 			);
 		}
 
@@ -101,9 +105,10 @@ class Monitoring extends CI_Controller {
 		$celana=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>3,'tampil'=>1));
 		$nocelana=1;
 		foreach($celana as $k){
+			$pos = strpos($k['nama_jenis_po'],"j");
 			$data['celana'][]=array(
 				'no'=>$nocelana++,
-				'nama'=>strtoupper($k['nama_jenis_po']),
+				'nama'=>strtoupper($k['nama_jenis_po']) .' '.$pos,
 				'jmlpo'=>$this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2),
 				'pdz'=>$this->ReportModel->ge($k['nama_jenis_po'],2,$tanggal1,$tanggal2),
 				'ppcs'=>$this->ReportModel->ge($k['nama_jenis_po'],3,$tanggal1,$tanggal2),

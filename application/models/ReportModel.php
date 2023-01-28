@@ -256,6 +256,47 @@ class ReportModel extends CI_Model {
 		
 	}
 
+	public function ge_size($jenis,$type,$tanggal1,$tanggal2){
+		$hasil=[];
+		if($type==1){
+			$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian, size_potongan FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
+		}else if($type==2){
+			$sql="SELECT COALESCE(SUM(hasil_lusinan_potongan),0) as total ,mjp.nama_jenis_po,mjp.perkalian, size_potongan FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
+		}else{
+			$sql="SELECT count(DISTINCT kbp.kode_po) as jml,COALESCE(SUM(hasil_pieces_potongan),0) as total ,mjp.nama_jenis_po,mjp.perkalian, size_potongan FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.nama_jenis_po = '".$jenis."' ";
+		}
+		$sql.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
+		$sql.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" GROUP BY size_potongan ";
+		$dat=$this->GlobalModel->queryManual($sql);
+		if(!empty($dat)){
+			foreach($dat as $d){
+				// if($type==1){
+				// 	$hasil[]=array(
+				// 		'size' => $d['size_potongan'],
+				// 		'total'=> $d['total'],
+				// 	);
+				// 	if($d['nama_jenis_po']=="SKF"){
+				// 		$hasil[]=round($d['total']*$d['perkalian']);
+				// 	}
+				// 	//return $hasil;
+				// }else{
+					$hasil[]=array(
+						'size' => $d['size_potongan'],
+						'total'=> $d['total'],
+						'jml'	=> $d['jml'],
+					);
+				//}
+			}
+			
+		}else{
+			return $hasil;
+		}
+
+		return $hasil;
+		
+	}
+
 	/*
 	public function ge($jenis,$type,$tanggal1,$tanggal2){
 		$hasil=0;
