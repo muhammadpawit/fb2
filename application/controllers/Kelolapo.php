@@ -2007,21 +2007,55 @@ class Kelolapo extends CI_Controller {
 		$this->db->query($sql);
 		$totalkirim=0;
 		foreach($post['prods'] as $p){
+			$cek_diklo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array('hapus'=>0,'kode_po'=>$p['kode_po'],'progress'=>'KIRIM','kategori_cmt'=>'JAHIT','id_master_cmt'=>$post['idcmt']));
 			$totalkirim+=($p['jumlah_pcs']);
 			$rp=explode('-',$p['job']);
-			$update=array(
-				'id_master_cmt_job'=>$rp[0],
-				'cmt_job_price'	=>$rp[1],
-				'qty_tot_pcs'=>$p['jumlah_pcs'],
-				'jml_barang'=>$p['jml_barang'],
-			);
-			$where=array(
-				'kode_po'=>$p['kode_po'],
-				'kategori_cmt'	=>$p['kategori_cmt'],
-				'kode_nota_cmt'=>$post['kode_nota'],
-				'progress'=>'KIRIM',
-			);
-			$this->db->update('kelolapo_kirim_setor',$update,$where);
+			if(empty($cek_diklo)){
+				// insert to kelola kirim setor
+				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+				$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
+   				$insertkks=array(
+   					'kode_po'=>$p['kode_po'],
+   					'create_date'=>$post['tanggal'],
+   					'kode_nota_cmt'=>$post['kode_nota'],
+   					'progress'=>'KIRIM',
+   					'kategori_cmt'=>'JAHIT',
+   					'id_master_cmt'=>$post['idcmt'],
+   					//'id_master_cmt_job'=>$job[0],
+   					'id_master_cmt_job'=>$rp[0],
+   					'cmt_job_price'=>$rp[1],
+   					'nama_cmt'=>$namacmt['cmt_name'],
+   					'qty_tot_pcs'=>$p['jumlah_pcs'],
+   					'qty_tot_atas'=>0,
+   					'qty_tot_bawah'=>0,
+   					'keterangan'=>'-',
+   					'status'=>0,
+   					'jml_barang'=>$p['jml_barang'],
+   					'qty_bangke'=>0,
+   					'qty_reject'=>0,
+   					'qty_hilang'=>0,
+   					'qty_claim'=>0,
+   					'status_keu'=>0,
+   					'tglinput'=>date('Y-m-d'),
+   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
+   				);
+				$this->db->insert('kelolapo_kirim_setor',$insertkks);
+			}else{
+				$update=array(
+					'id_master_cmt_job'=>$rp[0],
+					'cmt_job_price'	=>$rp[1],
+					'qty_tot_pcs'=>$p['jumlah_pcs'],
+					'jml_barang'=>$p['jml_barang'],
+				);
+				$where=array(
+					'kode_po'=>$p['kode_po'],
+					'kategori_cmt'	=>$p['kategori_cmt'],
+					'kode_nota_cmt'=>$post['kode_nota'],
+					'progress'=>'KIRIM',
+				);
+				$this->db->update('kelolapo_kirim_setor',$update,$where);
+			}
+			
 			$ud=array(
 				'cmtjob'=>$rp[0],
 				'jumlah_pcs'=>$p['jumlah_pcs'],

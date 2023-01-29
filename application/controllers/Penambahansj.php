@@ -139,7 +139,7 @@ class Penambahansj extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
-   				$masterpo=$this->GlobalModel->queryManualRow('produksi_po',array('kode_po'=>$p['kode_po']));
+   				$masterpo=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$cmt['tanggal'],
