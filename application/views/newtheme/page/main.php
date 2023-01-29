@@ -236,6 +236,11 @@
         </div>
         <div class="box-body">
           <div class="content">
+          <?php if(!empty($this->session->flashdata('msg'))){?>
+              <div class="alert alert-success alert-dismissible">
+                  <span><?php echo $this->session->flashdata('msg') ?></span>
+              </div>
+          <?php } ?>
             <?php if(isset($page)){?>
                  
                   <?php $this->load->view('newtheme/page/script');?>
