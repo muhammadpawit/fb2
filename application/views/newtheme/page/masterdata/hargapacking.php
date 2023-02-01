@@ -21,7 +21,7 @@
 					<thead>
 						<tr>
 							<th>Jenis PO</th>
-							<th>Harga/dz</th>
+							<th>Harga / Biaya </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -40,9 +40,9 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<div class="form-group">
-				<button type="submit" class="btn btn-xs btn-info">Simpan</button>
+				<button type="submit" class="btn btn-sm full btn-info">Simpan</button>
 			</div>
 		</div>
 	</div>

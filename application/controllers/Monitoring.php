@@ -73,13 +73,16 @@ class Monitoring extends CI_Controller {
 		$nok=1;
 		foreach($kemeja as $k){
 			$perkalian=$k['perkalian'];
+			if($this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2) > 0){
 			$data['kemeja'][]=array(
 				'no'=>$nok++,
 				'nama'=>strtoupper($k['nama_jenis_po']),
 				'jmlpo'=>$this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2),
 				'pdz'=>$this->ReportModel->ge($k['nama_jenis_po'],2,$tanggal1,$tanggal2),
 				'ppcs'=>$this->ReportModel->ge($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
+				'size'=>$this->ReportModel->ge_size($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
 			);
+			}
 		}
 		
 		// kaos 
@@ -88,7 +91,7 @@ class Monitoring extends CI_Controller {
 		foreach($kaos as $k){
 			$pos = strpos($k['nama_jenis_po'],"J");
 			$po = substr($k['nama_jenis_po'], 0,3);
-
+			if($this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2) > 0){
 			$data['kaos'][]=array(
 				'no'=>$nokaos++,
 				'nama'=>!empty($pos)?$po.'-'.substr($k['nama_jenis_po'], $pos):$k['nama_jenis_po'],
@@ -97,6 +100,7 @@ class Monitoring extends CI_Controller {
 				'ppcs'=>$this->ReportModel->ge($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
 				'size'=>$this->ReportModel->ge_size($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
 			);
+			}
 		}
 
 		//pre($data['kaos']);
@@ -106,13 +110,16 @@ class Monitoring extends CI_Controller {
 		$nocelana=1;
 		foreach($celana as $k){
 			$pos = strpos($k['nama_jenis_po'],"j");
+			if($this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2) > 0){
 			$data['celana'][]=array(
 				'no'=>$nocelana++,
 				'nama'=>strtoupper($k['nama_jenis_po']) .' '.$pos,
 				'jmlpo'=>$this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2),
 				'pdz'=>$this->ReportModel->ge($k['nama_jenis_po'],2,$tanggal1,$tanggal2),
 				'ppcs'=>$this->ReportModel->ge($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
+				'size'=>$this->ReportModel->ge_size($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
 			);
+			}
 		}
 
 		$data['page']=$this->page.'monitoring';

@@ -27,17 +27,7 @@ class Kelolapo extends CI_Controller {
 
 	public function produksipoedit_save(){
 		$data=$this->input->post();
-		$spesifikasi = '<b>Atasan</b><br>,<br>'.$data['sablon_tangan'].',<br>';
-		$spesifikasi .= $data['sablon_bdepan'].',<br>';
-		$spesifikasi .= $data['sablon_bbelakang'].',<br>';
-		$spesifikasi .= $data['sablon_mangkok'].',<br>';
-		$spesifikasi .= $data['sablon'].',<br>';
-		$spesifikasi .= $data['bordir_tangan'].',<br>';
-		$spesifikasi .= $data['bordir_bdepan'].',<br>';
-		$spesifikasi .= $data['bordir_bbelakang'].',<br>';
-		$spesifikasi .= $data['bordir_mangkok'].',<br>';
-		$spesifikasi .= '<br><b>Bawahan</b>,<br>'.$data['bawahan_celana'].',<br>';
-		$spesifikasi .= $data['bawahan_bordir_celana'].',<br>';
+
 
 		$update=array(
 			'kode_artikel'=>$data['kode_artikel'],

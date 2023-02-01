@@ -1777,6 +1777,10 @@ class Masterdata extends CI_Controller {
 			'idjenis'	=> 	$post['idjenis'],
 
 			'artikel_jenis_po'		=>	$post['artikel_jenis_po'],
+			
+			'perkalian'	=> 1,
+
+			'tampil'  => 1,
 
 			'status'=>1,
 

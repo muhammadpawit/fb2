@@ -9,7 +9,8 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Divisi / Cabang</label>
-            <select class="form-control select2bs4" name="kategoriPengajuan" data-live-search="true">
+            <select class="form-control select2bs4" name="kategoriPengajuan" data-live-search="true" required>
+                <option value="">Pilih</option>
                 <?php foreach ($katpeng as $key => $value): ?>
                     <option value="<?php echo $key ?>"><?php echo $value ?></option>
                 <?php endforeach ?>
@@ -64,7 +65,7 @@
         var html='';
         html+='<tr>';
         //html+='<td><input type="text" value="" class="form-control" name="products['+i+'][nama_item]" required></td>';
-        html+='<td><select type="text" data-dropup-auto="false" data-size="5" class="form-control brg select2bs4" data-live-search="true" data-title="pilih item" name="products['+i+'][nama_item]" required><option value="">Pilih Barang / Item</option><?php foreach ($products as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['product_id'] ?>"><?php echo $item['nama'] ?></option><?php } ?></select></td>';
+        html+='<td><select type="text" data-dropup-auto="false" data-size="5" class="form-control brg select2bs4" data-live-search="true" data-title="pilih item" name="products['+i+'][nama_item]" required><option value="">Pilih Barang / Item</option><?php foreach ($products as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['product_id'] ?>"><?php echo strtolower($item['nama']) ?></option><?php } ?></select></td>';
         html += '<td><input type="number" size="10" class="form-control jumlah" step=0.01 name="products['+i+'][jumlah]" onblur="updatetotal('+i+')" required></td>';
         html += '<td><input type="text" size="10" value="-" class="form-control" name="products['+i+'][satuan]"></td>';
         html += '<td><input type="number" size="12" class="form-control harga" name="products['+i+'][harga]" onblur="updatetotal('+i+')" value="0"></td>';

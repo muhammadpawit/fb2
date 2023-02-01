@@ -233,7 +233,7 @@
                             <div class="clearfix"></div>
 
                         </div>
-
+                        <br>
                         <div class="col-6">
 
                             <div class="clearfix pt-5">

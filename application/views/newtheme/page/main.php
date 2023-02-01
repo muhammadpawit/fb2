@@ -49,12 +49,15 @@
       select { width: 100% !important }
 
       @media print
-{    
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
-}
+      {    
+          .no-print, .no-print *
+          {
+              display: none !important;
+          }
+      }
+
+      .bold { font-weight:800 !important}
+      .clearfix {clear:both;margin:2%}
 
   </style>
 </head>
@@ -232,7 +235,9 @@
                     ?>
           </h3>
 
-         
+         <span class="pull-right text-danger">
+              <?php echo status_oto() ?>
+         </span>
         </div>
         <div class="box-body">
           <div class="content">

@@ -75,6 +75,7 @@
 	                    <tr>
 	                        <th rowspan="2">No</th>
 	                        <th rowspan="2">Nama PO</th>
+							<th rowspan="2">Size</th>
 	                        <th colspan="3">Jumlah</th>
 	                    </tr>
 	                    <tr>
@@ -86,17 +87,30 @@
 	            <tbody>
 	                <?php $pdz=0;$pcs=0;$jmlpo=0;?>
 	                <?php foreach($kemeja as $rp){?>
-	                    <tr>
+						
+	                    <tr class="bold">
 	                        <td><?php echo $rp['no']?></td>
 	                        <td><?php echo $rp['nama']?></td>
+							<td></td>
 	                        <td><?php echo $rp['jmlpo']?></td>
 	                        <td><?php echo number_format($rp['pdz'],2)?></td>
 	                        <td><?php echo $rp['ppcs']?></td>
 	                    </tr>
+						<?php foreach($rp['size'] as $s){ ?>
+		                    	<tr>
+		                    		<td></td>
+		                    		<td><?php echo $rp['nama'] ?> </td>
+		                    		<td><?php echo $s['size'] ?></td>
+		                    		<td><?php echo number_format($s['jml']) ?></td>
+		                    		<td><?php echo number_format(($s['total']/12),0) ?></td>
+		                    		<td><?php echo number_format(($s['total']),0) ?></td>
+		                    	</tr>
+	                   		<?php } ?>
 	                <?php $pdz+=($rp['pdz']);$pcs+=($rp['ppcs']);$jmlpo+=($rp['jmlpo'])?>
-	                <?php } ?>
+	                
+					<?php } ?>
 	                <tr>
-	                    <td colspan="2"><b>Total</b></td>
+	                    <td colspan="3"><b>Total</b></td>
 	                    <td><b><?php echo number_format($jmlpo)?></b></td>
 	                    <td><b><?php echo number_format($pdz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
@@ -111,6 +125,7 @@
 	                    <tr>
 	                        <th rowspan="2">No</th>
 	                        <th rowspan="2">Nama PO</th>
+							<th rowspan="2">Size</th>
 	                        <th colspan="3">Jumlah</th>
 	                    </tr>
 	                    <tr>
@@ -122,17 +137,29 @@
 	            <tbody>
 	                <?php $pdz=0;$pcs=0;$jmlpo=0;?>
 	                <?php foreach($celana as $rp){?>
-	                    <tr>
+						
+	                    <tr class="bold">
 	                        <td><?php echo $rp['no']?></td>
 	                        <td><?php echo $rp['nama']?></td>
+							<td></td>
 	                        <td><?php echo $rp['jmlpo']?></td>
 	                        <td><?php echo number_format($rp['pdz'],2)?></td>
 	                        <td><?php echo number_format($rp['ppcs'],2)?></td>
 	                    </tr>
+						<?php foreach($rp['size'] as $s){ ?>
+		                    	<tr>
+		                    		<td></td>
+		                    		<td><?php echo $rp['nama'] ?> </td>
+		                    		<td><?php echo $s['size'] ?></td>
+		                    		<td><?php echo number_format($s['jml']) ?></td>
+		                    		<td><?php echo number_format(($s['total']/12),0) ?></td>
+		                    		<td><?php echo number_format(($s['total']),0) ?></td>
+		                    	</tr>
+	                   		<?php } ?>
 	                <?php $pdz+=($rp['pdz']);$pcs+=($rp['ppcs']);$jmlpo+=($rp['jmlpo'])?>
 	                <?php } ?>
 	                <tr>
-	                    <td colspan="2"><b>Total</b></td>
+	                    <td colspan="3"><b>Total</b></td>
 	                    <td><b><?php echo number_format($jmlpo)?></b></td>
 	                    <td><b><?php echo number_format($pdz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
@@ -162,8 +189,8 @@
 	                <?php $pdz=0;$pcs=0;$jmlpo=0;?>
 	                <?php foreach($kaos as $rp){?>
 	                   	
-	                   	<?php if($rp['jmlpo'] > 0){ ?>
-	                   		 <tr style="font-weight: 800 !important">
+	                   	
+	                   		 <tr class="bold">
 		                        <td><?php echo $rp['no']?></td>
 		                        <td><?php echo $rp['nama']?></td>
 		                        <td></td>
@@ -180,9 +207,9 @@
 		                    		<td><?php echo number_format(($s['total']/12),0) ?></td>
 		                    		<td><?php echo number_format(($s['total']),0) ?></td>
 		                    	</tr>
-	                   	<?php } ?>
+	                   		<?php } ?>
 
-	                    <?php } ?>
+	                    
 	                <?php $pdz+=($rp['pdz']);$pcs+=($rp['ppcs']);$jmlpo+=($rp['jmlpo'])?>
 	                <?php } ?>
 	                <tr>

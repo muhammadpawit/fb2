@@ -3,11 +3,11 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Tanggal</label>
-                                    <input type="text" value="<?php echo date('Y-m-d');?>" name="creted_date" class="form-control datepicker">
+                                    <input type="text" value="<?php echo date('Y-m-d');?>" name="creted_date" class="form-control datepicker" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Karyawan</label>
-                                    <select name="idkaryawanharian" class="form-control select2bs4" data-live-search="true">
+                                    <select name="idkaryawanharian" class="form-control select2bs4" data-live-search="true" required>
                                         <option value="">Pilih</option>
                                         <?php foreach($karyawan as $k){?>
                                             <option value="<?php echo $k['id']?>"><?php echo $k['nama']?></option>

@@ -91,9 +91,10 @@
 
 
                     <form method="post" action="<?php echo $action?>">
+                        <div class="form-group">
                         <input type="hidden" name="idpengajuan" value="<?php echo $parent['id']?>">
                         <input type="hidden" name="kategori" value="<?php echo $parent['kategori']?>">
-                        <input type="hidden" name="tanggal" value="<?php echo $parent['tanggal']?>">
+                        </div>
                     <div class="row">
 
                         <div class="col-md-12">
@@ -220,7 +221,7 @@
                             <div class="clearfix"></div>
 
                         </div>
-
+                            
                         <div class="col-6">
 
                             <div class="clearfix pt-5">

@@ -4,7 +4,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tanggal</label>
-                                    <input type="text" name="creted_date" class="form-control datepicker" required>
+                                    <input type="text" name="creted_date" value="<?php echo date('Y-m-d') ?>" class="form-control datepicker" required readonly>
                                 </div>
                                 <!-- <div class="form-group">
                                     <label>Kategori</label><br>

@@ -284,7 +284,7 @@ class ReportModel extends CI_Model {
 					$hasil[]=array(
 						'size' => $d['size_potongan'],
 						'total'=> $d['total'],
-						'jml'	=> $d['jml'],
+						'jml'	=> $d['jml']*$d['perkalian'],
 					);
 				//}
 			}
