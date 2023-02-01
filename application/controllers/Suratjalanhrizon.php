@@ -41,6 +41,13 @@ class Suratjalanhrizon extends CI_Controller {
 			$bag=null;
 		}
 
+		if(isset($get['pemilik'])){
+			$data['pemilik'] = $get['pemilik'];
+			$url.='&pemilik='.$data['pemilik'];
+		}else{
+			$data['pemilik'] = null;
+		}
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['bag']=$bag;
@@ -51,6 +58,11 @@ class Suratjalanhrizon extends CI_Controller {
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(std.tgl) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+
+		if(isset($get['pemilik'])){
+			$sql.=" AND st.pemilik='".$get['pemilik']."' ";
+		}
+		
 		$sql.=" ORDER BY std.id DESC ";
 		$data['products']=[];
 		$results=$this->GlobalModel->QueryManual($sql);
@@ -75,6 +87,7 @@ class Suratjalanhrizon extends CI_Controller {
 		$data['tambah']=$this->url.'add';
 		$data['excel']=BASEURL.'Suratjalanhrizon/excel?&excel=2'.$url;
 		$data['bagian']=$this->GlobalModel->getData('bagian_pengambilan',array());
+		$data['pem']=$this->GlobalModel->getData('pemilik_poluar',array('hapus'=>0));
 		if(isset($get['excel'])){
 			//if(!empty($bag)){
 				$this->load->view($this->page.'excel',$data);
@@ -110,6 +123,13 @@ class Suratjalanhrizon extends CI_Controller {
 			$tanggal2=null;
 		}
 
+		if(isset($get['pemilik'])){
+			$data['pemilik'] = $get['pemilik'];
+			$url.='&pemilik='.$data['pemilik'];
+		}else{
+			$data['pemilik'] = null;
+		}
+
 		if(isset($get['bag'])){
 			$bag=$get['bag'];
 			$url.='&bag='.$bag;
@@ -127,6 +147,11 @@ class Suratjalanhrizon extends CI_Controller {
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(std.tgl) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+
+		if(isset($get['pemilik'])){
+			$sql.=" AND st.pemilik='".$get['pemilik']."' ";
+		}
+		
 		$sql.=" ORDER BY std.tgl ASC ";
 		$data['products']=[];
 		$results=$this->GlobalModel->QueryManual($sql);
