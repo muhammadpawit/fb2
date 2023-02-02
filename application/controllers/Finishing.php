@@ -828,6 +828,8 @@ class Finishing extends CI_Controller {
 			$page='lobangkancing';
 		}elseif($halaman==2){
 			$page='pasangkancing';
+		}elseif($halaman==3){
+			$page='tress';
 		}else{
 			$page='buangbenang';
 		}
