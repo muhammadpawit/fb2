@@ -12,6 +12,9 @@ class Monitoring extends CI_Controller {
 		$this->load->model('GlobalModel');
 		$this->page='newtheme/page/monitoring/';
 		$this->layout='newtheme/page/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index() {

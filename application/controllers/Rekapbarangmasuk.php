@@ -11,6 +11,9 @@ class Rekapbarangmasuk extends CI_Controller {
 		$this->page='newtheme/page/rekapbarangmasuk/';
 		$this->url=BASEURL.'Rekapbarangmasuk/';
 		$this->load->model('RekapbarangmasukModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

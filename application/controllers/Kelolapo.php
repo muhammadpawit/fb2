@@ -9,6 +9,9 @@ class Kelolapo extends CI_Controller {
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/kelolapo/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

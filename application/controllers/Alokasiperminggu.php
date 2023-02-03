@@ -11,6 +11,9 @@ class Alokasiperminggu extends CI_Controller {
 		$this->page='newtheme/page/alokasiperminggu/';
 		$this->url=BASEURL.'Alokasiperminggu/';
 		$this->load->model('AdjustModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

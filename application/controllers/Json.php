@@ -7,7 +7,9 @@ class Json extends CI_Controller {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
-
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	

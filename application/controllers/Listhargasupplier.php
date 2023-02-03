@@ -10,6 +10,9 @@ class Listhargasupplier extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/listhargasupplier/';
 		$this->url=BASEURL.'Listhargasupplier/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

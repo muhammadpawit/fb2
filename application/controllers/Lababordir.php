@@ -11,6 +11,9 @@ class Lababordir extends CI_Controller {
 		$this->page='newtheme/page/lababordir/';
 		$this->url=BASEURL.'Lababordir/';
 		$this->load->model('LababordirModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

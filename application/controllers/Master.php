@@ -12,6 +12,10 @@ class Master extends CI_Controller {
 
 		parent::__construct();
 
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
+
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');

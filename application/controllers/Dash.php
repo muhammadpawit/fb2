@@ -12,6 +12,9 @@ class Dash extends CI_Controller {
 		$this->load->model('GlobalModel');
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

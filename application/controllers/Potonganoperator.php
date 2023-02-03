@@ -11,6 +11,9 @@ class Potonganoperator extends CI_Controller {
 		$this->page='newtheme/page/potonganoperator/';
 		$this->url=BASEURL.'Potonganoperator/';
 		$this->load->model("M_potonganoperator");
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

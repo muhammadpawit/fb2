@@ -10,6 +10,9 @@ class Laporangajikaryawan extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/laporangajikaryawan/';
 		$this->url=BASEURL.'Laporangajikaryawan/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 		
 	}
 

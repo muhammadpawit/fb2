@@ -9,6 +9,9 @@ class User extends CI_Controller {
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->page='newtheme/page/';
 		$this->url=BASEURL.'User/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function myprofile(){

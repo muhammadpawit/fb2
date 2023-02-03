@@ -12,6 +12,9 @@ class Rinciankirimgudang extends CI_Controller {
 		$this->url=BASEURL.'Rinciankirimgudang/';
 		$this->load->model('ReportModel');
 		$this->load->model('KirimsetorModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	function index(){

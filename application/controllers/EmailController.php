@@ -8,6 +8,9 @@ class EmailController extends CI_Controller {
         parent:: __construct();
 
         $this->load->helper('url');
+        $this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
     }
 
     public function send()

@@ -12,6 +12,9 @@ class Laporankirimgudangharian extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->load->model('ReportModel');
 		$this->load->model('KirimsetorModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	function index(){

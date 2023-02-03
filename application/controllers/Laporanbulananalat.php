@@ -10,6 +10,9 @@ class Laporanbulananalat extends CI_Controller {
 		$this->url=base_url().'Laporanbulananbahan/';
 		$this->page='newtheme/page/laporanbulananbahan/';
 		$this->layout='newtheme/page/main';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

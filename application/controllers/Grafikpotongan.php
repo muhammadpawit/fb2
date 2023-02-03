@@ -11,6 +11,9 @@ class Grafikpotongan extends CI_Controller {
 		$this->page='newtheme/page/grafikpotongan/';
 		$this->url=BASEURL.'Grafikpotongan/';
 		$this->load->model('ReportModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index() {

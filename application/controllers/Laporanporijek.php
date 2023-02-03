@@ -10,6 +10,9 @@ class Laporanporijek extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/laporanporijek/';
 		$this->url=BASEURL.'Laporanporijek/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

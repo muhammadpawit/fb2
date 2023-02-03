@@ -10,6 +10,9 @@ class Setoransablon extends CI_Controller {
 		$this->layout='newtheme/page/';
 		$this->page='newtheme/page/setoransablon/';
 		$this->link=BASEURL.'Setoransablon/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

@@ -22,6 +22,10 @@ class Sablonbawahan extends CI_Controller {
 
 		$this->page='newtheme/page/sablonbawahan/';
 
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
+
 	}
 
 

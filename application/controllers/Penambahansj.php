@@ -10,6 +10,9 @@ class Penambahansj extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/kelolapo/';
 		$this->url=BASEURL.'Penambahansj/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

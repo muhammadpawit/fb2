@@ -10,6 +10,9 @@ class Reportkaosmingguan extends CI_Controller {
 		$this->page='newtheme/page/reportkaos/';
 		$this->layout='newtheme/page/main';
 		$this->load->model('ReportModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

@@ -23,6 +23,9 @@ class Adjustkirimgudang extends CI_Controller {
 		$this->url=BASEURL.'Adjustkirimgudang/';
 
 		$this->load->model('AdjustModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 
 	}
 

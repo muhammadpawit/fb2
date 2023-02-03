@@ -11,6 +11,9 @@ class Pobelumkirimcmt extends CI_Controller {
 		$this->page='newtheme/page/pobelumkirim/';
 		$this->url=BASEURL.'Pobelumkirimcmt/';
 		$this->load->model('AdjustModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

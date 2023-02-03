@@ -10,6 +10,9 @@ class Notakirim extends CI_Controller {
 		$this->link=BASEURL.'Notakirim/';
 		$this->layout='newtheme/page/main';
 		$this->page='newtheme/page/notakirim/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index()

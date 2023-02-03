@@ -23,6 +23,9 @@ class Rekapkirimsetorsukabumi extends CI_Controller {
 		$this->page='newtheme/page/rekapkirimsetorsukabumi/';
 
 		$this->layout='newtheme/page/main';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 
 	}
 

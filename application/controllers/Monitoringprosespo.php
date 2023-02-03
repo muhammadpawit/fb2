@@ -13,6 +13,9 @@ class Monitoringprosespo extends CI_Controller {
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
 		$this->url=BASEURL.'Monitoringprosespo/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

@@ -10,6 +10,9 @@ class Kirimbordir extends CI_Controller {
 		$this->layout='newtheme/page/';
 		$this->page='newtheme/page/kirimbordir/';
 		$this->link=BASEURL.'Kirimbordir/';
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

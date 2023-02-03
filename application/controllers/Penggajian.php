@@ -11,6 +11,9 @@ class Penggajian extends CI_Controller {
 		$this->page='newtheme/page/';
 		$this->main='newtheme/page/main';
 		$this->type=$this->db->query("SELECT * FROM master_harga_gaji WHERE hapus=0")->result_array();
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 

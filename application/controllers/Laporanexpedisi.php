@@ -14,6 +14,9 @@ class Laporanexpedisi extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->url=BASEURL.'Laporanexpedisi/';
 		$this->load->model('TransportModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	function index(){

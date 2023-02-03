@@ -11,6 +11,9 @@ class Stockpo extends CI_Controller {
 		$this->page='newtheme/page/stockpo/';
 		$this->link='Stockpo/';
 		$this->load->model('ReportModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
 	}
 
 	public function index(){

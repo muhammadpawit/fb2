@@ -12,6 +12,10 @@ class Produksi extends CI_Controller {
 
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
+
 	}
 
 	public function kirimcmt(){
