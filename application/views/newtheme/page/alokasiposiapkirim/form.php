@@ -15,7 +15,7 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label>Tanggal</label>
-				<input type="text" name="tanggal" class="form-control" required>
+				<input type="text" name="tanggal" class="form-control" value="<?php echo date('Y-m-d')?>" required>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -67,7 +67,7 @@
         html+="</tr>";
        	i++;
         $('#list').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
 	}
 
 	$(document).on('click', '.remove', function(){

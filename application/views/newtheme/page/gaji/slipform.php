@@ -119,6 +119,8 @@
 	    //console.log(data);
 	    //$('#ksbn').html(data);
 	    //$('#yksbn').val(data);
+		$("#potongan_kasbon").val(data);
+		$("#potongan_kasbon").attr('readonly',true);
 	  });
 
 	  // potongan pinjaman jika ada
@@ -133,6 +135,7 @@
 	    function(data){   
 	    //console.log(data);
 	    $('#gajipokok').val(data);
+		updatetotal();
 	  });
 
 	  updatetotal();
