@@ -482,7 +482,9 @@
     var uri=window.location.origin+'/Json/';
    }
    
-   
+   $(document).on('click', '.remove', function(){
+		$(this).closest('tr').remove();
+	});
 
     $('.autopo').select2({
       //theme: 'bootstrap4',
