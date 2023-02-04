@@ -854,7 +854,7 @@ class Gaji extends CI_Controller {
 		$insert=array(
 			'tanggal1'=>$data['tanggal1'],
 			'tanggal2'=>$data['tanggal2'],
-			'bagian'=>'PRESSQC',
+			'bagian'=>'KLO',
 			'hapus'=>0,
 		);
 		$this->db->insert('gaji_finishing',$insert);
