@@ -231,7 +231,7 @@ class Gaji extends CI_Controller {
 		$data['title']='Tambah Gaji Press dan QC Finishing';
 		$lembur=0;
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
-		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND lower(bagian)='qc' AND lower(bagian)='press' ");
+		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND lower(bagian) IN ('qc','qc po','press') ");
 		foreach($results as $r){
 			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
 			$data['harian'][]=array(
