@@ -58,7 +58,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$no=1;
 		foreach($results as $r){
 			$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$r['idcmt']));
-			$ket=$this->GlobalModel->getData('alokasi_po_detail',array('idalokasi'=>$r['id']));
+			$ket=$this->GlobalModel->querymanual("SElECT * FROM alokasi_po_detail WHERE idalokasi='".$r['id']."' ");
 			foreach($ket as $k){
 				$kp=$k['keterangan']=="-"?'':'('.$k['keterangan'].')';
 				$kt[]=$k['kode_po'].' '.$kp.'';
