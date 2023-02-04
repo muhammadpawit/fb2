@@ -24,6 +24,9 @@
 	</div>
 </form>
 <script type="text/javascript">
+	$(document).on('click', '.remove', function(){
+		$(this).closest('tr').remove();
+	});
 	var i=0;
 	function tambahs(){
 		var html='<tr>';
