@@ -763,4 +763,177 @@ class Gaji extends CI_Controller {
 			$this->load->view($this->page.'main',$data);
 		}
 	}
+
+	public function gajiklo(){
+		$data=[];
+		$data['title']='Gaji KLO Forboys';
+		$data['products']=[];
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime('first day of this month'));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
+		}
+		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 ";
+		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND bagian='KLO' ";
+		$sql.=" ORDER BY id DESC";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		foreach($results as $r){
+			$data['products'][]=array(
+				'no'=>$no,
+				'id'=>$r['id'],
+				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
+				'bagian'=>'Harian '.$r['bagian'],
+				'detail'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'],
+				'hapus'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'],
+				'excel'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'].'?&excel=1',
+			);
+			$no++;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['tambah']=BASEURL.'Gaji/gajikloadd';
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}else{
+			$data['page']=$this->page.'gaji/pressqc';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
+	public function gajikloadd(){
+		$data=array();
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("Sunday this week"));
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['title']='Tambah KLO ';
+		$lembur=0;
+		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
+		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian='KLO' ");
+		foreach($results as $r){
+			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['harian'][]=array(
+				'id'=>$r['id'],
+				'nama'=>$r['nama'],
+				'gaji'=>$r['gaji'],
+				'bagian'=>$r['bagian'],
+				'lembur'=>!empty($lembur)?$lembur['total']:0,
+			);
+		}
+		//pre($data['harian']);
+		$data['action']=BASEURL.'Gaji/gajiklosave';
+		$data['page']=$this->page.'finishing/gaji_finishing';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function gajiklosave(){
+		$data=$this->input->post();
+		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'KLO'));
+		//pre($data);
+		if(!empty($cek)){
+			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
+			redirect(BASEURL.'Gaji/gajikloadd');	
+		}
+		$insert=array(
+			'tanggal1'=>$data['tanggal1'],
+			'tanggal2'=>$data['tanggal2'],
+			'bagian'=>'PRESSQC',
+			'hapus'=>0,
+		);
+		$this->db->insert('gaji_finishing',$insert);
+		$id=$this->db->insert_id();
+		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
+		foreach($data['products'] as $p){
+			if(isset($p['idkaryawan'])){
+				$detail=array(
+					'idgaji'=>$id,
+					'idkaryawan'=>$p['idkaryawan'],
+					'nama'=>$p['nama'],
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
+					'minggu'=>isset($p['minggu'])?1:0,
+					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
+					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
+				);
+				$this->db->insert('gaji_finishing_detail',$detail);
+			}
+		}
+		$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+		redirect(BASEURL.'Gaji/gajiklo');
+	}
+
+	public function gajiklohapus($id){
+		$update=array(
+			'hapus'=>1
+		);
+		$where=array(
+			'id'=>$id
+		);
+		$this->db->update('gaji_finishing',$update,$where);
+		$this->session->set_flashdata('msg',' Berhasil Di Hapus');
+		redirect(BASEURL.'Gaji/gajiklo');
+	}
+
+	public function gajiklodetail($id){
+		$data=[];
+		$data['karyawans']=[];
+		$data['total']=0;
+		$details=[];
+		$data['title']='Resume Gaji KLO Forboys';
+		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('hapus'=>0,'id'=>$id));
+		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
+		if(!empty($data['gaji'])){
+			$details=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id));
+			$gaji=0;
+			foreach($details as $d){
+				$gaji=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$d['idkaryawan']));
+				$data['karyawans'][]=array(
+					'idkaryawan'=>$d['idkaryawan'],
+					'nama'=>strtolower($d['nama']),
+					'senin'=>round($gaji['gaji']/12*$d['senin']),
+					'selasa'=>round($gaji['gaji']/12*$d['selasa']),
+					'rabu'=>round($gaji['gaji']/12*$d['rabu']),
+					'kamis'=>round($gaji['gaji']/12*$d['kamis']),
+					'jumat'=>round($gaji['gaji']/12*$d['jumat']),
+					'sabtu'=>round($gaji['gaji']/12*$d['sabtu']),
+					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
+					'lembur'=>$d['lembur']>0?$d['lembur']:0,
+					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+					'claim'=>$d['claim'],
+					'pinjaman'=>$d['pinjaman'],
+				);
+			}
+		}
+		$data['kembali']=BASEURL.'Gaji/gajiklo';
+		$get=$this->input->get();
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}else{
+			$data['page']=$this->page.'gaji/finishing_detail';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
 }
