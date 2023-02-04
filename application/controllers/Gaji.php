@@ -177,7 +177,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime('first day of this month'));
+			$tanggal1=date('Y-m-d',strtotime('first day of last month'));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -366,7 +366,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -412,7 +412,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -457,7 +457,7 @@ class Gaji extends CI_Controller {
 		//pre($data);
 		$insert=array(
 			'tanggal'=>$data['tanggal'],
-			'periode'=>date('Y-m-d',strtotime("first day of this month")).''.date('Y-m-d',strtotime("last day of this month")),
+			'periode'=>date('Y-m-d',strtotime("first day of last month")).''.date('Y-m-d',strtotime("last day of this month")),
 			'idkaryawan'=>$data['idkaryawan'],
 			'gajipokok'=>$data['gajipokok'],
 			'potongan_kasbon'=>$data['potongan_kasbon'],
@@ -467,7 +467,7 @@ class Gaji extends CI_Controller {
 			'thr'=>$data['thr'],
 			'subtotal'=>$data['subtotal'],
 			'total'=>$data['total'],
-			'keterangan'=>'Gaji Periode '.date('Y-m-d',strtotime("first day of this month")).''.date('Y-m-d',strtotime("last day of this month")),
+			'keterangan'=>'Gaji Periode '.date('Y-m-d',strtotime("first day of last month")).''.date('Y-m-d',strtotime("last day of this month")),
 			'hapus'=>0,
 		);
 		$this->db->insert('gaji_bulanan',$insert);
@@ -486,7 +486,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -525,7 +525,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -549,7 +549,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -772,7 +772,7 @@ class Gaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime('first day of this month'));
+			$tanggal1=date('Y-m-d',strtotime('first day of last month'));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
