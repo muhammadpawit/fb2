@@ -717,7 +717,7 @@ class Masterdata extends CI_Controller {
 		$data['lokasi']=$this->GlobalModel->getData('lokasi_cmt',array('hapus'=>0));
 		$data['page']='newtheme/page/masterdata/cmt_add';
 		$data['action']=BASEURL.'Masterdata/cmtsavecucian';
-		$data['batal']=BASEURL.'Masterdata/cmt';
+		$data['batal']=BASEURL.'Masterdata/cmtcucian';
 		$this->load->view('newtheme/page/main',$data);
 	}
 
