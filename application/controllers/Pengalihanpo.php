@@ -63,7 +63,7 @@ class Pengalihanpo extends CI_Controller {
 		$data=[];
 		$data['title']='Pengalihan PO';
 		$data['kirim']=$this->GlobalModel->QueryManual("SELECT kd.*, k.idcmt,k.nosj,k.tanggal as tglsj,k.id as idsj FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) WHERE kd.hapus=0 AND k.hapus=0");
-		$data['cmt']=$this->GlobalModel->QueryManual("SELECT mc.*,k.tanggal as tglsj, k.id as idsj,k.nosj FROM master_cmt mc JOIN kirimcmt k ON(k.idcmt=mc.id_cmt) WHERE mc.hapus=0 ORDER BY k.nosj DESC ");
+		$data['cmt']=$this->GlobalModel->QueryManual("SELECT mc.*,k.tanggal as tglsj, k.id as idsj,k.nosj FROM master_cmt mc JOIN kirimcmt k ON(k.idcmt=mc.id_cmt) WHERE k.hapus=0 and mc.hapus=0 ORDER BY k.nosj DESC ");
 		$data['action']=$this->url.'tambah_save';
 		$data['cancel']=$this->url;
 		$data['page']=$this->page.'pengalihanpo_tambah';
