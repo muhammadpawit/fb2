@@ -321,7 +321,7 @@
 
 	function MenuParentForUSer(){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent=1 AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY nama ASC');
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent=1 AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY urutan asc, nama ASC');
 		return $menu;
 	}
 

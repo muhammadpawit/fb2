@@ -688,6 +688,72 @@ class Masterdata extends CI_Controller {
 		redirect(BASEURL.'Masterdata/cmt');
 	}
 
+	public function cmtcucian(){
+		$data=array();
+		$data['title']='Masterdata Cucian CMT';
+		$data['n']=1;
+		$get=$this->input->get();
+		if(isset($get['lokasi'])){
+			$lokasi=$get['lokasi'];
+			$data['products'] = $this->GlobalModel->getData('master_cmt',array('cmt_job_desk'=>'CUCIAN','lokasi'=>$lokasi,'hapus'=>0));
+		}else{
+			$lokasi=null;
+			$data['products'] = $this->GlobalModel->getData('master_cmt',array('cmt_job_desk'=>'CUCIAN','hapus'=>0));
+		}
+		$data['tambah']=BASEURL.'Masterdata/cmtcucianadd';
+		$data['page']='newtheme/page/masterdata/cmt_list';
+		$user=user();
+		$edit=0;
+		if(isset($user['id_user'])){
+			$edit=akses($user['id_user'],1);
+		}
+		$data['edit']=$edit;
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function cmtcucianadd(){
+		$data=array();
+		$data['title']='Form tambah data cmt cucian';
+		$data['lokasi']=$this->GlobalModel->getData('lokasi_cmt',array('hapus'=>0));
+		$data['page']='newtheme/page/masterdata/cmt_add';
+		$data['action']=BASEURL.'Masterdata/cmtsavecucian';
+		$data['batal']=BASEURL.'Masterdata/cmt';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function cmtsavecucian(){
+		$data=$this->input->post();
+			$cmt=array(
+				'cmt_name'=>$data['cmt_name'],
+				'telephone'=>$data['telephone'],
+				'cmt_job_desk'=>$data['cmt_job_desk'],
+				'email'=>$data['email'],
+				'alamat'=>$data['alamat'],
+				'cmt_resiko'=>0,
+				'lokasi'=>$data['lokasi'],
+				'jenis_po'=>$data['jenis_po'],
+				'keterangan'=>$data['keterangan'],
+			);
+			$this->db->insert('master_cmt',$cmt);
+			$id=$this->db->insert_id();
+			if(isset($data['products'])){
+			foreach($data['products'] as $p){
+				$jc=array(
+					'cmt_job_parent'=>$id,
+					'cmt_job_jenis'=>$p['cmt_job_jenis'],
+					'cmt_job_price'=>$p['cmt_job_price']
+				);
+				$this->db->insert('master_cmt_job',$jc);
+			}
+			}
+			$this->session->set_flashdata('msg','Data Berhasil Disimpan');
+			if($data['cmt_job_desk']=="SABLON"){
+				redirect(BASEURL.'Masterdata/cmtsablon');
+			}else{
+				redirect(BASEURL.'Masterdata/cmtcucian');
+			}
+	}
+
 	public function cmtadd(){
 		$data=array();
 		$data['title']='Form tambah data cmt';
