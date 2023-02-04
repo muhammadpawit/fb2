@@ -72,6 +72,7 @@ class Alokasiposiapkirim extends CI_Controller {
 				//'jumlah'=>count($kt),
 				'jumlah'=>count($ket),
 				'edit'=>BASEURL.'Alokasiposiapkirim/edit/'.$r['id'],
+				'hapus'=>BASEURL.'Alokasiposiapkirim/hapus/'.$r['id'],
 			);
 			$no++;
 		}
@@ -89,7 +90,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$data['title']='Alokasi PO Siap Kirim';
 		$data['no']=1;
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
-		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['kodepo']=$this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE kode_po NOT IN (SELECT kode_po FROM alokasi_po_detail WHERE hapus=0) AND kode_po NOT IN (SELECT kode_po FROM kirimcmt_detail WHERE hapus=0) ");
 		$data['page']=$this->page.'form';
 		$data['action']=BASEURL.'Alokasiposiapkirim/save';
 		$data['cancel']=BASEURL.'Alokasiposiapkirim';
@@ -123,6 +124,17 @@ class Alokasiposiapkirim extends CI_Controller {
 			$this->db->insert('alokasi_po_detail',$detail);
 		}
 		$this->session->set_flashdata('msg','Data Alokasi Berhasil Di Ubah');
+		redirect(BASEURL.'alokasiposiapkirim');
+	}
+
+	public function hapus($id){
+		
+			$detail=array(
+				'hapus'=>1
+			);
+			$this->db->update('alokasi_po',$detail,array('id'=>$id));
+			$this->db->update('alokasi_po_detail',$detail,array('idalokasi'=>$id));
+		$this->session->set_flashdata('msg','Data Alokasi Berhasil Di Hapus');
 		redirect(BASEURL.'alokasiposiapkirim');
 	}
 

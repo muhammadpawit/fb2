@@ -45,7 +45,7 @@
 					<th>CMT</th>
 					<th>Jumlah PO</th>
 					<th>Keterangan</th>
-					<th>Aksi</th>
+					<th colspan="2"><center>Aksi</center></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -62,6 +62,7 @@
 								
 						</td>
 						<td> <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-sm text-white">Edit</a> </td>
+						<td> <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-sm text-white">Hapus</a> </td>
 					</tr>
 				<?php } ?>	
 			</tbody>

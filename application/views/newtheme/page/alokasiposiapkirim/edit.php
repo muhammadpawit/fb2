@@ -29,9 +29,15 @@
 					<tbody id="list">
 						<?php foreach($details as $d){?>
 							<tr>
-								<td><input type="hidden" name="products[<?php echo $row?>][kode_po]" value="<?php echo $d['kode_po']?>"><?php echo $d['kode_po']?></td>
-								<td><input type="hidden" name="products[<?php echo $row?>][keterangan]" value="<?php echo $d['kode_po']?>"><?php echo $d['keterangan']?></td>
-								<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td>
+								<td>
+									<select name="products[<?php echo $row?>][kode_po]" class="form-control select2bs4" style="width:100%" required>
+										<?php foreach ($kodepo as $key => $po) { ?>
+											<option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>" <?php echo $d['kode_po']==$po['kode_po']?'selected':'';?>><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option>
+										<?php } ?>
+									</select>
+								</td>
+								<td><input type="text" name="products[<?php echo $row?>][keterangan]" class="form-control" value="<?php echo $d['keterangan']?>"></td>
+								<td align="center"><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td>
 							</tr>
 						<?php $row++?>
 						<?php } ?>
@@ -52,13 +58,13 @@
 	function adds(){
 		var html = '';
         html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" style="width:100%" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
 		html+="<td><input type='text' name='products["+i+"][keterangan]' class='form-control' value='-'></td>";
 		html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td>';
         html+="</tr>";
        	i++;
         $('#list').append(html);
-        $('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').select2();
 	}
 
 	$(document).on('click', '.remove', function(){
