@@ -93,7 +93,13 @@ class Masterdata extends CI_Controller {
 		$data=[];
 		$data['title']='Master harga '.$page;
 		$data['halaman']	=$page;
-		$jenis=$this->GlobalModel->QueryManual("SELECT id_jenis_po, nama_jenis_po, $page as harga FROM master_jenis_po WHERE status=1 ");
+		if(strtolower($page)=='lobangkancing' || strtolower($page)=='pasangkancing' || strtolower($page)=='tress' || strtolower($page)=='buangbenang' 
+		|| strtolower($page)=='cucian_finishing' || strtolower($page)=='pasang_kancing' ){
+			$where =' AND idjenis IN(1) ';
+		}else{
+			$where='';
+		}
+		$jenis=$this->GlobalModel->QueryManual("SELECT id_jenis_po, nama_jenis_po, $page as harga FROM master_jenis_po WHERE status=1 $where ");
 		// if( strtolower($page) =='cucian_finishing' ){
 		// 	$jenis=$this->GlobalModel->QueryManual("SELECT id_jenis_po, nama_jenis_po, cucian_finishing as harga FROM master_jenis_po WHERE status=1 ");
 		// }elseif( strtolower($page) =='buangbenang' ){
@@ -105,13 +111,20 @@ class Masterdata extends CI_Controller {
 		// }else{
 
 		// }
+		if(strtolower($page)=='lobangkancing' || strtolower($page)=='pasangkancing' || strtolower($page)=='tress' ){
+			$hargaper='/ titik.';
+		}else{
+			$hargaper='/ pcs.';
+		}
+
 		$no=0;
 		foreach($jenis as $j){
 			$data['products'][]=array(
 				'no'=>$no++,
 				'id'=>$j['id_jenis_po'],
 				'nama'=>$j['nama_jenis_po'],
-				'harga'=>!empty($j['harga'])?$j['harga']:0
+				'harga'=>!empty($j['harga'])?$j['harga']:0,
+				'sat'=>$hargaper,
 			);
 		}
 		$data['page']=$this->page.'masterdata/hargapacking';

@@ -30,7 +30,7 @@
 								<td><?php echo $p['nama']?></td>
 								<td>
 									<input type="hidden" value="<?php echo $p['id']?>" name="products[<?php echo $p['no']?>][id]">
-									<input type="number" value="<?php echo $p['harga']?>" name="products[<?php echo $p['no']?>][harga]">
+									<input type="number" value="<?php echo $p['harga']?>" name="products[<?php echo $p['no']?>][harga]">&nbsp;<?php echo $p['sat']?>
 								</td>
 							</tr>
 						<?php } ?>
