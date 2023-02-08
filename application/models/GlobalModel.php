@@ -11,6 +11,7 @@ class GlobalModel extends CI_Model {
 	function __construct() {
 
 		parent::__construct();
+		$this->db2 = $this->load->database('second', TRUE);
 
 	}
 
@@ -186,11 +187,31 @@ class GlobalModel extends CI_Model {
 
 	}
 
+	public function getDataRow2($table,$where)
+
+	{
+
+		$dataReturn = $this->db2->get_where($table,$where)->row_array();
+
+		return $dataReturn;
+
+	}
+
 	public function getData($table,$where)
 
 	{
 
 		$dataReturn = $this->db->get_where($table,$where)->result_array();
+
+		return $dataReturn;
+
+	}
+
+	public function getData2($table,$where)
+
+	{
+
+		$dataReturn = $this->db2->get_where($table,$where)->result_array();
 
 		return $dataReturn;
 
@@ -211,6 +232,26 @@ class GlobalModel extends CI_Model {
 	{
 
 		$dataReturn = $this->db->query($query)->row_array();
+
+		return $dataReturn;
+
+	}
+
+	public function queryManual2($query)
+
+	{
+
+		$dataReturn = $this->db2->query($query)->result_array();
+
+		return $dataReturn;
+
+	}
+
+	public function queryManualRow2($query)
+
+	{
+
+		$dataReturn = $this->db2->query($query)->row_array();
 
 		return $dataReturn;
 
