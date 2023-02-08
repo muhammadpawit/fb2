@@ -22,6 +22,7 @@ class Kelolapo extends CI_Controller {
 		$data['spek']	= !empty($data['detail']['spesifikasi'])?explode(",", $data['detail']['spesifikasi']):null;
 		$data['namapo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
+		$data['polama']=$this->GlobalModel->getData2('produksi_po',array('hapus'=>0));
 		$data['page']=$this->page.'editpo';
 		$data['batal']=BASEURL.'Kelolapo/produksipo';
 		$data['editsave']=BASEURL.'Kelolapo/produksipoedit_save';
@@ -40,6 +41,7 @@ class Kelolapo extends CI_Controller {
 			'serian'	=>$data['serian'],
 			'harga_satuan'=>$data['harga_satuan'],
 			'nama_po'=>$data['namaPO'],
+			'idpolama'=>$data['idpolama'],
 			//'spesifikasi'=>$spesifikasi,
 		);
 		$where=array(
@@ -47,7 +49,7 @@ class Kelolapo extends CI_Controller {
 		);
 		$this->db->update('produksi_po',$update,$where);
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
-		redirect(BASEURL.'Kelolapo/produksipo');
+		redirect(BASEURL.'Kelolapo/produksipo?&kode_po='.$data['id'].'-'.$data['kode_po']);
 	}
 
 	public function spesifikasi(){
