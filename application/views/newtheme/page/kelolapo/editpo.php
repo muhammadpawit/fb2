@@ -59,7 +59,7 @@
 					<th>:</th>
 					<th>
 						<?php //echo number_format($detail['harga_satuan'])?>
-						<input type="text" name="harga_satuan" value="<?php echo $detail['harga_satuan']?>" class="form-control">			
+						<input type="text" name="harga_satuan" value="<?php echo $detail['harga_satuan']?>" class="form-control" readonly>			
 					</th>
 				</tr>
 				<tr>
