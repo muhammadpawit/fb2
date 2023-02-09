@@ -1291,7 +1291,8 @@ class Finishing extends CI_Controller {
 			if(!empty($b3)){
 				$viewData['bahan'] = $this->GlobalModel->queryManual2('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$polama['kode_po'].'" OR kode_po="'.$b3['kode_po'].'" GROUP BY bahan_kategori ORDER BY harga_item ASC ');
 			}else{
-				$viewData['bahan'] = $this->GlobalModel->queryManual2('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$polama['kode_po'].'" AND bahan_kategori="UTAMA" ');	
+				$viewData['bahan'][] = $this->GlobalModel->queryManual2('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$polama['kode_po'].'" AND bahan_kategori="UTAMA" ');
+				$viewData['bahan'][] = $this->GlobalModel->queryManual('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$polama['kode_po'].'" ');	
 			}
 
 			$viewData['bahanKantong'] = $this->GlobalModel->queryManualRow2("SELECT * FROM gudang_bahan_keluar WHERE kode_po='".$polama['kode_po']."' AND bahan_kategori LIKE '%KAINKANTONG%' AND hapus=0");
