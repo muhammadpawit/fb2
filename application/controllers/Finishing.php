@@ -545,7 +545,7 @@ class Finishing extends CI_Controller {
 	public function biaya_finishing()
 	{
 		$post = $this->input->get();
-		$query = "SELECT COALESCE(SUM(kbp.hasil_pieces_potongan),0) as jumlah_pcs_po, p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan, p.nama_po, mjp.cucian_finishing as biaya FROM produksi_po p ";
+		$query = "SELECT COALESCE(SUM(kbp.hasil_pieces_potongan),0) as jumlah_pcs_po, p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan, p.nama_po, mjp.buangbenang as biaya FROM produksi_po p ";
 		$query .= " INNER JOIN konveksi_buku_potongan kbp ON kbp.idpo=p.id_produksi_po ";
 		$query .=" LEFT JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po ";
 		$query .=" WHERE p.kode_po='".$post['kodepo']."' ";
