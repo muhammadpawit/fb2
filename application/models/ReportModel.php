@@ -2333,4 +2333,11 @@ class ReportModel extends CI_Model {
 		);
 		return $hasil;
 	}
+
+	public function stok_akhir_cmt($idcmt){
+		$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) 
+			   WHERE idcmt='".$idcmt."' AND k.hapus=0 and kd.hapus=0  ";
+		$sj=$this->GlobalModel->queryManual($sql);
+		return $js;
+	}
 }

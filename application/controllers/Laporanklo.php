@@ -138,7 +138,7 @@ class Laporanklo extends CI_Controller {
 				'kirimkemejadz'=>!empty($kirim)?$kirim['dz']:0,
 				'setorkemejajml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setorkemejadz'=>!empty($setor)?$setor['dz']:0,
-				'stokakhirkemejajml'=>0,
+				'stokakhirkemejajml'=>1212,
 				'stokakhirkemejadz'=>0,
 			);
 		}

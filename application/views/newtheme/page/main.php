@@ -225,7 +225,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">
+          <h5 class="box-title">
             <?php 
                       if(isset($title)){
                         echo $title;
@@ -233,7 +233,7 @@
                         
                       }
                     ?>
-          </h3>
+          </h5>
 
          <span class="pull-right text-danger">
               <?php echo status_oto() ?>
