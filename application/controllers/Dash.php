@@ -1429,6 +1429,18 @@ class Dash extends CI_Controller {
 			$jenis=4;
 		}
 
+		if(isset($get['tahun'])){
+			$tahun=$get['tahun'];
+		}else{
+			$tahun=date('Y');
+		}
+
+		if(isset($get['bulan'])){
+			$bulan=$get['bulan'];
+		}else{
+			$bulan=date('n');
+		}
+
 		if(isset($get['kategori'])){
 			$kategori=$get['kategori'];
 		}else{
@@ -1441,9 +1453,13 @@ class Dash extends CI_Controller {
 			$supplier=null;
 		}
 
+		$data['bulan']=$bulan;
+		$data['tahun']=$tahun;
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['kategori']=$kategori;
+		$data['bulanan']=true;
 		$data['trans']=[];
 		$pi=$this->GlobalModel->QueryManualRow("SELECT * FROM penerimaan_item WHERE hapus=0 AND lower(keterangan)='bahan masuk' ORDER BY tanggal DESC LIMIT 1 ");
 		$bk=$this->GlobalModel->QueryManualRow("SELECT * FROM barangkeluar_harian WHERE hapus=0 AND jenis=3 ORDER BY tanggal DESC LIMIT 1 ");
@@ -1490,8 +1506,9 @@ class Dash extends CI_Controller {
 		$data['prods']=[];
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
-			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
-			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokmasuk=$this->ReportModel->stokmasuk_bulanan($row['id_persediaan'],$bulan,$tahun);
+			$stokkeluar=$this->ReportModel->stokkeluar_bulanan($row['id_persediaan'],$bulan,$tahun);
+			$stokakhirroll=$this->ReportModel->stok_akhir_bahan($row['id_persediaan']);
 			if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
 				
 				if($row['kategori']==15){
@@ -1510,11 +1527,14 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 					);
 				}
 				
@@ -1534,11 +1554,14 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 					);
 				}
 
@@ -1558,11 +1581,14 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 					);	
 				}
 				

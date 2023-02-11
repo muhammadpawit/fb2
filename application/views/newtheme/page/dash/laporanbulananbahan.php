@@ -9,26 +9,55 @@ th, td {
 h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; margin-top:3%;}
 </style>
 <div class="row">
-	<div class="col-md-4">
-		<div class="form-group">
-			<label>Tanggal</label>
-			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
+	<?php if(isset($bulanan)){?>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Bulan</label>
+				<select name="bulan" class="form-control select2bs4" id="bulan">
+				<?php foreach(bulan() as $b=>$val){?>
+					<option value="<?php echo $b ?>" <?php echo $b==$bulan?'selected':''; ?>><?php echo $val ?></option>
+				<?php } ?>      
+				</select>
+			</div>
 		</div>
-	</div>
-	<?php if(isset($mingguan)){ ?>
-	<div class="col-md-4">
-		<div class="form-group">
-			<label>Tanggal Akhir</label>
-			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Tahun</label>
+				<select name="tahun" class="form-control select2bs4" id="tahun">
+					<?php for($i=2019;$i<=date('Y',strtotime("+1 year"));$i++){?>
+						<option value="<?php echo $i ?>" <?php echo $i==$tahun?'selected':''; ?>><?php echo $i ?></option>
+					<?php } ?>
+				</select>
+			</div>
 		</div>
-	</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Aksi</label><br>
+				<button class="btn btn-info btn-sm" onclick="filterbulan()">Filter</button>
+			</div>
+		</div>
+	<?php }else{ ?>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Tanggal</label>
+				<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
+			</div>
+		</div>
+		<?php if(isset($mingguan)){ ?>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Tanggal Akhir</label>
+				<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+			</div>
+		</div>
+		<?php } ?>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Aksi</label><br>
+				<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			</div>
+		</div>
 	<?php } ?>
-	<div class="col-md-4">
-		<div class="form-group">
-			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
-		</div>
-	</div>
 </div>
 <div class="row">
 	<div class="col-md-12">

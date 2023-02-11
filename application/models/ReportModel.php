@@ -1580,6 +1580,28 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function stokmasuk_bulanan($id,$bulan,$tahun){
+		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
+		$sql.=" AND id_persediaan='$id' AND YEAR(pi.tanggal)='".$tahun."' AND MONTH(pi.tanggal)='".$bulan."' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d;
+		}
+		return $hasil;
+	}
+
+	public function stokkeluar_bulanan($id,$bulan,$tahun){
+		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0";
+		$sql.=" AND id_persediaan='$id' AND YEAR(pi.tanggal)='".$tahun."' AND MONTH(pi.tanggal)='".$bulan."' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d;
+		}
+		return $hasil;
+	}
+
 	public function stok_akhir_bahan($id){
 		$query = "SELECT ukuran_item as yard, jumlah_item as roll FROM gudang_persediaan_item WHERE id_persediaan='$id' ";
 		return $this->GlobalModel->QueryManualRow($query);
