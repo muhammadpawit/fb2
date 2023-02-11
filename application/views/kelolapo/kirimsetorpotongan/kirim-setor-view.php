@@ -99,7 +99,7 @@
 
                                 <td>
 
-                                    <a href="<?php echo BASEURL.'kelolapo/formpengecekandetail/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor']; ?>" class="btn btn-sm btn-secondary"> <i class="fi-zoom-in"></i> Detail</a>
+                                    <!-- <a href="<?php echo BASEURL.'kelolapo/formpengecekandetail/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor']; ?>" class="btn btn-sm btn-secondary"> <i class="fi-zoom-in"></i> Detail</a> -->
 
                                     <!--<a href="<?php echo BASEURL.'kelolapo/kirimsetorcek/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-warning text-white"> <i class="dripicons-browser-upload"></i> Proses</a>-->
 
