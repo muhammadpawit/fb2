@@ -35,7 +35,7 @@
                                         <!--<th>Harga Per Titik</th>
                                         <th>Jumlah RP</th>-->
                                         <th>Keterangan</th>
-                                        <th><button type="button" name="add" class="btn btn-success btn-sm addborongan"><i class="fa fa-plus"></i></button></th>
+                                        <th width="20"><button type="button" name="add" class="btn btn-success btn-sm addborongan"><i class="fa fa-plus"></i></button></th>
                                     </tr>
                                 </table>
                             </div>
@@ -54,7 +54,7 @@ $(document).ready(function(){
     $(document).on('click', '.addborongan', function(){
         var html = '';
         html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td width="300"><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih PO</option><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
         html += '<td><input type="text" class="form-control jumlahPc" name="products['+i+'][jumlah_pcs]"  required ></td>';
         html += '<td><input type="number" class="form-control harga" name="products['+i+'][harga]" required ></td>';
         //html += '<td><input type="number" class="form-control jumlah" name="pricePerTitik[]" required ></td>';
