@@ -2335,9 +2335,9 @@ class ReportModel extends CI_Model {
 	}
 
 	public function stok_akhir_cmt($idcmt){
-		$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) 
-			   WHERE idcmt='".$idcmt."' AND k.hapus=0 and kd.hapus=0  ";
-		$sj=$this->GlobalModel->queryManual($sql);
-		return $js;
+		$query="SELECT count(*) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs,mjp.perkalian FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE 
+		k.idcmt='$idcmt' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$dataReturn = $this->db->query($query)->row_array();
+		return $dataReturn;
 	}
 }

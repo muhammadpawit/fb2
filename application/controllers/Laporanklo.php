@@ -101,6 +101,7 @@ class Laporanklo extends CI_Controller {
 			$setor=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
 			$kirimjeans=$this->ReportModel->klo_mingguanjeans($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','KIRIM');
 			$setorjeans=$this->ReportModel->klo_mingguanjeans($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
+			$stok=$this->ReportModel->stok_akhir_cmt($c['id_cmt']);
 			$data['jahit'][]=array(
 				'no'=>$no++,
 				'nama'=>strtolower($c['cmt_name']),
@@ -110,8 +111,9 @@ class Laporanklo extends CI_Controller {
 				'setorkaosjml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setorkaosdz'=>!empty($setor)?$setor['dz']:0,
 				'setorkaospcs'=>!empty($setor)?$setor['pcs']:0,
-				'stokakhirkaosjml'=>0,
-				'stokakhirkaosdz'=>0,
+				'stokakhirkaosjml'=>$stok['jmlpo'],
+				'stokakhirkaosdz'=>number_format(($stok['pcs']/12),2),
+				'stokakhirkaospcs'=>number_format($stok['pcs'],2),
 				'kirimjeansjml'=>!empty($kirimjeans)?$kirimjeans['jmlpo']:0,
 				'kirimjeansdz'=>!empty($kirimjeans)?$kirimjeans['dz']:0,
 				'kirimjeanspcs'=>!empty($kirimjeans)?$kirimjeans['pcs']:0,
@@ -131,6 +133,7 @@ class Laporanklo extends CI_Controller {
 		foreach($cmtkemeja as $c){
 			$kirim=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','KIRIM');
 			$setor=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
+			$stok=$this->ReportModel->stok_akhir_cmt($c['id_cmt']);
 			$data['jahitk'][]=array(
 				'no'=>$nok++,
 				'nama'=>strtolower($c['cmt_name']),
@@ -138,8 +141,8 @@ class Laporanklo extends CI_Controller {
 				'kirimkemejadz'=>!empty($kirim)?$kirim['dz']:0,
 				'setorkemejajml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setorkemejadz'=>!empty($setor)?$setor['dz']:0,
-				'stokakhirkemejajml'=>1212,
-				'stokakhirkemejadz'=>0,
+				'stokakhirkemejajml'=>$stok['jmlpo'],
+				'stokakhirkemejadz'=>number_format(($stok['pcs']/12),2),
 			);
 		}
 		

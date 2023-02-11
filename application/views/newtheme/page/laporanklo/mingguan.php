@@ -208,7 +208,7 @@
 		              <td><?php echo $p['setorkaospcs']>0?number_format($p['setorkaospcs']):'';?></td>
 		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
 		              <td><?php echo $p['stokakhirkaosdz']>0?($p['stokakhirkaosdz']):'';?></td>
-		              <td></td>
+		              <td><?php echo $p['stokakhirkaospcs'] ?></td>
 		            </tr>
 		            <?php 
 		        		$kirimkaosjml+=($p['kirimkaosjml']);
