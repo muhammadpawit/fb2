@@ -75,15 +75,15 @@ h5 { font-weight:bold !important}
 		        			<td><?php echo $p['nama']?></td>
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
-		        			<td><?php echo number_format($p['stokmasukroll'])?></td>
+		        			<td><?php echo number_format($p['stokmasukroll'],2)?></td>
 		        			<td><?php echo number_format($p['stokmasukyard'],2)?></td>
-		        			<td><?php echo number_format($p['stokmasukharga'])?></td>
-		        			<td><?php echo number_format($p['stokkeluarroll'])?></td>
+		        			<td><?php echo number_format($p['stokmasukharga'],2)?></td>
+		        			<td><?php echo number_format($p['stokkeluarroll'],2)?></td>
 		        			<td><?php echo number_format($p['stokkeluaryard'],2)?></td>
-		        			<td><?php echo number_format($p['stokkeluarharga'])?></td>
-		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
+		        			<td><?php echo number_format($p['stokkeluarharga'],2)?></td>
+		        			<td><?php echo number_format($p['stokakhirroll'],2)?></td>
 		        			<td><?php echo number_format($p['stokakhiryard'],2)?></td>
-		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
+		        			<td><?php echo number_format($p['stokakhirharga'],2)?></td>
 		        			<td><?php echo number_format($p['total'])?></td>
 		        			<td><?php echo $p['ket']?></td>
 		        		</tr>

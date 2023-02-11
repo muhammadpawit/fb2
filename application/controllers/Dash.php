@@ -1135,8 +1135,9 @@ class Dash extends CI_Controller {
 		$data['prods']=[];
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
-			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
-			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal1);
+			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal1);
+			$stokakhirroll=$this->ReportModel->stok_akhir_bahan($row['id_persediaan']);
 			//if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
 				
 				if($row['kategori']==15){
@@ -1155,8 +1156,9 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
 						'stokakhirharga'=>$row['harga_item'],
 						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
@@ -1179,8 +1181,10 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
 						'stokakhirharga'=>$row['harga_item'],
 						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
@@ -1203,8 +1207,10 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
 						'stokakhirharga'=>$row['harga_item'],
 						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
