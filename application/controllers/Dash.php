@@ -1160,7 +1160,7 @@ class Dash extends CI_Controller {
 						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
 						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 						'ket'=>null,
 					);
 				}
@@ -1186,7 +1186,8 @@ class Dash extends CI_Controller {
 						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
 						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 						'ket'=>null,
 					);
 				}
@@ -1212,7 +1213,8 @@ class Dash extends CI_Controller {
 						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
 						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 						'ket'=>null,
 					);	
 				}

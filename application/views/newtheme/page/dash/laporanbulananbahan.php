@@ -70,7 +70,15 @@ h5 { font-weight:bold !important}
 		        		$total=0;
 		        	?>
 		        	<?php foreach($kaos as $p){?>
-		        		<tr>
+						<?php
+							$color='';
+							$ket='';
+							if($p['stokakhirroll'] <= 1 && $p['stokakhiryard'] <=1){
+								$color='#b83400';
+								$ket='habis';
+							}
+						?>
+		        		<tr style="color:<?php echo $color ?>">
 		        			<td><?php echo $p['no']?></td>
 		        			<td><?php echo $p['nama']?></td>
 		        			<td><?php echo $p['warna']?></td>
@@ -84,8 +92,8 @@ h5 { font-weight:bold !important}
 		        			<td><?php echo number_format($p['stokakhirroll'],2)?></td>
 		        			<td><?php echo number_format($p['stokakhiryard'],2)?></td>
 		        			<td><?php echo number_format($p['stokakhirharga'],2)?></td>
-		        			<td><?php echo number_format($p['total'])?></td>
-		        			<td><?php echo $p['ket']?></td>
+		        			<td><?php echo number_format($p['total'],2)?></td>
+		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
@@ -156,7 +164,15 @@ h5 { font-weight:bold !important}
 		        		$total=0;
 		        	?>
 		        	<?php foreach($celana as $p){?>
-		        		<tr>
+						<?php
+							$color='';
+							$ket='';
+							if($p['stokakhirroll'] <= 1 && $p['stokakhiryard'] <=1){
+								$color='#b83400';
+								$ket='habis';
+							}
+						?>
+		        		<tr style="color:<?php echo $color ?>">
 		        			<td><?php echo $p['no']?></td>
 		        			<td><?php echo $p['nama']?></td>
 		        			<td><?php echo $p['warna']?></td>
@@ -171,7 +187,7 @@ h5 { font-weight:bold !important}
 		        			<td><?php echo number_format($p['stokakhiryard'],2)?></td>
 		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
 		        			<td><?php echo number_format($p['total'])?></td>
-		        			<td><?php echo $p['ket']?></td>
+		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
@@ -242,7 +258,15 @@ h5 { font-weight:bold !important}
 		        		$total=0;
 		        	?>
 		        	<?php foreach($kemeja as $p){?>
-		        		<tr>
+		        		<?php
+							$color='';
+							$ket='';
+							if($p['stokakhirroll'] <= 1 && $p['stokakhiryard'] <=1){
+								$color='#b83400';
+								$ket='habis';
+							}
+						?>
+		        		<tr style="color:<?php echo $color ?>">
 		        			<td><?php echo $p['no']?></td>
 		        			<td><?php echo $p['nama']?></td>
 		        			<td><?php echo $p['warna']?></td>
@@ -257,7 +281,7 @@ h5 { font-weight:bold !important}
 		        			<td><?php echo number_format($p['stokakhiryard'],2)?></td>
 		        			<td><?php echo number_format($p['stokakhirharga'])?></td>
 		        			<td><?php echo number_format($p['total'])?></td>
-		        			<td><?php echo $p['ket']?></td>
+		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
