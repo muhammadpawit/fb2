@@ -15,6 +15,14 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
+	<?php if(isset($mingguan)){ ?>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal Akhir</label>
+			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+		</div>
+	</div>
+	<?php } ?>
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>

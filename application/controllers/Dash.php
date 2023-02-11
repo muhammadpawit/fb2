@@ -1280,6 +1280,7 @@ class Dash extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['kategori']=$kategori;
 		$data['update']=$update;
+		$data['mingguan']=true;
 		//pre($pidate. '  bk ' .$bkdate);
 		$sql="SELECT gpi.* , p.kategori FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
@@ -1309,6 +1310,7 @@ class Dash extends CI_Controller {
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
 			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokakhirroll=$this->ReportModel->stok_akhir_bahan($row['id_persediaan']);
 			//if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
 				
 				if($row['kategori']==15){
@@ -1327,10 +1329,13 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
 					);
 				}
@@ -1351,11 +1356,14 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 					);
 				}
 
@@ -1375,11 +1383,14 @@ class Dash extends CI_Controller {
 						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
 						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
 						'stokkeluarharga'=>$row['harga_item'],
-						'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
 						'stokakhirharga'=>$row['harga_item'],
-						'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'ket'=>null,
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
 					);	
 				}
 				
