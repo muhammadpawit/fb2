@@ -6,7 +6,7 @@ table, th, td {
 th, td {
   padding: 15px !important;
 }
-h5 { font-weight:bold !important}
+h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; margin-top:3%;}
 </style>
 <div class="row">
 	<div class="col-md-4">
@@ -42,19 +42,19 @@ h5 { font-weight:bold !important}
 		            <td colspan="3">Bahan Masuk</td>
 		            <td colspan="3">Bahan Keluar</td>
 		            <td colspan="3">Stok Bahan</td>
-		            <td rowspan="2">Total</td>
+		            <td rowspan="2">Total (Rp)</td>
 		            <td rowspan="2">Ket</td>
 		          </tr>
 		          <tr>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -133,22 +133,22 @@ h5 { font-weight:bold !important}
 		            <td rowspan="2">Nama</td>
 		            <td rowspan="2">Warna</td>
 		            <td rowspan="2">Kode</td>
-		            <td colspan="3">Stok Masuk</td>
-		            <td colspan="3">Stok Keluar</td>
-		            <td colspan="3">Stok Akhir</td>
-		            <td rowspan="2">Total</td>
+		            <td colspan="3">Bahan Masuk</td>
+		            <td colspan="3">Bahan Keluar</td>
+		            <td colspan="3">Stok Bahan</td>
+		            <td rowspan="2">Total (Rp)</td>
 		            <td rowspan="2">Ket</td>
 		          </tr>
 		          <tr>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -227,22 +227,22 @@ h5 { font-weight:bold !important}
 		            <td rowspan="2">Nama</td>
 		            <td rowspan="2">Warna</td>
 		            <td rowspan="2">Kode</td>
-		            <td colspan="3">Stok Masuk</td>
-		            <td colspan="3">Stok Keluar</td>
-		            <td colspan="3">Stok Akhir</td>
-		            <td rowspan="2">Total</td>
+		            <td colspan="3">Bahan Masuk</td>
+		            <td colspan="3">Bahan Keluar</td>
+		            <td colspan="3">Stok Bahan</td>
+		            <td rowspan="2">Total (Rp)</td>
 		            <td rowspan="2">Ket</td>
 		          </tr>
 		          <tr>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		            <td>Roll</td>
 		            <td>Yard</td>
-		            <td>Harga</td>
+		            <td>Harga (Rp)</td>
 		          </tr>
 		        </thead>
 		        <tbody>
