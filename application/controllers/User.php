@@ -21,6 +21,8 @@ class User extends CI_Controller {
 		$data['page']=$this->page.'user/myprofile';
 		$data['save']=$this->url.'update_myprofile';
 		$data['p']=$this->GlobalModel->getDataRow('user',array('id_user'=>callSessUser('id_user')));
+		$data['activity']=[];
+		$data['activity']=activity();
 		$this->load->view($this->page.'main',$data);
 	}
 

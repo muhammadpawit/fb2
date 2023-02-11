@@ -483,6 +483,7 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('barangkeluar_harian_detail',$detail);
 			}
+			user_activity(callSessUser('id_user'),1,' Input barang / bahan keluar harian dengan id '.$id);
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect(BASEURL.'Gudang/barangkeluar/'.$data['jenis']);	
 		}
@@ -800,6 +801,7 @@ class Gudang extends CI_Controller {
 				'tanggal'=>date('Y-m-d H:i:s'),
 				'url'=>'Gudang/pengajuandetail/'.$id,
 			);
+			user_activity(callSessUser('id_user'),1,' Input pengajuan harian dengan id '.$id);
 			$this->db->insert('notifikasi',$notify);
 			$msg=callSessUser('nama_user').' telah membuat ajuan harian';
 			push($msg);

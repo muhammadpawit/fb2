@@ -110,6 +110,40 @@
 		}
 		return $menu;
 	}
+
+	function user_activity($userid,$jenis,$ket){
+		$CI =& get_instance();
+		$insert=array(
+			'userid' => $userid,
+			'jenis'  => $jenis, // 1 insert, 2 delete
+			'ket'	 => $ket,
+			'waktu'	 => date('Y-m-d H:i:s'),
+		);
+		$CI->db->insert('user_activity',$insert);
+	}
+
+	function activity(){
+		$CI =& get_instance();
+		$query="SELECT * FROM user_activity WHERE userid='".callSessUser('id_user')."' GROUP BY MONTH(waktu) ORDER BY id DESC ";
+		$data = $CI->GlobalModel->queryManual($query);
+		$hasil=[];
+		if(!empty($data)){
+			foreach($data as $d){
+				$det=$CI->GlobalModel->queryManual("SELECT * FROM user_activity 
+				left JOIN user ON user.id_user=user_activity.userid
+				WHERE userid='".callSessUser('id_user')."' AND
+					MONTH(waktu)='".date('n',strtotime($d['waktu']))."'
+					ORDER BY waktu DESC 
+				");
+				$hasil[]= array(
+					'tanggal' => date('d F Y',strtotime($d['waktu'])),
+					'jam' => date('H:i:s',strtotime($d['waktu'])),
+					'det'=> $det,
+				);
+			}
+		}
+		return $hasil;
+	}
 	
 	function kartustok($data,$type){
 		$CI =& get_instance();

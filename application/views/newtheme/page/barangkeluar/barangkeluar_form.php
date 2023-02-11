@@ -7,7 +7,7 @@
                 <div class="col-4">
                   <div class="form-group">
                     <label>Tanggal</label>
-                    <input type="text" name="tanggal" class="form-control" required>
+                    <input type="text" name="tanggal" value="<?php echo date('Y-m-d')?>" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-4">
@@ -66,7 +66,7 @@
                         <th>Qty Keluar</th>
                         <th>Satuan</th>
                         <th>Harga Satuan</th>
-                        <th><button type="button" name="add" class="btn btn-success btn-sm addbahankeluars"><i class="fa fa-plus"></i></button></th>
+                        <th width="20"><button type="button" name="add" class="btn btn-success btn-sm addbahankeluars"><i class="fa fa-plus"></i></button></th>
                       </tr>
                     </table>                  
                 </div>
@@ -88,7 +88,7 @@ $(document).ready(function(){
         var html = '';
         html += '<tr>';
         html += '<td style="display:none;"><input type="hidden" class="form-control id" name="products['+i+'][id_persediaan]" ></td>';
-        html += '<td><select type="text" class="form-control barang select2bs4" name="products['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
+        html += '<td width="300"><select type="text" class="form-control barang select2bs4" name="products['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
         html += '<td><input type="text" class="form-control warna" name="products['+i+'][warna]" ></td>';
         html +='<td><span class="stoku"></span></td>';
         html += '<td><input type="number" class="form-control ukuran" name="products['+i+'][ukuran]" min="0" step=0.01 required></td>';

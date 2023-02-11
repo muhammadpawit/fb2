@@ -1046,6 +1046,7 @@ class Kelolapo extends CI_Controller {
 							$this->db->update('konveksi_buku_potongan',$up,$where);
 						}
 				}
+				user_activity(callSessUser('id_user'),1,' input buku potongan dengan id inputan '.$idbukupotongan);
 				$this->session->set_flashdata('msg','Data berhasil ditambah');
 				redirect(BASEURL.'kelolapo/bukupotongan');
 		}else{
