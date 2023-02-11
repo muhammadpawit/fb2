@@ -187,6 +187,7 @@
 		        		$setorkemejadz=0;
 		        		$stokakhirkaosjml=0;
 		        		$stokakhirkaosdz=0;
+						$stokakhirkaospcs=0;
 		        		$stokakhirkemejajml=0;
 		        		$stokakhirkemejadz=0;
 		        	 ?>		        	
@@ -207,7 +208,7 @@
 		              <td><?php echo $p['setorkaosdz']>0?number_format($p['setorkaosdz']):'';?></td>
 		              <td><?php echo $p['setorkaospcs']>0?number_format($p['setorkaospcs']):'';?></td>
 		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
-		              <td><?php echo $p['stokakhirkaosdz']>0?($p['stokakhirkaosdz']):'';?></td>
+		              <td><?php echo $p['stokakhirkaosdz']>0?number_format($p['stokakhirkaosdz'],2):'';?></td>
 		              <td><?php echo $p['stokakhirkaospcs'] ?></td>
 		            </tr>
 		            <?php 
@@ -223,7 +224,9 @@
 		        		$setorkaosjml+=($p['setorkaosjml']);
 		        		$setorkaosdz+=($p['setorkaosdz']);
 		        		$setorkaospcs+=($p['setorkaospcs']);
-		        		$stokakhirkaosdz+=0;
+						$stokakhirkaosjml+=($p['stokakhirkaosjml']);
+		        		$stokakhirkaosdz+=($p['stokakhirkaosdz']);
+						$stokakhirkaospcs+=($p['stokakhirkaospcs']);
 		        	 ?>
 		          <?php }?>
 		          <tr>
@@ -242,7 +245,7 @@
 		          	<td><?php echo number_format($setorkaospcs,2)?></td>
 		          	<td><?php echo number_format($stokakhirkaosjml,2)?></td>
 		          	<td><?php echo number_format($stokakhirkaosdz,2)?></td>
-		          	<td>0</td>
+		          	<td><?php echo number_format($stokakhirkaospcs,2)?></td>
 		          </tr>
 		        </tbody>
 		    </table>
@@ -301,6 +304,8 @@
 		        		$kirimkemejadz+=($p['kirimkemejadz']);
 		        		$setorkemejajml+=($p['setorkemejajml']);
 		        		$setorkemejadz+=($p['setorkemejadz']);
+						$stokakhirkemejajml+=($p['stokakhirkemejajml']);
+						$stokakhirkemejadz+=($p['stokakhirkemejadz']);
 		        	 ?>
 		          <?php }?>
 		          <tr>

@@ -112,8 +112,8 @@ class Laporanklo extends CI_Controller {
 				'setorkaosdz'=>!empty($setor)?$setor['dz']:0,
 				'setorkaospcs'=>!empty($setor)?$setor['pcs']:0,
 				'stokakhirkaosjml'=>$stok['jmlpo'],
-				'stokakhirkaosdz'=>number_format(($stok['pcs']/12),2),
-				'stokakhirkaospcs'=>number_format($stok['pcs'],2),
+				'stokakhirkaosdz'=>(($stok['pcs']/12)),
+				'stokakhirkaospcs'=>($stok['pcs']),
 				'kirimjeansjml'=>!empty($kirimjeans)?$kirimjeans['jmlpo']:0,
 				'kirimjeansdz'=>!empty($kirimjeans)?$kirimjeans['dz']:0,
 				'kirimjeanspcs'=>!empty($kirimjeans)?$kirimjeans['pcs']:0,
@@ -142,7 +142,7 @@ class Laporanklo extends CI_Controller {
 				'setorkemejajml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setorkemejadz'=>!empty($setor)?$setor['dz']:0,
 				'stokakhirkemejajml'=>$stok['jmlpo'],
-				'stokakhirkemejadz'=>number_format(($stok['pcs']/12),2),
+				'stokakhirkemejadz'=>($stok['pcs']/12),
 			);
 		}
 		
