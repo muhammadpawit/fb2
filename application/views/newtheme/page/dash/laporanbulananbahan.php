@@ -1,36 +1,60 @@
+<style>
+table, th, td {
+  border: 1px solid black !important;
+  border-collapse: collapse !important;
+}
+th, td {
+  padding: 15px !important;
+}
+h5 { font-weight:bold !important}
+</style>
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal</label>
+			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Aksi</label><br>
+			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="col-md-12">
 		<div class="table-responsive">
-			<b>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?></b>
+			<p>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?></b>
 			<br>
-			<b>
+			<p>
 				&bull; <?php echo isset($trans)?$trans['keterangan']:'';?>
 			</b>
-			<hr>
-			<h5>Bahan Kaos</h5>
-			<table class="table table-bordered table-striped">
+			
+			<h5><b>Bahan Kaos</b></h5>
+			<table>
 				<thead style="text-align: center;">
 		          <tr>
-		            <th rowspan="2">No</th>
-		            <th rowspan="2">Nama</th>
-		            <th rowspan="2">Warna</th>
-		            <th rowspan="2">Kode</th>
-		            <th colspan="3">Stok Masuk</th>
-		            <th colspan="3">Stok Keluar</th>
-		            <th colspan="3">Stok Akhir</th>
-		            <th rowspan="2">Total</th>
-		            <th rowspan="2">Ket</th>
+		            <td rowspan="2">No</td>
+		            <td rowspan="2">Nama</td>
+		            <td rowspan="2">Warna</td>
+		            <td rowspan="2">Kode</td>
+		            <td colspan="3">Bahan Masuk</td>
+		            <td colspan="3">Bahan Keluar</td>
+		            <td colspan="3">Stok Bahan</td>
+		            <td rowspan="2">Total</td>
+		            <td rowspan="2">Ket</td>
 		          </tr>
 		          <tr>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -97,26 +121,26 @@
 			<table class="table table-bordered table-striped">
 				<thead style="text-align: center;">
 		          <tr>
-		            <th rowspan="2">No</th>
-		            <th rowspan="2">Nama</th>
-		            <th rowspan="2">Warna</th>
-		            <th rowspan="2">Kode</th>
-		            <th colspan="3">Stok Masuk</th>
-		            <th colspan="3">Stok Keluar</th>
-		            <th colspan="3">Stok Akhir</th>
-		            <th rowspan="2">Total</th>
-		            <th rowspan="2">Ket</th>
+		            <td rowspan="2">No</td>
+		            <td rowspan="2">Nama</td>
+		            <td rowspan="2">Warna</td>
+		            <td rowspan="2">Kode</td>
+		            <td colspan="3">Stok Masuk</td>
+		            <td colspan="3">Stok Keluar</td>
+		            <td colspan="3">Stok Akhir</td>
+		            <td rowspan="2">Total</td>
+		            <td rowspan="2">Ket</td>
 		          </tr>
 		          <tr>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -183,26 +207,26 @@
 			<table class="table table-bordered table-striped">
 				<thead style="text-align: center;">
 		          <tr>
-		            <th rowspan="2">No</th>
-		            <th rowspan="2">Nama</th>
-		            <th rowspan="2">Warna</th>
-		            <th rowspan="2">Kode</th>
-		            <th colspan="3">Stok Masuk</th>
-		            <th colspan="3">Stok Keluar</th>
-		            <th colspan="3">Stok Akhir</th>
-		            <th rowspan="2">Total</th>
-		            <th rowspan="2">Ket</th>
+		            <td rowspan="2">No</td>
+		            <td rowspan="2">Nama</td>
+		            <td rowspan="2">Warna</td>
+		            <td rowspan="2">Kode</td>
+		            <td colspan="3">Stok Masuk</td>
+		            <td colspan="3">Stok Keluar</td>
+		            <td colspan="3">Stok Akhir</td>
+		            <td rowspan="2">Total</td>
+		            <td rowspan="2">Ket</td>
 		          </tr>
 		          <tr>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
-		            <th>Roll</th>
-		            <th>Yard</th>
-		            <th>Harga</th>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
+		            <td>Roll</td>
+		            <td>Yard</td>
+		            <td>Harga</td>
 		          </tr>
 		        </thead>
 		        <tbody>
