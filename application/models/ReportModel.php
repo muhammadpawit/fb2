@@ -900,14 +900,24 @@ class ReportModel extends CI_Model {
 	}
 
 	public function rekapjml($bulan,$tahun,$idcmt,$cmtkat,$progress){
-		$hasil=null;
-		$sql="SELECT count(*) as total FROM `kelolapo_kirim_setor` WHERE MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
+		$hasil=0;
+		$sql="SELECT COALESCE(count(idpo),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
+		$sql.=" LEFT JOIN produksi_po ON produksi_po.id_produksi_po=kelolapo_kirim_setor.idpo ";
+		$sql.=" LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=produksi_po.nama_po) ";
+		$sql.=" WHERE kelolapo_kirim_setor.hapus=0 AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
+		$sql.=" GROUP BY mjp.perkalian ";
 		if(!empty($cmtkat)){
 			$sql.=" AND kategori_cmt='$cmtkat' ";
 		}
-		$data=$this->db->query($sql)->row_array();
-		return $hasil=$data['total'];
-		//return $sql;
+		$data=$this->GlobalModel->QueryManual($sql);
+		if(!empty($data)){
+			foreach($data as $d){
+				$hasil+=$d['total']*$d['perkalian'];
+			}
+		}
+		
+		return $hasil;
+		//return $hasil=$data['total']*$data['perkalian'];
 		
 	}
 
@@ -1555,7 +1565,8 @@ class ReportModel extends CI_Model {
 					'yard'=>14,
 				);
 			}else{
-				$sqlhistrory="SELECT saldoawal_uk as yard, saldoawal_qty as roll FROM kartustok_product WHERE idproduct='$id' ";
+				//$sqlhistrory="SELECT saldoawal_uk as yard, saldoawal_qty as roll FROM kartustok_product WHERE idproduct='$id' ";
+				$sqlhistrory="SELECT sisa_uk as yard, sisa_qty as roll FROM kartustok_product WHERE idproduct='$id' ";
 				$sqlhistrory.=" AND DATE(tanggal) < '$tglendstok' ";
 				$sqlhistrory.=" ORDER BY id DESC limit 1 ";
 				$ds=$this->GlobalModel->QueryManualRow($sqlhistrory);
@@ -1594,7 +1605,7 @@ class ReportModel extends CI_Model {
 	public function stokkeluar_bulanan($id,$bulan,$tahun){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
 		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0";
-		$sql.=" AND id_persediaan='$id' AND YEAR(pi.tanggal)='".$tahun."' AND MONTH(pi.tanggal)='".$bulan."' ";
+		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d;

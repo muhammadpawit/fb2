@@ -83,8 +83,8 @@
 							<td><?php echo $nem++?></td>
 							<td><?php echo $d['nama']?></td>
 							<td><?php echo $d['jml']?></td>
-							<td><?php echo number_format($d['dz'],2)?></td>
-							<td><?php echo $d['pcs']?></td>
+							<td><?php echo number_format($d['dz'])?></td>
+							<td><?php echo number_format($d['pcs'])?></td>
 						</tr>
 						<?php 
 							$jmlks+=($d['jml']);
@@ -97,8 +97,8 @@
 					<tr>
 						<td colspan="2"><b>Total</b></td>
 						<td><b><?php echo $jmlks?></b></td>
-						<td><b><?php echo number_format($kaosdz,2)?></b></td>
-						<td><b><?php echo $kaospcs?></b></td>
+						<td><b><?php echo number_format($kaosdz)?></b></td>
+						<td><b><?php echo number_format($kaospcs)?></b></td>
 					</tr>
 				</tfoot>
 			</table>

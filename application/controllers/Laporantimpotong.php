@@ -24,7 +24,7 @@ class Laporantimpotong extends CI_Controller {
 		if(isset($get['bulan'])){
 			$bulan=$get['bulan'];
 		}else{
-			$bulan=date('n',strtotime("-1 month"));
+			$bulan=date('m',strtotime("-1 month"));
 		}
 		if(isset($get['tahun'])){
 			$tahun=$get['tahun'];

@@ -200,6 +200,7 @@ class Stockpo extends CI_Controller {
 		$setorjmlpo=null;
 		$setordz=0;
 		$setorpcs=0;
+		$kirimpo=0;
 		if(!empty($cmt)){
 			foreach($bulan as $b=>$val){
 				$b=explode(" ", $val);
@@ -223,6 +224,7 @@ class Stockpo extends CI_Controller {
 					'setordz'=>number_format($setorpcs/12,2),
 					'setorpcs'=>number_format($setorpcs,2),
 				);
+				$kirimpo+=$kirimjmlpo;
 				$kp[]=array(
 					'tot'=>$kirimpcs==null?0:$kirimpcs/12,
 				);
@@ -236,6 +238,8 @@ class Stockpo extends CI_Controller {
 			$data['kp']=0;
 			$data['sp']=0;
 		}
+
+		$data['kirimpo']=$kirimpo;
 		
 		$data['bulan1']=$bulan1;
 		$data['bulan2']=$bulan2;

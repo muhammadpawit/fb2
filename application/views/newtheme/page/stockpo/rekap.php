@@ -110,6 +110,10 @@
 						<td></td>
 					</tr>
 					<?php } ?>
+					<tr>
+						<td><b>Total</b></td>
+						<td align="center"><b><?php echo $kirimpo?></b></td>
+					</tr>
 				<?php }else{ ?>
 					<tr>
 						<td colspan="8">Silahkan pilih nama cmt</td>

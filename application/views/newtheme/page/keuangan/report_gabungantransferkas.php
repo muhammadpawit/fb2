@@ -1,5 +1,6 @@
 <div class="row">
-            <div class="col-md-3">
+  <div class="form-group">
+  <div class="col-md-3">
               <label>Tanggal Awal</label>
               <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
             </div>
@@ -22,7 +23,12 @@
               <button onclick="filter()" class="btn btn-info btn-sm">Filter</button>
               <button onclick="excel()" class="btn btn-info btn-sm">Excel</button>
             </div>
+  </div>
+</div>
+<br>
+<div class="row">
   <div class="col-md-12">
+    <div class="form-group">
     <table class="table table-bordered">
       <thead>
         <tr style="text-align: center!important;" valign="top">
@@ -101,6 +107,7 @@
       <?php } ?>
       </tbody>
     </table>
+    </div>
   </div>
 </div>
 <script type="text/javascript">
