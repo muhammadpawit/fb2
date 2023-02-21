@@ -65,6 +65,7 @@
 				<tr>
 					<td colspan="2"><b>Total</b></td>
 					<td><?php echo $jml?></td>
+					<td></td>
 					<td><?php echo number_format($dz,2)?></td>
 					<td><?php echo number_format($nilai)?></td>
 					<td></td>
