@@ -63,7 +63,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="3"><b>Total</b></td>
+					<td colspan="2"><b>Total</b></td>
 					<td><?php echo $jml?></td>
 					<td><?php echo number_format($dz,2)?></td>
 					<td><?php echo number_format($nilai)?></td>
