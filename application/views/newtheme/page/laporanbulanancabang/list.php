@@ -8,7 +8,7 @@
 <br>
 <div class="row">
 	<div class="col-md-12">
-		<h4><?php echo strtolower($cmts['cmt_name'])?></h4>
+		<h4></h4>
 	</div>
 </div>
 <div class="row">
