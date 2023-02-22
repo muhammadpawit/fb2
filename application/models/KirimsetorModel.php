@@ -54,7 +54,8 @@ class kirimsetorModel extends CI_Model {
 				'jml'=>$jumlah,
 				'pcs'=>$row['pcs'],
 				'nama'=>$row['nama_jenis_po'],
-				'nilai'=>$row['nilai']
+				'nilai'=>$row['nilai'],
+				'tujuan'=>$row['tujuan'],
 			);
 		}
 		return $hasil;
