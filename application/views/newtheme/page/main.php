@@ -246,6 +246,11 @@
                   <span><?php echo $this->session->flashdata('msg') ?></span>
               </div>
           <?php } ?>
+          <?php if(!empty($this->session->flashdata('gagal'))){?>
+              <div class="alert alert-danger alert-dismissible">
+                  <span><?php echo $this->session->flashdata('gagal') ?></span>
+              </div>
+          <?php } ?>
             <?php if(isset($page)){?>
                  
                   <?php $this->load->view('newtheme/page/script');?>

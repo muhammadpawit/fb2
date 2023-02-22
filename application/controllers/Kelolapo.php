@@ -616,25 +616,33 @@ class Kelolapo extends CI_Controller {
 	{
 		$post  = $this->input->post();
 		$po=trim(strtoupper($post['namaPO']).$post['kodePO']);
+		$cekpo = $this->GlobalModel->GetData('produksi_po',array('kode_po'=>$po));
+		$cekart = $this->GlobalModel->GetData('produksi_po',array('kode_artikel'=>$post['artikel']));
+		if(empty($cekpo) && empty($cekart) ){
+			$dataInsert = array(
+				'kode_po'	=> str_replace(" ","",$po),
+				'nama_hpp'	=> str_replace(" ","",$po),
+				//'kode_po'	=> strtoupper($post['kodePO']),
+				'kategori_po'	=> $post['kategoriPo'],
+				'nama_po'	=> $post['namaPO'],
+				'kode_artikel'	=> $post['artikel'],
+				//'id_proggresion_po'	=> $post['progress'],
+				'id_proggresion_po'	=>1,
+				'created_date'	=> $post['tanggalProd'],
+				'jenis_po'	=> $post['jenisPo'],
+				'status'=>0,
+				'tahun'=>date('Y').date('Y',strtotime("+1 year")),
+				'serian'=>$post['serian'],
+			);
+			$this->GlobalModel->insertData('produksi_po',$dataInsert);
+			$this->session->set_flashdata('msg','Data berhasil ditambah');
+			redirect(BASEURL.'Kelolapo/produksipo');
+		}else{
+			$resp= json_encode($post);
+			$this->session->set_flashdata('gagal','Data gagal disimpan'.$resp);
+			redirect(BASEURL.'Kelolapo/addpo');
+		}
 		
-		$dataInsert = array(
-			'kode_po'	=> str_replace(" ","",$po),
-			'nama_hpp'	=> str_replace(" ","",$po),
-			//'kode_po'	=> strtoupper($post['kodePO']),
-			'kategori_po'	=> $post['kategoriPo'],
-			'nama_po'	=> $post['namaPO'],
-			'kode_artikel'	=> $post['artikel'],
-			//'id_proggresion_po'	=> $post['progress'],
-			'id_proggresion_po'	=>1,
-			'created_date'	=> $post['tanggalProd'],
-			'jenis_po'	=> $post['jenisPo'],
-			'status'=>0,
-			'tahun'=>date('Y').date('Y',strtotime("+1 year")),
-			'serian'=>$post['serian'],
-		);
-		$this->GlobalModel->insertData('produksi_po',$dataInsert);
-		$this->session->set_flashdata('msg','Data berhasil ditambah');
-		redirect(BASEURL.'Kelolapo/produksipo');
 	}
 
 
