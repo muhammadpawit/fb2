@@ -904,7 +904,11 @@ class ReportModel extends CI_Model {
 		$sql="SELECT COALESCE(count(idpo),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
 		$sql.=" LEFT JOIN produksi_po ON produksi_po.id_produksi_po=kelolapo_kirim_setor.idpo ";
 		$sql.=" LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=produksi_po.nama_po) ";
-		$sql.=" WHERE kelolapo_kirim_setor.hapus=0 AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
+		$sql.=" WHERE kelolapo_kirim_setor.hapus=0 AND id_master_cmt=$idcmt AND progress='$progress' ";
+		if(!empty($bulan)){
+			$sql.=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
+		}
+		
 		$sql.=" GROUP BY mjp.perkalian ";
 		if(!empty($cmtkat)){
 			$sql.=" AND kategori_cmt='$cmtkat' ";
@@ -933,7 +937,10 @@ class ReportModel extends CI_Model {
 
 	public function rekappcs($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
+		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE progress='$progress' AND id_master_cmt=$idcmt";
+		if(!empty($bulan)){
+			$sql .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
+		}
 		if(!empty($cmtkat)){
 			$sql.=" AND kategori_cmt='$cmtkat' ";
 		}
