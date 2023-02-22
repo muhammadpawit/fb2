@@ -48,6 +48,7 @@ class Kelolapo extends CI_Controller {
 			'id_produksi_po'=>$data['id'],
 		);
 		$this->db->update('produksi_po',$update,$where);
+		user_activity(callSessUser('id_user'),1,' edit kode po '.$data['kode_po']);
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'Kelolapo/produksipo?&kode_po='.$data['id'].'-'.$data['kode_po']);
 	}
@@ -168,6 +169,7 @@ class Kelolapo extends CI_Controller {
         $this->upload->do_upload('gambarPO1');
         $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
         $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po'=>$fileName));
+		user_activity(callSessUser('id_user'),1,' submit gambar kode po '.$post['kode_po']);
         $this->session->set_flashdata('msg','Data berhasil diupdate');
         redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$kodepo);
 	}
@@ -183,6 +185,7 @@ class Kelolapo extends CI_Controller {
         $this->upload->do_upload('gambarPO2');
         $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
         $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po2'=>$fileName));
+		user_activity(callSessUser('id_user'),1,' submit gambar kode po '.$post['kode_po']);
         $this->session->set_flashdata('msg','Data berhasil diupdate');
         redirect(BASEURL.'Kelolapo/spesifikasiedit/'.$kodepo);
 	}
@@ -294,6 +297,7 @@ class Kelolapo extends CI_Controller {
 			}
 		}
 		$this->db->update('kelolapo_kirim_setor',$update,array('id_kelolapo_kirim_setor'=>$post['kodeSetoran']));
+		user_activity(callSessUser('id_user'),1,' hapus KLO '.$post['kode_po']);
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Kelolapo/kirimsetorcmt?&kode_po='.$post['kode_po']);
 	}
@@ -634,6 +638,7 @@ class Kelolapo extends CI_Controller {
 				'tahun'=>date('Y').date('Y',strtotime("+1 year")),
 				'serian'=>$post['serian'],
 			);
+			user_activity(callSessUser('id_user'),1,' input kode po baru '.$po);
 			$this->GlobalModel->insertData('produksi_po',$dataInsert);
 			$this->session->set_flashdata('msg','Data berhasil ditambah');
 			redirect(BASEURL.'Kelolapo/produksipo');
@@ -700,7 +705,7 @@ class Kelolapo extends CI_Controller {
 	        );
 	        $this->db->update('konveksi_buku_potongan',$up,array('kode_po'=>$data['kode_po']));
 		}
-
+		user_activity(callSessUser('id_user'),1,' edit gambar po '.$data['kode_po']);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Kelolapo/editgambar/'.$data['kode_po']);
 	}
@@ -1553,6 +1558,7 @@ class Kelolapo extends CI_Controller {
 	   			}
    			}
 	   		$nosj='SJFB'.'-'.date('Y-m').'-'.$id;
+			user_activity(callSessUser('id_user'),1,' input surat jalan kirim sablon '.$nosj);
 	   		$this->db->update('kirimcmtsablon',array('totalkirim'=>$totalkirim,'nosj'=>$nosj),array('id'=>$id));
    			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect(BASEURL.'Kelolapo/pengirimansablon');
@@ -1724,6 +1730,7 @@ class Kelolapo extends CI_Controller {
 			);
 			$this->db->update('kirimcmtsablon_detail',$ud,$wd);
 		}
+		user_activity(callSessUser('id_user'),1,' edit surat jalan sablon id '.$post['kode_nota']);
 		$this->db->update('kirimcmtsablon',array('totalkirim'=>$totalkirim),array('id'=>$post['kode_nota']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'Kelolapo/pengirimansablon');
@@ -1953,6 +1960,7 @@ class Kelolapo extends CI_Controller {
 	   			}
    			}
 	   		$nosj='SJFB'.'-'.date('Y-m').'-'.$id;
+			user_activity(callSessUser('id_user'),1,' input pengiriman surat jalan jahit '.$nosj);
 	   		$this->db->update('kirimcmt',array('totalkirim'=>$totalkirim,'nosj'=>$nosj),array('id'=>$id));
    			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect(BASEURL.'Kelolapo/pengirimancmt');
@@ -2095,6 +2103,7 @@ class Kelolapo extends CI_Controller {
 			);
 			$this->db->update('kirimcmt_detail',$ud,$wd);
 		}
+		user_activity(callSessUser('id_user'),1,' edit surat jalan jahit '.$post['kode_nota']);
 		$this->db->update('kirimcmt',array('totalkirim'=>$totalkirim),array('id'=>$post['kode_nota']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'Kelolapo/pengirimancmt');
