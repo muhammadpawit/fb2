@@ -79,7 +79,7 @@ class Laporankirimgudangharian extends CI_Controller {
 				'nama'=>$row['nama'],
 				'nilai'=>$row['nilai'],
 				'dz'=>$row['pcs']/12,
-				'keterangan'=>'Dikirim Gudang Tanah Abang',
+				'keterangan'=>$row['tujuan'],
 			);
 		}
 
