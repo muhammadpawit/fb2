@@ -21,7 +21,7 @@
 </div>
 <div class="row">
 	<div class="col-md-8">
-		<table class="table table-bordered table-hover yessearch">
+		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<th>Hari</th>
