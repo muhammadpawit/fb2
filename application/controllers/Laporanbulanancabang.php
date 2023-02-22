@@ -100,7 +100,12 @@ class Laporanbulanancabang extends CI_Controller {
 					'setordz'=>number_format($setorpcs/12,2),
 					'setorpcs'=>number_format($setorpcs,2),
 				);
-				$kirimpo+=$kirimjmlpo;
+				$kirimpo    +=$kirimjmlpo;
+                $kirimdz    +=($kirimpcs);
+                $kirimpcs   +=($kirimpcs);
+                $setorjmlpo +=($setorjmlpo);
+                $setordz    +=($setorpcs);
+                $setorpcs   +=($setorpcs);
 				$kp[]=array(
 					'tot'=>$kirimpcs==null?0:$kirimpcs/12,
 				);
@@ -116,7 +121,13 @@ class Laporanbulanancabang extends CI_Controller {
 			$data['sp']=0;
 		}
 
-		$data['kirimpo']=$kirimpo;
+		$data['kirimpo']    =$kirimpo;
+        $data['kirimdz']    =$kirimdz;
+        $data['kirimpcs']   =$kirimpcs;
+
+        $data['setorjmlpo'] =$setorjmlpo;
+        $data['setordz']    =$setordz;
+        $data['setorpcs']   =$setorpcs;
 		
 		$data['bulan1']=$bulan1;
 		$data['bulan2']=$bulan2;

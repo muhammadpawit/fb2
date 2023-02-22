@@ -1,71 +1,6 @@
 <div class="row no-print">
-	<?php $tam=0;?>
-	<?php if($tam==1){?>
-	<div class="col-md-3">
-		<label>Bulan Awal</label>
-		<select name="bulan1" class="form-control select2bs4" data-live-search="true">
-			<option value="*">Semua</option>
-			<?php foreach($bulan as $key=>$val){?>
-				<option value="<?php echo $val?>"><?php echo $val?></option>
-			<?php } ?>
-			<!--<option value="1">Januari</option>
-			<option value="2">Februari</option>
-			<option value="3">Januari</option>
-			<option value="4">April</option>
-			<option value="5">Mei</option>
-			<option value="6">Juni</option>
-			<option value="7">Juli</option>
-			<option value="8">Agustus</option>
-			<option value="9">September</option>
-			<option value="10">Oktober</option>
-			<option value="11">November</option>
-			<option value="12">Desember</option>-->
-		</select>
-	</div>
-	<div class="col-md-3">
-		<label>Bulan Akhir</label>
-		<select name="bulan2" class="form-control select2bs4" data-live-search="true">
-			<option value="*">Semua</option>
-			<?php foreach($bulan as $key=>$val){?>
-				<option value="<?php echo $val?>"><?php echo $val?></option>
-			<?php } ?>
-			<!--
-			<option value="1">Januari</option>
-			<option value="2">Februari</option>
-			<option value="3">Januari</option>
-			<option value="4">April</option>
-			<option value="5">Mei</option>
-			<option value="6">Juni</option>
-			<option value="7">Juli</option>
-			<option value="8">Agustus</option>
-			<option value="9">September</option>
-			<option value="10">Oktober</option>
-			<option value="11">November</option>
-			<option value="12">Desember</option>-->
-		</select>
-	</div>
-	<?php } ?>
-	<!--<div class="col-md-2">
-		<label>Tahun</label>
-		<select name="tahun" class="form-control select2bs4" data-live-search="true">
-			<option value="*">Pilih</option>
-			<?php for($i=2020;$i<=2030;$i++){?>
-				<option value="<?php echo $i?>"><?php echo $i?></option>
-			<?php } ?>
-		</select>
-	</div>-->
-	<div class="col-md-3">
-		<label>Nama CMT</label>
-		<select name="cmt" class="form-control select2bs4" data-live-search="true">
-			<option value="*">Semua</option>
-			<?php foreach($cmt as $c){?>
-				<option value="<?php echo $c['id_cmt']?>"><?php echo strtolower($c['cmt_name'])?></option>
-			<?php } ?>
-		</select>
-	</div>
 	<div class="col-md-3">
 		<label>Aksi</label><br>
-		<button class="btn btn-info btn-sm" onclick="filter()">Tampilkan</button>
 		<a class="btn btn-info btn-sm text-white" href="<?php echo $excel?>">excel</a>
 		<button class="btn btn-info btn-sm cetak">Print</button>
 	</div>
@@ -113,6 +48,11 @@
 					<tr>
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
+                        <td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
+                        <td align="center"><b><?php echo number_format($kirimpcs,0)?></b></td>
+                        <td align="center"><b><?php echo $setorjmlpo?></b></td>
+                        <td align="center"><b><?php echo number_format($setordz,2)?></b></td>
+                        <td align="center"><b><?php echo number_format($setorpcs,0)?></b></td>
 					</tr>
 				<?php }else{ ?>
 					<tr>
