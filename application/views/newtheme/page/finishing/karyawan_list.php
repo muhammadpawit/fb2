@@ -31,10 +31,14 @@
           </div>
           <div class="form-group">
             <label>Tipe Gaji</label>
-            <select name="tipe" class="form-control select2bs4">
+            <select name="tipe" class="form-control select2bs4" style="width:100%">
               <option value="1">Harian</option>
               <option value="2">Borongan</option>
             </select>
+          </div>
+          <div class="form-group">
+            <label>Gaji Perminggu </label>
+            <input type="text" name="perminggu" class="form-control" required="required">
           </div>
           <div class="form-group">
             <label>Bagian </label>
@@ -64,7 +68,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>No.</th>
                   <th>Nama</th>
                   <th>Bagian</th>
                   <th>Tipe</th>
@@ -77,7 +81,7 @@
                 <?php if($products){?>
                   <?php foreach($products as $p){?>
                     <tr>
-                      <td>#</td>
+                      <td><?php echo $p['no']?></td>
                       <td><?php echo strtolower($p['nama'])?></td>
                       <td><?php echo strtolower($p['bagian'])?></td>
                       <td>

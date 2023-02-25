@@ -904,9 +904,11 @@ class Finishing extends CI_Controller {
 		$data['hapus']=BASEURL.'Finishing/karyawanhapus/';
 		$products=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 		$borongan=array();
+		$no=1;
 		foreach($products as $p){
 			$borongan=$this->GlobalModel->getData('gajiborongan',array('idkaryawanharian'=>$p['id']));
 			$data['products'][]=array(
+				'no'=>$no++,
 				'id'=>$p['id'],
 				'nama'=>$p['nama'],
 				'bagian'=>$p['bagian'],
@@ -935,8 +937,8 @@ class Finishing extends CI_Controller {
 			'nama'=>$data['nama'],
 			'bagian'=>$data['bagian'],
 			'tipe'=>$data['tipe'],
-			'gaji'=>0,
-			'perminggu'=>0,
+			'gaji'=>($data['perminggu']/6),	
+			'perminggu'=>($data['perminggu']),
 			'status_gaji'=>isset($data['status_gaji'])?$data['status_gaji']:1,
 			'hapus'=>0,
 		);
