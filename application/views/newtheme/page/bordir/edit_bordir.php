@@ -24,7 +24,7 @@
 								<input type="text" name="prods[<?php echo $i?>][created_date]" class="form-control datepicker" value="<?php echo $e['created_date']?>" size="7">
 							</td>
 							<td>
-								<select class="selectpicker select2bs4" name="prods[<?php echo $i?>][nama_operator]" data-live-search="TRUE" required>
+								<select class="selectpicker select2bs4" name="prods[<?php echo $i?>][nama_operator]" data-live-search="TRUE" style="width:100%" required>
                                     <?php foreach ($operator as $key => $op): ?>
                                         <option value="<?php echo $op['id_master_karyawan_bordir'] ?>" <?php echo ($op['id_master_karyawan_bordir']==$e['nama_operator'])?'selected':'' ?>><?php echo $op['nama_karyawan_bordir'] ?></option>
                                     <?php endforeach ?>
