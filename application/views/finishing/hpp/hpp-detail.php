@@ -69,7 +69,7 @@
 
                                     <td>PO</td>
 
-                                    <td><?php echo $po['nama_po'].' '.$po['nama_hpp'] ?></td>
+                                    <td><?php echo $po['nama_hpp'] ?></td>
                                     <td rowspan="8" width="25%" height="70%">
                                        <b> Spesifikasi PO <small class="no-print"></small></b>
                                         <div style="font-size: 23.5px !important">
