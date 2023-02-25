@@ -101,7 +101,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                                                 <b class="besar"r>
 
                                                 <b class="besar"r>                                            
-
+                                                ( RASUM )
                                             </td>
                                             <td height="100" align="center">
 
@@ -114,7 +114,7 @@ header("Content-Disposition: attachment; filename=Laporan_gaji_buang_benang_bord
                                                 <b class="besar"r>
 
                                                 <b class="besar"r>                                            
-                                                ( Tria )
+                                                ( AGUS )
                                             </td>
                                         </tr>
 
