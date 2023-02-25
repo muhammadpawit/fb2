@@ -241,7 +241,7 @@ class Bordir extends CI_Controller {
 			}else{
 				$mesin='7,8,9,10';
 			}
-			$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND mesin_bordir IN (".$mesin.") ) ");
+			$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE gaji=1 AND hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND mesin_bordir IN (".$mesin.") ) ");
 			$data['harian']=[];
 			foreach($karyawan as $k){
 				$data['prods'][]=array(
