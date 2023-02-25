@@ -1,12 +1,12 @@
 <style type="text/css">
 
     table, th, td {
-        font-size: 30px !important;
+        font-size: 25px !important;
         border: 2px solid black !important;
 
     }
     h6{
-        font-size: 30px !important;
+        font-size: 25px !important;
     }
 	.print{ display:none !important}
 	@media print
@@ -59,7 +59,7 @@
 
                                     <td colspan="5" class="text-center">
 
-                                        <h3>HPP <?php echo $jenis?> </h3>
+                                        <h1>HPP <?php echo $jenis?> </h1>
 
                                     </td>
 
@@ -207,13 +207,16 @@
 
                                     <td>JUMLAH PO</td>
 
-                                    <td><?php echo isset( $produk['jml_setor_qty'])? $produk['jml_setor_qty']:0 ?> PCS</td>
+                                    <td>
+                                        <?php echo isset( $produk['jml_setor_qty'])? $produk['jml_setor_qty']:0 ?> PCS<br>
+                                        <?php echo isset( $produk['jml_setor_qty'])? $produk['jml_setor_qty']/12:0 ?> DZ
+                                    </td>
 
                                 </tr>
 
                                 <tr>
 
-                                    <td>NAMA CMT</td>
+                                    <td>CMT JAHIT</td>
 
 
                                     <td><?php echo strtoupper($namacmt) ?></td>
@@ -237,11 +240,11 @@
 
                                     <th>PERINCIAN BIAYA</th>
 
-                                    <th>KETERANGAN</th>
+                                    <th width="120">KETERANGAN</th>
 
-                                    <th>HARGA</th>
+                                    <th align="center"><center>HARGA</center></th>
 
-                                    <th>JUMLAH</th>
+                                    <th width="200"><center>JUMLAH</center></th>
 
                                 </tr>
 
@@ -265,13 +268,13 @@
 
                                     </td>
 
-                                    <td>
+                                    <td align="center">
 
                                         <?php echo number_format($bahanAja['harga_item']) ?>
 
                                     </td>
 
-                                    <td><?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_utama']); ?></td>
+                                    <td align="right"><?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_utama']); ?></td>
 
                                     <?php 
 
@@ -301,13 +304,13 @@
 
                                     </td>
 
-                                    <td>
+                                    <td align="center">
 
                                         <?php echo number_format($bahanAja['harga_item']) ?>
 
                                     </td>
 
-                                    <td>
+                                    <td align="right">
 
                                         <?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_variasi']); ?>
 
@@ -329,7 +332,7 @@
                                 	<td><?php echo $no+=1?></td>
                                     <td>
 
-                                        BAHAN <?php echo $bahanKantong['bahan_kategori'] ?>
+                                        <?php echo str_replace("KAINKANTONG","KAIN - KANTONG",$bahanKantong['bahan_kategori']) ?>
 
                                     </td>
 
@@ -339,13 +342,13 @@
 
                                     </td>
 
-                                    <td>
+                                    <td align="center">
 
                                         <?php echo number_format($bahanKantong['harga_item']) ?>
 
                                     </td>
 
-                                    <td>
+                                    <td align="right">
 
                                         <?php echo number_format($bahanKantong['harga_item'] * $bahanKantong['ukuran_item_keluar']); ?>
 
@@ -378,13 +381,13 @@
 
                                     </td>
 
-                                    <td>
+                                    <td align="center">
 
                                         <?php echo number_format($variasi['harga_item']) ?>
 
                                     </td>
 
-                                    <td>
+                                    <td align="right">
 
                                         <?php echo number_format($variasi['harga_item'] * $variasi['ukuran_item_keluar']); ?>
 
@@ -419,13 +422,13 @@
 
                                     </td>
 
-                                    <td>
+                                    <td align="center">
 
                                         <?php echo number_format($master_harga_potongan['harga_potongan']) ?>
 
                                     </td>
 
-                                    <td>
+                                    <td align="right">
 
                                         <?php echo number_format($master_harga_potongan['harga_potongan'] * 12); ?>
 
@@ -454,16 +457,16 @@
 
                                         <td>
                                             <?php if($cmtt['kategori_cmt']=='JAHIT'){?>
-                                                <?php echo $cmtt['kategori_cmt'] ?>(<?php echo $namacmt //echo strtoupper($produk['nama_cmt']) ?>)
+                                                <?php echo $cmtt['kategori_cmt'] ?> : <?php echo strtoupper($namacmt) //echo strtoupper($produk['nama_cmt']) ?>
                                             <?php }else if($cmtt['kategori_cmt']=='BORDIR'){ ?>
                                                 <?php if($produk['nama_po']=="PFK"){?>
-                                                <?php echo $cmtt['kategori_cmt'] ?>(Luar)
+                                                <?php echo $cmtt['kategori_cmt'] ?> : LUAR
                                                 <?php }else{?>
-                                                    <?php echo $cmtt['kategori_cmt'] ?>(DALAM)
+                                                    <?php echo $cmtt['kategori_cmt'] ?> : DALAM
                                                 <?php } ?>
                                             <?php }else{ ?>
                                                 <?php if($cmtt['kategori_cmt']=='SABLON'){?>
-                                                <?php echo $cmtt['kategori_cmt'] ?>(<?php echo $cmtt['id_master_cmt']>0?strtoupper($cmtt['nama_cmt']):' '; ?>)
+                                                <?php echo $cmtt['kategori_cmt'] ?> : <?php echo $cmtt['id_master_cmt']>0?strtoupper($cmtt['nama_cmt']):' '; ?>
                                             <?php }?>
                                             <?php } ?>
                                             
@@ -489,7 +492,7 @@
                                                 <?php endforeach ?>
                                            
                                                 <?php $totalAlat += $bordirHitung / $bukupotongan['hasil_lusinan_potongan']; ?>
-                                            <td>
+                                            <td align="right">
                                                 
                                                         <?php echo number_format($bordirHitung / $bukupotongan['hasil_lusinan_potongan']) ; ?>
                                             </td>
@@ -501,7 +504,7 @@
                                                 <?php //if($produk['kode_po']=="SWF01" OR $produk['kode_po']=="FBS05" OR $produk['kode_po']=="FBS03" OR $produk['kode_po']=="FBO03" OR $produk['kode_po']=="HGSO03"){ // po if ?>
                                                 <?php //if($cmtt['id_master_cmt_job']>=81){?>
                                                     <?php $totalAlat +=($cmtt['cmt_job_price']+$bawahansablon);  ?>
-                                                    <td><?php echo number_format($cmtt['cmt_job_price']+$bawahansablon); ?></td>
+                                                    <td align="right"><?php echo number_format($cmtt['cmt_job_price']+$bawahansablon); ?></td>
 
                                                 <?php //} else{?> 
                                                     <?php 
@@ -538,7 +541,7 @@
 
                                              ?>   
 
-                                            <td>
+                                            <td align="right">
                                                 <?php echo number_format($cmtt['cmt_job_price']); ?>   
 
                                             </td>
@@ -589,7 +592,7 @@
 
                                         ?>
 
-                                        <td>
+                                        <td align="right">
 
                                             <?php echo number_format(($rinci['harga_item'] / 48) * $rinci['jumlah_item_perlusin']) ?>
 
@@ -614,7 +617,7 @@
 
                                         </td>
 
-                                        <td>
+                                        <td align="center">
 
                                             (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 72,1) ?> Pcs)
 
@@ -626,7 +629,7 @@
 
                                         ?>
 
-                                        <td>
+                                        <td align="right">
 
                                             <?php echo number_format(($rinci['harga_item'] / 72) * $rinci['jumlah_item_perlusin']) ?>
 
@@ -650,7 +653,7 @@
 
                                         </td>
 
-                                        <td>
+                                        <td align="center">
 
                                             (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 42,1) ?> Pcs)
 
@@ -664,7 +667,7 @@
 
                                         ?>
 
-                                        <td>
+                                        <td align="right">
 
                                             <?php echo number_format(($rinci['harga_item'] / 42) * $rinci['jumlah_item_perlusin']) ?>
 
@@ -689,7 +692,7 @@
 
                                         </td>
 
-                                        <td>
+                                        <td align="center">
 
                                             <?php echo $rinci['harga_item'] ?> 
 
@@ -701,7 +704,7 @@
 
                                         ?>
 
-                                        <td>
+                                        <td align="right">
 
                                             <?php echo number_format(($rinci['harga_item']) * $rinci['jumlah_item_perlusin']) ?>
 
@@ -727,7 +730,7 @@
 
                                         </td>
 
-                                        <td>
+                                        <td align="center">
 
                                             (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 40) ?> Pcs)
 
@@ -739,7 +742,7 @@
 
                                         ?>
 
-                                        <td>
+                                        <td align="right">
 
                                             <?php echo number_format(($rinci['harga_item'] / 40) * $rinci['jumlah_item_perlusin']) ?>
 
@@ -767,7 +770,7 @@
 
                                         </td>
 
-                                        <td>
+                                        <td align="center">
 
                                             <?php echo $rinci['harga_item'] ?>
 
@@ -779,7 +782,7 @@
 
                                         ?>
 
-                                        <td>
+                                        <td align="right">
 
                                             <?php echo number_format($rinci['jumlah_item_perlusin'] * $rinci['harga_item']) ?>
 
@@ -808,9 +811,9 @@
 
                                         <td class="text-center"><?php echo $mesin['jumlah_titik']*12 ?></td>
 
-                                        <td><?php echo $hargapertitik ?></td>
+                                        <td align="center"><?php echo $hargapertitik ?></td>
 
-                                        <td><?php echo ($mesin['jumlah_titik']*12)*$hargapertitik ?></td>
+                                        <td align="right"><?php echo ($mesin['jumlah_titik']*12)*$hargapertitik ?></td>
 
                                     </tr>
 
@@ -830,9 +833,9 @@
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                        <td><?php echo $mesin['harga'] ?></td>
+                                        <td align="center"><?php echo $mesin['harga'] ?></td>
 
-                                        <td><?php echo ($mesin['harga']*12) ?></td>
+                                        <td align="right"><?php echo ($mesin['harga']*12) ?></td>
 
                                     </tr>
 
@@ -852,9 +855,9 @@
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                        <td><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
+                                        <td align="center"><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
 
-                                        <td><?php echo ($mesin['harga_dz']) ?></td>
+                                        <td align="right"><?php echo ($mesin['harga_dz']) ?></td>
 
                                     </tr>
 
@@ -884,9 +887,9 @@
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                        <td><?php echo $harga ?></td>
+                                        <td align="center"><?php echo $harga ?></td>
 
-                                        <td><?php echo ($harga*12) ?></td>
+                                        <td align="right"><?php echo ($harga*12) ?></td>
 
                                     </tr>
 
@@ -908,9 +911,9 @@
 
                                             <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                            <td><?php echo number_format($b['biaya']) ?></td>
+                                            <td align="center"><?php echo number_format($b['biaya']) ?></td>
 
-                                            <td><?php echo number_format($b['biaya']) ?></td>
+                                            <td align="right"><?php echo number_format($b['biaya']) ?></td>
 
                                         </tr>
 
@@ -927,7 +930,7 @@
 
                                     <td colspan="4" class="text-center">TOTAL</td>
 
-                                    <td>Rp. <?php  
+                                    <td align="right">Rp. <?php  
 
                                     $totalHPP = $total + $totalAlat;
 
@@ -977,7 +980,7 @@
 
                                     <td colspan="4" class="text-center">GRAND TOTAL</td>
 
-                                    <td id="grandTotal">
+                                    <td id="grandTotal" align="right">
 
                                         Rp. <?php $grand= $po['operaitonal_price'] + $total + $totalAlat; 
 
@@ -991,7 +994,7 @@
 
                                     <td colspan="4" class="text-center">HARGA PCS</td>
 
-                                    <td id="hargaPCS">
+                                    <td id="hargaPCS" align="right">
 
                                         Rp. <?php echo number_format($grand / 12) ?>
 
@@ -1007,11 +1010,11 @@
 
                                             <div class="col-2"></div>
 
-                                            <div class="col-4 text-right" style="padding-right: 14px;">
+                                            <div class="col-4 text-right" style="padding-right: 8%;">
 
                                                 <h6>PARAF PERSETUJUAN / ACC PIMPINAN</h6>
 
-                                                <h6>TANGGAL : <?php echo date('d F Y') ?></h6>
+                                                <h6>TANGGAL : <?php echo strtoupper(date('d F Y')) ?></h6>
 
                                                 <br><br><br>
 
