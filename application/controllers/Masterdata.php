@@ -714,6 +714,7 @@ class Masterdata extends CI_Controller {
 	public function cmtcucianadd(){
 		$data=array();
 		$data['title']='Form tambah data cmt cucian';
+		$data['cmtcucian']=true;
 		$data['lokasi']=$this->GlobalModel->getData('lokasi_cmt',array('hapus'=>0));
 		$data['page']='newtheme/page/masterdata/cmt_add';
 		$data['action']=BASEURL.'Masterdata/cmtsavecucian';

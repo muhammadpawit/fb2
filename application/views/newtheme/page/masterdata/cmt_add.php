@@ -13,8 +13,12 @@
                   <label>Jenis Pekerjaan</label>
                   <select name="cmt_job_desk" class="form-control select2bs4" required="required">
                     <option value=""></option>
+                    <?php if(!isset($cmtcucian)){ ?>
                     <option value="JAHIT">JAHIT</option>
                     <option value="SABLON">SABLON</option>
+                    <?php }else{ ?>
+                      <option value="CUCIAN" selected>CUCIAN / LAUNDRY</option>
+                    <?php } ?>
                   </select>
                 </div>
                 <div class="form-group">
