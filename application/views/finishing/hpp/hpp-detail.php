@@ -208,8 +208,8 @@
                                     <td>JUMLAH PO</td>
 
                                     <td>
-                                        <?php echo isset( $produk['jml_setor_qty'])? $produk['jml_setor_qty']:0 ?> PCS<br>
-                                        <?php echo isset( $produk['jml_setor_qty'])? $produk['jml_setor_qty']/12:0 ?> DZ
+                                        <?php echo isset( $pot['hasil_pieces_potongan'])? $pot['hasil_pieces_potongan']:0 ?> PCS<br>
+                                        <?php echo isset( $pot['hasil_lusinan_potongan'])? $pot['hasil_lusinan_potongan']:0 ?> DZ
                                     </td>
 
                                 </tr>
