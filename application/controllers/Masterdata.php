@@ -389,6 +389,29 @@ class Masterdata extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	function detailtimpot(){
+		$post = $this->input->post();
+		$data = $this->GlobalModel->QueryManualRow("SELECT * FROM timpotong WHERE id='".$post['id']."' ");
+		echo json_encode($data);
+	}
+
+	function edittimpotong(){
+		$post = $this->input->post();
+		$update = array(
+			'nama' => $post['nama']
+		);
+		$where = array(
+			'id' => $post['id']
+		);
+		$this->db->update(
+			'timpotong',
+			$update,
+			$where
+		);
+		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
+		redirect(BASEURL.'Masterdata/timpotong');
+	}
+
 	public function timpotongsave(){
 		$data=$this->input->post();
 		$insert=array(

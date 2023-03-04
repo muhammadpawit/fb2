@@ -8,10 +8,11 @@
         <h4 class="modal-title">Tambah Tim Potong Baru</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?php echo $action?>">
+        <form method="post" action="<?php echo $action?>" id="formId">
+          <input type="hidden" name="id" id="id">
           <div class="form-group">
             <label>Nama</label>
-            <input type="text" name="nama" class="form-control" required="required">
+            <input type="text" name="nama" id="nama" class="form-control" required="required">
           </div>
           <br>
           <button type="submit" class="btn btn-info">Simpan</button>
@@ -50,6 +51,7 @@
                 <tr>
                   <th>No.</th>
                   <th>Nama </th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -58,6 +60,9 @@
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo strtolower($p['nama'])?></td>
+                      <td>
+                      <button type="button" class="btn btn-warning btn-sm full" data-toggle="modal" data-target="#myModal" onclick="detail(<?php echo $p['id']?>)"><i class="fa fa-pencil"></i>&nbsp;</button>
+                      </td>
                     </tr>
                   <?php }?>
                 <?php }?>
@@ -65,3 +70,25 @@
             </table>
   </div>
 </div>
+
+  <script>
+    function detail(id){
+      //alert(id);
+      var url = '<?php echo BASEURL?>Masterdata/detailtimpot';
+      var edit = '<?php echo BASEURL?>Masterdata/edittimpotong';
+      data = {
+        id:id,
+      }
+      $.ajax({     
+          type: "POST",
+          url: url,
+          data: data,
+          success: function (data) {
+            var obj = JSON.parse(data);
+              $("#id").val(obj.id);
+              $("#nama").val(obj.nama);   
+              $('#formId').attr('action', edit);
+          },
+      });
+    }
+  </script>
