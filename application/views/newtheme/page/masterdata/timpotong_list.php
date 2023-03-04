@@ -88,6 +88,7 @@
               $("#id").val(obj.id);
               $("#nama").val(obj.nama);   
               $('#formId').attr('action', edit);
+              $(".modal-title").html("Edit Nama Tim Potong");
           },
       });
     }
