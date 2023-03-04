@@ -40,7 +40,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="form-group">
-      <button type="button" class="btn btn-info btn-sm full" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+      <button type="button" class="btn btn-info btn-sm full" data-toggle="modal" data-target="#myModal" onclick="clears()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
     </div>
   </div>
 </div>
@@ -91,5 +91,12 @@
               $(".modal-title").html("Edit Nama Tim Potong");
           },
       });
+    }
+
+    function clears(){
+      $("#id").hide();
+      $("#nama").val('');   
+      $('#formId').attr('action', '<?php echo $action ?>');
+      $(".modal-title").html("Tambah Tim Potong");
     }
   </script>
