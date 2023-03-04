@@ -36,12 +36,12 @@
 					<?php foreach($products as $p){?>
 					<tr>
 						<td align="left"><?php echo $p['bulan']?></td>
-						<td align="center"><?php echo $p['kirimpo']?></td>
-						<td align="center"><?php echo $p['kirimdz']?></td>
-						<td align="center"><?php echo $p['kirimpcs']?></td>
-						<td align="center"><?php echo $p['setorjmlpo']?></td>
-						<td align="center"><?php echo $p['setordz']?></td>
-						<td align="center"><?php echo $p['setorpcs']?></td>
+						<td align="center"><?php echo number_format($p['kirimpo'])?></td>
+						<td align="center"><?php echo number_format($p['kirimdz'],2)?></td>
+						<td align="center"><?php echo number_format($p['kirimpcs'])?></td>
+						<td align="center"><?php echo number_format($p['setorjmlpo'])?></td>
+						<td align="center"><?php echo number_format($p['setordz'],2)?></td>
+						<td align="center"><?php echo number_format($p['setorpcs'])?></td>
 						<td></td>
 					</tr>
 					<?php } ?>

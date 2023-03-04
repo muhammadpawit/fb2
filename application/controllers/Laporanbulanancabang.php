@@ -94,11 +94,11 @@ class Laporanbulanancabang extends CI_Controller {
 					'bln'=>$month,
 					'year'=>$y,
 					'kirimpo'=>$kirimjmlpo,
-					'kirimdz'=>number_format($kirimpcs/12,2),
-					'kirimpcs'=>number_format($kirimpcs,2),
+					'kirimdz'=>($kirimpcs/12),
+					'kirimpcs'=>($kirimpcs),
 					'setorjmlpo'=>($setorjmlpo),
-					'setordz'=>number_format($setorpcs/12,2),
-					'setorpcs'=>number_format($setorpcs,2),
+					'setordz'=>($setorpcs/12),
+					'setorpcs'=>($setorpcs),
 				);
 				$kirimpo    +=$kirimjmlpo;
                 $kirimdz    +=($kirimpcs);
@@ -135,12 +135,12 @@ class Laporanbulanancabang extends CI_Controller {
 		$data['bulan']=$this->ReportModel->month();
 		$bulannya=$this->ReportModel->month();
 		$data['bulans']=json_encode($nama);
-		$data['excel']=BASEURL.'Stockpo/rekap?&excel=1&cmt='.$cmt;
-		$data['cetak']=BASEURL.'Stockpo/rekap?&cetak=1&cmt='.$cmt;
+		$data['excel']=BASEURL.'Laporanbulanancabang/index?&excel=1&cmt='.$cmt;
+		$data['cetak']=BASEURL.'Laporanbulanancabang/index?&cetak=1&cmt='.$cmt;
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'rekap_excel',$data);
+			$this->load->view($this->page.'excel',$data);
 		}else if(isset($get['cetak'])){
-			$this->load->view($this->page.'rekap_cetak',$data);
+			$this->load->view($this->page.'excel',$data);
 		}else{
 			$data['page']=$this->page.'list';
 			$this->load->view($this->layout,$data);
