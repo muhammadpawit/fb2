@@ -302,6 +302,17 @@ class kirimsetorModel extends CI_Model {
 		return $sj;
 	}
 
+	public function sablon_detail($id){
+		$sj=[];
+		$sql="SELECT * FROM kirimcmtsablon_detail WHERE hapus=0 and idkirim='".$id."' ";
+		$sj=$this->GlobalModel->queryManual($sql);
+		foreach($sj as $k){
+			$surat[]=$k['kode_po'];
+		}
+		$hasil=implode(", ", $surat);
+		return $hasil;
+	}
+
 	public function stok_baru_kaos($id,$jenis,$tanggal){
 		$sj=[];
 		//$sql="SELECT k.nosj,kd.*,mjp.perkalian FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) ";

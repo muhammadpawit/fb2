@@ -1401,6 +1401,8 @@ class Kelolapo extends CI_Controller {
 		$results= $this->GlobalModel->queryManual($sql);
 		$namacmt=null;
 		$no=1;
+		$det=[];
+		$this->load->model('kirimsetorModel');
 		foreach($results as $result){
 			$action=array();
 			$action[] = array(
@@ -1416,7 +1418,7 @@ class Kelolapo extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
-			
+			$det = $this->kirimsetorModel->sablon_detail($result['id']);
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
@@ -1425,7 +1427,7 @@ class Kelolapo extends CI_Controller {
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
-				'keterangan'=>$result['keterangan'],
+				'keterangan'=>($det),
 				'action'=>$action,
 			);
 		}
@@ -1686,7 +1688,8 @@ class Kelolapo extends CI_Controller {
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
 		$data['listcmt'] = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['listjob'] = $this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
-		$data['page']='produksi/kirimcmt_edit';
+		$data['listpo']	 = $this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0 AND kode_po NOT IN (SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt='SABLON' AND id_master_cmt <> '".$data['kirim']['idcmt']."' ) AND kode_po NOT IN (SELECT kode_po FROM kirimcmtsablon_detail WHERE idkirim <> '".$id."' ) ORDER BY kode_po ASC ");
+		$data['page']='produksi/kirimcmtsablon_edit';
 		$this->load->view('newtheme/page/main',$data);
 	}
 
@@ -1701,7 +1704,122 @@ class Kelolapo extends CI_Controller {
 		$sql="UPDATE kelolapo_kirim_setor set id_master_cmt='".$post['idcmt']."',nama_cmt='".strtolower($cmt['cmt_name'])."',create_date='".$post['tanggal']."' WHERE kode_nota_cmt='".$post['kode_nota']."' AND kategori_cmt='SABLON' ";
 		$this->db->query($sql);
 		$totalkirim=0;
+
+		// fungsi baru
+		$id = $post['kode_nota'];
+					//hapus di surat jalan
+					$this->db->delete(
+						'kirimcmtsablon_detail', 
+							array(
+								'idkirim' => $post['kode_nota'],
+								//'kode_po' => $post['kode_po'],
+							)
+					);
+
+					foreach($post['prods'] as $p){
+							// hapus di kelolapo kirim setor
+							$this->db->delete(
+								'kelolapo_kirim_setor', 
+									array(
+										'kode_po' => $p['kode_po_lama'],
+										'progress' => 'KIRIM',
+										'kategori_cmt' => $p['kategori_cmt'],
+									)
+							);
+					}
 		foreach($post['prods'] as $p){
+			
+					
+
+
+					$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
+	   				$totalkirim+=($p['jumlah_pcs']);
+	   				$detail=array(
+	   					'idkirim'=>$id,
+	   					'kode_po'=>$p['kode_po'],
+	   					'cmtjob'=>$p['cmtjob'],
+	   					'rincian_po'=>$p['rincian_po'],
+	   					'jumlah_pcs'=>$p['jumlah_pcs'],
+	   					'keterangan'=>$p['keterangan'],
+	   					'jml_barang'=>$p['jml_barang'],
+	   					'hapus'=>0,
+	   				);
+	   				$this->db->insert('kirimcmtsablon_detail',$detail);
+
+
+	   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+	   				$insertkks=array(
+	   					'kode_po'=>$p['kode_po'],
+	   					'create_date'=>$post['tanggal'],
+	   					'kode_nota_cmt'=>$id,
+	   					'progress'=>'KIRIM',
+	   					'kategori_cmt'=>'SABLON',
+	   					'id_master_cmt'=>$cmt['id_cmt'],
+	   					'id_master_cmt_job'=>$p['cmtjob'],
+	   					'cmt_job_price'=>$jobprice['harga'],
+	   					'nama_cmt'=>$cmt['cmt_name'],
+	   					'qty_tot_pcs'=>$p['jumlah_pcs'],
+	   					'qty_tot_atas'=>0,
+	   					'qty_tot_bawah'=>0,
+	   					'keterangan'=>'-',
+	   					'status'=>0,
+	   					'jml_barang'=>$p['jml_barang'],
+	   					'qty_bangke'=>0,
+	   					'qty_reject'=>0,
+	   					'qty_hilang'=>0,
+	   					'qty_claim'=>0,
+	   					'status_keu'=>0,
+	   					'tglinput'=>date('Y-m-d'),
+	   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
+	   				);
+	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
+	   				$iks = $this->db->insert_id();
+	   				
+	   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+	   				if(!empty($atas)){
+		   				foreach($atas as $a){
+		   					$ia=array(
+		   						'id_kelolapo_kirim_setor'=>$iks,
+		   						'kode_po'=>$a['kode_po'],
+		   						'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
+		   						'warna_potongan_atas'=>$a['warna_potongan_atas'],
+		   						'jumlah_potongan'=>$a['jumlah_potongan'],
+		   						'keterangan_potongan'=>$a['keterangan_potongan'],
+		   						'created_date'=>$post['tanggal'],
+		   						'qty_bangke_atas'=>0,
+		   						'qty_reject_atas'=>0,
+		   						'qty_hilang_atas'=>0,
+		   						'qty_claim_atas'=>0,
+		   					);
+		   					$this->db->insert('kelolapo_kirim_setor_atas',$ia);
+		   				}
+		   			}
+		   			$bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
+		   			if(!empty($bawah)){
+		   				foreach($bawah as $b){
+		   					$ib=array(
+		   						'id_kelolapo_kirim_setor'=>$iks,
+		   						'kode_po'=>$b['kode_po'],
+		   						'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
+		   						'warna_potongan_atas'=>$b['warna_potongan_bawah'],
+		   						'jumlah_potongan'=>$b['jumlah_potongan'],
+		   						'keterangan_potongan'=>$a['keterangan_potongan'],
+		   						'created_date'=>$post['tanggal'],
+		   						'qty_bangke_atas'=>0,
+		   						'qty_reject_atas'=>0,
+		   						'qty_hilang_atas'=>0,
+		   						'qty_claim_atas'=>0,
+		   					);
+		   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
+		   				}
+		   			}
+			
+		}// end foreach
+
+		// end
+   			/*
+		foreach($post['prods'] as $p){
+
 			$totalkirim+=($p['jumlah_pcs']);
 			$rp=explode('-',$p['job']);
 			$update=array(
@@ -1730,6 +1848,8 @@ class Kelolapo extends CI_Controller {
 			);
 			$this->db->update('kirimcmtsablon_detail',$ud,$wd);
 		}
+		*/
+		//pre($totalkirim);
 		user_activity(callSessUser('id_user'),1,' edit surat jalan sablon id '.$post['kode_nota']);
 		$this->db->update('kirimcmtsablon',array('totalkirim'=>$totalkirim),array('id'=>$post['kode_nota']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
