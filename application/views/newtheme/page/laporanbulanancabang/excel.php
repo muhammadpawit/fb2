@@ -26,6 +26,7 @@ header("Content-Disposition: attachment; filename=Laporan_Cabang_Sukabumi.xls");
 				</tr>
 			</thead>
 			<tbody>
+				<?php $totalsetor=0;?>
 				<?php if($products){?>
 					<?php foreach($products as $p){?>
 					<tr>
@@ -38,13 +39,14 @@ header("Content-Disposition: attachment; filename=Laporan_Cabang_Sukabumi.xls");
 						<td align="center"><?php echo $p['setorpcs']?></td>
 						<td></td>
 					</tr>
+					<?php $totalsetor+=$p['setorjmlpo'];?>
 					<?php } ?>
 					<tr>
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
                         <td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
                         <td align="center"><b><?php echo ($kirimpcs)?></b></td>
-                        <td align="center"><b><?php echo $setorjmlpo?></b></td>
+                        <td align="center"><b><?php echo $totalsetor?></b></td>
                         <td align="center"><b><?php echo number_format($setordz,2)?></b></td>
                         <td align="center"><b><?php echo ($setorpcs)?></b></td>
 					</tr>

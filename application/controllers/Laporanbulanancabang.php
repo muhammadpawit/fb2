@@ -73,10 +73,10 @@ class Laporanbulanancabang extends CI_Controller {
 		    $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']); // angka 6 bulan juni, periode awal potongan
 		    $bulan[]=$months[date('n', $timestamp)] = date('M Y', $timestamp);
 		}
-		$kirimjmlpo=null;
+		$kirimjmlpo=0;
 		$kirimdz=0;
 		$kirimpcs=0;
-		$setorjmlpo=null;
+		$setorjmlpo=0;
 		$setordz=0;
 		$setorpcs=0;
 		$kirimpo=0;
@@ -103,7 +103,7 @@ class Laporanbulanancabang extends CI_Controller {
 				$kirimpo    +=$kirimjmlpo;
                 $kirimdz    +=($kirimpcs);
                 $kirimpcs   +=($kirimpcs);
-                $setorjmlpo +=($setorjmlpo);
+                $setorjmlpo +=$setorjmlpo;
                 $setordz    +=($setorpcs);
                 $setorpcs   +=($setorpcs);
 				$kp[]=array(
