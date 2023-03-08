@@ -882,7 +882,9 @@ class Pembayaran extends CI_Controller {
 		$data['kembalianbangke']=$this->GlobalModel->getData('pengembalian_bangke',array('idpembayaran'=>$id));
 		$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$data['detail']['idcmt']));
 		$data['harga']=$this->GlobalModel->getdata('daftarharga_cmt',array('hapus'=>0,'idcmt'=>$data['detail']['idcmt']));
-		//pre($data['harga']);
+		$data['saldo_bangke']=[];
+		$data['saldo_bangke']=$this->GlobalModel->QueryManual("SELECT pb.*,mc.cmt_name, mc.id_cmt FROM potongan_bangke pb LEFT JOIN pembayaran_cmt pc ON pb.idpembayaran=pc.id LEFT JOIN master_cmt mc ON mc.id_cmt=pc.idcmt WHERE kode_po NOT IN (SELECT kode_po FROM pengembalian_bangke WHERE hapus=0) AND pc.hapus=0 AND mc.id_cmt='".$data['detail']['idcmt']."' ");
+		//pre($data['saldo_bangke']);
 		$data['namacmt']=$cmt['cmt_name'];
 		$get=$this->input->get();
 		if(isset($get['excel'])){

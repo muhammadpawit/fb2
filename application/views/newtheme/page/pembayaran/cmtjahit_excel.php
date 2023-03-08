@@ -372,6 +372,53 @@ Periode : <?php echo $detail['keterangan'] ?>
         </table>
     </div>
     <?php } ?>
+
+    <?php if(!empty($saldo_bangke)){?>
+    <div class="col-md-6">
+        <label>Potongan Bangke Yang Belum Dikembalikan</label>
+        <table border="1" style="border-collapse: collapse;width: 100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama PO</th>
+                    <th>Qty</th>
+                    <th>Harga/Pcs</th>
+                    <th>Jumlah</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $nomor2=1;$kb=0;?>
+                <?php foreach($saldo_bangke as $b){?>
+                    <tr>
+                        <td><?php echo $nomor2++?></td>
+                        <td><?php echo strtoupper($b['kode_po'])?></td>
+                        <td align="center"><?php echo $b['qty']?></td>
+                        <td><?php echo ($b['harga'])?></td>
+                        <td><?php echo ($b['qty']*$b['harga'])?></td>
+                        <td><?php echo strtolower($b['keterangan'])?></td>
+                    </tr>
+                    <?php $kb+=($b['qty']*$b['harga']);?>
+                <?php } ?>
+                <?php for($j=1;$j<=5;$j++){?>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <?php } ?>
+                <tr>
+                    <td colspan="4" align="center">Total</td>
+                    <td><b><?php echo ($kb)?></b></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <?php } ?>
         </td>
     </tr>
     <tr></tr>
