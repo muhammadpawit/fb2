@@ -48,6 +48,7 @@
 				<tbody>
 					<?php $totalpd=0;?>
 					<?php foreach($prods as $p){?>
+						<?php if(!empty($p['pendapatan'])){ ?>
 							<tr>
 								<td><?php echo $p['tanggal']?></td>
 								<td></td>
@@ -56,18 +57,19 @@
 								<td></td>
 								<td></td>
 							</tr>
-						<?php foreach($p['pendapatan'] as $pd){?>
-							<tr>
-								<td></td>
-								<td><?php echo $pd['namacmt']?></td>
-								<td></td>
-								<td><?php echo number_format($pd['nominal'])?></td>
-								<td></td>
-								<td><?php echo $pd['keterangan']?></td>
-							</tr>
-							<?php 
-								$totalpd+=($pd['nominal']);
-							?>
+							<?php foreach($p['pendapatan'] as $pd){?>
+								<tr>
+									<td></td>
+									<td><?php echo $pd['namacmt']?></td>
+									<td></td>
+									<td align="center"><?php echo number_format($pd['nominal'])?></td>
+									<td></td>
+									<td><?php echo $pd['keterangan']?></td>
+								</tr>
+								<?php 
+									$totalpd+=($pd['nominal']);
+								?>
+							<?php } ?>
 						<?php } ?>
 					<?php } ?>
 					<tr align="center" style="background-color:#ffa621;font-size:16px">
@@ -80,6 +82,7 @@
 				<tbody>
 					<?php $totalpt=0;?>
 					<?php foreach($prods as $p){?>
+						<?php if(!empty($p['pengeluaran'])){ ?>
 							<tr>
 								<td><?php echo $p['tanggal']?></td>
 								<td></td>
@@ -93,7 +96,7 @@
 								<td></td>
 								<td><?php echo $pd['namacmt']?></td>
 								<td></td>
-								<td><?php echo number_format($pd['nominal'])?></td>
+								<td align="center"><?php echo number_format($pd['nominal'])?></td>
 								<td></td>
 								<td><?php echo $pd['keterangan']?></td>
 							</tr>
@@ -101,6 +104,7 @@
 								$totalpt+=($pd['nominal']);
 							?>
 						<?php } ?>
+					<?php } ?>
 					<?php } ?>
 					<tr align="center" style="background-color:#ffa621;font-size:16px">
 						<td colspan="3"><b>Total Pengeluaran</b></td>

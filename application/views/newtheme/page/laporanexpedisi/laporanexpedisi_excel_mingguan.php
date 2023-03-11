@@ -25,6 +25,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<tbody>
 					<?php $totalpd=0;?>
 					<?php foreach($prods as $p){?>
+						<?php if(!empty($p['pendapatan'])){ ?>
 							<tr>
 								<td><?php echo $p['tanggal']?></td>
 								<td></td>
@@ -38,13 +39,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td></td>
 								<td><?php echo $pd['namacmt']?></td>
 								<td></td>
-								<td><?php echo ($pd['nominal'])?></td>
+								<td align="center"><?php echo ($pd['nominal'])?></td>
 								<td></td>
 								<td><?php echo $pd['keterangan']?></td>
 							</tr>
 							<?php 
 								$totalpd+=($pd['nominal']);
 							?>
+						<?php } ?>
 						<?php } ?>
 					<?php } ?>
 					<tr align="center" style="background-color:#ffa621;font-size:16px">
@@ -57,6 +59,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				<tbody>
 					<?php $totalpt=0;?>
 					<?php foreach($prods as $p){?>
+						<?php if(!empty($p['pengeluaran'])){ ?>
 							<tr>
 								<td><?php echo $p['tanggal']?></td>
 								<td></td>
@@ -70,7 +73,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								<td></td>
 								<td><?php echo $pd['namacmt']?></td>
 								<td></td>
-								<td><?php echo ($pd['nominal'])?></td>
+								<td align="center"><?php echo ($pd['nominal'])?></td>
 								<td></td>
 								<td><?php echo $pd['keterangan']?></td>
 							</tr>
@@ -78,6 +81,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								$totalpt+=($pd['nominal']);
 							?>
 						<?php } ?>
+					<?php } ?>
 					<?php } ?>
 					<tr align="center" style="background-color:#ffa621;font-size:16px">
 						<td colspan="3"><b>Total Pengeluaran</b></td>
@@ -92,6 +96,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			          <td><b><?php echo ($totalpd-$totalpt) ?></b></td>
 			          <td></td>
 			          <td></td>
+			        </tr>
+			        <tr>
+
 			        </tr>
 			        <tr>
 			        	<td colspan="3"></td>
