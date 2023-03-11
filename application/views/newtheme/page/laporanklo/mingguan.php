@@ -111,14 +111,16 @@
 		              <td><?php echo number_format($p['kirimdz'],2)?></td>
 		              <td><?php echo $p['setorjml']?></td>
 		              <td><?php echo number_format($p['setordz'],2)?></td>
-		              <td><?php echo ($p['kirimjml']-$p['setorjml'])?></td>
-		              <td><?php echo ($p['kirimdz']-$p['setordz'])?></td>
+		              <td><?php echo ($p['stokjml'])?></td>
+		              <td><?php echo ($p['stokdz']) ?></td>
 		            </tr>
 		            <?php 
 		        		$skirimjml+=($p['kirimjml']);
 		        		$skirimdz+=($p['kirimdz']);
 		        		$ssetorjml+=($p['setorjml']);
 		        		$ssetordz+=($p['setordz']);
+		        		$sstokjml+=($p['stokjml']);
+		        		$sstokdz+=($p['stokdz']);
 		        	 ?>
 		          <?php }?>
 		          <tr>
@@ -127,8 +129,8 @@
 		          	<td><?php echo number_format($skirimdz,2)?></td>
 		          	<td><?php echo number_format($ssetorjml,2)?></td>
 		          	<td><?php echo number_format($ssetordz,2)?></td>
-		          	<td><?php echo number_format(($skirimjml-$ssetorjml),2)?></td>
-		          	<td><?php echo number_format(($skirimdz-$ssetordz),2)?></td>
+		          	<td><?php echo number_format(($sstokjml),2)?></td>
+		          	<td><?php echo number_format(($sstokdz),2)?></td>
 		          </tr>
 		        </tbody>
 		    </table>

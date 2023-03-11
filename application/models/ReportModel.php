@@ -1659,7 +1659,13 @@ class ReportModel extends CI_Model {
 	public function stokkeluar_bulanan($id,$bulan,$tahun){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
 		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0";
-		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
+		if(!empty($tgl)){
+			$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
+		}
+
+		if(!empty($bulan)){
+			$sql.=" AND id_persediaan='$id' AND MONTH(pi.tanggal)='".$bulan."' AND YEAR(pi.tanggal)='".$tahun."' ";
+		}
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d;
@@ -2140,6 +2146,12 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	function stok_sablon($idcmt){
+		$query ="SELECT count(kd.kode_po) as jml,kd.jumlah_pcs as pcs FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 ) ";
+		$data = $this->GlobalModel->QueryManualRow($query);
+		return $data;
+	}
+
 	public function klo_mingguanjeans($idcmt,$tanggal1,$tanggal2,$kategori,$proses){
 		$hasil=[];
 		$sql="SELECT COUNT(kks.kode_po) as jmlpo, COALESCE(SUM(kks.qty_tot_pcs),0) as pcs, mjp.perkalian FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE kks.hapus=0  AND p.hapus=0 ";
@@ -2422,9 +2434,19 @@ class ReportModel extends CI_Model {
 	}
 
 	public function stok_akhir_cmt($idcmt){
-		$query="SELECT count(*) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs,mjp.perkalian FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE 
-		k.idcmt='$idcmt' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
-		$dataReturn = $this->db->query($query)->row_array();
-		return $dataReturn;
+		// $query="SELECT count(*) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs,mjp.perkalian FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE 
+		// k.idcmt='$idcmt' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		// $dataReturn = $this->db->query($query)->row_array();
+		// return $dataReturn;
+		$query="SELECT COUNT(kd.kode_po) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs,mjp.perkalian FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$dataReturn = $this->GlobalModel->QueryManual($query);
+		foreach($dataReturn as $d){
+			$hasil = array(
+				'jmlpo'=>$d['jmlpo']*$d['perkalian'],
+				'pcs'=>$d['pcs'],
+			);
+		}
+		//pre($hasil);
+		return $hasil;
 	}
 }

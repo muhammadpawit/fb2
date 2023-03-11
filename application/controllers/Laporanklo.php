@@ -76,6 +76,7 @@ class Laporanklo extends CI_Controller {
 		foreach($cmtsablon as $s){
 			$kirim=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','KIRIM');
 			$setor=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','SETOR');
+			$stok =$this->ReportModel->stok_sablon($s['id_cmt']);
 			$data['sablon'][]=array(
 				'id'=>$s['id_cmt'],
 				'no'=>$nos,
@@ -84,6 +85,8 @@ class Laporanklo extends CI_Controller {
 				'kirimdz'=>!empty($kirim)?$kirim['dz']:0,
 				'setorjml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setordz'=>!empty($setor)?$setor['dz']:0,
+				'stokjml'=>$stok['jml'],
+				'stokdz'=>$stok['pcs']/12,
 			);
 			$nos++;
 		}
@@ -127,7 +130,7 @@ class Laporanklo extends CI_Controller {
 		$data['jahitk']=[]; // kemeja
 		$slqkemeja="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' ";
 		$slqkemeja.=" AND jenis_po IN(2) ".$notinidcmt;
-		$slqkemeja.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
+		//$slqkemeja.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtkemeja=$this->GlobalModel->QueryManual($slqkemeja);
 		$nok=1;
 		foreach($cmtkemeja as $c){
