@@ -67,6 +67,7 @@
 					<th>:</th>
 					<td>
 						<select class="form-control selectpicker select2bs4" name="idpolama" data-title="Pilih PO" data-live-search="true">
+							<option value="">Tidak Ada</option>
                             <?php foreach ($polama as $key => $nama): ?>
                                 <option value="<?php echo $nama['id_produksi_po'] ?>" <?php echo (strtolower($nama['id_produksi_po'])==strtolower($detail['idpolama']))?'selected':''; ?>><?php echo $nama['kode_po'] ?></option>
                             <?php endforeach ?>
