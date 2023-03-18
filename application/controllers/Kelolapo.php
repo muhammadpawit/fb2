@@ -2519,15 +2519,25 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$kode_po=null;
 		}
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
 		$sql='SELECT * FROM kelolapo_kirim_setor kks LEFT JOIN produksi_po pp ON kks.kode_po=pp.kode_po';
 		$sql.=" WHERE kks.hapus=0 ";
+
+		if(!empty($cmt)){
+			$sql.=" AND kks.id_master_cmt='".$cmt."' ";
+		}
+
 		if(!empty($kode_po)){
 			$sql.=" AND kks.kode_po='".$kode_po."' ";
 		}else{
 			$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 		$sql.=" ORDER BY id_kelolapo_kirim_setor DESC ";
-		if(!empty($tanggal1)){
+		if(!empty($tanggal1) || !empty($cmt)){
 
 		}else{
 			$sql.=" LIMIT 20 ";
@@ -2550,6 +2560,8 @@ class Kelolapo extends CI_Controller {
 		}
 		$viewData['tanggal1']=$tanggal1;
 		$viewData['tanggal2']=$tanggal2;
+		$viewData['cmt']=$cmt;
+		$viewData['listcmt']=$this->GlobalModel->GetData('master_cmt',array('hapus'=>0));
 		$viewData['page']='kelolapo/kirimsetorpotongan/kirim-setor-view';
 		$this->load->view('newtheme/page/main',$viewData);
 		

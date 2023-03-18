@@ -13,13 +13,13 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal Awal</label>
       <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal Akhir</label>
       <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
@@ -34,6 +34,17 @@
     </div>
   </div>
   <div class="col-md-3">
+    <div class="form-group">
+      <label>Nama CMT</label>
+      <select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
+        <option value="*">Pilih</option>
+        <?php foreach($listcmt as $c){ ?>
+          <option value="<?php echo $c['id_cmt']?>"><?php echo strtoupper($c['cmt_name'])?></option>
+        <?php } ?>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2">
     <div class="form-group">
       <label>Action</label><br>
       <button onclick="filter()" class="btn btn-info btn-sm">Filter</button>
@@ -73,7 +84,7 @@
 
                             <tr>
 
-                                <td><?php echo $sat['nama_po'] ?><?php echo $sat['kode_po'] ?></td>
+                                <td><?php echo $sat['kode_po'] ?></td>
 
                                 <td><?php echo $sat['nama_cmt'].' ('.$sat['kategori_cmt'].')' ?></td>
 
@@ -139,6 +150,7 @@
     var tanggal1=$("#tanggal1").val();
     var tanggal2=$("#tanggal2").val();
     var nomesin=$("#kode_po").val();
+     var cmt=$("#cmt").val();
 
     if(tanggal1){
       url+='&tanggal1='+tanggal1;
@@ -152,6 +164,10 @@
       url+='&kode_po='+nomesin;
     }
 
+    if(cmt!="*"){
+      url+='&cmt='+cmt;
+    }
+
     location=url;
   }
 
@@ -160,6 +176,11 @@
     var tanggal1=$("#tanggal1").val();
     var tanggal2=$("#tanggal2").val();
     var nomesin=$("#nomesin").val();
+    var cmt=$("#cmt").val();
+
+    if(cmt!="*"){
+      url+='&cmt='+cmt;
+    }
 
     if(tanggal1){
       url+='&tanggal1='+tanggal1;
