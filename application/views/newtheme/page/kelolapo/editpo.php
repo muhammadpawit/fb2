@@ -74,6 +74,16 @@
                         </select>
 					</td>
 				</tr>
+				<tr>
+					<td>Validasi PO</td>
+					<td>:</td>
+					<td>
+						<select name="validasi" class="form-control">
+							<option value="0">Tidak</option>
+							<option value="1" <?php echo $detail['validasi']==1?'selected':''?>>Ya</option>
+						</select>
+					</td>
+				</tr>
 			</thead>
 		</table>
 	</div>
