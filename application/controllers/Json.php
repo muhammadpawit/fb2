@@ -156,6 +156,7 @@ class Json extends CI_Controller {
 		$notelp=isset($_REQUEST['notelp'])?$_REQUEST['notelp']:'';
 		$posisi=isset($_REQUEST['posisi'])?$_REQUEST['posisi']:'';
 		$jenispo=isset($_REQUEST['jenispo'])?$_REQUEST['jenispo']:null;
+		$validasi=isset($_REQUEST['validasi'])?$_REQUEST['validasi']:null;
 		$output['data']=array();
 		$output=array();
 		$output['draw']=$draw;
@@ -164,6 +165,9 @@ class Json extends CI_Controller {
 		$sql="SELECT * FROM produksi_po LEFT JOIN master_jenis_po ON (master_jenis_po.nama_jenis_po=produksi_po.nama_po) WHERE hapus=0 AND kode_po IN(SELECT kode_po FROM konveksi_buku_potongan) AND nama_po NOT IN('BJF','BJK','BJH') ";
 		if($jenispo!='null'){
 			$sql.=" AND master_jenis_po.id_jenis_po='".$jenispo."' ";
+		}
+		if($validasi!='null'){
+			$sql.=" AND produksi_po.validasi='".$validasi."' ";
 		}
 		$sql.=" ORDER BY kode_po ASC";
 		//echo $sql; die();

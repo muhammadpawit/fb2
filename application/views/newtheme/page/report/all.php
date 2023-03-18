@@ -10,7 +10,15 @@
             </select>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
+        <label>Validasi PO</label>
+        <select id="validasi" name="validasi">
+            <option value="*">Semua</option>
+            <option value="0">Tidak</option>
+            <option value="1">Ya</option>
+        </select>
+    </div>
+    <div class="col-md-3">
         <div class="form-group">
             <label>Aksi</label><br>
             <button class="btn btn-info btn-sm" onclick="search_proses()">Filter</button>
@@ -64,6 +72,13 @@
           url += '&jenispo=' + encodeURIComponent(sj);
         }
 
+
+        var val = $('select[name=\'validasi\']').val();
+
+        if (val != '*') {
+          url += '&validasi=' + encodeURIComponent(val);
+        }
+
         location =url;
       }
 
@@ -73,12 +88,18 @@
             const urlParams = new URLSearchParams(queryString);
             const page_type = urlParams.get('halaman');
             const jenispo = urlParams.get('jenispo');
+            const validasi = urlParams.get('validasi');
             //alert(jenispo);
             url='?';
 
             if (jenispo != '*') {
               url += '&jenispo=' + encodeURIComponent(jenispo);
             }
+
+            if (validasi != '*') {
+              url += '&validasi=' + encodeURIComponent(validasi);
+            }
+
         $('.ss').DataTable( {
             "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
