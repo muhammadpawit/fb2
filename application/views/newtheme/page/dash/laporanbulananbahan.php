@@ -353,6 +353,27 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		</div>
 	</div>
 </div>
+<div class="row">
+	<form action="<?php echo BASEURL?>Dash/croscek_save/ADMIN_BAHAN" method="post">
+		<div class="col-md-12">
+			<label>Croscek Admin</label><br>
+			<?php $array=[10,11];?>
+			<?php if(in_array(callSessUser('id_user'), $array)){ ?>
+				<?php if(empty($crosscek)){ ?>
+					<h4 class="text-danger">Data ini belum di crosscek oleh admin yang bersangkutan</h4>
+				<?php }else{ ?>
+				<ul>
+					<li>Data Ini telah dicroscek oleh <?php echo $crosscek['oleh']?> pada <?php echo date('d F Y',strtotime($crosscek['tanggal'])) ?> dengan keterangan <?php echo $crosscek['keterangan'] ?></li>
+				</ul>
+				<?php } ?>
+			<?php }else{ ?>
+				<textarea class="form-control" name="keterangan" required></textarea>
+				<br>
+				<button class="btn btn-success btn-sm full">Submit</button>
+			<?php } ?>
+		</div>
+	</form>
+</div>
 <script type="text/javascript">
 	function filters(){
     url='?';

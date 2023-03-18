@@ -9,6 +9,18 @@ class ReportModel extends CI_Model {
 		$this->tglperkalianbaru='2022-07-19';
 	}
 
+	function crosscek($jenis){
+		$hasil=[];
+		$query="SELECT * FROM croscek_admin WHERE jenis_laporan='$jenis' ";
+
+		$query.=" ORDER BY id DESC LIMIT 1";
+		$data=$this->GlobalModel->QueryManualRow($query);
+		if(!empty($data)){
+			$hasil=$data;
+		}
+		return $hasil;
+	}
+
 	public function barangkeluar_bulanan($type,$jenis,$bulan,$tahun){
 		$hasil=0;
 		if($type==1){ // roll

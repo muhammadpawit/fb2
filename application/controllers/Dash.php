@@ -1222,7 +1222,9 @@ class Dash extends CI_Controller {
 			//}
 		}
 		
-		//pre($data['kemeja']);
+		$data['crosscek']=[];
+		$data['crosscek']=$this->ReportModel->crosscek('ADMIN_BAHAN');
+		//pre($data['crosscek']);
 		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
@@ -1231,6 +1233,19 @@ class Dash extends CI_Controller {
 			$this->load->view($this->layout,$data);	
 		}
 		
+	}
+
+	function croscek_save($jenis){
+		$data = $this->input->post();
+		$insert=array(
+			'tanggal'=>date('Y-m-d'),
+			'keterangan' => $data['keterangan'],
+			'oleh'	=>callSessUser('nama_user'),
+			'jenis_laporan'=>$jenis,
+		);
+		$this->db->insert('croscek_admin',$insert);
+		echo "<scrip>alert('Berhasil disimpan');</script>";
+		redirect(BASEURL.'Dash/Laporanbulananbahan');
 	}
 
 	public function laporanmingguanbahan(){
@@ -1504,6 +1519,9 @@ class Dash extends CI_Controller {
 		$stokakhirharga=0;
 		$warna=null;
 		$data['prods']=[];
+		$data['kaos'] =[];
+		$data['celana'] =[];
+		$data['kemeja'] =[];
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk_bulanan($row['id_persediaan'],$bulan,$tahun);
@@ -1595,6 +1613,10 @@ class Dash extends CI_Controller {
 			}
 		}
 		
+		$data['crosscek']=[];
+		$data['crosscek']=$this->ReportModel->crosscek('ADMIN_BAHAN');
+		//pre($data['crosscek']);
+
 		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
