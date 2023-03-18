@@ -11,7 +11,7 @@ header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
             <table border="1" cellpadding="5" style="border-collapse: collapse;border-width: 3px;width: 100%">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>No</th>
                   <th>Bagian</th>
                   <th>Tanggal</th>
                   <th>Nama Supplier</th>
@@ -22,7 +22,7 @@ header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
               <tbody>
                 <?php foreach($items as $i){?>
                   <tr style="background-color:#b0eaff ">
-                    <td><?php echo $n++?></td>
+                    <td align="center"><?php echo $n++?></td>
                     <td>
                       <?php 
                         if($i['jenis']==1){
@@ -43,6 +43,7 @@ header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
                     <td><?php echo $i['nosj']?></td>
                     <td><?php echo $i['keterangan']?></td>
                   </tr>
+                  <?php $total=0;?>
                   <?php foreach($i['prods'] as $p){?>
                   <tr>
                     <td></td>
@@ -53,13 +54,19 @@ header("Content-Disposition: attachment; filename=Laporan_Penerimaan_Item.xls");
                     <td><span style="float: right;">
                       <?php if($i['jenis']==1){?>
                         <?php echo ($p['ukuran']*$p['harga'])?>
+                        <?php $total+=($p['ukuran']*$p['harga']);?>
                       <?php }else{ ?>
                         <?php echo ($p['jumlah']*$p['harga'])?>
+                         <?php $total+=($p['jumlah']*$p['harga']);?>
                       <?php } ?>
                         </span>
                     </td>
                   </tr>
                   <?php } ?>
+                  <tr>
+                    <td colspan="5"><b>Total</b></td>
+                    <td align="right"><b><?php echo $total ?></b></td>
+                  </tr>
                 <?php } ?>
               </tbody>
               <tfoot>
