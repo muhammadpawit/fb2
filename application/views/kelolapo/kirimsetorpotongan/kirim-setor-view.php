@@ -39,7 +39,7 @@
       <select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
         <option value="*">Pilih</option>
         <?php foreach($listcmt as $c){ ?>
-          <option value="<?php echo $c['id_cmt']?>"><?php echo strtoupper($c['cmt_name'])?></option>
+          <option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmt?'selected':''?>><?php echo strtoupper($c['cmt_name'])?></option>
         <?php } ?>
       </select>
     </div>

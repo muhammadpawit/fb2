@@ -2542,6 +2542,7 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$sql.=" LIMIT 20 ";
 		}
+		$viewData['kelola']=[];
 		$resullts= $this->GlobalModel->queryManual($sql);
 		foreach($resullts as $r){
 			$pekerjaan=$this->GlobalModel->GetDataRow('master_job',array('hapus'=>0,'id'=>$r['id_master_cmt_job']));
