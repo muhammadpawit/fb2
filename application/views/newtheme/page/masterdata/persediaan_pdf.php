@@ -38,7 +38,7 @@
                           <td align="center"><?php echo $i++?></td>
                           <td>
                             <?php if(!empty($p['foto'])){?>
-                              <img src="<?php echo BASEURL.'uploads/persediaan/'.$p['foto'] ?>" height="100" >
+                              <img src="<?php echo BASEURL.'uploads/persediaan/'.$p['foto'] ?>" height="100" width="150" >
                             <?php } ?>
                           </td>
                           <td><?php echo $p['kodebarang']?></td>
