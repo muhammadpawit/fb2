@@ -71,7 +71,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
-			<span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah</button></span>
+			<span><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah</button></span>
 		</div>
 	</div>
 </div>
