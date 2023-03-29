@@ -91,15 +91,20 @@
                                 <td><?php echo $sat['progress'] ?></td>
                                 <td>
                                   <?php if($sat['progress']=="KIRIM"){?>
-                                    <?php if(strtolower($sat['kategori_cmt'])=="sablon"){?>
-                                      <a target="_blank" href="<?php echo BASEURL?>Kelolapo/kirimcmtsablonview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
-                                    <?php }else{ ?>
-                                    <a target="_blank" href="<?php echo BASEURL?>Kelolapo/kirimcmtview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
-                                  <?php } ?>
+                                      <?php if(strtolower($sat['kategori_cmt'])=="sablon"){?>
+                                        <a target="_blank" href="<?php echo BASEURL?>Kelolapo/kirimcmtsablonview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                      <?php }else{ ?>
+                                      <a target="_blank" href="<?php echo BASEURL?>Kelolapo/kirimcmtview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                    <?php } ?>
                                   <?php } ?>
 
                                   <?php if($sat['progress']=="SETOR"){?>
-                                    <a target="_blank" href="<?php echo BASEURL?>Setorancmt/kirimcmtview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                    <?php if(strtolower($sat['kategori_cmt'])=="sablon"){?>
+                                      <a target="_blank" href="<?php echo BASEURL?>Setoransablon/kirimcmtview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                      <?php }else{ ?>
+                                        <a target="_blank" href="<?php echo BASEURL?>Setorancmt/kirimcmtview/<?php echo $sat['kode_nota_cmt'] ?>"><?php echo $sat['kode_nota_cmt'] ?></a>
+                                    <?php } ?>
+                                    
                                   <?php } ?>
                                   
                                 </td>
@@ -115,8 +120,13 @@
                                     <!--<a href="<?php echo BASEURL.'kelolapo/kirimsetorcek/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-warning text-white"> <i class="dripicons-browser-upload"></i> Proses</a>-->
 
                                     <?php if(akseshapus()==1){?>
-                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
 
+                                      <?php if($sat['progress']=="SETOR"){?>
+
+                                        <a href="<?php echo $sat['editsetor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit Setoran</a>
+                                        <?php }else { ?>
+                                            <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
+                                      <?php } ?>
                                     <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
                                     <?php } ?>
 

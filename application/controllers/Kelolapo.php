@@ -2547,6 +2547,10 @@ class Kelolapo extends CI_Controller {
 		$resullts= $this->GlobalModel->queryManual($sql);
 		foreach($resullts as $r){
 			$pekerjaan=$this->GlobalModel->GetDataRow('master_job',array('hapus'=>0,'id'=>$r['id_master_cmt_job']));
+			$kategori='JAHIT';
+			if($r['kategori_cmt']=='SABLON'){
+				$kategori='SABLON';
+			}
 			$viewData['kelola'][]=array(
 				'id_kelolapo_kirim_setor'=>$r['id_kelolapo_kirim_setor'],
 				'nama_po'=>$r['nama_po'],
@@ -2558,6 +2562,7 @@ class Kelolapo extends CI_Controller {
 				'qty_tot_pcs'=>$r['qty_tot_pcs'],
 				'create_date'	=>	$r['create_date'],
 				'pekerjaan'=>!empty($pekerjaan)?$pekerjaan['nama_job']:'',
+				'editsetor'=>BASEURL.'Kelolapo/editsetor/'.$r['id_kelolapo_kirim_setor'].'/'.$r['idpo'].'/'.$kategori,
 			);
 		}
 		$viewData['tanggal1']=$tanggal1;
@@ -2567,6 +2572,63 @@ class Kelolapo extends CI_Controller {
 		$viewData['page']='kelolapo/kirimsetorpotongan/kirim-setor-view';
 		$this->load->view('newtheme/page/main',$viewData);
 		
+	}
+
+	function editsetor($idklo,$idpo,$kategori){
+		$viewData['kategori']=$kategori;
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$idpo));
+		$viewData['po']=$po;
+		$viewData['title']='Edit Setoran '.$po['kode_po'];
+		$viewData['klo']=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$idklo));
+		$viewData['page']='kelolapo/kirimsetorpotongan/kirim-setor-edit-setor';
+		$viewData['action']=BASEURL.'Kelolapo/editsetor_save';
+		$viewData['batal']=BASEURL.'Kelolapo/editsetor';
+		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	function editsetor_save(){
+		$post = $this->input->post();
+		// $pesan='mengubah quantity setoran PO '.$post['kode_po'].'. Dari'.$post['setoran'].' pcs, Menjadi '.$post['pcs'].' pcs';
+		$update = array(
+			'qty_tot_pcs'=>$post['pcs'],
+		);
+
+		$where = array(
+			'idpo'			=>$post['idpo'],
+			'progress'		=>$post['progress'],
+			'kategori_cmt'	=>$post['kategori'],
+		);
+		$this->db->update('kelolapo_kirim_setor',$update,$where);
+
+		if($post['progress']=='SETOR' && $post['kategori']=='JAHIT'){
+			$where2 = array(
+				'idpo'		=>$post['idpo'],
+				'progress'	=>'FINISHING',
+			);
+			$this->db->update('kelolapo_kirim_setor',$update,$where2);
+
+			if(!empty($post['notasetor'])){
+				$this->db->query("UPDATE setorcmt SET totalsetor=totalsetor-".$post['setoran']." WHERE id=".$post['notasetor']." ");
+				$this->db->query("UPDATE setorcmt SET totalsetor=totalsetor+".$post['pcs']." WHERE id=".$post['notasetor']." ");
+			}
+			
+			$this->db->update('setorcmt_detail',array('totalsetor'=>$post['pcs']),array('hapus'=>0,'kode_po'=>$post['kode_po']));
+			
+		}else{
+
+			if(!empty($post['notasetor'])){
+				$this->db->query("UPDATE setorcmt SET totalsetor=totalsetor-".$post['setoran']." WHERE id=".$post['notasetor']." ");
+				$this->db->query("UPDATE setorcmt SET totalsetor=totalsetor+".$post['pcs']." WHERE id=".$post['notasetor']." ");
+			}
+			
+			$this->db->update('setorcmt_sablon_detail',array('totalsetor'=>$post['pcs']),array('hapus'=>0,'kode_po'=>$post['kode_po']));
+		}
+
+		$this->session->set_flashdata('msg','Data Berhasil Diubah');
+		$pesan=' Mengubah jumlah setoran '.$post['kategori'].' PO '.$post['kode_po'].'. Dari '.$post['setoran'].' Pcs, Menjadi '.$post['pcs'].' Pcs, diubah karena alasan : '.$post['alasan'];
+		user_activity(callSessUser('id_user'),1,$pesan);
+		redirect(BASEURL.'Kelolapo/kirimsetorcmt?kode_po='.$post['kode_po']);
+
 	}
 
 	public function kirimsetortambah($kode_po='')
