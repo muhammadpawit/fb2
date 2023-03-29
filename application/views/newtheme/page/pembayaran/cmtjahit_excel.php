@@ -111,6 +111,11 @@ Periode : <?php echo $detail['keterangan'] ?>
                     <td></td>
                 </tr>
                 <tr>
+                    <td colspan="9" align="center"><b>Potongan Vermak</b></td>
+                    <td align="center"><b><?php echo $detail['potongan_vermak']?></b></td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
                     <td align="center"><b><?php echo ($detail['biaya_transport']-$detail['potongan_transport'])?></b></td>
                     <td></td>
