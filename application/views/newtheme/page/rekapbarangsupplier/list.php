@@ -72,6 +72,7 @@
 			    <td><?php echo $k['ket']?></td>
 			    <td>
 			    	<a href="<?php echo $k['detail']?>" class="btn btn-success btn-sm">Detail</a>
+			    	<a href="<?php echo $k['editlink']?>" class="btn btn-warning btn-sm">Edit</a>
 			    </td>
 			  </tr>
 			 <?php } ?>

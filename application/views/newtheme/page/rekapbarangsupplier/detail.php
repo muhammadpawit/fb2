@@ -25,6 +25,7 @@
 		</h3>
 	</div>
 </div>
+<?php if(!isset($edit)){ ?>
 <div class="row">
 	<div class="col-md-12">
 		<table class="table table-bordered">
@@ -59,6 +60,53 @@
 		</table>
 	</div>
 </div>
+<?php }else{ ?>
+<form method="post" action="<?php echo $action ?>">
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-bordered">
+			<thead>
+			  <tr align="center">
+			  	<th colspan="2">Periode</th>
+			  	<th>Nama Supplier</th>
+			  	<th>Total (Rp)</th>
+			  	<th>Keterangan</th>
+			  </tr>
+			</thead>
+			<tbody>
+			<?php $total=0;$i=0;?>
+			<?php foreach($d as $k){?>
+				<input type="hidden" name="prods[<?php echo $k['id']?>][id]" value="<?php echo $k['id'] ?>">
+			  <tr>
+			    <td><input type="text" class="form-control datepicker" name="prods[<?php echo $k['id']?>][tanggal_awal]" value="<?php echo $k['tanggal_awal'] ?>" readonly></td>
+			    <td><input type="text" class="form-control datepicker" name="prods[<?php echo $k['id']?>][tanggal_akhir]" value="<?php echo $k['tanggal_akhir'] ?>" readonly></td>
+			    <td><?php echo strtoupper($k['nama'])?></td>
+			    <td align="right"><?php echo number_format($k['total'],2)?></td>
+			    <td>
+			    	-
+			    </td>
+			  </tr>
+			  <?php $i++;?>
+			  <?php $total+=($k['total']);?>
+			 <?php } ?>
+			 	<tr>
+			 		<td colspan="3" align="center"><b>Total</b></td>
+			 		<td align="right"><b><?php echo number_format($total,2) ?></b></td>
+			 		<td></td>
+			 	</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-6">
+		<button class="btn btn-success full btn-sm">Simpan</button>
+	</div>
+	<div class="col-md-6">
+		<a href="<?php echo $cancel?>" class="btn btn-danger full btn-sm">Batal</a>
+	</div>
+</div>
+</form>
+
+<?php } ?>
 
 <script type="text/javascript">
 	function filterbln(){

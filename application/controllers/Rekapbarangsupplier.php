@@ -98,6 +98,7 @@ class Rekapbarangsupplier extends CI_Controller {
 				'nama'=>$s['nama'],
 				'detail'=>$this->url.'detail/'.$r['id'],
 				'rincian'=>$this->rincian($r['id']),
+				'editlink'=>$this->url.'edit/'.$r['id'],
 			);
 		}
 		$data['tambah']=$this->url.'add';
@@ -128,6 +129,46 @@ class Rekapbarangsupplier extends CI_Controller {
 			);
 		}
 		return $data['d'];
+	}
+
+	public function edit($id){
+		$data=array();
+		$data['title']='Detail Rekap Barang Masuk Supplier';
+		$data['cancel']=$this->url;
+		$data['action']=$this->url.'edit_save';
+		$data['edit']=true;
+		$data['id']=$id;
+		$data['k']=$this->GlobalModel->getDataRow('rekapbarangsupplier',array('hapus'=>0,'id'=>$id));
+		$s=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$data['k']['supplier']));
+		$data['nama']=$s['nama'];
+		$results=$this->GlobalModel->getData('rekapbarangsupplier_detail',array('hapus'=>0,'idrekap'=>$id));
+		$total=0;
+		foreach($results as $r){
+			$total=$this->ReportModel->totalsup($data['k']['supplier'],$r['tanggal_awal'],$r['tanggal_akhir']);
+			$data['d'][]=array(
+				'id'=>$r['id'],
+				'tanggal_awal'=>$r['tanggal_awal'],
+				'tanggal_akhir'=>$r['tanggal_akhir'],
+				'nama'=>$s['nama'],
+				'total'=>!empty($total)?$total:0,
+			);
+		}
+		$data['page']=$this->page.'detail';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function edit_save(){
+		$data=$this->input->post();
+		//pre($data);
+		foreach($data['prods'] as $p){
+			$update=array(
+				'tanggal_awal'=>$p['tanggal_awal'],
+				'tanggal_akhir'=>$p['tanggal_akhir'],
+			);
+			$this->db->update('rekapbarangsupplier_detail',$update,array('id'=>$p['id']));
+		}
+		$this->session->set_flashdata('msg','Berhasil Di Update');
+		redirect($this->url);
 	}
 
 	public function add(){
