@@ -166,7 +166,7 @@ class Json extends CI_Controller {
 		if($jenispo!='null'){
 			$sql.=" AND master_jenis_po.id_jenis_po='".$jenispo."' ";
 		}else{
-			$sql.=" AND master_jenis_po.id_jenis_po='0' ";
+			//$sql.=" AND master_jenis_po.id_jenis_po='0' ";
 		}
 		if($validasi!='null'){
 			$sql.=" AND produksi_po.validasi='".$validasi."' ";
