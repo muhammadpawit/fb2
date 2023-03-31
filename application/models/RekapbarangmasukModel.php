@@ -10,12 +10,17 @@ class RekapbarangmasukModel extends CI_Model {
 	public function getdata($data){
 		$hasil=[];
 		$sin="SELECT id from penerimaan_item WHERE hapus=0 ";
-		if(!empty($data['bulan'])){
-			$sin.=" AND MONTH(tanggal)='".$data['bulan']."' ";
-		}
+		
+		if(!empty($data['tanggal1'])){
+			$sin.=" AND DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		}else{
+			if(!empty($data['bulan'])){
+				$sin.=" AND MONTH(tanggal)='".$data['bulan']."' ";
+			}
 
-		if(!empty($data['tahun'])){
-			$sin.=" AND YEAR(tanggal)='".$data['tahun']."' ";
+			if(!empty($data['tahun'])){
+				$sin.=" AND YEAR(tanggal)='".$data['tahun']."' ";
+			}
 		}
 
 		if(!empty($data['supplier'])){

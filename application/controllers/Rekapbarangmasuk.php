@@ -32,6 +32,18 @@ class Rekapbarangmasuk extends CI_Controller {
 			$tahun=date('Y');
 		}
 
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=null;
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=null;
+		}
+
 		if(isset($get['supplier'])){
 			$cmt=$get['supplier'];
 		}else{
@@ -42,9 +54,13 @@ class Rekapbarangmasuk extends CI_Controller {
 			'bulan'=>$bulan,
 			'tahun'=>$tahun,
 			'supplier'=>$cmt,
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
 		);
 		$data['bulan']=$bulan;
 		$data['tahun'] =$tahun;
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
 		$data['cmt'] =$cmt;
 		$data['supplier']=$this->GlobalModel->Getdata('master_supplier',array('hapus'=>0));
 		$data['prods']=[];

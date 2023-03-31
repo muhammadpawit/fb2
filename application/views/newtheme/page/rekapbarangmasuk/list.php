@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Bulan</label>
 			<select name="bulan" id="bulan" class="form-control select2bs4" data-live-search="true">
@@ -10,7 +10,7 @@
 			</select>			
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tahun</label>
 			<select name="tahun" class="form-control select2bs4" required>
@@ -21,7 +21,7 @@
 			</select>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Supplier</label>
 			<select name="supplier" id="supplier" class="form-control select2bs4" data-live-search="true">
@@ -32,7 +32,15 @@
 			</select>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
+		<label>Tanggal Awal</label>
+		<input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1?>" autocomplete="off" placeholder="awal" readonly>
+	</div>
+	<div class="col-md-2">
+		<label>Tanggal Akhir</label>
+		<input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2?>" autocomplete="off" placeholder="akhir" readonly>
+	</div>
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filter()"><i class="fa fa-search"></i></button>
@@ -85,6 +93,15 @@
 <script type="text/javascript">
 	function filter(){
 	    url='?';
+
+	    var tanggal1 =$("#tanggal1").val();
+	    var tanggal2 =$("#tanggal2").val();
+	    if(tanggal1){
+	      url+='&tanggal1='+tanggal1;
+	    }
+	    if(tanggal2){
+	      url+='&tanggal2='+tanggal2;
+	    }
 	    
 	    var bulan = $('select[name=\'bulan\']').val();
 	    if (bulan != '*') {
@@ -116,6 +133,15 @@
 
 	  function excel(){
 	    url='?&excel=1';
+
+	    var tanggal1 =$("#tanggal1").val();
+	    var tanggal2 =$("#tanggal2").val();
+	    if(tanggal1){
+	      url+='&tanggal1='+tanggal1;
+	    }
+	    if(tanggal2){
+	      url+='&tanggal2='+tanggal2;
+	    }
 	    
 	    var bulan = $('select[name=\'bulan\']').val();
 	    if (bulan != '*') {
