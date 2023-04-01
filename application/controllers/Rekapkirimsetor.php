@@ -84,7 +84,8 @@ class Rekapkirimsetor extends CI_Controller {
 
 		$data['jahitk']=[]; // kemeja
 		$kjahit='JAHIT';		
-		$resultsk=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE kategori_cmt='$kjahit') and jenis_po IN(2,3) ");
+		// $resultsk=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE kategori_cmt='$kjahit') and jenis_po IN(2,3) ");
+		$resultsk=[];
 		$no=1;
 		$stokawalkaosjml=0;
 		$stokawalkaosdz=0;

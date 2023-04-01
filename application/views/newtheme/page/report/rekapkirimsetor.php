@@ -25,7 +25,7 @@
 		<div class="form-group">
 			<label>CMT</label>
 			<select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
-				<option value="*">Pilih</option>
+				<option value="*">SEMUA</option>
 				<?php foreach(cmt() as $t){?>
 					<option value="<?php echo $t['id_cmt'] ?>" <?php echo $t['id_cmt']==$cmt?'selected':'';?>><?php echo $t['cmt_name'] ?></option>
 				}

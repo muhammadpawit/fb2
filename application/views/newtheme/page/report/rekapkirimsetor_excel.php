@@ -31,7 +31,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						$kirimdz+=($p['kirimdz']);
 						$kirimpcs+=($p['kirimpcs']);
 						$setordz+=($p['setordz']);
-						$setorpcs+=($p['setorpcs']);
+						$setorpcs+=($p['setorpcs']); 
 						?>
 					<tr>
 						<td><?php echo $p['nama']?></td>
