@@ -2453,10 +2453,11 @@ class ReportModel extends CI_Model {
 		// $dataReturn = $this->db->query($query)->row_array();
 		// return $dataReturn;
 		$query="SELECT COUNT(kd.kode_po) as jmlpo,SUM(kd.jumlah_pcs-kd.totalsetor) as pcs,mjp.perkalian FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		//$query .="  HAVING SUM(kd.jumlah_pcs-kd.totalsetor) > 3";
 		$dataReturn = $this->GlobalModel->QueryManual($query);
 		foreach($dataReturn as $d){
 			$hasil = array(
-				'jmlpo'=>$d['jmlpo']*$d['perkalian'],
+				'jmlpo'=>floor($d['jmlpo']*$d['perkalian']),
 				'pcs'=>$d['pcs'],
 			);
 		}
