@@ -263,6 +263,7 @@ class Notakirim extends CI_Controller {
 						//pre($idpo);
 						foreach($post['rincian'] as $r){
 							$dz+=($r['dz']);
+							$pcs+=($r['pcs']);
 						}
 						$dataInsert = array(
 							'idpo'				=> $idpo['id_produksi_po'],
@@ -272,8 +273,8 @@ class Notakirim extends CI_Controller {
 							'artikel_po'			=>	$idpo['kode_artikel'], 
 							'kode_po'			=> 	$idpo['kode_po'],
 							'harga_satuan'		=> 	$idpo['harga_satuan'],
-							'jumlah_harga_piece'	=> ($dz*12) * $idpo['harga_satuan'],
-							'jumlah_piece_diterima'	=>($dz*12),
+							'jumlah_harga_piece'	=> ($dz*12) + $pcs * $idpo['harga_satuan'],
+							'jumlah_piece_diterima'	=>($dz*12) + $pcs,
 							'keterangan'		=>'',
 							'created_date'		=> date('Y-m-d H:i:s'),
 							'tanggal_kirim'		=>	$post['tanggal_kirim'],
