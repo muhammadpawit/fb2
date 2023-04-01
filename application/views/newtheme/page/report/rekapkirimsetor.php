@@ -46,7 +46,7 @@
 		<label>Rekap <?php echo $cmtnya?> Bulan : <?php echo $bln ?> <?php echo $tahun ?></label>
 	</div>
 </div>
-<div class="row">
+<!-- <div class="row">
 	<div class="col-md-6">
 		<caption>CMT KEMEJA</caption>
 		    <table class="table table-bordered">
@@ -163,10 +163,10 @@
 		        </tbody>
 		    </table>
 	</div>
-</div>
+</div> -->
 <div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered table-hover nosearch">
+		<table class="table table-bordered table-hover">
 			<thead class="thead-light">
 				<tr>
 					<th rowspan="2" style="vertical-align: middle;text-align: center;">Nama PO</th>
@@ -186,6 +186,7 @@
 			<tbody>
 				<?php $jml1=0;$jml2=0;$kirimdz=0;$kirimpcs=0;$setordz=0;$setorpcs=0;?>
 				<?php foreach($products as $p){?>
+					<?php if($p['jmlkirim']>0){ ?>
 					<?php 
 						$jml1+=($p['jmlkirim']);
 						$jml2+=($p['jmlsetor']);
@@ -204,6 +205,7 @@
 						<td align="center"><?php echo $p['setorpcs']?></td>
 						<td></td>
 					</tr>
+				<?php } ?>
 				<?php } ?>
 			</tbody>
 			<tfoot>
