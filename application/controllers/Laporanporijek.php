@@ -17,7 +17,26 @@ class Laporanporijek extends CI_Controller {
 
 	public function index(){
 		$data['title']='Laporan PO Rijek';
-		$sql ="SELECT p.kode_po,SUM(krs.barang_cacad_qty) as rijek,SUM(krs.bangke_qty) as bangke FROM kelolapo_rincian_setor_cmt krs JOIN produksi_po p ON (p.id_produksi_po=krs.idpo) where p.hapus=0 AND barang_cacad_qty > 0 OR bangke_qty > 0 GROUP BY idpo ORDER BY kode_po ASC ";
+		$get = $this->input->get();
+		if(isset($get['jenis'])){
+			$jenis=$get['jenis'];
+		}else{
+			$jenis=null;
+		}
+		$data['jenis']=$jenis;
+		if(!empty($jenis)){
+			
+			$join=' LEFT JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po ';
+			$where=' AND mjp.idjenis= '.$jenis;
+		}else{
+			$join='';
+			$where=' ';
+		}
+		$sql ="SELECT p.kode_po,SUM(krs.barang_cacad_qty) as rijek,SUM(krs.bangke_qty) as bangke FROM kelolapo_rincian_setor_cmt krs JOIN produksi_po p ON (p.id_produksi_po=krs.idpo) $join where p.hapus=0 $where ";
+		
+		//$sql.=" AND barang_cacad_qty > 0 OR bangke_qty > 0  ";
+		$sql.=" AND bangke_qty > 0  ";
+		$sql.=" GROUP BY idpo ORDER BY kode_po ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$data['prods']=[];
 		$no=1;

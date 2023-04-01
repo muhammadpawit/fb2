@@ -1,6 +1,23 @@
 <div class="row">
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Jenis</label>
+			<select name="jenis" id="jenis" class="form-control select2bs4">
+				<option value="*"></option>
+				<option value="1" <?php echo $jenis==1?'selected':'' ?>>Kemeja</option>
+				<option value="2" <?php echo $jenis==2?'selected':'' ?>>Kaos</option>
+				<option value="3" <?php echo $jenis==3?'selected':'' ?>>Celana</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Aksi</label><br>
+			<button class="btn btn-sm btn-primary" onclick="fil()">Filter</button>
+		</div>
+	</div>
 	<div class="col-md-12">
-		<table class="table table-bordered yessearch">
+		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>No</th>
@@ -10,6 +27,7 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php $total=0;$rijek=0;?>
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['no']?></td>
@@ -17,8 +35,25 @@
 						<td><?php echo $p['bangke']?></td>
 						<td><?php echo $p['rijek']?></td>
 					</tr>
+				<?php $total+=($p['bangke']);?>
+				<?php $rijek+=($p['rijek']);?>
 				<?php } ?>
+				<tr>
+					<td colspan="2"><b>Total</b></td>
+					<td><b><?php echo $total ?></b></td>
+					<td><b><?php echo $rijek ?></b></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
+<script type="text/javascript">
+	function fil(){
+		var url='?';
+		var jenis=$("#jenis").val();
+		if(jenis!='*'){
+			url+='&jenis='+jenis;
+		}
+		location = url;
+	}
+</script>
