@@ -237,7 +237,7 @@ class Keuangan extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+			$tanggal1=date('Y-m-d',strtotime("-30 days"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -266,11 +266,59 @@ class Keuangan extends CI_Controller {
 				'periode'=>$r['periode'],
 				'detail'=>BASEURL.'Keuangan/uangmakansecuritydetail/'.$r['id'],
 				'excel'=>BASEURL.'Keuangan/uangmakansecuritydetailexcel/'.$r['tanggal'],
+				'edit'=>BASEURL.'Keuangan/uangmakansecurity_edit/'.$r['id'],
 			);
 		}
 		$data['tambah']=BASEURL.'Keuangan/uangmakansecurityadd';
 		$data['page']=$this->page.'keuangan/um_security';
 		$this->load->view($this->page.'main',$data);
+	}
+
+	function uangmakansecurity_edit($id){
+		$data=[];
+		$data['title']='Edit Uang makan security';
+		$data['prods']=$this->GlobalModel->getDataRow('um_security',array('id'=>$id));
+		$details=[];
+		$details=$this->GlobalModel->getData('um_security_detail',array('idum'=>$id));
+		$total=0;
+		$no=1;
+		$data['details']=[];
+		foreach($details as $d){
+			$nama=$this->GlobalModel->getDataRow('karyawan',array('id'=>$d['nama']));
+			$total+=($d['nominal']);
+			$data['details'][]=array(
+				'no'=>$no++,
+				'id'=>$d['id'],
+				'nama'=>$nama['nama'],
+				'nominal'=>($d['nominal']),
+				'keterangan'=>strtolower($d['keterangan']),
+			);
+		}
+		$data['total']=($total);
+		$data['batal']=BASEURL.'Keuangan/uangmakansecurity';
+		$data['action']=BASEURL.'Keuangan/uangmakansecurity_edit_save';
+		$data['edit']=true;
+		$get=$this->input->get();
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'keuangan/um_security_excel',$data);
+		}else{
+			$data['page']=$this->page.'keuangan/um_security_detail';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
+	function uangmakansecurity_edit_save(){
+		$post = $this->input->post();
+		foreach($post['prods'] as $p){
+			$update = array(
+				'nominal'=>$p['nominal'],
+				'keterangan'=>$p['keterangan'],
+			);
+			$this->db->update('um_security_detail',$update,array('id'=>$p['id']));
+		}
+		//pre($post);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Keuangan/uangmakansecurity');	
 	}
 
 	public function uangmakansecuritydetail($id){

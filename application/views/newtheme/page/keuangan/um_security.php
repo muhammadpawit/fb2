@@ -49,8 +49,9 @@
 						<td><?php echo $p['tanggal']?></td>
 						<td><?php echo $p['periode']?></td>
 						<td>
-							<a href="<?php echo $p['detail']?>" class="btn btn-sm btn-warning">Detail</a>
-							<a href="<?php echo $p['excel']?>" class="btn btn-sm btn-info">Excel</a>
+							<a href="<?php echo $p['detail']?>" class="btn btn-sm btn-primary">Detail</a>
+							<a href="<?php echo $p['excel']?>" class="btn btn-sm btn-success">Excel</a>
+							<a href="<?php echo $p['edit']?>" class="btn btn-sm btn-warning">Edit</a>
 						</td>
 					</tr>
 				<?php } ?>
