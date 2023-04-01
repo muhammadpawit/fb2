@@ -2161,7 +2161,7 @@ class ReportModel extends CI_Model {
 	}
 
 	function stok_sablon($idcmt){
-		$query ="SELECT count(kd.kode_po) as jml,kd.jumlah_pcs as pcs FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 ) ";
+		$query ="SELECT count(kd.kode_po) as jml, COALESCE(SUM(kd.jumlah_pcs)) as pcs FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 ) ";
 		$data = $this->GlobalModel->QueryManualRow($query);
 		return $data;
 	}
