@@ -32,6 +32,8 @@
 							<tr>
 								<th>No</th>
 								<th>Nama</th>
+								<th>No.Telp</th>
+								<th>TglMasuk</th>
 								<th>Gaji Harian</th>
 								<th>Gaji Mingguan</th>
 								<th>Aksi</th>
@@ -42,6 +44,8 @@
 								<tr>
 									<td><?php echo $n++?></td>
 									<td><?php echo strtolower($k['nama_karyawan_bordir'])?></td>
+									<td><?php echo strtolower($k['no_telp'])?></td>
+									<td><?php echo !empty($k['tgl_masuk'])?date('d F Y',strtotime($k['tgl_masuk'])):''?></td>
 									<td><?php echo number_format($k['karyawan_gaji_weekday'],2)?></td>
 									<td><?php echo number_format($k['karyawan_gaji_weekend'],2)?></td>
 									<td>

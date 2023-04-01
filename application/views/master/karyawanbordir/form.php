@@ -10,6 +10,14 @@
 								<input type="text" name="nama" class="form-control" required="required">
 							</div>
 							<div class="form-group">
+								<label>Tanggal Masuk</label>
+								<input type="text" name="tgl_masuk" class="form-control datepicker" autocomplete="off" required="required">
+							</div>
+							<div class="form-group">
+								<label>No.Telp</label>
+								<input type="text" name="no_telp" class="form-control" required="required">
+							</div>
+							<div class="form-group">
 								<label>Gaji Harian</label>
 								<input type="number" onkeyup="update()" name="karyawan_gaji_weekday" class="form-control" value="0" required="required">
 							</div>

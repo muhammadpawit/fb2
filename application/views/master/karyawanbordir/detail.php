@@ -11,6 +11,14 @@
 								<input type="text" name="nama" class="form-control" value="<?php echo $k['nama_karyawan_bordir']?>">
 							</div>
 							<div class="form-group">
+								<label>Tanggal Masuk</label>
+								<input type="text" name="tgl_masuk" class="form-control datepicker" value="<?php echo $k['tgl_masuk']?>" autocomplete="off" required="required">
+							</div>
+							<div class="form-group">
+								<label>No.Telp</label>
+								<input type="text" name="no_telp" class="form-control" value="<?php echo $k['no_telp']?>" required="required">
+							</div>
+							<div class="form-group">
 								<label>Gaji Harian</label>
 								<input type="number" onkeyup="update()"  name="karyawan_gaji_weekday" class="form-control" required="required" value="<?php echo $k['karyawan_gaji_weekday']?>">
 							</div>

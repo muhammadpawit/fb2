@@ -76,6 +76,7 @@ class Masterdata extends CI_Controller {
 		$data['title']='Master harga packing';
 		$jenis=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
 		$no=0;
+		$data['products']=[];
 		foreach($jenis as $j){
 			$data['products'][]=array(
 				'no'=>$no++,
@@ -1552,6 +1553,8 @@ class Masterdata extends CI_Controller {
 		$post=$this->input->post();
 		$insert=array(
 			'nama_karyawan_bordir'=>$post['nama'],
+			'no_telp'=>$post['no_telp'],
+			'tgl_masuk'=>$post['tgl_masuk'],
 			'karyawan_gaji_weekday'=>$post['karyawan_gaji_weekday'],
 			'karyawan_gaji_weekend'=>$post['karyawan_gaji_weekend'],
 		);
@@ -1585,6 +1588,8 @@ class Masterdata extends CI_Controller {
 		$post=$this->input->post();
 		$insert=array(
 			'nama_karyawan_bordir'=>$post['nama'],
+			'no_telp'=>$post['no_telp'],
+			'tgl_masuk'=>$post['tgl_masuk'],
 			'karyawan_gaji_weekday'=>$post['karyawan_gaji_weekday'],
 			'karyawan_gaji_weekend'=>$post['karyawan_gaji_weekend'],
 		);
