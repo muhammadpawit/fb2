@@ -112,7 +112,7 @@
 		              <td><?php echo $p['setorjml']?></td>
 		              <td><?php echo number_format($p['setordz'],2)?></td>
 		              <td><?php echo ($p['stokjml'])?></td>
-		              <td><?php echo ($p['stokdz']) ?></td>
+		              <td><?php echo number_format($p['stokdz'],2) ?></td>
 		            </tr>
 		            <?php 
 		        		$skirimjml+=($p['kirimjml']);
