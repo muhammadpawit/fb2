@@ -15,6 +15,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
 		</div>
 	</div>
 </div>
@@ -39,7 +40,25 @@
 			  </tr>
 			</thead>
 			<tbody>
+			<?php 
+
+				$transfer=0;
+				$kas=0;
+				$bahanbaku=0;
+				$ops=0;
+				$gaji=0;
+				$alokasitransfer=0;
+				$sisa=0;
+
+			?>
 			<?php foreach($results as $r){?>
+				<?php 
+
+					$transfer+=($r['transfer']);
+					$kas+=($r['kas']);
+					
+
+				?>
 			  <tr>
 			    <td ><?php echo $r['hari']?>, <?php echo $r['tanggal']?></td>
 			    <td ><?php echo number_format($r['transfer'])?></td>
@@ -54,6 +73,15 @@
 			  	<?php $at=$this->LaporanmingguanModel->alokasi_transfer($r['tanggal'],2); ?>
 			  	<?php if(!empty($at)){?>
 			  	<?php foreach($at as $a){?>
+			  		<?php
+
+					$bahanbaku+=($a['pengalokasian']==1)?$a['nominal']:0;;
+					$ops+=($a['pengalokasian']==2)?$a['nominal']:0;;
+					$gaji+=($a['pengalokasian']==3)?$a['nominal']:0;;
+					$alokasitransfer+=($a['pengalokasian']==4)?$a['nominal']:0;
+					$sisa+=($a['pengalokasian']==5)?$a['nominal']:0;
+
+					?>
 				  <tr>
 				  	<td colspan="3"><?php //echo $a['tanggal'];?></td>
 				  	<td><?php echo $a['pengalokasian']==1?number_format($a['nominal']):0;?></td>
@@ -66,6 +94,17 @@
 				<?php } ?>
 				<?php } ?>
 			<?php } ?>
+			<tr>
+				<td><b>Total</b></td>
+				<td align="center"><b><?php echo number_format($transfer) ?></b></td>
+				<td align="center"><b><?php echo number_format($kas) ?></b></td>
+				<td align="center"><b><?php echo number_format($bahanbaku) ?></b></td>
+				<td align="center"><b><?php echo number_format($ops) ?></b></td>
+				<td align="center"><b><?php echo number_format($gaji) ?></b></td>
+				<td align="center"><b><?php echo number_format($alokasitransfer) ?></b></td>
+				<td align="center"><b><?php echo number_format($sisa) ?></b></td>
+				<td align="center"><b></b></td>
+			</tr>
 			</tbody>
 			</table>
 	</div>

@@ -56,8 +56,13 @@ class Laporanmingguanbordir extends CI_Controller {
 		    	//'alokasi_transfer'=>$this->LaporanmingguanModel->alokasi_transfer($dt['tanggal'],$bagian);
 		    );
 		} 
-		$data['page']=$this->page.'bordir';
-		$this->load->view($this->layout,$data);
+		if(!isset($get['excel'])){
+			$data['page']=$this->page.'bordir';
+			$this->load->view($this->layout,$data);
+		}else{
+			$data['page']=$this->page.'bordir_excel';
+			$this->load->view($data['page'],$data);
+		}
 	}
 
 }

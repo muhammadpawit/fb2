@@ -55,8 +55,13 @@ class Laporanmingguansablon extends CI_Controller {
 		    	'keterangan'=>implode(",",$keterangan),
 		    );
 		} 
-		$data['page']=$this->page.'sablon';
-		$this->load->view($this->layout,$data);
+		if(!isset($get['excel'])){
+			$data['page']=$this->page.'sablon';
+			$this->load->view($this->layout,$data);
+		}else{
+			$data['page']=$this->page.'sablon_excel';
+			$this->load->view($data['page'],$data);
+		}
 	}
 
 }

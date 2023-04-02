@@ -61,6 +61,17 @@ class LaporanmingguanModel extends CI_Model {
 			$hasil=$data;
 		}
 		return $hasil;
+	}
+
+	public function alokasi_transfer_giro($tanggal,$bagian,$pengalokasian){
+		$hasil=[];
+		$sql="SELECT COALESCE(sum(nominal),0) as nominal FROM alokasi_transferan WHERE hapus=0 AND bagian='$bagian'";
+		$sql.=" AND DATE(tanggal) ='".date('Y-m-d',strtotime($tanggal))."' and pengalokasian='".$pengalokasian."' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['nominal'];
+		}
+		return $hasil;
 	}	
 
 	public function keterangan_bordir($tanggal,$bagian){

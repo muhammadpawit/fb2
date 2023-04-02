@@ -15,6 +15,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
 		</div>
 	</div>
 </div>
@@ -39,7 +40,28 @@
 			  </tr>
 			</thead>
 			<tbody>
+				<?php 
+
+				$transfer=0;
+				$kas=0;
+				$bahanbaku=0;
+				$inventaris=0;
+				$ops=0;
+				$gaji=0;
+				$sisa=0;
+
+				?>
 			<?php foreach($results as $r){?>
+				<?php 
+
+				$transfer+=$r['transfer'];
+				$kas+=$r['kas'];
+				$ops+=$r['ops'];
+				$gaji+=$r['gaji'];
+				$sisa+=$r['sisa'];
+				
+
+				?>
 			  <tr>
 			    <td ><?php echo $r['hari']?>, <?php echo $r['tanggal']?></td>
 			    <td ><?php echo number_format($r['transfer'])?></td>
@@ -54,6 +76,13 @@
 			  <?php $at=$this->LaporanmingguanModel->alokasi_transfer($r['tanggal'],3); ?>
 			  	<?php if(!empty($at)){?>
 			  	<?php foreach($at as $a){?>
+			  		<?php 
+
+					$bahanbaku+=$a['pengalokasian']==12?$a['nominal']:0;
+					$inventaris+=$a['pengalokasian']==13?$a['nominal']:0;
+				
+
+					?>
 				  <tr>
 				  	<td colspan="3"><?php //echo $a['tanggal'];?></td>
 				  	<td><?php echo $a['pengalokasian']==12?number_format($a['nominal']):0;?></td>
@@ -66,6 +95,17 @@
 				<?php } ?>
 				<?php } ?>
 			<?php } ?>
+			<tr>
+				<td align="center"><b>Total</b></td>
+				<td align="center"><b><?php echo number_format($transfer)?></b></td>
+				<td align="center"><b><?php echo number_format($kas)?></b></td>
+				<td align="center"><b><?php echo number_format($bahanbaku)?></b></td>
+				<td align="center"><b><?php echo number_format($inventaris)?></b></td>
+				<td align="center"><b><?php echo number_format($ops)?></b></td>
+				<td align="center"><b><?php echo number_format($gaji)?></b></td>
+				<td align="center"><b><?php echo number_format($sisa)?></b></td>
+				<td></td>
+			</tr>
 			</tbody>
 			</table>
 	</div>
