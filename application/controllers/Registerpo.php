@@ -54,7 +54,7 @@ class Registerpo extends CI_Controller {
 		$size=null;
 		foreach($results as $result){
 			$cmt=$this->GlobalModel->querymanualrow("SELECT * FROM kelolapo_kirim_setor JOIN master_cmt ON(master_cmt.id_cmt=kelolapo_kirim_setor.id_master_cmt) WHERE kelolapo_kirim_setor.hapus=0 AND kode_po='".$result['kode_po']."' AND progress='KIRIM' AND kategori_cmt='JAHIT'  ");
-			$tanggalsetor=$this->GlobalModel->querymanualrow("SELECT * FROM kelolapo_kirim_setor JOIN master_cmt ON(master_cmt.id_cmt=kelolapo_kirim_setor.id_master_cmt) WHERE kode_po='".$result['kode_po']."' AND progress='SETOR' AND kategori_cmt='JAHIT' ");
+			$tanggalsetor=$this->GlobalModel->querymanualrow("SELECT * FROM kelolapo_kirim_setor JOIN master_cmt ON(master_cmt.id_cmt=kelolapo_kirim_setor.id_master_cmt) WHERE kelolapo_kirim_setor.hapus=0 AND kode_po='".$result['kode_po']."' AND progress='SETOR' AND kategori_cmt='JAHIT' ");
 			$tanggalkirimgudang=$this->GlobalModel->querymanualrow("SELECT * FROM finishing_kirim_gudang WHERE kode_po='".$result['kode_po']."' ");
 
 			if(!empty($cmt['create_date'])){
