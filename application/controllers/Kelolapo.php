@@ -2583,7 +2583,7 @@ class Kelolapo extends CI_Controller {
 		$viewData['klo']=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$idklo));
 		$viewData['page']='kelolapo/kirimsetorpotongan/kirim-setor-edit-setor';
 		$viewData['action']=BASEURL.'Kelolapo/editsetor_save';
-		$viewData['batal']=BASEURL.'Kelolapo/kirimsetorcmt';
+		$viewData['batal']=BASEURL.'Kelolapo/kirimsetorcmt?&kode_po='.$po['kode_po'];
 		$this->load->view('newtheme/page/main',$viewData);
 	}
 
