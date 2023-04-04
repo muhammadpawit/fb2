@@ -53,6 +53,17 @@ class Laporanbulanancabang extends CI_Controller {
 			$bulan2=null;
 		}
 
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal1=null;
+			$tanggal2=null;
+		}
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+
 		if(isset($get['cmt'])){
 			$cmt=$get['cmt'];
 			$data['cmts']=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt));
@@ -85,10 +96,17 @@ class Laporanbulanancabang extends CI_Controller {
 			foreach($cmtnya as $val){
 				$month=null;
 			    $y=null;
-			    $kirimjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],NULL,'KIRIM');
-			    $kirimpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],NULL,'KIRIM');
-			    $setorjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],NULL,'SETOR');
-			    $setorpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],NULL,'SETOR');
+			    if(!empty($tanggal1)){
+			    	$kirimjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'KIRIM');
+					$kirimpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'KIRIM');
+					$setorjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'SETOR');
+					$setorpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'SETOR');
+			    }else{
+			    	$kirimjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],NULL,'KIRIM');
+				    $kirimpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],NULL,'KIRIM');
+				    $setorjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],NULL,'SETOR');
+				    $setorpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],NULL,'SETOR');
+			    }
 				$data['products'][]=array(
 					'bulan'=>strtoupper($val['cmt_name']),
 					'bln'=>$month,
@@ -135,8 +153,12 @@ class Laporanbulanancabang extends CI_Controller {
 		$data['bulan']=$this->ReportModel->month();
 		$bulannya=$this->ReportModel->month();
 		$data['bulans']=json_encode($nama);
-		$data['excel']=BASEURL.'Laporanbulanancabang/index?&excel=1&cmt='.$cmt;
-		$data['cetak']=BASEURL.'Laporanbulanancabang/index?&cetak=1&cmt='.$cmt;
+		$url='';
+		if(!empty($tanggal1)){
+			$url.='&tanggal1='.$tanggal1.'&tanggal2='.$tanggal2;
+		}
+		$data['excel']=BASEURL.'Laporanbulanancabang/index?&excel=1&cmt='.$cmt.$url;
+		$data['cetak']=BASEURL.'Laporanbulanancabang/index?&cetak=1&cmt='.$cmt.$url;
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
 		}else if(isset($get['cetak'])){

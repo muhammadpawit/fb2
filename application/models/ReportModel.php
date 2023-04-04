@@ -986,6 +986,32 @@ class ReportModel extends CI_Model {
 		
 	}
 
+	public function rekapjml_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
+		$hasil=0;
+		$sql="SELECT COALESCE(count(idpo),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
+		$sql.=" LEFT JOIN produksi_po ON produksi_po.id_produksi_po=kelolapo_kirim_setor.idpo ";
+		$sql.=" LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=produksi_po.nama_po) ";
+		$sql.=" WHERE kelolapo_kirim_setor.hapus=0 AND id_master_cmt=$idcmt AND progress='$progress' ";
+		if(!empty($bulan)){
+			$sql.=" AND DATE(create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+		}
+		
+		$sql.=" GROUP BY mjp.perkalian ";
+		if(!empty($cmtkat)){
+			$sql.=" AND kategori_cmt='$cmtkat' ";
+		}
+		$data=$this->GlobalModel->QueryManual($sql);
+		if(!empty($data)){
+			foreach($data as $d){
+				$hasil+=$d['total']*$d['perkalian'];
+			}
+		}
+		
+		return $hasil;
+		//return $hasil=$data['total']*$data['perkalian'];
+		
+	}
+
 	public function rekapdz($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
 		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
@@ -1001,6 +1027,19 @@ class ReportModel extends CI_Model {
 		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE progress='$progress' AND id_master_cmt=$idcmt";
 		if(!empty($bulan)){
 			$sql .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
+		}
+		if(!empty($cmtkat)){
+			$sql.=" AND kategori_cmt='$cmtkat' ";
+		}
+		$data=$this->db->query($sql)->row_array();
+		return $hasil=$data['total'];
+	}
+
+	public function rekappcs_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
+		$hasil=null;
+		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE progress='$progress' AND id_master_cmt=$idcmt";
+		if(!empty($bulan)){
+			$sql .=" AND DATE(create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 		}
 		if(!empty($cmtkat)){
 			$sql.=" AND kategori_cmt='$cmtkat' ";

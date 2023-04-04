@@ -1,6 +1,15 @@
 <div class="row no-print">
 	<div class="col-md-3">
+		<label>Tanggal Awal</label>
+		<input type="text" name="tanggal1" class="form-control" id="tanggal1" autocomplete="off" value="<?php echo $tanggal1?>" >
+	</div>
+	<div class="col-md-3">
+		<label>Tanggal Akhir</label>
+		<input type="text" name="tanggal2" class="form-control" id="tanggal2" autocomplete="off" value="<?php echo $tanggal2?>" >
+	</div>
+	<div class="col-md-3">
 		<label>Aksi</label><br>
+		<button class="btn btn-sm btn-info" onclick="filtertglonly_all()">Filter</button>
 		<a class="btn btn-info btn-sm text-white" href="<?php echo $excel?>">excel</a>
 		<button class="btn btn-info btn-sm cetak">Print</button>
 	</div>
@@ -174,5 +183,18 @@ $(document).ready(function(){
     window.print();
   });
 });
+
+function filtertglonly_all(){
+    var url='?&cmt=true';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
 
 </script>
