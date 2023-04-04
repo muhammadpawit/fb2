@@ -122,7 +122,8 @@
                                     <?php if(akseshapus()==1){?>
 
                                       <?php if($sat['progress']=="SETOR"){?>
-
+                                         <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
+                                         
                                         <a href="<?php echo $sat['editsetor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit Setoran</a>
                                         <?php }else { ?>
                                             <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
