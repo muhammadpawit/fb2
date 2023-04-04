@@ -41,7 +41,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $totalsetor=0;?>
+				<?php $totalsetor=0;$totalkirimdz=0;$totalkirimpcs=0;$totalsetordz=0;$totalsetorpcs=0;?>
 				<?php if($products){?>
 					<?php foreach($products as $p){?>
 					<tr>
@@ -55,15 +55,19 @@
 						<td></td>
 					</tr>
 					<?php $totalsetor+=$p['setorjmlpo'];?>
+					<?php $totalkirimdz+=$p['kirimdz'];?>
+					<?php $totalkirimpcs+=$p['kirimpcs'];?>
+					<?php $totalsetordz+=$p['setordz'];?>
+					<?php $totalsetorpcs+=$p['setorpcs'];?>
 					<?php } ?>
 					<tr>
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
-                        <td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
-                        <td align="center"><b><?php echo number_format($kirimpcs,0)?></b></td>
+                        <td align="center"><b><?php echo number_format($totalkirimdz,2)?></b></td>
+                        <td align="center"><b><?php echo number_format($totalkirimpcs,0)?></b></td>
                         <td align="center"><b><?php echo $totalsetor?></b></td>
-                        <td align="center"><b><?php echo number_format($setordz,2)?></b></td>
-                        <td align="center"><b><?php echo number_format($setorpcs,0)?></b></td>
+                        <td align="center"><b><?php echo number_format($totalsetordz,2)?></b></td>
+                        <td align="center"><b><?php echo number_format($totalsetorpcs,0)?></b></td>
 					</tr>
 				<?php }else{ ?>
 					<tr>

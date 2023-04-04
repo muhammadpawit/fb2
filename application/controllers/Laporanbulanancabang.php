@@ -91,18 +91,22 @@ class Laporanbulanancabang extends CI_Controller {
 		$setordz=0;
 		$setorpcs=0;
 		$kirimpo=0;
-        $cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' order by cmt_name ");
+        if(!empty($tanggal1)){
+        	$cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and kategori_cmt='JAHIT' ) order by cmt_name ");
+        }else{
+        	$cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 and kategori_cmt='JAHIT' ) order by cmt_name ");
+        }
 		if(!empty($cmt)){
 			foreach($cmtnya as $val){
 				$month=null;
 			    $y=null;
 			    if(!empty($tanggal1)){
-			    	$kirimjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'KIRIM');
-					$kirimpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'KIRIM');
-					$setorjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'SETOR');
-					$setorpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],NULL,'SETOR');
+			    	$kirimjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
+					$kirimpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
+					$setorjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
+					$setorpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
 			    }else{
-			    	$kirimjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],NULL,'KIRIM');
+			    	$kirimjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
 				    $kirimpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],NULL,'KIRIM');
 				    $setorjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],NULL,'SETOR');
 				    $setorpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],NULL,'SETOR');

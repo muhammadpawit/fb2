@@ -988,6 +988,7 @@ class ReportModel extends CI_Model {
 
 	public function rekapjml_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
+		/*
 		$sql="SELECT COALESCE(count(idpo),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
 		$sql.=" LEFT JOIN produksi_po ON produksi_po.id_produksi_po=kelolapo_kirim_setor.idpo ";
 		$sql.=" LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=produksi_po.nama_po) ";
@@ -1005,6 +1006,21 @@ class ReportModel extends CI_Model {
 			foreach($data as $d){
 				$hasil+=$d['total']*$d['perkalian'];
 			}
+		}
+		*/
+		$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
+		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		if(!empty($bulan)){
+			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+		}
+		$sql.=" GROUP BY mjp.nama_jenis_po ";
+		$row=$this->db->query($sql)->result_array();
+		if(!empty($row)){
+			foreach($row as $d){
+				$hasil+=round($d['total']*$d['perkalian']);
+			}
+		}else{
+			$hasil=0;	
 		}
 		
 		return $hasil;
