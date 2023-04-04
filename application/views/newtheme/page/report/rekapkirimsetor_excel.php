@@ -1,9 +1,19 @@
 <?php
-$namafile='Rekap_Kirim_Setor_'.$cmtnya.'_'.$bln.$tahun;
+if(!empty($tanggal1)){
+	$nama=date('d F Y',strtotime($tanggal1)).' s.d '.date('d F Y',strtotime($tanggal2));
+}else{
+	$nama=$bln.$tahun;
+}
+$namafile='Rekap_Kirim_Setor_'.$cmtnya.'_'.$nama;
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-<h3>Rekap Kirim Setor <?php echo $cmtnya?> Bulan : <?php echo $bln ?> <?php echo $tahun ?></h3>
+<?php if(!empty($tanggal1)){ ?>
+			<h3>Rekap <?php echo $cmtnya?> Tanggal : <?php echo date('d F Y',strtotime($tanggal1)) ?> s.d <?php echo date('d F Y',strtotime($tanggal2)) ?></h3>
+		<?php }else{ ?>
+				<h3>Rekap <?php echo $cmtnya?> Bulan : <?php echo $bln ?> <?php echo $tahun ?></h3>
+		<?php } ?>
+
 		<table border="1" style="width: 100%;border-collapse: collapse;">
 			<thead class="thead-light">
 				<tr>

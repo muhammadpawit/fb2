@@ -38,13 +38,35 @@ class Rekapkirimsetor extends CI_Controller {
 			$cmt=null;
 		}
 
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=null;
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=null;
+		}
+
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+
 		$filter=array(
 			'bulan'=>$bulan,
 			'tahun'=>$tahun,
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
 		);
 		$data['bulan']=$bulan;
 		$data['tahun'] =$tahun;
 		$data['cmt'] =$cmt;
+		$data['tanggal1'] =$tanggal1;
+		$data['tanggal2'] =$tanggal2;
 		$url='';
 		if(!empty($bulan)){
 			$url.="&bulan=".$bulan;
@@ -54,6 +76,10 @@ class Rekapkirimsetor extends CI_Controller {
 		}
 		if(!empty($cmt)){
 			$url.="&cmt=".$cmt;
+		}
+		if(!empty($tanggal1)){
+			$url.="&tanggal1=".$tanggal1;
+			$url.="&tanggal2=".$tanggal2;
 		}
 		$data['excel']=BASEURL.'Rekapkirimsetor?&excel=true'.$url;
 		$cmtd=null;
@@ -69,7 +95,11 @@ class Rekapkirimsetor extends CI_Controller {
 		$no=1;
 		$jml=0;
 		foreach(nama_po() as $p){
-			$jml=$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
+			if(!empty($tanggal1)){
+				$jml=$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2);
+			}else{
+				$jml=$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
+			}
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nama'=>$p['nama_jenis_po'],

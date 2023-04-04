@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-6">
 		<div class="form-group">
 			<label>Bulan</label>
 			<select name="bulan" id="bulan" class="form-control select2bs4" data-live-search="true">
@@ -10,7 +10,7 @@
 			</select>
 		</div>
 	</div>
-	<div class="col-md-2">
+	<div class="col-md-6">
 		<div class="form-group">
 			<label>Tahun</label>
 			<select name="tahun" id="tahun" class="form-control select2bs4" data-live-search="true">
@@ -23,9 +23,21 @@
 	</div>
 	<div class="col-md-4">
 		<div class="form-group">
+			<label>Tanggal Awal</label>
+			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control" autocomplete="off">
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal Akhir</label>
+			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control" autocomplete="off">
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
 			<label>CMT</label>
 			<select name="cmt" id="cmt" class="form-control select2bs4" data-live-search="true">
-				<option value="*">SEMUA</option>
+				<option value="*">Pilih</option>
 				<?php foreach(cmt() as $t){?>
 					<option value="<?php echo $t['id_cmt'] ?>" <?php echo $t['id_cmt']==$cmt?'selected':'';?>><?php echo $t['cmt_name'] ?></option>
 				}
@@ -36,14 +48,18 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button onclick="filterbulancmt()" class="btn btn-info btn-sm">Filter</button>
+			<button onclick="filterbulancmttgl()" class="btn btn-info btn-sm">Filter</button>
 			<a href="<?php echo $excel?>" class="btn btn-info btn-sm text-white">Excel</a>
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<label>Rekap <?php echo $cmtnya?> Bulan : <?php echo $bln ?> <?php echo $tahun ?></label>
+		<?php if(!empty($tanggal1)){ ?>
+			<label>Rekap <?php echo $cmtnya?> Tanggal : <?php echo date('d F Y',strtotime($tanggal1)) ?> s.d <?php echo date('d F Y',strtotime($tanggal2)) ?></label>
+		<?php }else{ ?>
+				<label>Rekap <?php echo $cmtnya?> Bulan : <?php echo $bln ?> <?php echo $tahun ?></label>
+		<?php } ?>
 	</div>
 </div>
 <!-- <div class="row">
@@ -223,3 +239,32 @@
 		</table>
 	</div>
 </div>
+<script type="text/javascript">
+	function filterbulancmttgl(){
+	    var url='?';
+	    var tanggal1 =$("#tanggal1").val();
+	    var tanggal2 =$("#tanggal2").val();
+	    var bulan =$("#bulan").val();
+	    var tahun =$("#tahun").val();
+	    var cmt =$("#cmt").val();
+	    if(cmt=="*"){
+	    	alert("CMT Harus dipilih");return false;
+	    }
+	    if(tanggal1){
+	      url+='&tanggal1='+tanggal1;
+	    }
+	    if(tanggal2){
+	      url+='&tanggal2='+tanggal2;
+	    }
+	    if(bulan){
+	      url+='&bulan='+bulan;
+	    }
+	    if(tahun){
+	      url+='&tahun='+tahun;
+	    }
+	    if(cmt!='*'){
+	      url+='&cmt='+cmt;
+	    }
+	    location =url;
+	  }
+</script>
