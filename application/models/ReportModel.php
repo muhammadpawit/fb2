@@ -1014,7 +1014,7 @@ class ReportModel extends CI_Model {
 
 	public function rekapdz($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
+		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' AND progress='$progress' AND id_master_cmt=$idcmt";
 		if(!empty($cmtkat)){
 			$sql.=" AND kategori_cmt='$cmtkat' ";
 		}
@@ -1024,7 +1024,7 @@ class ReportModel extends CI_Model {
 
 	public function rekappcs($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE progress='$progress' AND id_master_cmt=$idcmt";
+		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
 		if(!empty($bulan)){
 			$sql .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
 		}
@@ -1037,7 +1037,7 @@ class ReportModel extends CI_Model {
 
 	public function rekappcs_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE progress='$progress' AND id_master_cmt=$idcmt";
+		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
 		if(!empty($bulan)){
 			$sql .=" AND DATE(create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 		}
