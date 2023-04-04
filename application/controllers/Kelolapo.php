@@ -2536,7 +2536,11 @@ class Kelolapo extends CI_Controller {
 		if(!empty($kode_po)){
 			$sql.=" AND kks.kode_po='".$kode_po."' ";
 		}else{
-			$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			if(!empty($cmt)){
+
+			}else{
+				$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
 		}
 		$sql.=" ORDER BY id_kelolapo_kirim_setor DESC ";
 		if(!empty($tanggal1) || !empty($cmt)){
