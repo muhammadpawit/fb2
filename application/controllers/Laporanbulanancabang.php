@@ -80,7 +80,7 @@ class Laporanbulanancabang extends CI_Controller {
 		$setordz=0;
 		$setorpcs=0;
 		$kirimpo=0;
-        $cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' AND lokasi=3 order by cmt_name ");
+        $cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='JAHIT' order by cmt_name ");
 		if(!empty($cmt)){
 			foreach($cmtnya as $val){
 				$month=null;
