@@ -82,7 +82,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekapjumlah_tgl($jenis,$cmt,$proses,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT count(kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -92,7 +92,7 @@ class kirimsetorModel extends CI_Model {
 		$row=$this->db->query($sql)->row_array();
 		$hasil=$row;
 		if($hasil['total']>0){
-			return ($hasil['total']>0?$hasil['total']:'');
+			return ($hasil['total']>0?$hasil['total']*$hasil['perkalian']:'');
 		}else{
 			$out=0;
 			return $out;
