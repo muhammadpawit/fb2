@@ -1071,6 +1071,7 @@ class ReportModel extends CI_Model {
 			if(!empty($bulan)){
 				$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 			}
+			$sql.=" GROUP BY kbp.id_master_cmt ";
 		}
 		$data=$this->db->query($sql)->row_array();
 		return $hasil=$data['total'];
