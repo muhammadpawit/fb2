@@ -23,6 +23,7 @@ class Porijek extends CI_Controller {
 		$data['prods']	=[];
 		$data['no']		=1;
 		$data['prods']	=$this->GlobalModel->getData('rijek',array());
+		$data['total']	=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek ");
 		$data['action']	=$this->url.'save';
 		$data['page']	=$this->page.'list';
 		$this->load->view($this->layout,$data);

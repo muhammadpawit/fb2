@@ -28,6 +28,11 @@
                   <td><?php echo $p['keterangan']?></td>
                 </tr>
               <?php } ?>
+              <tr>
+                <td colspan="2"><b>Total</b></td>
+                <td><b><?php echo $total['total'] ?></b></td>
+                <td></td>
+              </tr>
             </tbody>
         </table>
     </div>
