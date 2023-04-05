@@ -17,6 +17,7 @@
                 <th>Kode PO</th>
                 <th>Jumlah (Pcs)</th>
                 <th>Keterangan</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -31,11 +32,7 @@
                   </td>
                 </tr>
               <?php } ?>
-              <tr>
-                <td colspan="2"><b>Total</b></td>
-                <td><b><?php echo $total['total'] ?></b></td>
-                <td></td>
-              </tr>
+              
             </tbody>
         </table>
     </div>
@@ -90,3 +87,4 @@
 
   </div>
 </div>
+<?php $this->view('newtheme/layout/table-button');?>
