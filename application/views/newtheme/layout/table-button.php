@@ -13,6 +13,7 @@
    <script type="text/javascript">
      $(document).ready(function(){
         var empDataTable = $('.table').DataTable({
+          'lengthChange': false,
            dom: 'Blfrtip',
            buttons: [
              {  
