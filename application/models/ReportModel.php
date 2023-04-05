@@ -1074,16 +1074,17 @@ class ReportModel extends CI_Model {
 		// 	$sql.=" GROUP BY kbp.id_master_cmt ";
 		// }
 			// bangke 
-			$bangke="SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
-			if(!empty($bulan)){
-				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
-			}
-			$dbangke=$this->db->query($bangke)->row();
 			$bangkenya=0;
-			if(!empty($dbangke)){
-				$bangkenya=$dbangke->total;
-			}
+			// $bangke="SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish rpo ";
+			// $bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
+			// if(!empty($bulan)){
+			// 	$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+			// }
+			// $dbangke=$this->db->query($bangke)->row();
+			// $bangkenya=0;
+			// if(!empty($dbangke)){
+			// 	$bangkenya=$dbangke->total;
+			// }
 		$data=$this->db->query($sql)->row_array();
 		return $hasil=$data['total']-$bangkenya;
 	}
