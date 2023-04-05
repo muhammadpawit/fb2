@@ -1057,7 +1057,7 @@ class ReportModel extends CI_Model {
 
 	public function rekappcs_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
-		if($progress=='KIRIM'){
+		//if($progress=='KIRIM'){
 			$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
 			if(!empty($bulan)){
 				$sql .=" AND DATE(create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
@@ -1065,14 +1065,14 @@ class ReportModel extends CI_Model {
 			if(!empty($cmtkat)){
 				$sql.=" AND kategori_cmt='$cmtkat' ";
 			}
-		}else{
-			$sql="SELECT COALESCE(SUM(rincian_lusin*12+rincian_piece),0) as total FROM kelolapo_rincian_setor_cmt_finish rpo ";
-			$sql.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
-			if(!empty($bulan)){
-				$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
-			}
-			$sql.=" GROUP BY kbp.id_master_cmt ";
-		}
+		// }else{
+		// 	$sql="SELECT COALESCE(SUM(rincian_lusin*12+rincian_piece),0) as total FROM kelolapo_rincian_setor_cmt_finish rpo ";
+		// 	$sql.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
+		// 	if(!empty($bulan)){
+		// 		$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+		// 	}
+		// 	$sql.=" GROUP BY kbp.id_master_cmt ";
+		// }
 		$data=$this->db->query($sql)->row_array();
 		return $hasil=$data['total'];
 	}
