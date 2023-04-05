@@ -129,8 +129,23 @@ class kirimsetorModel extends CI_Model {
 		}
 		$row=$this->db->query($sql)->row_array();
 		$hasil=$row;
+		$bangkenya=0;
+		if($proses=='SETOR'){
+			// bangke 
+			
+			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$cmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses' AND kbp.hapus=0";
+			if(!empty($tanggal1)){
+				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
+			$dbangke=$this->db->query($bangke)->row();
+			
+			if(!empty($dbangke)){
+				$bangkenya=$dbangke->total;
+			}
+		}
 		if($hasil['total']>0){
-			return ($hasil['total']>0?$hasil['total']:'');
+			return ($hasil['total']>0?$hasil['total']-$bangkenya:'');
 		}else{
 			$out=0;
 			return $out;
