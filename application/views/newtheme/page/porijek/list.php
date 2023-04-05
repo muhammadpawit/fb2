@@ -26,6 +26,9 @@
                   <td><?php echo $p['kode_po']?></td>
                   <td><?php echo $p['pcs']?></td>
                   <td><?php echo $p['keterangan']?></td>
+                  <td>
+                    <a href="<?php echo BASEURL?>Porijek/hapus/<?php echo $p['id']?>" class="btn btn-sm btn-danger">Hapus</a>
+                  </td>
                 </tr>
               <?php } ?>
               <tr>

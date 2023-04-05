@@ -43,4 +43,10 @@ class Porijek extends CI_Controller {
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
 		redirect($this->url);
 	}
+
+	function hapus($id){
+		$this->db->delete('rijek',array('id'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
+		redirect($this->url);
+	}
 }
