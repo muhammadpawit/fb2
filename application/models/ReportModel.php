@@ -349,8 +349,21 @@ class ReportModel extends CI_Model {
 		$hasil=0;
 		$sql="SELECT qty_tot_pcs as pcs FROM kelolapo_kirim_setor WHERE hapus=0 AND kode_po='$kodepo' AND kategori_cmt='$kat' AND progress='$progress' ";
 		$d=$this->GlobalModel->queryManualRow($sql);
+
+			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo WHERE rpo.kode_po='".$kodepo."' ";
+			if(!empty($bulan)){
+				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+			}
+			$dbangke=$this->db->query($bangke)->row();
+			$bangkenya=0;
+			if($progress=='SETOR' && $kat=='JAHIT'){
+				if(!empty($dbangke)){
+					$bangkenya=$dbangke->total;
+				}
+			}
+
 		if(!empty($d)){
-			return $hasil=$d['pcs'];
+			return $hasil=$d['pcs']-$bangkenya;
 		}else{
 			return $hasil;
 		}
