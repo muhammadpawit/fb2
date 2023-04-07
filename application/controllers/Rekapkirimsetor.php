@@ -94,34 +94,70 @@ class Rekapkirimsetor extends CI_Controller {
 		}
 		$no=1;
 		$jml=0;
-		foreach(nama_po() as $p){
-			if(!empty($tanggal1)){
-				$jml=$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2);
-				$data['products'][]=array(
-					'no'=>$no++,
-					'nama'=>$p['nama_jenis_po'],
-					'jmlkirim'=>$jml,
-					'kirimdz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2))/12,
-					'kirimpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2)),
-					'jmlsetor'=>$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2),
-					'setordz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2))/12,
-					'setorpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2)),
-				);
-			}else{
-				$jml=$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
-				$data['products'][]=array(
-					'no'=>$no++,
-					'nama'=>$p['nama_jenis_po'],
-					'jmlkirim'=>$jml,
-					'kirimdz'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun))/12,
-					'kirimpcs'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun)),
-					'jmlsetor'=>$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun),
-					'setordz'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun))/12,
-					'setorpcs'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun)),
-				);
+		$master_cmt=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk != 'BORDIR' AND id_cmt IN(SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0) ");
+		if($cmt=='all'){
+			foreach($master_cmt as $c){
+				$cmt=$c['id_cmt'];
+				foreach(nama_po() as $p){
+					if(!empty($tanggal1)){
+						$jml=$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2);
+						$data['products'][]=array(
+							'no'=>$no++,
+							'nama'=>$p['nama_jenis_po'],
+							'jmlkirim'=>$jml,
+							'kirimdz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2))/12,
+							'kirimpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2)),
+							'jmlsetor'=>$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2),
+							'setordz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2))/12,
+							'setorpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2)),
+						);
+					}else{
+						$jml=$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
+						$data['products'][]=array(
+							'no'=>$no++,
+							'nama'=>$p['nama_jenis_po'],
+							'jmlkirim'=>$jml,
+							'kirimdz'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun))/12,
+							'kirimpcs'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun)),
+							'jmlsetor'=>$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun),
+							'setordz'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun))/12,
+							'setorpcs'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun)),
+						);
+					}
+					
+				}
 			}
-			
+		}else{
+			foreach(nama_po() as $p){
+				if(!empty($tanggal1)){
+					$jml=$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2);
+					$data['products'][]=array(
+						'no'=>$no++,
+						'nama'=>$p['nama_jenis_po'],
+						'jmlkirim'=>$jml,
+						'kirimdz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2))/12,
+						'kirimpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2)),
+						'jmlsetor'=>$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2),
+						'setordz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2))/12,
+						'setorpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2)),
+					);
+				}else{
+					$jml=$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
+					$data['products'][]=array(
+						'no'=>$no++,
+						'nama'=>$p['nama_jenis_po'],
+						'jmlkirim'=>$jml,
+						'kirimdz'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun))/12,
+						'kirimpcs'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun)),
+						'jmlsetor'=>$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun),
+						'setordz'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun))/12,
+						'setorpcs'=>($this->KirimsetorModel->rekappcs($p['id_jenis_po'],$cmt,'SETOR',$bulan,$tahun)),
+					);
+				}
+				
+			}
 		}
+		
 
 		$data['jahitk']=[]; // kemeja
 		$kjahit='JAHIT';		
