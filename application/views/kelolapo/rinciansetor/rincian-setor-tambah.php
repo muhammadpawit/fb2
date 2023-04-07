@@ -1,183 +1,43 @@
-<link href="<?php echo PLUGINS ?>bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
-
-<!-- Start Page content -->
-<div class="content">
-    <div class="container-fluid">
-    	
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="card-box">
-                    <h4 class="header-title m-t-0 m-b-20">Tambah Pengecekan Potongan</h4>
-                    <div class="alert alert-dark alert-dismissible bg-dark text-white border-0 fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                        Kalau ga ada value nya isi kolom nya dengan strip, Terima Kasih!
-                    </div>
-                    <?php if ($this->session->flashdata('msg')): ?>
-                    <div class="alert alert-dark alert-dismissible bg-danger text-white border-0 fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                        <strong><?php echo $this->session->flashdata('msg'); ?></strong>                    
-                    </div>
-                    <?php endif ?>
-                    <hr>
-
-                   	<ul class="nav nav-pills navtab-bg nav-justified pull-in ">
-	                    <li class="nav-item">
-	                        <a href="#home1" data-toggle="tab" aria-expanded="false" class="nav-link">
-	                            <i class="fi-monitor mr-2"></i> Rincian
-	                        </a>
-	                    </li>
-	                    <li class="nav-item">
-	                        <a href="#profile1" data-toggle="tab" aria-expanded="true" class="nav-link active">
-	                            <i class="fi-head mr-2"></i>Rincian Setor
-	                        </a>
-	                    </li>
-	                   
-	                </ul>
-	                <div class="tab-content">
-	                    <div class="tab-pane" id="home1">
-<form action="<?php echo BASEURL.'kelolapo/formpengecekanpotonganOnAct' ?>" method="POST" enctype="multipart/form-data">
-	<div class="row">
-    <div class="col-12">
-        <h3 class="text-center">POTONGAN ATASAN</h3>
-        <hr>
-    </div>
-		<div class="form-group col-sm-12 col-lg-3">
-    	<label>Nama PO</label>
-        <select class="form-control selectpicker" id="poSelect" name="namaPo" title="Select Nama PO" data-live-search="true" required>
-            <option selected="selected" value="<?php echo $poProd['kode_po'] ?>"><?php echo $poProd['nama_po'].$poProd['kode_po'] ?></option>
-        </select>
-    </div>
-    <div class="form-group col-sm-12 col-lg-3">
-    	<label>Tanggal</label>
-    	<input type="date" class="form-control" name="tanggal" value="<?php echo $poProd['created_date'] ?>" required readonly>
-    </div>
-    <div class="form-group col-sm-12 col-lg-3">
-    	<label>Tim Potong</label>
-    	<input type="text" class="form-control timPotong" name="timPotong" value="<?php echo $poProd['tim_potong_potongan'] ?>" required readonly>
-    </div>
-    
-    <div class="form-group col-sm-12 col-lg-3">
-    	<label>Jumlah Potong (Dz)</label>
-    	<input type="number" step="0.01" class="form-control jumlahPotDz" name="jumlahPotDz" value="<?php echo $poProd['hasil_lusinan_potongan'] ?>" required readonly>
-    </div>
-    <div class="form-group col-sm-12 col-lg-3">
-        <label>Jumlah Potong (Pcs)</label>
-        <input type="number" step="0.01" class="form-control jumlahPotPcs" name="jumlahPotPcs" value="<?php echo $poProd['hasil_lusinan_potongan'] * 12 ?>" required readonly>
-    </div>
-    <div class="form-group col-sm-12 col-lg-3">
-    	<label>Jml Warna</label>
-    	<input type="number" class="form-control jmlWarna" name="jmlWarna" value="<?php echo $poProd['jumlah_gambar_utama'] ?>" required readonly>
-    </div>
-    
-
-    
-    <div class="table-responsive">
-        <table class="table table-bordered" id="item_table">
-            <tr>
-                <th>BAGIAN</th>
-                <th>WARNA</th>
-                <th>JML</th>
-                <th>KETERANGAN</th>
-                
-            </tr>
-            <?php foreach ($atas as $key => $at): ?>
-            <tr>
-			    <td><input type="text" class="form-control" name="bagianAtas[]" value="<?php echo $at['bagian_potongan_atas'] ?>" required readonly></td>
-			    <td><input type="text" class="form-control" name="warnaAtas[]" value="<?php echo $at['warna_potongan_atas'] ?>" required readonly></td>
-			    <td><input type="number" class="form-control" name="jmlAtas[]"  value="<?php echo $at['jumlah_potongan'] - $at['qty_bangke_atas'] - $at['qty_reject_atas'] - $at['qty_hilang_atas'] - $at['qty_claim_atas'] ?>" required readonly></td>
-			    <td><input type="text" class="form-control" name="keteranganAts[]"  value="<?php echo $at['keterangan_potongan'] ?>" readonly></td>
-			</tr>
-			<?php endforeach ?>
-        </table>
-    </div>
-    
-	</div>
-
 <div class="row">
-    <div class="col-sm-12">
-        <hr>
-        <h3 class="text-center">POTONGAN BAWAHAN</h3>
-        <hr>
-    </div>
-    
-    <div class="table-responsive">
-        <table class="table table-bordered" id="item_tabl2e">
-            <tr>
-                <th>BAGIAN</th>
-                <th>WARNA</th>
-                <th>JML</th>
-                <th>KETERANGAN</th>
-            </tr>
-            <?php foreach ($bawah as $key => $bw): ?>
-            	<tr>
-				    <td><input type="text" class="form-control" name="bagianBwh[]" value="<?php echo $bw['bagian_potongan_bawah'] ?>" required readonly></td>
-				    <td><input type="text" class="form-control" name="warnaBwh[]" value="<?php echo $bw['warna_potongan_bawah'] ?>" required readonly></td>
-				    <td><input type="number" class="form-control" name="jmlBwh[]" value="<?php echo ($bw['jumlah_potongan'] - $bw['qty_bangke_bwh'] - $bw['qty_reject_bwh'] - $bw['qty_hilang_bwh'] - $bw['qty_claim_bwh']) ?>" required readonly ></td>
-				    <td><input type="text" class="form-control" name="keteranganBwh[]"  value="<?php echo $bw['keterangan_potongan'] ?>" readonly></td>
-				</tr>
-            <?php endforeach ?>
-          
-        </table>
-    </div>
-</div>
-
-</form>
-	                    </div>
-
-	                    <!-- RINCIAN INPUT SETOR CMT -->
-	                    <div class="tab-pane show active" id="profile1">
-	                        <form action="<?php echo BASEURL.'finishing/produksikaoscmtAct' ?>" method="post">
-                                <input type="hidden" name="idpo" value="<?php echo $idpo?>">
-<div class="row">
-    <div class="col-sm-12">
-        <hr>
-        <h3 class="text-center">SETOR CMT KAOS</h3>
-        <hr>
-    </div>
-    <div class="form-group col-3">
-    		<label>Nama Po</label>
-    		<input type="text" class="form-control" name="nama_po" value="<?php echo $poProd['nama_po'] ?>" readonly>
-    	</div>
-    	<div class="form-group col-3">
-    		<label>Kode Po</label>
-    		<input type="text" class="form-control" name="kode_po" value="<?php echo $poProd['kode_po'] ?>" readonly>
-    	</div>
-    	<div class="form-group col-6">
-    		<label>DZ(Lusin) Potongan</label>
-    		<input type="text" class="form-control" name="hasilPotongan" value="<?php echo round($poProd['hasil_lusinan_potongan']) ?>" readonly>
-    	</div>
-    	<div class="form-group col-3">
-    		<label>Jumlah Potongan</label>
-    		<input type="text" class="form-control" name="pieceSetor" value="<?php echo round($poProd['hasil_lusinan_potongan'] * 12) ?>" readonly>
-    	</div>
-    	<div class="form-group col-3">
-    		<label>Nama CMT</label>
-    		<input type="text" class="form-control" name="nama_cmt" value="<?php echo $poProd['nama_cmt'] ?>" readonly>
-    	</div>
-    	<div class="form-group col-6">
-    		<label>Jumlah Potongan(Yang Di Terima)</label>
-    		<input type="text" class="form-control" name="jumlahditerima" required >
-    	</div>
-        <div class="form-group col-sm-12 col-lg-12">
-            <label>Progress</label>
-            <select class="form-control selectpicker" id="poSelect" name="progresName" title="Select Progress" data-live-search="true" required>
-                <?php foreach ($progress as $key => $pro): ?>
-                <option selected="selected" value="<?php echo $pro['id_proggresion_po'] ?>"><?php echo $pro['nama_progress'] ?></option>
-                <?php endforeach ?>
+    <div class="col-md-3">
+        <div class="form-group text-center">
+            <label>Rincian Potong</label>
+        </div>
+        <div class="form-group">
+            <label>Nama PO</label>
+            <select class="form-control selectpicker" id="poSelect" name="namaPo" title="Select Nama PO" data-live-search="true" required>
+                <option selected="selected" value="<?php echo $poProd['kode_po'] ?>"><?php echo $poProd['nama_po'].$poProd['kode_po'] ?></option>
             </select>
         </div>
+        <div class="form-group">
+            <label>Tanggal</label>
+            <input type="date" class="form-control" name="tanggal" value="<?php echo $poProd['created_date'] ?>" required readonly>
+        </div>
+        <div class="form-group">
+            <label>Tim Potong</label>
+            <input type="text" class="form-control timPotong" name="timPotong" value="<?php echo $poProd['tim_potong_potongan'] ?>" required readonly>
+        </div>
+        <div class="form-group">
+            <label>Jumlah Potong (Dz)</label>
+            <input type="number" step="0.01" class="form-control jumlahPotDz" name="jumlahPotDz" value="<?php echo $poProd['hasil_lusinan_potongan'] ?>" required readonly>
+        </div>
+        <div class="form-group">
+            <label>Jumlah Potong (Pcs)</label>
+            <input type="number" step="0.01" class="form-control jumlahPotPcs" name="jumlahPotPcs" value="<?php echo $poProd['hasil_lusinan_potongan'] * 12 ?>" required readonly>
+        </div>
+        <div class="form-group">
+            <label>Jml Warna</label>
+            <input type="number" class="form-control jmlWarna" name="jmlWarna" value="<?php echo $poProd['jumlah_gambar_utama'] ?>" required readonly>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="item_table3">
+    <div class="col-md-9">
+        <div class="form-group text-center">
+            <label>Rincian Penerimaan Setoran</label>
+        </div>
+        <div class="form-group">
+            <table class="table table-bordered" id="item_table3">
                     <tr>
-                        <th width="250">SIZE</th>
+                        <th width="200">SIZE</th>
                         <th>DZ(Lusin)</th>
                         <th>PIECES</th>
                         <th>BANGKE</th>
@@ -203,32 +63,19 @@
                         </tr>
                         <?php endforeach ?>
                     <?php endif ?>
-                </table>
-            </div>
+            </table>
+        </div>
+        <div class="form-group">
+            <?php if (empty($setorcmtjahititem)){ ?>
+                <button class="btn btn-info" type="submit">submit</button>
+            <?php }else{ ?>
+                <a href="<?php echo BASEURL ?>Finishing/rinciansetorkaoscmt" class="btn btn-danger">Kembali</a>
+            <?php } ?>
+
         </div>
     </div>
-    <?php if (empty($setorcmtjahititem)){ ?>
-    <button class="btn btn-info" type="submit">submit</button>
-    <?php } ?>
 </div>
-	                        </form>
-	                    </div>
-	                    
-	                </div> 
-
-
-                   
-
-                </div>
-
-            </div>
-
-        </div>
-        <!-- end row -->
-
-    </div> <!-- container -->
-
-</div> <!-- content -->
+<link href="<?php echo PLUGINS ?>bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
 <script src="<?php echo PLUGINS ?>bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
