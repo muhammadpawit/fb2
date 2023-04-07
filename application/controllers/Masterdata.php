@@ -1467,7 +1467,8 @@ class Masterdata extends CI_Controller {
 		$dataInserted = array(
 			'nama_user'		=>	$post['nama_user'], 
 			'email_user'	=>	$post['email_user'], 
-			'password_user'	=>	password_hash($post['password_user'], PASSWORD_DEFAULT),			
+			'password_user'	=>	password_hash($post['password_user'], PASSWORD_DEFAULT),	
+			'status_user'	=> $post['status'],		
 		);
 		$where=array(
 			'id_user'	=>$post['id_user'],
