@@ -650,7 +650,7 @@ class ReportModel extends CI_Model {
 		if(!empty($kir)){
 			$kirim=$kir['total'];
 		}
-		$spotong="SELECT COALESCE(sum(hasil_pieces_potongan),0) as total FROM konveksi_buku_potongan WHERE kode_po='$kodepo' ";		
+		$spotong="SELECT COALESCE(sum(hasil_pieces_potongan),0) as total FROM konveksi_buku_potongan WHERE kode_po='$kodepo' AND hapus=0 ";		
 		$pot=$this->GlobalModel->QueryManualRow($spotong);
 		if(!empty($kir)){
 			$potong=$pot['total'];
