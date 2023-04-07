@@ -1112,7 +1112,7 @@ class ReportModel extends CI_Model {
 		// 		$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 		// 	}
 		// 	$sql.=" GROUP BY kbp.id_master_cmt ";
-		if($progress=='SETOR'){
+		if($progress=='SETOR' && $cmtkat=='JAHIT'){
 			// bangke 
 			
 			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
