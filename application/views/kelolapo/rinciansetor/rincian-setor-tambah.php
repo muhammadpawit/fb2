@@ -30,6 +30,7 @@
             <input type="number" class="form-control jmlWarna" name="jmlWarna" value="<?php echo $poProd['jumlah_gambar_utama'] ?>" required readonly>
         </div>
     </div>
+    <form action="<?php echo BASEURL.'finishing/produksikaoscmtAct' ?>" method="post">
     <div class="col-md-9">
         <div class="form-group text-center">
             <label>Rincian Penerimaan Setoran</label>
@@ -68,12 +69,14 @@
         <div class="form-group">
             <?php if (empty($setorcmtjahititem)){ ?>
                 <button class="btn btn-info" type="submit">submit</button>
+                <a href="<?php echo BASEURL ?>Finishing/rinciansetorkaoscmt" class="btn btn-danger">Batal</a>
             <?php }else{ ?>
                 <a href="<?php echo BASEURL ?>Finishing/rinciansetorkaoscmt" class="btn btn-danger">Kembali</a>
             <?php } ?>
 
         </div>
     </div>
+    </form>
 </div>
 <link href="<?php echo PLUGINS ?>bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
 <script src="<?php echo PLUGINS ?>bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
