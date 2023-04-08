@@ -1,6 +1,12 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
+      <label>Total Po Rijek
+        <?php echo $total['total'] ?> Pcs</label>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Tambah</button>
     </div>
