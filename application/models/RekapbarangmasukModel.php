@@ -9,7 +9,7 @@ class RekapbarangmasukModel extends CI_Model {
 
 	public function getdata($data){
 		$hasil=[];
-		$sin="SELECT id from penerimaan_item WHERE hapus=0 ";
+		$sin="SELECT id, jenis from penerimaan_item WHERE hapus=0 ";
 		
 		if(!empty($data['tanggal1'])){
 			$sin.=" AND DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
@@ -36,7 +36,9 @@ class RekapbarangmasukModel extends CI_Model {
 		$id=implode(",",$hasil);
 		$details=[];
 		if(!empty($id)){
-			$details=$this->GlobalModel->QueryManual("SELECT nama, SUM(jumlah) as qty, harga FROM penerimaan_item_detail WHERE penerimaan_item_id IN(".$id.") GROUP BY id_persediaan");
+			//$details=$this->GlobalModel->QueryManual("SELECT nama, SUM(jumlah) as qty, harga FROM penerimaan_item_detail WHERE penerimaan_item_id IN(".$id.") GROUP BY id_persediaan");
+			 
+			$details=$this->GlobalModel->QueryManual("SELECT nama, IF(jenis = 1, SUM(ukuran), SUM(jumlah)) AS qty, harga FROM penerimaan_item_detail WHERE penerimaan_item_id IN(".$id.") GROUP BY id_persediaan");
 		}
 		return $details;
 	}
