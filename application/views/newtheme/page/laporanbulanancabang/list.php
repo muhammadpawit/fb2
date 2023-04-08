@@ -137,6 +137,7 @@
 		    chart: {
 		        type: 'column'
 		    },
+		    colors: ['#043753','#047765'],
 		    title: {
 		        text: 'Grafik Kirim Setor (dz)'
 		    },
@@ -184,6 +185,7 @@
 		    chart: {
 		        type: 'column'
 		    },
+		    colors: ['#065753','#049553'],
 		    title: {
 		        text: 'Grafik Kirim Setor (Pcs)'
 		    },
