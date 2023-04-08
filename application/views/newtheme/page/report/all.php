@@ -38,7 +38,6 @@
                         <th>Setor Jahit</th>
                         <th>Kirim Gudang</th>
                         <th>Selisih</th>
-                        <th>Stok Di Finishing</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -46,7 +45,6 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -169,12 +167,12 @@
                         return intVal(a) + intVal(b);
                     }, 0 );
 
-            var adfriTotal = api
-                    .column( 10 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
+            // var adfriTotal = api
+            //         .column( 10 )
+            //         .data()
+            //         .reduce( function (a, b) {
+            //             return intVal(a) + intVal(b);
+            //         }, 0 );
                 
                     
                 // Update footer by showing the total with the reference of the column index 
@@ -188,7 +186,7 @@
                 $( api.column( 7 ).footer() ).html(sfriTotal);
                 $( api.column( 8 ).footer() ).html(dfriTotal);
                 $( api.column( 9 ).footer() ).html(adfriTotal);
-                $( api.column( 10 ).footer() ).html(adfriTotal);
+                // $( api.column( 10 ).footer() ).html(adfriTotal);
             },
             "processing": true,
             "serverSide": true,
