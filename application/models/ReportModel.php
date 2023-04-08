@@ -645,6 +645,7 @@ class ReportModel extends CI_Model {
 		$potong=0;
 		$kirim=0;
 		$selisih=0;
+		$rijek=0;
 		$skirim="SELECT COALESCE(sum(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` WHERE kode_po='$kodepo' ";		
 		$kir=$this->GlobalModel->QueryManualRow($skirim);
 		if(!empty($kir)){
@@ -652,11 +653,18 @@ class ReportModel extends CI_Model {
 		}
 		$spotong="SELECT COALESCE(sum(hasil_pieces_potongan),0) as total FROM konveksi_buku_potongan WHERE kode_po='$kodepo' AND hapus=0 ";		
 		$pot=$this->GlobalModel->QueryManualRow($spotong);
-		if(!empty($kir)){
+		if(!empty($pot)){
 			$potong=$pot['total'];
 		}
 
-		$selisih=($kirim-$potong);
+		$sqijek="SELECT COALESCE(sum(pcs),0) as total FROM rijek WHERE kode_po='$kodepo' ";	
+		$rjpot=$this->GlobalModel->QueryManualRow($sqijek);
+		if(!empty($rjpot)){
+			$rijek=$rjpot['total'];
+		}
+
+
+		$selisih=($kirim-$potong+$rijek);
 
 		return $selisih;
 

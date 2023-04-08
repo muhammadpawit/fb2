@@ -38,14 +38,17 @@ class Laporanporijek extends CI_Controller {
 		$sql.=" AND bangke_qty > 0  ";
 		$sql.=" GROUP BY idpo ORDER BY kode_po ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($results);
 		$data['prods']=[];
 		$no=1;
+		$rjk=0;
 		foreach($results as $r){
+			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),2) as total FROM rijek where kode_po='".$r['kode_po']."' ");
 			$data['prods'][]=array(
 				'no'=>$no++,
 				'kode_po'=>$r['kode_po'],
 				'bangke'=>$r['bangke'],
-				'rijek'=>$r['rijek'],
+				'rijek'=>$rjk['total'],
 			);
 		}
 		$data['page']=$this->page.'rijek';
