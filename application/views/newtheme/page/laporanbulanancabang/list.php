@@ -94,14 +94,21 @@
 							$namacmt=null;
 							$pokirim=[];
 							$posetor=[];
+							$pcskirim=[];
+							$pcssetor=[];
 							foreach($cmt as $t){
-								$namacmt[]=$t['cmt'];
-								$pokirim[]=($t['kirimdz']/12);
-								$posetor[]=($t['setordz']/12);
+								$namacmt[]	=$t['cmt'];
+								$pokirim[]	=($t['kirimdz']/12);
+								$posetor[]	=($t['setordz']/12);
+								$pcskirim[]	=($t['kirimdz']);
+								$pcssetor[]	=($t['setordz']);
+
 							}
 							$enama = json_encode($namacmt);
 							$pokirim = implode(",", $pokirim);
 							$posetor = implode(",", $posetor);
+							$pcskirim = implode(",", $pcskirim);
+							$pcssetor = implode(",", $pcssetor);
 						?>
 					</td>
 				</tr>
@@ -115,6 +122,11 @@
 		<div id="grafikkirimsetor" style="width:100%; height:400px;"></div>
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-12">
+		<div id="grafikkirimsetor_pcs" style="width:100%; height:400px;"></div>
+	</div>
+</div>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -122,51 +134,98 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script type="text/javascript">
 	Highcharts.chart('grafikkirimsetor', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Grafik Kirim Setor'
-    },
-    subtitle: {
-        text: 'www.forboysproduction.com'
-    },
-    xAxis: {
-        categories:<?php echo $enama?>,
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Kirim (dz)'
-        }
-    },
-    tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} dz</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [
+		    chart: {
+		        type: 'column'
+		    },
+		    title: {
+		        text: 'Grafik Kirim Setor (dz)'
+		    },
+		    subtitle: {
+		        text: 'www.forboysproduction.com'
+		    },
+		    xAxis: {
+		        categories:<?php echo $enama?>,
+		        crosshair: true
+		    },
+		    yAxis: {
+		        min: 0,
+		        title: {
+		            text: 'Kirim (dz)'
+		        }
+		    },
+		    tooltip: {
+		        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		            '<td style="padding:0"><b>{point.y:.1f} dz</b></td></tr>',
+		        footerFormat: '</table>',
+		        shared: true,
+		        useHTML: true
+		    },
+		    plotOptions: {
+		        column: {
+		            pointPadding: 0.2,
+		            borderWidth: 0
+		        }
+		    },
+		    series: [
 
-    {
-       name:'Kirim',
-       data: [<?php echo $pokirim?>]
-    },
-    {
-       name:'Setor',
-       data: [<?php echo $posetor?>]
-    },
-         ]
-  });
+			    {
+			       name:'Kirim',
+			       data: [<?php echo $pokirim?>]
+			    },
+			    {
+			       name:'Setor',
+			       data: [<?php echo $posetor?>]
+			    },
+	         ]
+  	});
+
+  	Highcharts.chart('grafikkirimsetor_pcs', {
+		    chart: {
+		        type: 'column'
+		    },
+		    title: {
+		        text: 'Grafik Kirim Setor (Pcs)'
+		    },
+		    subtitle: {
+		        text: 'www.forboysproduction.com'
+		    },
+		    xAxis: {
+		        categories:<?php echo $enama?>,
+		        crosshair: true
+		    },
+		    yAxis: {
+		        min: 0,
+		        title: {
+		            text: 'Kirim (pcs)'
+		        }
+		    },
+		    tooltip: {
+		        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		            '<td style="padding:0"><b>{point.y:.1f} pcs</b></td></tr>',
+		        footerFormat: '</table>',
+		        shared: true,
+		        useHTML: true
+		    },
+		    plotOptions: {
+		        column: {
+		            pointPadding: 0.2,
+		            borderWidth: 0
+		        }
+		    },
+		    series: [
+
+			    {
+			       name:'Kirim',
+			       data: [<?php echo $pcskirim?>]
+			    },
+			    {
+			       name:'Setor',
+			       data: [<?php echo $pcssetor?>]
+			    },
+	         ]
+  	});
 
 	function filter(){
 		url='?';
