@@ -36,6 +36,7 @@
                         <th>Bordir</th>
                         <th>Kirim Jahit</th>
                         <th>Setor Jahit</th>
+                        <th>Rijek</th>
                         <th>Kirim Gudang</th>
                         <th>Selisih</th>
                   </tr>
@@ -45,6 +46,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -167,12 +169,12 @@
                         return intVal(a) + intVal(b);
                     }, 0 );
 
-            // var adfriTotal = api
-            //         .column( 10 )
-            //         .data()
-            //         .reduce( function (a, b) {
-            //             return intVal(a) + intVal(b);
-            //         }, 0 );
+            var adfriTotal = api
+                    .column( 10 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
                 
                     
                 // Update footer by showing the total with the reference of the column index 

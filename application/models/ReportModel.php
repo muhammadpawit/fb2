@@ -345,6 +345,20 @@ class ReportModel extends CI_Model {
 	}
 	*/
 
+	function pcsRijek($kode_po,$jenis,$namajenis){
+		$query = "SELECT COALESCE(SUM(rpo.pcs),0) as total FROM rijek rpo ";
+		$query.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE   mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
+		if(!empty($jenis)){
+			$query.=" AND mjp.idjenis='$jenis' ";
+		}
+		
+		if(!empty($kode_po)){
+			$query .=" AND rpo.kode_po='".$kode_po."'  ";
+		}
+		$data = $this->GlobalModel->QueryManualRow($query);
+		return $data['total'];
+	}
+
 	public function getpcsK($kodepo,$kat,$progress){
 		$hasil=0;
 		$sql="SELECT COALESCE(SUM(qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor WHERE hapus=0 AND kode_po='$kodepo' AND kategori_cmt='$kat' AND progress='$progress' ";

@@ -181,7 +181,7 @@ class Json extends CI_Controller {
 		$kirimjahit=0;
 		$setorjahit=0;
 		$stokfinishing=0;
-		
+		$rijek=0;
 		if(!empty($allpos)){
 			foreach($allpos as $p){
 				$selisih=$this->ReportModel->selisih($p['kode_po']);
@@ -200,6 +200,7 @@ class Json extends CI_Controller {
 				$kirimcmt=$this->ReportModel->getpcsK($p['kode_po'],"JAHIT","KIRIM");
 				$setorcmt=$this->ReportModel->getpcsK($p['kode_po'],"JAHIT","SETOR");
 				$kirimgudang=$this->ReportModel->dashkirimgdgpcs($p['kode_po']);
+				$rijek=$this->ReportModel->pcsRijek($p['kode_po'],null,null);
 				$output['data'][]=array(
 					$nomors,
 					strtoupper($p['kode_po']),
@@ -209,6 +210,7 @@ class Json extends CI_Controller {
 					$bordir,
 					$kirimcmt,
 					$setorcmt,
+					$rijek,
 					$kirimgudang,
 					$selisih,
 				);
