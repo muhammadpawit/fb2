@@ -19,7 +19,7 @@ class Laporanbulananbahan extends CI_Controller {
 
 	public function index(){
 		$data=[];
-		$data['title']='Laporan Bulanan Stok Bahan';
+		$data['title']='Rekap Laporan Bulanan Stok Bahan';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
