@@ -18,15 +18,32 @@ class GlobalModel extends CI_Model {
 	// setor
 
 	public function getStokPOs($idcmt,$idjenis){
-		$query="SELECT count(*) as jmlpo,SUM(kd.totalsetor) as pcs FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		//$query="SELECT count(*) as jmlpo,SUM(kd.totalsetor) as pcs FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND k.hapus=0 AND kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 AND mjp.id_jenis_po='$idjenis' ";
+			if(!empty($bulan)){
+				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+			}
+			$dbangke=$this->db->query($bangke)->row();
+			$bangkenya=0;
+			if(!empty($dbangke)){
+				$bangkenya=$dbangke->total;
+			}
+		$query="SELECT count(kd.kode_po) as jmlpo,SUM(kd.qty_tot_pcs) as pcs FROM kelolapo_kirim_setor kd LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE kd.hapus=0 AND kd.hapus=0 AND kd.id_master_cmt='$idcmt' AND mjp.id_jenis_po='$idjenis' ";
+		$query .=" AND mjp.idjenis IN(1,2,3) and mjp.tampil=1  and kd.progress='SETOR' and kd.kategori_cmt='JAHIT' ";
 		$dataReturn = $this->db->query($query)->row_array();
+		$dataReturn = array(
+			'jmlpo' => $dataReturn['jmlpo'],
+			'pcs' 	=> $dataReturn['pcs']-$bangkenya,
+		);
 		return $dataReturn;
 	}
 
 	public function getStokrincianposetor($idcmt,$idjenis){
 		$rp=null;
 		$hasil=null;
-		$query="SELECT kd.kode_po FROM setorcmt_detail kd JOIN setorcmt k ON(k.id=kd.idsetor) LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE k.hapus=0 AND kd.hapus=0 AND k.idcmt='$idcmt' AND mjp.id_jenis_po='$idjenis' AND kd.jumlah_pcs<>kd.totalsetor ";
+		$query="SELECT kd.kode_po FROM kelolapo_kirim_setor kd LEFT JOIN produksi_po pp ON(kd.kode_po=pp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.nama_po) WHERE kd.hapus=0 AND kd.hapus=0 AND kd.id_master_cmt='$idcmt' AND mjp.id_jenis_po='$idjenis' ";
+		$query .=" AND mjp.idjenis IN(1,2,3) and mjp.tampil=1  and kd.progress='SETOR' ";
 		$dataReturn = $this->db->query($query)->result_array();
 		foreach($dataReturn as $r){
 				$rp[]=$r['kode_po'];

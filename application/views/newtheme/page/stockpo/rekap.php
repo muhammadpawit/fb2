@@ -97,8 +97,16 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php
+					$kirimdz=0;
+					$kirimpcs=0;
+					$setorjmlpo=0;
+					$setordz=0;
+					$setorpcs=0;
+				?>
 				<?php if($products){?>
 					<?php foreach($products as $p){?>
+					<?php if($p['kirimpo'] > 0 ) { ?>
 					<tr style="text-align: center;">
 						<td><?php echo $p['bulan']?></td>
 						<td><?php echo $p['kirimpo']?></td>
@@ -109,10 +117,23 @@
 						<td><?php echo $p['setorpcs']?></td>
 						<td></td>
 					</tr>
+					<?php
+						$kirimdz+=($p['kirimdz']);
+						$kirimpcs+=($p['kirimpcs']);
+						$setorjmlpo+=($p['setorjmlpo']);
+						$setordz+=($p['setordz']);
+						$setorpcs+=($p['setorpcs']);
+					?>
+					<?php } ?>
 					<?php } ?>
 					<tr>
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
+						<td align="center"><b><?php echo $kirimdz?></b></td>
+						<td align="center"><b><?php echo $kirimpcs?></b></td>
+						<td align="center"><b><?php echo $setorjmlpo?></b></td>
+						<td align="center"><b><?php echo $setordz?></b></td>
+						<td align="center"><b><?php echo $setorpcs?></b></td>
 					</tr>
 				<?php }else{ ?>
 					<tr>

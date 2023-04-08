@@ -218,11 +218,11 @@ class Stockpo extends CI_Controller {
 					'bln'=>$month,
 					'year'=>$y,
 					'kirimpo'=>$kirimjmlpo,
-					'kirimdz'=>number_format($kirimpcs/12,2),
-					'kirimpcs'=>number_format($kirimpcs,2),
-					'setorjmlpo'=>($setorjmlpo),
-					'setordz'=>number_format($setorpcs/12,2),
-					'setorpcs'=>number_format($setorpcs,2),
+					'kirimdz'=>($kirimpcs/12),
+					'kirimpcs'=>!empty($kirimpcs) ? $kirimpcs : 0,
+					'setorjmlpo'=>!empty($setorjmlpo) ? $setorjmlpo : 0,
+					'setordz'=>($setorpcs/12),
+					'setorpcs'=>!empty($setorpcs) ? $setorpcs : 0,
 				);
 				$kirimpo+=$kirimjmlpo;
 				$kp[]=array(
