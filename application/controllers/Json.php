@@ -162,7 +162,7 @@ class Json extends CI_Controller {
 		$output['draw']=$draw;
 		$nomors=$start+1;
 		$allpo=[];
-		$sql="SELECT * FROM produksi_po LEFT JOIN master_jenis_po ON (master_jenis_po.nama_jenis_po=produksi_po.nama_po) WHERE hapus=0 AND kode_po IN(SELECT kode_po FROM konveksi_buku_potongan) AND nama_po NOT IN('BJF','BJK','BJH') ";
+		$sql="SELECT * FROM produksi_po LEFT JOIN master_jenis_po ON (master_jenis_po.nama_jenis_po=produksi_po.nama_po) WHERE hapus=0 AND kode_po IN(SELECT kode_po FROM konveksi_buku_potongan where hapus=0 ) AND nama_po NOT IN('BJF','BJK','BJH') ";
 		if($jenispo!='null'){
 			$sql.=" AND master_jenis_po.id_jenis_po='".$jenispo."' ";
 		}else{

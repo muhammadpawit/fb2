@@ -372,7 +372,7 @@ class ReportModel extends CI_Model {
 	public function getpcs($kodepo,$table){
 		$hasil=0;
 		if($table==1){
-			$sql="SELECT hasil_pieces_potongan as pcs FROM konveksi_buku_potongan WHERE kode_po='$kodepo' ";
+			$sql="SELECT COALESCE(SUM(hasil_pieces_potongan),0) as pcs FROM konveksi_buku_potongan WHERE kode_po='$kodepo' and hapus=0 ";
 		}else if($table==2){
 			$sql="SELECT jumlah_total_potongan as pcs FROM kelolapo_pengecekan_potongan WHERE kode_po='$kodepo' ";
 		}else if($table==3){
