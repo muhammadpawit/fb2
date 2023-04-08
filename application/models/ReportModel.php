@@ -347,7 +347,7 @@ class ReportModel extends CI_Model {
 
 	public function getpcsK($kodepo,$kat,$progress){
 		$hasil=0;
-		$sql="SELECT qty_tot_pcs as pcs FROM kelolapo_kirim_setor WHERE hapus=0 AND kode_po='$kodepo' AND kategori_cmt='$kat' AND progress='$progress' ";
+		$sql="SELECT COALESCE(SUM(qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor WHERE hapus=0 AND kode_po='$kodepo' AND kategori_cmt='$kat' AND progress='$progress' ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 
 			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo WHERE rpo.kode_po='".$kodepo."' ";
