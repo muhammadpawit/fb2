@@ -2585,6 +2585,7 @@ class Kelolapo extends CI_Controller {
 		$viewData['po']=$po;
 		$viewData['title']='Edit Setoran '.$po['kode_po'];
 		$viewData['klo']=$this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$idklo));
+		$viewData['bangke']=$this->GlobalModel->GetDataRow('kelolapo_rincian_setor_cmt',array('kode_po'=>$po['kode_po']));
 		$viewData['page']='kelolapo/kirimsetorpotongan/kirim-setor-edit-setor';
 		$viewData['action']=BASEURL.'Kelolapo/editsetor_save';
 		$viewData['batal']=BASEURL.'Kelolapo/kirimsetorcmt?&kode_po='.$po['kode_po'];
@@ -2604,6 +2605,13 @@ class Kelolapo extends CI_Controller {
 			'kategori_cmt'	=>$post['kategori'],
 		);
 		$this->db->update('kelolapo_kirim_setor',$update,$where);
+
+		if(isset($post['bangke'])){
+			$ub = array(
+				'bangke_qty' => $post['bangke']
+			);
+			$this->db->update('kelolapo_rincian_setor_cmt',$ub, array('kode_po'=>$post['kode_po']));
+		}
 
 		if($post['progress']=='SETOR' && $post['kategori']=='JAHIT'){
 			$where2 = array(

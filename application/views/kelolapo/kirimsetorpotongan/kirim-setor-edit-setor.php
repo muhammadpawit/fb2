@@ -19,6 +19,12 @@
         </div>
         <div class="col-md-12">
             <div class="form-group">
+                <label>Jumlah Bangke (Pcs)</label>
+                <input type="text" name="bangke" value="<?php echo $bangke['bangke_qty']?>" class="form-control" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
                 <label>Alasan Perbaikan</label>
                 <textarea name="alasan" class="form-control" rows="5" required></textarea>
             </div>
