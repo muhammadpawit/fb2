@@ -318,8 +318,8 @@ class Laporanbulanancabang extends CI_Controller {
 		if(!empty($tanggal1)){
 			$url.='&tanggal1='.$tanggal1.'&tanggal2='.$tanggal2;
 		}
-		$data['excel']=BASEURL.'Laporanbulanancabang/index?&excel=1&cmt='.$cmt.$url;
-		$data['cetak']=BASEURL.'Laporanbulanancabang/index?&cetak=1&cmt='.$cmt.$url;
+		$data['excel']=BASEURL.'Laporanbulanancabang/sablon/?&excel=1&cmt='.$cmt.$url;
+		$data['cetak']=BASEURL.'Laporanbulanancabang/sablon/?&cetak=1&cmt='.$cmt.$url;
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
 		}else if(isset($get['cetak'])){

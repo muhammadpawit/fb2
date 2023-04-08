@@ -1,6 +1,6 @@
 <?php
 header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=Laporan_Cabang_Sukabumi.xls");
+header("Content-Disposition: attachment; filename=Laporan_".time().".xls");
 ?>            
 <style type="text/css">
   @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -32,10 +32,10 @@ header("Content-Disposition: attachment; filename=Laporan_Cabang_Sukabumi.xls");
 					<tr>
 						<td align="left"><?php echo $p['bulan']?></td>
 						<td align="center"><?php echo $p['kirimpo']?></td>
-						<td align="center"><?php echo number_format($p['kirimdz'],2)?></td>
+						<td align="center"><?php echo ($p['kirimdz'])?></td>
 						<td align="center"><?php echo $p['kirimpcs']?></td>
 						<td align="center"><?php echo $p['setorjmlpo']?></td>
-						<td align="center"><?php echo number_format($p['setordz'],2)?></td>
+						<td align="center"><?php echo ($p['setordz'])?></td>
 						<td align="center"><?php echo $p['setorpcs']?></td>
 						<td></td>
 					</tr>
@@ -44,10 +44,10 @@ header("Content-Disposition: attachment; filename=Laporan_Cabang_Sukabumi.xls");
 					<tr>
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
-                        <td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
+                        <td align="center"><b><?php echo ($kirimdz)?></b></td>
                         <td align="center"><b><?php echo ($kirimpcs)?></b></td>
                         <td align="center"><b><?php echo $totalsetor?></b></td>
-                        <td align="center"><b><?php echo number_format($setordz,2)?></b></td>
+                        <td align="center"><b><?php echo ($setordz)?></b></td>
                         <td align="center"><b><?php echo ($setorpcs)?></b></td>
 					</tr>
 				<?php }else{ ?>

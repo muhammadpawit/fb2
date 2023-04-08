@@ -26,8 +26,18 @@
 					<tr>
 						<th>Foto</th>
 						<th>:</th>
-						<th>
+						<th align="left">
 							<img src="<?php echo BASEURL?><?php echo $users['foto']?>" class="profile-user-img img-responsive">
+						</th>
+					</tr>
+					<tr>
+						<th>Status</th>
+						<th>:</th>
+						<th>
+							<select name="status" class="form-control select2bs4">
+								<option value="0" <?php echo $users['status_user']==0 ? 'selected':'';?>>Non-Aktif</option>
+								<option value="1" <?php echo $users['status_user']==1 ? 'selected':'';?>>Aktif</option>
+							</select>
 						</th>
 					</tr>
 				</thead>
