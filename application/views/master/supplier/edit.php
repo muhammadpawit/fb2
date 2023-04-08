@@ -17,6 +17,16 @@
                   <input type="text" name="telephone" class="form-control" value="<?php echo $products['telephone']?>">
                 </div>
                 <div class="form-group">
+                  <label>Kategori</label>
+                  <select name="category" class="form-control select2bs4">
+                    <option value=""></option>
+                    <option value="1">Konveksi</option>
+                    <option value="2">Bordir</option>
+                    <option value="3">Sablon</option>
+                    <option value="4">Bahan</option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <button type="submit" class="btn btn-success">Simpan</button>
                 </div>
             </form>
