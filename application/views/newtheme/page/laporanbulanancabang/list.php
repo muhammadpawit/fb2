@@ -41,7 +41,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $totalsetor=0;$totalkirimdz=0;$totalkirimpcs=0;$totalsetordz=0;$totalsetorpcs=0;?>
+				<?php $cmt=[];$totalsetor=0;$totalkirimdz=0;$totalkirimpcs=0;$totalsetordz=0;$totalsetorpcs=0;$jmlkirim=0;$jmlsetor=0;?>
 				<?php if($products){?>
 					<?php foreach($products as $p){?>
 					<tr>
@@ -54,11 +54,23 @@
 						<td align="center"><?php echo number_format($p['setorpcs'])?></td>
 						<td></td>
 					</tr>
-					<?php $totalsetor+=$p['setorjmlpo'];?>
-					<?php $totalkirimdz+=$p['kirimdz'];?>
-					<?php $totalkirimpcs+=$p['kirimpcs'];?>
-					<?php $totalsetordz+=$p['setordz'];?>
-					<?php $totalsetorpcs+=$p['setorpcs'];?>
+						
+						<?php $totalsetor+=$p['setorjmlpo'];?>
+						<?php $totalkirimdz+=$p['kirimdz'];?>
+						<?php $totalkirimpcs+=$p['kirimpcs'];?>
+						<?php $totalsetordz+=$p['setordz'];?>
+						<?php $totalsetorpcs+=$p['setorpcs'];?>
+						<?php 
+
+							
+							$cmt[]=array(
+								'cmt' => $p['bulan'],
+								'jml' => $p['kirimpo'],
+								'kirimdz'=>($p['kirimpcs']),
+								'setordz'=>($p['setorpcs']),
+							);
+
+						?>
 					<?php } ?>
 					<tr>
 						<td><b>Total</b></td>
@@ -75,6 +87,25 @@
 					</tr>
 				<?php } ?>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+						<?php 
+							$namacmt=null;
+							$pokirim=[];
+							$posetor=[];
+							foreach($cmt as $t){
+								$namacmt[]=$t['cmt'];
+								$pokirim[]=($t['kirimdz']/12);
+								$posetor[]=($t['setordz']/12);
+							}
+							$enama = json_encode($namacmt);
+							$pokirim = implode(",", $pokirim);
+							$posetor = implode(",", $posetor);
+						?>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 		</div>
 	</div>
@@ -101,7 +132,7 @@
         text: 'www.forboysproduction.com'
     },
     xAxis: {
-        categories:<?php echo $bulans?>,
+        categories:<?php echo $enama?>,
         crosshair: true
     },
     yAxis: {
@@ -128,11 +159,11 @@
 
     {
        name:'Kirim',
-       data: [<?php echo $kp?>]
+       data: [<?php echo $pokirim?>]
     },
     {
        name:'Setor',
-       data: [<?php echo $sp?>]
+       data: [<?php echo $posetor?>]
     },
          ]
   });

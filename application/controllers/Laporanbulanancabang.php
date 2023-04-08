@@ -262,35 +262,63 @@ class Laporanbulanancabang extends CI_Controller {
 					$kirimpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],'SABLON','KIRIM');
 					$setorjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],'SABLON','SETOR');
 					$setorpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],'SABLON','SETOR');
+
+					$data['products'][]=array(
+						'bulan'=>strtoupper($val['cmt_name']),
+						'bln'=>$month,
+						'year'=>$y,
+						'kirimpo'=>$kirimjmlpo,
+						'kirimdz'=>($kirimpcs/12),
+						'kirimpcs'=>($kirimpcs),
+						'setorjmlpo'=>($setorjmlpo),
+						'setordz'=>($setorpcs/12),
+						'setorpcs'=>($setorpcs),
+					);
+					$kirimpo    +=$kirimjmlpo;
+	                $kirimdz    +=($kirimpcs);
+	                $kirimpcs   +=($kirimpcs);
+	                $setorjmlpo +=$setorjmlpo;
+	                $setordz    +=($setorpcs);
+	                $setorpcs   +=($setorpcs);
+					$kp[]=array(
+						'tot'=>$kirimpcs==null?0:$kirimpcs/12,
+					);
+					$sp[]=array(
+						'tot'=>$setorpcs==null?0:$setorpcs/12,
+					);
+
+
 			    }else{
 			    	$kirimjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
 				    $kirimpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],'SABLON','KIRIM');
 				    $setorjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],'SABLON','SETOR');
 				    $setorpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],'SABLON','SETOR');
+
+				    $data['products'][]=array(
+						'bulan'=>strtoupper($val['cmt_name']),
+						'bln'=>$month,
+						'year'=>$y,
+						'kirimpo'=>$kirimjmlpo,
+						'kirimdz'=>($kirimpcs/12),
+						'kirimpcs'=>($kirimpcs),
+						'setorjmlpo'=>($setorjmlpo),
+						'setordz'=>($setorpcs/12),
+						'setorpcs'=>($setorpcs),
+					);
+					$kirimpo    +=$kirimjmlpo;
+	                $kirimdz    +=($kirimpcs);
+	                $kirimpcs   +=($kirimpcs);
+	                $setorjmlpo +=$setorjmlpo;
+	                $setordz    +=($setorpcs);
+	                $setorpcs   +=($setorpcs);
+					$kp[]=array(
+						'tot'=>$kirimpcs==null?0:$kirimpcs/12,
+					);
+					$sp[]=array(
+						'tot'=>$setorpcs==null?0:$setorpcs/12,
+					);
 			    }
-				$data['products'][]=array(
-					'bulan'=>strtoupper($val['cmt_name']),
-					'bln'=>$month,
-					'year'=>$y,
-					'kirimpo'=>$kirimjmlpo,
-					'kirimdz'=>($kirimpcs/12),
-					'kirimpcs'=>($kirimpcs),
-					'setorjmlpo'=>($setorjmlpo),
-					'setordz'=>($setorpcs/12),
-					'setorpcs'=>($setorpcs),
-				);
-				$kirimpo    +=$kirimjmlpo;
-                $kirimdz    +=($kirimpcs);
-                $kirimpcs   +=($kirimpcs);
-                $setorjmlpo +=$setorjmlpo;
-                $setordz    +=($setorpcs);
-                $setorpcs   +=($setorpcs);
-				$kp[]=array(
-					'tot'=>$kirimpcs==null?0:$kirimpcs/12,
-				);
-				$sp[]=array(
-					'tot'=>$setorpcs==null?0:$setorpcs/12,
-				);
+				
                 $nama[]=$val['cmt_name'];
 			}
 			$data['kp']=implode(",", array_column($kp, 'tot'));
@@ -299,6 +327,8 @@ class Laporanbulanancabang extends CI_Controller {
 			$data['kp']=0;
 			$data['sp']=0;
 		}
+
+		//pre($kp);
 
 		$data['kirimpo']    =$kirimpo;
         $data['kirimdz']    =$kirimdz;
