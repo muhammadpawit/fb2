@@ -1079,7 +1079,14 @@ class ReportModel extends CI_Model {
 
 	public function rekappcs($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
+		//$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
+		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp ";
+			$sql.=" JOIN produksi_po p ON(p.kode_po=kbp.kode_po) 
+					LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po)
+				";
+
+			$sql.="WHERE kbp.hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
+			$sql.=" AND mjp.idjenis IN(1,2,3) and mjp.tampil=1 ";
 		if(!empty($bulan)){
 			$sql .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
 		}
