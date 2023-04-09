@@ -210,9 +210,9 @@ class Json extends CI_Controller {
 					$bordir,
 					$kirimcmt,
 					$setorcmt,
-					$rijek,
 					$kirimgudang,
-					$selisih,
+					$rijek,
+					// $selisih,
 				);
 				$nomors++;
 			}
