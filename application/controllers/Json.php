@@ -212,7 +212,7 @@ class Json extends CI_Controller {
 					$setorcmt,
 					$kirimgudang,
 					$rijek,
-					// $selisih,
+					$selisih,
 				);
 				$nomors++;
 			}

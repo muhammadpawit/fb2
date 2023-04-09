@@ -38,6 +38,7 @@
                         <th>Setor Jahit</th>
                         <th>Kirim Gudang</th>
                          <th>Rijek</th>
+                         <th>Selisih</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -45,6 +46,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -186,7 +188,7 @@
                 $( api.column( 7 ).footer() ).html(sfriTotal);
                 $( api.column( 8 ).footer() ).html(dfriTotal);
                 $( api.column( 9 ).footer() ).html(adfriTotal);
-                // $( api.column( 10 ).footer() ).html(adfriTotal);
+                $( api.column( 10 ).footer() ).html(adfriTotal);
             },
             "processing": true,
             "serverSide": true,
