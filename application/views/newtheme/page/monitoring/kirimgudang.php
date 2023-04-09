@@ -125,6 +125,8 @@
 	                    $dz+=($r['dz']);
 	                    $pcs+=($r['pcs']);
 	                    $total+=($r['total']);
+	                    $pcs1+=($r['hppdz']);
+	                    $pcs2+=($r['hpppcs']);
 	                ?>
 	                <?php } ?>
 	                <tr>
@@ -133,6 +135,8 @@
 	                    <td><b><?php echo number_format($dz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
 	                    <td><b><?php echo number_format($total)?></b></td>
+	                    <td><b><?php echo number_format($pcs1,2)?></b></td>
+	                    <td><b><?php echo number_format($pcs2)?></b></td>
 	                </tr>
 	            </tbody>
 	        </table>
@@ -162,12 +166,16 @@
 	                    <td><?php echo number_format($r['dz'],2)?></td>
 	                    <td><?php echo number_format($r['pcs'])?></td>
 	                    <td><?php echo number_format($r['total'])?></td>
+	                    <td><?php echo number_format($r['hppdz'],2)?></td>
+	                    <td><?php echo number_format($r['hpppcs'])?></td>
 	                </tr>
 	                <?php
 	                    $po+=($r['po']);
 	                    $dz+=($r['dz']);
 	                    $pcs+=($r['pcs']);
 	                    $total+=($r['total']);
+	                    $pcs1+=($r['hppdz']);
+	                    $pcs2+=($r['hpppcs']);
 	                ?>
 	                <?php } ?>
 	                <tr>
@@ -176,6 +184,8 @@
 	                    <td><b><?php echo number_format($dz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
 	                    <td><b><?php echo number_format($total)?></b></td>
+	                    <td><b><?php echo number_format($pcs1,2)?></b></td>
+	                    <td><b><?php echo number_format($pcs2)?></b></td>
 	                </tr>
 	            </tbody>
 	        </table>
@@ -215,6 +225,8 @@
 	                    $dz+=($r['dz']);
 	                    $pcs+=($r['pcs']);
 	                    $total+=($r['total']);
+	                    $pcs1+=($r['hppdz']);
+	                    $pcs2+=($r['hpppcs']);
 	                ?>
 	                <?php } ?>
 	                <tr>
@@ -223,6 +235,8 @@
 	                    <td><b><?php echo number_format($dz,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs)?></b></td>
 	                    <td><b><?php echo number_format($total)?></b></td>
+	                    <td><b><?php echo number_format($pcs1,2)?></b></td>
+	                    <td><b><?php echo number_format($pcs2)?></b></td>
 	                </tr>
 	            </tbody>
 	        </table>
