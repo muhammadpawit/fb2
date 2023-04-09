@@ -491,7 +491,7 @@ class ReportModel extends CI_Model {
 
 	public function ppcs_filter($jenis,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT COALESCE(SUM(kbp.hasil_pieces_potongan),0) as total FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis and  mjp.tampil=1 ";
+		$sql="SELECT COALESCE(SUM(kbp.hasil_pieces_potongan),0) as total FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.hapus=0 AND mjp.idjenis=$jenis and  mjp.tampil=1 ";
 		$sql.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
