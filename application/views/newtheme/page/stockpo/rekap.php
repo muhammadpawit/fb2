@@ -106,14 +106,14 @@
 				?>
 				<?php if($products){?>
 					<?php foreach($products as $p){?>
-					<?php if($p['kirimpo'] > 0 ) { ?>
+					<?php //if($p['kirimpo'] > 0 ) { ?>
 					<tr style="text-align: center;">
 						<td><?php echo $p['bulan']?></td>
 						<td><?php echo $p['kirimpo']?></td>
-						<td><?php echo $p['kirimdz']?></td>
+						<td><?php echo number_format($p['kirimdz'],2)?></td>
 						<td><?php echo $p['kirimpcs']?></td>
 						<td><?php echo $p['setorjmlpo']?></td>
-						<td><?php echo $p['setordz']?></td>
+						<td><?php echo number_format($p['setordz'],2)?></td>
 						<td><?php echo $p['setorpcs']?></td>
 						<td></td>
 					</tr>
@@ -124,15 +124,15 @@
 						$setordz+=($p['setordz']);
 						$setorpcs+=($p['setorpcs']);
 					?>
-					<?php } ?>
+					<?php //} ?>
 					<?php } ?>
 					<tr>
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
-						<td align="center"><b><?php echo $kirimdz?></b></td>
+						<td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
 						<td align="center"><b><?php echo $kirimpcs?></b></td>
 						<td align="center"><b><?php echo $setorjmlpo?></b></td>
-						<td align="center"><b><?php echo $setordz?></b></td>
+						<td align="center"><b><?php echo number_format($setordz,2)?></b></td>
 						<td align="center"><b><?php echo $setorpcs?></b></td>
 					</tr>
 				<?php }else{ ?>
