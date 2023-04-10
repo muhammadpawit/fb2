@@ -194,6 +194,7 @@ class Stockpo extends CI_Controller {
 		    $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']); // angka 6 bulan juni, periode awal potongan
 		    $bulan[]=$months[date('n', $timestamp)] = date('M Y', $timestamp);
 		}
+		//pre($bulan);
 		$kirimjmlpo=null;
 		$kirimdz=0;
 		$kirimpcs=0;

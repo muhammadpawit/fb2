@@ -1046,18 +1046,22 @@ class ReportModel extends CI_Model {
 
 	public function rekapjml($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
-		$sql="SELECT COALESCE(count(idpo),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
-		$sql.=" LEFT JOIN produksi_po ON produksi_po.id_produksi_po=kelolapo_kirim_setor.idpo ";
-		$sql.=" LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=produksi_po.nama_po) ";
-		$sql.=" WHERE kelolapo_kirim_setor.hapus=0 AND id_master_cmt=$idcmt AND progress='$progress' ";
+		// $sql="SELECT COALESCE(count(kelolapo_kirim_setor.kode_po),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
+		// $sql.=" LEFT JOIN produksi_po ON produksi_po.id_produksi_po=kelolapo_kirim_setor.idpo ";
+		// $sql.=" LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=produksi_po.nama_po) ";
+		// $sql.=" WHERE kelolapo_kirim_setor.hapus=0 AND id_master_cmt=$idcmt AND progress='$progress' ";
+
+		$sql="SELECT count(kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' AND kbp.progress='$progress' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil=1 ";
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
 		}
-		
-		$sql.=" GROUP BY mjp.perkalian ";
+
 		if(!empty($cmtkat)){
 			$sql.=" AND kategori_cmt='$cmtkat' ";
 		}
+		
+		$sql.=" GROUP BY mjp.perkalian ";
+		
 		$data=$this->GlobalModel->QueryManual($sql);
 		if(!empty($data)){
 			foreach($data as $d){
@@ -1124,6 +1128,7 @@ class ReportModel extends CI_Model {
 
 	public function rekappcs($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=null;
+		$bangkenya=0;
 		//$sql="SELECT SUM(qty_tot_pcs) as total FROM `kelolapo_kirim_setor` WHERE hapus=0 AND progress='$progress' AND id_master_cmt=$idcmt";
 		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp ";
 			$sql.=" JOIN produksi_po p ON(p.kode_po=kbp.kode_po) 
@@ -1139,7 +1144,21 @@ class ReportModel extends CI_Model {
 			$sql.=" AND kategori_cmt='$cmtkat' ";
 		}
 		$data=$this->db->query($sql)->row_array();
-		return $hasil=$data['total'];
+		if($progress=='SETOR'){
+			// bangke 
+			//pre($sql);
+			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' AND mjp.idjenis IN(1,2,3) and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$progress' AND kbp.hapus=0";
+			if(!empty($bulan)){
+				$bangke .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
+			}
+			$dbangke=$this->db->query($bangke)->row();
+			
+			if(!empty($dbangke)){
+				$bangkenya=$dbangke->total;
+			}
+		}
+		return $hasil=$data['total']-$bangkenya;
 	}
 
 	public function rekappcs_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
