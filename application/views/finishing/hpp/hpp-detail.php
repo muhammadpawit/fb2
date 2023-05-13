@@ -655,21 +655,22 @@
 
                                         <td align="center">
 
-                                            (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 42,1) ?> Pcs)
+                                            (<?php echo $rinci['harga_item'].' Roll) ('.round( ($rinci['jumlah_item_keluar']*$rinci['harga_item'])  / $pot['hasil_lusinan_potongan']) ?> Pcs)
 
                                         </td>
 
                                         
 
                                         <?php 
-
-                                        $total += ($rinci['harga_item'] / 42) * $rinci['jumlah_item_perlusin']; 
+                                            $hargapita=2000;
+                                            
+                                        $total += $hargapita; 
 
                                         ?>
 
                                         <td align="right">
 
-                                            <?php echo number_format(($rinci['harga_item'] / 42) * $rinci['jumlah_item_perlusin']) ?>
+                                            <?php echo number_format($hargapita) ?>
 
                                         </td>
 
@@ -732,19 +733,19 @@
 
                                         <td align="center">
 
-                                            (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 40) ?> Pcs)
+                                            (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['jumlah_item_keluar']*$rinci['harga_item'] / $pot['hasil_lusinan_potongan']) ?> Pcs)
 
                                         </td>
 
                                         <?php 
-
-                                        $total += ($rinci['harga_item'] / 40) * $rinci['jumlah_item_perlusin']; 
+                                            $hargasizebordir=1000;
+                                        $total += $hargasizebordir=1000;; 
 
                                         ?>
 
                                         <td align="right">
 
-                                            <?php echo number_format(($rinci['harga_item'] / 40) * $rinci['jumlah_item_perlusin']) ?>
+                                            <?php echo number_format($hargasizebordir) ?>
 
                                         </td>
 
