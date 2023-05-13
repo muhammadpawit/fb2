@@ -811,4 +811,10 @@
 
 	}
 
+	function periode_awal_produksi(){
+		$CI =& get_instance();
+		$hasil  =$CI->GlobalModel->QueryManualRow("SELECT * FROM periodeproduksi ");
+		return $hasil['tahun'].'-'.$hasil['bulan'].'-01';
+	}
+
  ?>

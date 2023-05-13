@@ -84,6 +84,27 @@
 						</select>
 					</td>
 				</tr>
+				<tr>
+					<td>Jenis Ukuran</td>
+					<td>:</td>
+					<td>
+						<select name="jenis_uk" class="form-control">
+							<option value="1" <?php echo $detail['jenis_uk']==1?'selected':''?>>Biasa</option>
+							<option value="2" <?php echo $detail['jenis_uk']==2?'selected':''?>>Panjang</option>
+							<option value="3" <?php echo $detail['jenis_uk']==3?'selected':''?>>3/4</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Type</td>
+					<td>:</td>
+					<td>
+						<select name="type" class="form-control">
+							<option value="1" <?php echo $detail['type']==1?'selected':''?>>Biasa</option>
+							<option value="2" <?php echo $detail['type']==2?'selected':''?>>Raglan</option>
+						</select>
+					</td>
+				</tr>
 			</thead>
 		</table>
 	</div>

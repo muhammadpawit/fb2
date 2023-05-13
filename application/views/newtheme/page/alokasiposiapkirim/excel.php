@@ -1,6 +1,6 @@
 <?php
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 ?>
 <h3>Alokasi PO CMT</h3>
 <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
@@ -36,7 +36,7 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
   <?php foreach($products as $p){?>
   <tr>
     <td class="tg-0pky"><?php echo $p['no']?></td>
-    <td class="tg-0pky"></td>
+    <td class="tg-0pky"><?php echo strtoupper($p['nama'])?></td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky"></td>
@@ -105,3 +105,8 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 				</tr>
 			</tbody>
 		</table>-->
+		<table>
+        <tr>
+          <td colspan="15" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+        </tr>
+      </table>

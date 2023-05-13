@@ -43,6 +43,8 @@ class Kelolapo extends CI_Controller {
 			'nama_po'=>$data['namaPO'],
 			'idpolama'=>$data['idpolama'],
 			'validasi'=>$data['validasi'],
+			'jenis_uk'=>$data['jenis_uk'],
+			'type'=>$data['type'],
 			//'spesifikasi'=>$spesifikasi,
 		);
 		$where=array(

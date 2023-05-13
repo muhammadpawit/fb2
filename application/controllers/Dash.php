@@ -26,7 +26,7 @@ class Dash extends CI_Controller {
 		$data['page']='newtheme/page/dashboard';
 		//$data['notifikasi']=$this->GlobalModel->getData('notifikasi',array('status'=>0));
 		$get=$this->input->get();
-		$tanggal1='2021-05-25';
+		$tanggal1=periode_awal_produksi();
 		$tanggal2=date('Y-m-d');
 		$data['tanggal1']=date('d F Y',strtotime($tanggal1));
 		$data['tanggal2']=date('d F Y',strtotime($tanggal2));
