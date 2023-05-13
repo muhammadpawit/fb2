@@ -248,7 +248,7 @@
 	    var tahun =$("#tahun").val();
 	    var cmt =$("#cmt").val();
 	    if(cmt=="*"){
-	    	alert("CMT Harus dipilih");return false;
+	    	url+='&cmt=all';
 	    }
 	    if(tanggal1){
 	      url+='&tanggal1='+tanggal1;

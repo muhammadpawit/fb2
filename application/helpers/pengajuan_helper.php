@@ -754,4 +754,61 @@
 
 	}
 
+	function loopmingguan1($bln,$thn){
+
+		// Set bulan dan tahun
+		$bulan = $bln;
+		$tahun = $thn;
+
+		// Ambil jumlah hari dalam bulan
+		$jumHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+
+		// Looping per minggu
+		for ($i = 1; $i <= $jumHari; $i += 7) {
+		  // Ambil tanggal awal dan akhir minggu
+		  $tglAwal = date('j F', mktime(0, 0, 0, $bulan, $i, $tahun));
+		  $tglAkhir = date('j F', mktime(0, 0, 0, $bulan, min($i + 6, $jumHari), $tahun));
+
+		  // Tampilkan data per minggu
+		  echo $tglAwal . ' - ' . $tglAkhir . '<br>';
+		}
+	}
+
+	function loopmingguan2(){
+		
+		// set tanggal awal
+		$date=date('Y-m-1');
+		$tanggal_awal = new DateTime($date); // contoh tanggal awal ditetapkan pada hari Selasa
+
+		// lakukan looping tanggal pada bulan April 2023
+		while ($tanggal_awal->format('m') === '04') { // lakukan looping selama bulan masih April
+		    // tentukan tanggal akhir minggu (Sabtu)
+		    $tanggal_akhir_minggu = clone $tanggal_awal;
+		    $tanggal_akhir_minggu->modify('next Saturday');
+
+		    // jika tanggal akhir minggu melewati batas bulan, ubah tanggal akhir menjadi hari terakhir bulan
+		    if ($tanggal_akhir_minggu->format('m') !== '04') {
+		        $tanggal_akhir_minggu = new DateTime('last day of this month');
+		    }
+
+		    // tampilkan rentang tanggal minggu dan hari-hari di dalamnya (Senin-Sabtu)
+		    echo $tanggal_awal->format('j') . ' ' . 'April' . ' - ' . $tanggal_akhir_minggu->format('j') . ' ' . 'April' . '<br>';
+		    for ($i = 0; $i < 6; $i++) {
+		        // jika tanggal melewati batas bulan, keluar dari loop
+		        if ($tanggal_awal->format('m') !== '04') {
+		            break;
+		        }
+
+		        // tampilkan tanggal hanya pada hari Senin sampai Sabtu
+		        if ($tanggal_awal->format('N') <= 6) {
+		            echo $tanggal_awal->format('D, j M Y') . '<br>';
+		        }
+
+		        // tambahkan 1 hari
+		        $tanggal_awal->modify('+1 day');
+		    }
+		}
+
+	}
+
  ?>

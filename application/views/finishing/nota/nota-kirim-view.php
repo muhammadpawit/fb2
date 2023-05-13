@@ -9,16 +9,22 @@
                        <?php } ?>
                 </p>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Tanggal Awal</label>
                                 <input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1?>">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Tanggal Akhir</label>
                                 <input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2?>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Kode PO</label>
+                                <input type="text" name="kode_po" id="kode_po" class="form-control autopo" value="">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -86,6 +92,7 @@
         url ='?';
         var tanggal1=$("#tanggal1").val();
         var tanggal2=$("#tanggal2").val();
+        var kode_po=$("#kode_po").val();
 
         if(tanggal1){
             url+='&tanggal1='+tanggal1;
@@ -93,6 +100,10 @@
 
         if(tanggal2){
             url+='&tanggal2='+tanggal2;
+        }
+
+        if(kode_po){
+            url+='&kode_po='+kode_po;
         }
 
         location = url;

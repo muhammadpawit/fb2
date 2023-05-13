@@ -113,5 +113,62 @@ class LaporanmingguanModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function transferan_bordir_between($tanggal1,$tanggal2,$bagian){
+		$hasil=0;
+		$sql=" SELECT COALESCE(sum(nominal),0) as total FROM transferan where hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and bagian='$bagian' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total'];
+		}
+		return $hasil;
+	}
+
+	public function kas_masuk_bordir_between($tanggal1,$tanggal2,$bagian){
+		$hasil=0;
+		$sql=" SELECT COALESCE(sum(saldomasuk),0) as total FROM aruskas where hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and bagian='$bagian' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total'];
+		}
+
+		return $hasil;
+	}
+
+	public function alokasi_bordir_between($tanggal1,$tanggal2,$bagian,$pengalokasian){
+		$hasil=0;
+		$sql=" SELECT COALESCE(sum(saldokeluar),0) as total FROM aruskas where hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND bagian='$bagian' AND pengalokasian='$pengalokasian' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total'];
+		}
+		return $hasil;
+	}
+
+	public function alokasi_transferan_between($tanggal1,$tanggal2,$bagian,$pengalokasian){
+		$hasil=0;
+		$sql=" SELECT COALESCE(sum(nominal),0) as total FROM transferan where hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and bagian='$bagian' AND alokasi='$pengalokasian' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total'];
+		}
+
+		return $hasil;
+	}
+
+	public function alokasi_transfer_giro_between($tanggal1,$tanggal2,$bagian,$pengalokasian){
+		$hasil=[];
+		$sql="SELECT COALESCE(sum(nominal),0) as nominal FROM alokasi_transferan WHERE hapus=0 AND bagian='$bagian'";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and pengalokasian='".$pengalokasian."' ";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['nominal'];
+		}
+		return $hasil;
+	}	
+
 
 }

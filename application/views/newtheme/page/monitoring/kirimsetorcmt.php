@@ -117,6 +117,7 @@
 	                        <th rowspan="3" style="text-align: center;vertical-align: middle;">Nama PO</th>
 	                        <th colspan="3" style="text-align: center;">Kirim CMT</th>
 	                        <th colspan="3" style="text-align: center;vertical-align: middle;">Setor CMT</th>
+	                        <th rowspan="3" style="text-align: center;vertical-align: middle;">Persentase Setoran</th>
 	                    </tr>
 	                    <tr style="text-align: center;vertical-align: bottom;">
 	                        <th>Jml PO</th>
@@ -139,6 +140,7 @@
 	                    <td><?php echo number_format($r['countsetor'])?></td>
 	                    <td><?php echo number_format($r['qtysetordz'])?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
+	                    <td align="center"><?php echo $r['qtykirimpcs']>0?number_format(($r['qtysetorpcs']/$r['qtykirimpcs']*100),2):0 ?> %</td>
 	                </tr>
 	                <?php
 	                    $jmlpo1+=($r['countkirim']);
@@ -157,6 +159,7 @@
 	                    <td><b><?php echo number_format($jmlpo2)?></b></td>
 	                    <td><b><?php echo number_format($dz2)?></b></td>
 	                    <td><b><?php echo number_format($pcs2)?></b></td>
+	                    <td align="center"><b><?php echo $pcs1>0 ? number_format(($pcs2/$pcs1*100),2) :0 ?> %</b></td>
 	                </tr>
 	            </tbody>
 	        </table>
