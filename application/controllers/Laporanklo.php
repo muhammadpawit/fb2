@@ -47,11 +47,11 @@ class Laporanklo extends CI_Controller {
 		$data['tanggal1_bupot']=$tanggal1_pot;
 		$data['tanggal2_bupot']=$tanggal2_pot;
 
-		$tanggal1_bupot=$tanggal2_pot;
+		$tanggal1_bupot=$tanggal1_pot;
 		$tanggal2_bupot=$tanggal2_pot;
 
 		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE nama_jenis_po IN (SELECT SUBSTR(kode_po,1, 3) AS po FROM konveksi_buku_potongan ) ");
-		$tim=$this->GlobalModel->QueryManual("SELECT * FROM timpotong WHERE id IN (SELECT tim_potong_potongan FROM konveksi_buku_potongan  WHERE DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$tim=$this->GlobalModel->QueryManual("SELECT * FROM timpotong WHERE id IN (SELECT tim_potong_potongan FROM konveksi_buku_potongan  WHERE DATE(created_date) BETWEEN '".$tanggal1_pot."' AND '".$tanggal2_pot."' ) ");
 		$prods=[];
 		$jml=[];
 		$no=1;
@@ -61,7 +61,7 @@ class Laporanklo extends CI_Controller {
 		$timptg=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
 		$detbupot=[];
 		foreach($tim as $t){
-			$detbupot=$this->ReportModel->laporanbukupotonganklo($t['id'],$tanggal1_bupot,$tanggal2_bupot);
+			$detbupot=$this->ReportModel->laporanbukupotonganklo($t['id'],$tanggal1_pot,$tanggal1_pot);
 			$data['bupot'][]=array(
 				
 				'nama'=>$t['nama'],
