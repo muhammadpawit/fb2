@@ -33,11 +33,22 @@ class Laporanklo extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime("saturday this week"));
 		}
 
-		$data['tanggal1_bupot']=date('d M',strtotime($tanggal1."-3 days"));
-		$data['tanggal2_bupot']=date('d M Y',strtotime($tanggal1."+3 days"));
+		if(isset($get['tanggal1_pot'])){
+			$tanggal1_pot=$get['tanggal1_pot'];
+		}else{
+			$tanggal1_pot=date('Y-m-d',strtotime("sunday last week"));
+		}
+		if(isset($get['tanggal2_pot'])){
+			$tanggal2_pot=$get['tanggal2_pot'];
+		}else{
+			$tanggal2_pot=date('Y-m-d',strtotime("saturday this week"));
+		}
 
-		$tanggal1_bupot=date('Y-m-d',strtotime($tanggal1."-3 days"));
-		$tanggal2_bupot=date('Y-m-d',strtotime($tanggal1."+3 days"));
+		$data['tanggal1_bupot']=$tanggal1_pot;
+		$data['tanggal2_bupot']=$tanggal2_pot;
+
+		$tanggal1_bupot=$tanggal2_pot;
+		$tanggal2_bupot=$tanggal2_pot;
 
 		$jenis=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE nama_jenis_po IN (SELECT SUBSTR(kode_po,1, 3) AS po FROM konveksi_buku_potongan ) ");
 		$tim=$this->GlobalModel->QueryManual("SELECT * FROM timpotong WHERE id IN (SELECT tim_potong_potongan FROM konveksi_buku_potongan  WHERE DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");

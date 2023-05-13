@@ -1,20 +1,32 @@
 <div class="row no-print">
-	<div class="col-md-4">
+	<div class="col-md-2">
 		<div class="form-group">
-			<label>Tanggal Awal</label>
+			<label>Tanggal Awal Potongan</label>
+			<input type="text" name="tanggal1" id="tanggal1_pot" value="<?php echo $tanggal1_bupot?>" class="form-control">
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="form-group">
+			<label>Tanggal Akhir Potongan</label>
+			<input type="text" name="tanggal2" id="tanggal2_pot" value="<?php echo $tanggal2_bupot?>" class="form-control">
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="form-group">
+			<label>Tanggal Awal CMT</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-2">
 		<div class="form-group">
-			<label>Tanggal Akhir</label>
+			<label>Tanggal Akhir CMT</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
 		</div>
 	</div>
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filtertglonly_pot()">Filter</button>
 			<button class="btn btn-info btn-sm" onclick="cetak()">Print</button>
 			<a href="<?php echo $excel?>" class="btn btn-info btn-sm">Excel</a>
 		</div>
@@ -324,3 +336,27 @@
 		</div>
 	</div>
 </div>
+<script>
+	function filtertglonly_pot(){
+		var url='?';
+		var tanggal1 =$("#tanggal1").val();
+		var tanggal2 =$("#tanggal2").val();
+		if(tanggal1){
+		url+='&tanggal1='+tanggal1;
+		}
+		if(tanggal2){
+		url+='&tanggal2='+tanggal2;
+		}
+
+		var tanggal1_pot =$("#tanggal1_pot").val();
+		var tanggal2_pot =$("#tanggal2_pot").val();
+		if(tanggal1_pot){
+		url+='&tanggal1_pot='+tanggal1_pot;
+		}
+		if(tanggal2_pot){
+		url+='&tanggal2_pot='+tanggal2_pot;
+		}
+
+		location =url;
+	}
+</script>
