@@ -640,6 +640,8 @@ class Kelolapo extends CI_Controller {
 				'status'=>0,
 				'tahun'=>date('Y').date('Y',strtotime("+1 year")),
 				'serian'=>$post['serian'],
+				'jenis_uk'=>$data['jenis_uk'],
+				'type'=>$data['type'],
 			);
 			user_activity(callSessUser('id_user'),1,' input kode po baru '.$po);
 			$this->GlobalModel->insertData('produksi_po',$dataInsert);
