@@ -61,7 +61,7 @@ class Laporanklo extends CI_Controller {
 		$timptg=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
 		$detbupot=[];
 		foreach($tim as $t){
-			$detbupot=$this->ReportModel->laporanbukupotonganklo($t['id'],$tanggal1_pot,$tanggal1_pot);
+			$detbupot=$this->ReportModel->laporanbukupotonganklo($t['id'],$tanggal1_pot,$tanggal2_pot);
 			$data['bupot'][]=array(
 				
 				'nama'=>$t['nama'],
