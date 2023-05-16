@@ -76,13 +76,13 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <th width="125">TOTAL (Rp)</th>
 
-                                            <th>JUMLAH PEMBAYARAN</th>
+                                            <th>TIPE PEMBAYARAN</th>
 
                                             <th>NAMA SUPPLIER</th>
 
                                             <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
-                                            <th width="200">KOMENTAR</th>
+                                            <th width="200">SPV</th>
                                             <?php }?>
                                         </tr>
 
@@ -153,29 +153,29 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                     <thead>
 
-                                        <tr>
+                                    <tr>
 
-                                            <th>NO.</th>
+                                        <th>NO.</th>
 
-                                            <th>DAFTAR ITEM AJUAN OPS</th>
+                                        <th>NAMA AJUAN</th>
 
-                                            <th>JUMLAH <br>BARANG</th>
+                                        <th>JUMLAH</th>
 
-                                            <th>SATUAN</th>
+                                        <th>SATUAN</th>
 
-                                            <th width="125">HARGA SATUAN (Rp)</th>
+                                        <th width="125">HARGA SATUAN (Rp)</th>
 
-                                            <th width="125">TOTAL (Rp)</th>
+                                        <th width="125">TOTAL (Rp)</th>
 
-                                            <th>PEMBAYARAN</th>
+                                        <th>TIPE PEMBAYARAN</th>
 
-                                            <th>SUPPLIER</th>
+                                        <th>NAMA SUPPLIER</th>
 
-                                            <th>KET.</th>
-                                            <?php if($parent['status']!=1){?>
-                                            <th width="200">KOMENTAR</th>
-                                            <?php }?>
-                                        </tr>
+                                        <th>KETERANGAN</th>
+                                        <?php if($parent['status']!=1){?>
+                                        <th width="200">SPV</th>
+                                        <?php }?>
+                                    </tr>
 
                                     </thead>
 
@@ -278,13 +278,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                         </tr>
 
-                                        <tr align="center">
-                                            <td colspan="7"></td>
-                                            <td><b>SPV</b></td>
-                                            <td><b>ADM Keuangan</b></td>
-                                            <td><b>ADM Gudang</b></td>
-
-                                        </tr>
+                                       
 
                                         <tr>
                                             <td colspan="7"></td>
@@ -340,6 +334,13 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                                 ?>
 
                                             </td>
+
+                                        </tr>
+                                        <tr align="center">
+                                            <td colspan="7"></td>
+                                            <td><b>SPV</b></td>
+                                            <td><b>ADM Keuangan</b></td>
+                                            <td><b>ADM Gudang</b></td>
 
                                         </tr>
 
