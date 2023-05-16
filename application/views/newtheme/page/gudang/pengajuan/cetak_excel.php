@@ -66,9 +66,9 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <th>NO.</th>
 
-                                            <th>DAFTAR ITEM AJUAN OPS</th>
+                                            <th>NAMA AJUAN</th>
 
-                                            <th>JUMLAH <br>BARANG</th>
+                                            <th>JUMLAH</th>
 
                                             <th>SATUAN</th>
 
@@ -76,11 +76,11 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <th width="125">TOTAL (Rp)</th>
 
-                                            <th>PEMBAYARAN</th>
+                                            <th>JUMLAH PEMBAYARAN</th>
 
-                                            <th>SUPPLIER</th>
+                                            <th>NAMA SUPPLIER</th>
 
-                                            <th>KET.</th>
+                                            <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
                                             <th width="200">KOMENTAR</th>
                                             <?php }?>
