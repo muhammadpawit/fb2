@@ -109,22 +109,22 @@
 
                                             <th>NO.</th>
 
-                                            <th>DAFTAR ITEM AJUAN OPS</th>
+                                            <th>NAMA AJUAN</th>
 
-                                            <th>JUMLAH <br>BARANG</th>
+                                            <th>JUMLAH</th>
 
                                             <th>SATUAN</th>
 
-                                            <th width="125">HARGA SATUAN</th>
+                                            <th width="125">HARGA SATUAN (Rp)</th>
 
-                                            <th width="125">TOTAL</th>
-                                            <th>PEMBAYARAN</th>
+                                            <th width="125">TOTAL (Rp)</th>
+                                            <th>TIPE PEMBAYARAN</th>
 
-                                            <th>SUPPLIER</th>
+                                            <th>NAMA SUPPLIER</th>
 
-                                            <th>KET.</th>
+                                            <th>KETERANGAN</th>
 
-                                            <th width="200">KOMENTAR</th>
+                                            <th width="200">SPV</th>
 
                                         </tr>
 

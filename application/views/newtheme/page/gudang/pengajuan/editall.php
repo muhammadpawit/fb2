@@ -110,23 +110,23 @@
                                             <th>Hapus</th>
                                             <th>NO.</th>
 
-                                            <th>DAFTAR ITEM AJUAN OPS</th>
+                                            <th>NAMA AJUAN</th>
 
-                                            <th width="100">JUMLAH <br>BARANG</th>
+                                            <th width="100">JUMLAH </th>
 
                                             <th>SATUAN</th>
 
-                                            <th width="135">HARGA SATUAN</th>
+                                            <th width="135">HARGA SATUAN (Rp)</th>
 
                                             <!-- <th width="125">TOTAL</th> -->
 
-                                            <th>PEMBAYARAN</th>
+                                            <th>TIPE PEMBAYARAN</th>
 
-                                            <th>SUPPLIER</th>
+                                            <th>NAMA SUPPLIER</th>
 
-                                            <th>KET.</th>
+                                            <th>KETERANGAN</th>
 
-                                            <th>KOMENTAR</th>
+                                            <th>SPV</th>
 
                                             <th>
                                                 <button type="button" name="add" class="btn btn-success btn-sm itemajaun" onclick="itemajaun()"><i class="fa fa-plus"></i></button>
