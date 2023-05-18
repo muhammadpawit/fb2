@@ -28,11 +28,11 @@
 
                         <div class="text-center">
 
-                            <h4 class="m-0">FORM PENGAJUAN HARIAN <?php if ($parent['kategori'] == 1) {
+                            <h4 class="m-0">FORM AJUAN HARIAN FORBOYS<br>BAGIAN : <?php if ($parent['kategori'] == 1) {
 
                                    echo "SABLON";
 
-                                } else if($parent['kategori'] == 2) { echo "BORDIR"; } else if($parent['kategori'] == 3) {echo "KONVEKSI";}?> FORBOYS</h4>
+                                } else if($parent['kategori'] == 2) { echo "BORDIR"; } else if($parent['kategori'] == 3) {echo "KONVEKSI";}?></h4>
 
                         </div>
 

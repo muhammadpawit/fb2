@@ -24,11 +24,11 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 <table>
     <tr align="center">
         <td colspan="10">
-            <h4 class="m-0">FORM PENGAJUAN HARIAN <?php if ($parent['kategori'] == 1) {
+            <h4 class="m-0">FORM AJUAN HARIAN FORBOYS<br>BAGIAN : <?php if ($parent['kategori'] == 1) {
 
                                    echo "SABLON";
 
-                                } else if($parent['kategori'] == 2) { echo "BORDIR"; } else if($parent['kategori'] == 3) {echo "KONVEKSI";}else if($parent['kategori'] == 4) {echo "CABANG SUKABUMI";}?> FORBOYS</h4>
+                                } else if($parent['kategori'] == 2) { echo "BORDIR"; } else if($parent['kategori'] == 3) {echo "KONVEKSI";}else if($parent['kategori'] == 4) {echo "CABANG SUKABUMI";}?></h4>
 <?php if($parent['status']==0){?>
                         <div style="z-index: 999;position: absolute;top:2%;right: 1%" class="alert alert-danger">
                             <h1>Pengajuan ini belum disetujui secara sistem</h1>
