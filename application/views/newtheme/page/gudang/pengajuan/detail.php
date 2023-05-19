@@ -124,7 +124,7 @@
 
                                             <th>KETERANGAN</th>
 
-                                            <th width="200">SPV</th>
+                                            <th width="200">REVISI SPV</th>
 
                                         </tr>
 

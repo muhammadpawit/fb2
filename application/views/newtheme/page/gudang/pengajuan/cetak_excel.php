@@ -82,7 +82,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
-                                            <th width="200">SPV</th>
+                                            <th width="200">REVISI SPV</th>
                                             <?php }?>
                                         </tr>
 
@@ -173,7 +173,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                         <th>KETERANGAN</th>
                                         <?php if($parent['status']!=1){?>
-                                        <th width="200">SPV</th>
+                                        <th width="200">REVISI SPV</th>
                                         <?php }?>
                                     </tr>
 

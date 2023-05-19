@@ -212,7 +212,7 @@
 
                                             <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
-                                            <th width="200">SPV</th>
+                                            <th width="200">REVISI SPV</th>
                                             <?php }?>
                                         </tr>
 

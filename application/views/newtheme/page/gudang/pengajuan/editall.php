@@ -126,7 +126,7 @@
 
                                             <th>KETERANGAN</th>
 
-                                            <th>SPV</th>
+                                            <th>REVISI SPV</th>
 
                                             <th>
                                                 <button type="button" name="add" class="btn btn-success btn-sm itemajaun" onclick="itemajaun()"><i class="fa fa-plus"></i></button>
