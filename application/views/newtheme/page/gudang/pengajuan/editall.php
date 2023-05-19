@@ -244,7 +244,7 @@
 
                                         <tr>
 
-                                            <th>Menyetujui</th>
+                                            <th>Di Setujui oleh:</th>
 
                                             <th>Di Buat oleh:</th>
 

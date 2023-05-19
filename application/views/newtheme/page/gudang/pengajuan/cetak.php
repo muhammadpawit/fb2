@@ -336,7 +336,7 @@
 
                                         <tr>
 
-                                            <th><center>Menyetujui</center></th>
+                                            <th><center>Di Setujui oleh:</center></th>
 
                                             <th><center>Di Periksa oleh:</center></th>
 

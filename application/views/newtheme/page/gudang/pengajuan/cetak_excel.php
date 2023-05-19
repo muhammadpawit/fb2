@@ -272,7 +272,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                         <tr>
                                             <th colspan="7"></th>
-                                            <th>Menyetujui</th>
+                                            <th>Di Setujui oleh:</th>
                                             <th>Di Periksa oleh:</th>
                                             <th>Di Buat oleh:</th>
 
