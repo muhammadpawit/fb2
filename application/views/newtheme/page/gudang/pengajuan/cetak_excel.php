@@ -74,7 +74,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <th width="125">HARGA SATUAN (Rp)</th>
 
-                                            <th width="125">TOTAL (Rp)</th>
+                                            <th width="125">JUMLAH PEMBAYARAN (Rp)</th>
 
                                             <th>TIPE PEMBAYARAN</th>
 
