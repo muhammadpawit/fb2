@@ -38,9 +38,11 @@ class Rekapkasbon extends CI_Controller {
 		$no=1;
 		$kasbon=[];
 		$tgl=0;
+		$pinjaman=null;
 		foreach($results as $k){
 			$divisi=$this->GlobalModel->GetDataRow('divisi',array('hapus'=>0,'id'=>$k['divisi']));
 			$kasbon=$this->KasbonModel->kasbon($bulan,$tahun,$k['id']);
+			$pinjaman = $this->GlobalModel->GetDataRow('pinjaman',array('hapus'=>0,'idkaryawan'=>$k['id']));
 			$data['kar'][]=array(
 				'no'=>$no,
 				'id'=>$k['id'],
@@ -51,7 +53,7 @@ class Rekapkasbon extends CI_Controller {
 				'gaji'=>$k['gajipokok'],
 				'kasbon'=>$this->KasbonModel->getsumkasbon($k['id'],$bulan,$tahun),
 				'sisapinjaman'=>0,
-				'pinjaman'=>0,
+				'pinjaman'=>!empty($pinjaman) ? $pinjaman['totalpinjaman'] : 0,
 				//'sisagaji'=>$k['gajipokok'],
 				'keterangan'=>null,
 			);
