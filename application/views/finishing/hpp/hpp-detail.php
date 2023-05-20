@@ -640,7 +640,7 @@
                                     <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "PITA") {?>
 
                                     <tr>
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
                                         <td>
 
                                             <?php echo $rinci['nama_item_keluar'] ?>
