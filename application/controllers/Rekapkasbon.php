@@ -42,7 +42,7 @@ class Rekapkasbon extends CI_Controller {
 		foreach($results as $k){
 			$divisi=$this->GlobalModel->GetDataRow('divisi',array('hapus'=>0,'id'=>$k['divisi']));
 			$kasbon=$this->KasbonModel->kasbon($bulan,$tahun,$k['id']);
-			$pinjaman = $this->GlobalModel->GetDataRow('pinjaman_karyawan',array('hapus'=>0,'idkaryawan'=>$k['id']));
+			$pinjaman = $this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_karyawan WHERE hapus=0 AND status IN(1,2) AND idkaryawan='".$k['id']."' ");
 			$data['kar'][]=array(
 				'no'=>$no,
 				'id'=>$k['id'],
