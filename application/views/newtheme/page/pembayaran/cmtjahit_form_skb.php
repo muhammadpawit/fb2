@@ -441,15 +441,17 @@
         var pcs=dai.find(".rincian").val();
         var harga=$("input[name='po[0][harga]']").val();
         var popcs=$("input[name='po[0][pcs]']").val();
-        //alert(harga);
-        if(pcs<popcs){
+        
+        //if(pcs<popcs){
             var kredit=Number(harga)*Number(pcs)/12;
             var tagihan=Number(kredit)*dataItem;
-        }else{
-            kredit=0;
-            var tagihan=Number(kredit)*dataItem;
-            saldo(0);
-        }
+        // }else{
+        //     kredit=0;
+        //     var tagihan=Number(kredit)*dataItem;
+        //     saldo(tagihan);
+        // }
+
+       // alert(kredit);
         
         dai.find(".kredit").val(kredit);
         dai.find(".saldo").val(tagihan);
