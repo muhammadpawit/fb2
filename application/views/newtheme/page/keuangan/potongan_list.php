@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <label>Nama Karyawan</label>
-            <select name="idkaryawan" id="idkaryawan" class="form-control select2bs4" required="required" data-live-search="true">
+            <select name="idkaryawan" id="idkaryawan" style="width:100%" class="form-control select2bs4" required="required" data-live-search="true">
                 <option value="">Pilih</option>
                 <?php foreach($karyawan as $p){?>
                   <option value="<?php echo $p['id']?>"><?php echo strtoupper($p['nama'])?></option>
@@ -151,7 +151,7 @@
     $('#listpinjaman').empty();
     val = $(this).val();
     //alert(val);
-    $.get("https://beta.forboysproduction.com/Keuangan/getpinjaman?&idkaryawan="+val, 
+    $.get("https://forboysproduction.com/Keuangan/getpinjaman?&idkaryawan="+val, 
       function(data){   
       console.log(data);
       $('#listpinjaman').append(data);
