@@ -45,27 +45,31 @@
                             <label>Kode Artikel</label>
                             <input type="text" class="form-control artikel" name="artikel" value="" required >
                         </div>
-                        <tr>
-                            <td>Jenis Ukuran</td>
-                            <td>:</td>
-                            <td>
-                                <select name="jenis_uk" class="form-control">
-                                    <option value="1">Biasa</option>
-                                    <option value="2">Panjang</option>
-                                    <option value="3">3/4</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Type</td>
-                            <td>:</td>
-                            <td>
-                                <select name="type" class="form-control">
-                                    <option value="1">Biasa</option>
-                                    <option value="2">Raglan</option>
-                                </select>
-                            </td>
-                        </tr>
+                        <div class="form-group">
+                            <tr>
+                                <td>Jenis Ukuran</td>
+                                <td>:</td>
+                                <td>
+                                    <select name="jenis_uk" class="form-control">
+                                        <option value="1">Biasa</option>
+                                        <option value="2">Panjang</option>
+                                        <option value="3">3/4</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </div>
+                        <div class="form-group">
+                            <tr>
+                                <td>Type</td>
+                                <td>:</td>
+                                <td>
+                                    <select name="type" class="form-control">
+                                        <option value="1">Biasa</option>
+                                        <option value="2">Raglan</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </div>
                         <!--
                         <div class="form-group">
                             <label>Progress</label>
