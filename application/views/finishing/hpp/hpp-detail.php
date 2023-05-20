@@ -255,7 +255,7 @@
                                 <?php if ($bahanAja['bahan_kategori'] == "UTAMA"){ ?>
 
                                 <tr>
-                                	<td><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         BAHAN <?php echo $bahanAja['bahan_kategori'] ?>
