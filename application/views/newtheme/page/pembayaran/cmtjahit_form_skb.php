@@ -425,7 +425,7 @@
         html+='<td><input type="text" class="form-control kredit" onblur="saldo('+j+')" name="pmby['+j+'][kredit]" required readonly ></td>';
         html+='<td><input type="text" class="form-control saldo" name="pmby['+j+'][saldo]" value="0" readonly></td>';
         //html+='<td><input type="text" class="form-control" name="pmby['+j+'][keterangan]" value="-" required ></td>';
-        html+='<td><select name="pmby['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="0.8">80%</option></select></td>';
+        html+='<td><select name="pmby['+i+'][percent]" class="pmb" required style="width: 50px;"><option value="">Wajib dipilih</option><option value="1">100%</option><option value="0.8">80%</option></option><option value="0.5">50%</option></select></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html+='</tr>';
         j++;
