@@ -236,11 +236,11 @@
                             <table class="table " border="2" style="border: 2px solid black !important;">
 
                                 <tr class="text-center">
-                                	<th>No</th>
+                                	<th><center>No</center></th>
 
-                                    <th>PERINCIAN BIAYA</th>
+                                    <th><center>PERINCIAN BIAYA</center></th>
 
-                                    <th width="120">KETERANGAN</th>
+                                    <th width="120"><center>KETERANGAN</center></th>
 
                                     <th align="center"><center>HARGA</center></th>
 
