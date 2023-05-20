@@ -291,7 +291,7 @@
 
 
                                 <tr>
-                                	<td><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         BAHAN <?php echo $bahanAja['bahan_kategori'] ?>
@@ -329,7 +329,7 @@
                                 <?php } else if($bahanAja['bahan_kategori'] == "KAINKANTONG") { ?> 
 
                                 <tr>
-                                	<td><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         <?php echo str_replace("KAINKANTONG","KAIN - KANTONG",$bahanKantong['bahan_kategori']) ?>
@@ -409,7 +409,7 @@
                             <?php if (isset($master_harga_potongan)): ?>
 
                                 <tr>
-                                	<td><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         ONGKOS POTONG
@@ -453,7 +453,7 @@
                                 <?php foreach ($cmt as $key => $cmtt): ?>
 
                                     <tr>
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
                                             <?php if($cmtt['kategori_cmt']=='JAHIT'){?>
@@ -567,7 +567,7 @@
                                     <?php if (strtoupper($rinci['nama_item_keluar']) == "KARET 555A") {?>
 
                                     <tr>
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
                                         <td>
 
                                             <?php echo $rinci['nama_item_keluar'] ?>
@@ -603,7 +603,7 @@
                                 <?php } elseif (strtoupper($rinci['nama_item_keluar']) == "KARET 11A") {?>
 
                                     <tr>
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -679,7 +679,7 @@
                                    <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "LABEL 108") { ?>
 
                                     <tr>
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -717,7 +717,7 @@
 
                                     <tr>
 
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -757,7 +757,7 @@
 
                                     <tr>
 
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -806,7 +806,7 @@
                                     ?>
                                     <tr>
 
-                                    	<td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?$mesin['kategori']:$mesin['kategori']) ?></td>
 
@@ -828,7 +828,7 @@
 
                                     <tr>
 
-                                        <td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?"Buang Benang":'Buang Benang') ?></td>
 
@@ -850,7 +850,7 @@
 
                                     <tr>
 
-                                        <td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?"Packing":'Packing') ?></td>
 
@@ -882,7 +882,7 @@
 
                                     <tr>
 
-                                        <td><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?"cucian":'cucian') ?></td>
 
