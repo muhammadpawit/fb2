@@ -1,4 +1,9 @@
 <form action="<?php echo $action ?>" method="POST">
+<?php if(isset($sukabumi)){ ?>
+    <?php if($sukabumi=="ya"){ ?>
+        <input type="hidden" name="sukabumi" value="true">
+    <?php } ?>
+<?php } ?>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">

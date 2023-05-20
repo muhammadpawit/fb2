@@ -689,6 +689,12 @@ class Gudang extends CI_Controller {
 
 	public function pengajuanadd()
 	{
+		$get = $this->input->get();
+		if(isset($get['sukabumi'])){
+			$data['sukabumi']='ya';
+		}else{
+			$data['sukabumi']='tidak';
+		}
 		$viewData['title']='Form Ajuan Belanja ';
 		$viewData['action']=BASEURL.'Gudang/pengajuansave';
 		$viewData['batal']=BASEURL.'Gudang/pengajuan';
@@ -807,7 +813,13 @@ class Gudang extends CI_Controller {
 			push($msg);
 			kirim_email('muchlasmuchtar25@gmail.com',callSessUser('nama_user').' telah meminta pengajuan harian '.$peng);
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'Gudang/pengajuan');
+
+			if(isset($data['sukabumi'])){
+				redirect(BASEURL.'Gudang/pengajuan?&cat=4');
+			}else{
+				redirect(BASEURL.'Gudang/pengajuan');
+			}
+			
 		}
 
 	}
