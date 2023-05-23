@@ -357,6 +357,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function sablon_detail($id){
 		$sj=[];
+		$surat=[];
 		$sql="SELECT * FROM kirimcmtsablon_detail WHERE hapus=0 and idkirim='".$id."' ";
 		$sj=$this->GlobalModel->queryManual($sql);
 		foreach($sj as $k){
