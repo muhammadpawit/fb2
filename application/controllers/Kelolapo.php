@@ -630,7 +630,7 @@ class Kelolapo extends CI_Controller {
 		if (in_array("simulasi KKF", $people)){
 			$cekart=null;
 		}
-		
+
 		if(empty($cekpo) && empty($cekart) ){
 			$dataInsert = array(
 				'kode_po'	=> str_replace(" ","",$po),
@@ -655,6 +655,7 @@ class Kelolapo extends CI_Controller {
 			redirect(BASEURL.'Kelolapo/produksipo');
 		}else{
 			$resp= json_encode($post);
+			$resp.=json_encode($cekart);
 			$this->session->set_flashdata('gagal','Data gagal disimpan'.$resp);
 			redirect(BASEURL.'Kelolapo/addpo');
 		}
