@@ -1327,10 +1327,12 @@ class ReportModel extends CI_Model {
 		return $d->result_array();
 	}
 	public function potongan($data){
-		$sql="SELECT * FROM konveksi_buku_potongan WHERE hapus=0 ";
-
-		$sql.=" AND kode_po NOT LIKE 'BJF%' ";
-		$sql.=" AND kode_po NOT LIKE 'BJK%' ";
+		$sql="SELECT kbp.*, mjp.nama_jenis_po as nama_po FROM konveksi_buku_potongan kbp ";
+		$sql.=" JOIN produksi_po p ON p.id_produksi_po=kbp.idpo ";
+		$sql.=" JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po ";
+		$sql.=" WHERE kbp.hapus=0 ";
+		$sql.=" AND kbp.kode_po NOT LIKE 'BJF%' ";
+		$sql.=" AND kbp.kode_po NOT LIKE 'BJK%' ";
 
 		if(!empty($data['tim'])){
 			$sql.=" AND tim_potong_potongan ='".$data['tim']."' ";
@@ -1339,15 +1341,15 @@ class ReportModel extends CI_Model {
 		if(!empty($data['jenis'])){
 			 $sql.=" AND kode_po LIKE '".$data['jenis']."%' ";
 			if(!empty($data['tanggal1'])){
-				$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+				$sql.=" AND date(kbp.created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 			}
 		}else{
 			if(!empty($data['tanggal1'])){
-				$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+				$sql.=" AND date(kbp.created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 			}
 		}
 		$sql.=" GROUP BY kode_po ";
-		$sql.=" ORDER BY date(created_date) ASC, kode_po ASC ";
+		$sql.=" ORDER BY date(kbp.created_date) ASC, kode_po ASC ";
 		$data=$this->db->query($sql);
 		return $data->result_array();
 	}

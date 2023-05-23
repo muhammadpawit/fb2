@@ -482,7 +482,8 @@ class Pembayaran extends CI_Controller {
 		//pre(substr("KM01_Simulasi", 0,3));
 		$angka=0;
 		foreach($results as $r){
-			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
+			//$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
+			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$r['nama_po']));
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['tim_potong_potongan']));
 			$roll=$this->ReportModel->getsumroll($r['kode_po'],'UTAMA');
 			$rolv=$this->ReportModel->getsumroll($r['kode_po'],'CELANA');
