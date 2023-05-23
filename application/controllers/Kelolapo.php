@@ -627,9 +627,10 @@ class Kelolapo extends CI_Controller {
 		$cekart = $this->GlobalModel->GetData('produksi_po',array('kode_artikel'=>$post['artikel']));
 
 		$people = array("SKF", "simulasi SKF","simulasi");
-		if (in_array("simulasi KKF", $people)){
+		if (in_array($post['namaPO'], $people)){
 			$cekart=null;
 		}
+		//pre($cekart);
 
 		if(empty($cekpo) && empty($cekart) ){
 			$dataInsert = array(
@@ -655,7 +656,6 @@ class Kelolapo extends CI_Controller {
 			redirect(BASEURL.'Kelolapo/produksipo');
 		}else{
 			$resp= json_encode($post);
-			$resp.=json_encode($cekart);
 			$this->session->set_flashdata('gagal','Data gagal disimpan'.$resp);
 			redirect(BASEURL.'Kelolapo/addpo');
 		}
