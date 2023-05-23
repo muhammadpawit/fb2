@@ -97,12 +97,12 @@ $(document).ready(function(){
         html += '<td style="display:none;"><input type="hidden" class="form-control id" name="id[]" ></td>';
         html += '<td><select type="text" class="form-control selectpicker" name="nama[]" data-live-search="true" data-title="Pilih item" required><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo strtolower($item['nama_item']) ?></option><?php } ?></select></td>';
         html += '<td><input type="hidden" class="form-control id_persediaan" name="id_persediaan[]"><input type="text" class="form-control warna" name="warna[]"></td>';
-        html += '<td><input type="number" class="form-control ukuran" name="ukuran[]" step=0.01 required></td>';
+        html += '<td><input type="text" class="form-control ukuran" name="ukuran[]"  required></td>';
         html += '<td><input class="form-control satuanUkran" name="satuanUkran[]" readonly></td>';
-        html += '<td><input type="number" class="form-control jumlah" step=0.01 name="jumlah[]" ></td>';
+        html += '<td><input type="text" class="form-control jumlah"  name="jumlah[]" ></td>';
         html += '<td><input class="form-control satuanJml" name="satuanJml[]" readonly></td>';
         html += '<td><input type="number" class="form-control harga" name="harga[]" required></td>';
-        html += '<td><input type="number" class="form-control itemPerlusin" name="itemPerlusin[]" required></td>';
+        html += '<td><input type="text" class="form-control itemPerlusin" name="itemPerlusin[]" required></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         $('#addalat').append(html);
         //$('.selectpicker').selectpicker('refresh');
