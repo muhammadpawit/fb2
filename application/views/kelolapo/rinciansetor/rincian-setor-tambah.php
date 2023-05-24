@@ -1,3 +1,4 @@
+<form action="<?php echo BASEURL.'finishing/produksikaoscmtAct' ?>" method="POST">
 <div class="row">
     <div class="col-md-3">
         <div class="form-group text-center">
@@ -30,7 +31,8 @@
             <input type="number" class="form-control jmlWarna" name="jmlWarna" value="<?php echo $poProd['jumlah_gambar_utama'] ?>" required readonly>
         </div>
     </div>
-    <form action="<?php echo BASEURL.'finishing/produksikaoscmtAct' ?>" method="post">
+    
+    <input type="hidden" name="idpo" value="<?php echo $idpo?>">
     <div class="col-md-9">
         <div class="form-group text-center">
             <label>Rincian Penerimaan Setoran</label>

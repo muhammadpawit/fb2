@@ -1060,6 +1060,8 @@ class Finishing extends CI_Controller {
 	public function produksikaoscmtAct($value='')
 	{
 		$post = $this->input->post();
+		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
+		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo']));
 		$pcs = 0;
 		$jml = 0;
 		$bangke = 0;
@@ -1072,26 +1074,31 @@ class Finishing extends CI_Controller {
 			$barangHilang += $post['hilangBarang'][$key];
 			$barangClaim += $post['claimBarang'][$key];
 		}
-		// pre($post);
+		
+		if(empty($sj)){
+			$this->session->set_flashdata('gagal','Belum ada surat jalannya');
+			
+			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+		}
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
-		
-		if ($jmlYangDisetor == $post['jumlahditerima']) {
+		//pre($sj);
+		if ($jmlYangDisetor <= $post['jumlahPotPcs']) {
 
-			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po' => $post['kode_po'],));
+			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po' => $po['kode_po'],));
 
 			$insertData = array(
 				'idpo'=>$post['idpo'],
-				'kode_po'			=>	$post['kode_po'],
+				'kode_po'			=>	$po['kode_po'],
 				'pcs_setor_qty'		=>	$pcs,
 				'jml_setor_qty'		=>	$jmlYangDisetor,
 				'bangke_qty'		=>	$bangke,
 				'barang_cacad_qty'	=>	$barangccd,
-				'nama_cmt'			=>	$post['nama_cmt'],
+				'nama_cmt'			=>	$sj['nama_cmt'],
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
 				'created_date'		=>	date('Y-m-d'),
-				'jumlah_piece_diterima'	=> $post['jumlahditerima']
+				'jumlah_piece_diterima'	=> $jmlYangDisetor
 			);
 
 			if (empty($dataInput)) {
@@ -1099,14 +1106,14 @@ class Finishing extends CI_Controller {
 				$lastId = $this->db->insert_id();
 			} else {
 				$this->session->set_flashdata('msg','INPUT NYA SANTAI AJA DONG, KODE PO INI SUDAH DI INPUT!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/kunti.mp3" type="audio/mpeg"></audio>');
-				redirect(BASEURL.'finishing/produksikaoscmt/'.$post['kode_po']);
+				redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
 			}
 			
 
 			foreach ($post['rinciansize'] as $key => $rin) {
 				$insertRincinan = array(
 					'id_kelolapo_rincian_setor_cmt'	=>	$lastId,
-					'kode_po'	=> $post['kode_po'],
+					'kode_po'	=> $po['kode_po'],
 					'rincian_size'	=> $rin,
 					'rincian_lusin'	=> $post['rincianlusin'][$key],
 					'rincian_piece'	=> $post['rincianpiece'][$key],
@@ -1119,11 +1126,12 @@ class Finishing extends CI_Controller {
 				);
 				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish',$insertRincinan);
 			}
-			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$post['kode_po']),array('progress'=>'FINISHING'));
-			$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$po['kode_po']),array('progress'=>'FINISHING'));
+			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
 		} else {
 			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
-			redirect(BASEURL.'finishing/produksikaoscmt/'.$post['kode_po']);
+			
+			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
 		}
 
 		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
