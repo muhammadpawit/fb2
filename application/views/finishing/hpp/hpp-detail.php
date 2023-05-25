@@ -564,7 +564,7 @@
 
                                     <?php $explodeBordir = explode(' ', $rinci['nama_item_keluar']); ?>
 
-                                    <?php if (strtoupper($rinci['nama_item_keluar']) == "KARET 555A") {?>
+                                    <?php if (strtoupper($rinci['nama_item_keluar']) == "KARET 555A" OR strtoupper($rinci['nama_item_keluar']) == "SIMULASI KARET 555A") {?>
 
                                     <tr>
                                         <td><center><?php echo $no+=1?></center></td>
@@ -637,7 +637,7 @@
 
                                     </tr>
 
-                                    <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "PITA") {?>
+                                    <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "PITA" OR strtoupper($rinci['nama_item_keluar']) == "SIMULASI PITA" ) {?>
 
                                     <tr>
                                         <td><center><?php echo $no+=1?></center></td>
@@ -713,7 +713,7 @@
 
                                     </tr>
 
-                                    <?php  } elseif (strtolower($explodeBordir[1]) == "bordir") {  ;?>
+                                    <?php  } elseif (strtolower($explodeBordir[1]) == "bordir" OR strtolower($explodeBordir[1]) == "simulasi size bordir") {  ;?>
 
                                     <tr>
 
