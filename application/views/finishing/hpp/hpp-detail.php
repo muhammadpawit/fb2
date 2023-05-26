@@ -713,7 +713,7 @@
 
                                     </tr>
 
-                                    <?php  } elseif (strtolower($explodeBordir[1]) == "bordir" OR strtolower($explodeBordir[1]) == "simulasi size bordir") {  ;?>
+                                    <?php  } elseif (strtolower($explodeBordir[1]) == "bordir") {  ;?>
 
                                     <tr>
 
@@ -753,7 +753,47 @@
 
                                     
 
-                                   <?php  } else { ?>
+                                   <?php  } elseif (strtolower($rinci['nama_item_keluar']) == "simulasi size bordir") {  ;?>
+
+                                                <tr>
+
+                                                    <td><center><?php echo $no+=1?></center></td>
+
+                                                    <td>
+
+                                                        <?php echo $rinci['nama_item_keluar'] ?>
+
+                                                    </td>
+
+                                                    <td class="text-center">
+
+                                                        <?php echo $rinci['jumlah_item_perlusin'] ?>
+
+                                                    </td>
+
+                                                    <td align="center">
+
+                                                        (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['jumlah_item_keluar']*$rinci['harga_item'] / $pot['hasil_lusinan_potongan']) ?> Pcs)
+
+                                                    </td>
+
+                                                    <?php 
+                                                        $hargasizebordir=1000;
+                                                    $total += $hargasizebordir=1000;; 
+
+                                                    ?>
+
+                                                    <td align="right">
+
+                                                        <?php echo number_format($hargasizebordir) ?>
+
+                                                    </td>
+
+                                                </tr> 
+
+
+
+                                                <?php  } else { ?>
 
                                     <tr>
 
