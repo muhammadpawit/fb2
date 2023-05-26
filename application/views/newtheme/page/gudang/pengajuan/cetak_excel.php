@@ -240,27 +240,23 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                 </table>
 <br>                                       
-<table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
+                                <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
 
                                     <tr>
+                                        <td colspan="3"><center>Ajuan :</center> </td>
+                                    </tr>
+                                    <tr>
 
-                                        <td>CASH (Rp)</td>
+                                        <td>Cash (Rp)</td>
+                                        <td>Transfer (Rp)</td>
+                                        <td>Total (Rp)</td>
+                                    </tr>
+
+                                    <tr>
 
                                         <td><?php echo ($parent['cash']) ?></td>
 
-                                    </tr>
-
-                                    <tr>
-
-                                        <td>TRANSFER (Rp)</td>
-
                                         <td><?php echo ($parent['transfer']) ?></td>
-
-                                    </tr>
-
-                                    <tr>
-
-                                        <td>Total (Rp)</td>
 
                                         <td><?php echo ($parent['cash']+$parent['transfer']) ?></td>
 
@@ -268,8 +264,64 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                 </table>
 <br><br>
-                                    <table>
+<table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
 
+                                    <tr>
+                                        <td colspan="3"><center>Diterima :</center> </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>Cash (Rp)</td>
+                                        <td>Transfer (Rp)</td>
+                                        <td>Total (Rp)</td>
+                                        <td>Paraf Bu Haji</td>
+                                    </tr>
+
+                                    <tr>
+
+                                        <td><?php echo ($parent['cash']) ?></td>
+
+                                        <td><?php echo ($parent['transfer']) ?></td>
+
+                                        <td><?php echo ($parent['cash']+$parent['transfer']) ?></td>
+
+                                        <td>
+                                            <br><br><br>
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+<br><br>
+                        <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
+
+                        <tr>
+                            <td colspan="3"><center>Resume :</center> </td>
+                        </tr>
+                        <tr>
+
+                            <td>Saldo Cash (Rp)</td>
+                            <td>Keterangan</td>
+                            <td>Paraf SPV</td>
+                        </tr>
+
+                        <tr>
+
+                            <td><br><br><br></td>
+
+                            <td>Sisa Ajuan</td>
+
+                            <td></td>
+
+                        </tr>
+
+                        </table>      
+<br><br>
+                                    <table>
+                                        <tr>
+                                            <th colspan="7"></th>
+                                            <th colspan="3"><center>Validasi Ajuan :</center> </th>
+                                        </tr>
                                         <tr>
                                             <th colspan="7"></th>
                                             <th>Di Setujui oleh:</th>
