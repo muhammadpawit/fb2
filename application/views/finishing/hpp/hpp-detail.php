@@ -753,7 +753,7 @@
 
                                     
 
-                                   <?php  } elseif (strtolower($rinci['nama_item_keluar']) == "simulasi size bordir") {  ;?>
+                                   <?php  } elseif (strtolower($rinci['nama_item_keluar']) == "simulasi size bordir" OR strtolower($rinci['nama_item_keluar']) == "size bordir") {  ;?>
 
                                                 <tr>
 
