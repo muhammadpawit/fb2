@@ -169,7 +169,7 @@ class Masterdata extends CI_Controller {
 	public function price_packing_json()
 	{
 		$post = $this->input->get();
-		$po = $this->GLobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
+		$po = $this->GLobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kodepo']));
 		//$jenis=substr($post['kodepo'],0,3);
 		$jenis=!empty($po) ? $po['nama_po'] : '';
 		$data = $this->GlobalModel->getDataRow('master_jenis_po',array('nama_jenis_po'=>$jenis));
