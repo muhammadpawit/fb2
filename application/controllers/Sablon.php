@@ -248,7 +248,7 @@ class Sablon extends CI_Controller {
 		);
 		$this->db->insert('pengeluaran_sablon',$insert);
 		$this->session->set_flashdata('msg','data berhasil disimpan');
-		redirect($this->url.'Sablon/pengeluaran');
+		redirect($this->url.'pengeluaran');
 	}
 
 	public function potongan(){

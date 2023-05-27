@@ -103,6 +103,23 @@ class Gudang extends CI_Controller {
 		}else{
 			$cat=null;
 		}
+
+		if(isset($get['spv'])){
+			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
+			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
+			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
+			if(isset($get['tanggal1'])){
+				$tanggal1=$get['tanggal1'];
+			}else{
+				//$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			}
+			if(isset($get['tanggal2'])){
+				$tanggal2=$get['tanggal2'];
+			}else{
+				//$tanggal2=date('Y-m-d');
+			}
+		}
+		//pre($tanggal12);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;
@@ -114,6 +131,7 @@ class Gudang extends CI_Controller {
 			$sql.=" AND jenis='".$cat."' ";
 		}
 		$sql.=" ORDER BY id DESC ";
+		
 		$results=$this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
 			$data['products'][]=array(
@@ -127,10 +145,16 @@ class Gudang extends CI_Controller {
 				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
+				'stok'=>$result['stok'],
 			);
 		}
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
-		$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		if(isset($get['spv'])){
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv';
+		}else{
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		}
+		
 		$this->load->view($this->page.'main',$data);
 	}
 
