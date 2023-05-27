@@ -127,7 +127,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			$tjml=0;
 			$tpo=0;
 			?>
-			<table class="table table-bordered">
+			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
 						<th>Jenis Sablon</th>
