@@ -335,7 +335,7 @@ class Sablonluar extends CI_Controller {
 		$data=array();
 		$rincian=array();
 		$data['no']=1;
-		$data['kembali']=$this->url.'pengirimansablon';
+		$data['kembali']=$this->url.'kirimsetor';
 		$data['cetak']=$this->url.'kirimcmtsabloncetak/'.$id.'/1';
 		$data['excel']=$this->url.'kirimcmtsabloncetak/'.$id.'/2';
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
