@@ -132,7 +132,7 @@
 			<br>
 			<?php if(isset($cm['jenis_pembayaran'])==1){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
-			<caption>Bagi Hasil</caption>
+			<!-- <caption>Bagi Hasil</caption>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -145,7 +145,7 @@
 					<td><?php echo number_format($saldo*0.6)?></td>
 					<td><?php echo number_format($saldo*0.4)?></td>
 				</tbody>
-			</table>
+			</table> -->
 			<?php } ?>
 			<br>
 			<?php if(isset($cm['jenis_pembayaran'])==2){?>
