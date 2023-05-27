@@ -165,7 +165,7 @@ class Sablonluar extends CI_Controller {
 		$data['kodepo']=$this->GlobalModel->getData('master_po_luar',array('hapus'=>0));
 		//$this->load->view($this->page.'main',$data);
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'pembayaran/sablon_excel',$data);
+			$this->load->view('newtheme/page/pembayaran/pembayaran/sablon_excel_luar',$data);
 		}else{
 			$data['page']=$this->page.'sablon_add';
 			$this->load->view($this->layout,$data);
