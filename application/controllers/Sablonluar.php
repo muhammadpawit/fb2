@@ -322,7 +322,7 @@ class Sablonluar extends CI_Controller {
 	   		$nosj='SJFB'.'-'.date('Y-m').'-'.$id;
 	   		$this->db->update('kirimcmtsablon',array('totalkirim'=>$totalkirim,'nosj'=>$nosj),array('id'=>$id));
    			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect($this->url.'pengirimansablon');
+			redirect($this->url.'kirimsetor');
 			//pre($post);
 		}else{
 			echo "Gagal. Tanggal kirim harus diisi";
