@@ -116,7 +116,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			</table>
 			<br>
 			
-			<?php if($cm['jenis_pembayaran']==2){?>
+			<?php if(isset($cm['jenis_pembayaran'])==2){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Komisi</caption>
 			<?php 
@@ -127,7 +127,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			$tjml=0;
 			$tpo=0;
 			?>
-			<table border="1" style="width: 100%;border-collapse: collapse;">
+			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>Jenis Sablon</th>
@@ -138,51 +138,36 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<!-- <?php $b=0;?>
-					<?php //foreach(array_unique($pekerjaan) as $p =>$val){?>
+					<?php $b=0;?>
+					<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
 					<tr>
 						<td>
 							<?php
-								//$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
-								//echo !empty($name)?$name['nama_job']:'';
+								$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
+								echo !empty($name)?$name['nama_job']:'';
 							?>
 						</td>
-						<td><?php //$b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
-						<td><?php //echo number_format(3000)?></td>
-						<td><?php //echo number_format(3000*array_sum($dzs[$val]))?></td>
-						<td><?php //echo count($dzs[$val]);?> PO </td>
+						<td><?php $b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
+						<td><?php echo number_format(3000)?></td>
+						<td><?php echo number_format(3000*array_sum($dzs[$val]))?></td>
+						<td><?php echo count($dzs[$val]);?> PO </td>
 					</tr>
 					<?php 
-						// $tdz+=array_sum($dzs[$val]);
-						// $tjml+=3000*array_sum($dzs[$val]);
-						// $tpo+=count($dzs[$val]);
+						$tdz+=array_sum($dzs[$val]);
+						$tjml+=3000*array_sum($dzs[$val]);
+						$tpo+=count($dzs[$val]);
 					?>
-					<?php } ?> -->
-					<?php foreach($rekap as $r){?>
-						<tr>	
-							<td><?php echo $r['jenis']?></td>
-							<td><?php echo number_format($r['dz'],2)?></td>
-							<td><?php echo $r['harga']?></td>
-							<td><?php echo $r['jumlah']?></td>
-							<td></td>
-						</tr>
-						<?php 
-							$tdz+=($r['dz']);
-							$tjml+=($r['jumlah']);
-							//$tpo+=count($dzs[$val]);
-						?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
 					<td><b>Total Diterima</b></td>
 					<td><b><?php echo number_format($tdz,2)?></b></td>
 					<td></td>
-					<td><b><?php echo ($tjml)?></b></td>
+					<td><b><?php echo number_format($tjml)?></b></td>
 					<td><b><?php echo $tpo?></b></td>
 				</tfoot>
-				
 			</table>
-			<?php //} ?>
+			<?php } ?>
 		</div>
 	</div>
 	<br>
