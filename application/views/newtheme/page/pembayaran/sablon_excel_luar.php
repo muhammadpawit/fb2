@@ -115,8 +115,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 			</table>
 			<br>
-			<?php if($cm['jenis_pembayaran']==1){?>
-			
 			
 			<?php if($cm['jenis_pembayaran']==2){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
