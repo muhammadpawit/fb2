@@ -43,7 +43,7 @@ class Sablonluar extends CI_Controller {
 		if(isset($get['cmt'])){
 			$cmt=$get['cmt'];
 		}else{
-			$cmt=31;
+			$cmt=87;
 		}
 		$sql="SELECT * FROM pembayaran_sablon WHERE hapus=0 ";
 		$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -74,7 +74,7 @@ class Sablonluar extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cmtf']=$cmt;
-		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT','id_cmt'=>31));
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT','id_cmt'=>87));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$this->load->view($this->layout,$data);
 	}
@@ -107,10 +107,10 @@ class Sablonluar extends CI_Controller {
 		if(isset($get['cmt'])){
 			$cmt=$get['cmt'];
 		}else{
-			$cmt=31;
+			$cmt=87;
 		}
 		$data['cm']=[];
-		$data['cm']=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt,'hapus'=>0,'id_cmt'=>31));
+		$data['cm']=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt,'hapus'=>0,'id_cmt'=>87));
 		$data['pendapatan']=[];
 		$sql="SELECT ksd.*,ks.idcmt FROM kirimcmtsablon_detail ksd JOIN kirimcmtsablon ks ON(ks.id=ksd.idkirim) WHERE ks.hapus=0";
 		//$sql.=" AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -160,7 +160,7 @@ class Sablonluar extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cmtf']=$cmt;
-		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON','id_cmt'=>31));
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON','id_cmt'=>87));
 		$data['kodepo']=$this->GlobalModel->getData('master_po_luar',array('hapus'=>0));
 		//$this->load->view($this->page.'main',$data);
 		if(isset($get['excel'])){
@@ -192,7 +192,7 @@ class Sablonluar extends CI_Controller {
 		if(isset($get['cmt'])){
 			$cmt=$get['cmt'];
 		}else{
-			$cmt=31;
+			$cmt=87;
 		}
 		if(isset($get['sj'])){
 			$sj=$get['sj'];
@@ -203,8 +203,8 @@ class Sablonluar extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['cmt']=$cmt;
 		$data['sj']=$sj;
-		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" AND id_cmt IN(31) ORDER BY cmt_name ASC ');
-		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM kirimcmtsablon WHERE hapus=0 AND idcmt=31');
+		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" AND id_cmt IN(87) ORDER BY cmt_name ASC ');
+		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM kirimcmtsablon WHERE hapus=0 AND idcmt=87');
 		$filter=array(
 				'hapus'=>0,
 		);
@@ -272,7 +272,7 @@ class Sablonluar extends CI_Controller {
 		$data['page']=$this->page.'kirimcmtsablonluar_form';
 		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['kodepo'] = $this->GlobalModel->queryManual('SELECT * FROM master_po_luar WHERE hapus=0 ');
-		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" AND id_cmt IN(31) ORDER BY cmt_name ASC ');
+		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" AND id_cmt IN(87) ORDER BY cmt_name ASC ');
 		$this->load->view('newtheme/page/main',$data);
 		
 	}
