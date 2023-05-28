@@ -32,7 +32,7 @@
     <div class="col-md-2">
         <label>Pemilik PO</label>
         <select name="pemilik" class="form-control select2bs4" required="required">
-              <option value="">Pilih</option>
+              <option value="*">Pilih</option>
               <?php foreach($pemilik as $p){?>
                 <option value="<?php echo $p['id']?>" <?php echo $milik==$p['id']?'selected':'';?>><?php echo $p['nama']?></option>
               <?php } ?>
@@ -49,9 +49,9 @@
     </div>
     <div class="col-md-2">
         <label>Aksi</label><br>
-        <a onclick="filter()" class="btn btn-info btn-sm text-white">Filter</a>
-        <a onclick="exceldalam()" class="btn btn-info btn-sm text-white">Excel</a>
-        <a href="<?php echo $tambah?>" class="btn btn-info btn-sm">Tambah</a>
+        <a onclick="filter()" class="btn btn-info btn-xs text-white">Filter</a>
+        <a onclick="exceldalam()" class="btn btn-info btn-xs text-white">Excel</a>
+        <a href="<?php echo $tambah?>" class="btn btn-info btn-xs">Tambah</a>
     </div>
 </div>
 <div class="row">

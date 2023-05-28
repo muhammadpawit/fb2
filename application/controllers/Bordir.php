@@ -1106,7 +1106,7 @@ class Bordir extends CI_Controller {
 				$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
 				$data['pemilik']=$this->GlobalModel->getData('pemilik_poluar',array('hapus'=>0));
 				$data['opt'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
-				$data['milik'] = $get['pemilik'];
+				$data['milik'] = isset($get['pemilik']) ? $get['pemilik'] : '';
 				if(isset($get['excel'])){
 					$this->load->view('bordir/list_excel',$data);
 				}else{
