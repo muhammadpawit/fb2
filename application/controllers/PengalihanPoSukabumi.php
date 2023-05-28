@@ -16,8 +16,12 @@ class PengalihanPoSukabumi extends CI_Controller {
 	}
 
     public function index(){
-		$data=[];
-		$data['title']='Kirim PO CMT Sukabumi';
+		$data=array();
+		$data['title']='Surat Jalan Pengiriman Jahit';
+		$data['products']=array();
+		$data['url']=$this->url;
+		$data['i']=1;
+		$data['tambah']=$this->url.'tambah';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
@@ -29,39 +33,129 @@ class PengalihanPoSukabumi extends CI_Controller {
 		}else{
 			$tanggal2=null;
 		}
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+		if(isset($get['sj'])){
+			$sj=$get['sj'];
+		}else{
+			$sj=null;
+		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$sql="SELECT * FROM pengalihanpo WHERE hapus=0";
-		if(!empty($tanggal1)){
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$data['cmt']=$cmt;
+		$data['sj']=$sj;
+		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="JAHIT" AND lokasi=3 ORDER BY cmt_name ASC ');
+		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM kirimcmt WHERE hapus=0');
+		$filter=array(
+				'hapus'=>0,
+		);
+		$results=array();
+		$sql="SELECT kc.* FROM kirimcmt kc ";
+        $sql .=" LEFT JOIN master_cmt mc ON mc.id_cmt=kc.idcmt ";
+
+        $sql.=" WHERE kc.hapus=0 AND mc.lokasi=3 ";
+
+		if(!empty($cmt)){
+			$sql.=" AND idcmt='$cmt' ";
 		}
-		$sql.=" ORDER BY id desc ";
-		$data['prods']=[];
-		$results=$this->GlobalModel->QueryManual($sql);
-		$sql.=" ORDER BY id DESC ";
-		foreach ($results as $r) {
-			$cmtasal=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$r['cmt_asal']));
-			$cmttujuan=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$r['cmt_tujuan']));
-			$sjasal=$this->GlobalModel->GetDataRow('kirimcmt',array('id'=>$r['sj_asal']));
-			$sjtujuan=$this->GlobalModel->GetDataRow('kirimcmt',array('id'=>$r['sj_tujuan']));
-			$data['prods'][]=array(
-				'tanggal'=>date('d F Y',strtotime($r['tanggal'])),
-				'sj_asal'=>$sjasal['nosj'],
-				'sj_tujuan'=>$sjtujuan['nosj'],
-				'cmt_asal'=>$cmtasal['cmt_name'],
-				'cmt_tujuan'=>$cmttujuan['cmt_name'],
-				'kode_po'=>$r['kode_po'],
-				'keterangan'=>$r['keterangan'],
+
+		if(!empty($sj)){
+			$sql.=" AND id='$sj' ";
+		}
+
+		if(empty($cmt) OR empty($sj)){
+			if(!empty($tanggal1)){
+				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
+		}
+
+		$sql.=' ORDER BY kc.id DESC ';
+		$sql.=" LIMIT 20 ";
+		$results= $this->GlobalModel->queryManual($sql);
+		$namacmt=null;
+		$no=1;
+		foreach($results as $result){
+			$action=array();
+			$action[] = array(
+				'text' => 'Detail',
+				'href' => BASEURL.'Kelolapo/kirimcmtview/'.$result['id'],
+			);
+
+			if(aksesedit()==1){
+				$action[] = array(
+					'text' => 'Edit',
+					'href' => BASEURL.'Kelolapo/kirimcmtedit/'.$result['id'],
+				);
+			}
+
+			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			
+			$data['products'][]=array(
+				'no'=>$no++,
+				'nosj'=>$result['nosj'],
+				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'kode_po'=>$result['kode_po'],
+				'quantity'=>$result['totalkirim'],
+				'namacmt'=>$namacmt['cmt_name'],
+				'keterangan'=>$result['keterangan'],
+				'status'=>$result['status']==1?'Disetor':'Dikirim',
+				'action'=>$action,
 			);
 		}
-		$data['page']=$this->page.'pengalihanpo';
-		$data['tambah']=$this->url.'tambah';
-		$this->load->view($this->layout,$data);	
+		$data['page']='produksi/kirimcmt_list';
+		$this->load->view('newtheme/page/main',$data);
+		
 	}
+    // public function index(){
+	// 	$data=[];
+	// 	$data['title']='Kirim PO CMT Sukabumi';
+	// 	$get=$this->input->get();
+	// 	if(isset($get['tanggal1'])){
+	// 		$tanggal1=$get['tanggal1'];
+	// 	}else{
+	// 		$tanggal1=null;
+	// 	}
+	// 	if(isset($get['tanggal2'])){
+	// 		$tanggal2=$get['tanggal2'];
+	// 	}else{
+	// 		$tanggal2=null;
+	// 	}
+	// 	$data['tanggal1']=$tanggal1;
+	// 	$data['tanggal2']=$tanggal2;
+	// 	$sql="SELECT * FROM pengalihanpo WHERE hapus=0";
+	// 	if(!empty($tanggal1)){
+	// 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+	// 	}
+	// 	$sql.=" ORDER BY id desc ";
+	// 	$data['prods']=[];
+	// 	$results=$this->GlobalModel->QueryManual($sql);
+	// 	$sql.=" ORDER BY id DESC ";
+	// 	foreach ($results as $r) {
+	// 		$cmtasal=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$r['cmt_asal']));
+	// 		$cmttujuan=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$r['cmt_tujuan']));
+	// 		$sjasal=$this->GlobalModel->GetDataRow('kirimcmt',array('id'=>$r['sj_asal']));
+	// 		$sjtujuan=$this->GlobalModel->GetDataRow('kirimcmt',array('id'=>$r['sj_tujuan']));
+	// 		$data['prods'][]=array(
+	// 			'tanggal'=>date('d F Y',strtotime($r['tanggal'])),
+	// 			'sj_asal'=>$sjasal['nosj'],
+	// 			'sj_tujuan'=>$sjtujuan['nosj'],
+	// 			'cmt_asal'=>$cmtasal['cmt_name'],
+	// 			'cmt_tujuan'=>$cmttujuan['cmt_name'],
+	// 			'kode_po'=>$r['kode_po'],
+	// 			'keterangan'=>$r['keterangan'],
+	// 		);
+	// 	}
+	// 	$data['page']=$this->page.'pengalihanpo';
+	// 	$data['tambah']=$this->url.'tambah';
+	// 	$this->load->view($this->layout,$data);	
+	// }
 
 	public function tambah(){
 		$data=[];
-		$data['title']='Pengalihan PO';
+		$data['title']='Pengiriman PO';
 		$data['kirim']=$this->GlobalModel->QueryManual("SELECT kd.*, k.idcmt,k.nosj,k.tanggal as tglsj,k.id as idsj FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) WHERE k.idcmt=85 AND kd.hapus=0 AND k.hapus=0");
 		$data['cmt']=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE lokasi=3 and hapus=0 AND id_cmt NOT IN(85) ORDER BY cmt_name ");
 		$data['action']=$this->url.'tambah_save';

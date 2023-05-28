@@ -49,7 +49,7 @@
 
               <hr>
 
-              <strong><i class="fa fa-file-text-o margin-r-5"></i> Motto Hiduo</strong>
+              <strong><i class="fa fa-file-text-o margin-r-5"></i> Motto Hidup</strong>
 
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
             </div>
@@ -67,14 +67,14 @@
             </ul>
             <div class="tab-content">
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="timeline">
+              <div class="tab-pane" id="timeline" style="height:500px;overflow:auto">
                 <!-- The timeline -->
                 <?php foreach($activity as $a){?>
                 <ul class="timeline timeline-inverse">
                   <!-- timeline time label -->
                   <li class="time-label">
                         <span class="bg-green">
-                          <?php echo $a['tanggal'] ?>
+                          <?php echo date('F Y',strtotime($a['tanggal'])) ?>
                         </span>
                   </li>
                   <!-- /.timeline-label -->
@@ -84,7 +84,7 @@
                     <i class="fa fa-check bg-blue"></i>
 
                     <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('H:i:s',strtotime($d['waktu'])) ?></span>
+                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('d F Y H:i:s',strtotime($d['waktu'])) ?></span>
 
                       <h3 class="timeline-header"><a href="#"> <?php echo $d['nama_user'] ?></a></h3>
 

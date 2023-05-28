@@ -92,4 +92,59 @@ class Alatsukabumi extends CI_Controller {
 		redirect($this->url);
 	}
 
+	public function distribusi(){
+		$data=[];
+		$data['title']='Pengiriman Alat-alat Di Sukabumi Ke CMT ';
+		$get=$this->input->get();
+		$url='';
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+			$url.='&tanggal1='.$tanggal1;
+		}else{
+			$tanggal1=null;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+			$url.='&tanggal2='.$tanggal2;
+		}else{
+			$tanggal2=null;
+		}
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+			$url.='&cmt='.$cmt;
+		}else{
+			$cmt=null;
+		}		
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['selcmt']=$cmt;
+		$filter=array(
+			'tanggal1'=>$tanggal1,
+			'tanggal2'=>$tanggal2,
+		);
+		$data['prods']=$this->AlatsukabumiModel->distribusi($filter);
+		$data['action']=$this->url.'distribusi_save';
+		$data['cmt']	= $this->GlobalModel->GetData('master_cmt',array('hapus'=>0,'lokasi'=>3));
+		$data['alat']	= $this->GlobalModel->GetData('stok_barang_skb',array('hapus'=>0));
+		$data['page']=$this->page.'distribusi';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function distribusi_save(){
+		$this->AlatsukabumiModel->distribusi_save();
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url.'distribusi');
+	}
+
+	public function cariproduct($id='')
+	{
+		$getId = $this->input->get('id');
+		$data = $this->GlobalModel->getDataRow('stok_barang_skb',array('id_persediaan'=>$getId));
+		echo json_encode($data);
+	}
+
+	public function distribusi_hapus($id){
+		$this->AlatsukabumiModel->distribusi_hapus($id);
+	}
+
 }

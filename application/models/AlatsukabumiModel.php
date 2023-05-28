@@ -94,4 +94,69 @@ class AlatsukabumiModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function distribusi($data){
+		$hasil=[];
+		$sql="SELECT d.*, mc.cmt_name, s.nama, s.satuan FROM distribusi_alat_sukabumi d ";
+		$sql.=" LEFT JOIN master_cmt mc ON mc.id_cmt=d.idcmt ";
+		$sql.=" LEFT JOIN stok_barang_skb s ON s.id_persediaan=d.id_persediaan ";
+		$sql.=" WHERE d.hapus=0 ";
+		if(!empty($data['tanggal1'])){
+			$sql.=" AND DATE(d.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		}
+
+		$sql.=" ORDER BY d.id DESC ";
+		$result=$this->GlobalModel->QueryManual($sql);
+		if(!empty($result)){
+			foreach($result as $r){
+				$hasil[]=array(
+					'id'=>$r['id'],
+					'tanggal'=>date("d-m-Y",strtotime($r['tanggal'])),
+					'nama'=>strtolower($r['cmt_name']),
+					'alat'=>strtolower($r['nama']),
+					'jumlah'=>$r['jumlah'],
+					'satuan'=>$r['satuan'],
+					'keterangan'=>strtolower($r['keterangan']),
+				);
+			}
+		}
+		return $hasil;
+	}
+
+	public function distribusi_save(){
+		$post = $this->input->post();
+		if($post['jumlah'] >0){
+			$insert = array(
+				'tanggal' => isset($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'),
+				'id_persediaan' => $post['id_persediaan'],
+				'idcmt'	=> $post['idcmt'],
+				'jumlah' => $post['jumlah'],
+				'keterangan' => $post['keterangan'],
+				'hapus'=>0,
+			);
+			$this->db->insert('distribusi_alat_sukabumi',$insert);
+			$id = $this->db->insert_id();
+			$this->db->query("UPDATE stok_barang_skb set stock=stock-'".$post['jumlah']."' WHERE id_persediaan='".$post['id_persediaan']."' ");
+			user_activity(callSessUser('id_user'),1,' menambahkan distribusi alat dengan id '.$id);
+		}else{
+			$this->session->set_flashdata('gagal','Data gagal disimpan. Stok alat habis<br>'.json_encode($post));
+			redirect($this->url.'distribusi');
+		}
+	}
+
+	public function distribusi_hapus($id){
+		$transaksi = $this->GlobalModel->GetDataRow('distribusi_alat_sukabumi',array('id'=>$id));
+		$this->db->update(
+			'distribusi_alat_sukabumi',
+			array(
+				'hapus'=>1
+			),
+			array(
+				'id'=>$id
+			)
+		);
+		$this->db->query("UPDATE stok_barang_skb set stock=stock+'".$transaksi['jumlah']."' WHERE id_persediaan='".$transaksi['id_persediaan']."' ");
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.'distribusi');
+	}
+
 }
