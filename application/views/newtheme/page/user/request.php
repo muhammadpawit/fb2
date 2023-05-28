@@ -55,7 +55,7 @@
           </div>
           <div class="form-group">
           	<label>Permintaan Untuk</label>
-          	<select name="aksestable" class="form-control select2bs4" data-live-search="true">
+          	<select name="aksestable" class="form-control select2bs4" data-live-search="true" style="width:100%">
           		<option value="Masterdata/userakses/">Otorisasi Edit dan Hapus</option>
           		<option value="user/menu">Minta bukain menu</option>
           	</select>
