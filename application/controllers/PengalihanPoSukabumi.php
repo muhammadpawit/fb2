@@ -111,7 +111,7 @@ class PengalihanPoSukabumi extends CI_Controller {
                         'kategori_cmt'=>'JAHIT',
                     )
                 );
-            // hapus sj lama di klo
+            // // hapus sj lama di klo
             $this->db->update('kelolapo_kirim_setor',
                 array(
                     'hapus'=>1
@@ -130,7 +130,7 @@ class PengalihanPoSukabumi extends CI_Controller {
             );
 
             // kurangi qty kirim pada surat jalan
-            $this->GlobalModel->QueryManual("UPDATE kirimcmt set totalkirim=totalkirim-'".$klo['qty_tot_pcs']."' 
+            $this->db->query("UPDATE kirimcmt set totalkirim=totalkirim-'".$klo['qty_tot_pcs']."' 
                 WHERE id='".$explode[1]."'
             ");
             // hapus sj lama di surat jalan
@@ -161,7 +161,7 @@ class PengalihanPoSukabumi extends CI_Controller {
                $insertkks=array(
                    'kode_po'=>$explode[0],
                    'create_date'=>$post['tanggal'],
-                   'kode_nota_cmt'=>$id,
+                   //'kode_nota_cmt'=>$id,
                    'progress'=>'KIRIM',
                    'kategori_cmt'=>'JAHIT',
                    'id_master_cmt'=>$post['id_cmt'],
