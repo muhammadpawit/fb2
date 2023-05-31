@@ -137,7 +137,7 @@
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
-						<td align="center" height="100" valign="bottom">(DINDA)</td>
+						<td align="center" height="100" valign="bottom">(NISA)</td>
 						</tr>
 					</table>
 				</td>
