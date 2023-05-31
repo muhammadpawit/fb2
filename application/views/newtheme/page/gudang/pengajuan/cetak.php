@@ -414,9 +414,9 @@
                                                 <?php 
 
                                                     if($parent['kategori']==4){
-                                                        echo "(ASMIYA)";
+                                                        echo "(Asmiya)";
                                                     }else{
-                                                        echo "(IFAH)";
+                                                        echo "(Ifah)";
                                                     }
 
                                                 ?>

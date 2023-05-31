@@ -229,7 +229,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( IFAH )
+                                                ( Ifah )
 
                                             </td>
 
