@@ -99,7 +99,7 @@ header("Content-Disposition: attachment; filename=Laporan_potongan.xls");
                       <br>
                       <br>
                       <br>
-                      Dwi
+                      IFAH
                   </th>
                 </tr>
                 <tr>

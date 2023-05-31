@@ -378,9 +378,9 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                                 <?php 
 
                                                     if($parent['kategori']==4){
-                                                        echo "(Reta)";
+                                                        echo "(ASMIYA)";
                                                     }else{
-                                                        echo "(Dwi)";
+                                                        echo "(IFAH)";
                                                     }
 
                                                 ?>

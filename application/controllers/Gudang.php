@@ -746,7 +746,7 @@ class Gudang extends CI_Controller {
 		}
 		$this->db->update('pengajuan_harian_new',array('status'=>1),array('id'=>$id));
 		$this->db->update('pengajuan_harian_new_detail',array('komentar'=>null),array('idpengajuan'=>$id));
-		kirim_email('dwimaryanti286@gmail.com','Sdr ibu Dwi, Pak '.callSessUser('nama_user').' telah menyetujui pengajuan harian yang telah dibuat, silahkan segera diprint / cetak ');
+		//kirim_email('dwimaryanti286@gmail.com','Sdr ibu Dwi, Pak '.callSessUser('nama_user').' telah menyetujui pengajuan harian yang telah dibuat, silahkan segera diprint / cetak ');
 		$this->session->set_flashdata('msg','Data berhasil disetujui');
 		redirect(BASEURL.'Gudang/pengajuan'.$url);
 	}

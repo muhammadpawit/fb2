@@ -414,9 +414,9 @@
                                                 <?php 
 
                                                     if($parent['kategori']==4){
-                                                        echo "(Reta)";
+                                                        echo "(ASMIYA)";
                                                     }else{
-                                                        echo "(Dwi)";
+                                                        echo "(IFAH)";
                                                     }
 
                                                 ?>

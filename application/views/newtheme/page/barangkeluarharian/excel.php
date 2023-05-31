@@ -97,7 +97,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( DWI )
+                                                ( IFAH )
 
                                             </td>
 
