@@ -441,15 +441,25 @@
             var obj = JSON.parse(data);
             if(obj!==null){
                 var dz=Math.round(obj.qty_tot_pcs/12);
-                var total=Number(obj.cmt_job_price*dz);
-                // dai.find(".jumlahPc").val(obj.qty_tot_pcs);
-                // dai.find(".jumlahDz").val(dz.toFixed(2));
-                dai.find(".dz").val(obj.qty_tot_pcs/12);
-                dai.find(".jumlahPc").val(0);
-                dai.find(".jumlahDz").val(0);
-                dai.find(".harga").val(obj.cmt_job_price);
-                //dai.find(".total").val(total);
+                dai.find(".jumlahDz").val(dz.toFixed(2));
+                dai.find(".dz").val(dz);
+                dai.find(".jumlahPc").val(obj.qty_tot_pcs);
+                
                 dai.find(".total").val(0);
+            }else{
+                //alert("Kode Po belum disetor");
+                //dai.remove();
+            }
+        });
+        $.get( "<?php echo BASEURL.'finishing/kirimcmtjahit' ?>", { kodepo: dataItem, cmt:cmts } )
+          .done(function( data ) {
+            var obj = JSON.parse(data);
+            if(obj!==null){
+                var dz=Math.round(obj.qty_tot_pcs/12);
+                var total=Number(obj.cmt_job_price*dz);
+                dai.find(".dz").val(dz);
+                dai.find(".jumlahPc").val(obj.qty_tot_pcs);
+                dai.find(".harga").val(obj.cmt_job_price);
             }else{
                 //alert("Kode Po belum disetor");
                 //dai.remove();

@@ -1575,7 +1575,17 @@ class Finishing extends CI_Controller {
 	public function setorcmtjahit()
 	{
 		$post = $this->input->get();
+		//$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
+		$sql ="SELECT COALESCE(SUM((rincian_lusin*12) + rincian_piece),0) as qty_tot_pcs FROM kelolapo_rincian_setor_cmt_finish WHERE kode_po='".$post['kodepo']."'  ";
+		$data = $this->GlobalModel->QueryManualROw($sql);
+		echo json_encode($data);
+	}
+
+	public function kirimcmtjahit()
+	{
+		$post = $this->input->get();
 		$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
+		// /$data = $this->GlobalModel->QueryManualROw($sql);
 		echo json_encode($data);
 	}
 
