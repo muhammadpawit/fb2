@@ -42,18 +42,20 @@ class Laporanmingguansablon extends CI_Controller {
 			$masuk_kas=$this->LaporanmingguanModel->kas_masuk_bordir($dt['tanggal'],$bagian);
 			$masuk_transfer=$this->LaporanmingguanModel->transferan_bordir($dt['tanggal'],$bagian);
 			$keterangan=$this->LaporanmingguanModel->keterangan_bordir($dt['tanggal'],$bagian);
-		    $data['results'][]=array(
-		    	'hari'=>hari(date('l',strtotime($dt['tanggal']))),
-		    	'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
-		    	'transfer'=>$masuk_transfer,
-		    	'kas'=>$masuk_kas,
-		    	'bahanbaku'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,12),
-		    	'inventaris'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,13),
-		    	'ops'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,14),
-		    	'gaji'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,15),
-		    	'sisa'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,16),
-		    	'keterangan'=>implode(",",$keterangan),
-		    );
+		    if($masuk_kas > 0 OR $masuk_transfer >0){
+				$data['results'][]=array(
+					'hari'=>hari(date('l',strtotime($dt['tanggal']))),
+					'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
+					'transfer'=>$masuk_transfer,
+					'kas'=>$masuk_kas,
+					'bahanbaku'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,12),
+					'inventaris'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,13),
+					'ops'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,14),
+					'gaji'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,15),
+					'sisa'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,16),
+					'keterangan'=>implode(",",$keterangan),
+				);
+			}
 		} 
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'sablon';

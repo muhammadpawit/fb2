@@ -42,6 +42,7 @@ class Laporanmingguanbordir extends CI_Controller {
 			$masuk_kas=$this->LaporanmingguanModel->kas_masuk_bordir($dt['tanggal'],$bagian);
 			$masuk_transfer=$this->LaporanmingguanModel->transferan_bordir($dt['tanggal'],$bagian);
 			$keterangan=$this->LaporanmingguanModel->keterangan_bordir($dt['tanggal'],$bagian);
+			if($masuk_kas > 0 OR $masuk_transfer>0){
 		    $data['results'][]=array(
 		    	'hari'=>hari(date('l',strtotime($dt['tanggal']))),
 		    	'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
@@ -55,6 +56,7 @@ class Laporanmingguanbordir extends CI_Controller {
 		    	'keterangan'=>implode(",",$keterangan),
 		    	//'alokasi_transfer'=>$this->LaporanmingguanModel->alokasi_transfer($dt['tanggal'],$bagian);
 		    );
+			}
 		} 
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'bordir';

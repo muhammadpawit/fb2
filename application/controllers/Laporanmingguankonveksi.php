@@ -43,22 +43,24 @@ class Laporanmingguankonveksi extends CI_Controller {
 			$masuk_transfer=$this->LaporanmingguanModel->transferan_bordir($dt['tanggal'],$bagian);
 			$keterangan=$this->LaporanmingguanModel->keterangan_bordir($dt['tanggal'],$bagian);
 			$keterangan+=$this->LaporanmingguanModel->keterangan_transferan($dt['tanggal'],$bagian);
-		    $data['results'][]=array(
-		    	'hari'=>hari(date('l',strtotime($dt['tanggal']))),
-		    	'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
-		    	'transfer'=>$masuk_transfer,
-		    	'giro'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,20)),
-		    	'kasmasuk'=>$masuk_kas,
-		    	'kaskeluar'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,6),
-		    	'sisakas'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,7),
-		    	'sukabumi'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,8)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,1)),
-		    	'serang'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,9)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,2)),
-		    	'jawa'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,10)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,3)),
-		    	'ajuan'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,11)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,5)),
-		    	'girokredit'=>$this->LaporanmingguanModel->alokasi_transfer_giro($dt['tanggal'],$bagian,20),
-		    	//'keterangan'=>implode(",",$keterangan),
-		    	'keterangan'=>null,
-		    );
+		    if($masuk_transfer > 0 OR $masuk_kas > 0){
+				$data['results'][]=array(
+					'hari'=>hari(date('l',strtotime($dt['tanggal']))),
+					'tanggal'=>date('d-m-Y',strtotime($dt['tanggal'])),
+					'transfer'=>$masuk_transfer,
+					'giro'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,20)),
+					'kasmasuk'=>$masuk_kas,
+					'kaskeluar'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,6),
+					'sisakas'=>$this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,7),
+					'sukabumi'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,8)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,1)),
+					'serang'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,9)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,2)),
+					'jawa'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,10)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,3)),
+					'ajuan'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,11)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,5)),
+					'girokredit'=>$this->LaporanmingguanModel->alokasi_transfer_giro($dt['tanggal'],$bagian,20),
+					//'keterangan'=>implode(",",$keterangan),
+					'keterangan'=>null,
+				);
+			}
 		} 
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'konveksi';
