@@ -2353,7 +2353,10 @@ class Kelolapo extends CI_Controller {
 	public function searchCmt()
 	{
 		$post = $this->input->post();
-		$data = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>$post['jobCmt']));
+		//$data = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>$post['jobCmt']));
+		$data = $this->GlobalModel->QueryManual("
+			SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='".$post['jobCmt']."' AND lokasi NOT IN(3)
+		");
 		echo "<option value=''>Pilih CMT</option>";
 		foreach ($data as $key => $cmt) {
 			echo '<option value='.$cmt['id_cmt'].'-'.url_title($cmt['cmt_name'],'underscore').'>'.$cmt['cmt_name'].'</option>';
