@@ -114,11 +114,13 @@
 						<td><?php echo $p['keterangan']?></td>
 						<td>
 							<?php if(akseshapus()==1){ ?>
+                <?php if($p['validasi']==0){ ?>
                                 <a href="<?php echo BASEURL.'Alatsukabumi/distribusi_hapus/'.$p['id'] ?>"
                                 class="btn btn-xs btn-danger"
                                 onClick="return confirm('Apakah yakin akan menghapus data ini?') "
                                 ><i class="fa fa-trash"></i></a>
-                            <?php } ?>
+                                <?php } ?>
+                                <?php } ?>
 
                   <?php if($p['validasi']==0){ ?>
 
