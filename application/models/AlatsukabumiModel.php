@@ -158,6 +158,7 @@ class AlatsukabumiModel extends CI_Model {
 		);
 		$this->db->query("UPDATE stok_barang_skb set stock=stock+'".$transaksi['jumlah']."' WHERE id_persediaan='".$transaksi['id_persediaan']."' ");
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		user_activity(callSessUser('id_user'),1,' hapus distribusi alat-alat dengan id '.$id);
 		redirect($this->url.'distribusi');
 	}
 
