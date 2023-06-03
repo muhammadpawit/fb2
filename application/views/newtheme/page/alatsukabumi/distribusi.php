@@ -108,7 +108,7 @@
 						<td><?php echo $no++ ?></td>
 						<td><?php echo $p['tanggal']?></td>
 						<td><?php echo $p['nama']?></td>
-                        <td><?php echo $p['alat']?></td>
+            <td><?php echo $p['alat']?></td>
 						<td><?php echo $p['jumlah']?></td>
 						<td><?php echo $p['satuan']?></td>
 						<td><?php echo $p['keterangan']?></td>
@@ -119,6 +119,17 @@
                                 onClick="return confirm('Apakah yakin akan menghapus data ini?') "
                                 ><i class="fa fa-trash"></i></a>
                             <?php } ?>
+
+                  <?php if($p['validasi']==0){ ?>
+
+                    <a href="<?php echo BASEURL.'Alatsukabumi/distribusi_validasi/'.$p['id'] ?>"
+                                class="btn btn-xs btn-primary"
+                                onClick="return confirm('Apakah yakin akan memvalidasi data ini?') "
+                                ><i class="fa fa-check"></i> validasi</a>
+
+                  <?php }else{ ?>
+                    <span class="badge bg-green">sudah divalidasi</span>
+                    <?php } ?>
 						</td>
 					</tr>
 				<?php } ?>

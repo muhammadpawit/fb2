@@ -116,6 +116,7 @@ class AlatsukabumiModel extends CI_Model {
 					'jumlah'=>$r['jumlah'],
 					'satuan'=>$r['satuan'],
 					'keterangan'=>strtolower($r['keterangan']),
+					'validasi'=>$r['validasi'],
 				);
 			}
 		}
@@ -132,6 +133,7 @@ class AlatsukabumiModel extends CI_Model {
 				'jumlah' => $post['jumlah'],
 				'keterangan' => $post['keterangan'],
 				'hapus'=>0,
+				'validasi'=>0,
 			);
 			$this->db->insert('distribusi_alat_sukabumi',$insert);
 			$id = $this->db->insert_id();
@@ -156,6 +158,22 @@ class AlatsukabumiModel extends CI_Model {
 		);
 		$this->db->query("UPDATE stok_barang_skb set stock=stock+'".$transaksi['jumlah']."' WHERE id_persediaan='".$transaksi['id_persediaan']."' ");
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.'distribusi');
+	}
+
+	public function distribusi_validasi($id){
+		$transaksi = $this->GlobalModel->GetDataRow('distribusi_alat_sukabumi',array('id'=>$id));
+		$this->db->update(
+			'distribusi_alat_sukabumi',
+			array(
+				'validasi'=>1
+			),
+			array(
+				'id'=>$id
+			)
+		);
+		
+		$this->session->set_flashdata('msg','Data berhasil divalidasi');
 		redirect($this->url.'distribusi');
 	}
 

@@ -147,4 +147,8 @@ class Alatsukabumi extends CI_Controller {
 		$this->AlatsukabumiModel->distribusi_hapus($id);
 	}
 
+	public function distribusi_validasi($id){
+		$this->AlatsukabumiModel->distribusi_validasi($id);
+	}
+
 }
