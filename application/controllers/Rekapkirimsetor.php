@@ -209,6 +209,7 @@ class Rekapkirimsetor extends CI_Controller {
 			);
 		}
 
+		$data['log']   = $this->GlobalModel->QueryManualRow("SELECT * FROM kelolapo_rincian_setor_cmt ORDER BY id_kelolapo_rincian_setor_cmt DESC limit 1");
 
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'rekapkirimsetor_excel',$data);	
