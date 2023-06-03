@@ -172,6 +172,8 @@ class AlatsukabumiModel extends CI_Model {
 				'id'=>$id
 			)
 		);
+
+		user_activity(callSessUser('id_user'),1,' validasi dengan id '.$id);
 		
 		$this->session->set_flashdata('msg','Data berhasil divalidasi');
 		redirect($this->url.'distribusi');
