@@ -70,6 +70,14 @@
 					<td><?php echo number_format($nilai)?></td>
 					<td></td>
 				</tr>
+				<tr>
+					<td colspan="2"><b>Di update terakhir</b></td>
+					<td colspan="5">
+						<?php if(!empty($log)){ ?>
+							<b>Tanggal : <?php echo date('d F Y',strtotime($log['created_date'])) ?></b>
+						<?php } ?>
+					</td>
+				</tr>
 			</tfoot>
 		</table>
 	</div>

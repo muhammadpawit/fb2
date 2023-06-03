@@ -95,6 +95,7 @@ class Laporankirimgudangharian extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['bulan']=$bulan;
 		$data['tahun'] =$tahun;
+		$data['log']   = $this->GlobalModel->QueryManualRow("SELECT * FROM finishing_kirim_gudang ORDER BY id_finishing_kirim_gudang DESC limit 1");
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'report/kirimgudang_excel',$data);	
 		}else{
