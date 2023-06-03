@@ -85,6 +85,8 @@ class Monitoringprosespo extends CI_Controller {
 
 		$data['action']=$this->url.'proses_save';
 		$data['page']=$this->page.'finishing/monitoringprosespo';
+		$data['log']=$this->GlobalModel->QueryManualRow("SELECT * FROM finishing_proses_updated ORDER BY id DESC LIMIT 1 ");
+		//pre(callSessUser('nama_user'));
 		$this->load->view($this->layout,$data);
 	}
 
@@ -111,6 +113,11 @@ class Monitoringprosespo extends CI_Controller {
 					$this->db->update('proses_po',$insert,array('kode_po'=>$explode[1]));
 				}
 			}
+			$log = array(
+				'tanggal'=>date('Y-m-d H:i:s'),
+				'oleh'	 =>callSessUser('nama_user'),
+			);
+			$this->db->insert('finishing_proses_updated',$log);
 			//pre($cek);
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect($this->url);

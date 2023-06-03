@@ -483,6 +483,15 @@
 						</tr>
 					<?php } ?>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td>Di Update terakhir 
+							<?php if(!empty($log)){ ?>
+								<b><?php echo $log['oleh']; ?>, tanggal : <?php echo date('d F Y H:i:s',strtotime($log['tanggal'])); ?></b>
+							<?php } ?>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

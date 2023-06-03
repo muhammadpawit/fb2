@@ -41,14 +41,16 @@ class Ajuanalatalat extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 		);
 		$data['prods']=$this->AjuanalatModel->show($filter);
-		$data['tambah']=$this->url.'tambah';
-		$data['page']=$this->page.'list_penerimaan';
+		$data['id']=$id;
+		$data['tambah']=$this->url.'tambah'.'/'.$id;
+		$data['page']=$this->page.'list';
 		$this->load->view($this->layout,$data);
 	}
 
-	public function tambah(){
+	public function tambah($id){
 		$data=[];
-		$data['title']='Terima Alat-alat Di Sukabumi';
+		$data['title']="Form Ajuan alat-alat ";
+		$data['title'].=$id==1?'Bordir':'Konveksi';
 		$get=$this->input->get();
 		$url='';
 		if(isset($get['tanggal1'])){
@@ -70,9 +72,12 @@ class Ajuanalatalat extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 		);
 		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND id_persediaan IN (SELECT idpersediaan FROM barangkeluarharian_detail WHERE hapus=0 GROUP BY idpersediaan) ORDER BY nama_item ASC");
-		$data['simpan']=$this->url.'save';
+		$data['action']=$this->url.'save';
 		$data['cancel']=$this->url;
 		$data['page']=$this->page.'tambah';
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier',null);
+		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
+		$data['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
 		$this->load->view($this->layout,$data);
 	}
 
