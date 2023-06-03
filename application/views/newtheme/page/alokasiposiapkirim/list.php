@@ -13,11 +13,11 @@
 <div class="row">
 	<div class="col-md-3">
 		<label>Tanggal Awal</label>
-		<input type="text" name="tanggal1" class="form-control" value="<?php echo $tanggal1?>">
+		<input type="text" name="tanggal1" id="tanggal1" class="form-control" value="<?php echo $tanggal1?>">
 	</div>
 	<div class="col-md-3">
 		<label>Tanggal Akhir</label>
-		<input type="text" name="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
+		<input type="text" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
 	</div>
 	<div class="col-md-3">
 		<label>Nama CMT</label>
@@ -31,7 +31,7 @@
 	<div class="col-md-3">
 		<label>Action</label><br>
 		<button class="btn btn-info btn-sm" onclick="filterwithcmt()">Filter</button>
-		<button class="btn btn-info btn-sm" onclick="excel()">excel</button>
+		<button class="btn btn-info btn-sm" onclick="excelwithtgl()">excel</button>
 		<a class="btn btn-info btn-sm text-white" href="<?php echo $tambah?>">Tambah</a>
 	</div>
 </div>

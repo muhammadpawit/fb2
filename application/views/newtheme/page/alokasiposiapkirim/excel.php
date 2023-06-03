@@ -37,14 +37,14 @@
   <tr>
     <td class="tg-0pky"><?php echo $p['no']?></td>
     <td class="tg-0pky"><?php echo strtoupper($p['nama'])?></td>
+    <td class="tg-0pky"><?php echo $p['oblongpdk']?></td>
+    <td class="tg-0pky"><?php echo $p['oblongpdkraglan']?></td>
+    <td class="tg-0pky"><?php echo $p['oblongpjg']?></td>
     <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td class="tg-0pky"><?php echo $p['hugo']?></td>
+    <td class="tg-0pky"><?php echo $p['stkd']?></td>
+    <td class="tg-0pky"><?php echo $p['stwangky']?></td>
+    <td class="tg-0pky"><?php echo $p['wangky']?></td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky"></td>

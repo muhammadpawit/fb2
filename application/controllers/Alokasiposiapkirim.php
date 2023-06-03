@@ -56,6 +56,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$cmt=null;
 		$ket=[];
 		$no=1;
+		$hitungpo=null;
 		foreach($results as $r){
 			$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$r['idcmt']));
 			$ket=$this->GlobalModel->querymanual("SElECT * FROM alokasi_po_detail WHERE idalokasi='".$r['id']."' ");
@@ -63,6 +64,7 @@ class Alokasiposiapkirim extends CI_Controller {
 				$kp=$k['keterangan']=="-"?'':'('.$k['keterangan'].')';
 				$kt[]=$k['kode_po'].' '.$kp.'';
 			}
+
 			$data['products'][]=array(
 				'no'=>$no,
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
@@ -70,12 +72,21 @@ class Alokasiposiapkirim extends CI_Controller {
 				//'keterangan'=>implode(" , ", $kt),
 				'keterangan'=>$ket,
 				//'jumlah'=>count($kt),
+				'hitung'=>json_encode($hitungpo),
 				'jumlah'=>count($ket),
+				'oblongpdk'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],'2,5',$r['id']),
+				'oblongpdkraglan'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],'9',$r['id']),
+				'oblongpjg'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],'8',$r['id']),
+				'hugo'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],'6',$r['id']),
+				'stkd'=>0,
+				'stwangky'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],'3,21',$r['id']),
+				'wangky'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],'11',$r['id']),
 				'edit'=>BASEURL.'Alokasiposiapkirim/edit/'.$r['id'],
 				'hapus'=>BASEURL.'Alokasiposiapkirim/hapus/'.$r['id'],
 			);
 			$no++;
 		}
+		//pre($data['products']);
 
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
