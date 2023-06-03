@@ -1,6 +1,6 @@
 <?php
-//header("Content-type: application/vnd-ms-excel");
-//header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 ?>
 <h3>Alokasi PO CMT</h3>
 <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
