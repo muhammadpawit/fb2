@@ -1950,7 +1950,7 @@ class Kelolapo extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
-			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('idkirim'=>$result['id']));
+			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
 
 			$data['products'][]=array(
 				'no'=>$no++,

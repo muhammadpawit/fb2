@@ -53,7 +53,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered nosearch">
+    <table class="table table-bordered yessearch">
                       <thead>
                         <tr>
                           <th>No</th>
@@ -61,7 +61,7 @@
                           <th>Tanggal</th>
                           <th>Nama CMT</th>
                           <th>Quantity</th>
-                          <th>Keterangan</th>
+                          <th>PO</th>
                           <th>Status</th>
                           <th></th>
                         </tr>
@@ -74,7 +74,7 @@
                             <td><?php echo $p['nosj']?></td>
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['namacmt']?></td>
-                            <td><?php echo $p['quantity']?></td>
+                            <td><?php echo $d['jumlah_pcs']?></td>
                             <td><?php echo $d['kode_po']?></td>
                             <td><?php echo $p['status']?></td>
                             <td class="right"><?php foreach ($p['action'] as $action) { ?>
