@@ -214,7 +214,7 @@ class ReportModel extends CI_Model {
 		$d=$row;
 		if($d['total']>0){
 			$hasil=$d['total'];
-				if($d['nama_jenis_po']=="SKF"){
+				if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
 					$hasil=round($d['total']*$d['perkalian']);
 				}
 			// return ($hasil['total']);
@@ -292,7 +292,7 @@ class ReportModel extends CI_Model {
 		if(!empty($d)){
 			if($type==1){
 				$hasil=$d['total'];
-				if($d['nama_jenis_po']=="SKF"){
+				if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
 					$hasil=round($d['total']*$d['perkalian']);
 				}
 				return $hasil;
