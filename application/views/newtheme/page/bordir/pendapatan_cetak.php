@@ -64,21 +64,21 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <!-- <td><?php echo $p['tanggal']?></td> -->
                       <td align="center">Mesin <?php echo $p['nomesin']?></td>
                       <td align="center"><?php echo $p['shift']?></td>
-                      <td align="center"><?php echo number_format($p['stich'])?></td>
-                      <td align="center"><?php echo number_format($p['0.15']); ?></td>
-                      <td align="center"><?php echo number_format($p['0.18'])?></td>
+                      <td align="center"><?php echo ($p['stich'])?></td>
+                      <td align="center"><?php echo ($p['0.15']); ?></td>
+                      <td align="center"><?php echo ($p['0.18'])?></td>
                       <?php foreach($luar as $b){?>
                       <td align="center">
                         <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php echo number_format($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
+                          <?php echo ($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
                         <?php //} ?>
                       </td>
                     <?php } ?>
-                      <td align="center"><?php echo number_format($p['pendapatan'])?></td>
+                      <td align="center"><?php echo ($p['pendapatan'])?></td>
                       <td align="center">
                         <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                         <?php if($j%2==1){?>
-                        <?php echo number_format($p['jumlah']); ?>.
+                        <?php echo ($p['jumlah']); ?>.
                         <?php } ?>
                       </td>
                       <td><?php //echo ?></td>
@@ -87,15 +87,15 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <?php }?>
                     <tr style="background-color: yellow;font-size: 16.5px;font-weight: bold;">
                       <td align="center" colspan="2"><b>Total</b></td>
-                      <td align="center"><?php echo number_format($t)?></td>
-                      <td align="center"><?php echo number_format($g015)?></td>
-                      <td align="center"><?php echo number_format($g018)?></td>
+                      <td align="center"><?php echo ($t)?></td>
+                      <td align="center"><?php echo ($g015)?></td>
+                      <td align="center"><?php echo ($g018)?></td>
                       <td align="center" colspan="<?php echo count($luar)?>">
-                          <?php echo number_format($g02)?> 
+                          <?php echo ($g02)?> 
                       </td>
                       <!-- <td></td> -->
-                      <td align="center"><?php echo number_format($gpendapatan)?></td>
-                      <td align="center"><?php echo number_format($gpendapatan)?></td>
+                      <td align="center"><?php echo ($gpendapatan)?></td>
+                      <td align="center"><?php echo ($gpendapatan)?></td>
                       <td></td>
                     </tr>
                 <?php }?>

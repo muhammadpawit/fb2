@@ -68,18 +68,20 @@
                       </thead>
                       <tbody>
                         <?php foreach($products as $p){?>
-                        <tr>
-                          <td><?php echo $p['no']?></td>
-                          <td><?php echo $p['nosj']?></td>
-                          <td><?php echo $p['tanggal']?></td>
-                          <td><?php echo $p['namacmt']?></td>
-                          <td><?php echo $p['quantity']?></td>
-                          <td><?php echo $p['keterangan']?></td>
-                          <td><?php echo $p['status']?></td>
-                          <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
-                          <?php } ?></td>
-                        </tr>
+                          <?php foreach($p['dets'] as $d){?>
+                          <tr>
+                            <td><?php echo $p['no']?></td>
+                            <td><?php echo $p['nosj']?></td>
+                            <td><?php echo $p['tanggal']?></td>
+                            <td><?php echo $p['namacmt']?></td>
+                            <td><?php echo $p['quantity']?></td>
+                            <td><?php echo $d['kode_po']?></td>
+                            <td><?php echo $p['status']?></td>
+                            <td class="right"><?php foreach ($p['action'] as $action) { ?>
+                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                            <?php } ?></td>
+                          </tr>
+                          <?php } ?>
                         <?php } ?>
                       </tbody>
                    </table>

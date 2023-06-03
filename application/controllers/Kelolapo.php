@@ -1934,6 +1934,7 @@ class Kelolapo extends CI_Controller {
 		$results= $this->GlobalModel->queryManual($sql);
 		$namacmt=null;
 		$no=1;
+		$dets=[];
 		foreach($results as $result){
 			$action=array();
 			$action[] = array(
@@ -1949,7 +1950,8 @@ class Kelolapo extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
-			
+			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('idkirim'=>$result['id']));
+
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
@@ -1960,6 +1962,7 @@ class Kelolapo extends CI_Controller {
 				'keterangan'=>$result['keterangan'],
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
 				'action'=>$action,
+				'dets'=>$dets,
 			);
 		}
 		$data['page']='produksi/kirimcmt_list';

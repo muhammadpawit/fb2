@@ -61,7 +61,7 @@
 	function adds(){
 		var html = '';
         html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
 		html+="<td><input type='text' name='products["+i+"][keterangan]' class='form-control' value='-'></td>";
 		html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         html+="</tr>";
