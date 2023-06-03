@@ -2675,4 +2675,25 @@ class ReportModel extends CI_Model {
 		$hasil=$this->db->query($sql)->row_array();
 		return !empty($hasil) ? $hasil['total'] : 0;
 	}
+
+	function hitungAlokasiPoKLO($idcmt,$jenis,$idalokasi){
+		$jenis = implode(",",$jenis);
+		$sql ="
+		SELECT COUNT(a.kode_po) as total FROM alokasi_po_detail a 
+		JOIN produksi_po p ON p.kode_po=a.kode_po
+		LEFT JOIN master_jenis_kaos mk ON mk.nama_jenis_kaos=p.jenis_po
+		JOIN alokasi_po ap ON ap.id=a.idalokasi
+		LEFT JOIN master_cmt mc ON mc.id_cmt=ap.idcmt
+		LEFT JOIN kelolapo_kirim_setor klo ON klo.kode_po = a.kode_po
+		";
+		$sql.=" WHERE ap.id='".$idalokasi."' and mk.master_jenis_kaos_id IN (".$jenis.") ";
+		$sql.=" AND a.kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor where hapus=0 and progress='SETOR'
+		and kategori_cmt='JAHIT' ) ";
+		$sql.=" AND ap.idcmt='".$idcmt."' ";
+		//$sql.="GROUP BY mk.master_jenis_kaos_id";
+		$sql.="ORDER BY mc.cmt_name
+		";
+		$hasil=$this->db->query($sql)->row_array();
+		return !empty($hasil) ? $hasil['total'] : 0;
+	}
 }

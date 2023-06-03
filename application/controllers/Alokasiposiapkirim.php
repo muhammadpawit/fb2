@@ -56,6 +56,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$cmt=null;
 		$ket=[];
 		$no=1;
+		$s=1;
 		$hitungpo=null;
 		foreach($results as $r){
 			$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$r['idcmt']));
@@ -85,6 +86,34 @@ class Alokasiposiapkirim extends CI_Controller {
 				'hapus'=>BASEURL.'Alokasiposiapkirim/hapus/'.$r['id'],
 			);
 			$no++;
+
+			$sket=$this->GlobalModel->querymanual("SElECT * FROM alokasi_po_detail WHERE kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE
+			progress='SETOR' AND kategori_cmt='JAHIT' and hapus=0 ) ");
+			foreach($sket as $k){
+				$kps=$k['keterangan']=="-"?'':'('.$k['keterangan'].')';
+				$kts[]=$k['kode_po'].' '.$kp.'';
+			}
+			
+			$data['stok'][]=array(
+				'no'=>$s,
+				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
+				'nama'=>strtolower($cmt['cmt_name']),
+				//'keterangan'=>implode(" , ", $kt),
+				'keterangan'=>$sket,
+				//'jumlah'=>count($kt),
+				'hitung'=>json_encode($hitungpo),
+				'jumlah'=>count($ket),
+				'oblongpdk'=>$this->ReportModel->hitungAlokasiPoKLO($r['idcmt'],array(2,5),$r['id']),
+				'oblongpdkraglan'=>$this->ReportModel->hitungAlokasiPoKLO($r['idcmt'],array(9),$r['id']),
+				'oblongpjg'=>$this->ReportModel->hitungAlokasiPoKLO($r['idcmt'],array(8),$r['id']),
+				'hugo'=>$this->ReportModel->hitungAlokasiPoKLO($r['idcmt'],array(6),$r['id']),
+				'stkd'=>0,
+				'stwangky'=>$this->ReportModel->hitungAlokasiPoKLO($r['idcmt'],array(3,12),$r['id']),
+				'wangky'=>$this->ReportModel->hitungAlokasiPoKLO($r['idcmt'],array(11),$r['id']),
+				'edit'=>BASEURL.'Alokasiposiapkirim/edit/'.$r['id'],
+				'hapus'=>BASEURL.'Alokasiposiapkirim/hapus/'.$r['id'],
+			);
+			$s++;
 		}
 		//pre($data['products']);
 
