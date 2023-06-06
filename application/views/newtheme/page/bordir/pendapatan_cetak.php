@@ -70,7 +70,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <?php foreach($luar as $b){?>
                       <td align="center">
                         <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php echo ($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
+                          <?php echo round($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
                         <?php //} ?>
                       </td>
                     <?php } ?>
