@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                               <label>Satuan Ukuran Item</label>
-                              <select name="satuan_ukuran_item" class="form-control select2bs4" data-live-search="true">
+                              <select name="satuan_ukuran_item" style="width: 100% !important;" class="form-control select2bs4" data-live-search="true">
                                 <option value="">Pilih</option>
                                 <?php foreach($satuan as $st){?>
                                   <option value="<?php echo $st['kode_satuan_barang'] ?>"><?php echo $st['nama_satuan_barang']?></option>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="form-group">
                               <label>Satuan</label>
-                              <select name="satuan" class="form-control select2bs4" data-live-search="true">
+                              <select name="satuan" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="">Pilih</option>
                                 <?php foreach($satuan as $st){?>
                                   <option value="<?php echo $st['kode_satuan_barang'] ?>"><?php echo $st['nama_satuan_barang']?></option>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="form-group">
                               <label>Jenis Barang</label>
-                              <select name="jenis" class="form-control select2bs4" data-live-search="true">
+                              <select name="jenis" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="0">Pilih</option>
                                 <option value="1">Konveksi</option>
                                 <option value="2">Bordir</option>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group">
                               <label>Kategori Barang</label>
-                              <select name="kategori" class="form-control select2bs4" data-live-search="true">
+                              <select name="kategori" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="">Pilih</option>
                                 <option value="1">Hangtag</option>
                                 <option value="2">Slip</option>
@@ -97,7 +97,7 @@
                             </div>
                             <div class="form-group">
                               <label>Supplier</label>
-                              <select name="supplier" class="form-control select2bs4" data-live-search="true">
+                              <select name="supplier" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="">Pilih</option>
                                 <?php foreach($supplier as $st){?>
                                   <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
