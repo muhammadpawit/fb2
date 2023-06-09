@@ -623,8 +623,8 @@ class Kelolapo extends CI_Controller {
 	{
 		$post  = $this->input->post();
 		$po=trim(strtoupper($post['namaPO']).$post['kodePO']);
-		$cekpo = $this->GlobalModel->GetData('produksi_po',array('kode_po'=>$po));
-		$cekart = $this->GlobalModel->GetData('produksi_po',array('kode_artikel'=>$post['artikel']));
+		$cekpo = $this->GlobalModel->GetData('produksi_po',array('hapus'=>0,'kode_po'=>$po));
+		$cekart = $this->GlobalModel->GetData('produksi_po',array('hapus'=>0,'kode_artikel'=>$post['artikel']));
 
 		$people = array("SKF", "simulasi SKF","simulasi");
 		if (in_array($post['namaPO'], $people)){
