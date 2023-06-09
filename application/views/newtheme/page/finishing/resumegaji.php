@@ -104,7 +104,7 @@
 		</div>
 	</div>
 	<?php
-		$total+=round($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+		$total+=round(pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']));
 
 	?>
 	<?php } ?>
