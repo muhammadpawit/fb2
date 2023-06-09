@@ -84,7 +84,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 	</div>
 	</td>
 	<?php
-		$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+		$total+=pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
 
 	?>
 	<?php } ?>
