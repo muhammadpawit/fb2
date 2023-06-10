@@ -23,7 +23,7 @@
           </div>
           <div class="form-group">
             <label>Jenis Kelamin</label>
-            <select name="jk" class="form-control select2bs4" required="required">
+            <select name="jk" class="form-control select2bs4" style="width:100%" required="required">
               <option value="">Pilih</option>
               <option value="PRIA">Pria</option>
               <option value="WANITA">Wanita</option>
@@ -31,7 +31,7 @@
           </div>
           <div class="form-group">
             <label>Divisi </label>
-            <select name="divisi" class="form-control select2bs4" required="required">
+            <select name="divisi" class="form-control select2bs4" style="width:100%" required="required">
               <option value="">Pilih</option>
               <?php foreach($divisi as $j){?>
               <option value="<?php echo $j['id']?>"><?php echo $j['nama']?></option>
@@ -40,7 +40,7 @@
           </div>
           <div class="form-group">
             <label>Jabatan </label>
-            <select name="jabatan" class="form-control select2bs4" required="required">
+            <select name="jabatan" class="form-control select2bs4" style="width:100%" required="required">
               <option value="">Pilih</option>
               <?php foreach($jabatan as $j){?>
               <option value="<?php echo $j['id']?>"><?php $jab=strtolower(ucwords($j['nama'])); echo ucwords($jab)?></option>
