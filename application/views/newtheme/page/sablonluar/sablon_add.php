@@ -235,12 +235,12 @@
 						<td><?php echo number_format($biayalain) ?></td>
 					</tr>
 					<tr>
-						<td colspan="2">Jumlah</td>
-						<td><?php echo number_format($biayatukang+$biayalain+$tjml) ?></td>
+						<td colspan="2"><b>Jumlah</b></td>
+						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml) ?></b></td>
 					</tr>
 					<tr>
-						<td colspan="2">Total Yang Diterima</td>
-						<td><?php echo number_format($biayatukang+$biayalain+$tjml) ?></td>
+						<td colspan="2"><b>Total Yang Diterima</b></td>
+						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml) ?></b></td>
 					</tr>
 				</tbody>
 			</table>
