@@ -109,6 +109,11 @@ class Sablonluar extends CI_Controller {
 		}else{
 			$cmt=87;
 		}
+		$pot=null;
+		$pot=$this->GlobalModel->getDataRow('claim_sablon',array('hapus'=>0,'idcmt'=>$cmt,'tanggal'=>$tanggal2));
+		$data['pot']= !empty($pot) ? $pot['harga'] : 0;
+		$data['pot_ket']= !empty($pot) ? $pot['keterangan'] : '';
+		//pre($data['pot']);
 		$data['cm']=[];
 		$data['cm']=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt,'hapus'=>0,'id_cmt'=>87));
 		$data['pendapatan']=[];

@@ -817,4 +817,10 @@
 		return $hasil['tahun'].'-'.$hasil['bulan'].'-01';
 	}
 
+	function po_produksi_tahun($tahun){
+		$CI =& get_instance();
+		$hasil  =$CI->GlobalModel->QueryManual("SELECT * FROM produksi_po_".$tahun." WHERE hapus=0 ");
+		return $hasil;
+	}
+
  ?>

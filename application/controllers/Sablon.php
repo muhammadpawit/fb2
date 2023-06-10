@@ -165,30 +165,51 @@ class Sablon extends CI_Controller {
 
 	public function claimpo(){
 		$data=array();
-		$data['title']='Klaim PO Sablon';
+		$data['title']='Klaim dan Kasbon PO Sablon';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+		}
+
+		if(isset($get['tim'])){
+			$tim=$get['tim'];
+		}else{
+			$tim=null;
+		}
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
 		$data['n']=1;
-		$data['tambah']=BASEURL.'Sablon/claimpotambah';
-		$data['products']=array();
-		$data['products']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
+		$data['action']=BASEURL.'Sablon/claimpo_save';
+		$data['prods']=array();
+		$data['prods']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
+		$data['cm']=$this->GlobalModel->GetData('master_cmt',array('lokasi'=>4,'hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['page']=$this->page.'sablon/klaim_list';
 		$this->load->view($this->page.'main',$data);
 	}
 
-	public function claimpotambah(){
-		$data=array();
-		$data['title']='Form Klaim PO Sablon';
-		$data['n']=1;
-		$data['action']=BASEURL.'Sablon/claimposave';
-		$data['products']=array();
-		$data['products']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
-		$data['page']=$this->page.'sablon/klaim_form';
-		$this->load->view($this->page.'main',$data);
-	}
+	// public function claimpotambah(){
+	// 	$data=array();
+	// 	$data['title']='Form Klaim PO Sablon';
+	// 	$data['n']=1;
+	// 	$data['action']=BASEURL.'Sablon/claimposave';
+	// 	$data['products']=array();
+	// 	$data['products']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
+	// 	$data['page']=$this->page.'sablon/klaim_form';
+	// 	$this->load->view($this->page.'main',$data);
+	// }
 
-	public function claimposave(){
-		$data=$this->input->post();
-		pre($data);
-	}
+	// public function claimposave(){
+	// 	$data=$this->input->post();
+	// 	pre($data);
+	// }
 
 	public function pengeluaran(){
 		$data=array();
@@ -701,6 +722,26 @@ class Sablon extends CI_Controller {
 		$this->load->view('global/header');
 		$this->load->view('report/monitoring_po',$viewData);
 		$this->load->view('global/footer');
+	}
+
+	function claimpo_save(){
+		$post = $this->input->post();
+		if($post['type']==2){
+			$insert = array(
+				'tanggal' => $post['tanggal'],
+				'idcmt' => $post['idcmt'],
+				'harga'	=> $post['nominal'],
+				'quantity'=>1,
+				'keterangan'=>$post['keterangan'],
+				'hapus'=>0,
+			);
+			$this->db->insert('claim_sablon',$insert);
+			$this->session->set_flashdata('msg','Data berhasil disimpan');
+			redirect($this->url.'claimpo');
+		}else{
+			$this->session->set_flashdata('gagal','Data Gagal disimpan. Harap coba lagi nanti');
+			redirect($this->url.'claimpo');
+		}
 	}
 
 }

@@ -201,11 +201,20 @@
 					<?php } ?>
 				</tbody>
 				<tfoot>
-					<td><b>Total Diterima</b></td>
-					<td><b><?php echo number_format($tdz,2)?></b></td>
-					<td></td>
-					<td><b><?php echo number_format($tjml)?></b></td>
-					<td><b><?php echo $tpo?></b></td>
+					<tr>
+						<td><b>Potongan <?php echo $pot_ket ?></b></td>
+						<td><b></b></td>
+						<td></td>
+						<td><b><?php echo number_format($pot,2)?></b></td>
+						<td><b><?php echo $pot_ket?></b></td>
+					</tr>
+					<tr>
+						<td><b>Total Diterima</b></td>
+						<td><b><?php echo number_format($tdz,2)?></b></td>
+						<td></td>
+						<td><b><?php echo number_format($tjml-$pot)?></b></td>
+						<td><b><?php echo $tpo?> PO</b></td>
+					</tr>
 				</tfoot>
 			</table>
 			<?php } ?>
@@ -227,7 +236,7 @@
 					<tr>
 						<td>2</td>
 						<td>Komisi</td>
-						<td><?php echo number_format($tjml) ?></td>
+						<td><?php echo number_format($tjml-$pot) ?></td>
 					</tr>
 					<tr>
 						<td>3</td>
@@ -236,11 +245,11 @@
 					</tr>
 					<tr>
 						<td colspan="2"><b>Jumlah</b></td>
-						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml) ?></b></td>
+						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml-$pot) ?></b></td>
 					</tr>
 					<tr>
 						<td colspan="2"><b>Total Yang Diterima</b></td>
-						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml) ?></b></td>
+						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml-$pot) ?></b></td>
 					</tr>
 				</tbody>
 			</table>
