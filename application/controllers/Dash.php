@@ -148,7 +148,7 @@ class Dash extends CI_Controller {
 			pre($data['pdzes']);
 		}
 
-		$u=$this->GlobalModel->queryManualRow("SELECT * FROM `konveksi_buku_potongan` ORDER BY created_date desc LIMIT 1");
+		$u=$this->GlobalModel->queryManualRow("SELECT * FROM `konveksi_buku_potongan` where hapus=0 ORDER BY created_date desc LIMIT 1");
 		$data['updated']=$u['created_date'];
 		
 		$i=1;
