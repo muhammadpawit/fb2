@@ -170,6 +170,7 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php //echo json_encode($pekerjaan) ?>
 					<?php $b=0;?>
 					<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
 					<tr>
@@ -180,8 +181,8 @@
 							?>
 						</td>
 						<td><?php $b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
-						<td><?php echo number_format(3000)?></td>
-						<td><?php echo number_format(3000*array_sum($dzs[$val]))?></td>
+						<td><?php echo number_format($name['price_group'])?></td>
+						<td><?php echo number_format($name['price_group']*array_sum($dzs[$val]))?></td>
 						<td><?php echo count($dzs[$val]);?> PO </td>
 					</tr>
 					<?php 
