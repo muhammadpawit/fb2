@@ -97,7 +97,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $pengeluarantotal=0;?>
+					<?php 
+						$pengeluarantotal=0;
+						$biayatukang=0;
+						$biayalain=0;
+					?>
 					<?php foreach($pengeluaran as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
@@ -108,7 +112,11 @@
 							<td><?php echo number_format($p['tokenlistrik'])?></td>
 							<td><?php echo number_format($p['total'])?></td>
 						</tr>
-						<?php $pengeluarantotal+=($p['total']);?>
+						<?php 
+							$pengeluarantotal+=($p['total']);
+							$biayatukang+=($p['upahtukang_harian']+$p['upahtukang_borongan']);
+							$biayalain+=($p['biayalain']);
+						?>
 					<?php } ?>
 				</tbody>
 			</table>
@@ -201,6 +209,33 @@
 				</tfoot>
 			</table>
 			<?php } ?>
+			<caption></caption>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Pembayaran Sablon Mingguan <br><?php echo isset($cm)?($cm['cmt_name']):'';?></th>
+						<th>Jumlah (Rp)</th>
+					</tr>
+				</thead>	
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Biaya Upah Tukang</td>
+						<td><?php echo number_format($biayatukang) ?></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Komisi</td>
+						<td><?php echo number_format($tjml) ?></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Biaya Lain-lain</td>
+						<td><?php echo number_format($biayalain) ?></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </form>
