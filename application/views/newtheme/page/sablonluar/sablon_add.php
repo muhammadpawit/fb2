@@ -187,7 +187,7 @@
 					</tr>
 					<?php 
 						$tdz+=array_sum($dzs[$val]);
-						$tjml+=3000*array_sum($dzs[$val]);
+						$tjml+=$name['price_group']*array_sum($dzs[$val]);
 						$tpo+=count($dzs[$val]);
 					?>
 					<?php } ?>
