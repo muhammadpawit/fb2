@@ -11,10 +11,15 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
   h3 {
     text-decoration: underline;
   }
+  .tg-0pky{background-color: #19a83f;font-size: 16.5px;font-weight: bold;}
+  .bgyellow{background-color: yellow !important;font-size: 16.5px;font-weight: bold;}
 </style>
 <table style="border-collapse: collapse;width: 100%">
   <tr>
     <td align="center" colspan="9"><h3>Laporan Pendapatan Mesin Harian Bordir</h3></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="9"><h3><?php echo date('d F Y',strtotime($tanggal2)) ?></h3></td>
   </tr>
   <tr>
     <td colspan="9"></td>
@@ -31,24 +36,21 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                   <?php } ?>
 <table border="1" style="border-collapse: collapse;width: 100%;">
               <thead>
-                <tr style="background-color: yellow;font-size: 16.5px;font-weight: bold;">
-                  <!-- <th>Tanggal</th> -->
-                  <th>No.Mesin</th>
-                  <th>Shift</th>
-                  <th>Stich</th>
-                  <th>0.15</th>
-                  <th>0.18</th>
-                  <?php foreach($luar as $l){?>
-                    <th><?php echo $l['perkalian']?></th>
-                  <?php } ?>
-                  <!--
-                  <th>0.2</th>
-                  <th>0.3</th>
-                  <th>0.18 YN</th> -->
-                  <th>Jml Per Mesin (Rp)</th>
-                  <th>Pendapatan Per Mesin (Rp)</th>
-                  <th>Keterangan</th>
-                </tr>
+                <tr>
+                <th class="tg-0pky" rowspan="2">NO MESIN</th>
+                <th class="tg-0pky" rowspan="2">SHIFT</th>
+                <th class="tg-0pky" rowspan="2">TOTAL STICH</th>
+                <th class="tg-0pky" rowspan="2">PENDAPATAN MESIN (0,15)</th>
+                <th class="bgyellow" colspan="5">PENDAPATAN BORDIR</th>
+                <th class="tg-0pky" rowspan="2">KETERANGAN</th>
+              </tr>
+              <tr style="background-color: yellow !important;font-size: 16.5px;font-weight: bold;">
+                <th class="bgyellow">PO DALAM (0,18)</th>
+                <th class="bgyellow">PO LUAR (0,25)</th>
+                <th class="bgyellow">PO LUAR (0,18)</th>
+                <th class="bgyellow">PER SHIF (Rp)</th>
+                <th class="bgyellow">PER MESIN</th>
+              </tr>
               <tbody>
                 <?php $rowspan=0;?>
                 <?php foreach($products as $p){?>
@@ -78,7 +80,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td align="center">
                         <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                         <?php if($j%2==1){?>
-                        <?php echo round($p['jumlah']); ?>.
+                        <?php echo round($p['jumlah']); ?>
                         <?php } ?>
                       </td>
                       <td><?php //echo ?></td>
@@ -100,7 +102,37 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     </tr>
                 <?php }?>
                 <tr>
-                  <td colspan="9" align="right">
+                  <td colspan="2"></td>
+                  <td colspan="8">
+                   
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"><b>Catatan :</b></td>
+                  <td colspan="8">
+                    1. PO Dalam 0,18 adalah PO Forboys, Kiddreams dll.
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td colspan="8">
+                    2. PO Luar 0,25 adalah PO Homie Noya
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td colspan="8">
+                    3. PO Luar 0,18 adalah PO Yaldi ( Dacap, Mak Nek, Daib)
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td colspan="8">
+                    4. PO Luar 0,19 adalah PO Yaldi ( Nasywa )
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="10" align="right">
                     <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
                   </td>
                 </tr>
