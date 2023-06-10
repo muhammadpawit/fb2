@@ -234,6 +234,14 @@
 						<td>Biaya Lain-lain</td>
 						<td><?php echo number_format($biayalain) ?></td>
 					</tr>
+					<tr>
+						<td colspan="2">Jumlah</td>
+						<td><?php echo number_format($biayatukang+$biayalain+$tjml) ?></td>
+					</tr>
+					<tr>
+						<td colspan="2">Total Yang Diterima</td>
+						<td><?php echo number_format($biayatukang+$biayalain+$tjml) ?></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
