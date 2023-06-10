@@ -2103,6 +2103,7 @@ class ReportModel extends CI_Model {
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(tanggal_kirim) ='".$bulan."' and YEAR(tanggal_kirim)='".$tahun."' ";
 		}	
+		$sql.=" AND p.hapus=0 ";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -2116,6 +2117,7 @@ class ReportModel extends CI_Model {
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(kbp.created_date) ='".$bulan."' and YEAR(kbp.created_date)='".$tahun."' ";
 		}	
+		$sql.=" AND p.hapus=0 ";
 		$row=$this->db->query($sql)->row_array();
 		$hasil=$row;
 		if($hasil['total']>0){
@@ -2133,6 +2135,7 @@ class ReportModel extends CI_Model {
 			if(!empty($bulan)){
 				$sql.=" AND MONTH(kbp.created_date) ='".$bulan."' and YEAR(kbp.created_date)='".$tahun."' ";
 			}
+			$sql.=" AND p.hapus=0 ";
 			$row=$this->db->query($sql)->row_array();
 			$hasil=$row;
 			if($hasil['total']>0){
