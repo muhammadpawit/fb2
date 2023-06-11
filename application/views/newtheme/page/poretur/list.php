@@ -33,6 +33,34 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		
+    <table class="table table-bordered yessearch">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>ID</th>
+            <th>Jumlah</th>
+            <th>ID PO</th>
+            <th>Kode PO</th>
+            <th>Keterangan</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($prods as $row): ?>
+            <tr>
+                <td><?php echo $row['no']; ?></td>
+                <td><?php echo $row['id']; ?></td>
+                <td><?php echo $row['jumlah']; ?></td>
+                <td><?php echo $row['idpo']; ?></td>
+                <td><?php echo $row['kode_po']; ?></td>
+                <td><?php echo $row['keterangan']; ?></td>
+                <td>
+                    <a href="<?php echo $row['detail']; ?>">detail</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
 	</div>
 </div>

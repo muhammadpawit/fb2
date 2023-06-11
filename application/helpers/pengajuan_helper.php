@@ -819,8 +819,21 @@
 
 	function po_produksi_tahun($tahun){
 		$CI =& get_instance();
-		$hasil  =$CI->GlobalModel->QueryManual("SELECT * FROM produksi_po_".$tahun." WHERE hapus=0 ");
+		$hasil  =$CI->GlobalModel->QueryManual("SELECT * FROM produksi_po_".getTahunProduksiBefore()." WHERE hapus=0 ");
 		return $hasil;
+	}
+
+	function Getpo_produksi_tahun($kodepo){
+		$CI =& get_instance();
+		$hasil  =$CI->GlobalModel->QueryManualRow("SELECT * FROM produksi_po_".getTahunProduksiBefore()." WHERE hapus=0 and kode_po='$kodepo' ");
+		return $hasil;
+	}
+
+	function getTahunProduksiBefore(){
+		$CI =& get_instance();
+		$lastyear=date('Y',strtotime('-1 year'));
+        $tahun=$lastyear.'_'.date('Y');
+		return $tahun;
 	}
 
  ?>

@@ -3,13 +3,13 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>Tanggal</label>
-                <input type="text" class="datepicker form-control" value="<?php echo date('Y-m-d') ?>" readonly required>
+                <input type="text" name="tanggal" class="datepicker form-control" value="<?php echo date('Y-m-d') ?>" readonly required>
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
                 <label>Keterangan</label>
-                <input type="text" class="form-control" required>
+                <input type="text" name="keterangan" class="form-control" required>
             </div>
         </div>
         <div class="col-md-12">
@@ -18,7 +18,7 @@
                 <select name="kode_po" class="form-control select2bs4 kode_po" required>
                     <option value=""></option>
                     <?php foreach(po_produksi_tahun('2022_2023') as $po){ ?>
-                        <option value="<?php echo $po['kode_po'] ?>"><?php echo $po['kode_po'] ?></option>
+                        <option value="<?php echo $po['id_produksi_po'] ?>,<?php echo $po['kode_po'] ?>"><?php echo $po['kode_po'] ?></option>
                     <?php } ?>
                 </select>
             </div>
