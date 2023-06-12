@@ -1439,7 +1439,7 @@ class Kelolapo extends CI_Controller {
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
-				'keterangan'=>($det),
+				'dets'=>($det),
 				'action'=>$action,
 			);
 		}
