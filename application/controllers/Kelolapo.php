@@ -1430,7 +1430,8 @@ class Kelolapo extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
-			$det = $this->kirimsetorModel->sablon_detail($result['id']);
+			//$det = $this->kirimsetorModel->sablon_detail($result['id']);
+			$dets = $this->GlobalModel->GetData('kirimcmt_sablon_detail',array('hapus'=>0,'idkirim'=>$result['id']));
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
@@ -1439,7 +1440,7 @@ class Kelolapo extends CI_Controller {
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
-				'dets'=>($det),
+				'dets'=>($dets),
 				'action'=>$action,
 			);
 		}
