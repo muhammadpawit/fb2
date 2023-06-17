@@ -970,6 +970,21 @@ class Bordir extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+	public function mesinharian_edit_luar($id){
+		$data=[];
+		$po=$this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$id));
+		//pre($po);
+		$id=$po['id'];
+		$data['title']='Edit Inputan Mesin Bordir '.$id;
+		$data['kode_po']=$id;
+		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'kode_po'=>$id));
+		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+		$data['action']=BASEURL.'Bordir/mesinharian_save_luar';
+		$data['batal']=BASEURL.'Bordir/inputharianmesinpoluar/';
+		$data['page']='newtheme/page/bordir/edit_bordir';
+		$this->load->view($this->layout,$data);
+	}
+
 	public function mesinharian_save(){
 		$data=$this->input->post();
 		$mesin=[];
@@ -993,6 +1008,32 @@ class Bordir extends CI_Controller {
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
 		redirect(BASEURL.'Bordir/inputharianmesinpodalam?&namaPo='.$data['kode_po']);
+	}
+
+	public function mesinharian_save_luar(){
+		$data=$this->input->post();
+		//pre($data);
+		$mesin=[];
+		foreach($data['prods'] as $p){
+			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>1,'nomer_mesin'=>$p['mesin_bordir']));
+			$update=array(
+				'created_date'=>$p['created_date'],
+				'nama_operator'=>$p['nama_operator'],
+				'mesin_bordir'=>$p['mesin_bordir'],
+				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
+				'perkalian_tarif'=>$p['perkalian_tarif'],
+				'stich'		=> $p['stich'],
+				'total_stich'=>round($p['jumlah_naik_mesin']*$p['stich']),
+				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
+				'gaji'  => round(($p['jumlah_naik_mesin']*$p['stich'])*0.15*$mesin['persenan']),
+			);
+			$where=array(
+				'id_kelola_mesin_bordir' => $p['id'],
+			);
+			$this->db->update('kelola_mesin_bordir',$update,$where);
+		}
+		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&namaPo='.$data['kode_po']);
 	}
 
 	public function inputharianmesinpoluar(){
@@ -1079,6 +1120,15 @@ class Bordir extends CI_Controller {
 							'href'=>BASEURL.'Bordir/mesinharianhapus/'.$b['id_kelola_mesin_bordir'],
 						);
 					}
+
+					if(aksesedit()==1){
+						$action[]=array(
+							'text'=>'Edit',
+							'href'=>BASEURL.'Bordir/mesinharian_edit_luar/'.$b['kode_po'],
+						);
+					}
+
+
 					$data['bordir'][]=array(
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
