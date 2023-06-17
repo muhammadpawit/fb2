@@ -1169,7 +1169,7 @@ class Finishing extends CI_Controller {
 			$barangHilang += $post['hilangBarang'][$key];
 			$barangClaim += $post['claimBarang'][$key];
 		}
-		// pre($post);
+		//pre($post);
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
 		if ($jmlYangDisetor == $post['jumlahditerima']) {
@@ -1183,7 +1183,7 @@ class Finishing extends CI_Controller {
 				'nama_cmt'			=>	$post['nama_cmt'],
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
-				'created_date'		=>	date('Y-m-d'),
+				'created_date'		=>	$post['tgl'],
 				'jumlah_piece_diterima'	=> $post['jumlahditerima']
 			);
 
@@ -1198,7 +1198,7 @@ class Finishing extends CI_Controller {
 					'rincian_size'	=> $rin,
 					'rincian_lusin'	=> $post['rincianlusin'][$key],
 					'rincian_piece'	=> $post['rincianpiece'][$key],
-					'rincian_keterangan'	=> $post['keterangan'][$key],
+					'rincian_keterangan'=> $post['keterangan'][$key],
 					'rincian_bangke' 	=>	$post['banke'][$key],
 					'rincian_reject' 	=>	$post['barangCacad'][$key],
 					'rincian_claim' 	=>	$post['claimBarang'][$key],
@@ -1208,6 +1208,7 @@ class Finishing extends CI_Controller {
 				
 				$this->db->update('kelolapo_rincian_setor_cmt_finish',$insertRincinan,array('id_kelolapo_rincian_setor_cmt_finish'=>$post['idr'][$key]));
 			}
+			//pre($insertRincinan);
 			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$post['kode_po']),array('progress'=>'FINISHING'));
 			$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
 		} else {

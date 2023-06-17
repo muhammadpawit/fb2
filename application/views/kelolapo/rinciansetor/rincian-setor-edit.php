@@ -54,7 +54,7 @@
     </div>
     <div class="form-group col-sm-12 col-lg-3">
     	<label>Tanggal</label>
-    	<input type="date" class="form-control" name="tanggal" value="<?php echo $poProd['created_date'] ?>" required readonly>
+    	<input type="date" class="form-control" name="tanggal" value="<?php echo $poProd['created_date'] ?>" required disabled>
     </div>
     <div class="form-group col-sm-12 col-lg-3">
     	<label>Tim Potong</label>
@@ -132,6 +132,7 @@
 	                    <!-- RINCIAN INPUT SETOR CMT -->
 	                    <div class="tab-pane show active" id="profile1">
 	                        <form action="<?php echo $editaction ?>" method="post">
+                            <input type="hidden" class="form-control" name="tgl" value="<?php echo $poProd['created_date'] ?>" >
 <div class="row">
     <div class="col-sm-12">
         <hr>
