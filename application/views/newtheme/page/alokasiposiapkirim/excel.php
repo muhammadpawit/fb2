@@ -1,6 +1,6 @@
 <?php
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 ?>
 <h3>Alokasi PO CMT</h3>
 <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
@@ -33,6 +33,15 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 </thead>
 <tbody>
   <?php $jml=0;?>
+  <?php 
+    $oblongpdk=0;
+    $oblongpdkraglan=0;
+    $oblongpjg=0;
+    $hugo=0;
+    $stkd=0;
+    $stwangky=0;
+    $wangky=0;
+  ?>
   <?php foreach($products as $p){?>
   <tr>
     <td class="tg-0pky"><?php echo $p['no']?></td>
@@ -55,12 +64,39 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 	</td>
     <td class="tg-0lax"></td>
   </tr>
+  <?php 
+    $oblongpdk+=($p['oblongpdk']);
+    $oblongpdkraglan+=($p['oblongpdkraglan']);
+    $oblongpjg+=($p['oblongpjg']);
+    $hugo+=($p['hugo']);
+    $stkd+=($p['stkd']);
+    $stwangky+=($p['stwangky']);
+    $wangky+=($p['wangky']);
+  ?>
   <?php } ?>
 </tbody>
+<tfoot>
+  <tr>
+    <td colspan="2" align="center"><b>Total</b></td>
+    <td><?php echo $oblongpdk ?></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</tfoot>
 </table>
 <br><br>
 <h3>Stok PO CMT</h3>
-<table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
+<!-- <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
 <thead>
   <tr>
     <th class="tg-q6pl" rowspan="3">No</th>
@@ -114,7 +150,7 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
   </tr>
   <?php } ?>
 </tbody>
-</table>
+</table> -->
 <br><br>
 		<table>
         <tr>
