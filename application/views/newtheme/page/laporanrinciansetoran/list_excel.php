@@ -54,7 +54,11 @@
 						<td><?php echo $p['bs']?></td>
 						<td><?php echo $p['cabang']?></td>
 						<td><?php echo $p['cmt']?></td>
-						<td><?php echo $p['keterangan']?></td>
+						<td>
+						<?php foreach($p['size'] as $s){?>
+								<?php echo $s['rincian_keterangan']?> <br>
+							<?php } ?>
+						</td>
 					</tr>
 				<?php } ?>
 			</tbody>
