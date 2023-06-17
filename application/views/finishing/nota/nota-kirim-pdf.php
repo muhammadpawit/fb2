@@ -80,7 +80,7 @@
 </div>
 <div class="kanan">
   <div class="kota">
-    Jakarta, <?php echo date('d/m/Y',strtotime($gudangfb[0]['tanggal_kirim'] ))?>
+    Jakarta, <?php echo date('d/m/Y') //echo date('d/m/Y',strtotime($gudangfb[0]['tanggal_kirim'] ))?>
   </div>
   <div class="yth">
     Kepada Yth : Gudang FORBOYS<br>Tanah Abang
