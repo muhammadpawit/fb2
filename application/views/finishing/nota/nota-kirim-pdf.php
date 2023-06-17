@@ -83,7 +83,7 @@
     Jakarta, <?php echo date('d/m/Y') //echo date('d/m/Y',strtotime($gudangfb[0]['tanggal_kirim'] ))?>
   </div>
   <div class="yth">
-    Kepada Yth : Gudang FORBOYS<br>Tanah Abang
+    Kepada Yth : Gudang FORBOYS<br>H Soleh
   </div>
 </div>
 <div class="clear"></div>
