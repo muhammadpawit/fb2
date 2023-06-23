@@ -1015,7 +1015,7 @@ class Masterdata extends CI_Controller {
 				'gajipokok'=>number_format($p['gajipokok']),
 				'masakerja'=>$perbedaan,
 				'status_resign'=>$p['status_resign'],
-				'tglkeluar'=>date('d F Y',strtotime($p['tglkeluar'])),
+				'tglkeluar'=>!empty($p['tglkeluar']) ? date('d F Y',strtotime($p['tglkeluar'])) : '',
 			);
 		}
 		$data['jabatan']=$this->GlobalModel->getData('jabatan',array('hapus'=>0));
