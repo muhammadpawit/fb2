@@ -291,7 +291,7 @@ class Finishing extends CI_Controller {
 		$data['title']='Gaji Finishing';
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 		//$data['harian']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0,'tipe'=>1));
-		$data['harian']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE '%FINISHING%' ");
+		$data['harian']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE '%FINISHING%' OR lower(bagian) LIKE '%bpo%' ");
 		$data['action']=BASEURL.'Finishing/gajifinishingsave';
 		$data['page']=$this->page.'finishing/gaji_finishing';
 		$this->load->view($this->page.'main',$data);
