@@ -173,7 +173,7 @@ class Notakirim extends CI_Controller {
 		}
 		//$sql='SELECT fkg.susulan,fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
 		$tahunsebelum = $this->db->query("SELECT tahunpo FROM finishing_kirim_gudang WHERE nofaktur='".$noFaktur."' ")->row();
-		if(!empty($tahunsebelum)){
+		if(!empty($tahunsebelum->tahunpo)){
 			$sql="SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
 			$sql.=" JOIN produksi_po_".getTahunProduksiBefore()." pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur='".$noFaktur."' ";
 		}else{
