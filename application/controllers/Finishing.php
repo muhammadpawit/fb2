@@ -1023,9 +1023,17 @@ class Finishing extends CI_Controller {
 		
 		// pre($viewData);
 		//$this->load->view('global/header');
+		
 		$viewData['page']='kelolapo/rinciansetor/rincian-setor-view';
 		$this->load->view($this->page.'main',$viewData);
 		//$this->load->view('global/footer');
+	}
+
+	function editsetoran_hapus($id){
+		$this->db->delete('kelolapo_rincian_setor_cmt',array('kode_po'=>$id));
+		$this->db->delete('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
+		redirect(BASEURL.'Finishing/rinciansetorkaoscmt');
 	}
 
 	public function produksikaoscmt($idpo,$kodepo='')
