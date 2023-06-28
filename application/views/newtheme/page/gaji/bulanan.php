@@ -58,6 +58,8 @@
 
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Input Slip Gaji</a>
 
+			<button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
+
 		</div>
 
 	</div>

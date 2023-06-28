@@ -375,6 +375,19 @@
     location =url;
   }
 
+  function filtertglonly_excel(){
+    var url='?&excel=1';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+
   function filterbulan(){
     var url='?';
     var tanggal1 =$("#bulan").val();

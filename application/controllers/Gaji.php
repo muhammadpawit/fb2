@@ -382,12 +382,42 @@ class Gaji extends CI_Controller {
 		$no=1;
 		foreach($results as $r){
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$r['idkaryawan']));
+			$tanggala = date('Y-m-d',strtotime($karyawan['tglmasuk']));
+			$tanggal = new DateTime($tanggala); 
+			if($karyawan['status_resign']==1){
+				$sekarang = new DateTime();
+				$perbedaan = $tanggal->diff($sekarang);
+			}else{
+				$sekarang = new DateTime($karyawan['tglkeluar']);
+				$perbedaan = $tanggal->diff($sekarang);
+			}
+			$jabatan=$this->GlobalModel->getDataRow('jabatan',array('id'=>$karyawan['jabatan']));
+			$divisi=$this->GlobalModel->getDataRow('divisi',array('id'=>$karyawan['divisi']));
 			$data['gaji'][]=array(
 				'no'=>$no,
 				'id'=>$r['id'],
 				'tanggal'=>date('d F Y',strtotime($r['tanggal'])),
 				'periode'=>strtolower($r['periode']),
-				'nama'=>strtolower($karyawan['nama']),
+				'nama'=>strtoupper($karyawan['nama']),
+				'divisi'=>!empty($divisi) ? strtolower($divisi['nama']) : '',
+				'jabatan'=>!empty($jabatan) ? strtolower($jabatan['nama']) : '',
+				'tglmasuk'=>date('d-m-Y',strtotime($tanggala)),
+				'masakerja'=>$perbedaan->y,
+				'gajikotor'=>$r['gajipokok'],
+				'gantungan_gaji'=>$r['gantungan_gaji'],
+				'gaji_bersih'=>($r['gajipokok']-$r['gantungan_gaji']),
+				'total_kasbon'=>$r['potongan_kasbon'],
+				'pinjaman'=>0,
+				'pot_pinjamanperbulan'=>0,
+				'pot1'=>0,
+				'pot2'=>0,
+				'sisa_pinjaman'=>0,
+				'status'=>'',
+				'potongan_absensi'=>$r['potongan_absensi'],
+				'potongan_keterlambatan'=>$r['potongan_terlambat'],
+				'potongan_claim'=>$r['potongan_claim'],
+				'gaji_yangditerima'=>($r['gajipokok']-$r['gantungan_gaji']-$r['potongan_absensi']-$r['potongan_terlambat']-$r['potongan_claim']),
+				'keterangan'=>$r['keterangan'],
 				'total'=>($r['total']),
 				'slip'=>BASEURL.'Gaji/Slip/'.$r['id'],
 			);
@@ -463,12 +493,16 @@ class Gaji extends CI_Controller {
 			'potongan_kasbon'=>$data['potongan_kasbon'],
 			'potongan_pinjaman'=>$data['potongan_pinjaman'],
 			'potongan_claim'=>$data['potongan_claim'],
+			'potongan_absensi'=>$data['potongan_absensi'],
+			'potongan_terlambat'=>$data['potongan_terlambat'],
+			'gantungan_gaji'=>$data['gantungan_gaji'],
 			'bonus'=>$data['bonus'],
 			'thr'=>$data['thr'],
 			'subtotal'=>$data['subtotal'],
 			'total'=>$data['total'],
 			'keterangan'=>'Gaji Periode '.date('Y-m-d',strtotime("first day of last month")).''.date('Y-m-d',strtotime("last day of this month")),
 			'hapus'=>0,
+			'metode' => $data['metode'],
 		);
 		$this->db->insert('gaji_bulanan',$insert);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
@@ -494,7 +528,8 @@ class Gaji extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		}
 		$sql="SELECT * FROM kasbon WHERE idkaryawan='".$get['idkaryawan']."'  ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND MONTH(tanggal) ='".date('m',strtotime($tanggal2))."' ";
 		$sql.=" ORDER BY id ASC ";
 		$kasbon=$this->GlobalModel->QueryManual($sql);
 		$no=1;
@@ -533,7 +568,8 @@ class Gaji extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		}
 		$sql="SELECT * FROM kasbon WHERE idkaryawan='".$get['idkaryawan']."'  ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND MONTH(tanggal) ='".date('m',strtotime($tanggal2))."' ";
 		$sql.=" ORDER BY id ASC ";
 		$kasbon=$this->GlobalModel->QueryManual($sql);
 		$no=1;

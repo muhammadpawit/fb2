@@ -66,6 +66,11 @@
 					<th style="text-align:right"><?php echo number_format(($slip['gajipokok']))?></th>
 				</tr>
 				<tr>
+					<th>Gantungan Gaji</th>
+					<th>:</th>
+					<th style="text-align:right"><?php echo number_format(($slip['gantungan_gaji']))?></th>
+				</tr>
+				<tr>
 					<th>Pot.Kasbon</th>
 					<th>:</th>
 					<th style="text-align:right"><?php echo number_format(($slip['potongan_kasbon']))?></th>
@@ -79,6 +84,16 @@
 					<th>Pot.Klaim</th>
 					<th>:</th>
 					<th style="text-align:right"><?php echo number_format(($slip['potongan_claim']))?></th>
+				</tr>
+				<tr>
+					<th>Pot.Absensi</th>
+					<th>:</th>
+					<th style="text-align:right"><?php echo number_format(($slip['potongan_absensi']))?></th>
+				</tr>
+				<tr>
+					<th>Pot.Terlambat</th>
+					<th>:</th>
+					<th style="text-align:right"><?php echo number_format(($slip['potongan_terlambat']))?></th>
 				</tr>
 				<tr>
 					<th>Total</th>

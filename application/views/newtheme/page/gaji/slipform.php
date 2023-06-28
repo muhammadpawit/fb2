@@ -62,6 +62,10 @@
 				<input type="number" name="gajipokok" id="gajipokok" class="form-control" value="0" readonly="readonly">
 			</div>
 			<div class="form-group">
+				<label>Gantungan Gaji</label>
+				<input type="number" onblur="updatetotal()" id="gantungan_gaji" name="gantungan_gaji" class="form-control" value="0">
+			</div>
+			<div class="form-group">
 				<label>Potongan Kasbon</label>
 				<input type="number" onblur="updatetotal()" id="potongan_kasbon" name="potongan_kasbon" class="form-control" value="0">
 			</div>
@@ -74,12 +78,25 @@
 				<input type="number" id="potongan_claim" onblur="updatetotal()" name="potongan_claim" class="form-control" value="0">
 			</div>
 			<div class="form-group">
+				<label>Potongan Absensi</label>
+				<input type="number" id="potongan_absensi" onblur="updatetotal()" name="potongan_absensi" class="form-control" value="0">
+			</div>
+			<div class="form-group">
+				<label>Potongan Keterlambatan</label>
+				<input type="number" id="potongan_terlambat" onblur="updatetotal()" name="potongan_terlambat" class="form-control" value="0">
+			</div>
+			<div class="form-group">
 				<label>Subtotal (Gaji Kotor)</label>
 				<input type="number" name="subtotal" id="subtotal" class="form-control" value="0" readonly="readonly">
 			</div>
 			<div class="form-group">
 				<label>Total (Gaji Bersih)</label>
 				<input type="number" name="total" id="total" class="form-control" value="0" readonly="readonly">
+			</div>
+			<div class="form-group">
+				<label>Metode Pembayaran</label><br>
+				<input type="radio" name="metode" value="1" required checked> Cash&nbsp;
+				<input type="radio" name="metode" value="2" required> Transfer
 			</div>
 			<div class="form-group">
 				<button class="btn btn-info btn-sm text-white">Simpan</button>
@@ -151,7 +168,10 @@
 		var potongan_kasbon=$("#potongan_kasbon").val();
 		var potongan_pinjaman=$("#potongan_pinjaman").val();
 		var potongan_claim=$("#potongan_claim").val();
-		grand = Number(gajipokok-potongan_kasbon-potongan_pinjaman-potongan_claim);
+		var potongan_abensi=$("#potongan_absensi").val();
+		var potongan_terlambat=$("#potongan_terlambat").val();
+		var gantungan_gaji=$("#gantungan_gaji").val();
+		grand = Number(gajipokok-potongan_kasbon-potongan_pinjaman-potongan_claim-potongan_abensi-potongan_terlambat-gantungan_gaji);
 		sub = Number(gajipokok)+Number(bonus)+Number(thr);
 		$("#total").val(grand);
 		$("#subtotal").val(sub);
