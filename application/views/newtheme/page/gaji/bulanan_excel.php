@@ -1,3 +1,16 @@
+<?php
+$namafile='Gaji_Bulanan_'.time();
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=".$namafile.".xls");
+?>
+<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+  }
+
+  .besar {font-size: 14px;}
+</style>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
