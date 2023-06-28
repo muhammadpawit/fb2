@@ -59,7 +59,9 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
     <td class="tg-0pky"></td>
     <td class="tg-0pky">
 		<?php foreach($p['keterangan'] as $k){?>
-			<?php echo $k['kode_po']?>,
+			<font color="<?php echo $k['color']?>">
+        <?php echo $k['kode_po'] ?>  <?php echo $k['nama']=='*' ? $k['nama'] :''; ?>
+      </font>,
 		<?php } ?>
 	</td>
     <td class="tg-0lax"></td>
@@ -95,7 +97,19 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 </tfoot>
 </table>
 <br><br>
-<h3>Stok PO CMT</h3>
+<table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
+  <tr>
+    <td>Warna</td>
+    <td>Keterangan</td>
+  </tr>
+  <?php foreach($ket as $k){ ?>
+    <tr>
+    <td style="background-color: <?php echo $k['color'] ?>;"><div style="background-color:<?php echo $k['color'] ?>;height:20px"></div></td>
+    <td><?php echo $k['nama']?> <?php echo $k['description'] ?></td>
+    </tr>
+  <?php } ?>
+</table>
+<!-- <h3>Stok PO CMT</h3> -->
 <!-- <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
 <thead>
   <tr>

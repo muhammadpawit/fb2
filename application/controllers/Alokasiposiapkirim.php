@@ -60,7 +60,9 @@ class Alokasiposiapkirim extends CI_Controller {
 		$hitungpo=null;
 		foreach($results as $r){
 			$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$r['idcmt']));
-			$ket=$this->GlobalModel->querymanual("SElECT * FROM alokasi_po_detail WHERE idalokasi='".$r['id']."' ");
+			$ket=$this->GlobalModel->querymanual("SElECT a.*, b.nama,b.color FROM alokasi_po_detail a 
+			LEFT JOIN keterangan_alokasipo b ON b.id=a.keterangan
+			WHERE idalokasi='".$r['id']."' ");
 			foreach($ket as $k){
 				$kp=$k['keterangan']=="-"?'':'('.$k['keterangan'].')';
 				$kt[]=$k['kode_po'].' '.$kp.'';
@@ -115,6 +117,7 @@ class Alokasiposiapkirim extends CI_Controller {
 			);
 			$s++;
 		}
+		$data['ket']	= $this->GlobalModel->getData('keterangan_alokasipo',array());
 		//pre($data['products']);
 
 		if(isset($get['excel'])){
@@ -134,6 +137,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$data['page']=$this->page.'form';
 		$data['action']=BASEURL.'Alokasiposiapkirim/save';
 		$data['cancel']=BASEURL.'Alokasiposiapkirim';
+		$data['ket']	= $this->GlobalModel->getData('keterangan_alokasipo',array());
 		$this->load->view($this->layout,$data);
 	}
 
@@ -148,6 +152,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['action']=BASEURL.'Alokasiposiapkirim/editsave';
 		$data['cancel']=BASEURL.'Alokasiposiapkirim';
+		$data['ket']	= $this->GlobalModel->getData('keterangan_alokasipo',array());
 		$this->load->view($this->layout,$data);
 	}
 
