@@ -46,8 +46,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
               </tr>
               <tr style="background-color: yellow !important;font-size: 16.5px;font-weight: bold;">
                 <th class="bgyellow">PO DALAM (0,18)</th>
-                <th class="bgyellow">PO LUAR (0,18)</th>
                 <th class="bgyellow">PO LUAR (0,25)</th>
+                <th class="bgyellow">PO LUAR (0,18)</th>
                 <th class="bgyellow">PER SHIF (Rp)</th>
                 <th class="bgyellow">PER MESIN</th>
               </tr>
