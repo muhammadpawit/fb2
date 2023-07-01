@@ -134,7 +134,7 @@ class Alokasiposiapkirim extends CI_Controller {
 		$data['title']='Alokasi PO Siap Kirim';
 		$data['no']=1;
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
-		$data['kodepo']=$this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE kode_po NOT IN (SELECT kode_po FROM alokasi_po_detail WHERE hapus=0) AND kode_po NOT IN (SELECT kode_po FROM kirimcmt_detail WHERE hapus=0) ");
+		$data['kodepo']=$this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0 and kode_po NOT IN (SELECT kode_po FROM alokasi_po_detail WHERE hapus=0) AND kode_po NOT IN (SELECT kode_po FROM kirimcmt_detail WHERE hapus=0) ");
 		$data['page']=$this->page.'form';
 		$data['action']=BASEURL.'Alokasiposiapkirim/save';
 		$data['cancel']=BASEURL.'Alokasiposiapkirim';
