@@ -15,6 +15,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
 		</div>
 	</div>
