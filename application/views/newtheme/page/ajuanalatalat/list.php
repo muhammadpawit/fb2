@@ -21,6 +21,35 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		
+		<table class="table table-bordered yessearch">
+			<thead>
+				<tr>
+					<th>NO</th>
+					<th>NAMA BARANG</th>
+					<th>KEBUTUHAN</th>
+					<th>STOK</th>
+					<th>AJUAN</th>
+					<th>SATUAN</th>
+					<th>TANGGAL AJUAN</th>
+					<th>ACC SPV</th>
+					<th>KETERANGAN</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($prods as $p){ ?>
+					<tr>
+						<td><?php echo $p['no'] ?></td>
+						<td><?php echo $p['nama'] ?></td>
+						<td><?php echo $p['kebutuhan'] ?></td>
+						<td><?php echo $p['stok'] ?></td>
+						<td><?php echo $p['ajuan'] ?></td>
+						<td><?php echo $p['satuan'] ?></td>
+						<td><?php echo $p['tanggal'] ?></td>
+						<td></td>
+						<td><?php echo $p['keterangan'] ?></td>
+					</tr>
+				<?php } ?>
+			</tbody>
+		</table>
 	</div>
 </div>

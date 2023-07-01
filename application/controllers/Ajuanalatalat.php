@@ -39,12 +39,19 @@ class Ajuanalatalat extends CI_Controller {
 		$filter=array(
 			'tanggal1'=>$tanggal1,
 			'tanggal2'=>$tanggal2,
+			'bagian'=>$id,
 		);
-		$data['prods']=$this->AjuanalatModel->show($filter);
+		$data['prods']=$this->AjuanalatModel->getshow($filter);
 		$data['id']=$id;
+		$data['type']=$id;
 		$data['tambah']=$this->url.'tambah'.'/'.$id;
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		if(!isset($get['excel'])){
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}else{
+			$this->load->view($this->page.'excel',$data);
+		}
+		
 	}
 
 	public function tambah($id){
@@ -72,9 +79,10 @@ class Ajuanalatalat extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 		);
 		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND id_persediaan IN (SELECT idpersediaan FROM barangkeluarharian_detail WHERE hapus=0 GROUP BY idpersediaan) ORDER BY nama_item ASC");
-		$data['action']=$this->url.'save';
+		$data['action']=$this->url.'save_ajuanalat';
 		$data['cancel']=$this->url;
 		$data['page']=$this->page.'tambah';
+		$data['type']=$id;
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier',null);
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
@@ -93,6 +101,7 @@ class Ajuanalatalat extends CI_Controller {
 
 	public function save(){
 		$data=$this->input->post();
+		pre($data);
 		$this->AlatsukabumiModel->insert($data);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect($this->url);
@@ -155,6 +164,40 @@ class Ajuanalatalat extends CI_Controller {
 
 	public function distribusi_validasi($id){
 		$this->AlatsukabumiModel->distribusi_validasi($id);
+	}
+
+	function save_ajuanalat(){
+		$data = $this->input->post();
+		//pre($data);
+		foreach($data['products'] as $p){
+			$ajuan =($p['kebutuhan']-$p['stok']);
+			$insert=array(
+				'id_persediaan' => $p['product_id'],
+				'kebutuhan'		=> $p['kebutuhan'],
+				'stok'			=> $p['stok'],
+				'ajuan'			=> $ajuan,
+				'tanggal'		=> $p['tanggal'],
+				'keterangan'	=> $p['keterangan'],
+				'bagian'		=> $data['bagian'],
+				'hapus'			=> 0,
+			);
+			$this->db->insert('ajuanalatalat', $insert);
+		}
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url.$data['bagian']);
+	}
+
+	public function cariproduct_stok($id='')
+	{
+		$getId = $this->input->get('id');
+		$type= $this->input->get('id');
+		if($type==1){
+			$data = $this->GlobalModel->getDataRow('product',array('product_id'=>$getId));
+		}else{
+			$data = $this->GlobalModel->getDataRow('product',array('product_id'=>$getId));
+		}
+		
+		echo json_encode($data);
 	}
 
 }
