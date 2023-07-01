@@ -33,7 +33,7 @@
                 <select name="kebutuhan" class="form-control select2bs4" data-live-search="true">
                   <option value="-">Pilih</option>
                   <?php foreach($products as $p){?>
-                    <option value="<?php echo $p['nama']?>"><?php echo $p['nama']?></option>
+                    <option value="<?php echo $p['nama']?>" data-item="<?php echo $p['product_id'] ?>"><?php echo $p['nama']?></option>
                   <?php  } ?>
                 </select>
               </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="col-md-4">
               <label>Stok</label>
-              <input type="text" name="stok" class="form-control" required="required">
+              <input type="text" name="stok" id="stok" class="form-control" required="required">
             </div>
             <div class="col-md-4">
               <label>Ajuan</label>
@@ -94,7 +94,7 @@
         html+='<td><input type="text" name="products['+i+'][jumlah_po]" class="form-control" required="required" value="0"></td>';
         html+='<td><textarea cols="50" rows="5" name="products['+i+'][rincian_po]" class="form-control" required="required"></textarea></td>';
         html+='<td><input type="text" name="products['+i+'][jml_pcs]" class="form-control" required="required" value="0"></td>';
-        html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="-"></td>';
+        html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="0"></td>';
         html+='<td><textarea cols="50" rows="5" name="products['+i+'][keterangan]" class="form-control" required="required"></textarea></td>';
         html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';
@@ -108,5 +108,18 @@
         $(this).closest('tr').remove();
 
     });
+
+    $(document).on('change', '.select2bs4', function(e){
+            var dataItem = $(this).find(':selected').data('item');
+            //alert(dataItem);
+            var type = '1';
+            $.get( "<?php echo BASEURL.'Ajuanalatalat/cariproduct_stok' ?>", { id: dataItem } )
+              .done(function( data ) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                $("#stok").val(obj.quantity);
+                $("#stok").attr("readonly",true);
+            });
+        });
 
 </script>
