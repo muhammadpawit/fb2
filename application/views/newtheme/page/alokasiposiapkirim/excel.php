@@ -1,6 +1,6 @@
 <?php
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
+//header("Content-type: application/vnd-ms-excel");
+//header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 ?>
 <h3>Alokasi PO CMT</h3>
 <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
@@ -49,7 +49,7 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
     <td class="tg-0pky"><?php echo $p['oblongpdk']?></td>
     <td class="tg-0pky"><?php echo $p['oblongpdkraglan']?></td>
     <td class="tg-0pky"><?php echo $p['oblongpjg']?></td>
-    <td class="tg-0pky"></td>
+    <td class="tg-0pky"><?php echo $p['reglangpjg']?></td>
     <td class="tg-0pky"><?php echo $p['hugo']?></td>
     <td class="tg-0pky"><?php echo $p['stkd']?></td>
     <td class="tg-0pky"><?php echo $p['stwangky']?></td>
