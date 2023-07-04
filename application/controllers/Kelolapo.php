@@ -910,12 +910,15 @@ class Kelolapo extends CI_Controller {
 			$po2022celana = substr($explode[1], 6);
 			if(isset($post['refPO'])){
 				if(!empty($post['refPO'])){
+					$refpo='-'.$post['refPO']; // penanda po
 					$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1],'refpo'=>$post['refPO']));
 				}else{
 					$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1]));	
+					$refpo=null;
 				}
 			}else{
 				$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1]));
+				$refpo=null;
 			}
 			/*
 			if(!empty($dataCek)) {
@@ -993,8 +996,8 @@ class Kelolapo extends CI_Controller {
 							'idpo'						=> $idpo['id_produksi_po'],
 							'kode_po'					=> $explode[1],
 							'bidang_bahan_potongan'		=> $bidangBahan,
-							'warna_potongan'			=> $post['warna'][$key],
-							'kode_bahan_potongan'		=> $post['kodeBahan'][$key],
+							'warna_potongan'			=> $post['warna'][$key].$refpo,
+							'kode_bahan_potongan'		=> $post['kodeBahan'][$key].$refpo,
 							'berat_bahan_potongan'		=> $post['beratBahan'][$key],
 							'sisa_bahan_potongan'		=> $post['sisaBahan'][$key],
 							'pemakaian_bahan_potongan'	=> $post['pemakaianBahankg'][$key],
@@ -1013,8 +1016,8 @@ class Kelolapo extends CI_Controller {
 							'idpo'							=> $idpo['id_produksi_po'],
 							'kode_po'						=>	$explode[1],
 							'bidang_bahan_potongan'			=>	$bidangBahanVar,
-							'warna_potongan'				=>	$post['warnaVar'][$key],
-							'kode_bahan_potongan'			=>	$post['kodeBahanVar'][$key],
+							'warna_potongan'				=>	$post['warnaVar'][$key].$refpo,
+							'kode_bahan_potongan'			=>	$post['kodeBahanVar'][$key].$refpo,
 							'berat_bahan_potongan'			=>	$post['beratBahanVar'][$key],
 							'sisa_bahan_potongan'			=>	$post['sisaBahanVar'][$key],
 							'pemakaian_bahan_potongan'		=>	$post['pemakaianBahankgVar'][$key],
