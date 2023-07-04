@@ -769,7 +769,7 @@ class Kelolapo extends CI_Controller {
 		if(!empty($refpo)){
 			$sql.=" AND refpo='".$refpo."' ";
 		}
-		$sql.=" GROUP BY kbp.idpo ";
+		//$sql.=" GROUP BY kbp.idpo ";
 		$sql.=" ORDER BY kbp.waktuinput DESC ";
 		$sql.=" LIMIT 20 ";
 		$results	= $this->GlobalModel->queryManual($sql);
