@@ -43,7 +43,7 @@ class Laporanporijek extends CI_Controller {
 		$no=1;
 		$rjk=0;
 		foreach($results as $r){
-			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),2) as total FROM rijek where kode_po='".$r['kode_po']."' ");
+			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po='".$r['kode_po']."' ");
 			$data['prods'][]=array(
 				'no'=>$no++,
 				'kode_po'=>$r['kode_po'],
