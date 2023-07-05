@@ -1008,10 +1008,11 @@ class Finishing extends CI_Controller {
 	{
 		$tanggal1=date('Y-m-d',strtotime("-1 month"));
 		$tanggal2=date('Y-m-d',strtotime("last day of this month"));
-		$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE pp.hapus=0 and  kks.progress="'.'FINISHING'.'" AND kks.hapus=0 ');
+		$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE pp.hapus=0 and  kks.progress='FINISHING' AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' ");
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
 		foreach ($rincian as $key => $rinci) {
 			$viewData['rincian'][$key]['idpo']=$rinci['id_produksi_po'];
+			$viewData['rincian'][$key]['id_cmt'] =$rinci['id_master_cmt'];
 			$viewData['rincian'][$key]['kode_po'] = $rinci['kode_po'];
 			$viewData['rincian'][$key]['nama_cmt'] =$rinci['nama_cmt'];
 			$viewData['rincian'][$key]['kategori_cmt'] =$rinci['kategori_cmt'];
@@ -1027,6 +1028,43 @@ class Finishing extends CI_Controller {
 		$viewData['page']='kelolapo/rinciansetor/rincian-setor-view';
 		$this->load->view($this->page.'main',$viewData);
 		//$this->load->view('global/footer');
+	}
+
+	function rinciansetorcelanacmt(){
+		$tanggal1=date('Y-m-d',strtotime("-1 month"));
+		$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+		$sql	 = "SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po ";
+		$sql	.= " WHERE pp.hapus=0  ";
+		$sql	.= " and  kks.progress='FINISHING' AND kks.hapus=0 and pp.kode_po LIKE 'BJK%' ";
+		$sql	.= " order by pp.kode_po ";
+		$rincian = $this->GlobalModel->queryManual($sql);
+		//pre($rincian);
+		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
+		foreach ($rincian as $key => $rinci) {
+			$viewData['rincian'][$key]['idpo']=$rinci['id_produksi_po'];
+			$viewData['rincian'][$key]['kode_po'] = $rinci['kode_po'];
+			$viewData['rincian'][$key]['id_cmt'] =$rinci['id_master_cmt'];
+			$viewData['rincian'][$key]['nama_cmt'] =$rinci['nama_cmt'];
+			$viewData['rincian'][$key]['kategori_cmt'] =$rinci['kategori_cmt'];
+			$viewData['rincian'][$key]['progress']=$rinci['progress'];
+			$viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
+			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
+			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$rinci['kode_po'].'-'.$rinci['id_master_cmt']));
+		}
+		
+		// pre($viewData);
+		//$this->load->view('global/header');
+		
+		$viewData['page']='kelolapo/rinciansetor/celana';
+		$this->load->view($this->page.'main',$viewData);
+		//$this->load->view('global/footer');
+	}
+
+	function editsetoran_hapus_celana($id){
+		$this->db->delete('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$id));
+		$this->db->delete('kelolapo_rincian_setor_cmt_finish_celana',array('kode_po'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
+		redirect(BASEURL.'Finishing/rinciansetorcelanacmt');
 	}
 
 	function editsetoran_hapus($id){
@@ -1746,5 +1784,118 @@ class Finishing extends CI_Controller {
 		$this->load->view('global/header');
 		$this->load->view('finishing/borongan/boronganmesin-view',$viewData);
 		$this->load->view('global/footer');
+	}
+
+	public function produksikaoscmt_celana($idpo,$kodepo='',$idcmt)
+	{
+		$viewData['idpo']=$idpo;
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE (kks.progress="'.'FINISHING'.'") AND kks.kode_po="'.$kodepo.'" AND kks.id_master_cmt="'.$idcmt.'" ');
+		//pre($viewData);
+		$idpo=$viewData['poProd']['kode_po'].'-'.$viewData['poProd']['id_master_cmt'];
+		$kodepo=$idpo;
+		//pre($idpo);
+		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
+		$viewData['atas'] =[];
+		$viewData['bawah'] =[];
+		if(!empty($viewData['poProd'])){
+			$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));	
+			$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+		}
+		
+		
+		// pre($viewData);
+		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$kodepo));
+		//pre($viewData['setorcmtjahit']);
+		$viewData['setorcmtjahititem']=[];
+		if(!empty($viewData['setorcmtjahit'])){
+			$viewData['setorcmtjahititem'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana',array('id_kelolapo_rincian_setor_cmt'=>$viewData['setorcmtjahit']['id_kelolapo_rincian_setor_cmt']));
+		}
+		
+		// pre($viewData);
+		//$this->load->view('global/header');
+		$viewData['page']='kelolapo/rinciansetor/celana-tambah';
+		$this->load->view($this->page.'main',$viewData);
+		//$this->load->view('global/footer');
+	}
+
+	public function produksicelanacmtAct($value='')
+	{
+		$post = $this->input->post();
+		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
+		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['id_master_cmt'],'idpo'=>$post['idpo']));
+		$pcs = 0;
+		$jml = 0;
+		$bangke = 0;
+		$barangccd = 0;$barangHilang=0;$barangClaim=0;
+		foreach ($post['rinciansize'] as $key => $rinciansize) {
+			$pcs += $post['rincianpiece'][$key];
+			$jml += $post['rincianlusin'][$key]*12;
+			$bangke += $post['banke'][$key];
+			$barangccd += $post['barangCacad'][$key];
+			$barangHilang += $post['hilangBarang'][$key];
+			$barangClaim += $post['claimBarang'][$key];
+		}
+		
+		if(empty($sj)){
+			$this->session->set_flashdata('gagal','Belum ada surat jalannya');
+			
+			redirect(BASEURL.'finishing/produksikaoscmt_celana/'.$po['id_produksi_po'].'/'.$po['kode_po'].'/'.$post['id_master_cmt']);
+		}
+
+		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
+		//pre($sj);
+		if ($jmlYangDisetor <= $post['jumlahPotPcs']) {
+
+			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po' => $po['kode_po'],));
+
+			$insertData = array(
+				'idpo'=>$post['idpo'],
+				'kode_po'			=>	$po['kode_po'].'-'.$post['id_master_cmt'],
+				'pcs_setor_qty'		=>	$pcs,
+				'jml_setor_qty'		=>	$jmlYangDisetor,
+				'bangke_qty'		=>	$bangke,
+				'barang_cacad_qty'	=>	$barangccd,
+				'nama_cmt'			=>	$sj['nama_cmt'],
+				'barang_claim_qty'	=>	$barangClaim,
+				'barang_hilang_qty'	=>	$barangHilang,
+				'created_date'		=>	date('Y-m-d'),
+				'jumlah_piece_diterima'	=> $jmlYangDisetor
+			);
+
+			if (empty($dataInput)) {
+				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_celana',$insertData);
+				$lastId = $this->db->insert_id();
+			} else {
+				$this->session->set_flashdata('msg','INPUT NYA SANTAI AJA DONG, KODE PO INI SUDAH DI INPUT!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/kunti.mp3" type="audio/mpeg"></audio>');
+				redirect(BASEURL.'finishing/produksikaoscmt_celana/'.$po['id_produksi_po'].'/'.$po['kode_po'].'/'.$post['id_master_cmt']);
+			}
+			
+
+			foreach ($post['rinciansize'] as $key => $rin) {
+				$insertRincinan = array(
+					'id_kelolapo_rincian_setor_cmt'	=>	$lastId,
+					'kode_po'	=> $po['kode_po'].'-'.$post['id_master_cmt'],
+					'rincian_size'	=> $rin,
+					'rincian_lusin'	=> $post['rincianlusin'][$key],
+					'rincian_piece'	=> $post['rincianpiece'][$key],
+					'rincian_keterangan'	=> $post['keterangan'][$key],
+					'rincian_bangke' 	=>	$post['banke'][$key],
+					'rincian_reject' 	=>	$post['barangCacad'][$key],
+					'rincian_claim' 	=>	$post['claimBarang'][$key],
+					'rincian_hilang'	=>	$post['hilangBarang'][$key],
+					'created_date'	=> date('Y-m-d')
+				);
+				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish_celana',$insertRincinan);
+			}
+			$this->GlobalModel->updateData('kelolapo_kirim_setor_celana',array('progress'=>'SELESAI','kode_po'=>$po['kode_po']),array('progress'=>'FINISHING'));
+			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+		} else {
+			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
+			
+			redirect(BASEURL.'finishing/produksikaoscmt_celana/'.$po['id_produksi_po'].'/'.$po['kode_po'].'/'.$post['id_master_cmt']);
+		}
+
+		redirect(BASEURL.'finishing/rinciansetorcelanacmt');
 	}
 }
