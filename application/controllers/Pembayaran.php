@@ -752,7 +752,7 @@ class Pembayaran extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+			$tanggal1=date('Y-m-d',strtotime("-14 days"));
 			//$tanggal1=null;
 		}
 		if(isset($get['tanggal2'])){
