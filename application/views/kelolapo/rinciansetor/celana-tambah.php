@@ -5,6 +5,15 @@
             <label>Rincian Pengiriman Dari KLO <?php echo strtoupper($poProd['nama_cmt']) ?></label>
         </div>
         <div class="form-group">
+            <label>Referensi PO</label>
+            <select name="refpo" class="form-control selectpicker" required>
+                <option value="">Mohon Dipilih</option>
+                <?php foreach($refpo as $p){ ?>
+                    <option value="<?php echo $p['refpo']?>"><?php echo $p['refpo']?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="form-group">
             <label>Nama PO</label>
             <input type="hidden" class="form-control" name="id_master_cmt" value="<?php echo $poProd['id_master_cmt'] ?>" required>
             <select class="form-control selectpicker" id="poSelect" name="namaPo" title="Select Nama PO" data-live-search="true" required>

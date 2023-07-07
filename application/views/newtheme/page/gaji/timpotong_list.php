@@ -79,7 +79,7 @@
     }
 
     if(tim!='*'){
-      url+='&cmt='+tim;
+      url+='&tim='+tim;
     }
 
 

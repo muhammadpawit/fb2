@@ -1797,6 +1797,7 @@ class Finishing extends CI_Controller {
 	{
 		$viewData['idpo']=$idpo;
 		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE (kks.progress="'.'FINISHING'.'") AND kks.kode_po="'.$kodepo.'" AND kks.id_master_cmt="'.$idcmt.'" ');
+		$viewData['refpo']	= $this->GlobalModel->QueryManual("SELECT refpo FROM konveksi_buku_potongan WHERE hapus=0 AND kode_po='".$kodepo."' ");
 		//pre($viewData);
 		$idpo=$viewData['poProd']['kode_po'].'-'.$viewData['poProd']['id_master_cmt'];
 		$kodepo=$idpo;
@@ -1858,7 +1859,7 @@ class Finishing extends CI_Controller {
 
 			$insertData = array(
 				'idpo'=>$post['idpo'],
-				'kode_po'			=>	$po['kode_po'].'-'.$post['id_master_cmt'],
+				'kode_po'			=>	$po['kode_po'].'-'.$post['id_master_cmt'].'-'.$post['refpo'],
 				'pcs_setor_qty'		=>	$pcs,
 				'jml_setor_qty'		=>	$jmlYangDisetor,
 				'bangke_qty'		=>	$bangke,
@@ -1882,7 +1883,7 @@ class Finishing extends CI_Controller {
 			foreach ($post['rinciansize'] as $key => $rin) {
 				$insertRincinan = array(
 					'id_kelolapo_rincian_setor_cmt'	=>	$lastId,
-					'kode_po'	=> $po['kode_po'].'-'.$post['id_master_cmt'],
+					'kode_po'	=> $po['kode_po'].'-'.$post['id_master_cmt'].'-'.$post['refpo'],
 					'rincian_size'	=> $rin,
 					'rincian_lusin'	=> $post['rincianlusin'][$key],
 					'rincian_piece'	=> $post['rincianpiece'][$key],

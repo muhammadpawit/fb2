@@ -287,15 +287,15 @@ class Pembayaran extends CI_Controller {
 			$tanggal2=date('Y-m-d');
 		}
 
-		if(isset($get['cmt'])){
-			$cmt=$get['cmt'];
+		if(isset($get['tim'])){
+			$tim=$get['tim'];
 		}else{
-			$cmt=null;
+			$tim=null;
 		}
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['cmtf']=$cmt;
+		$data['tim']=$tim;
 		$data['cmt']=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['products']=[];

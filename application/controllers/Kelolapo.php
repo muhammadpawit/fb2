@@ -780,29 +780,31 @@ class Kelolapo extends CI_Controller {
 			$action=array();
 			
 			if($edit==1){
-				$action[] = array(
-					'text' => '&nbsp;Edit',
-					'href' => BASEURL.'kelolapo/bukupotonganEdit/'.$result['idpo'],
-				);	
+				if(!empty($result['refpo'])){
+					$action[] = array(
+						'text' => '&nbsp;Edit',
+						'href' => BASEURL.'kelolapo/bukupotonganEditRef/'.$result['idpo'].'/'.$result['refpo'],
+					);
+				}else{
+					$action[] = array(
+						'text' => '&nbsp;Edit',
+						'href' => BASEURL.'kelolapo/bukupotonganEdit/'.$result['idpo'],
+					);
+				}
+					
 			}
 			
-
-			$action[] = array(
-				'text' => '&nbsp;Detail',
-				'href' => BASEURL.'kelolapo/bukupotonganDetail/'.$result['idpo'],
-			);
-
-			//if(empty($cp)){
-				// $action[] = array(
-				// 	'text' => '&nbsp;Pengecekan',
-				// 	'href' => BASEURL.'kelolapo/formpengecekanpotonganEdit/'.$result['id_potongan'],
-				// );
-			//}
-
-			// $action[] = array(
-			// 	'text' => 'Kirim Sablon',
-			// 	'href' => BASEURL.'kelolapo/kirimsetortambah/'.$result['idpo'].'',
-			// );
+			if(!empty($result['refpo'])){
+				$action[] = array(
+					'text' => '&nbsp;Detail',
+					'href' => BASEURL.'kelolapo/bukupotonganDetailRef/'.$result['refpo'],
+				);
+			}else{
+				$action[] = array(
+					'text' => '&nbsp;Detail',
+					'href' => BASEURL.'kelolapo/bukupotonganDetail/'.$result['idpo'],
+				);
+			}
 
 			$action[] = array(
 				'text' => 'Edit Gambar',
@@ -3041,6 +3043,131 @@ class Kelolapo extends CI_Controller {
 		$this->db->delete('konveksi_buku_potongan_variasi',array('id_potongan_utama'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'kelolapo/bukupotonganDetail/'.$kode_po);
+	}
+
+	public function bukupotonganDetailRef($kode='')
+	{
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$kode));
+		$kode=$po['kode_po'];
+		$viewData['kembali']=BASEURL.'kelolapo/bukupotongan';
+		$kodePOArr = array(
+			'refpo' => $kode,
+		);
+		$utama = array(
+			'kode_po' => $kode,
+		);
+		//pre($kodePOArr);
+		$viewData['potonganHead'] = $this->GlobalModel->queryManualRow('SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po = pp.kode_po WHERE pp.kode_po="'.$kode.'"');
+		$viewData['tim']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$viewData['potonganHead']['tim_potong_potongan']));
+		$viewData['potonganUtama'] = $this->GlobalModel->getData('konveksi_buku_potongan_utama',$utama);
+		$viewData['potonganVariasi'] = $this->GlobalModel->getData('konveksi_buku_potongan_variasi',$kodePOArr);
+		$viewData['page']='kelolapo/bukupotongan/buku-potongan-detail';
+		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	public function bukupotonganEditRef($id='', $kodepo)
+	{
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
+		$id=$po['kode_po'];
+		$viewData['title']='Ubah Buku Potongan '.$id;
+		$viewData['action']=BASEURL.'Kelolapo/bukupotonganEditOnUpdateRef';
+		$viewData['tgl']=date('Y-m-d');
+		$viewData['poProd'] = $this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$id));		
+		$viewData['po']	= $this->GlobalModel->getData('produksi_po',null);
+		$viewData['bahan'] = null;
+		$viewData['potongan']	=	$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' => $id,'refpo'=>$kodepo));
+		$viewData['utama']	=	[];
+		$viewData['variasi']	=	$this->GlobalModel->getData('konveksi_buku_potongan_variasi',array('kode_po'=>$id,'refpo' => $kodepo));
+		//pre($viewData['variasi']);
+		$viewData['timpotong']=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
+		$viewData['tim']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$viewData['potongan']['tim_potong_potongan']));
+		//pre($viewData);
+		//$this->load->view('global/header');
+		//$this->load->view('kelolapo/bukupotongan/buku-potongan-edit',$viewData);
+		//$this->load->view('global/footer');
+		$viewData['page']='kelolapo/bukupotongan/buku-potongan-edit';
+		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	public function bukupotonganEditOnUpdateRef($value='')
+	{
+		$post = $this->input->post();
+		//pre($post);
+		$jumBl=0;
+		$jumBls=0;
+		$explode = explode('-',$post['namaPo']);
+		$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
+		$refpo = $this->GlobalModel->getDataRow('konveksi_buku_potongan', array('hapus'=>0,'id_potongan'=>$post['idpotongan']));
+		$po2022celana = substr($explode[1], 6);
+		//pre(substr($explode[1], 6));
+		//pre($refpo);
+			if(isset($post['bidangBahanVar'])){
+				$this->GlobalModel->deleteData('konveksi_buku_potongan_variasi',array('kode_po'=>$explode[1],'refpo'=>$refpo['refpo']));
+				foreach ($post['bidangBahanVar'] as $key => $bidangBahanVar) {
+					$dataPotonganVariasi = array(
+						'idbukupotongan'				=> $post['idpotongan'],
+						'idpo'							=> $idpo['id_produksi_po'],
+						'kode_po'						=>	$explode[1],
+						'bidang_bahan_potongan'			=>	$bidangBahanVar,
+						'warna_potongan'				=>	$post['warnaVar'][$key],
+						'kode_bahan_potongan'			=>	$post['kodeBahanVar'][$key],
+						'berat_bahan_potongan'			=>	$post['beratBahanVar'][$key],
+						'sisa_bahan_potongan'			=>	$post['sisaBahanVar'][$key],
+						'pemakaian_bahan_potongan'		=>	$post['pemakaianBahankgVar'][$key],
+						'banyak_lapis_potongan'			=>	$post['banyakLapisVar'][$key],
+						'created_date'					=>	$post['tanggal'],
+						'refpo'							=> $refpo['refpo'],
+					);
+					$this->GlobalModel->insertData('konveksi_buku_potongan_variasi',$dataPotonganVariasi);
+					$jumBls += $post['banyakLapisVar'][$key];
+				}
+			}
+		
+				$jumlahPiecePot = ($jumBls*$post['jumlahGambar']);
+				//pre($jumlahPiecePot);
+			$dataInsert = array(
+				'kode_po'							=> $explode[1],
+				'tim_potong_potongan'				=> $post['timPotong'],
+				'created_date'						=> $post['tanggal'],
+				'pemakaian_bahan_utama'				=> $post['pemakaianBahan'],
+				'jumlah_gambar_utama'				=> $post['jumlahGambar'],
+				'jumlah_pemakaian_bahan_utama'		=> $post['pemakaianBahan'],
+				'panjang_gelaran_potongan_utama'	=> $post['panjangGelaran'],
+				'jumlah_pemakaian_bahan_variasi'	=> $post['pemakaianGelaranVariasi'],
+				'panjang_gelaran_variasi'			=> $post['panjangGelaranVariasi'],
+				'size_potongan'						=> $post['sizeBahan'],
+				'created_date'						=> $post['tanggal'],
+				// 'hasil_lusinan_potongan'			=> (($jumlahPiecePot * $post['jumlahGambar'])/12),
+				// 'hasil_pieces_potongan'				=> (($jumlahPiecePot *$post['jumlahGambar'] )/ 12) * 12,
+				'hasil_lusinan_potongan'			=> (($jumBl*$post['jumlahGambar'])/12),
+				'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
+			);
+			//$this->GlobalModel->updateData('konveksi_buku_potongan',array('id_potongan'=>$post['id_potongan']),$dataInsert);
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){
+					$up=array(
+						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
+						'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+					);
+					$where=array(
+						'kode_po'	=>$explode[1],
+						'refpo'		=> $refpo['refpo'],
+					);
+					$this->db->update('konveksi_buku_potongan',$up,$where);
+				}else{
+					if($po2022celana == '_2022' ){
+						$up=array(
+							'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
+							'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
+						);
+						$where=array(
+							'kode_po'	=>$explode[1],
+						);
+						$this->db->update('konveksi_buku_potongan',$up,$where);
+					}
+				}
+
+			$this->session->set_flashdata('msg','Data berhasil diubah');
+			redirect(BASEURL.'kelolapo/bukupotongan?&kode_po='.$explode[1]);
 	}
 		
 }

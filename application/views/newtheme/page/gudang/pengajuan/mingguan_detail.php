@@ -64,6 +64,7 @@
     </div>
 </div>
 <form method="POST" action="<?php echo $acc?>">
+  <input type="hidden" name="id" value="<?php echo $k['id']?>">
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
