@@ -42,7 +42,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                     <td align="center"><?php echo $a['jml_ajuan']?></td>
                     <td align="center"><?php echo $satuan['satuan'] ?></td>
                     <td align="center"><?php echo date('d-m-Y',strtotime($a['tanggal']))?></td>
-                    <td align="center"><?php echo $a['jumlah_acc']?></td>
+                    <td align="center"><?php echo $a['jml_acc']?></td>
                     <td align="center"><?php echo $a['keterangan2']?></td>
                   </tr>
               <?php } ?>
