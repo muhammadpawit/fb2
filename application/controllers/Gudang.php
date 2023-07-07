@@ -2229,7 +2229,7 @@ class Gudang extends CI_Controller {
 
 	function ajuanmingguanacc(){
 		$post = $this->input->post();
-		pre($post);
+		//pre($post);
 		$this->db->update('ajuan_mingguan',
 			array(
 				'jml_acc'=>$post['jml_acc']
