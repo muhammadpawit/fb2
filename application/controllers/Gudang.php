@@ -2230,6 +2230,15 @@ class Gudang extends CI_Controller {
 	function ajuanmingguanacc(){
 		$post = $this->input->post();
 		pre($post);
+		$this->db->update('ajuan_mingguan',
+			array(
+				'jumlah_acc'=>$post['jumlah_acc']
+			),
+			array('id'=>$post['id']),
+		);
+
+		$this->session->set_flashdata('msg','Data berhasil di acc');
+		redirect(BASEURL.'Gudang/ajuanmingguan');
 	}
 
 }
