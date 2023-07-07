@@ -2227,4 +2227,9 @@ class Gudang extends CI_Controller {
 		redirect(BASEURL.'gudang/outbahah');
 	}
 
+	function ajuanmingguanacc(){
+		$post = $this->input->post();
+		pre($post);
+	}
+
 }
