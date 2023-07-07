@@ -2232,7 +2232,7 @@ class Gudang extends CI_Controller {
 		pre($post);
 		$this->db->update('ajuan_mingguan',
 			array(
-				'jumlah_acc'=>$post['jumlah_acc']
+				'jml_acc'=>$post['jml_acc']
 			),
 			array('id'=>$post['id']),
 		);
