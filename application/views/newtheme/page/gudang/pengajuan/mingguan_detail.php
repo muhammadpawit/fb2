@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 table-responsive">
       <table class="table table-bordered">
         <tr>
           <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></td>
