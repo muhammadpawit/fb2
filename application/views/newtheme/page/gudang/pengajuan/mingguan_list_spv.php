@@ -45,14 +45,13 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="datatable">
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Tanggal</th>
                   <th>Kebutuhan</th>
                   <th>Jumlah Ajuan</th>
-                  <th>Stok</th>
                   <th>Jumlah ACC</th>
                   <th>Keterangan</th>
                   <th></th>
@@ -66,13 +65,12 @@
                       <td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
-                      <td><?php echo $p['stok']?></td>
                       <td><?php echo $p['jml_acc']?></td>
                       <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
-                        <a href="<?php echo $p['edit']?>" class="btn btn-info btn-xs text-white">edit</a>
-                        <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">detail</a>
-                        <a href="<?php echo $p['excel']?>" class="btn btn-success btn-xs text-white">excel</a>
+                        <!-- <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#detailModal<?php echo $p['id']?>">Acc</button> -->
+                        <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data">
+                        <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">Detail</a>
                       </td>
                     </tr>
                   <?php }?>
@@ -81,10 +79,40 @@
             </table>
   </div>
 </div>
+<div id="dataModal" class="modal fade">  
+    <div class="modal-dialog">  
+         <div class="modal-content">  
+              <div class="modal-header">  
+                   <h4 class="modal-title">Detail User</h4>  
+              </div>  
+              <div class="modal-body" id="detail_user">  
+              </div>  
+              <div class="modal-footer">  
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+              </div>  
+         </div>  
+    </div>  
+</div> 
 <script type="text/javascript">
   
+  $(document).ready(function(){
+    $('.view_data').click(function(){
+      var data_id = $(this).data("id");
+      //alert(data_id);
+      $.ajax({
+        url: '<?php echo BASEURL?>Gudang/getjsonajuanmingguan',
+        method: "POST",
+        data: {data_id: data_id},
+        success: function(data){
+          $("#detail_user").html(data)
+          $("#dataModal").modal('show')
+        }
+      })
+    })
+  })
+
   function filterwithbagian(){
-    var url='?&spv=true';
+    var url='?';
     var tanggal1 =$("#tanggal1").val();
     var tanggal2 =$("#tanggal2").val();
     if(tanggal1){
@@ -106,7 +134,7 @@
   }
 
   function excelnya(){
-    var url='<?php echo BASEURL?>Gudang/ajuanmingguan_excel_all?&spv=true';
+    var url='<?php echo BASEURL?>Gudang/ajuanmingguan_excel_all?';
     var tanggal1 =$("#tanggal1").val();
     var tanggal2 =$("#tanggal2").val();
     if(tanggal1){

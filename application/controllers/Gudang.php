@@ -111,7 +111,7 @@ class Gudang extends CI_Controller {
 			if(isset($get['tanggal1'])){
 				$tanggal1=$get['tanggal1'];
 			}else{
-				//$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+				//$tanggal1=date('Y-m-d',strtotime("Monday of this week"));
 			}
 			if(isset($get['tanggal2'])){
 				$tanggal2=$get['tanggal2'];
@@ -119,6 +119,7 @@ class Gudang extends CI_Controller {
 				//$tanggal2=date('Y-m-d');
 			}
 		}
+		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
 		//pre($tanggal12);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
@@ -2230,15 +2231,29 @@ class Gudang extends CI_Controller {
 	function ajuanmingguanacc(){
 		$post = $this->input->post();
 		//pre($post);
-		$this->db->update('ajuan_mingguan',
-			array(
+		$update =array(
 				'jml_acc'=>$post['jml_acc']
-			),
-			array('id'=>$post['id']),
 		);
-
+		$where = array('id'=>$post['id']);
+		$this->db->update('ajuan_mingguan',$update,$where);
 		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguan');
+		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+	}
+
+	function getjsonajuanmingguan(){
+		$post = $this->input->post('data_id');
+		$data = $this->GlobalModel->getDataRow('ajuan_mingguan',array('id'=>$post));
+		$html='';
+
+		$html.='<form method="POST" action="'.BASEURL.'Gudang/ajuanmingguanacc">';
+		$html.='<input type="hidden" name="id" value="'.$post.'">';
+		$html.='<p>Nama Ajuan : '.$data['kebutuhan'].'</p>';
+		$html.='<p>Jumlah Ajuan : '.$data['jml_ajuan'].'</p>';
+		$html.='<p>Acc Ajuan : <input type="text" name="jml_acc" class="form-control" value="'.$data['jml_acc'].'"></p>';
+		$html.='<br>';
+		$html.='<button class="btn btn-success btn-sm full">Acc</button>';
+		$html.='</form>';
+		echo $html;
 	}
 
 }
