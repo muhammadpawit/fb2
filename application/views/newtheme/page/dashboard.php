@@ -198,6 +198,10 @@
                     <td><b><?php echo number_format($pcs)?></b></td>
                     <td><b><?php echo number_format($total)?></b></td>
                 </tr>
+                <tr>
+                    <td colspan="6"><b>Note : PO Kirim Gudang Pertama (26 Juni - 1 Juli 2023) </b></td>
+                    
+                </tr>
             </tbody>
         </table>
         </div>
