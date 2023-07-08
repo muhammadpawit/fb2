@@ -44,8 +44,8 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
-    <table class="table table-bordered" id="datatable">
+  <div class="col-md-12 table-responsive">
+    <table class="table table-bordered">
               <thead>
                 <tr>
                   <th>No</th>
@@ -53,7 +53,6 @@
                   <th>Kebutuhan</th>
                   <th>Jumlah Ajuan</th>
                   <th>Jumlah ACC</th>
-                  <th>Keterangan</th>
                   <th></th>
                 </tr>
               </thead>
@@ -66,7 +65,6 @@
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><?php echo $p['jml_acc']?></td>
-                      <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         <!-- <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#detailModal<?php echo $p['id']?>">Acc</button> -->
                         <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data">
