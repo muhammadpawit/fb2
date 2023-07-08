@@ -57,7 +57,7 @@
                     $pcs+=($r['pcs']);
                 ?>
                 <?php } ?>
-                <tr>
+                <tr style="background-color: yellow;">
                     <td colspan="2"><b>Total Potongan</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz)?></b></td>
@@ -98,11 +98,14 @@
                     $pcs+=($r['pcs']);
                 ?>
                 <?php } ?>
-                <tr>
+                <tr style="background-color: yellow;">
                     <td colspan="2"><b>Total Potongan</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz,2)?></b></td>
                     <td><b><?php echo number_format($pcs)?></b></td>
+                </tr>
+                <tr>
+                    <td colspan="5"><b>Note : PO Potong Kaos Pertama Tanggal (5 Juni 2023) </b></td>
                 </tr>
             </tbody>
         </table>
@@ -146,7 +149,7 @@
                     $total+=($r['total']);
                 ?>
                 <?php } ?>
-                <tr>
+                <tr style="background-color: yellow;">
                     <td colspan="2"><b>Nilai Total (Rp)</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz)?></b></td>
@@ -191,7 +194,7 @@
                     $total+=($r['total']);
                 ?>
                 <?php } ?>
-                <tr>
+                <tr style="background-color: yellow;">
                     <td colspan="2"><b>Nilai Total (Rp)</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz)?></b></td>
