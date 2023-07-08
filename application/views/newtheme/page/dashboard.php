@@ -105,7 +105,7 @@
                     <td><b><?php echo number_format($pcs)?></b></td>
                 </tr>
                 <tr>
-                    <td colspan="5"><b>Note : PO Potong Kaos Pertama Tanggal (5 Juni 2023) </b></td>
+                    <td colspan="5"><b>Note : PO Potong Kaos Pertama Tanggal (9 Juni 2023) </b></td>
                 </tr>
             </tbody>
         </table>
@@ -217,7 +217,7 @@
 <hr>
 <div class="row">
   <div class="col-md-6">
-    <caption>Potongan Produksi Global</caption>
+    <caption><b>Potongan Produksi Global</b></caption>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -227,7 +227,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php $tpa=0;?>
+        <?php $tpa=0;$tpt=0;?>
         <?php foreach($pdzes as $pd){?>
           <tr>
             <td> <span style="display:inline-block;height: 10px;width: 10px;background-color: <?php echo $pd['color']?>"></span> <?php echo $pd['namapo']?></td>
@@ -235,9 +235,11 @@
             <td><?php echo number_format($pd['dz'],2)?></td>
           </tr>
           <?php $tpa+=($pd['dz']);?>
+          <?php $tpt+=($pd['jmlpo']);?>
         <?php } ?>
-        <tr>
+        <tr style="background-color: yellow;font-weight:700">
           <td align="center"><b>Total</b></td>
+          <td><?php echo number_format($tpt,2)?></td>
           <td><?php echo number_format($tpa,2)?></td>
         </tr>
       </tbody>
