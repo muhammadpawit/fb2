@@ -108,7 +108,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		<td>
 			<table border="1" style="border-collapse: collapse;width:100%">
 			<thead style="background-color: yellow">
-				<tr>
+				<tr style="background-color: #d1869e;">
 					<th>Resume</th>
 					<th>PO</th>
 					<th>JML</th>
