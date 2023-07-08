@@ -1156,9 +1156,10 @@ class Finishing extends CI_Controller {
 			}
 			
 			$rijek=0;
-
+			$ket=[];
 			foreach ($post['rinciansize'] as $key => $rin) {
 				$rijek+=($post['barangCacad'][$key]);
+				$ket[]=$post['keterangan'][$key];
 				$insertRincinan = array(
 					'id_kelolapo_rincian_setor_cmt'	=>	$lastId,
 					'kode_po'	=> $po['kode_po'],
@@ -1182,7 +1183,8 @@ class Finishing extends CI_Controller {
 					array(
 						'idpo'=>$po['id_produksi_po'],
 						'pcs'=>$rijek,
-						'kode_po'=>$po['kode_po']
+						'kode_po'=>$po['kode_po'],
+						'keterangan'=>implode(",",$ket),
 					)
 				);
 			}
