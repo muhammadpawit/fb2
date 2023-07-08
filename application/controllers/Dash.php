@@ -35,7 +35,7 @@ class Dash extends CI_Controller {
 		$tanggals2=date('Y-m-d',strtotime("Saturday previous week"));
 		$data['tanggals1']=date('d F Y',strtotime($tanggals1));
 		$data['tanggals2']=date('d F Y',strtotime($tanggals2));
-		$tanggalm1=date('Y-m-d',strtotime("Monday previous week"));
+		$tanggalm1=date('Y-m-d',strtotime("Monday this week"));
 		$tanggalm2=date('Y-m-d');
 
 
