@@ -95,8 +95,8 @@
 																			<!--<input type="hidden" name="rincian[<?php echo $detail['id_finishing_kirim_gudang_rincian'] ?>][idkirimgudang]" value="<?php echo $gudang['id_finishing_kirim_gudang'] ?>">-->
 																			<input type="hidden" name="rincian[<?php echo $gudang['id_finishing_kirim_gudang'] ?>][<?php echo $j?>][idkirimgudang]" value="<?php echo $detail['id_finishing_kirim_gudang'] ?>">
 																			<input type="hidden" name="rincian[<?php echo $gudang['id_finishing_kirim_gudang'] ?>][<?php echo $j?>][id]" value="<?php echo $detail['id_finishing_kirim_gudang_rincian'] ?>">
-																			<input type="text" name="rincian[<?php echo $gudang['id_finishing_kirim_gudang'] ?>][<?php echo $j?>][dz]" value="<?php echo $detail['rincian_lusin'] ?>"> Dz
-																			<input type="text" name="rincian[<?php echo $gudang['id_finishing_kirim_gudang'] ?>][<?php echo $j ?>][pcs]" value="<?php echo $detail['rincian_piece'] ?>"> Pcs<br><br>
+																			<input type="text" name="rincian[<?php echo $gudang['id_finishing_kirim_gudang'] ?>][<?php echo $j?>][dz]" value="<?php echo $detail['rincian_lusin'] ?>" <?php echo $disabled ?>> Dz
+																			<input type="text" name="rincian[<?php echo $gudang['id_finishing_kirim_gudang'] ?>][<?php echo $j ?>][pcs]" value="<?php echo $detail['rincian_piece'] ?>" <?php echo $disabled ?>> Pcs<br><br>
 																		</p>
                                                                         <?php $j++; endforeach ?>
                                                                     <?php endif ?>

@@ -246,6 +246,12 @@ class Notakirim extends CI_Controller {
 		$viewData['edit']=BASEURL.'Notakirim/editsave';
 		$viewData['no']=1;
 		$viewData['page']='finishing/nota/edit';
+		$get = $this->input->get();
+		if(isset($get['keterangan'])){
+			$viewData['disabled']='readonly';
+		}else{
+			$viewData['disabled']='';
+		}
 		$this->load->view('newtheme/page/main',$viewData);
 	}
 
