@@ -11,6 +11,10 @@
             </select>
         </div>
         <div class="form-group">
+            <label>Tanggal Penerimaan </label>
+            <input type="text" autocomplete="off" class="form-control datepicker" name="tanggal_penerimaan" required>
+        </div>
+        <div class="form-group">
             <label>Tanggal</label>
             <input type="date" class="form-control" name="tanggal" value="<?php echo $poProd['created_date'] ?>" required readonly>
         </div>

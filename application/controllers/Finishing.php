@@ -1143,7 +1143,7 @@ class Finishing extends CI_Controller {
 				'nama_cmt'			=>	$sj['nama_cmt'],
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
-				'created_date'		=>	date('Y-m-d'),
+				'created_date'		=>	date('Y-m-d',strtotime($post['tanggal_penerimaan'])), // ditambah tanggal penerimaan pada 8 juli 2023
 				'jumlah_piece_diterima'	=> $jmlYangDisetor
 			);
 
@@ -1155,8 +1155,10 @@ class Finishing extends CI_Controller {
 				redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
 			}
 			
+			$rijek=0;
 
 			foreach ($post['rinciansize'] as $key => $rin) {
+				$rijek+=($post['barangCacad'][$key]);
 				$insertRincinan = array(
 					'id_kelolapo_rincian_setor_cmt'	=>	$lastId,
 					'kode_po'	=> $po['kode_po'],
@@ -1174,6 +1176,16 @@ class Finishing extends CI_Controller {
 			}
 			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$po['kode_po']),array('progress'=>'FINISHING'));
 			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+			if($rijek>0){
+				$this->db->insert(
+					'rijek',
+					array(
+						'idpo'=>$po['id_produksi_po'],
+						'pcs'=>$rijek,
+						'kode_po'=>$po['kode_po']
+					)
+				);
+			}
 		} else {
 			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
 			
