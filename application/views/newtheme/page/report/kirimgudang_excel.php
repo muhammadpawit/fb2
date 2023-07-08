@@ -3,7 +3,13 @@ $namafile='Kirim_gudang_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-
+<table border="1" style="border-collapse: collapse;width:100%">
+	<tr>
+		<td colspan="9" align="center">
+			<h1 style="text-decoration: underline;">Laporan Kirim Gudang Minggu Ini</h1>
+		</td>
+	</tr>
+</table>
 <p>Periode : <?php echo date('d-m-Y',strtotime($tanggal1))?> s.d <?php echo date('d-m-Y',strtotime($tanggal2))?></p>
 <table border="1" style="border-collapse: collapse;width:100%">
 	<tr>
