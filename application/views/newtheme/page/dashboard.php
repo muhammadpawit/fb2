@@ -70,7 +70,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #1E5128 !important;color: white">Rekap Potongan PO Keseluruhan 2023 - 2024 <br>Per <?php echo date('d F Y')?></div>
+      <div class="alert" style="background-color: #379294 !important;color: white">Rekap Potongan PO Keseluruhan 2023 - 2024 <br>Per <?php echo date('d F Y')?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
