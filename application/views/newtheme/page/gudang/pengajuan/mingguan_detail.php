@@ -69,7 +69,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label>Jumlah Acc</label>
-        <input type="text" name="jml_acc" value="" class="form-control">
+        <input type="text" name="jml_acc" value="<?php echo $k['jml_acc']?>" class="form-control">
       </div>
       <div class="form-group">
         <label></label>
