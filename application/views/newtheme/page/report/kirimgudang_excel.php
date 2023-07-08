@@ -11,7 +11,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 	</tr>
 </table>
 <p>Periode : <?php echo date('d-m-Y',strtotime($tanggal1))?> s.d <?php echo date('d-m-Y',strtotime($tanggal2))?></p>
-<table border="1" style="border-collapse: collapse;width:100%">
+<table border="1" style="border-collapse: collapse;width:100%; text-align:center">
 	<tr>
 		<td>
 			<table border="1" style="border-collapse: collapse;width:100%">
@@ -28,7 +28,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<th>Keterangan</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody align="center">
 				<?php $jml=0; $nilai=0;$dz=0;$totalpo=0;?>
 				<?php foreach($products as $p){?>
 					<tr>
@@ -84,7 +84,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				
 				<?php } ?>
 			</tbody>
-			<tfoot>
+			<tfoot align="center">
 				<tr style="background-color: yellow;font-weight:700">
 					<td colspan="3" align="center"><b>Total</b></td>
 					<td><?php echo $jml?></td>
@@ -107,14 +107,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		</td>
 		<td>
 			<table border="1" style="border-collapse: collapse;width:100%">
-			<thead style="background-color: yellow">
+			<thead style="background-color: yellow" align="center">
 				<tr style="background-color: #d1869e;">
 					<th>Resume</th>
 					<th>PO</th>
 					<th>JML</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody align="center">
 				<?php $jmlkaos=0;$jmlkemeja=0;$jmldzk=0;$jmldzkmj=0;?>
 				<?php foreach($resume as $r){?>
 					<?php if($r['id']==1){?>
