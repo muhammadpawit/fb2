@@ -129,7 +129,7 @@ class ReportModel extends CI_Model {
 
 	public function pcs_monitoring_kirimgudang($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="sSELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";		
+		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";		
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
