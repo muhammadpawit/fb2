@@ -61,6 +61,74 @@ class kirimsetorModel extends CI_Model {
 		return $jumlah;
 	}
 
+	public function kirimgudangharian_group($data){
+		$hasil=[];
+		$results=[];
+		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql.=" AND kg.susulan IN(2) ";
+		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'Kirim Sample%' ";
+		$sql.="GROUP BY kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
+		$results=$this->GlobalModel->QueryManual($sql);
+		foreach($results as $row){
+			$jumlah=$row['jml'];
+			if($row['nama_jenis_po']=="SKF"){
+				$jumlah=($row['jml']*$row['perkalian']);
+			}
+			if(strtolower($row['keterangan']) == 'kirim sample' ){
+				$jumlah-= $this->kirimgudangharian_jml($data,$row['nama_jenis_po']);
+			}
+			$hasil[]=array(
+				'hari'=>hari(date('l',strtotime($row['tanggal_kirim']))),
+				'tanggal'=>date('d-m-Y',strtotime($row['tanggal_kirim'])),
+				'jml'=>$jumlah,
+				'pcs'=>$row['pcs'],
+				'nama'=>$row['nama_jenis_po'],
+				'nilai'=>$row['nilai'],
+				'tujuan'=>$row['tujuan'],
+				'keterangan'=> $row['keterangan'],
+			);
+		}
+		return $hasil;
+	}
+
+	public function kirimgudangharian_hari($data,$hari){
+		$hasil=[];
+		$results=[];
+		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql.=" AND kg.susulan IN(2) ";
+		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'Kirim Sample%' ";
+		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
+		$results=$this->GlobalModel->QueryManual($sql);
+		foreach($results as $row){
+			if( strtolower(hari(date('l',strtotime($row['tanggal_kirim'])))) == strtolower($hari) ){
+				$jumlah=$row['jml'];
+				if($row['nama_jenis_po']=="SKF"){
+					$jumlah=($row['jml']*$row['perkalian']);
+				}
+				if(strtolower($row['keterangan']) == 'kirim sample' ){
+					$jumlah-= $this->kirimgudangharian_jml($data,$row['nama_jenis_po']);
+				}
+				$hasil[]=array(
+					'hari'=>hari(date('l',strtotime($row['tanggal_kirim']))),
+					'tanggal'=>date('d-m-Y',strtotime($row['tanggal_kirim'])),
+					'jml'=>$jumlah,
+					'pcs'=>$row['pcs'],
+					'dz'=>$row['pcs']/12,
+					'nama'=>$row['nama_jenis_po'],
+					'nilai'=>$row['nilai'],
+					'tujuan'=>$row['tujuan'],
+					'keterangan'=> 'H Soleh ('. $row['keterangan'].')',
+				);
+			}
+			
+		}
+		return $hasil;
+	}
+
 	public function kirimgudangharian($data){
 		$hasil=[];
 		$results=[];

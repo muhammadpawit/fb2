@@ -3,14 +3,15 @@ $namafile='Kirim_gudang_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-<h1>Laporan Kirim Gudang Minggu Ini</h1>
+
 <p>Periode : <?php echo date('d-m-Y',strtotime($tanggal1))?> s.d <?php echo date('d-m-Y',strtotime($tanggal2))?></p>
 <table border="1" style="border-collapse: collapse;width:100%">
 	<tr>
 		<td>
 			<table border="1" style="border-collapse: collapse;width:100%">
 			<thead>
-				<tr>
+				<tr style="background-color: #d1869e;">
+					<th>No</th>
 					<th>Hari</th>
 					<th>Tanggal</th>
 					<th>Total PO</th>
@@ -22,41 +23,78 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tr>
 			</thead>
 			<tbody>
-				<?php $jml=0; $nilai=0;$dz=0;?>
+				<?php $jml=0; $nilai=0;$dz=0;$totalpo=0;?>
 				<?php foreach($products as $p){?>
 					<tr>
-						<td>
-							<?php
+							<td><?php echo $p['no']?></td>
+							<td>
+								<?php
 
-								//if(0==$p['no']){
-									echo $p['hari'];
-								//}
+									//if(0==$p['no']){
+										echo $p['hari'];
+									//}
 
-							?>
+								?>
+								
+							</td>
+							<td><?php echo $p['tanggal']?></td>
+							<td><?php echo $p['jml']?> </td>
+							<td><?php echo $p['nama']?></td>
+							<td><?php //echo $p['jml']?></td>
 							
-						</td>
-						<td><?php echo $p['tanggal']?></td>
-						<td></td>
-						<td><?php echo $p['nama']?></td>
-						<td><?php echo $p['jml']?></td>
-						<td><?php echo number_format($p['dz'],2)?></td>
-						<td><?php echo number_format($p['nilai'])?></td>
-						<td><?php echo $p['keterangan']?></td>
+							<td><?php //echo number_format($p['dz'],2)?></td>
+							<td><?php //echo number_format($p['nilai'])?></td>
+							<td><?php echo $p['keterangan']?></td>
 					</tr>
-				<?php
-					$jml+=($p['jml']);
-					$nilai+=($p['nilai']);
-					$dz+=($p['dz']);
-				?>
+					<?php foreach($p['dets'] as $d){ ?>
+						<tr>
+							<td></td>
+							<td>
+								<?php
+
+									//if(0==$p['no']){
+										//echo $p['hari'];
+									//}
+
+								?>
+								
+							</td>
+							<td></td>
+							<td></td>
+							<td><?php echo $d['nama']?></td>
+							<td><?php echo $d['jml']?></td>
+							
+							<td><?php echo number_format($d['dz'], 2, '.', '.') ?></td>
+							<td><?php echo number_format($d['nilai'])?></td>
+							<td><?php echo $d['keterangan']?></td>
+						</tr>
+
+						<?php
+							$jml+=($d['jml']);
+							$nilai+=($d['nilai']);
+							$dz+=($d['dz']);
+						?>
+					<?php } ?>
+				
 				<?php } ?>
 			</tbody>
 			<tfoot>
-				<tr>
-					<td colspan="3"><b>Total</b></td>
+				<tr style="background-color: yellow;font-weight:700">
+					<td colspan="3" align="center"><b>Total</b></td>
+					<td><?php echo $jml?></td>
+					<td></td>
 					<td><?php echo $jml?></td>
 					<td><?php echo number_format($dz,2)?></td>
 					<td><?php echo number_format($nilai)?></td>
 					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2"><b>Di update terakhir</b></td>
+					<td colspan="5">
+						<?php if(!empty($log)){ ?>
+							<b>Tanggal : <?php echo date('d F Y',strtotime($log['created_date'])) ?></b>
+						<?php } ?>
+					</td>
 				</tr>
 			</tfoot>
 		</table>

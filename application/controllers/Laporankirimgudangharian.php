@@ -50,26 +50,29 @@ class Laporankirimgudangharian extends CI_Controller {
 			'tanggal2'=>$tanggal2,
 		);
 
-		$results=$this->KirimsetorModel->kirimgudangharian($filter);
-		$no=0;
+		$results=$this->KirimsetorModel->kirimgudangharian_group($filter);
+		$no=1;
 		$prev=null;
 		$h=null;
+		$dets=[];
 		foreach($results as $row){
 			$hari=hari(date('l',strtotime($row['tanggal'])));
+			$dets = $this->KirimsetorModel->kirimgudangharian_hari($filter,$hari);
 			$ket = strtoupper($row['tujuan']);
 			$data['products'][]=array(
 				'no'=>$no,
 				'hari'=>$hari,
 				'tanggal'=>date('d-m-Y',strtotime($row['tanggal'])),
 				'jml'=>$row['jml'],
-				'dz'=>$row['pcs']/12,
-				'nama'=>$row['nama'],
-				'nilai'=>$row['nilai'],
-				'keterangan'=>!empty($row['keterangan']) ? $ket.' ('.$row['keterangan'].')' : $ket,
+				'dz'=>null,//$row['pcs']/12,
+				'nama'=>null,//$row['nama'],
+				'nilai'=>null,//$row['nilai'],
+				'keterangan'=>null,//!empty($row['keterangan']) ? $ket.' ('.$row['keterangan'].')' : $ket,
+				'dets' => $dets,
 			);
 			$no++;
 		}
-
+		//pre($data['products']);
 		$data['resume']=[];
 		$resume=$this->KirimsetorModel->kirimgudangharianresume($filter);
 		foreach($resume as $row){
