@@ -3,9 +3,9 @@ $namafile='Kirim_gudang_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-<table border="1" style="border-collapse: collapse;width:100%">
+<table style="width:100%">
 	<tr>
-		<td colspan="9" align="center">
+		<td colspan="12" align="center">
 			<h1 style="text-decoration: underline;">Laporan Kirim Gudang Minggu Ini</h1>
 		</td>
 	</tr>
