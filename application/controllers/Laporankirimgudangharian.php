@@ -56,6 +56,7 @@ class Laporankirimgudangharian extends CI_Controller {
 		$h=null;
 		foreach($results as $row){
 			$hari=hari(date('l',strtotime($row['tanggal'])));
+			$ket = strtoupper($row['tujuan']);
 			$data['products'][]=array(
 				'no'=>$no,
 				'hari'=>$hari,
@@ -64,7 +65,7 @@ class Laporankirimgudangharian extends CI_Controller {
 				'dz'=>$row['pcs']/12,
 				'nama'=>$row['nama'],
 				'nilai'=>$row['nilai'],
-				'keterangan'=>strtoupper($row['tujuan']),
+				'keterangan'=>!empty($row['keterangan']) ? $ket.' ('.$row['keterangan'].')' : $ket,
 			);
 			$no++;
 		}

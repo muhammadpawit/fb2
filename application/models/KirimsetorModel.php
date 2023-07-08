@@ -17,8 +17,9 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharianresume($data){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai,tujuan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai,tujuan, kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql.=" AND kg.susulan IN(2) ";
 		$sql.="GROUP BY mjp.nama_jenis_po ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
@@ -27,7 +28,7 @@ class kirimsetorModel extends CI_Model {
 				$jumlah=($row['jml']*$row['perkalian']);
 			}
 			$hasil[]=array(
-				'jml'=>$jumlah,
+				'jml'=>$jumlah - $this->kirimgudangharian_jml($data,$row['nama_jenis_po']),
 				'nama'=>$row['nama_jenis_po'],
 				'pcs'=>$row['pcs'],
 				'nilai'=>$row['nilai']
@@ -36,17 +37,47 @@ class kirimsetorModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function kirimgudangharian_jml($data,$namapo){
+		$hasil=[];
+		$results=[];
+		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		//$sql.=" AND kg.susulan IN(2) ";
+		$sql.=" AND mjp.nama_jenis_po='".$namapo."' ";
+		$sql.=" AND lower(kg.keterangan) LIKE 'Kirim Sample%' ";
+		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$jumlah=0;
+		foreach($results as $row){
+			$jumlah=$row['jml'];
+			if($row['nama_jenis_po']=="SKF"){
+				$jumlah=($row['jml']*$row['perkalian']);
+			}
+			if(strtolower($row['keterangan']) == 'kirim sample' ){
+				//$jumlah+=1;
+			}
+		}
+		return $jumlah;
+	}
+
 	public function kirimgudangharian($data){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql.=" AND kg.susulan IN(2) ";
+		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'Kirim Sample%' ";
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
 			$jumlah=$row['jml'];
 			if($row['nama_jenis_po']=="SKF"){
 				$jumlah=($row['jml']*$row['perkalian']);
+			}
+			if(strtolower($row['keterangan']) == 'kirim sample' ){
+				$jumlah-=1;
 			}
 			$hasil[]=array(
 				'hari'=>hari(date('l',strtotime($row['tanggal_kirim']))),
@@ -56,6 +87,7 @@ class kirimsetorModel extends CI_Model {
 				'nama'=>$row['nama_jenis_po'],
 				'nilai'=>$row['nilai'],
 				'tujuan'=>$row['tujuan'],
+				'keterangan'=> $row['keterangan'],
 			);
 		}
 		return $hasil;
