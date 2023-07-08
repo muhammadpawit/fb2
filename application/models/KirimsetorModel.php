@@ -45,7 +45,7 @@ class kirimsetorModel extends CI_Model {
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		$sql.=" AND mjp.nama_jenis_po='".$namapo."' ";
-		$sql.=" AND lower(kg.keterangan) LIKE 'Kirim Sample%' ";
+		$sql.=" AND lower(kg.keterangan) LIKE 'kirim sample%' ";
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$jumlah=0;
@@ -77,7 +77,7 @@ class kirimsetorModel extends CI_Model {
 				$jumlah=($row['jml']*$row['perkalian']);
 			}
 			if(strtolower($row['keterangan']) == 'kirim sample' ){
-				$jumlah-=1;
+				$jumlah-= $this->kirimgudangharian_jml($data,$row['nama_jenis_po']);
 			}
 			$hasil[]=array(
 				'hari'=>hari(date('l',strtotime($row['tanggal_kirim']))),

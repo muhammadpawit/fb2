@@ -102,7 +102,7 @@
                                                                     <?php endif ?>
                                                                 <?php endforeach ?>
                                                                 
-
+                                                                
 
                                                             </td>
                                                             <td>Rp. <?php echo number_format($gudang['harga_satuan']) ?></td>
@@ -119,6 +119,8 @@
                                                                         <?php endforeach ?>
                                                                     <?php endif ?>
                                                                 <?php endforeach ?>
+                                                                <input type="hidden" name="gudang[<?php echo $gudang['id_finishing_kirim_gudang']?>][id]" value="<?php echo $gudang['id_finishing_kirim_gudang']?>">
+                                                                <input type="text" name="gudang[<?php echo $gudang['id_finishing_kirim_gudang']?>][keterangan]" value="<?php echo $gudang['keterangan']?>">
                                                             </td>
                                                         </tr>
                                                         <?php endforeach ?>

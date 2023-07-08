@@ -236,7 +236,8 @@ class Notakirim extends CI_Controller {
 	public function edit($noFaktur='')
 	{
 		$viewData['gudangfb'] = $this->GlobalModel->queryManual('SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur="'.$noFaktur.'" ');
-			$data = array();
+		//pre($viewData);
+		$data = array();
 		foreach ($viewData['gudangfb'] as $key => $idkirim) {
 			$data[$idkirim['kode_po']] = $this->GlobalModel->getData('finishing_kirim_gudang_rincian',array('id_finishing_kirim_gudang'=>$idkirim['id_finishing_kirim_gudang']));
 		}
@@ -341,6 +342,18 @@ class Notakirim extends CI_Controller {
 			$po=$this->GlobalModel->getDataRow('finishing_kirim_gudang',array('id_finishing_kirim_gudang'=>$cek['id_finishing_kirim_gudang']));
 			$this->db->update('finishing_kirim_gudang',array('jumlah_piece_diterima'=>$cek['totalterima'],'jumlah_harga_piece'=>$po['harga_satuan']*$cek['totalterima'],'nofaktur'=>$data['nofaktur']),array('id_finishing_kirim_gudang'=>$cek['id_finishing_kirim_gudang']));
 			$this->db->update('produksi_po',array('jumlah_pcs_po'=>$cek['totalterima']),array('kode_po'=>$po['kode_po']));
+		}
+
+		foreach($data['gudang'] as $g){
+			$this->db->update(
+				'finishing_kirim_gudang',
+				array(
+					'keterangan' => $g['keterangan']
+				),
+				array(
+					'id_finishing_kirim_gudang' => $g['id']
+				)
+			);
 		}
 
 		$this->session->set_flashdata('msg','Berhasil Di Ubah');
