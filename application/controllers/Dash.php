@@ -134,12 +134,14 @@ class Dash extends CI_Controller {
 		// global potongan
 		foreach($arpo as $arp){
 			$pdz=$this->ReportModel->ppcs_filter_global($arp['id'],$tanggal1,$tanggal2);
+			$jmlpo=$this->ReportModel->ppcsjml_filter($arp['id'],$tanggal1,$tanggal2);
 			$data['pdzes'][]=array(
 				'id'=>$arp['id'],
 				'color'=>$arp['color'],
 				'namapo'=>$arp['type'],
 				'dz'=>$pdz/12,
 				'ppcs'=>$pdz,
+				'jmlpo'=>$jmlpo,
 			);
 		}
 		$pdze=$this->ReportModel->getPotonganP();

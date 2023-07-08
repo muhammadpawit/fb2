@@ -70,7 +70,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #1E5128 !important;color: white">Rekap Potongan<br>Per <?php echo date('d F Y')?></div>
+      <div class="alert" style="background-color: #1E5128 !important;color: white">Rekap Potongan PO Keseluruhan 2023 - 2024 <br>Per <?php echo date('d F Y')?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -115,7 +115,7 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #3D6AA2 !important;color: white">Update Kirim Gudang Tanah Abang Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
+      <div class="alert" style="background-color: #3D6AA2 !important;color: white">Update PO Kirim Gudang Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -160,7 +160,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #3D6AA2 !important;color: white">Rekap Kirim Gudang Tanah Abang<br>Per <?php echo date('d F Y')?></div>
+      <div class="alert" style="background-color: #3D6AA2 !important;color: white">Rekap PO Kirim Gudang Keseluruhan 2023-2024<br>Per <?php echo date('d F Y')?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -215,6 +215,7 @@
       <thead>
         <tr>
           <th align="center">Jenis</th>
+          <th>Jumlah PO
           <th>Dz</th>
         </tr>
       </thead>
@@ -223,6 +224,7 @@
         <?php foreach($pdzes as $pd){?>
           <tr>
             <td> <span style="display:inline-block;height: 10px;width: 10px;background-color: <?php echo $pd['color']?>"></span> <?php echo $pd['namapo']?></td>
+            <td><?php echo $pd['jmlpo']?></td>
             <td><?php echo number_format($pd['dz'],2)?></td>
           </tr>
           <?php $tpa+=($pd['dz']);?>
