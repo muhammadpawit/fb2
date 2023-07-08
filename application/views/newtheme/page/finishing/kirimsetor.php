@@ -88,10 +88,10 @@
             <th rowspan="2">Nama CMT</th>
             <th colspan="2">Stok Awal Kaos</th>
             <th colspan="2">Stok Awal Kemeja</th>
-            <th colspan="2">Setor Kaos</th>
-            <th colspan="2">Setor Kemeja</th>
             <th colspan="2">Kirim Kaos</th>
             <th colspan="2">Kirim Kemeja</th>
+            <th colspan="2">Setor Kaos</th>
+            <th colspan="2">Setor Kemeja</th>
             <th colspan="2">Stok Akhir Kaos</th>
             <th colspan="2">Stok Akhir Kemeja</th>
           </tr>
@@ -123,14 +123,15 @@
               <td><?php echo $p['stokawalkaosdz']>0?number_format($p['stokawalkaosdz']):'';?></td>
               <td><?php echo ($p['stokawalkemejajml'])?></td>
               <td><?php echo $p['stokawalkemejadz']>0?number_format($p['stokawalkemejadz']):'';?></td>
-              <td><?php echo ($p['setorkaosjml'])?></td>
-              <td><?php echo $p['setorkaosdz']>0?number_format($p['setorkaosdz']):'';?></td>
-              <td><?php echo ($p['setorkemejajml'])?></td>
-              <td><?php echo $p['setorkemejadz']>0?number_format($p['setorkemejadz']):'';?></td>
               <td><?php echo ($p['kirimkaosjml'])?></td>
               <td><?php echo $p['kirimkaosdz']>0?number_format($p['kirimkaosdz']):'';?></td>
               <td><?php echo ($p['kirimkemejajml'])?></td>
               <td><?php echo $p['kirimkemejadz']>0?number_format($p['kirimkemejadz']):'';?></td>
+              <td><?php echo ($p['setorkaosjml'])?></td>
+              <td><?php echo $p['setorkaosdz']>0?number_format($p['setorkaosdz']):'';?></td>
+              <td><?php echo ($p['setorkemejajml'])?></td>
+              <td><?php echo $p['setorkemejadz']>0?number_format($p['setorkemejadz']):'';?></td>
+              
               <td><?php echo ($p['stokakhirkaosjml'])?></td>
               <td><?php echo $p['stokakhirkaosdz']>0?number_format($p['stokakhirkaosdz']):'';?></td>
               <td><?php echo ($p['stokakhirkemejajml'])?></td>
