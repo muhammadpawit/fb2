@@ -68,7 +68,7 @@
                       <td>
                         <!-- <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#detailModal<?php echo $p['id']?>">Acc</button> -->
                         <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data">
-                        <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">Detail</a>
+                        <a href="<?php echo $p['detail']?>?&spv=true" class="btn btn-warning btn-xs text-white">Detail</a>
                       </td>
                     </tr>
                   <?php }?>

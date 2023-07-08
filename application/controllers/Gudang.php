@@ -209,8 +209,13 @@ class Gudang extends CI_Controller {
 		$data=array();
 		$data['n']=1;
 		$data['title']='Detail Ajuan Mingguan';
+		$get=$this->input->get();
+		$url='';
+		if(isset($get['spv'])){
+			$url='?&spv=true';
+		}
 		$data['action']=BASEURL.'Gudang/ajuanmingguansave';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
+		$data['cancel']=BASEURL.'Gudang/ajuanmingguan'.$url;
 		$data['excel']=BASEURL.'Gudang/ajuanmingguandetail/'.$id.'?&excel=1';
 		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan',array('hapus'=>0,'id'=>$id));
 		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail',array('hapus'=>0,'idajuan'=>$id));
