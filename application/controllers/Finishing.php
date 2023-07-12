@@ -1034,9 +1034,10 @@ class Finishing extends CI_Controller {
 		$tanggal1=date('Y-m-d',strtotime("-1 month"));
 		$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		$sql	 = "SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po ";
-		//$sql    .= " LEFT JOIN konveksi_buku_potongan kbp ON kbp.kode_po=pp.kode_po";
+		$sql    .= " LEFT JOIN master_jenis_po kbp ON kbp.nama_jenis_po=pp.nama_po";
 		$sql	.= " WHERE pp.hapus=0  ";
-		$sql	.= " and  kks.progress='FINISHING' AND kks.hapus=0 and pp.kode_po LIKE 'BJK%' ";
+		$sql	.= " and  kks.progress='FINISHING' AND kks.hapus=0 and kbp.nama_jenis_po IN('BJK','BJF') ";
+		//$sql	.=" GROUP BY refpo";
 		$sql	.= " order by pp.kode_po ";
 		$rincian = $this->GlobalModel->queryManual($sql);
 		//pre($rincian);
@@ -1050,7 +1051,7 @@ class Finishing extends CI_Controller {
 			$viewData['rincian'][$key]['progress']=$rinci['progress'];
 			$viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
 			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
-			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$rinci['kode_po'].'-'.$rinci['id_master_cmt']));
+			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po LIKE '=>$rinci['kode_po'].'-'.$rinci['id_master_cmt'].'%'));
 		}
 		
 		// pre($viewData);
