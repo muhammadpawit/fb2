@@ -2560,7 +2560,9 @@ class Kelolapo extends CI_Controller {
 			$sql.=" AND kks.kode_po='".$kode_po."' ";
 		}else{
 			if(!empty($cmt)){
-
+				if(!empty($tanggal1) && !empty($tanggal2) ){
+					$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				}
 			}else{
 				$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
