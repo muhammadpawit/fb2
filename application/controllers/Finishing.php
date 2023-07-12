@@ -1381,7 +1381,7 @@ class Finishing extends CI_Controller {
 			
 			$b3	= $this->GlobalModel->QueryManualRow("SELECT kode_po FROM konveksi_buku_potongan WHERE refpo='".$kodepo."' ");
 			if(!empty($b3)){
-				$viewData['bahan'] = $this->GlobalModel->queryManual('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$kodepo.'" OR kode_po="'.$b3['kode_po'].'" GROUP BY bahan_kategori ORDER BY harga_item ASC ');
+				$viewData['bahan'] = $this->GlobalModel->queryManual('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po IN("'.$kodepo.'","'.$b3['kode_po'].'") GROUP BY bahan_kategori ORDER BY harga_item ASC ');
 			}else{
 				$viewData['bahan'] = $this->GlobalModel->queryManual('SELECT DISTINCT bahan_kategori,harga_item,resiko_bahan FROM gudang_bahan_keluar WHERE hapus=0 AND kode_po="'.$kodepo.'" ');	
 			}
