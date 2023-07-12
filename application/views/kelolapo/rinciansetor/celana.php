@@ -29,9 +29,10 @@
                                     <?php } ?>
 
                                     <?php if(akseshapus()==1){?>
-                                        <?php $cek=$this->GlobalModel->getData('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$sat['kode_po'].'-'.$sat['id_cmt']));?>
+                                        <?php $cek=$this->GlobalModel->getData('kelolapo_rincian_setor_cmt_celana',array('kode_po LIKE '=>$sat['kode_po'].'-'.$sat['id_cmt'].'%'));?>
                                         <?php if(!empty($cek)){ ?>
-                                            <a href="<?php echo BASEURL.'finishing/editsetoran_hapus_celana/'.$sat['kode_po'] ?>" onclick="return confirm('Apakah yakin akan mereset data ini ? Seluruh data penerimaan akan terhapus') " class="btn btn-danger btn-sm"><i class="fa fa-trash">Reset</i></a>
+                                            <?php //echo json_encode($sat['rincianSetor']['kode_po']) ?>
+                                            <a href="<?php echo BASEURL.'finishing/editsetoran_hapus_celana/'.$sat['rincianSetor']['kode_po'] ?>" onclick="return confirm('Apakah yakin akan mereset data ini ? Seluruh data penerimaan akan terhapus') " class="btn btn-danger btn-sm"><i class="fa fa-trash">Reset</i></a>
                                         <?php } ?>
                                     <?php } ?>
                                 </td>
