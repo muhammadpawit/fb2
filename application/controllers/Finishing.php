@@ -1050,7 +1050,7 @@ class Finishing extends CI_Controller {
 			$viewData['rincian'][$key]['progress']=$rinci['progress'];
 			$viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
 			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
-			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$rinci['kode_po'].'-'.$rinci['id_master_cmt'].'-'.$rinci['refpo']));
+			$viewData['rincian'][$key]['rincianSetor']= !empty($rinci['refpo']) ? $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$rinci['kode_po'].'-'.$rinci['id_master_cmt'].'-'.$rinci['refpo'])) : $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$rinci['kode_po'].'-'.$rinci['id_master_cmt'])) ;
 		}
 		
 		// pre($viewData);
