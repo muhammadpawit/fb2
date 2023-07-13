@@ -138,7 +138,7 @@
                     <td><?php echo $r['no']?></td>
                     <td><?php echo $r['type']?></td>
                     <td><?php echo number_format($r['po'])?></td>
-                    <td><?php echo number_format($r['dz'])?></td>
+                    <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
                     <td><?php echo number_format($r['total'])?></td>
                 </tr>
@@ -152,7 +152,7 @@
                 <tr style="background-color: yellow;">
                     <td colspan="2"><b>Nilai Total (Rp)</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
-                    <td><b><?php echo number_format($dz)?></b></td>
+                    <td><b><?php echo number_format($dz,2)?></b></td>
                     <td><b><?php echo number_format($pcs)?></b></td>
                     <td><b><?php echo number_format($total)?></b></td>
                 </tr>
@@ -183,7 +183,7 @@
                     <td><?php echo $r['no']?></td>
                     <td><?php echo $r['type']?></td>
                     <td><?php echo number_format($r['po'])?></td>
-                    <td><?php echo number_format($r['dz'])?></td>
+                    <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
                     <td><?php echo number_format($r['total'])?></td>
                 </tr>
@@ -197,7 +197,7 @@
                 <tr style="background-color: yellow;">
                     <td colspan="2"><b>Nilai Total (Rp)</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
-                    <td><b><?php echo number_format($dz)?></b></td>
+                    <td><b><?php echo number_format($dz,2)?></b></td>
                     <td><b><?php echo number_format($pcs)?></b></td>
                     <td><b><?php echo number_format($total)?></b></td>
                 </tr>
