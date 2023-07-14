@@ -214,24 +214,8 @@ class AjuanalatModel extends CI_Model {
 		
 		$sql .=" AND a.id='".$id."' ";
 		$sql.=" ORDER BY a.id DESC ";
-		$result=$this->GlobalModel->QueryManual($sql);
-		$no=1;
-		if(!empty($result)){
-			foreach($result as $r){
-				$hasil[]=array(
-					'no'=>$no++,
-					'id'=>$r['id'],
-					'tanggal'=>date("d/m/Y",strtotime($r['tanggal'])),
-					'nama'=>$r['nama'],
-					'kebutuhan'=>$r['kebutuhan'],
-					'stok'=>$r['stok'],
-					'ajuan'=>$r['ajuan'],
-					'satuan'=>$r['satuan'],
-					'keterangan'=>$r['keterangan'],
-				);
-			}
-		}
-		return $hasil;
+		$result=$this->GlobalModel->QueryManualRow($sql);
+		return $result;
 	}
 
 }

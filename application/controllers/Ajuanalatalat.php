@@ -214,7 +214,10 @@ class Ajuanalatalat extends CI_Controller {
 		$data['prods']=$this->AjuanalatModel->getshowId($id);
 		$data['id']=$id;
 		$data['type']=$id;
-		$data['tambah']=$this->url.'tambah'.'/'.$id;
+		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND id_persediaan IN (SELECT idpersediaan FROM barangkeluarharian_detail WHERE hapus=0 GROUP BY idpersediaan) ORDER BY nama_item ASC");
+		$data['action']=$this->url.'edit_ajuanalat';
+		$data['cancel']=$this->url;
+
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'edit';
 			$this->load->view($this->layout,$data);
