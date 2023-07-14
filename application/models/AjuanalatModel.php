@@ -208,4 +208,30 @@ class AjuanalatModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function getshowId($id){
+		$hasil=[];
+		$sql="SELECT a.*, p.nama,p.satuan FROM ajuanalatalat a LEFT JOIN product p ON p.product_id=a.id_persediaan WHERE a.hapus=0 and p.hapus=0 ";
+		
+		$sql .=" a.id='".$id."' AND a.bagian='".$data['bagian']."' ";
+		$sql.=" ORDER BY a.id DESC ";
+		$result=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		if(!empty($result)){
+			foreach($result as $r){
+				$hasil[]=array(
+					'no'=>$no++,
+					'id'=>$r['id'],
+					'tanggal'=>date("d/m/Y",strtotime($r['tanggal'])),
+					'nama'=>$r['nama'],
+					'kebutuhan'=>$r['kebutuhan'],
+					'stok'=>$r['stok'],
+					'ajuan'=>$r['ajuan'],
+					'satuan'=>$r['satuan'],
+					'keterangan'=>$r['keterangan'],
+				);
+			}
+		}
+		return $hasil;
+	}
+
 }
