@@ -51,10 +51,10 @@
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
 							<?php if(aksesedit()==1){ ?>
-								<a href="<?php echo BASEURL.'Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
 							<?php  }?>
 							<?php if(akseshapus()==1){ ?>
-								<a href="<?php echo BASEURL.'Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-warning" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Edit</a>
+								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Hapus</a>
 							<?php  }?>
 						</td>
 					</tr>
