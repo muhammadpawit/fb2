@@ -212,7 +212,7 @@ class AjuanalatModel extends CI_Model {
 		$hasil=[];
 		$sql="SELECT a.*, p.nama,p.satuan FROM ajuanalatalat a LEFT JOIN product p ON p.product_id=a.id_persediaan WHERE a.hapus=0 and p.hapus=0 ";
 		
-		$sql .=" a.id='".$id."' AND a.bagian='".$data['bagian']."' ";
+		$sql .=" a.id='".$id."' ";
 		$sql.=" ORDER BY a.id DESC ";
 		$result=$this->GlobalModel->QueryManual($sql);
 		$no=1;
