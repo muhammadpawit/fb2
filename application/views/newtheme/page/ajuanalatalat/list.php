@@ -34,6 +34,7 @@
 					<th>TANGGAL AJUAN</th>
 					<th>ACC SPV</th>
 					<th>KETERANGAN</th>
+					<th>Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,6 +49,14 @@
 						<td><?php echo $p['tanggal'] ?></td>
 						<td></td>
 						<td><?php echo $p['keterangan'] ?></td>
+						<td>
+							<?php if(aksesedit()==1){ ?>
+								<a href="<?php echo BASEURL.'Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+							<?php  }?>
+							<?php if(akseshpaus()==1){ ?>
+								<a href="<?php echo BASEURL.'Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-warning" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Edit</a>
+							<?php  }?>
+						</td>
 					</tr>
 				<?php } ?>
 			</tbody>

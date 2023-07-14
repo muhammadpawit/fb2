@@ -200,4 +200,28 @@ class Ajuanalatalat extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function Ajuanalatalat_hapus($id){
+		$this->db->update('ajuanalatalat',array('hapus'=>1),array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.$data['bagian']);
+
+	}
+
+	public function Ajuanalatalat_edit($id){
+		$data=[];
+		$data['title']="Ajuan alat-alat ";
+		$data['title'].=$id==1?'Bordir':'Konveksi';
+		$data['prods']=$this->AjuanalatModel->getshowId($id);
+		$data['id']=$id;
+		$data['type']=$id;
+		$data['tambah']=$this->url.'tambah'.'/'.$id;
+		if(!isset($get['excel'])){
+			$data['page']=$this->page.'edit';
+			$this->load->view($this->layout,$data);
+		}else{
+			$this->load->view($this->page.'excel',$data);
+		}
+		
+	}
+
 }
