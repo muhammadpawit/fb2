@@ -53,7 +53,7 @@
 							<?php if(aksesedit()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
 							<?php  }?>
-							<?php if(akseshpaus()==1){ ?>
+							<?php if(akseshapus()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-warning" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Edit</a>
 							<?php  }?>
 						</td>
