@@ -12,15 +12,15 @@
 				</select>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-12">
 			<label>Stok</label><br>
-			<?php echo $prods['stok'] ?>
+			<b><?php echo $prods['stok'] ?></b>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-12">
 			<label>Ajuan</label><br>
-			<?php echo $prods['ajuan'] ?>
+			<b><?php echo $prods['ajuan'] ?></b>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-12">
 			<label>Kebutuhan</label><br>
 			<input type="text" name="kebutuhan" value="<?php echo $prods['kebutuhan'] ?>" class="form-control" required>
 		</div>
