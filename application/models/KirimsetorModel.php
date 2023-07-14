@@ -94,7 +94,7 @@ class kirimsetorModel extends CI_Model {
 		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
-		$sql.=" AND lower(kg.keterangan) NOT LIKE 'Sample%' ";
+		$sql.=" AND lower(kg.keterangan) NOT LIKE 'kirim sample%' ";
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
