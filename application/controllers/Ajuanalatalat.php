@@ -227,4 +227,18 @@ class Ajuanalatalat extends CI_Controller {
 		
 	}
 
+	public function edit_ajuanalat(){
+		$post = $this->input->post();
+		$this->db->update(
+			'ajuanalatalat',
+			array(
+					'keterangan' 	=> $post['keterangan'],
+					'ajuan'	 		=> $post['kebutuhan']-$post['stok'],
+					'tanggal'		=> $post['tanggal'],
+			),
+		);
+		$this->session->set_flashdata('msg','Data berhasil diubah');
+		redirect($this->url.$post['bagian']);
+	}
+
 }

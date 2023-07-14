@@ -1,5 +1,7 @@
 <form method="post" action="<?php echo $action ?>">
 	<input type="hidden" name="id" value="<?php echo $prods['id'] ?>">
+	<input type="hidden" name="bagian" value="<?php echo $prods['bagian'] ?>">
+	<input type="hidden" name="stok" value="<?php echo $prods['stok'] ?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="form-group">
