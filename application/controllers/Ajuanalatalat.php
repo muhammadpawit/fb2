@@ -236,6 +236,9 @@ class Ajuanalatalat extends CI_Controller {
 					'ajuan'	 		=> $post['kebutuhan']-$post['stok'],
 					'tanggal'		=> $post['tanggal'],
 			),
+			array(
+				'id'=>$id
+			),
 		);
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect($this->url.$post['bagian']);

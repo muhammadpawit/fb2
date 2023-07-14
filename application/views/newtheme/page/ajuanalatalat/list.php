@@ -50,12 +50,12 @@
 						<td></td>
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
-							<?php if(aksesedit()==1){ ?>
+							<?php //if(aksesedit()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-							<?php  }?>
-							<?php if(akseshapus()==1){ ?>
+							<?php  //}?>
+							<?php //if(akseshapus()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Hapus</a>
-							<?php  }?>
+							<?php  //}?>
 						</td>
 					</tr>
 				<?php } ?>
