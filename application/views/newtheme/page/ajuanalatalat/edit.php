@@ -12,5 +12,25 @@
 				</select>
 			</div>
 		</div>
+		<div class="col-md-4">
+			<label>Stok</label><br>
+			<?php echo $prods['stok'] ?>
+		</div>
+		<div class="col-md-4">
+			<label>Ajuan</label><br>
+			<?php echo $prods['ajuan'] ?>
+		</div>
+		<div class="col-md-4">
+			<label>Kebutuhan</label><br>
+			<input type="text" name="kebutuhan" value="<?php echo $prods['kebutuhan'] ?>" class="form-control" required>
+		</div>
+		<div class="col-md-4">
+			<label>Keterangan</label><br>
+			<input type="text" name="keterangan" value="<?php echo $prods['keterangan'] ?>" class="form-control">
+		</div>
+		<div class="col-md-4">
+			<label>Tanggal Ajuan</label><br>
+			<input type="text" name="tanggal" value="<?php echo $prods['tanggal'] ?>" class="form-control datepicker" autocomplete="off">
+		</div>
 	</div>
 </form>
