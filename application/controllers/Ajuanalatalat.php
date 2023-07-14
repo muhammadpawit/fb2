@@ -237,7 +237,7 @@ class Ajuanalatalat extends CI_Controller {
 					'tanggal'		=> $post['tanggal'],
 			),
 			array(
-				'id'=>$id
+				'id'=>$post['id']
 			),
 		);
 		$this->session->set_flashdata('msg','Data berhasil diubah');
