@@ -153,7 +153,7 @@
 								<div class="form-group">
 		                    		<label>Kode PO</label>
 			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
-			                    		<?php foreach($prosescucian as $p){?>
+			                    		<?php foreach($po as $p){?>
 			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
 			                    		<?php } ?>
 			                    	</select>
