@@ -1523,7 +1523,18 @@ class ReportModel extends CI_Model {
 
 	public function monitoring_jml($nama,$proses){
 		$hasil=0;
-		$sql="SELECT COUNT(*) as total FROM proses_po WHERE hapus=0 and namapo='$nama' and proses='$proses' ";
+		//$sql="SELECTs COUNT(proses_po.kode_po) as total FROM proses_po WHERE hapus=0 and namapo='$nama' and proses='$proses' ";
+		$sql="
+			SELECT COUNT(proses_po.kode_po) as total
+			FROM proses_po
+			LEFT JOIN produksi_po ON produksi_po.kode_po = proses_po.kode_po
+			WHERE produksi_po.nama_po = '$nama' AND produksi_po.hapus = 0 and proses_po.proses='$proses' 
+		";
+		if($proses==1){
+			$sql .=" AND proses_po.proses IN(2,3,4,5,6,7,8,9,11) ";
+		}else if($proses==9){
+			$sql .=" AND proses_po.proses IN(1,2,3,4,5,6,7,8,11) ";
+		}
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$hasil=$data['total'];
@@ -1534,7 +1545,11 @@ class ReportModel extends CI_Model {
 
 	public function monitoring_jmlall($nama){
 		$hasil=0;
-		$sql="SELECT COUNT(*) as total FROM proses_po WHERE namapo='$nama' and hapus=0 ";
+		$sql="SELECT COUNT(proses_po.kode_po) as total
+		FROM proses_po
+		LEFT JOIN produksi_po ON produksi_po.kode_po = proses_po.kode_po
+		WHERE produksi_po.nama_po = '$nama' AND produksi_po.hapus = 0
+		 ";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$hasil=$data['total'];

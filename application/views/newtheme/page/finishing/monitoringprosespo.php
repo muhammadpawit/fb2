@@ -438,20 +438,22 @@
 				</thead>
 				<tbody>
 					<?php foreach($kemeja as $k){?>
-						<tr>
-							<td><?php echo $k['nama']?></td>
-							<td><?php echo $k['jmlpo']?></td>
-							<td><?php echo $k['qc']?></td>
-							<td><?php echo $k['kancing']?></td>
-							<td><?php echo $k['siapcucian']?></td>
-							<td><?php echo $k['prosescucian']?></td>
-							<td><?php echo $k['siapbuangbenang']?></td>
-							<td><?php echo $k['prosesbuangbenang']?></td>
-							<td><?php echo $k['siappacking']?></td>
-							<td><?php echo $k['prosespacking']?></td>
-							<td><?php echo $k['siapkirimgudang']?></td>
-							<td><?php echo $k['pending']?></td>
-						</tr>
+						<?php if($k['jmlpo'] >0){ ?>
+							<tr>
+								<td><?php echo $k['nama']?></td>
+								<td><?php echo $k['jmlpo']?></td>
+								<td><?php echo $k['qc']?></td>
+								<td><?php echo $k['kancing']?></td>
+								<td><?php echo $k['siapcucian']?></td>
+								<td><?php echo $k['prosescucian']?></td>
+								<td><?php echo $k['siapbuangbenang']?></td>
+								<td><?php echo $k['prosesbuangbenang']?></td>
+								<td><?php echo $k['siappacking']?></td>
+								<td><?php echo $k['prosespacking']?></td>
+								<td><?php echo $k['siapkirimgudang']?></td>
+								<td><?php echo $k['pending']?></td>
+							</tr>
+						<?php } ?>
 					<?php } ?>
 				</tbody>
 			</table>

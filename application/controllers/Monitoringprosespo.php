@@ -68,6 +68,7 @@ class Monitoringprosespo extends CI_Controller {
 				'pending'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],10)*$k['perkalian'],
 			);
 		}
+		//pre($data['kaos']);
 
 		$data['po']=$this->GlobalModel->Getdata('produksi_po',array('hapus'=>0));
 		$data['qc']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND  proses=1 WHERE p.hapus=0 AND pp.kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses=9 ) ');
