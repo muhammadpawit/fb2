@@ -54,23 +54,26 @@ class Monitoringprosespo extends CI_Controller {
 		$kaos=$this->GlobalModel->getdata('master_jenis_po',array('tampil'=>1,'idjenis'=>2,'status'=>1));
 		$jml=0;
 		foreach($kaos as $k){
-			for($i=1;$i<12;$i++){
-				$jml=(count_mdetails_perpo($i,$k['nama_jenis_po']));
-			}
+			//for($i=1;$i<12;$i++){
+				$jml=(count_mdetails_perpo(null,$k['nama_jenis_po']));
+			//}
 			$data['kaos'][]=array(
 				'nama'=>$k['nama_jenis_po'],
 				//'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
 				'jmlpo'=>$jml,
 				'qc'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],1)*$k['perkalian'],
 				'kancing'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],2)*$k['perkalian'],
-				'siapcucian'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],3)*$k['perkalian'],
-				'prosescucian'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],4)*$k['perkalian'],
-				'siapbuangbenang'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],5)*$k['perkalian'],
-				'prosesbuangbenang'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],6)*$k['perkalian'],
-				'siappacking'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],7)*$k['perkalian'],
-				'prosespacking'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],8)*$k['perkalian'],
-				'siapkirimgudang'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],9)*$k['perkalian'],
+				'siapcucian'=>count_mdetails_perpo(3,$k['nama_jenis_po']),
+				'prosescucian'=>count_mdetails_perpo(4,$k['nama_jenis_po']),
+				'siapbuangbenang'=>count_mdetails_perpo(5,$k['nama_jenis_po']),
+				'prosesbuangbenang'=>count_mdetails_perpo(6,$k['nama_jenis_po']),
+				'siappacking'=>count_mdetails_perpo(7,$k['nama_jenis_po']),
+				'prosespacking'=>count_mdetails_perpo(8,$k['nama_jenis_po']),
+				'siapkirimgudang'=>count_mdetails_perpo(9,$k['nama_jenis_po']),
 				'pending'=>count_mdetails_perpo(10,$k['nama_jenis_po']),
+				'selesai'=>count_mdetails_perpo(11,$k['nama_jenis_po']),
+				'retur'=>count_mdetails_perpo(12,$k['nama_jenis_po']),
+				'siapkirimcmt'=>count_mdetails_perpo(13,$k['nama_jenis_po']),
 			);
 		}
 		//pre($data['kaos']);

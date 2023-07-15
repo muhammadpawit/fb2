@@ -713,13 +713,12 @@
 	function count_mdetails_perpo($proses,$namapo){
 		$CI =& get_instance();
 		$hasil=0;
-		if($proses==1){
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11))  ";
-		}elseif($proses==9){
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11))  ";
-		}else{
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.proses='$proses' and pp.hapus=0 ";	
+		
+		$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 ";	
+		if(!empty($proses)){
+			$sql.=" AND pp.proses='$proses'  ";
 		}
+		
 		
 		$data=$CI->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){

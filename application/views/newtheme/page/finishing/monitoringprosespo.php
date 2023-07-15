@@ -501,8 +501,14 @@
 						<th>Type/Jenis</th>
 						<td>Jumlah PO</td>
 						<td>QC</td>
+						<td>Siap Cucian</td>
+						<td>Proses Cucian</td>
+						<td>Siap Kirim CMT</td>
+						<td>Proses Packing</td>
+						<td>Retur</td>
 						<td>Siap Kirim Gudang</td>
 						<td>Pending</td>
+						<td>Selesai</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -512,8 +518,14 @@
 								<td><?php echo $k['nama']?></td>
 								<td><?php echo $k['jmlpo']?></td>
 								<td><?php echo $k['qc']?></td>
+								<td><?php echo $k['siapcucian']?></td>
+								<td><?php echo $k['prosescucian']?></td>
+								<td><?php echo $k['siapkirimcmt']?></td>
+								<td><?php echo $k['prosespacking']?></td>
+								<td><?php echo $k['retur']?></td>
 								<td><?php echo $k['siapkirimgudang']?></td>
 								<td><?php echo $k['pending']?></td>
+								<td><?php echo $k['selesai']?></td>
 							</tr>
 						<?php } ?>
 					<?php } ?>
