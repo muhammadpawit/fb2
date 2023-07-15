@@ -77,7 +77,7 @@
 				<th>
 					Dibuat Oleh,
 					<br><br><br><br>
-					(Dewi)
+					(Dwiiiiiiiiiiii)
 				</th>
 			</tr>
 			<!-- <tr>
