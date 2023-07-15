@@ -357,7 +357,7 @@
 			                    	</select>
 		                    	</div>
 		                    	<div class="form-group">
-		                    		<input type="hidden" name="proses" value="10">
+		                    		<input type="hidden" name="proses" value="12">
 		                    		<button class="btn btn-success btn-sm">Simpan</button>
 		                    	</div>
 							</div>

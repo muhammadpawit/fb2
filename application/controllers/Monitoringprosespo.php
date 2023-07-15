@@ -98,11 +98,11 @@ class Monitoringprosespo extends CI_Controller {
 
 	public function proses_save(){
 		$data=$this->input->post();
-		
+		//pre($data);
 		if(isset($data['prods'])){
 			foreach($data['prods'] as $p){
 				$explode=explode('-',$p['kode_po']);
-				$cek=$this->GlobalModel->GetDataRow('proses_po',array('kode_po'=>$explode[1],'proses'=>($data['proses']-1)));
+				$cek=$this->GlobalModel->GetDataRow('proses_po',array('kode_po'=>$explode[1],'hapus'=>0));
 				if(empty($cek)){
 					$insert=array(
 						'namapo'=>$explode[0],
