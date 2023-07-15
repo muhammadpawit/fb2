@@ -58,7 +58,9 @@
 
       .bold { font-weight:800 !important}
       .clearfix {clear:both;margin:2%}
-
+      th, td {
+      padding: 15px;
+    }
   </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

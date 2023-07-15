@@ -21,7 +21,7 @@
 </div>
 <div class="row table-responsive">
 	<div class="col-md-8">
-		<table class="table table-bordered table-hover">
+		<table class="" border="1" style="border-collapse: collapse;width:100%;">
 			<thead>
 				<tr style="background-color: #d1869e;">
 					<th>No</th>
@@ -102,7 +102,7 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="2"><b>Di update terakhir</b></td>
+					<td colspan="3"><b>Di update terakhir</b></td>
 					<td colspan="5">
 						<?php if(!empty($log)){ ?>
 							<b>Tanggal : <?php echo date('d F Y',strtotime($log['created_date'])) ?></b>
