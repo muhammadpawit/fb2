@@ -1545,10 +1545,11 @@ class ReportModel extends CI_Model {
 
 	public function monitoring_jmlall($nama){
 		$hasil=0;
-		$sql="SELECT COUNT(proses_po.kode_po) as total
+		$sql="SELECT COUNT(DISTINCT proses_po.kode_po) as total
 		FROM proses_po
 		LEFT JOIN produksi_po ON produksi_po.kode_po = proses_po.kode_po
-		WHERE produksi_po.nama_po = '$nama' AND produksi_po.hapus = 0
+		WHERE produksi_po.nama_po = '$nama' AND proses_po.hapus = 0 AND produksi_po.hapus = 0
+		
 		 ";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
