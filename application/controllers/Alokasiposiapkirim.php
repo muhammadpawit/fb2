@@ -48,6 +48,9 @@ class Alokasiposiapkirim extends CI_Controller {
 		$sql="SELECT * FROM alokasi_po WHERE hapus=0 ";
 		if(!empty($idcmt)){
 			$sql.=" AND idcmt='$idcmt' ";
+			if(!empty($tanggal1)){
+				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
 		}else{
 			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
