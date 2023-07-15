@@ -35,7 +35,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $jml=0; $nilai=0;$dz=0;?>
+				<?php $jml=0; $nilai=0;$dz=0;$gdz=0;$gnilai=0;?>
 				<?php foreach($products as $p){?>
 					<tr>
 							<td><?php echo $p['no']?></td>
@@ -50,32 +50,35 @@
 								
 							</td>
 							<td><?php echo $p['tanggal']?></td>
-							<td><?php //echo $p['jml']?></td>
+							<td><?php echo $p['jml']?></td>
 							<td><?php echo $p['nama']?></td>
-							<td><?php //echo number_format($p['dz'],2)?></td>
-							<td><?php //echo number_format($p['nilai'])?></td>
+							<td><?php echo number_format($p['dz'],2)?></td>
+							<td><?php echo number_format($p['nilai'])?></td>
 							<td><?php echo $p['keterangan']?></td>
 					</tr>
 					<?php foreach($p['dets'] as $d){ ?>
-						<tr>
-							<td></td>
-							<td>
-								<?php
+						
+						<?php if($d['jml'] > 0){ ?>
+							<tr>
+								<td></td>
+								<td>
+									<?php
 
-									//if(0==$p['no']){
-										//echo $p['hari'];
-									//}
+										//if(0==$p['no']){
+											//echo $p['hari'];
+										//}
 
-								?>
-								
-							</td>
-							<td></td>
-							<td><?php echo $d['jml']?></td>
-							<td><?php echo $d['nama']?></td>
-							<td><?php echo number_format($d['dz'],2)?></td>
-							<td><?php echo number_format($d['nilai'])?></td>
-							<td><?php echo $d['keterangan']?></td>
-						</tr>
+									?>
+									
+								</td>
+								<td></td>
+								<td><?php echo $d['jml']?></td>
+								<td><?php echo $d['nama']?></td>
+								<td><?php echo number_format($d['dz'],2)?></td>
+								<td><?php echo number_format($d['nilai'])?></td>
+								<td><?php echo $d['keterangan']?></td>
+							</tr>
+						<?php } ?>
 
 						<?php
 							$jml+=($d['jml']);
@@ -83,7 +86,10 @@
 							$dz+=($d['dz']);
 						?>
 					<?php } ?>
-				
+					<?php 
+						$gdz+=($p['dz']); 
+						$gnilai+=($p['nilai']); 
+					?>
 				<?php } ?>
 			</tbody>
 			<tfoot>
@@ -91,8 +97,8 @@
 					<td colspan="3" align="center"><b>Total</b></td>
 					<td><?php echo $jml?></td>
 					<td></td>
-					<td><?php echo number_format($dz,2)?></td>
-					<td><?php echo number_format($nilai)?></td>
+					<td><?php echo number_format($dz+$gdz,2)?></td>
+					<td><?php echo number_format($nilai+$gnilai)?></td>
 					<td></td>
 				</tr>
 				<tr>

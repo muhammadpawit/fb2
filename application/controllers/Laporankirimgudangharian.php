@@ -51,6 +51,7 @@ class Laporankirimgudangharian extends CI_Controller {
 		);
 
 		$results=$this->KirimsetorModel->kirimgudangharian_group($filter);
+		//pre($results);
 		$no=1;
 		$prev=null;
 		$h=null;
@@ -63,11 +64,11 @@ class Laporankirimgudangharian extends CI_Controller {
 				'no'=>$no,
 				'hari'=>$hari,
 				'tanggal'=>date('d-m-Y',strtotime($row['tanggal'])),
-				'jml'=>$row['jml'],
-				'dz'=>null,//$row['pcs']/12,
+				'jml'=>null,
+				'dz'=>$row['dz'],
 				'nama'=>null,//$row['nama'],
-				'nilai'=>null,//$row['nilai'],
-				'keterangan'=>null,//!empty($row['keterangan']) ? $ket.' ('.$row['keterangan'].')' : $ket,
+				'nilai'=>$row['nilai'],//$row['nilai'],
+				'keterangan'=>$row['keterangan'],//!empty($row['keterangan']) ? $ket.' ('.$row['keterangan'].')' : $ket,
 				'dets' => $dets,
 			);
 			$no++;
