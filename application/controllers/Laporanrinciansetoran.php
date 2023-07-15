@@ -87,7 +87,7 @@ class Laporanrinciansetoran extends CI_Controller {
 
 	public function celana(){
 		$data=[];
-		$data['title']='Laporan Rincian Setor CMT';
+		$data['title']='Laporan Rincian Setor Celana CMT';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
