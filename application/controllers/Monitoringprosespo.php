@@ -74,6 +74,7 @@ class Monitoringprosespo extends CI_Controller {
 				'selesai'=>count_mdetails_perpo(11,$k['nama_jenis_po']),
 				'retur'=>count_mdetails_perpo(12,$k['nama_jenis_po']),
 				'siapkirimcmt'=>count_mdetails_perpo(13,$k['nama_jenis_po']),
+				'kirimsample'=>count_mdetails_perpo(14,$k['nama_jenis_po']),
 			);
 		}
 		//pre($data['kaos']);

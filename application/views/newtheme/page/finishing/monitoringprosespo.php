@@ -51,6 +51,9 @@
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-pendings-tab" data-toggle="pill" href="#custom-tabs-one-pendings" role="tab" aria-controls="custom-tabs-one-pendings" aria-selected="false">Pendingan <span class="badge bg-black"><?php echo count_mdetails(10)?></span></a>
                   </li>
+				  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-samples-tab" data-toggle="pill" href="#custom-tabs-one-samples" role="tab" aria-controls="custom-tabs-one-samples" aria-selected="false">Kirim Sample <span class="badge bg-black"><?php echo count_mdetails(14)?></span></a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-returs-tab" data-toggle="pill" href="#custom-tabs-one-returs" role="tab" aria-controls="custom-tabs-one-pendings" aria-selected="false">Retur <span class="badge bg-black"><?php echo count_mdetails(12)?></span></a>
                   </li>
@@ -404,6 +407,35 @@
                     </form>
                   </div>
 
+				  <div class="tab-pane fade" id="custom-tabs-one-samples" role="tabpanel" aria-labelledby="custom-tabs-one-samples-tab">
+                    <form method="post" action="<?php echo $action; ?>">
+                    	<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+		                    		<label>Kode PO</label>
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    		<?php foreach($po as $p){?>
+			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+			                    		<?php } ?>
+			                    	</select>
+		                    	</div>
+		                    	<div class="form-group">
+		                    		<input type="hidden" name="proses" value="14">
+		                    		<button class="btn btn-success btn-sm">Simpan</button>
+		                    	</div>
+							</div>
+							<div class="col-md-6">
+								<label>Rincian PO</label>
+								<div style="height: 200px;overflow: auto">
+									<?php foreach(mdetails(14) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
+							</div>                      		
+                    	</div>
+                    </form>
+                  </div>
+
                   <div class="tab-pane fade" id="custom-tabs-one-selesais" role="tabpanel" aria-labelledby="custom-tabs-one-selesais-tab">
                     <form method="post" action="<?php echo $action; ?>">
                     	<div class="row">
@@ -505,6 +537,7 @@
 						<td>Proses Cucian</td>
 						<td>Siap Kirim CMT</td>
 						<td>Proses Packing</td>
+						<td>Kirim Sample</td>
 						<td>Retur</td>
 						<td>Siap Kirim Gudang</td>
 						<td>Pending</td>
@@ -522,6 +555,7 @@
 								<td><?php echo $k['prosescucian']?></td>
 								<td><?php echo $k['siapkirimcmt']?></td>
 								<td><?php echo $k['prosespacking']?></td>
+								<td><?php echo $k['kirimsample']?></td>
 								<td><?php echo $k['retur']?></td>
 								<td><?php echo $k['siapkirimgudang']?></td>
 								<td><?php echo $k['pending']?></td>
