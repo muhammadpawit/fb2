@@ -80,12 +80,12 @@ class Alokasiposiapkirim extends CI_Controller {
 				//'jumlah'=>count($kt),
 				'hitung'=>json_encode($hitungpo),
 				'jumlah'=>count($ket),
-				'oblongpdk'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(5),$r['id']),
+				'oblongpdk'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(1,5),$r['id']),
 				'oblongpdkraglan'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(9),$r['id']),
 				'oblongpjg'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(8),$r['id']),
 				'reglangpjg'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(30),$r['id']),
 				'hugo'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(6),$r['id']),
-				'stkd'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(2),$r['id']),
+				'stkd'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(19,2),$r['id']),
 				'stwangky'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(3,12),$r['id']),
 				'wangky'=>$this->ReportModel->hitungALokasiPo($r['idcmt'],array(11),$r['id']),
 				'edit'=>BASEURL.'Alokasiposiapkirim/edit/'.$r['id'],
@@ -121,7 +121,7 @@ class Alokasiposiapkirim extends CI_Controller {
 			);
 			$s++;
 		}
-		$data['ket']	= $this->GlobalModel->getData('keterangan_alokasipo',array());
+		$data['ket']	= $this->GlobalModel->QueryManual('SELECT * FROM keterangan_alokasipo WHERE id NOT IN(6)');
 		//pre($data['products']);
 
 		if(isset($get['excel'])){

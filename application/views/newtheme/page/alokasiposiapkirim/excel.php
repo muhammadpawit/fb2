@@ -2,7 +2,7 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
 ?>
-<h3>Alokasi PO CMT</h3>
+<h3>TABEL ALOKASI PO KIRIM CMT</h3>
 <table border="1" style="border-collapse: collapse;width: 100%" cellpadding="10">
 <thead>
   <tr>
@@ -37,10 +37,12 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
     $oblongpdk=0;
     $oblongpdkraglan=0;
     $oblongpjg=0;
+    $reglangpjg=0;
     $hugo=0;
     $stkd=0;
     $stwangky=0;
     $wangky=0;
+    $jmlall=0;
   ?>
   <?php foreach($products as $p){?>
   <tr>
@@ -54,7 +56,7 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
     <td class="tg-0pky"><?php echo $p['stkd']?></td>
     <td class="tg-0pky"><?php echo $p['stwangky']?></td>
     <td class="tg-0pky"><?php echo $p['wangky']?></td>
-    <td class="tg-0pky"></td>
+    <td class="tg-0pky"><?php echo count($p['keterangan']) ?></td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky"></td>
     <td class="tg-0pky">
@@ -70,10 +72,12 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
     $oblongpdk+=($p['oblongpdk']);
     $oblongpdkraglan+=($p['oblongpdkraglan']);
     $oblongpjg+=($p['oblongpjg']);
+    $reglangpjg+=($p['reglangpjg']);
     $hugo+=($p['hugo']);
     $stkd+=($p['stkd']);
     $stwangky+=($p['stwangky']);
     $wangky+=($p['wangky']);
+    $jmlall+=count($p['keterangan']);
   ?>
   <?php } ?>
 </tbody>
@@ -81,13 +85,14 @@ header("Content-Disposition: attachment; filename=ALokasisiapkirim.xls");
   <tr>
     <td colspan="2" align="center"><b>Total</b></td>
     <td><?php echo $oblongpdk ?></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td><?php echo $oblongpdkraglan ?></td>
+    <td><?php echo $oblongpjg ?></td>
+    <td><?php echo $reglangpjg ?></td>
+    <td><?php echo $hugo ?></td>
+    <td><?php echo $stkd ?></td>
+    <td><?php echo $stwangky ?></td>
+    <td><?php echo $wangky ?></td>
+    <td><?php echo $jmlall ?></td>
     <td></td>
     <td></td>
     <td></td>
