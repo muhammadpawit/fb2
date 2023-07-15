@@ -14,6 +14,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-sm btn-primary" onclick="fil()">Filter</button>
+			<button class="btn btn-sm btn-success" onclick="ex()">Excel</button>
 		</div>
 	</div>
 	<div class="col-md-12">
@@ -50,6 +51,15 @@
 <script type="text/javascript">
 	function fil(){
 		var url='?';
+		var jenis=$("#jenis").val();
+		if(jenis!='*'){
+			url+='&jenis='+jenis;
+		}
+		location = url;
+	}
+
+	function ex(){
+		var url='?&excel=1';
 		var jenis=$("#jenis").val();
 		if(jenis!='*'){
 			url+='&jenis='+jenis;

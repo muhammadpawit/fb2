@@ -51,7 +51,11 @@ class Laporanporijek extends CI_Controller {
 				'rijek'=>$rjk['total'],
 			);
 		}
-		$data['page']=$this->page.'rijek';
-		$this->load->view($this->layout,$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'rijek_excel',$data);
+		}else{
+			$data['page']=$this->page.'rijek';
+			$this->load->view($this->layout,$data);
+		}
 	}
 }
