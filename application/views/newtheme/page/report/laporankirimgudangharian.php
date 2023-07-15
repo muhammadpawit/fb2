@@ -19,7 +19,7 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row table-responsive">
 	<div class="col-md-8">
 		<table class="table table-bordered table-hover">
 			<thead>
