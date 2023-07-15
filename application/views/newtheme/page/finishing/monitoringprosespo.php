@@ -545,9 +545,23 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php
+						$jmlpo=0;
+						$qc=0;
+						$siapcucian=0;
+						$prosescucian=0;
+						$siapkirimcmt=0;
+						$prosespacking=0;
+						$kirimsample=0;
+						$retur=0;
+						$siapkirimgudang=0;
+						$pending=0;
+						$selesai=0;
+						
+					?>
 					<?php foreach($kaos as $k){?>
 						<?php if($k['jmlpo'] > 0){ ?>
-							<tr>
+							<tr align="center">
 								<td><?php echo $k['nama']?></td>
 								<td><?php echo $k['jmlpo']?></td>
 								<td><?php echo $k['qc']?></td>
@@ -561,12 +575,39 @@
 								<td><?php echo $k['pending']?></td>
 								<td><?php echo $k['selesai']?></td>
 							</tr>
+							<?php
+								$jmlpo+=($k['jmlpo']);
+								$qc+=($k['qc']);
+								$siapcucian+=($k['siapcucian']);
+								$prosescucian+=($k['prosescucian']);
+								$siapkirimcmt+=($k['siapkirimcmt']);
+								$prosespacking+=($k['prosespacking']);
+								$kirimsample+=($k['kirimsample']);
+								$retur+=($k['retur']);
+								$siapkirimgudang+=($k['siapkirimgudang']);
+								$pending+=($k['pending']);
+								$selesai+=($k['selesai']);
+							?>
 						<?php } ?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
+					<tr align="center">
+						<td><b>Total</b></td>
+						<td><b><?php echo $jmlpo ?></b></td>
+						<td><b><?php echo $qc ?></b></td>
+						<td><b><?php echo $siapcucian ?></b></td>
+						<td><b><?php echo $prosescucian ?></b></td>
+						<td><b><?php echo $siapkirimcmt ?></b></td>
+						<td><b><?php echo $prosespacking ?></b></td>
+						<td><b><?php echo $kirimsample ?></b></td>
+						<td><b><?php echo $retur ?></b></td>
+						<td><b><?php echo $siapkirimgudang ?></b></td>
+						<td><b><?php echo $pending ?></b></td>
+						<td><b><?php echo $selesai ?></b></td>
+					</tr>
 					<tr>
-						<td>Di Update terakhir 
+						<td colspan="13">Di Update terakhir 
 							<?php if(!empty($log)){ ?>
 								<b><?php echo $log['oleh']; ?>, tanggal : <?php echo date('d F Y H:i:s',strtotime($log['tanggal'])); ?></b>
 							<?php } ?>
@@ -578,9 +619,14 @@
 	</div>
 </div>
 <div class="row no-print">
-	<div class="col-md-12">
+	<div class="col-md-6">
 		<div class="form-group">
-			<button onclick="window.print()" class="btn btn-info btn-sm">Print</button>
+			<button onclick="window.print()" class="btn btn-info btn-sm full">Print</button>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<button onclick="filtertglonly_excel()" class="btn btn-success btn-sm full">Excel</button>
 		</div>
 	</div>
 </div>

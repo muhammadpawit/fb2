@@ -27,6 +27,8 @@ class Monitoringprosespo extends CI_Controller {
 			array('type'=>'Kaos','id'=>2),
 			array('type'=>'Celana','id'=>3),
 		);
+
+		$get = $this->input->get();
 		
 		// po kemeja difinishing
 		$data['kemeja']=[];
@@ -94,10 +96,15 @@ class Monitoringprosespo extends CI_Controller {
 		$data['selesai']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=11 WHERE p.hapus=0');
 
 		$data['action']=$this->url.'proses_save';
-		$data['page']=$this->page.'finishing/monitoringprosespo';
 		$data['log']=$this->GlobalModel->QueryManualRow("SELECT * FROM finishing_proses_updated ORDER BY id DESC LIMIT 1 ");
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'finishing/monitoringprosespo_excel',$data);
+		}else{
+			$data['page']=$this->page.'finishing/monitoringprosespo';
+			$this->load->view($this->layout,$data);
+		}
 		//pre(callSessUser('nama_user'));
-		$this->load->view($this->layout,$data);
+		
 	}
 
 	public function proses_save(){
