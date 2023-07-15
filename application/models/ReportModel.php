@@ -1534,6 +1534,8 @@ class ReportModel extends CI_Model {
 			$sql .=" AND proses_po.proses IN(2,3,4,5,6,7,8,9,11) ";
 		}else if($proses==9){
 			$sql .=" AND proses_po.proses IN(1,2,3,4,5,6,7,8,11) ";
+		}else if($proses==10){
+			$sql .=" AND proses_po.proses IN(1,2,3,4,5,6,7,8,11) ";
 		}
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){

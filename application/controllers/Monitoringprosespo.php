@@ -52,10 +52,15 @@ class Monitoringprosespo extends CI_Controller {
 		// po kemeja difinishing
 		$data['kaos']=[];
 		$kaos=$this->GlobalModel->getdata('master_jenis_po',array('tampil'=>1,'idjenis'=>2,'status'=>1));
+		$jml=0;
 		foreach($kaos as $k){
+			for($i=1;$i<12;$i++){
+				$jml=(count_mdetails_perpo($i,$k['nama_jenis_po']));
+			}
 			$data['kaos'][]=array(
 				'nama'=>$k['nama_jenis_po'],
-				'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
+				//'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
+				'jmlpo'=>$jml,
 				'qc'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],1)*$k['perkalian'],
 				'kancing'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],2)*$k['perkalian'],
 				'siapcucian'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],3)*$k['perkalian'],
@@ -65,7 +70,7 @@ class Monitoringprosespo extends CI_Controller {
 				'siappacking'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],7)*$k['perkalian'],
 				'prosespacking'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],8)*$k['perkalian'],
 				'siapkirimgudang'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],9)*$k['perkalian'],
-				'pending'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],10)*$k['perkalian'],
+				'pending'=>count_mdetails_perpo(10,$k['nama_jenis_po']),
 			);
 		}
 		//pre($data['kaos']);
