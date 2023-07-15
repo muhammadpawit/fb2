@@ -474,13 +474,15 @@
 				</thead>
 				<tbody>
 					<?php foreach($kaos as $k){?>
-						<tr>
-							<td><?php echo $k['nama']?></td>
-							<td><?php echo $k['jmlpo']?></td>
-							<td><?php echo $k['qc']?></td>
-							<td><?php echo $k['siapkirimgudang']?></td>
-							<td><?php echo $k['pending']?></td>
-						</tr>
+						<?php if($k['jmlpo'] > 0){ ?>
+							<tr>
+								<td><?php echo $k['nama']?></td>
+								<td><?php echo $k['jmlpo']?></td>
+								<td><?php echo $k['qc']?></td>
+								<td><?php echo $k['siapkirimgudang']?></td>
+								<td><?php echo $k['pending']?></td>
+							</tr>
+						<?php } ?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
