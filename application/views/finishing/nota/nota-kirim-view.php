@@ -59,7 +59,7 @@
                                         <td><?php echo strtolower($sat['tujuan']) ?></td>
                                         <td>
                                             <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
-                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['idpo'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
+                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
 
                                             <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
                                                 <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>

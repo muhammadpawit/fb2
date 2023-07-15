@@ -377,7 +377,7 @@ class Finishing extends CI_Controller {
 		$data=[];
 		$data['title']='Ubah tanggal pengiriman';
 		$kodepo=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
-		$data['k'] = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po'=>$kodepo['kode_po']));
+		$data['k'] = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('id_finishing_kirim_gudang'=>$id));
 		$data['simpan']=BASEURL.'Finishing/edit_tanggal_save';
 		$data['cancel']=BASEURL.'Finishing/pengirimangudang';
 		$data['page']='finishing/nota/edit_tanggal';
@@ -391,7 +391,7 @@ class Finishing extends CI_Controller {
 			'tanggal_kirim'=>$data['tanggal_kirim'],
 		);
 		$where=array(
-			'kode_po'=>$data['kode_po'],
+			'id_finishing_kirim_gudang'=>$data['id'],
 		);
 		$this->db->update('finishing_kirim_gudang',$update,$where);
 		$this->session->set_flashdata('msg','Data Berhasil Di ubah');

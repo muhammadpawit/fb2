@@ -1,4 +1,5 @@
 <form method="post" action="<?php echo $simpan?>">
+<input type="hidden" class="form-control" name="id" value="<?php echo $k['id_finishing_kirim_gudang']?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="form-group">
