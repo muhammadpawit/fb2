@@ -48,8 +48,8 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							<td><?php echo $p['nama']?></td>
 							<td><?php //echo $p['jml']?></td>
 							
-							<td><?php echo $p['dz'] > 0 ? number_format($p['dz'],2):''?></td>
-							<td><?php echo $p['dz'] > 0 ? number_format($p['nilai']):''?></td>
+							<td><?php echo $p['dz'] > 0 ? number_format($p['dz'],0):''?></td>
+							<td><?php echo $p['dz'] > 0 ? number_format($p['nilai'],0):''?></td>
 							<td><?php echo $p['dz'] > 0 ? $p['keterangan']:''?></td>
 					</tr>
 					<?php foreach($p['dets'] as $d){ ?>
@@ -70,8 +70,8 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 							<td><?php echo $d['nama']?></td>
 							<td><?php echo $d['jml']?></td>
 							
-							<td><?php echo number_format($d['dz'], 2, '.', '.') ?></td>
-							<td><?php echo number_format($d['nilai'])?></td>
+							<td><?php echo number_format($d['dz'],2) ?></td>
+							<td><?php echo number_format($d['nilai'],0)?></td>
 							<td><?php echo $d['keterangan']?></td>
 						</tr>
 

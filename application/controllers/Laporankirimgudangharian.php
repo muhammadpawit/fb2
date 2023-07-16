@@ -58,7 +58,7 @@ class Laporankirimgudangharian extends CI_Controller {
 		$dets=[];
 		foreach($results as $row){
 			$hari=hari(date('l',strtotime($row['tanggal'])));
-			$dets = $this->KirimsetorModel->kirimgudangharian_hari($filter,$hari);
+			$dets = $this->KirimsetorModel->kirimgudangharian_hari($row['tanggal'],$hari);
 			$ket = strtoupper($row['tujuan']);
 			$data['products'][]=array(
 				'no'=>$no,

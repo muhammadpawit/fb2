@@ -17,10 +17,10 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharianresume($data){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai,tujuan, kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,mjp.nama_jenis_po,count(kg.kode_po) as jml,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
-		$sql.="GROUP BY mjp.nama_jenis_po ORDER BY kg.tanggal_kirim";
+		$sql.="GROUP BY mjp.nama_jenis_po";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
 			$jumlah=$row['jml'];
@@ -50,7 +50,7 @@ class kirimsetorModel extends CI_Model {
 		//$sql.=" AND kg.susulan IN(2) ";
 		$sql.=" AND mjp.nama_jenis_po='".$namapo."' ";
 		$sql.=" AND lower(kg.keterangan) LIKE 'kirim sample%' ";
-		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
+		$sql.="GROUP BY mjp.nama_jenis_po ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$jumlah=0;
 		$dz=0;
@@ -121,12 +121,14 @@ class kirimsetorModel extends CI_Model {
 		return $hasil;
 	}
 
-	public function kirimgudangharian_hari($data,$hari){
+	public function kirimgudangharian_hari($tanggal,$hari){
 		$hasil=[];
 		$results=[];
+		$tanggal=date('Y-m-d',strtotime($tanggal));
 		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
 		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
-		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql.=" p.hapus=0 ";
+		$sql.=" and DATE(tanggal_kirim)='".$tanggal."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'kirim sample%' ";
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
@@ -142,11 +144,11 @@ class kirimsetorModel extends CI_Model {
 					'hari'=>hari(date('l',strtotime($row['tanggal_kirim']))),
 					'tanggal'=>date('d-m-Y',strtotime($row['tanggal_kirim'])),
 					'tgl'=>date('Y-m-d',strtotime($row['tanggal_kirim'])),
-					'jml'=>$jumlah-$this->kirimgudangharian_jml($data,$row['nama_jenis_po'],$row['tanggal_kirim'])['jumlah'],
+					'jml'=>$jumlah-$this->kirimgudangharian_jml($tanggal,$row['nama_jenis_po'],$row['tanggal_kirim'])['jumlah'],
 					'pcs'=>$row['pcs'],
-					'dz'=>($row['pcs']/12) - $this->kirimgudangharian_jml($data,$row['nama_jenis_po'],$row['tanggal_kirim'])['dz'],
+					'dz'=>($row['pcs']/12) - $this->kirimgudangharian_jml($tanggal,$row['nama_jenis_po'],$row['tanggal_kirim'])['dz'],
 					'nama'=>$row['nama_jenis_po'],
-					'nilai'=>$row['nilai'] - $this->kirimgudangharian_jml($data,$row['nama_jenis_po'],$row['tanggal_kirim'])['nilai'],
+					'nilai'=>$row['nilai'] - $this->kirimgudangharian_jml($tanggal,$row['nama_jenis_po'],$row['tanggal_kirim'])['nilai'],
 					'tujuan'=>$row['tujuan'],
 					'keterangan'=> 'H Soleh ('. $row['keterangan'].')',
 				);
