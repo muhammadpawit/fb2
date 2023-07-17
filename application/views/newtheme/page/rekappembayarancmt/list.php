@@ -27,6 +27,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+            <button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
 		</div>
 	</div>
 </div>
@@ -38,6 +39,7 @@
                     <th rowspan="2"><center>No</center></th>
                     <th rowspan="2"><center>Nama CMT</center></th>
                     <th colspan="<?php echo count($periode) ?>"><center>Pembayaran</center></th>
+                    <th rowspan="2"><center>Jumlah</center></th>
                 </tr>
                 <tr>
                     <?php foreach($periode as $p){ ?>
@@ -46,17 +48,24 @@
                 </tr>
             </thead>
             <tbody>
+                <?php $jumlah=0;?>
                 <?php foreach($prods as $p){ ?>
                     <tr>
                         <td align="center"><?php echo $p['no']?></td>
                         <td><?php echo $p['nama']?></td>
                         <?php foreach($p['tgl'] as $t){ ?>
-                            <td align="center"><?php echo $t['total']?></td>
+                            <td align="center"><?php echo number_format($t['total'])?></td>
                         <?php } ?>
+                        <td align="center"><?php echo number_format($p['jumlah'])?></td>
                     </tr>
+                    <?php $jumlah+=($p['jumlah']);?>
                 <?php } ?>
                 <tr>
                     <td align="center" colspan="2"><b>Total</b></td>
+                    <?php foreach($total as $p){ ?>
+                    <th><center><?php echo number_format($p['total'])?></center></th>
+                    <?php } ?>
+                    <th><center><?php echo number_format($jumlah)?></center></th>
                 </tr>
             </tbody>
         </table>

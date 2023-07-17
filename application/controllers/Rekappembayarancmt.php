@@ -38,16 +38,20 @@ class Rekappembayarancmt extends CI_Controller {
         $no                         = 1;
         foreach($cmt as $c){
             $tgl                        = $this->PembayaranModel->getRekapTgl($tanggal1,$tanggal2,$c['id_cmt']);
+            $jumlah                        = $this->PembayaranModel->getSum($tanggal1,$tanggal2,$c['id_cmt']);
             $prods[] = array(
                 'no'        => $no,
                 'nama'      => strtolower($c['cmt_name']),
-                'tgl'     => $tgl
+                'tgl'       => $tgl,
+                'jumlah'    => $jumlah->total,
             );
             $no++;
         }
         $data['prods']              = $prods;
+        $data['total']            = $this->PembayaranModel->getTotalPeriode($tanggal1,$tanggal2);
+        //pre($data['total']);
         if(isset($get['excel'])){
-
+            $this->load->view($this->page.'excel',$data);	
         }else{
             $data['page']=$this->page.'list';
 			$this->load->view($this->layout,$data);	

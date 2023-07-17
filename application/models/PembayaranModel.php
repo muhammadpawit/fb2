@@ -14,6 +14,21 @@ class PembayaranModel extends CI_Model {
         return $hasil;
     }
 
+    function getSum($tgl1,$tgl2,$cmt){
+        return $this->db->query("SELECT COALESCE(SUM(total),0) as total from pembayaran_cmt where hapus=0 and DATE(tanggal) BETWEEN '".$tgl1."' AND '".$tgl2."' AND idcmt='".$cmt."' ")->row();
+    }
+
+    function getTotalPeriode($tgl1,$tgl2){
+        $hasil = [];
+        $prs = $this->db->query("SELECT tanggal from pembayaran_cmt WHERE DATE(tanggal) BETWEEN '".$tgl1."' AND '".$tgl2."' AND hapus=0 GROUP BY tanggal ")->result_array();
+        foreach($prs as $h){
+            $sum =$this->db->query("SELECT COALESCE(SUM(total),0) as total from pembayaran_cmt where hapus=0 and date(tanggal)='".$h['tanggal']."' ")->row();
+            $hasil[]=array(
+                'total'     => $sum->total,
+            );
+        }
+        return $hasil;
+    }
 
     function getRekapTgl($tgl1,$tgl2,$cmt){
         $hasil = [];
