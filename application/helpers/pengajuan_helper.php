@@ -710,6 +710,26 @@
 		return $hasil;
 	}
 
+	function count_mdetails_hapus(){
+		$CI =& get_instance();
+		$hasil=0;
+		$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.hapus=1  ";
+		$data=$CI->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total']*$data['perkalian'];
+		}
+
+		return $hasil;
+	}
+
+	function proses_pohapus(){
+		$CI =& get_instance();
+		$hasil=0;
+		$sql="SELECT * FROM proses_po WHERE hapus=1  ";
+		$data=$CI->GlobalModel->QueryManual($sql);
+		return $data;
+	}
+
 	function count_mdetails_perpo($proses,$namapo){
 		$CI =& get_instance();
 		$hasil=0;

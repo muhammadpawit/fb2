@@ -94,8 +94,10 @@ class Monitoringprosespo extends CI_Controller {
 		$data['pending']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses IN(9,10) WHERE p.hapus=0');
 		$data['retur']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=12 WHERE p.hapus=0');
 		$data['selesai']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=11 WHERE p.hapus=0');
+		$data['tarpo']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p WHERE p.kode_po IN(SELECT kode_po FROM proses_po WHERE hapus=0 ) ');
 
 		$data['action']=$this->url.'proses_save';
+		$data['action_hapus']=$this->url.'proses_hapus_save';
 		$data['log']=$this->GlobalModel->QueryManualRow("SELECT * FROM finishing_proses_updated ORDER BY id DESC LIMIT 1 ");
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'finishing/monitoringprosespo_excel',$data);
@@ -107,18 +109,34 @@ class Monitoringprosespo extends CI_Controller {
 		
 	}
 
+	public function proses_hapus_save(){
+		$data=$this->input->post();
+		//pre($data);
+		foreach($data['prods'] as $p){
+			$explode=explode('-',$p['kode_po']);
+			$update=array('hapus'=>1);
+			$where=array('kode_po'=>$explode[1]);
+			$this->db->update(
+				'proses_po',$update,$where
+			);
+		}
+			$this->session->set_flashdata('msg','Data berhasil dihapus');
+			redirect($this->url);
+	}
+
 	public function proses_save(){
 		$data=$this->input->post();
 		//pre($data);
 		if(isset($data['prods'])){
 			foreach($data['prods'] as $p){
 				$explode=explode('-',$p['kode_po']);
-				$cek=$this->GlobalModel->GetDataRow('proses_po',array('kode_po'=>$explode[1],'hapus'=>0));
+				$cek=$this->GlobalModel->GetDataRow('proses_po',array('kode_po'=>$explode[1]));
 				if(empty($cek)){
 					$insert=array(
 						'namapo'=>$explode[0],
 						'kode_po'=>$explode[1],
 						'proses'=>$data['proses'],
+						'hapus'=>0,
 					);
 					$this->db->insert('proses_po',$insert);
 				}else{
@@ -126,6 +144,7 @@ class Monitoringprosespo extends CI_Controller {
 						'namapo'=>$explode[0],
 						'kode_po'=>$explode[1],
 						'proses'=>$data['proses'],
+						'hapus'=>0,
 					);
 					$this->db->update('proses_po',$insert,array('kode_po'=>$explode[1]));
 				}

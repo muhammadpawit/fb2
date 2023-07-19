@@ -61,6 +61,9 @@
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-selesais-tab" data-toggle="pill" href="#custom-tabs-one-selesais" role="tab" aria-controls="custom-tabs-one-selesais" aria-selected="false">Selesai <span class="badge bg-black"><?php echo count_mdetails(11)?></span></a>
                   </li>
+				  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-hapuss-tab" data-toggle="pill" href="#custom-tabs-one-hapuss" role="tab" aria-controls="custom-tabs-one-hapuss" aria-selected="false">Hapus <span class="badge bg-black"><?php echo count_mdetails_hapus()?></span></a>
+                  </li>
                 </ul>
               </div>
               <div class="card-body">
@@ -457,6 +460,35 @@
 								<label>Rincian PO</label>
 								<div style="height: 200px;overflow: auto">
 									<?php foreach(mdetails(11) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
+							</div>                      		
+                    	</div>
+                    </form>
+                  </div>
+
+				  <div class="tab-pane fade" id="custom-tabs-one-hapuss" role="tabpanel" aria-labelledby="custom-tabs-one-hapuss-tab">
+                    <form method="post" action="<?php echo $action_hapus; ?>">
+                    	<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+		                    		<label>Kode PO</label>
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    		<?php foreach($tarpo as $p){?>
+			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+			                    		<?php } ?>
+			                    	</select>
+		                    	</div>
+		                    	<div class="form-group">
+		                    		<input type="hidden" name="hapus" value="1">
+		                    		<button class="btn btn-success btn-sm">Simpan</button>
+		                    	</div>
+							</div>
+							<div class="col-md-6">
+								<label>Rincian PO</label>
+								<div style="height: 200px;overflow: auto">
+									<?php foreach(proses_pohapus() as $k){?>
 										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
 									<?php } ?>
 								</div>
