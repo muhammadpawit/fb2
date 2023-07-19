@@ -42,14 +42,22 @@ class Laporanporijek extends CI_Controller {
 		$data['prods']=[];
 		$no=1;
 		$rjk=0;
+		$kembali=0;
+		$bangke=0;
 		foreach($results as $r){
 			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po='".$r['kode_po']."' ");
-			$data['prods'][]=array(
-				'no'=>$no++,
-				'kode_po'=>$r['kode_po'],
-				'bangke'=>$r['bangke'],
-				'rijek'=>$rjk['total'],
-			);
+			$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' ");
+			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where kode_po='".$r['kode_po']."' ");
+			$sisa = $bangke['total']-$kembali['total'];
+			
+			if($sisa<>0){
+				$data['prods'][]=array(
+					'no'=>$no++,
+					'kode_po'=>$r['kode_po'],
+					'bangke'=>$sisa,
+					'rijek'=>$rjk['total'],
+				);
+			}
 		}
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'rijek_excel',$data);
