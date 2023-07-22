@@ -33,7 +33,16 @@ class Ajuanalatalat extends CI_Controller {
 			$url.='&tanggal2='.$tanggal2;
 		}else{
 			$tanggal2=null;
-		}		
+		}	
+		
+		if(isset($get['spv'])){
+			$spv=$get['spv'];
+			$url.='&spv='.$spv;
+		}else{
+			$spv=null;
+		}	
+
+		$data['spv']	 = $spv;
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$filter=array(
@@ -42,6 +51,7 @@ class Ajuanalatalat extends CI_Controller {
 			'bagian'=>$id,
 		);
 		$data['prods']=$this->AjuanalatModel->getshow($filter);
+		$data['acc']  = $this->url.'acc';
 		$data['id']=$id;
 		$data['type']=$id;
 		$data['tambah']=$this->url.'tambah'.'/'.$id;
@@ -52,6 +62,11 @@ class Ajuanalatalat extends CI_Controller {
 			$this->load->view($this->page.'excel',$data);
 		}
 		
+	}
+
+	function acc(){
+		$post = $this->input->post();
+		pre($post);
 	}
 
 	public function tambah($id){
@@ -229,17 +244,15 @@ class Ajuanalatalat extends CI_Controller {
 
 	public function edit_ajuanalat(){
 		$post = $this->input->post();
-		$this->db->update(
-			'ajuanalatalat',
-			array(
-					'keterangan' 	=> $post['keterangan'],
-					'ajuan'	 		=> $post['kebutuhan']-$post['stok'],
-					'tanggal'		=> $post['tanggal'],
-			),
-			array(
-				'id'=>$post['id']
-			),
+		$update = array(
+			'keterangan' 	=> $post['keterangan'],
+			'ajuan'	 		=> $post['kebutuhan']-$post['stok'],
+			'tanggal'		=> $post['tanggal'],
 		);
+		$where =array(
+			'id'=>$post['id']
+		);
+		$this->db->update('ajuanalatalat',$update,$where);
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect($this->url.$post['bagian']);
 	}

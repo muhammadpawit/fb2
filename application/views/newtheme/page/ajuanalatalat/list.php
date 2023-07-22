@@ -32,13 +32,16 @@
 					<th>AJUAN</th>
 					<th>SATUAN</th>
 					<th>TANGGAL AJUAN</th>
-					<th>ACC SPV</th>
 					<th>KETERANGAN</th>
+					<th>ACC SPV</th>
 					<th>Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
+				<?php $no=1;?>
 				<?php foreach($prods as $p){ ?>
+					
+					<?php if(!empty($spv)) { ?>
 					<tr>
 						<td><?php echo $p['no'] ?></td>
 						<td><?php echo $p['nama'] ?></td>
@@ -47,17 +50,35 @@
 						<td><?php echo $p['ajuan'] ?></td>
 						<td><?php echo $p['satuan'] ?></td>
 						<td><?php echo $p['tanggal'] ?></td>
-						<td></td>
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
+						<form method="POST" action="<?php echo $acc ?>">
+						<?php if(!empty($spv)) { ?>
+							<input type="number" name="prods[<?php echo $p['id'] ?>][acc_ajuan]" class="form-control">
+						<?php }else{ ?>
+
+						<?php } ?>
+						</td>
+						
+						<td>
+							<?php if(!empty($spv)) { ?>
+								<button type="submit" class="btn btn-success">Persetujuan</button>
+								</form>
+								<br><br>
+								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Pembatalan</a>
+							<?php }else{ ?>
 							<?php //if(aksesedit()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
 							<?php  //}?>
 							<?php //if(akseshapus()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Hapus</a>
 							<?php  //}?>
+							<?php } ?>
 						</td>
 					</tr>
+					
+					<?php } ?>
+					<?php $no++; ?>
 				<?php } ?>
 			</tbody>
 		</table>

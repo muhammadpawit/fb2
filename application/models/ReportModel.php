@@ -1886,7 +1886,7 @@ class ReportModel extends CI_Model {
 
 	public function stokmasuk($id,$tgl,$tgl2){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
-		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 AND pid.hapus=0";
 		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
@@ -1897,7 +1897,7 @@ class ReportModel extends CI_Model {
 
 	public function stokmasuk_bulanan($id,$bulan,$tahun){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
-		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0 AND pid.hapus=0";
 		$sql.=" AND id_persediaan='$id' AND YEAR(pi.tanggal)='".$tahun."' AND MONTH(pi.tanggal)='".$bulan."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
@@ -1908,7 +1908,7 @@ class ReportModel extends CI_Model {
 
 	public function stokkeluar_bulanan($id,$bulan,$tahun){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
-		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0";
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0 AND pid.hapus=0";
 		if(!empty($tgl)){
 			$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		}
@@ -1930,7 +1930,7 @@ class ReportModel extends CI_Model {
 
 	public function stokkeluar($id,$tgl,$tgl2){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
-		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0";
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0 AND pid.hapus=0";
 		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
