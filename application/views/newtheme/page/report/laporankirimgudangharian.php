@@ -24,14 +24,17 @@
 		<table class="" border="1" style="border-collapse: collapse;width:100%;">
 			<thead>
 				<tr style="background-color: #d1869e;">
-					<th>No</th>
-					<th>Hari</th>
-					<th>Tanggal</th>
-					<th>Jml PO</th>
-					<th>Nama PO</th>
-					<th>Jml Dz</th>
-					<th>Nilai PO (Rp)</th>
-					<th>Keterangan</th>
+					<th rowspan="2">NO</th>
+					<th rowspan="2">Hari, Tanggal</th>
+					<th rowspan="2">PO Dikirim</th>
+					<th rowspan="2">Jenis PO</th>
+					<th colspan="2">Jumlah</th>
+					<th rowspan="2">Nilai PO (Rp)</th>
+					<th rowspan="2">Keterangan</th>
+				</tr>
+				<tr style="background-color: #d1869e;">
+					<th>PO</th>
+					<th>DZ</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,15 +46,15 @@
 								<?php
 
 									//if(0==$p['no']){
-										echo $p['hari'];
+										echo $p['hari'].','.$p['tanggal'];
 									//}
 
 								?>
 								
 							</td>
-							<td><?php echo $p['tanggal']?></td>
-							<td><?php echo $p['jml']?></td>
-							<td><?php echo $p['nama']?></td>
+							<td><?php echo $p['jml'] ?></td>
+							<td></td>
+							<td></td>
 							<td><?php echo $p['dz'] > 0 ? number_format($p['dz'],2):''?></td>
 							<td><?php echo $p['dz'] > 0 ? number_format($p['nilai']):''?></td>
 							<td><?php echo $p['dz'] > 0 ? $p['keterangan']: ''?></td>
@@ -72,8 +75,8 @@
 									
 								</td>
 								<td></td>
-								<td><?php echo $d['jml']?></td>
 								<td><?php echo $d['nama']?></td>
+								<td><?php echo $d['jml']?></td>
 								<td><?php echo number_format($d['dz'],2)?></td>
 								<td><?php echo number_format($d['nilai'])?></td>
 								<td><?php echo $d['keterangan']?></td>
@@ -94,9 +97,10 @@
 			</tbody>
 			<tfoot>
 				<tr style="background-color: yellow;font-weight:700">
-					<td colspan="3" align="center"><b>Total</b></td>
+					<td colspan="2" align="center"><b>Total</b></td>
 					<td><?php echo $jml?></td>
 					<td></td>
+					<td><?php echo $jml?></td>
 					<td><?php echo number_format($dz+$gdz,2)?></td>
 					<td><?php echo number_format($nilai+$gnilai)?></td>
 					<td></td>

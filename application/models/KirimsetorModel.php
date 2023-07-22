@@ -17,9 +17,10 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharianresume($data){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,mjp.nama_jenis_po,count(kg.kode_po) as jml,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs,mjp.nama_jenis_po,count(kg.kode_po) as jml,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
+		$sql.=" AND lower(kg.keterangan) NOT IN('kirim sample','po susulan') ";
 		$sql.="GROUP BY mjp.nama_jenis_po";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
@@ -28,7 +29,7 @@ class kirimsetorModel extends CI_Model {
 				$jumlah=($row['jml']*$row['perkalian']);
 			}
 			$hasil[]=array(
-				'jml'=>$jumlah - $this->kirimgudangharian_jml($data,$row['nama_jenis_po'],null)['jumlah'],
+				'jml'=>$jumlah,
 				'nama'=>$row['nama_jenis_po'],
 				'pcs'=>$row['pcs'],
 				'nilai'=>$row['nilai']
@@ -111,7 +112,7 @@ class kirimsetorModel extends CI_Model {
 			$hasil[]=array(
 				'hari'=>hari(date('l',strtotime($row['tanggal_kirim']))),
 				'tanggal'=>date('d-m-Y',strtotime($row['tanggal_kirim'])),
-				'jml'=>null,
+				'jml'=>$this->kirimgudangharian_jml_group_sum($row['tanggal_kirim'])['total'],
 				'pcs'=>null,
 				'dz'=>$this->kirimgudangharian_jml_group($row['tanggal_kirim'])['jumlah'],
 				'nama'=>null,
@@ -150,6 +151,34 @@ class kirimsetorModel extends CI_Model {
 			'jumlah' => $jumlah,
 			'nilai'  => $nilai,
 			'keterangan'=>$keterangan,
+		);
+		return $hasil;
+	}
+
+	public function kirimgudangharian_jml_group_sum($tanggal){
+		$hasil=[];
+		$results=[];
+		$sql="SELECT COUNT(kg.kode_po) as total FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		if(!empty($tanggal)){
+			$sql.=" p.hapus=0 and DATE(tanggal_kirim) ='".$tanggal."'";
+		}else{
+			$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."'";
+		}
+		//$sql.=" AND kg.susulan IN(2) ";
+		//$sql.=" AND mjp.nama_jenis_po='".$namapo."' ";
+		$sql.=" AND lower(kg.keterangan) NOT IN('kirim sample','po susulan') ";
+		
+		$sql.="GROUP BY kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$jumlah=0;
+		$nilai=0;
+		$keterangan='';
+		foreach($results as $row){
+			$jumlah=$row['total'];
+			
+		}
+		$hasil = array(
+			'total' => $jumlah,
 		);
 		return $hasil;
 	}
