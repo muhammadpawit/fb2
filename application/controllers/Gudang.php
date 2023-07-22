@@ -145,6 +145,7 @@ class Gudang extends CI_Controller {
 				'keterangan2'=>$result['keterangan2'],
 				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
+				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatal/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
 			);
@@ -303,6 +304,12 @@ class Gudang extends CI_Controller {
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan');
+	}
+
+	function ajuanmingguandetailbatal($id){
+		$this->db->update('ajuan_mingguan',array('hapus'=>1),array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
+		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
 	}
 
 	public function ajuanmingguansave_edit(){
