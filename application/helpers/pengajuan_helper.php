@@ -874,4 +874,22 @@
 		return $tahun;
 	}
 
+	function getWeeksInMonth($year, $month) {
+		$weeks = array();
+		$firstDayOfMonth = new DateTime("$year-$month-01");
+		$lastDayOfMonth = new DateTime("$year-$month-01");
+		$lastDayOfMonth->modify('last day of this month');
+	
+		while ($firstDayOfMonth <= $lastDayOfMonth) {
+			$week = array();
+			$week['start_date'] = clone $firstDayOfMonth;
+			$week['end_date'] = clone $firstDayOfMonth;
+			$week['end_date']->modify('+6 days');
+			$weeks[] = $week;
+			$firstDayOfMonth->modify('+1 week');
+		}
+	
+		return $weeks;
+	}
+
  ?>
