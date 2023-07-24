@@ -67,13 +67,19 @@ class Ajuanalatalat extends CI_Controller {
 
 	function acc(){
 		$post = $this->input->post();
-		
+		pre($post);
 		foreach($post['prods'] as $p){
 			$update = array(
 				'acc_ajuan'=>$p['acc_ajuan'],
 			);
+			$where = array(
+				'id' => $p['id']
+			);
+			$this->db->update('ajuanalatalat',$update,$where);
 		}
-		pre($update);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url.'/'.$post['bagian']);
+		//pre($update);
 	}
 
 	public function tambah($id){

@@ -53,6 +53,7 @@
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
 						<form method="POST" action="<?php echo $acc ?>">
+							<input type="hidden" name="bagian" value="<?php echo $type ?>">
 						<?php if(!empty($spv)) { ?>
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][id]" value="<?php echo $p['id'] ?>">
 							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" class="form-control">
