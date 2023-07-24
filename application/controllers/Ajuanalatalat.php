@@ -67,12 +67,13 @@ class Ajuanalatalat extends CI_Controller {
 
 	function acc(){
 		$post = $this->input->post();
-		pre($post);
+		
 		foreach($post['prods'] as $p){
 			$update = array(
-				'acc_ajuan'=>1,
+				'acc_ajuan'=>$p['acc_ajuan'],
 			);
 		}
+		pre($update);
 	}
 
 	public function tambah($id){
