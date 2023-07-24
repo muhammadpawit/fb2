@@ -51,6 +51,7 @@ class Ajuanalatalat extends CI_Controller {
 			'bagian'=>$id,
 		);
 		$data['prods']=$this->AjuanalatModel->getshow($filter);
+		//pre($data['prods']);
 		$data['acc']  = $this->url.'acc';
 		$data['id']=$id;
 		$data['type']=$id;

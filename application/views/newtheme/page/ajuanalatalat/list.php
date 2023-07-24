@@ -41,7 +41,7 @@
 				<?php $no=1;?>
 				<?php foreach($prods as $p){ ?>
 					
-					<?php if(!empty($spv)) { ?>
+					<?php //if(!empty($spv)) { ?>
 					<tr>
 						<td><?php echo $p['no'] ?></td>
 						<td><?php echo $p['nama'] ?></td>
@@ -77,7 +77,7 @@
 						</td>
 					</tr>
 					
-					<?php } ?>
+					<?php //} ?>
 					<?php $no++; ?>
 				<?php } ?>
 			</tbody>
