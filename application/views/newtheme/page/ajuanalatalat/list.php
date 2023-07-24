@@ -56,7 +56,7 @@
 							<input type="hidden" name="bagian" value="<?php echo $type ?>">
 						<?php if(!empty($spv)) { ?>
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][id]" value="<?php echo $p['id'] ?>">
-							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" class="form-control">
+							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" value="<?php echo $p['acc_ajuan'] ?>" class="form-control">
 						<?php }else{ ?>
 							<?php echo $p['acc_ajuan'] ?>
 						<?php } ?>
