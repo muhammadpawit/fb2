@@ -75,7 +75,7 @@ class Ajuanalatalat extends CI_Controller {
 			$where = array(
 				'id' => $p['id']
 			);
-			$this->db->update('ajuanalatalat',$update,$where);
+			$this->db->update('sajuanalatalat',$update,$where);
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect($this->url.'/'.$post['bagian'].'?&spv=true');
