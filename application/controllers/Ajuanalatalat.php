@@ -67,7 +67,7 @@ class Ajuanalatalat extends CI_Controller {
 
 	function acc(){
 		$post = $this->input->post();
-		pre($post);
+		//pre($post);
 		foreach($post['prods'] as $p){
 			$update = array(
 				'acc_ajuan'=>$p['acc_ajuan'],
