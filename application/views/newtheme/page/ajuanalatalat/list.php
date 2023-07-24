@@ -54,7 +54,8 @@
 						<td>
 						<form method="POST" action="<?php echo $acc ?>">
 						<?php if(!empty($spv)) { ?>
-							<input type="number" name="prods[acc_ajuan][<?php echo $p['id'] ?>]" class="form-control">
+							<input type="hidden" name="prods[<?php echo $p['no'] ?>][id]" value="<?php echo $p['id'] ?>">
+							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" class="form-control">
 						<?php }else{ ?>
 
 						<?php } ?>
