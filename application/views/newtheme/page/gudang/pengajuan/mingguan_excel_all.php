@@ -12,7 +12,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
       
       <table  class="table table-bordered" border="1" style="border-collapse: collapse;width: 100%">
         <tr>
-          <th colspan="8" align="center">AJUAN ALAT - ALAT PO</th>
+          <th colspan="8" align="center">AJUAN ALAT - ALAT KIRIM PO</th>
         </tr>
       </table>
       <table  class="table table-bordered" border="1" style="border-collapse: collapse;width: 100%">

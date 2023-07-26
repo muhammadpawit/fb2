@@ -86,7 +86,7 @@ class Gudang extends CI_Controller {
 
 	public function ajuanmingguan(){
 		$data=array();
-		$data['title']='Ajuan Kebutuhan Mingguan';
+		$data['title']='Ajuan Alat-alat Kirim PO';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
@@ -162,7 +162,7 @@ class Gudang extends CI_Controller {
 
 	public function ajuanmingguan_excel_all(){
 		$data=array();
-		$data['title']='Ajuan Kebutuhan Mingguan';
+		$data['title']='Ajuan Alat-alat Kirim PO';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
@@ -209,7 +209,7 @@ class Gudang extends CI_Controller {
 	public function ajuanmingguandetail($id){
 		$data=array();
 		$data['n']=1;
-		$data['title']='Detail Ajuan Mingguan';
+		$data['title']='Detail Ajuan Alat-alat Kirim PO';
 		$get=$this->input->get();
 		$url='';
 		if(isset($get['spv'])){
@@ -234,7 +234,7 @@ class Gudang extends CI_Controller {
 	public function ajuanmingguanedit($id){
 		$data=array();
 		$data['n']=1;
-		$data['title']='Edit Ajuan Mingguan';
+		$data['title']='Edit Ajuan Alat-alat Kirim PO';
 		$data['action']=BASEURL.'Gudang/ajuanmingguansave_edit';
 		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
 		$data['excel']=BASEURL.'Gudang/ajuanmingguandetail/'.$id.'?&excel=1';
@@ -253,7 +253,7 @@ class Gudang extends CI_Controller {
 
 	public function ajuanmingguantambah(){
 		$data=array();
-		$data['title']='Form Ajuan Mingguan';
+		$data['title']='Form Ajuan Alat-alat Kirim PO';
 		$data['action']=BASEURL.'Gudang/ajuanmingguansave';
 		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
