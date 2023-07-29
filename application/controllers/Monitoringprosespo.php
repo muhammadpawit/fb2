@@ -136,6 +136,7 @@ class Monitoringprosespo extends CI_Controller {
 						'namapo'=>$explode[0],
 						'kode_po'=>$explode[1],
 						'proses'=>$data['proses'],
+						'tanggal' => date('Y-m-d'),
 						'hapus'=>0,
 					);
 					$this->db->insert('proses_po',$insert);
@@ -144,6 +145,7 @@ class Monitoringprosespo extends CI_Controller {
 						'namapo'=>$explode[0],
 						'kode_po'=>$explode[1],
 						'proses'=>$data['proses'],
+						'tanggal' => date('Y-m-d'),
 						'hapus'=>0,
 					);
 					$this->db->update('proses_po',$insert,array('kode_po'=>$explode[1]));
