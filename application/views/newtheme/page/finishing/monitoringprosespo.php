@@ -506,7 +506,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="form-group text-center">
-			<label>Monitoring PO Proses Finishing</label>
+			<label>Monitoring PO Kaos (Keseluruhan)<br>Tahun Produksi 2023-2024</label>
 		</div>
 	</div>
 </div>
@@ -517,7 +517,7 @@
 			<table class="table table-bordered table striped">
 				<thead>
 					<tr>
-						<th>Type/Jenis</th>
+						<th>Jenis PO</th>
 						<td>Jumlah PO</td>
 						<td>QC</td>
 						<td>LB Kancing</td>
@@ -560,20 +560,23 @@
 		<div class="form-group">
 			<label>PO Kaos</label>
 			<table class="table table-bordered table striped">
-				<thead>
-					<tr>
-						<th>Type/Jenis</th>
-						<td>Jumlah PO</td>
-						<td>QC</td>
-						<td>Siap Cucian</td>
-						<td>Proses Cucian</td>
-						<td>Siap Kirim CMT</td>
-						<td>Proses Packing</td>
-						<td>Kirim Sample</td>
-						<td>Retur</td>
-						<td>Siap Kirim Gudang</td>
-						<td>Pending</td>
-						<td>Selesai</td>
+				<thead style="background-color: pink;">
+					<tr style="text-align:center;font-weight:bold">
+						<th rowspan="2">Jenis PO</th>
+						<td rowspan="2">Jumlah PO Setor</td>
+						<td rowspan="2">Proses Cek BPO</td>
+						<td colspan="4">PO Celana Jeans</td>
+						<td rowspan="2">Kirim Sample Toko</td>
+						<td rowspan="2">Retur Ke CMT</td>
+						<td rowspan="2">Siap Kirim Gudang</td>
+						<td rowspan="2">PO Permak</td>
+						<td rowspan="2">PO Sudah Kirim Gudang HS</td>
+					</tr>
+					<tr style="text-align:center;font-weight:bold">
+						<td>Siap Masuk Laundry</td>
+						<td>Proses Laundry</td>
+						<td>Siap Kirim Ke CMT</td>
+						<td>Proses Packing Di CMT</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -624,7 +627,7 @@
 					<?php } ?>
 				</tbody>
 				<tfoot>
-					<tr align="center">
+					<tr align="center" style="background-color: yellow;">
 						<td><b>Total</b></td>
 						<td><b><?php echo $jmlpo ?></b></td>
 						<td><b><?php echo $qc ?></b></td>
