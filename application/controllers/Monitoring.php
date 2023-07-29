@@ -259,9 +259,13 @@ class Monitoring extends CI_Controller {
 		$adjustment=$this->AdjustModel->adjust_kirimsetorcmt($filter_adj);
 		$data['adjustment'] = $adjustment;
 
-
-		$data['page']=$this->page.'kirimsetorcmt';
-		$this->load->view($this->layout.'main',$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'kirimsetorcmt_excel',$data);
+		}else{
+			$data['page']=$this->page.'kirimsetorcmt';
+			$this->load->view($this->layout.'main',$data);
+		}
+		
 	}
 
 
@@ -308,7 +312,7 @@ class Monitoring extends CI_Controller {
 			);
 			$i++;
 		}
-
+		//pre($data['rekap']);
 		// kemeja
 		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>1));
 		$nok=1;

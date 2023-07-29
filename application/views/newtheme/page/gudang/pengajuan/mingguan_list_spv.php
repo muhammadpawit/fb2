@@ -81,13 +81,13 @@
                   <td>
                     <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan">
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
-                    <button type="submit" class="btn btn-success btn-sm full">Persetujuan</button>
+                    <button type="submit" class="btn btn-success btn-sm full">Disetujui</button>
                     </form>
                   </td>
                   <td>
                   <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_batal">
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
-                    <button type="submit" class="btn btn-danger btn-sm full">Pembatalan</button>
+                    <button type="submit" class="btn btn-danger btn-sm full">Dibatalkan</button>
                     </form>
                   </td>
                 </tr>

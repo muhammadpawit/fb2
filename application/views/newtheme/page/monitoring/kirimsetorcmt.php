@@ -278,6 +278,7 @@
 	<div class="col-md-12">
 		<div class="form-group">
 			<button class="btn btn-info btn-sm" onclick="window.print()">Print</button>
+			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
 		</div>
 	</div>
 </div>

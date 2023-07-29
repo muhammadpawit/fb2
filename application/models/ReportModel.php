@@ -158,7 +158,8 @@ class ReportModel extends CI_Model {
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
 		$sql.=" and mjp.idjenis='$jenis' and mjp.tampil=1 ";
-		$sql.=" AND lower(kg.keterangan) NOT LIKE 'kirim sample%'  ";
+		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'kirim sample%'  ";
+		$sql.=" AND lower(kg.keterangan) NOT IN('kirim sample','po susulan') ";
 		$sql.=" GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ";
 		$data=$this->GlobalModel->QueryManual($sql);
 		if(!empty($data)){
@@ -216,7 +217,7 @@ class ReportModel extends CI_Model {
 	public function countdashsetor_monitoring($jenis,$tanggal1,$tanggal2){
 		$hasil=null;
 		//$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po LIKE '$jenis%' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
-		$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
