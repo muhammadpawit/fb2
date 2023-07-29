@@ -55,6 +55,8 @@ class Ajuanalatalat extends CI_Controller {
 		$data['acc']  = $this->url.'acc';
 		$data['id']=$id;
 		$data['type']=$id;
+		$data['prods_rincian'] =$this->AjuanalatModel->rincian($data['prods']);
+		//pre($data['prods_rincian']);
 		$data['tambah']=$this->url.'tambah'.'/'.$id;
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'list';
