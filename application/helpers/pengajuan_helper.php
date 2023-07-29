@@ -382,7 +382,7 @@
 
 	function MenuSub2All($parent_id){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 ');
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0  ');
 		return $menu;
 	}
 
@@ -400,7 +400,7 @@
 
 	function MenuSub2($parent_id){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY nama ASC');
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY urutan ASC');
 		return $menu;
 	}
 
