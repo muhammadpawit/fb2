@@ -55,7 +55,7 @@ class Ajuanalatalat extends CI_Controller {
 		$data['acc']  = $this->url.'acc';
 		$data['id']=$id;
 		$data['type']=$id;
-		$data['prods_rincian'] =$this->AjuanalatModel->rincian($data['prods']);
+		$data['prods_rincian'] =$this->AjuanalatModel->rincian($data['prods'],null);
 		//pre($data['prods_rincian']);
 		$data['tambah']=$this->url.'tambah'.'/'.$id;
 		if(!isset($get['excel'])){
@@ -242,6 +242,9 @@ class Ajuanalatalat extends CI_Controller {
 		$data['title']="Ajuan alat-alat ";
 		$data['title'].=$id==1?'Bordir':'Konveksi';
 		$data['prods']=$this->AjuanalatModel->getshowId($id);
+		$id_persediaan= $data['prods']['id_persediaan'];
+		//pre($data['prods']);
+		$data['prods_rincian'] =$this->AjuanalatModel->rincian($data['prods'],$id_persediaan);
 		$data['id']=$id;
 		$data['type']=$id;
 		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND id_persediaan IN (SELECT idpersediaan FROM barangkeluarharian_detail WHERE hapus=0 GROUP BY idpersediaan) ORDER BY nama_item ASC");

@@ -220,7 +220,7 @@ class AjuanalatModel extends CI_Model {
 		return $result;
 	}
 
-	function rincian($data){
+	function rincian($data,$idped){
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
@@ -257,12 +257,18 @@ class AjuanalatModel extends CI_Model {
 			$bulan=null;
 		}
 		$id=[];
-		foreach($data as $d){
-			$id[]=$d['product_id'];
+		if(empty($idped)){
+			foreach($data as $d){
+				$id[]=$d['product_id'];
+			}
 		}
 		$inId = implode(",",$id);
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
-		$sql.=" AND gpi.id_persediaan IN($inId) ";
+		if(!empty($idped)){
+			$sql.=" AND gpi.id_persediaan='$idped' ";
+		}else{
+			$sql.=" AND gpi.id_persediaan IN($inId) ";
+		}
 		$sql.=" GROUP BY p.nama ASC , p.kategori ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
