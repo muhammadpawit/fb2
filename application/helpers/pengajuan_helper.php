@@ -733,8 +733,17 @@
 	function count_mdetails_perpo($proses,$namapo){
 		$CI =& get_instance();
 		$hasil=0;
-		
-		$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 ";	
+		$get = $CI->input->get();
+		if(isset($get['bulan'])){
+            if($proses==11){
+				$where = " AND MONTH(tanggal)='".$get['bulan']."' AND YEAR(tanggal)='".$get['tahun']."' ";
+			}else{
+				$where='';
+			}
+        }else{
+            $where ='';
+        }
+		$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 $where ";	
 		if(!empty($proses)){
 			$sql.=" AND pp.proses='$proses'  ";
 		}
