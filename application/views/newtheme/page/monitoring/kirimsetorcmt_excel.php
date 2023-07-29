@@ -89,7 +89,7 @@
                 </tr>
             </tbody>
             </table>
-            <br
+            <br>
             <div class="alert" style="background-color: #3D6AA2 !important;color: white;text-align: center;">Kemeja</div>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 	            <thead>

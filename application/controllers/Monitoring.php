@@ -382,8 +382,13 @@ class Monitoring extends CI_Controller {
 		$adjustment_detail=$this->AdjustModel->kirimgudang_detail($filter_adj);
 		$data['adjustment_detail'] = $adjustment_detail;
 
-		$data['page']=$this->page.'kirimgudang';
-		$this->load->view($this->layout.'main',$data);
+		if(isset($get['excel'])){
+			$data['page']=$this->page.'kirimgudang';
+			$this->load->view($this->page.'kirimgudang_excel',$data);
+		}else{
+			$data['page']=$this->page.'kirimgudang';
+			$this->load->view($this->layout.'main',$data);
+		}
 	}
 
 }
