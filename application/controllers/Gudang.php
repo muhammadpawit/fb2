@@ -120,7 +120,7 @@ class Gudang extends CI_Controller {
 			}
 		}
 		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
-		//pre($tanggal12);
+		//pre($data['acc_ajuan_mingguan']);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;
@@ -156,7 +156,8 @@ class Gudang extends CI_Controller {
 		}else{
 			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
 		}
-		
+		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
 		$this->load->view($this->page.'main',$data);
 	}
 
@@ -201,6 +202,8 @@ class Gudang extends CI_Controller {
 			);
 		}		
 		//pre($data['prods']);
+		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
 		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all',$data);
 	}
@@ -2266,6 +2269,28 @@ class Gudang extends CI_Controller {
 		$html.='<button class="btn btn-success btn-sm full">Acc</button>';
 		$html.='</form>';
 		echo $html;
+	}
+
+	function acc_ajuan_mingguan(){
+		$post = $this->input->post();
+		//pre($post);
+		$insert = array(
+			'tanggal'	=> $post['tanggal']
+		);
+		$this->db->insert('acc_ajuan_mingguan',$insert);
+		$this->session->set_flashdata('msg','Data berhasil di acc');
+		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+	}
+
+	function acc_ajuan_mingguan_batal(){
+		$post = $this->input->post();
+		//pre($post);
+		$insert = array(
+			'tanggal'	=> $post['tanggal']
+		);
+		$this->db->delete('acc_ajuan_mingguan',$insert);
+		$this->session->set_flashdata('msg','Data berhasil di acc');
+		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
 	}
 
 }

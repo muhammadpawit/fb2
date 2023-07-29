@@ -34,17 +34,23 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
           <?php foreach($prods as $p){ ?>
               <?php foreach($p['ajuan'] as $a ) { ?>
                   <?php $satuan=$this->GlobalModel->QueryManualRow("SELECT * FROM product WHERE hapus=0 AND LOWER(nama)='".strtolower($a['kebutuhan'])."' "); ?>
-                  <tr>
-                    <td><?php echo $nomor++;?></td>
-                    <td><?php echo $a['kebutuhan']?></td>
-                    <td align="center"><?php echo $a['ajuan_kebutuhan']?></td>
-                    <td align="center"><?php echo $a['stok']?></td>
-                    <td align="center"><?php echo $a['jml_ajuan']?></td>
-                    <td align="center"><?php echo $satuan['satuan'] ?></td>
-                    <td align="center"><?php echo date('d-m-Y',strtotime($a['tanggal']))?></td>
-                    <td align="center"><?php echo $a['jml_acc']?></td>
-                    <td align="center"><?php echo $a['keterangan2']?></td>
-                  </tr>
+                    <tr>
+                      <td><?php echo $nomor++;?></td>
+                      <td><?php echo $a['kebutuhan']?></td>
+                      <td align="center"><?php echo $a['ajuan_kebutuhan']?></td>
+                      <td align="center"><?php echo $a['stok']?></td>
+                      <td align="center"><?php echo $a['jml_ajuan']?></td>
+                      <td align="center"><?php echo $satuan['satuan'] ?></td>
+                      <td align="center"><?php echo date('d-m-Y',strtotime($a['tanggal']))?></td>
+                      <td align="center">
+                      <?php if($a['tanggal']==$tgl_diacc){ ?>
+                        <?php echo $a['jml_acc']?>
+                        <?php }else{ ?>
+                          <span style="color:red">Tanggal Ajuan ini belum di acc</span>
+                        <?php } ?>
+                      </td>
+                      <td align="center"><?php echo $a['keterangan2']?></td>
+                    </tr>
               <?php } ?>
           <?php } ?>
         </tbody>
