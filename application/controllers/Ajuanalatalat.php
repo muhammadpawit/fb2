@@ -18,8 +18,9 @@ class Ajuanalatalat extends CI_Controller {
 
 	public function index($id){
 		$data=[];
-		$data['title']="Ajuan alat-alat ";
+		$data['title']="Ajuan ";
 		$data['title'].=$id==1?'Bordir':'Konveksi';
+		$data['title'].=' Mingguan ';
 		$get=$this->input->get();
 		$url='';
 		if(isset($get['tanggal1'])){

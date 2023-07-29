@@ -26,12 +26,12 @@
 			<thead>
 				<tr>
 					<th>NO</th>
+					<th>TANGGAL AJUAN</th>
 					<th>NAMA BARANG</th>
+					<th>SATUAN</th>
 					<th>KEBUTUHAN</th>
 					<th>STOK</th>
 					<th>AJUAN</th>
-					<th>SATUAN</th>
-					<th>TANGGAL AJUAN</th>
 					<th>KETERANGAN</th>
 					<th>ACC SPV</th>
 					<th>Aksi</th>
@@ -44,12 +44,12 @@
 					<?php //if(!empty($spv)) { ?>
 					<tr>
 						<td><?php echo $p['no'] ?></td>
+						<td><?php echo $p['tanggal'] ?></td>
 						<td><?php echo $p['nama'] ?></td>
+						<td><?php echo $p['satuan'] ?></td>
 						<td><?php echo $p['kebutuhan'] ?></td>
 						<td><?php echo $p['stok'] ?></td>
 						<td><?php echo $p['ajuan'] ?></td>
-						<td><?php echo $p['satuan'] ?></td>
-						<td><?php echo $p['tanggal'] ?></td>
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
 						<form method="POST" action="<?php echo $acc ?>">
