@@ -68,6 +68,8 @@
 								</form>
 								<br><br>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Pembatalan</a>
+								<br><br>
+								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>?&spv=true" class="btn btn-sm btn-warning">Detail</a>
 							<?php }else{ ?>
 							<?php //if(aksesedit()==1){ ?>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
