@@ -22,7 +22,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered yessearch">
+		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>NO</th>
@@ -64,10 +64,10 @@
 						
 						<td>
 							<?php if(!empty($spv)) { ?>
-								<button type="submit" class="btn btn-success">Persetujuan</button>
+								<button type="submit" class="btn btn-success">Disetujui</button>
 								</form>
 								<br><br>
-								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Pembatalan</a>
+								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Dibatalkan</a>
 								<br><br>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>?&spv=true" class="btn btn-sm btn-warning">Detail</a>
 							<?php }else{ ?>
