@@ -56,8 +56,8 @@
 		</div>
 	</div>
 </form>
-<div class="table-responsive">
 <h2>Laporan Mingguan Alat-alat Forboys Production</h2>
+<div class="table-responsive">
 			<table border="1" cellpadding="3" style="border-collapse: collapse;width: 100%" >
 				<thead style="text-align: center;">
 		          <tr>
