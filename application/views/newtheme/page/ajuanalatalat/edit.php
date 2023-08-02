@@ -60,30 +60,23 @@
 <div class="table-responsive">
 			<table border="1" cellpadding="3" style="border-collapse: collapse;width: 100%" >
 				<thead style="text-align: center;">
-		          <tr>
+				  <tr style="text-align: center !important;">
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama</th>
 		            <th rowspan="2">Warna</th>
 		            <th rowspan="2">Kode</th>
-		            <th colspan="1">Stok Awal </th>
-		            <th colspan="1">Masuk</th>
-		            <th colspan="1">Keluar</th>
-		            <th colspan="1">Stok Akhir</th>
+		            <th colspan="4"><center>Stok</center></th>
 		            <th rowspan="2">Satuan</th>
 		            <th rowspan="2">Harga</th>
 		            <th rowspan="2">Total</th>
 		            <th rowspan="2">Ket</th>
 		            <th rowspan="2">Barang Masuk Terakhir</th>
 		          </tr>
-		          <tr>
-		            <th>Pcs</th>
-		            <!-- <th>Harga</th> -->
-		            <th>Pcs</th>
-		            <!-- <th>Harga</th> -->
-		            <th>Pcs</th>
-		            <!-- <th>Harga</th> -->
-		            <th>Pcs</th>
-		            <!-- <th>Harga</th> -->
+		          <tr style="text-align: center !important;">
+				  	<th>Awal </th>
+		            <th>Masuk</th>
+		            <th>Keluar</th>
+		            <th>Stok</th>
 		          </tr>
 		        </thead>
 		        <tbody>
