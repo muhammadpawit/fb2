@@ -202,7 +202,7 @@
 			<tbody>
 				<?php $jml1=0;$jml2=0;$kirimdz=0;$kirimpcs=0;$setordz=0;$setorpcs=0;?>
 				<?php foreach($products as $p){?>
-					<?php if($p['jmlkirim']>0){ ?>
+					<?php //if($p['jmlkirim']>0){ ?>
 					<?php 
 						$jml1+=($p['jmlkirim']);
 						$jml2+=($p['jmlsetor']);
@@ -221,7 +221,7 @@
 						<td align="center"><?php echo $p['setorpcs']?></td>
 						<td></td>
 					</tr>
-				<?php } ?>
+				<?php //} ?>
 				<?php } ?>
 			</tbody>
 			<tfoot>
