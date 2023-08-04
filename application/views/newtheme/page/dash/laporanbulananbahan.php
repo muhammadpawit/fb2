@@ -107,6 +107,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        		$total=0;
 		        	?>
 		        	<?php foreach($kaos as $p){?>
+						<?php if($p['total'] > 0){ ?>
 						<?php
 							$color='';
 							$ket='';
@@ -132,6 +133,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        			<td><?php echo number_format($p['total'],2)?></td>
 		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
+						<?php } ?>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
 			        		$stokawalyard+=($p['stokawalyard']);
@@ -201,6 +203,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        		$total=0;
 		        	?>
 		        	<?php foreach($celana as $p){?>
+						<?php if($p['total'] > 0){ ?>
 						<?php
 							$color='';
 							$ket='';
@@ -226,6 +229,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        			<td><?php echo number_format($p['total'])?></td>
 		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
+						<?php } ?>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
 			        		$stokawalyard+=($p['stokawalyard']);
@@ -295,6 +299,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        		$total=0;
 		        	?>
 		        	<?php foreach($kemeja as $p){?>
+						<?php if($p['total'] > 0){ ?>
 		        		<?php
 							$color='';
 							$ket='';
@@ -320,6 +325,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        			<td><?php echo number_format($p['total'])?></td>
 		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
+						<?php } ?>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
 			        		$stokawalyard+=($p['stokawalyard']);
