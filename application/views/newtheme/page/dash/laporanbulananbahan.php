@@ -62,12 +62,12 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 <div class="row">
 	<div class="col-md-12">
 		<div class="table-responsive">
-			<p>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y H:i:s',strtotime($update))?></b>
+			<p>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?> <?php echo date('H:i:s') ?> </b>
 			<br>
 			<p>
 				&bull; <?php echo isset($trans)?$trans['keterangan']:'';?>
 			</b>
-			<div class="form-group">
+			<div class="form-group text-center">
 				<h5><?php echo $title ?></h5>
 			</div>
 			<h5><b>Bahan Kaos</b></h5>
