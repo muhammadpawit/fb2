@@ -91,12 +91,12 @@ $(document).ready(function(){
         html += '<td width="300"><select type="text" class="form-control barang select2bs4" name="products['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
         html += '<td><input type="text" class="form-control warna" name="products['+i+'][warna]" ></td>';
         html +='<td><span class="stoku"></span></td>';
-        html += '<td><input type="number" class="form-control ukuran" name="products['+i+'][ukuran]" min="0" step=0.01 required></td>';
+        html += '<td><input type="text" class="form-control ukuran" name="products['+i+'][ukuran]" min="0" step=0.01 required></td>';
         html += '<td><select class="form-control satuanUkran" name="products['+i+'][satuanUkran]" readonly><?php foreach ($satuan as $key => $satt): ?><option value="<?php echo $satt['kode_satuan_barang'] ?>"><?php echo $satt['kode_satuan_barang'] ?></option><?php endforeach ?></select></td>';
         html +='<td><span class="stokjum"></span></td>';
-        html += '<td><input type="number" class="form-control jumlah" step=0.01 name="products['+i+'][jumlah]" ></td>';
+        html += '<td><input type="text" class="form-control jumlah" step=0.01 name="products['+i+'][jumlah]" ></td>';
         html += '<td><select class="form-control satuanJml" name="products['+i+'][satuanJml]" readonly><?php foreach ($satuan as $key => $satt): ?><option value="<?php echo $satt['kode_satuan_barang'] ?>"><?php echo $satt['kode_satuan_barang'] ?></option><?php endforeach ?></select></td>';
-        html += '<td><input type="number" class="form-control harga" name="products['+i+'][harga]" required readonly></td>';
+        html += '<td><input type="text" class="form-control harga" name="products['+i+'][harga]" required readonly></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addbahankeluars').append(html);
