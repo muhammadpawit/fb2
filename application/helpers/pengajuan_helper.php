@@ -690,7 +690,11 @@
 		}
 
 		if(isset($tanggal1)){
-            $where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+            if($proses==10){
+				$where='';
+			}else{
+				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
         }else{
             $where ='';
         }
@@ -727,7 +731,11 @@
 		}
 
 		if(isset($tanggal1)){
-            $where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+            if($proses==10){
+				$where='';
+			}else{
+				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
         }else{
             $where ='';
         }
@@ -985,7 +993,11 @@
 		}
 
 		if(isset($tanggal1)){
-            $where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+            if($proses==10){
+				$where='';
+			}else{
+				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
         }else{
             $where ='';
         }
@@ -1041,7 +1053,19 @@
 			$hasil=$data['total']*$data['perkalian'];
 		}
 
-		return $hasil;
+		$sql2="SELECT count(pp.namapo) as total , mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 ";	
+		//if(!empty($proses)){
+			$sql2.=" AND pp.proses IN (10)  ";
+		//}
+		$sql2.=" GROUP BY pp.namapo ";
+		
+		$data2=$CI->GlobalModel->QueryManualRow($sql2);
+		$hasil2=0;
+		if(!empty($data2)){
+			$hasil2=$data2['total']*$data2['perkalian'];
+		}
+
+		return $hasil+$hasil2;
 	}
 
  ?>
