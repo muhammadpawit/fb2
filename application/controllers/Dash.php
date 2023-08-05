@@ -1111,7 +1111,7 @@ class Dash extends CI_Controller {
 		$data['kategori']=$kategori;
 		$data['update']=$update;
 		//pre($pidate. '  bk ' .$bkdate);
-		$sql="SELECT gpi.* , p.kategori FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		$sql="SELECT gpi.* , p.kategori, p.tipe, p.keterangan_tipe FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
 		}
@@ -1135,6 +1135,8 @@ class Dash extends CI_Controller {
 		$stokakhirharga=0;
 		$warna=null;
 		$data['prods']=[];
+		$utuh=1;
+		$bahansisa=1;
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal1);
@@ -1143,28 +1145,55 @@ class Dash extends CI_Controller {
 			//if($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll']) > 0){
 				
 				if($row['kategori']==15){
-					$data['kaos'][]=array(
-						'no'=>$no++,
-						'nama'	=>strtolower($row['nama_item']),
-						'warna'	=>strtolower($row['warna_item']),
-						'kode'=>null,
-						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
-						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
-						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
-						'stokawalharga'=>$row['harga_item'],
-						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
-						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
-						'stokmasukharga'=>$row['harga_item'],
-						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
-						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
-						'stokkeluarharga'=>$row['harga_item'],
-						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
-						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
-						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
-						'stokakhirharga'=>$row['harga_item'],
-						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
-						'ket'=>null,
-					);
+					if($row['tipe']==1){ // tipe bahan utuh
+						$data['kaos'][]=array(
+							'no'=>$utuh++,
+							'nama'	=>strtolower($row['nama_item']),
+							'warna'	=>strtolower($row['warna_item']),
+							'kode'=>null,
+							//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+							'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+							'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+							'stokawalharga'=>$row['harga_item'],
+							'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+							'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+							'stokmasukharga'=>$row['harga_item'],
+							'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+							'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+							'stokkeluarharga'=>$row['harga_item'],
+							//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+							'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+							'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+							'stokakhirharga'=>$row['harga_item'],
+							'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
+							'ket'=>null,
+						);
+					}
+
+					if($row['tipe']==2){ // tipe bahan sisa
+						$data['kaos_sisa'][]=array(
+							'no'=>$bahansisa++,
+							'nama'	=>strtolower($row['nama_item']),
+							'warna'	=>strtolower($row['warna_item']),
+							'kode'=>null,
+							//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+							'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+							'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+							'stokawalharga'=>$row['harga_item'],
+							'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+							'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+							'stokmasukharga'=>$row['harga_item'],
+							'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+							'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+							'stokkeluarharga'=>$row['harga_item'],
+							//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+							'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+							'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+							'stokakhirharga'=>$row['harga_item'],
+							'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
+							'ket'=>null,
+						);
+					}
 				}
 				
 				if($row['kategori']==16){

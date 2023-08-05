@@ -1247,6 +1247,8 @@ class Masterdata extends CI_Controller {
 			'satuan'=>$post['satuan'],
 			'price'	=>$post['price'], // harga di hpp
 			'harga_beli'=>$post['harga_beli'], //harga untuk laporan rekap 
+			'tipe' => $post['tipe'],
+			'keterangan_tipe' => $post['keterangan_tipe'],
 		);
 		$this->db->update('product',$u,array('product_id'=>$id));
 		$ug=array(

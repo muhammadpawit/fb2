@@ -89,6 +89,14 @@
 				<label>Harga Beli</label>
 				<input type="text" name="harga_beli" class="form-control" value="<?php echo $prod['harga_beli']?>">
 			</div>
+			<div class="form-group">
+				<label>Tipe </label>
+				<select name="tipe" class="form-control">
+					<option value=""></option>
+					<option value="1" <?php echo $prod['tipe']==1 ? 'selected':'' ?>>Bahan Utuh</option>
+					<option value="2" <?php echo $prod['tipe']==2 ? 'selected':'' ?>>Bahan Sisa</option>
+				</select>
+			</div>
 		</div>
 	</div>
 	<div class="row">
