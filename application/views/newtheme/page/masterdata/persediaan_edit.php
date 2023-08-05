@@ -97,6 +97,10 @@
 					<option value="2" <?php echo $prod['tipe']==2 ? 'selected':'' ?>>Bahan Sisa</option>
 				</select>
 			</div>
+			<div class="form-group">
+				<label>Keterangan</label>
+				<input type="text" class="form-control" name="keterangan_tipe" value="<?php echo $prod['keterangan_tipe']?>">
+			</div>
 		</div>
 	</div>
 	<div class="row">

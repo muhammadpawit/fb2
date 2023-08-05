@@ -1219,7 +1219,7 @@ class Dash extends CI_Controller {
 						'stokakhirharga'=>$row['harga_item'],
 						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
 						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
-						'ket'=>null,
+						'ket'=>$row['keterangan_tipe'],
 					);
 				}
 

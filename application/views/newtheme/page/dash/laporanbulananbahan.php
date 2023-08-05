@@ -62,12 +62,14 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 <div class="row">
 	<div class="col-md-12">
 		<div class="table-responsive">
-			<p>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y',strtotime($update))?></b>
+			<p>Update Terakhir : <?php echo hari(date('l',strtotime($update))) ?> , <?php echo date('d F Y H:i:s',strtotime($update))?></b>
 			<br>
 			<p>
 				&bull; <?php echo isset($trans)?$trans['keterangan']:'';?>
 			</b>
-			
+			<div class="form-group">
+				<h5><?php echo $title ?></h5>
+			</div>
 			<h5><b>Bahan Kaos</b></h5>
 			<table>
 				<thead style="text-align: center;">
@@ -467,7 +469,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 					<h4 class="text-danger">Data ini belum di crosscek oleh admin yang bersangkutan</h4>
 				<?php }else{ ?>
 				<ul>
-					<li>Data Ini telah dicroscek oleh <?php echo $crosscek['oleh']?> pada <?php echo date('d F Y',strtotime($crosscek['tanggal'])) ?> dengan keterangan <?php echo $crosscek['keterangan'] ?></li>
+					<li>Data Ini telah dicroscek oleh <?php echo $crosscek['oleh']?> pada <?php echo date('d F Y',strtotime($crosscek['tanggal'])) ?> <?php echo date('H:i:s') ?> dengan keterangan <?php echo $crosscek['keterangan'] ?></li>
 				</ul>
 				<?php } ?>
 			<?php }else{ ?>
