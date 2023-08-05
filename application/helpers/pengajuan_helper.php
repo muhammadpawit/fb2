@@ -675,13 +675,33 @@
 
 	function mdetails($proses){
 		$CI =& get_instance();
+
+		$get = $CI->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+		}else{
+			$tanggal1 = date('Y-m-d',strtotime("monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+		}else{
+			$tanggal2 = date('Y-m-d',strtotime("saturday this week"));
+		}
+
+		if(isset($tanggal1)){
+            $where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+        }else{
+            $where ='';
+        }
+
 		$hasil=[];
 		if($proses==1){
-			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11)) ";
+			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11)) ".$where;
 		}elseif($proses==9){
-			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11)) ";
+			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11)) ".$where;
 		}else{
-			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 ";
+			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 ".$where;
 		}
 		$data=$CI->GlobalModel->QueryManual($sql);
 		if(!empty($data)){
@@ -693,13 +713,31 @@
 
 	function count_mdetails($proses){
 		$CI =& get_instance();
+		$get = $CI->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+		}else{
+			$tanggal1 = date('Y-m-d',strtotime("monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+		}else{
+			$tanggal2 = date('Y-m-d',strtotime("saturday this week"));
+		}
+
+		if(isset($tanggal1)){
+            $where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+        }else{
+            $where ='';
+        }
 		$hasil=0;
 		if($proses==1){
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11))  ";
+			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11))  ".$where;
 		}elseif($proses==9){
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11))  ";
+			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11))  ".$where;
 		}else{
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 ";	
+			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 ".$where;
 		}
 		
 		$data=$CI->GlobalModel->QueryManualRow($sql);
@@ -899,6 +937,111 @@
 		}
 	
 		return $weeks;
+	}
+
+	// all monitoring keseluruhan function 
+	function count_mdetails_perpo_all($proses,$namapo){
+		$CI =& get_instance();
+		$hasil=0;
+		$get = $CI->input->get();
+		if(isset($get['bulan'])){
+            if($proses==11){
+				//$where = " AND MONTH(tanggal)='".$get['bulan']."' AND YEAR(tanggal)='".$get['tahun']."' ";
+				$where = " ";
+			}else{
+				$where='';
+			}
+        }else{
+            $where ='';
+        }
+		$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 $where ";	
+		if(!empty($proses)){
+			$sql.=" AND pp.proses='$proses'  ";
+		}
+		
+		
+		$data=$CI->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total']*$data['perkalian'];
+		}
+
+		return $hasil;
+	}
+
+	function count_mdetails_perpo_mingguan($proses,$namapo){
+		$CI =& get_instance();
+		$hasil=0;
+		$get = $CI->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+		}else{
+			$tanggal1 = date('Y-m-d',strtotime("monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+		}else{
+			$tanggal2 = date('Y-m-d',strtotime("saturday this week"));
+		}
+
+		if(isset($tanggal1)){
+            $where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+        }else{
+            $where ='';
+        }
+		$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 $where ";	
+		if(!empty($proses)){
+			$sql.=" AND pp.proses='$proses'  ";
+		}
+		
+		
+		$data=$CI->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total']*$data['perkalian'];
+		}
+
+		return $hasil;
+	}
+
+	function count_mdetails_perpo_mingguan_rekap($proses=null,$namapo){
+		$CI =& get_instance();
+		$hasil=0;
+		$get = $CI->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+		}else{
+			$tanggal1 = date('Y-m-d',strtotime("monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+		}else{
+			$tanggal2 = date('Y-m-d',strtotime("saturday this week"));
+		}
+
+		if(isset($tanggal1)){
+            if($proses==null){
+				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				//$where = " ";
+			}else{
+				$where='';
+			}
+        }else{
+            $where ='';
+        }
+		$sql="SELECT count(pp.namapo) as total , mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE lower(mjp.nama_jenis_po)='".strtolower($namapo)."' AND pp.hapus=0 $where ";	
+		if(!empty($proses)){
+			//$sql.=" AND pp.proses='$proses'  ";
+		}
+		$sql.=" GROUP BY pp.namapo ";
+		
+		
+		$data=$CI->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$hasil=$data['total']*$data['perkalian'];
+		}
+
+		return $hasil;
 	}
 
  ?>

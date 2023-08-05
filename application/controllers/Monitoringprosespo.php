@@ -29,14 +29,32 @@ class Monitoringprosespo extends CI_Controller {
 		);
 
 		$get = $this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+		}else{
+			$tanggal1 = date('Y-m-d',strtotime("monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+		}else{
+			$tanggal2 = date('Y-m-d',strtotime("saturday this week"));
+		}
+
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
 		
 		// po kemeja difinishing
 		$data['kemeja']=[];
 		$kemeja=$this->GlobalModel->getdata('master_jenis_po',array('tampil'=>1,'idjenis'=>1,'status'=>1));
+		
 		foreach($kemeja as $k){
+			
+
 			$data['kemeja'][]=array(
 				'nama'=>$k['nama_jenis_po'],
 				'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
+				//'jmlpo'=>$jmlpo
 				'qc'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],1)*$k['perkalian'],
 				'kancing'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],2)*$k['perkalian'],
 				'siapcucian'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],3)*$k['perkalian'],
@@ -54,33 +72,31 @@ class Monitoringprosespo extends CI_Controller {
 		// po kemeja difinishing
 		$data['kaos']=[];
 		$kaos=$this->GlobalModel->getdata('master_jenis_po',array('tampil'=>1,'idjenis'=>2,'status'=>1));
-		$jml=0;
+		$jmlpo=0;
 		foreach($kaos as $k){
-			//for($i=1;$i<12;$i++){
-				$jml=(count_mdetails_perpo(null,$k['nama_jenis_po']));
-			//}
+			
 			$data['kaos'][]=array(
 				'nama'=>$k['nama_jenis_po'],
 				//'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
-				'jmlpo'=>$jml,
-				'qc'=>count_mdetails_perpo(1,$k['nama_jenis_po']),
-				'kancing'=>count_mdetails_perpo(2,$k['nama_jenis_po']),
-				'siapcucian'=>count_mdetails_perpo(3,$k['nama_jenis_po']),
-				'prosescucian'=>count_mdetails_perpo(4,$k['nama_jenis_po']),
-				'siapbuangbenang'=>count_mdetails_perpo(5,$k['nama_jenis_po']),
-				'prosesbuangbenang'=>count_mdetails_perpo(6,$k['nama_jenis_po']),
-				'siappacking'=>count_mdetails_perpo(7,$k['nama_jenis_po']),
-				'prosespacking'=>count_mdetails_perpo(8,$k['nama_jenis_po']),
-				'siapkirimgudang'=>count_mdetails_perpo(9,$k['nama_jenis_po']),
-				'pending'=>count_mdetails_perpo(10,$k['nama_jenis_po']),
-				'selesai'=>count_mdetails_perpo(11,$k['nama_jenis_po']),
-				'retur'=>count_mdetails_perpo(12,$k['nama_jenis_po']),
-				'siapkirimcmt'=>count_mdetails_perpo(13,$k['nama_jenis_po']),
-				'kirimsample'=>count_mdetails_perpo(14,$k['nama_jenis_po']),
+				'jmlpo'=>count_mdetails_perpo_mingguan_rekap(null,$k['nama_jenis_po']),
+				'qc'=>count_mdetails_perpo_mingguan(1,$k['nama_jenis_po']),
+				'kancing'=>count_mdetails_perpo_mingguan(2,$k['nama_jenis_po']),
+				'siapcucian'=>count_mdetails_perpo_mingguan(3,$k['nama_jenis_po']),
+				'prosescucian'=>count_mdetails_perpo_mingguan(4,$k['nama_jenis_po']),
+				'siapbuangbenang'=>count_mdetails_perpo_mingguan(5,$k['nama_jenis_po']),
+				'prosesbuangbenang'=>count_mdetails_perpo_mingguan(6,$k['nama_jenis_po']),
+				'siappacking'=>count_mdetails_perpo_mingguan(7,$k['nama_jenis_po']),
+				'prosespacking'=>count_mdetails_perpo_mingguan(8,$k['nama_jenis_po']),
+				'siapkirimgudang'=>count_mdetails_perpo_mingguan(9,$k['nama_jenis_po']),
+				'pending'=>count_mdetails_perpo_mingguan(10,$k['nama_jenis_po']),
+				'selesai'=>count_mdetails_perpo_mingguan(11,$k['nama_jenis_po']),
+				'retur'=>count_mdetails_perpo_mingguan(12,$k['nama_jenis_po']),
+				'siapkirimcmt'=>count_mdetails_perpo_mingguan(13,$k['nama_jenis_po']),
+				'kirimsample'=>count_mdetails_perpo_mingguan(14,$k['nama_jenis_po']),
 			);
 		}
 		//pre($data['kaos']);
-
+		
 		$data['po']=$this->GlobalModel->Getdata('produksi_po',array('hapus'=>0));
 		$data['qc']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND  proses=1 WHERE p.hapus=0 AND pp.kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses=9 ) ');
 		$data['kancing']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=2 WHERE p.hapus=0');

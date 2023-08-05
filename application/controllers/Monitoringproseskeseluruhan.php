@@ -59,6 +59,31 @@ class Monitoringproseskeseluruhan extends CI_Controller {
 			//for($i=1;$i<12;$i++){
 				$jml=(count_mdetails_perpo(null,$k['nama_jenis_po']));
 			//}
+			$data['kaos_all'][]=array(
+				'nama'=>$k['nama_jenis_po'],
+				//'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
+				'jmlpo'=>$jml,
+				'qc'=>count_mdetails_perpo_all(1,$k['nama_jenis_po']),
+				'kancing'=>count_mdetails_perpo_all(2,$k['nama_jenis_po']),
+				'siapcucian'=>count_mdetails_perpo_all(3,$k['nama_jenis_po']),
+				'prosescucian'=>count_mdetails_perpo_all(4,$k['nama_jenis_po']),
+				'siapbuangbenang'=>count_mdetails_perpo_all(5,$k['nama_jenis_po']),
+				'prosesbuangbenang'=>count_mdetails_perpo_all(6,$k['nama_jenis_po']),
+				'siappacking'=>count_mdetails_perpo_all(7,$k['nama_jenis_po']),
+				'prosespacking'=>count_mdetails_perpo_all(8,$k['nama_jenis_po']),
+				'siapkirimgudang'=>count_mdetails_perpo_all(9,$k['nama_jenis_po']),
+				'pending'=>count_mdetails_perpo_all(10,$k['nama_jenis_po']),
+				'selesai'=>count_mdetails_perpo_all(11,$k['nama_jenis_po']),
+				'retur'=>count_mdetails_perpo_all(12,$k['nama_jenis_po']),
+				'siapkirimcmt'=>count_mdetails_perpo_all(13,$k['nama_jenis_po']),
+				'kirimsample'=>count_mdetails_perpo_all(14,$k['nama_jenis_po']),
+			);
+		}
+
+		foreach($kaos as $k){
+			//for($i=1;$i<12;$i++){
+				$jml=(count_mdetails_perpo(null,$k['nama_jenis_po']));
+			//}
 			$data['kaos'][]=array(
 				'nama'=>$k['nama_jenis_po'],
 				//'jmlpo'=>$this->ReportModel->monitoring_jmlall($k['nama_jenis_po'])*$k['perkalian'],
@@ -105,7 +130,7 @@ class Monitoringproseskeseluruhan extends CI_Controller {
 		$data['action_hapus']=$this->url.'proses_hapus_save';
 		$data['log']=$this->GlobalModel->QueryManualRow("SELECT * FROM finishing_proses_updated ORDER BY id DESC LIMIT 1 ");
 
-        $data['bulannya']   = $this->GlobalModel->QueryManual("SELECT LPAD(MONTH(tanggal), 2, '0') as bulan, YEAR(tanggal) as tahun FROM proses_po GROUP BY tanggal ASC "); 
+        $data['bulannya']   = $this->GlobalModel->QueryManual("SELECT LPAD(MONTH(tanggal), 2, '0') as bulan, YEAR(tanggal) as tahun FROM proses_po GROUP BY MONTH(tanggal) ASC "); 
         $data['bul']        = [];
         foreach($data['bulannya'] as $b){
             $data['bul'][] = array(
