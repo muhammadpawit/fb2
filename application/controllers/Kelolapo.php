@@ -279,6 +279,10 @@ class Kelolapo extends CI_Controller {
 		$post = $this->input->post();
 		$proses=$this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$post['kodeSetoran']));
 		//pre($proses);
+		if(empty($proses)){
+			$this->session->set_flashdata('gagal','Data gagal dihapus');
+			redirect(BASEURL.'Kelolapo/kirimsetorcmt?&kode_po='.$post['kode_po']);
+		}
 		//$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['cmt']));
 		//$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$post['job']));
 		//pre($post);
@@ -291,12 +295,12 @@ class Kelolapo extends CI_Controller {
 		//pre($update);
 		if($proses['kategori_cmt']=='JAHIT'){
 			if($proses['progress']=='KIRIM'){
-				$this->db->update('kirimcmt_detail',$update,array('kode_po'=>$post['kode_po']));
+				$this->db->update('kirimcmt_detail',$update,array('idkirim'=>$proses['kode_nota_cmt'],'kode_po'=>$post['kode_po']));
 			}
 
 			if($proses['progress']=='SETOR'){
 				//$this->GlobalModel->QueryManual("UPDATE setorcmt SET totalsetor=totalsetor-".$proses['qty_tot_pcs']." WHERE id='".$proses['kode_nota_cmt']."' ");
-				$this->db->update('setorcmt_detail',$update,array('kode_po'=>$post['kode_po']));
+				$this->db->update('setorcmt_detail',$update,array('idkirim'=>$proses['kode_nota_cmt'],'kode_po'=>$post['kode_po']));
 			}
 		}
 		$this->db->update('kelolapo_kirim_setor',$update,array('id_kelolapo_kirim_setor'=>$post['kodeSetoran']));
