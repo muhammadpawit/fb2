@@ -116,7 +116,8 @@ class ReportModel extends CI_Model {
 	public function count_monitoring_kirimgudang_detail($jenis,$tgl1,$tgl2){
 		$h=0;
 		$sql="SELECT COUNT(DISTINCT kbp.kode_po) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.nama_jenis_po='$jenis' ";
-		$sql.=" AND p.hapus=0 and kbp.susulan IN (2)";
+		$sql.=" AND p.hapus=0 ";
+		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
