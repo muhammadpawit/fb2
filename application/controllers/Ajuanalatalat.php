@@ -27,7 +27,7 @@ class Ajuanalatalat extends CI_Controller {
 			$tanggal1=$get['tanggal1'];
 			$url.='&tanggal1='.$tanggal1;
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday last week"));
+			$tanggal1=null;
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
