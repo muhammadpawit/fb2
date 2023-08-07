@@ -22,7 +22,7 @@
 </div>
 <div class="row table-responsive">
 	<div class="col-md-12">
-		<table class="table table-bordered">
+		<table class="table table-bordered nosearch">
 			<thead>
 				<tr>
 					<th>NO</th>
