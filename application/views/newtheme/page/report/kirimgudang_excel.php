@@ -9,7 +9,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 		<td colspan="12" align="center">
 			<h1 style="text-decoration: underline;">
 				Laporan Kirim Gudang Minggu Ini<br>
-				<small>
+				<small style="font-size:18px !important">
 				Periode : <?php echo date('m',strtotime($tanggal1)) == date('m',strtotime($tanggal2)) ? date('d',strtotime($tanggal1)) :date('d-m-Y',strtotime($tanggal1))?> s.d <?php echo date('d-m-Y',strtotime($tanggal2))?>
 				</small>
 			</h1>
