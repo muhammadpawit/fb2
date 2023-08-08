@@ -2,6 +2,7 @@
 $namafile='Kirim_gudang_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
+
 ?>
 <table style="width:100%">
 	<tr>
