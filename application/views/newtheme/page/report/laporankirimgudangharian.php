@@ -23,16 +23,16 @@
 	<div class="col-md-8">
 		<table class="" border="1" style="border-collapse: collapse;width:100%;">
 			<thead>
-				<tr style="background-color: #d1869e;">
+				<tr style="background-color: #cdfacf;">
 					<th rowspan="2">NO</th>
-					<th rowspan="2">Hari, Tanggal</th>
+					<th rowspan="2">Hari/Tanggal</th>
 					<th rowspan="2">PO Dikirim</th>
 					<th rowspan="2">Jenis PO</th>
 					<th colspan="2">Jumlah</th>
 					<th rowspan="2">Nilai PO (Rp)</th>
 					<th rowspan="2">Keterangan</th>
 				</tr>
-				<tr style="background-color: #d1869e;">
+				<tr style="background-color: #cdfacf;">
 					<th>PO</th>
 					<th>DZ</th>
 				</tr>
@@ -46,7 +46,7 @@
 								<?php
 
 									//if(0==$p['no']){
-										echo $p['hari'].','.$p['tanggal'];
+										echo $p['hari'].'/'.$p['tanggal'];
 									//}
 
 								?>
@@ -96,7 +96,7 @@
 				<?php } ?>
 			</tbody>
 			<tfoot>
-				<tr style="background-color: yellow;font-weight:700">
+				<tr style="background-color: #cdfacf;font-weight:700">
 					<td colspan="2" align="center"><b>Total</b></td>
 					<td><?php echo $jml?></td>
 					<td></td>
@@ -109,7 +109,7 @@
 					<td colspan="3"><b>Di update terakhir</b></td>
 					<td colspan="5">
 						<?php if(!empty($log)){ ?>
-							<b>Tanggal : <?php echo date('d F Y',strtotime($log['created_date'])) ?></b>
+							<b>Tanggal : <?php echo date('d-m-Y',strtotime($log['created_date'])) ?></b>
 						<?php } ?>
 					</td>
 				</tr>
@@ -119,7 +119,7 @@
 	<div class="col-md-4">
 		<hr>
 		<table class="table table-bordered table-hover">
-			<thead style="background-color: yellow">
+			<thead style="background-color: #cdfacf">
 				<tr>
 					<th>Resume</th>
 					<th>PO</th>
@@ -143,7 +143,7 @@
 					</tr>
 					<?php } ?>
 				<?php }?>
-				<tr style="background-color: yellow">
+				<tr style="background-color: #cdfacf">
 					<td colspan="2"><b>Jumlah Kemeja</b></td>
 					<td><b><?php echo $jmlkaos?></b></td>
 					<td><b><?php echo number_format($jmldzk,2)?></b></td>
@@ -162,7 +162,7 @@
 					</tr>
 					<?php } ?>
 				<?php }?>
-					<tr style="background-color: yellow">
+					<tr style="background-color: #cdfacf">
 						<td colspan="2"><b>Jumlah Kaos</b></td>
 						<td><b><?php echo $jmlkemeja?></b></td>
 						<td><b><?php echo number_format($jmldzkmj,2)?></b></td>
@@ -182,12 +182,12 @@
 					</tr>
 					<?php } ?>
 				<?php }?>
-					<tr style="background-color: yellow">
+					<tr style="background-color: #cdfacf">
 						<td colspan="2"><b>Jumlah Celana</b></td>
 						<td><b><?php echo $celana?></b></td>
 						<td><b><?php echo number_format($jmlc,2)?></b></td>
 					</tr>
-					<tr style="background-color: yellow">
+					<tr style="background-color: #cdfacf">
 						<td colspan="2"><b>Total</b></td>
 						<td><b><?php echo round($jmlkemeja+$jmlkaos+$celana)?></b></td>
 						<td><b><?php echo number_format(($jmldzk+$jmldzkmj+$jmlc),2)?></b></td>
