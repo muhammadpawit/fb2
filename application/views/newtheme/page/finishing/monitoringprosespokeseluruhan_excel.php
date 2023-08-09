@@ -1,63 +1,9 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group text-center">
-			<label>Monitoring PO Kaos <br>Tahun Produksi 2023-2024</label>
-		</div>
-	</div>
-</div>
-<!--
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group">
-			<label>PO Kemeja</label>
-			<table class="table table-bordered table striped">
-				<thead>
-					<tr>
-						<th>Jenis PO</th>
-						<td>Jumlah PO</td>
-						<td>QC</td>
-						<td>LB Kancing</td>
-						<td>Siap Cucian</td>
-						<td>Proses Cucian</td>
-						<td>Siap Buang Benang</td>
-						<td>Proses Buang Benang</td>
-						<td>Siap Packing</td>
-						<td>Proses Packing</td>
-						<td>Siap Kirim Gudang</td>
-						<td>Pending</td>
-					</tr>
-				</thead>
-				<tbody>
-					<?php /* ?>
-					<?php foreach($kemeja as $k){?>
-						<?php if($k['jmlpo'] >0){ ?>
-							<tr>
-								<td><?php echo $k['nama']?></td>
-								<td><?php echo $k['jmlpo']?></td>
-								<td><?php echo $k['qc']?></td>
-								<td><?php echo $k['kancing']?></td>
-								<td><?php echo $k['siapcucian']?></td>
-								<td><?php echo $k['prosescucian']?></td>
-								<td><?php echo $k['siapbuangbenang']?></td>
-								<td><?php echo $k['prosesbuangbenang']?></td>
-								<td><?php echo $k['siappacking']?></td>
-								<td><?php echo $k['prosespacking']?></td>
-								<td><?php echo $k['siapkirimgudang']?></td>
-								<td><?php echo $k['pending']?></td>
-							</tr>
-						<?php } ?>
-					<?php } ?>
-					<?php */ ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>-->
-<div class="row table-responsive">
-	<div class="col-md-12">
-		<div class="form-group">
-			<label>PO Kaos Keseluruhan</label>
-			<table class="table table-bordered table striped">
+<?php
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".xls");
+?>
+            <label>PO Kaos Keseluruhan</label>
+			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead style="background-color: pink;">
 					<tr style="text-align:center;font-weight:bold">
 						<th rowspan="2">Jenis PO</th>
@@ -148,14 +94,9 @@
 					</tr> -->
 				</tfoot>
 			</table>
-		</div>
-	</div>
-</div>
-<div class="row table-responsive">
-	<div class="col-md-12">
-		<div class="form-group">
-			<label>PO Kaos Bulanan</label>
-			<table class="table table-bordered table striped">
+
+            <label>PO Kaos Bulanan</label>
+                <table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead style="background-color: pink;">
 					<tr style="text-align:center;font-weight:bold">
 						<th rowspan="2">Jenis PO</th>
@@ -246,49 +187,3 @@
 					</tr>
 				</tfoot>
 			</table>
-		</div>
-	</div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <h1>Laporan Bulanan :</h1>
-        <?php foreach($bul as $b){ ?>
-            <a href="<?php echo $b['link']?>" class="btn btn-primary"><?php echo $b['bulan']?></a>
-        <?php } ?>
-    </div>
-</div>
-<br>
-<div class="row">
-	<div class="col-md-6">
-		<div class="form-group">
-		<button onclick="excelbulan()" class="btn btn-success btn-sm full">Excel</button>
-		</div>
-	</div>
-</div>
-<!-- <div class="row no-print">
-	<div class="col-md-6">
-		<div class="form-group">
-			<button onclick="window.print()" class="btn btn-info btn-sm full">Print</button>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<button onclick="filtertglonly_excel()" class="btn btn-success btn-sm full">Excel</button>
-		</div>
-	</div>
-</div> -->
-<script>
-	function excelbulan(){
-		var urlParams = new URLSearchParams(window.location.search);
-		var bulan = urlParams.get('bulan');
-		var tahun = urlParams.get('tahun');
-		var url ='?&excel=1';
-		if(bulan){
-			url +='&bulan='+bulan;
-		}
-		if(tahun){
-			url +='&tahun='+tahun;
-		}
-		location = url;
-	}
-</script>

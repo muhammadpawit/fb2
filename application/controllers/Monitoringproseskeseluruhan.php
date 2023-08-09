@@ -140,7 +140,7 @@ class Monitoringproseskeseluruhan extends CI_Controller {
         }
         //pre($data['bul']);
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'finishing/monitoringprosespo_excel',$data);
+			$this->load->view($this->page.'finishing/monitoringprosespokeseluruhan_excel',$data);
 		}else{
 			$data['page']=$this->page.'finishing/monitoringprosespo_keseluruhan';
 			$this->load->view($this->layout,$data);
