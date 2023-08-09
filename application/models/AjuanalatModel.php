@@ -195,7 +195,8 @@ class AjuanalatModel extends CI_Model {
 				$hasil[]=array(
 					'no'=>$no++,
 					'id'=>$r['id'],
-					'tanggal'=>date("d/m/Y",strtotime($r['tanggal'])),
+					'tgl'=>date("d/m/Y",strtotime($r['tanggal'])),
+					'tanggal'=>date("Y-m-d",strtotime($r['tanggal'])),
 					'product_id' => $r['product_id'],
 					'nama'=>$r['nama'],
 					'kebutuhan'=>$r['kebutuhan'],
@@ -204,6 +205,7 @@ class AjuanalatModel extends CI_Model {
 					'satuan'=>$r['satuan'],
 					'keterangan'=>$r['keterangan'],
 					'acc_ajuan'	=> $r['acc_ajuan'],
+					'supplier_id'=>$r['supplier_id'],
 				);
 			}
 		}
@@ -267,7 +269,11 @@ class AjuanalatModel extends CI_Model {
 		if(!empty($idped)){
 			$sql.=" AND gpi.id_persediaan='$idped' ";
 		}else{
-			$sql.=" AND gpi.id_persediaan IN($inId) ";
+			if(!empty($inId)){
+				$sql.=" AND gpi.id_persediaan IN($inId) ";
+			}else{
+				$sql.=" AND gpi.id_persediaan IN(0) ";
+			}
 		}
 		$sql.=" GROUP BY p.nama ASC , p.kategori ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
@@ -295,6 +301,7 @@ class AjuanalatModel extends CI_Model {
 			//pre($stokkeluar);
 			$data['prods'][]=array(
 				'no'=>$no++,
+				'id_persediaan'=>$row['id_persediaan'],
 				'nama'	=>$row['nama_item'],
 				'warna'	=>$row['warna_item'],
 				'kode'=>null,

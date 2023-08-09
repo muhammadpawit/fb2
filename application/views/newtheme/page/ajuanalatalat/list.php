@@ -44,7 +44,7 @@
 					<?php //if(!empty($spv)) { ?>
 					<tr>
 						<td><?php echo $p['no'] ?></td>
-						<td><?php echo $p['tanggal'] ?></td>
+						<td><?php echo $p['tgl'] ?></td>
 						<td><?php echo $p['nama'] ?></td>
 						<td><?php echo $p['satuan'] ?></td>
 						<td><?php echo $p['kebutuhan'] ?></td>
@@ -54,8 +54,13 @@
 						<td>
 						<form method="POST" action="<?php echo $acc ?>">
 							<input type="hidden" name="bagian" value="<?php echo $type ?>">
+							<input type="hidden" hidden name="tanggal" value="<?php echo date('Y-m-d',strtotime($p['tanggal'])) ?>">
 						<?php if(!empty($spv)) { ?>
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][id]" value="<?php echo $p['id'] ?>">
+							<input type="hidden" name="prods[<?php echo $p['no'] ?>][product_id]" value="<?php echo $p['product_id'] ?>">
+							<input type="hidden" name="prods[<?php echo $p['no'] ?>][satuan]" value="<?php echo $p['satuan'] ?>">
+							<input type="hidden" name="prods[<?php echo $p['no'] ?>][supplier]" value="<?php echo $p['supplier_id'] ?>">
+							<input type="hidden" name="prods[<?php echo $p['no'] ?>][keterangan]" value="<?php echo $p['keterangan'] ?>">
 							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" value="<?php echo $p['acc_ajuan'] ?>">
 						<?php }else{ ?>
 							<?php echo $p['acc_ajuan'] ?>
@@ -64,7 +69,9 @@
 						
 						<td>
 							<?php if(!empty($spv)) { ?>
-								<button type="submit" class="btn btn-success">Disetujui</button>
+								<?php if($p['acc_ajuan']==0){ ?>
+									<button type="submit" class="btn btn-success">Disetujui</button>
+								<?php } ?>
 								</form>
 								<br><br>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Dibatalkan</a>

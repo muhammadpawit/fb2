@@ -81,6 +81,78 @@ class Ajuanalatalat extends CI_Controller {
 			);
 			$this->db->update('ajuanalatalat',$update,$where);
 		}
+		
+		// masuk ke ajuan harian,
+		// untuk kategori bagian : jika di ajuan bagian berisi : 
+		$bagian = $post['bagian'];
+		$cat=0;
+		if($bagian==1){
+			$cat=2;
+		}else if($bagian==2){
+			$cat=3;
+		}else{
+			$cat=1;
+		}
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_mingguan IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		//pre($cekajuan_harian);
+		if(empty($cekajuan_harian)){
+			$ip=array(
+				'kategori'=>$cat,
+				'cash'=>0,
+				'transfer'=>0,
+				'status'=>1,
+				'hapus'=>0,
+				'tanggal'=>date('Y-m-d',strtotime($post['tanggal'])),
+				'keterangan'=>'Ajuan alat-alat PO ',
+				'dibuat'=>date('Y-m-d H:i:s'),
+				'from_mingguan' => TRUE
+			);
+			$this->db->insert('pengajuan_harian_new',$ip);
+			$id=$this->db->insert_id();
+			$transfer=0;
+			foreach($post['prods'] as $p){
+				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
+				$transfer=($item['price']*$p['acc_ajuan']);
+				$rip=array(
+					'idpengajuan'=>$id,
+					'nama_item'=>$item['nama'],
+					'jumlah'=>$p['acc_ajuan'],
+					'satuan'=>$p['satuan'],
+					'harga'=>$item['price'],
+					'pembayaran'=>2, // transfer
+					'supplier'=>$supplier['nama'],
+					'keterangan'=>$p['keterangan'],
+					'status'=>1,
+					'id_from_mingguan' => $p['id']
+				);
+				$this->db->insert('pengajuan_harian_new_detail',$rip);
+			}
+			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
+		}else{
+			$id=$cekajuan_harian['id'];
+			$transfer=0;
+			foreach($post['prods'] as $p){
+				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
+				$transfer=($item['price']*$p['acc_ajuan']);
+				$rip=array(
+					'idpengajuan'=>$id,
+					'nama_item'=>$item['nama'],
+					'jumlah'=>$p['acc_ajuan'],
+					'satuan'=>$p['satuan'],
+					'harga'=>$item['price'],
+					'pembayaran'=>2, // transfer
+					'supplier'=>$supplier['nama'],
+					'keterangan'=>$p['keterangan'],
+					'id_from_mingguan' => $p['id'],
+					'status'=>1
+				);
+				$this->db->insert('pengajuan_harian_new_detail',$rip);
+			}
+			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+		}
+		//pre($transfer);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect($this->url.$post['bagian'].'?&spv=true');
 		//pre($update);
@@ -112,7 +184,7 @@ class Ajuanalatalat extends CI_Controller {
 		);
 		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND id_persediaan IN (SELECT idpersediaan FROM barangkeluarharian_detail WHERE hapus=0 GROUP BY idpersediaan) ORDER BY nama_item ASC");
 		$data['action']=$this->url.'save_ajuanalat';
-		$data['cancel']=$this->url;
+		$data['cancel']=$this->url.$id;
 		$data['page']=$this->page.'tambah';
 		$data['type']=$id;
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier',null);
@@ -211,6 +283,7 @@ class Ajuanalatalat extends CI_Controller {
 				'tanggal'		=> $p['tanggal'],
 				'keterangan'	=> $p['keterangan'],
 				'bagian'		=> $data['bagian'],
+				'supplier_id'	=> $p['supplier_id'],
 				'hapus'			=> 0,
 			);
 			$this->db->insert('ajuanalatalat', $insert);
