@@ -87,7 +87,7 @@
 </div>
 <script type="text/javascript">
 	function excelwithbulan(){
-	    var url='?';
+	    var url='?&excel=true';
 	    var tanggal1 =$("#bulan").val();
 	    var tanggal2 =$("#tahun").val();
 	    if(tanggal1){
