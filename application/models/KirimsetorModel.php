@@ -39,7 +39,7 @@ class kirimsetorModel extends CI_Model {
 	}
 
 	public function kirimgudangharianresume_dz($data,$namapo){
-		$hasil=[];
+		$hasil=0;
 		$results=[];
 		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
