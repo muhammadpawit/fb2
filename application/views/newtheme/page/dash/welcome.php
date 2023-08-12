@@ -72,9 +72,9 @@
             <tr>
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
-                <td><?php echo $req['quantity']?></td>
-                <td><?php echo $req['minstok']?></td>
-                <td><?php echo $minimal_order ?></td>
+                <td><?php echo number_format($req['quantity'])?></td>
+                <td><?php echo number_format($req['minstok'])?></td>
+                <td><?php echo number_format($minimal_order) ?></td>
                 <td>
                     <?php if($req['quantity'] < $minimal_order){ ?>
                         <span class="text-danger">Wajib Order</span>
