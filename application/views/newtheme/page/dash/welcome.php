@@ -58,8 +58,9 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Stok Tersedia</th>
-                    <th>Minimal Stok</th>
+                    <th>Order (Pcs)</th>
+                    <th>Stok Terkini (Pcs)</th>
+                    <th>Wajib Order Kembali (20%)</th>
                     <th>Satuan</th>
                 </tr>
             </thead>
@@ -70,6 +71,7 @@
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo $req['quantity']?></td>
                 <td><?php echo $req['minstok']?></td>
+                <td></td>
                 <td><?php echo $req['satuan']?></td> 
             </tr>
             <?php $no++;?>
