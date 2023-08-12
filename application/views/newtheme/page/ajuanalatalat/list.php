@@ -20,7 +20,7 @@
 		</div>
 	</div>
 </div>
-<div class="row table-responsive">
+<div class="row">
 	<div class="col-md-12">
 		<table class="table table-bordered nosearch">
 			<thead>
