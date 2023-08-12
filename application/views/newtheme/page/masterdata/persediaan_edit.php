@@ -24,8 +24,8 @@
 					<option value="1" <?php echo $prod['kategori']==1?'selected':''?>>Hangtag</option>
 					<option value="2" <?php echo $prod['kategori']==2?'selected':''?>>Slip</option>
 					<option value="3" <?php echo $prod['kategori']==3?'selected':''?>>Kerah</option>
-					<option value="4" <?php echo $prod['kategori']==4?'selected':''?>>Kancing</option>
-					<option value="5" <?php echo $prod['kategori']==5?'selected':''?>>Kancing</option>
+					<option value="4" <?php echo $prod['kategori']==4?'selected':''?>>Kancing Baru</option>
+					<option value="5" <?php echo $prod['kategori']==5?'selected':''?>>Kancing Lama</option>
 					<option value="6" <?php echo $prod['kategori']==6?'selected':''?>>Barang Bordir</option>
 					<option value="7" <?php echo $prod['kategori']==7?'selected':''?>>Resleting</option>
 					<option value="8" <?php echo $prod['kategori']==8?'selected':''?>>Resleting Kantong</option>
