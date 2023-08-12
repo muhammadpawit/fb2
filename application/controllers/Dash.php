@@ -532,11 +532,12 @@ class Dash extends CI_Controller {
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
 			 WHERE a.hapus=0 AND b.hapus=0 AND b.kategori='".$m['id']."' ORDER BY a.tanggal DESC LIMIT 1 ";
 			$last_masuk = $this->GlobalModel->QueryManualRow($qry);
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity)) as total FROM product WHERE kategori='".$m['id']."' ");
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
-				'quantity'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
-				'minstok'		=> null,
-				'satuan'		=> null,
+				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
+				'minstok'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
+				'satuan'		=> 'PCS',
 			);
 		}
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
