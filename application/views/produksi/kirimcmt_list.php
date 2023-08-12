@@ -67,10 +67,11 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php $no=1; ?>
                         <?php foreach($products as $p){?>
                           <?php foreach($p['dets'] as $d){?>
                           <tr>
-                            <td><?php echo $p['no']?></td>
+                            <td><?php echo $no++?></td>
                             <td><?php echo $p['nosj']?></td>
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['namacmt']?></td>
