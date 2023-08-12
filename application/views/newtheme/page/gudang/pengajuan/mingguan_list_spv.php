@@ -82,7 +82,7 @@
                     </form>
                   <?php }?>
                 <?php }?>
-                <tr>
+                <!-- <tr>
                   <td colspan="4" align="right"><?php echo !empty($tgl_diacc ) ? 'diacc terkahir pada '.$tgl_diacc :'belum di klik persetujuan'?></td>
                   <td>
                     <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan">
@@ -96,7 +96,7 @@
                     <button type="submit" class="btn btn-danger btn-sm full">Dibatalkan</button>
                     </form>
                   </td>
-                </tr>
+                </tr> -->
               </tbody>
             
             </table>
