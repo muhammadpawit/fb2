@@ -20,9 +20,9 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row table-responsive">
 	<div class="col-md-12">
-		<table class="table table-bordered nosearch">
+		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>NO</th>
