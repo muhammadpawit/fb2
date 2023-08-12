@@ -61,6 +61,7 @@
                     <th>Stok Terkini (Pcs)</th>
                     <th>Order Terakhir (Pcs)</th>
                     <th>Wajib Order Kembali (20%)</th>
+                    <th>Status</th>
                     <th>Satuan</th>
                 </tr>
             </thead>
@@ -74,6 +75,13 @@
                 <td><?php echo $req['quantity']?></td>
                 <td><?php echo $req['minstok']?></td>
                 <td><?php echo $minimal_order ?></td>
+                <td>
+                    <?php if($req['quantity'] < $minimal_order){ ?>
+                        <span class="text-danger">Wajib Order</span>
+                    <?php }else{ ?>
+                        <span>Stok Masih Mencukupi</span>
+                    <?php } ?>
+                </td>
                 <td><?php echo $req['satuan']?></td> 
             </tr>
             <?php $no++;?>
