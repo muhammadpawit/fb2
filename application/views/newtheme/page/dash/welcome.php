@@ -66,8 +66,8 @@
             </thead>
             <?php $no=1;?>
             <?php foreach($menipis as $req){?>
-                <?php $minimal_order=($req['minstok']*0.2);?>
-            <?php if($req['quantity'] < $minimal_order){ ?>
+                <?php  $minimal_order=0;?>
+            <?php //if($req['quantity'] < $minimal_order){ ?>
             <tr>
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
@@ -78,7 +78,7 @@
             </tr>
             <?php $no++;?>
             <?php } ?>
-            <?php } ?>
+            <?php //} ?>
         </table>
     </div>
 </div>

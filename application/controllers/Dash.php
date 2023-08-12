@@ -525,14 +525,18 @@ class Dash extends CI_Controller {
 			);
 		}
 		$data['menipis']=[];
-		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
+		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
+		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
 		foreach($menipis as $m){
-			$last_masuk = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah)) as total FROM penerimaan_item_detail WHERE hapus=0 AND id_persediaan='".$m['product_id']."' GROUP BY tanggal ORDER BY id DESC LIMIT 1");
+			$qry ="SELECT COALESCE(SUM(a.jumlah)) as total FROM penerimaan_item_detail a
+			 LEFT JOIN product b on b.product_id=a.id_persediaan
+			 WHERE a.hapus=0 AND b.hapus=0 AND b.kategori='".$m['id']."' ORDER BY a.tanggal DESC LIMIT 1 ";
+			$last_masuk = $this->GlobalModel->QueryManualRow($qry);
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
-				'quantity'		=> $m['quantity'],
-				'minstok'		=> !empty($last_masuk['total']) ? $last_masuk['total'] :0,
-				'satuan'		=> $m['satuan'],
+				'quantity'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
+				'minstok'		=> null,
+				'satuan'		=> null,
 			);
 		}
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));

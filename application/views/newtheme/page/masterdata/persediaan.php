@@ -151,12 +151,12 @@
   	</select>
   </div>
   <div class="col-md-3">
-    <label>Kategori Barang</label>
+    <label>Kategori Barang </label>
         <select name="kategoris" class="form-control select2bs4" data-live-search="true">
           <option value="*">Pilih</option>
           <?php foreach($kat as $k){ ?>
-                                  <option value="<?php echo $k['id']?>" <?php echo $kate==$k['id']?'selected':''?>><?php echo $k['nama']?></option>
-                                <?php } ?>
+            <option value="<?php echo $k['id']?>" <?php echo $kate==$k['id']?'selected':''?>><?php echo $k['nama']?></option>
+          <?php } ?>
         </select>
   </div>
   <div class="col-md-3">
