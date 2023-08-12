@@ -285,6 +285,19 @@ class Notakirim extends CI_Controller {
 							$dz+=($r['dz']);
 							$pcs+=($r['pcs']);
 						}
+						$sudahdikirim = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima)) as total FROM finishing_kirim_gudang WHERE kode_po='".$idpo['kode_po']."' ");
+						
+						$dikirim=($dz*12) + $pcs + $sudahdikirim['total'];
+						
+						$cek_diterima = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jml_setor_qty+pcs_setor_qty-bangke_qty-barang_cacad_qty)) as total FROM kelolapo_rincian_setor_cmt WHERE kode_po='".$idpo['kode_po']."' ");
+						//pre($dikirim);
+						if($dikirim>$cek_diterima['total']){
+							
+							$this->session->set_flashdata('gagal','Data Gagal Di Simpan. Pengiriman Melebihi Penerimaan ');
+							redirect (BASEURL.'Notakirim/kirim_next/'.$post['idpo']);
+							
+						}
+
 						$dataInsert = array(
 							'idpo'				=> $idpo['id_produksi_po'],
 							'nofaktur'			=> 	$post['nofaktur'],
