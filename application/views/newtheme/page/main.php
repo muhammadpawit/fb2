@@ -655,6 +655,22 @@
         }
     });
 
+    $('.sjsablon').select2({
+      //theme: 'bootstrap4',
+      placeholder: '--- Pilih ---',
+        ajax: {
+          url: uri+'search_sj_sablon',
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },
+          cache: true
+        }
+    });
+
     $( ".byrcmt" ).change(function() {
       $('#sub1').empty();
       var cmts = $(this).val();

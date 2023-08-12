@@ -1438,6 +1438,13 @@ class Kelolapo extends CI_Controller {
 				);
 			}
 
+			if(akseshapus()==1){
+				$action[] = array(
+					'text' => 'hapus',
+					'href' => BASEURL.'Kelolapo/kirimcmtsablonhapus/'.$result['id'],
+				);
+			}
+
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			//$det = $this->kirimsetorModel->sablon_detail($result['id']);
 			$dets = $this->GlobalModel->GetData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$result['id']));
@@ -3175,6 +3182,23 @@ class Kelolapo extends CI_Controller {
 
 			$this->session->set_flashdata('msg','Data berhasil diubah');
 			redirect(BASEURL.'kelolapo/bukupotongan?&kode_po='.$explode[1]);
+	}
+
+	function kirimcmtsablonhapus($id){
+		$update = array(
+			'hapus'=>1
+		);
+		$where = array(
+			'id' => $id,
+		);
+		$this->db->update('kirimcmtsablon',$update,$where);
+		$where_detail = array(
+			'idkirim' => $id,
+		);
+		$this->db->update('kirimcmtsablon_detail',$update,$where_detail);
+		$this->db->update('kelolapo_kirim_setor',array('hapus'=>1),array('kode_nota_cmt'=>$id,'progress'=>'KIRIM','kategori_cmt'=>'SABLON'));
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect(BASEURL.'kelolapo/pengirimansablon');
 	}
 		
 }

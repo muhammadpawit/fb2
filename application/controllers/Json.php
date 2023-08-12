@@ -460,6 +460,34 @@ class Json extends CI_Controller {
 		echo json_encode($hasil);
 	}
 
+	public function search_sj_sablon(){
+		$data=$this->input->get();
+		$sql="SELECT * FROM kirimcmtsablon WHERE hapus=0 ";
+
+		if(!empty($data['term'])){
+			$sql .= " AND lower(nosj) LIKE '%".strtolower($data['term'])."%' ";
+		}
+
+		if(!empty($data['search'])){
+			$sql .= " AND lower(nosj) LIKE '%".strtolower($data['search'])."%' ";
+		}
+
+		$sql.=" AND nosj !='' ";
+
+		$sql.=" ORDER BY nosj DESC ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		foreach($results as $row){
+			$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$row['idcmt']));;
+			$hasil[]=array(
+				'id'=>$row['id'],
+				'label'=>strtoupper($row['nosj']),
+				'text'=>strtoupper($cmt['cmt_name'].'('.date('d F Y',strtotime($row['tanggal'])).' '.$row['nosj'].')'),
+			);
+		}
+
+		echo json_encode($hasil);
+	}
+
 
 	public function search_po_kirimjahitpenambahan(){
 		$data=$this->input->get();
