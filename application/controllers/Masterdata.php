@@ -1221,6 +1221,7 @@ class Masterdata extends CI_Controller {
 		$data['action']=BASEURL.'Masterdata/editsave';
 		$data['page']=$this->page.'masterdata/persediaan_edit';	
 		$data['prod']=$this->GlobalModel->getDataRow('product',array('product_id'=>$id));
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$data['pgudang']=$this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$id));
 		$data['supplier'] = $this->GlobalModel->queryManual('SELECT * FROM master_supplier WHERE hapus=0  ORDER BY nama ASC');
 		$this->load->view('newtheme/page/main',$data);
