@@ -1708,10 +1708,11 @@ class Kelolapo extends CI_Controller {
 				'jml_barang'=>$k['jml_barang'],
 			);
 		}
+		//pre($data['kirims']);
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
 		$data['listcmt'] = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['listjob'] = $this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
-		$data['listpo']	 = $this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0 AND kode_po NOT IN (SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt='SABLON' AND id_master_cmt <> '".$data['kirim']['idcmt']."' ) AND kode_po NOT IN (SELECT kode_po FROM kirimcmtsablon_detail WHERE idkirim <> '".$id."' ) ORDER BY kode_po ASC ");
+		$data['listpo']	 = $this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0  ORDER BY kode_po ASC ");
 		$data['page']='produksi/kirimcmtsablon_edit';
 		$this->load->view('newtheme/page/main',$data);
 	}
