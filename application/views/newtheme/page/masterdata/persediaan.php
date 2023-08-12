@@ -76,7 +76,7 @@
                               <select name="kategori" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="">Pilih</option>
                                 <?php foreach($kat as $k){ ?>
-                                  <option value="<?php echo $k['id']?>" <?php echo $kate==$k['id']?'selected':''?>><?php echo $k['nama']?></option>
+                                  <option value="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
                                 <?php } ?>
                                 <!-- <option value="1">Hangtag</option>
                                 <option value="2">Slip</option>
@@ -154,24 +154,9 @@
     <label>Kategori Barang</label>
         <select name="kategoris" class="form-control select2bs4" data-live-search="true">
           <option value="*">Pilih</option>
-          <option value="1">Hangtag</option>
-                                <option value="2">Slip</option>
-                                <option value="3">Kerah</option>
-                                <option value="4">Kancing</option>
-                                <option value="5">Kancing</option>
-                                <option value="6">Barang Bordir</option>
-                                <option value="7">Resleting</option>
-                                <option value="8">Resleting Kantong</option>
-                                <option value="9">Pita</option>
-                                <option value="10">Sleting</option>
-                                <option value="11">Gesper</option>
-                                <option value="12">Spandek</option>
-                                <option value="13">ATK</option>
-                                <option value="14">Benang Konveksi</option>
-                                <option value="15">Bahan Kaos</option>
-                                <option value="16">Bahan Celana</option>
-                                <option value="17">Bahan Kemeja</option>
-                                <option value="18">Alat-alat PO</option>
+          <?php foreach($kat as $k){ ?>
+                                  <option value="<?php echo $k['id']?>" <?php echo $kate==$k['id']?'selected':''?>><?php echo $k['nama']?></option>
+                                <?php } ?>
         </select>
   </div>
   <div class="col-md-3">
