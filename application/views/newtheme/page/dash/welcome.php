@@ -58,8 +58,8 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Order (Pcs)</th>
                     <th>Stok Terkini (Pcs)</th>
+                    <th>Order (Pcs)</th>
                     <th>Wajib Order Kembali (20%)</th>
                     <th>Satuan</th>
                 </tr>
