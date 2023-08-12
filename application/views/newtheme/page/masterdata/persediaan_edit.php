@@ -39,6 +39,9 @@
 					<option value="16" <?php echo $prod['kategori']==16?'selected':''?>>Bahan Celana</option>
 					<option value="17" <?php echo $prod['kategori']==17?'selected':''?>>Bahan Kemeja</option>
 					<option value="18" <?php echo $prod['kategori']==18?'selected':''?>>Alat-alat PO</option>
+					<option value="19" <?php echo $prod['kategori']==19?'selected':''?>>Hang Tag Kiddreams</option>
+					<option value="20" <?php echo $prod['kategori']==20?'selected':''?>>Hang Tag Agola</option>
+					<option value="21" <?php echo $prod['kategori']==19?'selected':''?>>Hang Tag Forboys</option>
 				</select>
 			</div>
 			<div class="form-group">
