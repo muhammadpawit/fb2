@@ -103,7 +103,7 @@ class Ajuanalatalat extends CI_Controller {
 				'status'=>1,
 				'hapus'=>0,
 				'tanggal'=>date('Y-m-d',strtotime($post['tanggal'])),
-				'keterangan'=>'Ajuan alat-alat PO ',
+				'keterangan'=>'',
 				'dibuat'=>date('Y-m-d H:i:s'),
 				'from_mingguan' => TRUE
 			);
