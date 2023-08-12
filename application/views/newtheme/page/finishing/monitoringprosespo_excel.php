@@ -1,6 +1,6 @@
 <?php
-//header("Content-type: application/vnd-ms-excel");
-//header("Content-Disposition: attachment; filename=Monitoring_PO_".time().".xls");
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Monitoring_PO_".time().".xls");
 ?>
 <style type="text/css">
 	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
