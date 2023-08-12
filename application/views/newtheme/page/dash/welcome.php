@@ -60,15 +60,17 @@
                     <th>Nama</th>
                     <th>Stok Tersedia</th>
                     <th>Minimal Stok</th>
+                    <th>Satuan</th>
                 </tr>
             </thead>
             <?php $no=1;?>
             <?php foreach($menipis as $req){?>
             <tr>
                 <td><?php echo $no?></td>    
-                <td><?php echo $req['nama']?></td>    
+                <td><?php echo $req['nama']?></td>      
                 <td><?php echo $req['quantity']?></td>
                 <td><?php echo $req['minstok']?></td>
+                <td><?php echo $req['satuan']?></td> 
             </tr>
             <?php $no++;?>
             <?php } ?>
