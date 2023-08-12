@@ -330,7 +330,7 @@ class Penambahansj extends CI_Controller {
 		$masterpo=[];
 		$id=$post['sj'];
 		if(isset($post['sj'])){
-			$cmt=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
+			$cmt=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
    			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt['idcmt']));
    			foreach($post['products'] as $p){
    				$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
@@ -345,7 +345,7 @@ class Penambahansj extends CI_Controller {
    					'jml_barang'=>$p['jml_barang'],
    					'hapus'=>0,
    				);
-   				$this->db->insert('kirimcmt_detail',$detail);
+   				$this->db->insert('kirimcmtsablon_detail',$detail);
    				$masterpo=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
