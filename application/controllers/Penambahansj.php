@@ -283,7 +283,7 @@ class Penambahansj extends CI_Controller {
 
 			$action[] = array(
 				'text' => 'Hapus',
-				'href' => $this->url.'hapus_sablon/'.$result['id'],
+				'href' => $this->url.'hapus_sablon/'.$result['kode_po'].'/'.$result['id'],
 			);
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
