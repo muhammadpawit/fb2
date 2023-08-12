@@ -75,7 +75,10 @@
                               <label>Kategori Barang</label>
                               <select name="kategori" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="">Pilih</option>
-                                <option value="1">Hangtag</option>
+                                <?php foreach($kat as $k){ ?>
+                                  <option value="<?php echo $k['id']?>" <?php echo $kate==$k['id']?'selected':''?>><?php echo $k['nama']?></option>
+                                <?php } ?>
+                                <!-- <option value="1">Hangtag</option>
                                 <option value="2">Slip</option>
                                 <option value="3">Kerah</option>
                                 <option value="4">Kancing</option>
@@ -92,7 +95,7 @@
                                 <option value="15">Bahan Kaos</option>
                                 <option value="16">Bahan Celana</option>
                                 <option value="17">Bahan Kemeja</option>
-                                <option value="18">Alat-alat PO</option>
+                                <option value="18">Alat-alat PO</option> -->
                               </select>
                             </div>
                             <div class="form-group">

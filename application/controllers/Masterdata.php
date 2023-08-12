@@ -1192,6 +1192,8 @@ class Masterdata extends CI_Controller {
 		//pre($results);
 		$data['satuan']=$this->GlobalModel->getData('master_satuan_barang',array());
 		$data['prods']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
+		$data['kate']=$kategori;
 		$data['pdf']=BASEURL.'Masterdata/persediaan?&pdf=true'.$url;
 		$data['supplier'] = $this->GlobalModel->queryManual('SELECT * FROM master_supplier WHERE hapus=0  ORDER BY nama ASC');
 		if(isset($get['pdf'])){
