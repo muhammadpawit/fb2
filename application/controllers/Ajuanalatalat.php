@@ -113,13 +113,13 @@ class Ajuanalatalat extends CI_Controller {
 			foreach($post['prods'] as $p){
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
-				$transfer=($item['price']*$p['acc_ajuan']);
+				$transfer=($item['harga_beli']*$p['acc_ajuan']);
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],
 					'jumlah'=>$p['acc_ajuan'],
 					'satuan'=>$p['satuan'],
-					'harga'=>$item['price'],
+					'harga'=>$item['harga_beli'],
 					'pembayaran'=>2, // transfer
 					'supplier'=>$supplier['nama'],
 					'keterangan'=>$p['keterangan'],
@@ -135,13 +135,13 @@ class Ajuanalatalat extends CI_Controller {
 			foreach($post['prods'] as $p){
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
-				$transfer=($item['price']*$p['acc_ajuan']);
+				$transfer=($item['harga_beli']*$p['acc_ajuan']);
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],
 					'jumlah'=>$p['acc_ajuan'],
 					'satuan'=>$p['satuan'],
-					'harga'=>$item['price'],
+					'harga'=>$item['harga_beli'],
 					'pembayaran'=>2, // transfer
 					'supplier'=>$supplier['nama'],
 					'keterangan'=>$p['keterangan'],

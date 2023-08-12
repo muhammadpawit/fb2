@@ -3,7 +3,7 @@
       <div class="card card-info">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-6">
               <div class="form-group">
                 <label>Tanggal</label>
                 <input type="text" name="tanggal" class="form-control datepicker" required="required">
@@ -15,7 +15,7 @@
                 <input type="date" name="tanggal2" class="form-control datepicker" required="required">
               </div>
             </div>-->
-            <div class="col-md-3">
+            <div class="col-md-6">
               <div class="form-group">
                 <label>Bagian</label>
                 <select name="jenis" class="form-control select2bs4" required="required">
@@ -33,7 +33,19 @@
                 <select name="kebutuhan" class="form-control select2bs4" data-live-search="true">
                   <option value="-">Pilih</option>
                   <?php foreach($products as $p){?>
-                    <option value="<?php echo $p['nama']?>" data-item="<?php echo $p['product_id'] ?>"><?php echo $p['nama']?></option>
+                    <option value="<?php echo $p['product_id']?>" data-item="<?php echo $p['product_id'] ?>"><?php echo $p['nama']?></option>
+                  <?php  } ?>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Supplier</label>
+                <!-- <textarea name="kebutuhan" class="form-control" placeholder="contoh : Plastik, Size, dll" required="required"></textarea> -->
+                <select name="supplier_id" class="form-control select2bs4" data-live-search="true">
+                  <option value="-">Pilih</option>
+                  <?php foreach($supplier as $p){?>
+                    <option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option>
                   <?php  } ?>
                 </select>
               </div>

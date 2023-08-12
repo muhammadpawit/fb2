@@ -261,18 +261,21 @@ class Gudang extends CI_Controller {
 		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
 		$data['page']=$this->page.'gudang/pengajuan/mingguan_form';
 		$this->load->view($this->page.'main',$data);
 	}
 
 	public function ajuanmingguansave(){
 		$data=$this->input->post();
-		//pre($data);
+		pre($data);
 		if(isset($data['products'])){
+			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
 			$am=array(
 				'tanggal'=>$data['tanggal'],
 				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
-				'kebutuhan'=>$data['kebutuhan'],
+				'kebutuhan'=>$item['nama'],
+				'product_id' => $item['product_id'],
 				// 'ajuan_kebutuhan'=>$data['ajuan_kebutuhan'],
 				'ajuan_kebutuhan'=>0,
 				'stok'=>$data['stok'],
@@ -280,6 +283,7 @@ class Gudang extends CI_Controller {
 				'jml_ajuan'=>0,
 				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
 				'keterangan2'=>$data['keterangan2'],
+				'supplier_id'=>$data['supplier_id'],
 				//'keterangan'=>$data['keterangan'],
 			);
 			$this->db->insert('ajuan_mingguan',$am);
@@ -2274,10 +2278,74 @@ class Gudang extends CI_Controller {
 	function acc_ajuan_mingguan(){
 		$post = $this->input->post();
 		//pre($post);
-		$insert = array(
-			'tanggal'	=> $post['tanggal']
+		$update = array(
+			'jml_acc' => $post['jml_acc']
 		);
-		$this->db->insert('acc_ajuan_mingguan',$insert);
+		$where = array(
+			'id' => $post['id'],
+		);
+		$this->db->update('ajuan_mingguan',$update,$where);
+		$cat=3; // kategori untuk ajuan harian bagian konveksi
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		//pre($cekajuan_harian);
+		//pre();
+		if(empty($cekajuan_harian)){
+			$ip=array(
+				'kategori'=>$cat,
+				'cash'=>0,
+				'transfer'=>0,
+				'status'=>1,
+				'hapus'=>0,
+				'tanggal'=>date('Y-m-d',strtotime($post['tanggal'])),
+				'keterangan'=>'Ajuan alat-alat PO ',
+				'dibuat'=>date('Y-m-d H:i:s'),
+				'from_alat' => TRUE
+			);
+			$this->db->insert('pengajuan_harian_new',$ip);
+			$id=$this->db->insert_id();
+			$transfer=0;
+			$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$post['id']));
+			$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+			$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+			$transfer=($item['harga_beli']*$p['jml_acc']);
+			$rip=array(
+					'idpengajuan'=>$id,
+					'nama_item'=>$item['nama'],
+					'jumlah'=>$p['jml_acc'],
+					'satuan'=>$item['satuan'],
+					'harga'=>$item['harga_beli'],
+					'pembayaran'=>2, // transfer
+					'supplier'=>$supplier['nama'],
+					'keterangan'=>$p['keterangan'],
+					'status'=>1,
+					'from_alat' => $p['id']
+			);
+			$this->db->insert('pengajuan_harian_new_detail',$rip);
+			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
+		}else{
+			$id=$cekajuan_harian['id'];
+			
+			$transfer=0;
+			$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$post['id']));
+			$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+			$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+			$transfer=($item['harga_beli']*$p['jml_acc']);
+			$rip=array(
+					'idpengajuan'=>$id,
+					'nama_item'=>$item['nama'],
+					'jumlah'=>$p['jml_acc'],
+					'satuan'=>$item['satuan'],
+					'harga'=>$item['harga_beli'],
+					'pembayaran'=>2, // transfer
+					'supplier'=>$supplier['nama'],
+					'keterangan'=>$p['keterangan'],
+					'status'=>1,
+					'from_alat' => $p['id']
+			);
+			$this->db->insert('pengajuan_harian_new_detail',$rip);
+			
+			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+		}
 		$this->session->set_flashdata('msg','Data berhasil di acc');
 		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
 	}

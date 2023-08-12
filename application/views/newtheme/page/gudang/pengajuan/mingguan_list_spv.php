@@ -59,21 +59,27 @@
               <tbody>
                 <?php if($products){?>
                   <?php foreach($products as $p){?>
+                    <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan">
+                    <input type="hidden" name="id" value="<?php echo $p['id']?>">
+                    <input type="hidden" hidden name="tanggal" value="<?php echo $p['tanggal']?>">
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
-                      <td><?php echo $p['jml_acc']?></td>
+                      <td><input type="number" name="jml_acc" value="<?php echo $p['jml_acc']?>"></td>
                       <td>
-                        <!-- <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#detailModal<?php echo $p['id']?>">Acc</button> -->
-                        <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data">
                         
+                        <!-- <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data"> -->
+                        
+                        <button class="btn btn-success btn-xs">Disetujui</button>
+
                         <a href="<?php echo $p['detail']?>?&spv=true" class="btn btn-warning btn-xs text-white">Detail</a>
 
                         <a href="<?php echo $p['batal']?>?&spv=true" onclick="return confirm('Apakah yakin ajuan ini akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
                       </td>
                     </tr>
+                    </form>
                   <?php }?>
                 <?php }?>
                 <tr>
