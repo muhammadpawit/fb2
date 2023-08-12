@@ -71,7 +71,7 @@
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo $req['quantity']?></td>
                 <td><?php echo $req['minstok']?></td>
-                <td><?php echo ( $req['minstok'] - ($req['minstok']*0.2))?></td>
+                <td><?php echo (($req['minstok']*0.2))?></td>
                 <td><?php echo $req['satuan']?></td> 
             </tr>
             <?php $no++;?>
