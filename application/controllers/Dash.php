@@ -527,7 +527,7 @@ class Dash extends CI_Controller {
 		$data['menipis']=[];
 		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
 		foreach($menipis as $m){
-			$last_masuk = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah)) as total FROM penerimaan_item_detail WHERE hapus=0 AND id_persediaan='".$m['product_id']."' ORDER BY id DESC LIMIT 1");
+			$last_masuk = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah)) as total FROM penerimaan_item_detail WHERE hapus=0 AND id_persediaan='".$m['product_id']."' GROUP BY tanggal ORDER BY id DESC LIMIT 1");
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
 				'quantity'		=> $m['quantity'],
