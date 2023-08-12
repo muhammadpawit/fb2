@@ -47,7 +47,7 @@
 			</div>
 			<div class="form-group">
 				<label>Minimal Stok</label>
-				<input type="text" name="minstok" value="<?php echo $prod['minstok']?>" class="form-control">
+				<input type="text" name="minstok" value="<?php echo $prod['minstok']?>" class="form-control" readonly>
 			</div>
 			<div class="form-group">
 				<label>Satuan</label>
