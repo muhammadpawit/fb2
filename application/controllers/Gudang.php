@@ -268,7 +268,7 @@ class Gudang extends CI_Controller {
 
 	public function ajuanmingguansave(){
 		$data=$this->input->post();
-		pre($data);
+		//pre($data);
 		if(isset($data['products'])){
 			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
 			$am=array(
