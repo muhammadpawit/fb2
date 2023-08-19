@@ -601,7 +601,7 @@
 				</thead>
 				<tbody>
 					<?php
-						$jmlpo=0;
+						$jmlpo_all=0;
 						$qc=0;
 						$siapcucian=0;
 						$prosescucian=0;
@@ -612,13 +612,17 @@
 						$siapkirimgudang=0;
 						$pending=0;
 						$selesai=0;
-						
+						$jmlpo=0;
 					?>
+					
 					<?php foreach($kaos as $k){?>
-						<?php if($k['jmlpo'] > 0){ ?>
+						<?php 
+							$jmlpo=($k['qc']+$k['siapcucian']+$k['prosescucian']+$k['siapkirimcmt']+$k['prosespacking']+$k['kirimsample']+$k['retur']+$k['siapkirimgudang']+$k['pending']+$k['selesai']);
+						?>
+						<?php if($jmlpo > 0){ ?>
 							<tr align="center">
 								<td><?php echo $k['nama']?></td>
-								<td><?php echo $k['jmlpo']?></td>
+								<td><?php echo $jmlpo?></td>
 								<td><?php echo $k['qc']?></td>
 								<td><?php echo $k['siapcucian']?></td>
 								<td><?php echo $k['prosescucian']?></td>
@@ -631,7 +635,7 @@
 								<td><?php echo $k['selesai']?></td>
 							</tr>
 							<?php
-								$jmlpo+=($k['jmlpo']);
+								$jmlpo_all+=$jmlpo;
 								$qc+=($k['qc']);
 								$siapcucian+=($k['siapcucian']);
 								$prosescucian+=($k['prosescucian']);
@@ -649,7 +653,7 @@
 				<tfoot>
 					<tr align="center" style="background-color: yellow;">
 						<td><b>Total</b></td>
-						<td><b><?php echo $jmlpo ?></b></td>
+						<td><b><?php echo $jmlpo_all ?></b></td>
 						<td><b><?php echo $qc ?></b></td>
 						<td><b><?php echo $siapcucian ?></b></td>
 						<td><b><?php echo $prosescucian ?></b></td>

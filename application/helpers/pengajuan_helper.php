@@ -690,23 +690,24 @@
 		}
 
 		if(isset($tanggal1)){
-            if($proses==10){
-				$where='';
-			}else{
+            if($proses==10 || $proses==11){
 				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				
+			}else{
+				$where='';
 			}
         }else{
             $where ='';
         }
 
 		$hasil=[];
-		if($proses==1){
-			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11)) ".$where;
-		}elseif($proses==9){
-			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11)) ".$where;
-		}else{
+		// if($proses==1){
+		// 	$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11)) ".$where;
+		// }elseif($proses==9){
+		// 	$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11)) ".$where;
+		// }else{
 			$sql="SELECT * FROM proses_po WHERE proses='$proses' and hapus=0 ".$where;
-		}
+		//}
 		$data=$CI->GlobalModel->QueryManual($sql);
 		if(!empty($data)){
 			$hasil=$data;
@@ -731,22 +732,23 @@
 		}
 
 		if(isset($tanggal1)){
-            if($proses==10){
-				$where='';
-			}else{
+            if($proses==10 || $proses==11){
+				
 				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}else{
+				$where='';
 			}
         }else{
             $where ='';
         }
 		$hasil=0;
-		if($proses==1){
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11))  ".$where;
-		}elseif($proses==9){
-			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11))  ".$where;
-		}else{
+		// if($proses==1){
+		// 	$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(9,11))  ".$where;
+		// }elseif($proses==9){
+		// 	$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 AND kode_po NOT in (SELECT kode_po FROM proses_po WHERE proses IN(11))  ".$where;
+		// }else{
 			$sql="SELECT count(pp.namapo) as total,mjp.perkalian FROM proses_po pp LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=pp.namapo) WHERE pp.proses='$proses' and pp.hapus=0 ".$where;
-		}
+		//}
 		
 		$data=$CI->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
@@ -995,8 +997,12 @@
 		if(isset($tanggal1)){
             if($proses==10){
 				$where='';
-			}else{
+			}else if($proses==11){
 				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				
+			}else{
+				//$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				$where = " ";
 			}
         }else{
             $where ='';
@@ -1033,10 +1039,10 @@
 
 		if(isset($tanggal1)){
             if($proses==null){
-				$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-				//$where = " ";
+				//$where = " AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				$where = " $proses ";
 			}else{
-				$where='';
+				$where=' $proses ';
 			}
         }else{
             $where ='';
