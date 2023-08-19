@@ -1998,7 +1998,7 @@ class ReportModel extends CI_Model {
 	public function stokmasuk_alat($id,$tgl,$tgl2){
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
 		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
-		$sql.=" AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
+		$sql.=" AND pid.hapus=0 AND id_persediaan='$id' AND DATE(pi.tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
 		$d=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($d)){
 			$hasil=$d;
