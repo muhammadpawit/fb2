@@ -31,7 +31,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_".time().".xls")
 				</thead>
 				<tbody>
 					<?php
-						$jmlpo=0;
+						$jmlpo_all=0;
 						$qc=0;
 						$siapcucian=0;
 						$prosescucian=0;
@@ -45,7 +45,10 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_".time().".xls")
 						
 					?>
 					<?php foreach($kaos as $k){?>
-						<?php if($k['jmlpo'] > 0){ ?>
+						<?php 
+							$jmlpo=($k['qc']+$k['siapcucian']+$k['prosescucian']+$k['siapkirimcmt']+$k['prosespacking']+$k['kirimsample']+$k['retur']+$k['siapkirimgudang']+$k['pending']+$k['selesai']);
+						?>
+						<?php if($jmlpo > 0){ ?>
 							<tr align="center">
 								<td><?php echo $k['nama']?></td>
 								<td><?php echo $k['jmlpo']?></td>
@@ -61,7 +64,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_".time().".xls")
 								<td><?php echo $k['selesai']?></td>
 							</tr>
 							<?php
-								$jmlpo+=($k['jmlpo']);
+								$jmlpo_all+=($jmlpo);
 								$qc+=($k['qc']);
 								$siapcucian+=($k['siapcucian']);
 								$prosescucian+=($k['prosescucian']);
@@ -79,7 +82,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_".time().".xls")
 				<tfoot>
 					<tr align="center" style="background-color: yellow;">
 						<td><b>Total</b></td>
-						<td><b><?php echo $jmlpo ?></b></td>
+						<td><b><?php echo $jmlpo_all ?></b></td>
 						<td><b><?php echo $qc ?></b></td>
 						<td><b><?php echo $siapcucian ?></b></td>
 						<td><b><?php echo $prosescucian ?></b></td>
