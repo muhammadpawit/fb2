@@ -1842,7 +1842,28 @@ class Gudang extends CI_Controller {
 
 	public function itemkeluarDelete($id='')
 	{
-		$this->GlobalModel->deleteData('gudang_item_keluar',array('id_item_keluar'=>$id));
+		//$this->GlobalModel->deleteData('gudang_item_keluar',array('id_item_keluar'=>$id));
+		$data = $this->GlobalModel->getDataRow('gudang_item_keluar',array('id_item_keluar'=>$id));
+		$kartustok=array(
+			'tanggal'=>date('Y-m-d'),
+			'idproduct'=>$data['id_persediaan'],
+			'nama'=>$data['nama'],
+			'saldomasuk_uk'=>0,
+			'saldomasuk_qty'=>$data['jumlah_item_keluar'],
+			'harga'=>$data['harga'],
+			'keterangan'=>'Pembatalan alat keluar PO '.$data['kode_po'],
+		);
+		kartustok($kartustok,1);
+		//pre($data);
+		$update = array(
+			'hapus' =>1
+		);
+		$where = array(
+			'id_item_keluar' => $id
+		);
+		$this->db->update('gudang_item_keluar',$update,$where);
+		$this->db->query("UPDATE gudang_persediaan_item SET jumlah_item=jumlah_item+'".$data['jumlah_item_keluar']."' WHERE id_persediaan='".$data['id_persediaan']."' ");
+		$this->db->query("UPDATE product SET quantity=quantity+'".$data['jumlah_item_keluar']."' WHERE product_id='".$data['id_persediaan']."' ");
 		$this->session->set_flashdata('msg','Data berhasil di delete');
 		redirect(BASEURL.'gudang/itemkeluar');
 	}

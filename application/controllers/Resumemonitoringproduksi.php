@@ -19,6 +19,19 @@ class Resumemonitoringproduksi extends CI_Controller {
     function index(){
         $data               = [];
         $data['title']      = '';
+        $get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
         $arpo=array(
 			array('type'=>'Kemeja','id'=>1),
 			array('type'=>'Kaos','id'=>2),
