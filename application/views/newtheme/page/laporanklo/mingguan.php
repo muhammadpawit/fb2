@@ -93,6 +93,7 @@
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
+					<th rowspan="2">Stok Awal</th>
 		            <th colspan="2">Kirim Kaos</th>
 		            <th colspan="2">Setor Kaos</th>
 		            <th colspan="2">Stok Akhir Kaos</th>
@@ -119,11 +120,12 @@
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <td><?php echo $p['kirimjml']?></td>
+					  <td><?php echo $p['stokawal']?></td> 
+					  <td><?php echo $p['kirimjml']?></td>
 		              <td><?php echo number_format($p['kirimdz'],2)?></td>
 		              <td><?php echo $p['setorjml']?></td>
 		              <td><?php echo number_format($p['setordz'],2)?></td>
-		              <td><?php echo ($p['stokjml'])?></td>
+		              <td><?php echo ( ($p['stokawal']+$p['kirimjml']) - $p['setorjml'] )?></td>
 		              <td><?php echo number_format($p['stokdz'],2) ?></td>
 		            </tr>
 		            <?php 

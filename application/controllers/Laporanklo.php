@@ -84,13 +84,16 @@ class Laporanklo extends CI_Controller {
 		$sqlsablon="SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk='SABLON' ".$notinidcmt;
 		$sqlsablon.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtsablon=$this->GlobalModel->QueryManual($sqlsablon);
+		$stoksebelumnya=0;
 		foreach($cmtsablon as $s){
+			$stoksebelumnya=$this->ReportModel->klo_mingguan_seblelumnya($s['id_cmt'],$tanggal1,'SABLON','KIRIM');
 			$kirim=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','KIRIM');
 			$setor=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','SETOR');
 			$stok =$this->ReportModel->stok_sablon($s['id_cmt']);
 			$data['sablon'][]=array(
 				'id'=>$s['id_cmt'],
 				'no'=>$nos,
+				'stokawal'=>json_encode($stoksebelumnya),
 				'nama'=>strtolower($s['cmt_name']),
 				'kirimjml'=>!empty($kirim)?$kirim['jmlpo']:0,
 				'kirimdz'=>!empty($kirim)?$kirim['dz']:0,
@@ -101,7 +104,7 @@ class Laporanklo extends CI_Controller {
 			);
 			$nos++;
 		}
-		
+		//pre($data['sablon']);
 		//pre($stoksablon);
 		$data['jahit']=[]; // kaos
 		$kjahit='JAHIT';

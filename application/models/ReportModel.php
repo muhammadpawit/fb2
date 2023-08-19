@@ -2402,6 +2402,26 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function klo_mingguan_seblelumnya($idcmt,$tanggal1,$kategori,$proses){
+		$hasil=0;
+		$hasil_2=0;
+		$sql="SELECT COALESCE(COUNT(kks.kode_po),0) as jmlpo, COALESCE(SUM(kks.qty_tot_pcs),0) as pcs, mjp.perkalian FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE p.hapus=0 and kks.hapus=0  AND p.hapus=0 ";
+		$sql.=" AND mjp.id_jenis_po NOT IN (42,37,36)";
+		$sql.=" AND kks.id_master_cmt='$idcmt' AND DATE(kks.create_date) < '".$tanggal1."' AND kks.kategori_cmt='".$kategori."' AND kks.progress='KIRIM' ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		$sql_2="SELECT COALESCE(COUNT(kks.kode_po),0) as jmlpo, COALESCE(SUM(kks.qty_tot_pcs),0) as pcs, mjp.perkalian FROM kelolapo_kirim_setor kks JOIN produksi_po p ON p.id_produksi_po=kks.idpo JOIN master_jenis_po mjp ON p.nama_po=mjp.nama_jenis_po WHERE p.hapus=0 and kks.hapus=0  AND p.hapus=0 ";
+		$sql_2.=" AND mjp.id_jenis_po NOT IN (42,37,36)";
+		$sql_2.=" AND kks.id_master_cmt='$idcmt' AND DATE(kks.create_date) < '".$tanggal1."' AND kks.kategori_cmt='".$kategori."' AND kks.progress='SETOR' ";
+		$d_2=$this->GlobalModel->QueryManualRow($sql_2);
+		if(!empty($d)){
+			$hasil=$d['jmlpo']*$d['perkalian'];
+		}
+		if(!empty($d_2)){
+			$hasil_2=$d_2['jmlpo']*$d_2['perkalian'];
+		}
+		return $hasil-$hasil_2;;
+	}
+
 	function stok_sablon($idcmt){
 		$query ="SELECT count(kd.kode_po) as jml, COALESCE(SUM(kd.jumlah_pcs)) as pcs FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 ) ";
 		$data = $this->GlobalModel->QueryManualRow($query);
