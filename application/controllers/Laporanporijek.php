@@ -47,6 +47,10 @@ class Laporanporijek extends CI_Controller {
 		foreach($results as $r){
 			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po='".$r['kode_po']."' ");
 			$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' ");
+			$keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
+			$cmt=$this->GlobalModel->QueryManualRow(" 
+				SELECT * FROM kelolapo_rincian_setor_cmt WHERE kode_po='".$r['kode_po']."'
+			");
 			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po='".$r['kode_po']."' ");
 			$sisa = $bangke['total']-$kembali['total'];
 			
@@ -55,7 +59,11 @@ class Laporanporijek extends CI_Controller {
 					'no'=>$no++,
 					'kode_po'=>$r['kode_po'],
 					'bangke'=>$sisa,
+					'keterangan' => $keterangan_bangke['keterangan'],
+					'tanggal' => date('d/m/Y',strtotime($cmt['created_date'])),
+					'cmt'	=> $cmt['nama_cmt'],
 					'rijek'=>$rjk['total'],
+					'sisa' => $sisa,
 				);
 			}
 		}

@@ -22,9 +22,12 @@
 			<thead>
 				<tr>
 					<th>No</th>
+					<th>Tanggal</th>
+					<th>Nama CMT</th>
 					<th>Kode PO</th>
 					<th>Jumlah Bangke (pcs)</th>
 					<th>Jumlah Rijek (pcs)</th>
+					<th>Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,15 +35,18 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['no']?></td>
+						<td><?php echo $p['tanggal']?></td>
+						<td><?php echo $p['cmt']?></td>
 						<td><?php echo $p['kode_po']?></td>
 						<td><?php echo $p['bangke']?></td>
 						<td><?php echo $p['rijek']?></td>
+						<td><?php echo $p['keterangan']?></td>
 					</tr>
 				<?php $total+=($p['bangke']);?>
 				<?php $rijek+=($p['rijek']);?>
 				<?php } ?>
 				<tr>
-					<td colspan="2"><b>Total</b></td>
+					<td colspan="3"><b>Total</b></td>
 					<td><b><?php echo $total ?></b></td>
 					<td><b><?php echo $rijek ?></b></td>
 				</tr>

@@ -1,11 +1,18 @@
 <div class="row">
+    <div class="col-md-12">
+        <div class="form-group text-right">
+            <a href="<?php echo $tambah ?>" class="btn btn-sm btn-info">Tambah</a>
+        </div>
+    </div>
+</div>
+<div class="row">
      <div class="col-md-12">
          <table class="table table-bordered yessearch">
                         <thead>
                         <tr>
                             <th>NAMA PO</th>
-                            <th>NAMA CMT & KAT CMT</th>
-                            <th>PROGRESS</th>
+                            <th>NAMA CMT</th>
+                            <th>REFERENSI PO</th>
                             <th>STATUS</th>
                             <th>Qty (Pcs)</th>
                             <th>CREATED</th>
@@ -16,13 +23,13 @@
                                 <?php foreach ($rincian as $key => $sat): ?>
                             <tr>
                                 <td><?php echo $sat['kode_po'] ?></td>
-                                <td><?php echo $sat['nama_cmt'].' ('.$sat['kategori_cmt'].')' ?></td>
-                                <td><?php echo $sat['progress'] ?></td>
+                                <td><?php echo $sat['nama_cmt'] ?></td>
+                                <td><?php echo $sat['refpo'] ?></td>
                                 <td style="<?php echo (empty($sat['rincianSetor'])?"background:#94121296;color:white":"background:#17941296;color:white") ?>"><?php echo (empty($sat['rincianSetor'])?"Belum Diproses":"Sudah Diproses") ?></td>
                                 <td><?php echo $sat['qty_tot_pcs'] ?></td>
                                 <td><?php echo $sat['created_date'] ?></td>
                                 <td>
-                                    <a href="<?php echo BASEURL.'finishing/produksikaoscmt_celana/'.$sat['idpo'].'/'.$sat['kode_po'].'/'.$sat['id_cmt'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
+                                    <a href="<?php echo BASEURL.'finishing/produksikaoscmt_celana/'.$sat['id'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
 
                                     <?php if(aksesedit()==1){?>
                                         <!-- <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Edit</i></a> -->

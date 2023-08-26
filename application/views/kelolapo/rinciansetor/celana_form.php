@@ -1,49 +1,36 @@
-<form action="<?php echo BASEURL.'finishing/produksicelanacmtAct' ?>" method="POST">
+<form action="<?php echo BASEURL.'finishing/produksicelanacmtAct/0' ?>" method="POST">
+<input type="hidden" name="add" value="add">
 <div class="row">
     <div class="col-md-2">
         <div class="form-group text-center">
-            <label>Rincian Pengiriman Dari KLO <?php echo strtoupper($cmtname) ?></label>
+            <label>Pilih CMT</label>
+            <select name="id_master_cmt" class="form-control select2bs4" required>
+                <option value="">Mohon Dipilih</option>
+                <?php foreach($cmt as $p){ ?>
+                    <option value="<?php echo $p['id_cmt']?>"><?php echo $p['cmt_name']?></option>
+                <?php } ?>
+            </select>
         </div>
         <div class="form-group">
             <label>Nama PO</label>
-            <input type="hidden" class="form-control" name="id_master_cmt" value="<?php echo $setorcmtjahit['idcmt'] ?>" required>
-            <select class="form-control selectpicker" id="poSelect" name="namaPo" title="Select Nama PO" data-live-search="true" required>
-                <option selected="selected" value="<?php echo $setorcmtjahit['idpo'] ?>"><?php echo $setorcmtjahit['kode_po'] ?></option>
+            <select name="idpo" class="form-control select2bs4" required>
+                <option value="">Mohon Dipilih</option>
+                <?php foreach($po as $p){ ?>
+                    <option value="<?php echo $p['id_produksi_po']?>"><?php echo $p['kode_po']?></option>
+                <?php } ?>
             </select>
         </div>
         <div class="form-group">
             <label>Referensi PO</label>
-            <select name="refpo" class="form-control selectpicker" required readonly>
+            <select name="refpo" class="form-control select2bs4" required readonly>
                 <option value="">Mohon Dipilih</option>
-                <?php foreach($refpo as $p){ ?>
-                    <option value="<?php echo $p['refpo']?>"
-                    <?php echo $p['refpo']==$setorcmtjahit['refpo'] ?'selected':''?>><?php echo $p['refpo']?></option>
+                <?php foreach($po as $p){ ?>
+                    <option value="<?php echo $p['id_produksi_po']?>"><?php echo $p['kode_po']?></option>
                 <?php } ?>
             </select>
         </div>
-        <!-- <div class="form-group">
-            <label>Nama PO</label>
-            <input type="hidden" class="form-control" name="id_master_cmt" value="<?php echo $poProd['id_master_cmt'] ?>" required>
-            <select class="form-control selectpicker" id="poSelect" name="namaPo" title="Select Nama PO" data-live-search="true" required>
-                <option selected="selected" value="<?php echo $poProd['kode_po'] ?>"><?php echo $poProd['nama_po'].$poProd['kode_po'] ?></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Tanggal</label>
-            <input type="date" class="form-control" name="tanggal" value="<?php echo $poProd['created_date'] ?>" required readonly>
-        </div>
-        <div class="form-group">
-            <label>Jumlah (Dz)</label>
-            <input type="number" step="0.01" class="form-control jumlahPotDz" name="jumlahPotDz" value="<?php echo $poProd['qty_tot_pcs'] / 12 ?>" required readonly>
-        </div>
-        <div class="form-group">
-            <label>Jumlah (Pcs)</label>
-            <input type="number" step="0.01" class="form-control jumlahPotPcs" name="jumlahPotPcs" value="<?php echo $poProd['qty_tot_pcs'] ?>" required readonly>
-        </div> -->
+        
     </div>
-    
-    <input type="hidden" name="idpo" value="<?php echo $setorcmtjahit['idpo']?>">
-    <input type="hidden" name="idrin" value="<?php echo $setorcmtjahit['id_kelolapo_rincian_setor_cmt']?>">
     <div class="col-md-10">
         <div class="form-group text-center">
             <label>Rincian Penerimaan Setoran</label>
