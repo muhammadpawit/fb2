@@ -1829,7 +1829,7 @@ class Finishing extends CI_Controller {
 		
 		// pre($viewData);
 		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
-		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po'=>$kodepo));
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po LIKE '=>'%'.$kodepo.'%'));
 		//pre($viewData['setorcmtjahit']);
 		$viewData['setorcmtjahititem']=[];
 		if(!empty($viewData['setorcmtjahit'])){
