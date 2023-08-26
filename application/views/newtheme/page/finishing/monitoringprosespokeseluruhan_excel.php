@@ -2,10 +2,18 @@
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".xls");
 ?>
-            <label>PO Kaos Keseluruhan</label>
+<table border="0" style="border-collapse: collapse;width: 100%;" cellpadding="12">
+  	<tr>
+		<th align="center" colspan="13">
+		<label>Monitoring PO Kaos<br>Keseluruhan<br>Tahun Produksi 2023-2024</label>
+		</th>
+	</tr>
+</table>
+
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead style="background-color: pink;">
 					<tr style="text-align:center;font-weight:bold">
+						<th rowspan="2">No</th>
 						<th rowspan="2">Jenis PO</th>
 						<td rowspan="2">Jumlah PO Setor</td>
 						<td rowspan="2">Proses Cek BPO</td>
@@ -36,11 +44,14 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".x
 						$siapkirimgudang=0;
 						$pending=0;
 						$selesai=0;
+						$no_1=1;
+						$no_2=1;
 						
 					?>
 					<?php foreach($kaos_all as $k){?>
 						<?php if($k['jmlpo'] > 0){ ?>
 							<tr align="center">
+								<td><?php echo $no_1++;?></td>
 								<td><?php echo $k['nama']?></td>
 								<td><?php echo $k['jmlpo']?></td>
 								<td><?php echo $k['qc']?></td>
@@ -72,7 +83,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".x
 				</tbody>
 				<tfoot>
 					<tr align="center" style="background-color: yellow;">
-						<td><b>Total</b></td>
+						<td colspan="2"><b>Total</b></td>
 						<td><b><?php echo $jmlpo ?></b></td>
 						<td><b><?php echo $qc ?></b></td>
 						<td><b><?php echo $siapcucian ?></b></td>
@@ -99,6 +110,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".x
                 <table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead style="background-color: pink;">
 					<tr style="text-align:center;font-weight:bold">
+						<th rowspan="2">No</th>
 						<th rowspan="2">Jenis PO</th>
 						<td rowspan="2">Jumlah PO Setor</td>
 						<td rowspan="2">Proses Cek BPO</td>
@@ -134,6 +146,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".x
 					<?php foreach($kaos as $k){?>
 						<?php if($k['jmlpo'] > 0){ ?>
 							<tr align="center">
+								<td><?php echo $no_2++;?></td>
 								<td><?php echo $k['nama']?></td>
 								<td><?php echo $k['jmlpo']?></td>
 								<td><?php echo $k['qc']?></td>
@@ -165,7 +178,7 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".x
 				</tbody>
 				<tfoot>
 					<tr align="center" style="background-color: yellow;">
-						<td><b>Total</b></td>
+						<td colspan="2"><b>Total</b></td>
 						<td><b><?php echo $jmlpo ?></b></td>
 						<td><b><?php echo $qc ?></b></td>
 						<td><b><?php echo $siapcucian ?></b></td>
@@ -183,6 +196,11 @@ header("Content-Disposition: attachment; filename=Monitoring_PO_Kaos".time().".x
 							<?php if(!empty($log)){ ?>
 								<b><?php echo $log['oleh']; ?>, tanggal : <?php echo date('d F Y H:i:s',strtotime($log['tanggal'])); ?></b>
 							<?php } ?>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="13" align="right">
+						<i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
 						</td>
 					</tr>
 				</tfoot>
