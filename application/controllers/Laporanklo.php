@@ -85,8 +85,10 @@ class Laporanklo extends CI_Controller {
 		$sqlsablon.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtsablon=$this->GlobalModel->QueryManual($sqlsablon);
 		$stoksebelumnya=0;
+		$stoksebelumnya_pcs=0;
 		foreach($cmtsablon as $s){
 			$stoksebelumnya=$this->ReportModel->klo_mingguan_seblelumnya($s['id_cmt'],$tanggal1,'SABLON','KIRIM');
+			$stoksebelumnya_pcs=$this->ReportModel->klo_mingguan_seblelumnya_pcs($s['id_cmt'],$tanggal1,'SABLON','KIRIM');
 			$kirim=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','KIRIM');
 			$setor=$this->ReportModel->klo_mingguan($s['id_cmt'],$tanggal1,$tanggal2,'SABLON','SETOR');
 			$stok =$this->ReportModel->stok_sablon($s['id_cmt']);
@@ -94,13 +96,14 @@ class Laporanklo extends CI_Controller {
 				'id'=>$s['id_cmt'],
 				'no'=>$nos,
 				'stokawal'=>json_encode($stoksebelumnya),
+				'stokawal_dz' => ($stoksebelumnya_pcs/12),
 				'nama'=>strtolower($s['cmt_name']),
 				'kirimjml'=>!empty($kirim)?$kirim['jmlpo']:0,
 				'kirimdz'=>!empty($kirim)?$kirim['dz']:0,
 				'setorjml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setordz'=>!empty($setor)?$setor['dz']:0,
 				'stokjml'=>$stok['jml'],
-				'stokdz'=>$stok['pcs']/12,
+				'stokdz'=>$stoksebelumnya_pcs/12,
 			);
 			$nos++;
 		}

@@ -93,13 +93,15 @@
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-					<th rowspan="2">Stok Awal</th>
+					<th colspan="2">Stok Awal</th>
 		            <th colspan="2">Kirim Kaos</th>
 		            <th colspan="2">Setor Kaos</th>
 		            <th colspan="2">Stok Akhir Kaos</th>
 		          </tr>
 		          <tr>
-		            <th>JML</th>
+				  	<th>JML</th>
+		            <th>DZ</th>
+				 	<th>JML</th>
 		            <th>DZ</th>
 		            <th>JML</th>
 		            <th>DZ</th>
@@ -115,30 +117,38 @@
 		        		$ssetordz=0;
 		        		$sstokjml=0;
 		        		$sstokdz=0;
+						$stokawaldz=0;
+						$all_stokawaljml=0;
+						$all_stokawaldz=0;
 		        	 ?>
 		          <?php foreach($sablon as $p){?>
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
 					  <td><?php echo $p['stokawal']?></td> 
+					  <td><?php echo $p['stokawal_dz']?></td> 
 					  <td><?php echo $p['kirimjml']?></td>
 		              <td><?php echo number_format($p['kirimdz'],2)?></td>
 		              <td><?php echo $p['setorjml']?></td>
 		              <td><?php echo number_format($p['setordz'],2)?></td>
 		              <td><?php echo ( ($p['stokawal']+$p['kirimjml']) - $p['setorjml'] )?></td>
-		              <td><?php echo number_format($p['stokdz'],2) ?></td>
+		              <td><?php echo number_format( ($p['stokawal_dz']+$p['kirimdz']) - $p['setordz'],2) ?></td>
 		            </tr>
 		            <?php 
+						$all_stokawaljml+=($p['stokawal']);
+						$all_stokawaldz+=($p['stokawal_dz']);
 		        		$skirimjml+=($p['kirimjml']);
 		        		$skirimdz+=($p['kirimdz']);
 		        		$ssetorjml+=($p['setorjml']);
 		        		$ssetordz+=($p['setordz']);
-		        		$sstokjml+=($p['stokjml']);
-		        		$sstokdz+=($p['stokdz']);
+		        		$sstokjml+=(($p['stokawal']+$p['kirimjml']) - $p['setorjml'] );
+		        		$sstokdz+=($p['stokawal_dz']+$p['kirimdz']) - $p['setordz'];
 		        	 ?>
 		          <?php }?>
-		          <tr>
+		          <tr style="font-weight: bold;">
 		          	<td colspan="2"><b>Total</b></td>
+					<td><?php echo number_format($all_stokawaljml,2)?></td>
+					<td><?php echo number_format($all_stokawaldz,2)?></td>
 		          	<td><?php echo number_format($skirimjml,2)?></td>
 		          	<td><?php echo number_format($skirimdz,2)?></td>
 		          	<td><?php echo number_format($ssetorjml,2)?></td>
