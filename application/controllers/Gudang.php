@@ -135,10 +135,12 @@ class Gudang extends CI_Controller {
 		
 		$results=$this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
+			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama LIKE '. '%'.$result['kebutuhan'].'%'));
 			$data['products'][]=array(
 				'id'=>$result['id'],
 				'tanggal'=>$result['tanggal'],
-				'kebutuhan'=>$result['kebutuhan'],
+				'kebutuhan'=>''.$result['kebutuhan'],
+				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
 				'jml_ajuan'=>$result['jml_ajuan'],
 				'jml_acc'=>$result['jml_acc'],
 				'keterangan'=>$result['keterangan'],
