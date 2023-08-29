@@ -206,6 +206,146 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 			</table>
 		</div>
 	</div>
+
+	<div class="col-md-4">
+		<div class="form-group">
+		<h5><b>Bahan Terpakai</b></h5>
+			<table>
+				<thead style="text-align: center;">
+		          <tr>
+		            <td rowspan="2">Warna</td>
+		            <td colspan="1">Stok Bahan</td>
+		            
+		            <td rowspan="2">Ket</td>
+		          </tr>
+		          <tr>
+		            
+		            <td>Roll</td>
+		            
+		          </tr>
+		        </thead>
+		        <tbody>
+		        	<?php
+		        		$stokawalroll=0;
+		        		$stokawalyard=0;
+		        		$stokmasukroll=0;
+		        		$stokmasukyard=0;
+		        		$stokkeluarroll=0;
+		        		$stokkeluaryard=0;
+		        		$stokakhirroll=0;
+		        		$stokakhiryard=0;
+		        		$total=0;
+		        	?>
+		        	<?php foreach($terpakai as $p){?>
+						<?php if($p['total'] > 0){ ?>
+						<?php
+							$color='';
+							$ket='';
+							if($p['stokakhirroll'] <= 1 && $p['stokakhiryard'] <=1){
+								$color='#b83400';
+								$ket='habis';
+							}
+						?>
+		        		<tr style="color:<?php echo $color ?>">
+		        			<td><?php echo $p['warna']?></td>
+		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
+		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
+		        		</tr>
+						<?php } ?>
+		        		<?php
+			        		$stokawalroll+=($p['stokawalroll']);
+			        		$stokawalyard+=($p['stokawalyard']);
+			        		$stokmasukroll+=($p['stokmasukroll']);
+		        			$stokmasukyard+=($p['stokmasukyard']);
+			        		$stokkeluarroll+=($p['stokkeluarroll']);
+			        		$stokkeluaryard+=($p['stokkeluaryard']);
+			        		$stokakhirroll+=($p['stokakhirroll']);
+			        		$stokakhiryard+=($p['stokakhiryard']);
+			        		$total+=($p['total']);
+			        	?>
+		        	<?php } ?>
+		        </tbody>
+		        <tfoot>
+		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
+		        		<td colspan="" align="center"><b>Jumlah</b></td>
+		        		<td><?php echo number_format($stokakhirroll)?></td>
+		        		
+		        	</tr>
+		        </tfoot>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="form-group">
+		<h5><b>Bahan Tak Terpakai</b></h5>
+			<table>
+				<thead style="text-align: center;">
+		          <tr>
+		            <td rowspan="2">Warna</td>
+		            <td colspan="1">Stok Bahan</td>
+		            
+		            <td rowspan="2">Ket</td>
+		          </tr>
+		          <tr>
+		            
+		            <td>Roll</td>
+		            
+		          </tr>
+		        </thead>
+		        <tbody>
+		        	<?php
+		        		$stokawalroll=0;
+		        		$stokawalyard=0;
+		        		$stokmasukroll=0;
+		        		$stokmasukyard=0;
+		        		$stokkeluarroll=0;
+		        		$stokkeluaryard=0;
+		        		$stokakhirroll=0;
+		        		$stokakhiryard=0;
+		        		$total=0;
+		        	?>
+		        	<?php foreach($takterpakai as $p){?>
+						<?php if($p['total'] > 0){ ?>
+						<?php
+							$color='';
+							$ket='';
+							if($p['stokakhirroll'] <= 1 && $p['stokakhiryard'] <=1){
+								$color='#b83400';
+								$ket='habis';
+							}
+						?>
+		        		<tr style="color:<?php echo $color ?>">
+		        			<td><?php echo $p['warna']?></td>
+		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
+		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
+		        		</tr>
+						<?php } ?>
+		        		<?php
+			        		$stokawalroll+=($p['stokawalroll']);
+			        		$stokawalyard+=($p['stokawalyard']);
+			        		$stokmasukroll+=($p['stokmasukroll']);
+		        			$stokmasukyard+=($p['stokmasukyard']);
+			        		$stokkeluarroll+=($p['stokkeluarroll']);
+			        		$stokkeluaryard+=($p['stokkeluaryard']);
+			        		$stokakhirroll+=($p['stokakhirroll']);
+			        		$stokakhiryard+=($p['stokakhiryard']);
+			        		$total+=($p['total']);
+			        	?>
+		        	<?php } ?>
+		        </tbody>
+		        <tfoot>
+		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
+		        		<td colspan="" align="center"><b>Jumlah</b></td>
+		        		<td><?php echo number_format($stokakhirroll)?></td>
+		        		
+		        	</tr>
+		        </tfoot>
+			</table>
+		</div>
+	</div>
+
+
 </div>
 <div class="row">
 	<div class="col-md-12">
