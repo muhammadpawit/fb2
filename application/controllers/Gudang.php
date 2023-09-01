@@ -710,8 +710,9 @@ class Gudang extends CI_Controller {
 		}
 		$last=$this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE hapus=0 ORDER BY tanggal DESC limit 1 ");
 		$sql="SELECT * FROM pengajuan_harian_new WHERE hapus=0 ";
+		$tgl2= empty($tanggal2)?date('Y-m-d'):$tanggal2;
 		if(!empty($tanggal1)){
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".empty($tanggal2)?date('Y-m-d'):$tanggal2."' ";
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tgl2."' ";
 		}else{
 			$sql.=" AND date(tanggal)='".$last['tanggal']."' ";
 		}

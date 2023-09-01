@@ -29,7 +29,7 @@
           <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
       </div>
                 <div class="col-md-3">
-                  <label>Tanggal Awal</label>
+                  <label>Tanggal Akhir</label>
                   <input type="text" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
                 </div>
                 <div class="col-md-3">
