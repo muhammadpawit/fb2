@@ -701,7 +701,7 @@ class Gudang extends CI_Controller {
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d');
+			$tanggal2=null;
 		}
 		if(isset($get['cat'])){
 			$cat=$get['cat'];
