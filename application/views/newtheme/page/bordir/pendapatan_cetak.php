@@ -41,13 +41,16 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                 <th class="tg-0pky" rowspan="2">SHIFT</th>
                 <th class="tg-0pky" rowspan="2">TOTAL STICH</th>
                 <th class="tg-0pky" rowspan="2">PENDAPATAN MESIN (0,15)</th>
-                <th class="bgyellow" colspan="5">PENDAPATAN BORDIR</th>
+                <th class="bgyellow" colspan="<?php echo count($luar)+3 ?> ">PENDAPATAN BORDIR</th>
                 <th class="tg-0pky" rowspan="2">KETERANGAN</th>
               </tr>
               <tr style="background-color: yellow !important;font-size: 16.5px;font-weight: bold;">
                 <th class="bgyellow">PO DALAM (0,18)</th>
-                <th class="bgyellow">PO LUAR (0,25)</th>
-                <th class="bgyellow">PO LUAR (0,18)</th>
+                <?php foreach($luar as $l){?>
+                  <th class="bgyellow">PO LUAR <?php echo $l['perkalian'] .' '.$l['nama']?></th>
+                  <?php } ?>
+                <!-- <th class="bgyellow">PO LUAR (0,25)</th>
+                <th class="bgyellow">PO LUAR (0,18)</th> -->
                 <th class="bgyellow">PER SHIF (Rp)</th>
                 <th class="bgyellow">PER MESIN</th>
               </tr>
@@ -70,9 +73,20 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                       <td align="center"><?php echo round($p['0.15']); ?></td>
                       <td align="center"><?php echo round($p['0.18'])?></td>
                       <?php foreach($luar as $b){?>
-                      <td align="center">
+                        <td align="right">
                         <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php echo round($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
+                          <?php 
+                            $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'],$p['shift'],$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
+                            $data = json_decode($hasil);
+                            ?>
+                          <?php 
+                            if (isset($data->data)) {
+                              $nilaiData = $data->data;
+                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                            } else {
+                               // echo "Tidak ada data yang ditemukan.";
+                            }
+                          //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                         <?php //} ?>
                       </td>
                     <?php } ?>

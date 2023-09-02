@@ -41,7 +41,7 @@
                   <th>0.15</th>
                   <th>0.18</th>
                   <?php foreach($luar as $l){?>
-                    <th><?php echo $l['perkalian']?></th>
+                    <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
                   <?php } ?>
                   <!--
                   <th>0.2</th>
@@ -73,7 +73,18 @@
                       <?php foreach($luar as $b){?>
                       <td align="right">
                         <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php echo number_format($p['dets'][$b['perkalian']]);//echo json_encode($p['dets']) ?> 
+                          <?php 
+                            $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'],$p['shift'],$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
+                            $data = json_decode($hasil);
+                            ?>
+                          <?php 
+                            if (isset($data->data)) {
+                              $nilaiData = $data->data;
+                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                            } else {
+                               // echo "Tidak ada data yang ditemukan.";
+                            }
+                          //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                         <?php //} ?>
                       </td>
                     <?php } ?>

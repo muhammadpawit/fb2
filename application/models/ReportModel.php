@@ -1691,20 +1691,29 @@ class ReportModel extends CI_Model {
 		return $total;
 	}
 
-	public function total02_array($nomor,$shift,$tanggal1,$tanggal2){
-		$total=['total'=>0,'0.2'=>0,'0.3'=>0];
-		$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total,laporan_perkalian_tarif as tarif FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
-		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
+	public function total02_array($nomor,$shift,$tanggal1,$tanggal2,$pemilik){
+		//$total=['total'=>0,'0.2'=>0,'0.3'=>0];
+		$sql="
+		SELECT COALESCE(SUM(a.total_stich*a.laporan_perkalian_tarif),0) as total, a.laporan_perkalian_tarif as tarif
+		FROM kelola_mesin_bordir a
+		LEFT JOIN master_po_luar b ON b.id=a.kode_po
+		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
+		WHERE a.hapus=0 and a.jenis=2 ";
+		$sql.= " AND a.mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
-			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			//$sql.=" AND DATE(a.created_date)='".$tanggal1."'";
+			$sql.=" AND DATE(a.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif ";
+		if(!empty($pemilik)){
+			$sql.=" AND c.id='".$pemilik."' ";
+		}
+		$sql.=" AND laporan_perkalian_tarif IS NOT NULL ";
 		$row=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
 		$tarif=0;
 		if(!empty($row)){
 			foreach($row as $r){
-				$total[$r['tarif']]=$r['total'];
+				$total['data']=$r['total'];
 			}
 		}
 		return $total;

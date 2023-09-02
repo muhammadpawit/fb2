@@ -655,7 +655,14 @@ class Bordir extends CI_Controller {
 		}
 		$mesin=$this->GlobalModel->QueryManual($sm);
 		$data['luar']=[];
-		$data['luar']=$this->GlobalModel->QueryManual("SELECT laporan_perkalian_tarif as perkalian FROM kelola_mesin_bordir WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  AND laporan_perkalian_tarif IS NOT NULL GROUP BY laporan_perkalian_tarif order by laporan_perkalian_tarif DESC");
+		$data['luar']=$this->GlobalModel->QueryManual("
+		SELECT a.mesin_bordir, a.laporan_perkalian_tarif as perkalian, c.id as idpemilik, c.nama FROM kelola_mesin_bordir a
+		LEFT JOIN master_po_luar b ON b.id=a.kode_po
+		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
+		WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  
+		AND laporan_perkalian_tarif IS NOT NULL 
+		GROUP BY a.laporan_perkalian_tarif, b.idpemilik order by laporan_perkalian_tarif DESC
+		");
 		
 		foreach($mesin as $mes){
 			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
@@ -669,7 +676,8 @@ class Bordir extends CI_Controller {
 			$g015+=($total015);
 			$gpendapatan+=($total018+$total02);
 			$data['products'][]=array(
-				'tanggal'=>null,
+				'tanggal1'=>$tanggal1,
+				'tanggal2'=>$tanggal2,
 				'nomesin'=>$mes['nomor'],
 				'shift'=>$mes['shift'],
 				'stich'=>round($totalstich),
@@ -681,7 +689,7 @@ class Bordir extends CI_Controller {
 				'jumlah'=>round($jumlah),
 				'i'=>$i++,
 				'keterangan'=>null,
-				'dets'=>$this->ReportModel->total02_array($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2),
+				'dets'=>[],
 			);
 		}
 		//pre($data['products']);
