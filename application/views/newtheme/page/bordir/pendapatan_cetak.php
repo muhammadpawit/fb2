@@ -41,7 +41,9 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                 <th class="tg-0pky" rowspan="2">SHIFT</th>
                 <th class="tg-0pky" rowspan="2">TOTAL STICH</th>
                 <th class="tg-0pky" rowspan="2">PENDAPATAN MESIN (0,15)</th>
-                <th class="bgyellow" colspan="<?php echo count($luar)+3 ?> ">PENDAPATAN BORDIR</th>
+                <?php $col=count($luar) ?>
+                
+                <th class="bgyellow" colspan="<?php echo count($luar)+3 ?>">PENDAPATAN BORDIR </th>
                 <th class="tg-0pky" rowspan="2">KETERANGAN</th>
               </tr>
               <tr style="background-color: yellow !important;font-size: 16.5px;font-weight: bold;">
