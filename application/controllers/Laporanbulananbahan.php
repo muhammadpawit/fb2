@@ -50,9 +50,24 @@ class Laporanbulananbahan extends CI_Controller {
 			$supplier=null;
 		}
 
+		if(isset($get['tipe'])){
+			$tipe=$get['tipe'];
+		}else{
+			$tipe=null;
+		}
+
+		if(isset($get['status'])){
+			$status=$get['status'];
+		}else{
+			$status=null;
+		}
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['kategori']=$kategori;
+		$data['tipe']	 =$tipe;
+		$data['status']  =$status;
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
@@ -60,6 +75,15 @@ class Laporanbulananbahan extends CI_Controller {
 		if(!empty($kategori)){
 			$sql.=" AND p.kategori='".$kategori."'";
 		}
+
+		if(!empty($tipe)){
+			$sql.=" AND p.tipe='".$tipe."'";
+		}
+
+		if(!empty($status)){
+			$sql.=" AND p.status='".$status."'";
+		}
+
 		if(!empty($supplier)){
 			$sql.=" AND gpi.supplier='".$supplier."'";
 		}

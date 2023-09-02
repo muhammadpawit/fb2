@@ -1155,6 +1155,7 @@ class Dash extends CI_Controller {
 		$takterpakai=1;
 		$data['terpakai']=[];
 		$data['takterpakai']=[];
+		$data['bahansisa']=[];
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal1);

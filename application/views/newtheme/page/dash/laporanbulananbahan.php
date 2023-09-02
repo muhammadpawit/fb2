@@ -71,7 +71,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 <div class="row">
 	<div class="col-md-4">
 		<div class="form-group">
-		<h5><b>Bahan Kaos Baru (Fresh)</b></h5>
+			<h5><b>Bahan Kaos Baru (Fresh)</b></h5>
 			<table>
 				<thead style="text-align: center;">
 		          <tr>
@@ -131,6 +131,62 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
 		        		<td colspan="" align="center"><b>Jumlah</b></td>
 		        		<td><?php echo number_format($stokakhirroll)?></td>
+		        		
+		        	</tr>
+		        </tfoot>
+			</table>
+		</div>
+		<div class="form-group">
+			<h5><b>Bahan Kaos Sisa</b></h5>
+			<table>
+				<thead style="text-align: center;">
+		          <tr>
+		            <td rowspan="2">Warna</td>
+		            <td colspan="1">Stok Bahan</td>
+		            
+		            <td rowspan="2">Ket</td>
+		          </tr>
+		          <tr>
+		            
+		            <td>Roll</td>
+		            
+		          </tr>
+		        </thead>
+		        <tbody>
+		        	<?php
+		        		
+		        		$stokakhirroll_sisa=0;
+		        		$stokakhiryard=0;
+		        		$total=0;
+		        	?>
+		        	<?php foreach($kaos_sisa as $ps){?>
+						<?php if($ps['total'] > 0){ ?>
+						<?php
+							$color='';
+							$ket='';
+							if($ps['stokakhirroll'] <= 1 && $ps['stokakhiryard'] <=1){
+								$color='#b83400';
+								$ket='habis';
+							}
+						?>
+		        		<tr style="color:<?php echo $color ?>">
+		        			<td><?php echo $ps['warna']?></td>
+		        			<td><?php echo number_format($ps['stokakhirroll'])?></td>
+		        			<td><?php echo $ps['ket']?> <?php echo $ket ?></td>
+		        		</tr>
+						<?php
+			        		
+			        		$stokakhirroll_sisa+=($ps['stokakhirroll']);
+			        		
+			        	?>
+						<?php } ?>
+		        		
+		        	<?php } ?>
+		        </tbody>
+		        <tfoot>
+		        	<tr style="background-color: #f0dd0a !important;font-size: 15px;">
+		        		<td colspan="" align="center"><b>Jumlah</b></td>
+		        		<td><?php echo number_format($stokakhirroll_sisa)?></td>
 		        		
 		        	</tr>
 		        </tfoot>

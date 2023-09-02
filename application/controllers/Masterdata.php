@@ -1251,6 +1251,7 @@ class Masterdata extends CI_Controller {
 			'price'	=>$post['price'], // harga di hpp
 			'harga_beli'=>$post['harga_beli'], //harga untuk laporan rekap 
 			'tipe' => $post['tipe'],
+			'status' => $post['status'],
 			'keterangan_tipe' => $post['keterangan_tipe'],
 		);
 		$this->db->update('product',$u,array('product_id'=>$id));
@@ -1294,6 +1295,7 @@ class Masterdata extends CI_Controller {
 			'minstok'=>$data['minstok'],
 			'resiko'=>$data['resiko'],
 			'supplier'=>$data['supplier'],
+			'status' => $data['status'],
 		);
 		$this->db->insert('product',$ip);
 		$id=$this->db->insert_id();

@@ -99,6 +99,14 @@
                               </select>
                             </div>
                             <div class="form-group">
+                            <label>Status </label>
+                            <select name="status" class="form-control">
+                              <option value=""></option>
+                              <option value="terpakai">Terpakai</option>
+                              <option value="tidak terpakai">Tidak Terpakai</option>
+                            </select>
+                          </div>
+                            <div class="form-group">
                               <label>Supplier</label>
                               <select name="supplier" class="form-control select2bs4" style="width: 100% !important;" data-live-search="true">
                                 <option value="">Pilih</option>

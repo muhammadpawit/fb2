@@ -11,13 +11,13 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
@@ -38,14 +38,34 @@
 						<div class="form-group">
                               <label>Kategori</label>
                               <select name="kategori" class="form-control select2bs4" data-live-search="true">
-                              	<option value="*">Semua </option>
-                                <option value="15" <?php echo $kategori==15?'selected':'';?>>Bahan Kaos</option>
-                                <option value="16" <?php echo $kategori==16?'selected':'';?>>Bahan Celana</option>
-                                <option value="17" <?php echo $kategori==17?'selected':'';?>>Bahan Kemeja</option>
+									<option value="">Pilih</option>
+									<?php foreach($kat as $k){ ?>
+										<option value="<?php echo $k['id']?>" <?php echo $kategori==$k['id']?'selected':''?>><?php echo $k['nama']?></option>
+									<?php } ?>
                               </select>
                             </div>		
-	</div>							
-	<div class="col-md-2">
+	</div>	
+	<div class="col-md-3">
+			<div class="form-group">
+				<label>Tipe </label>
+				<select name="tipe" class="form-control">
+					<option value=""></option>
+					<option value="1" <?php echo $tipe==1 ? 'selected':'' ?>>Bahan Utuh</option>
+					<option value="2" <?php echo $tipe==2 ? 'selected':'' ?>>Bahan Sisa</option>
+				</select>
+			</div>
+	</div>				
+	<div class="col-md-3">
+			<div class="form-group">
+				<label>Status </label>
+				<select name="status" class="form-control">
+					<option value=""></option>
+					<option value="terpakai" <?php echo $status=='terpakai' ? 'selected':'' ?>>Terpakai</option>
+					<option value="tidak terpakai" <?php echo $status=='tidak terpakai' ? 'selected':'' ?>>Tidak Terpakai</option>
+				</select>
+			</div>
+	</div>		
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filters()">Filter</button>
@@ -184,6 +204,19 @@
       url += '&kategori=' + encodeURIComponent(kategori);
     }
 
+	var tipe = $('select[name=\'tipe\']').val();
+
+    if (tipe != '*') {
+      url += '&tipe=' + encodeURIComponent(tipe);
+    }
+
+
+	var status = $('select[name=\'status\']').val();
+
+    if (status != '*') {
+      url += '&status=' + encodeURIComponent(status);
+    }
+
     location =url;
   }
 
@@ -210,10 +243,24 @@
       url += '&supplier=' + encodeURIComponent(supplier);
     }
 
-     var kategori = $('select[name=\'kategori\']').val();
+    var kategori = $('select[name=\'kategori\']').val();
 
     if (kategori != '*') {
       url += '&kategori=' + encodeURIComponent(kategori);
+    }
+
+
+	var tipe = $('select[name=\'tipe\']').val();
+
+    if (tipe != '*') {
+      url += '&tipe=' + encodeURIComponent(tipe);
+    }
+
+
+	var status = $('select[name=\'status\']').val();
+
+    if (status != '*') {
+      url += '&status=' + encodeURIComponent(status);
     }
 
 

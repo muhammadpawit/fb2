@@ -104,6 +104,14 @@
 				</select>
 			</div>
 			<div class="form-group">
+				<label>Status </label>
+				<select name="status" class="form-control">
+					<option value=""></option>
+					<option value="terpakai" <?php echo $prod['status']=='terpakai' ? 'selected':'' ?>>Terpakai</option>
+					<option value="tidak terpakai" <?php echo $prod['status']=='tidak terpakai' ? 'selected':'' ?>>Tidak Terpakai</option>
+				</select>
+			</div>
+			<div class="form-group">
 				<label>Keterangan</label>
 				<input type="text" class="form-control" name="keterangan_tipe" value="<?php echo $prod['keterangan_tipe']?>">
 			</div>
