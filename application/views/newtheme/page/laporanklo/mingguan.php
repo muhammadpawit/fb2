@@ -165,14 +165,18 @@
 		          <tr>
 		            <th rowspan="2">No</th>
 		            <th rowspan="2">Nama CMT</th>
-		            <th colspan="3">Kirim Kaos</th>
+		            <th colspan="3">Stok Awal Kaos</th>
+					<th colspan="3">Kirim Kaos</th>
 		            <th colspan="3">Kirim PO<br> Jeans</th>
 		            <th colspan="3">Setor PO<br> Jeans</th>
 		            <th colspan="3">Setor Kaos</th>
 		            <th colspan="3">Stok Akhir Kaos</th>
 		          </tr>
 		          <tr>
-		            <th>JML</th>
+				  	<th>JML</th>
+		            <th>DZ</th>
+		            <th>PCS</th>
+				  	<th>JML</th>
 		            <th>DZ</th>
 		            <th>PCS</th>
 		            <th>JML</th>
@@ -221,7 +225,10 @@
 		            <tr>
 		              <td><?php echo $p['no']?></td>
 		              <td><?php echo $p['nama']?></td>
-		              <td><?php echo ($p['kirimkaosjml']>0)?number_format($p['kirimkaosjml']):'';?></td>
+					  <td><?php echo $p['stokawalkaosjml'] //echo ($p['stokawalkaosjml']>0)?number_format($p['stokawalkaosjml']):'';?></td>
+		              <td><?php echo $p['stokawalkaosdz']>0?number_format($p['stokawalkaosdz']):'';?></td>
+		              <td><?php echo $p['stokawalkaospcs']>0?number_format($p['stokawalkaospcs']):'';?></td> 
+					  <td><?php echo ($p['kirimkaosjml']>0)?number_format($p['kirimkaosjml']):'';?></td>
 		              <td><?php echo $p['kirimkaosdz']>0?number_format($p['kirimkaosdz']):'';?></td>
 		              <td><?php echo $p['kirimkaospcs']>0?number_format($p['kirimkaospcs']):'';?></td>
 		              <td><?php echo ($p['kirimjeansjml']>0)?number_format($p['kirimjeansjml']):'';?></td>
@@ -235,7 +242,7 @@
 		              <td><?php echo $p['setorkaospcs']>0?number_format($p['setorkaospcs']):'';?></td>
 		              <td><?php echo ($p['stokakhirkaosjml'])?></td>
 		              <td><?php echo $p['stokakhirkaosdz']>0?number_format($p['stokakhirkaosdz'],2):'';?></td>
-		              <td><?php echo $p['stokakhirkaospcs'] ?></td>
+		              <td><?php echo number_format($p['stokakhirkaospcs']) ?></td>
 		            </tr>
 		            <?php 
 		        		$kirimkaosjml+=($p['kirimkaosjml']);

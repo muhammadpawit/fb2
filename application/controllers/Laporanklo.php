@@ -116,24 +116,43 @@ class Laporanklo extends CI_Controller {
 		$sqljahit.=" AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		$cmtjahit=$this->GlobalModel->QueryManual($sqljahit);
 		$no=1;
+		$stoksebelumnya_jeans=0;
+		$stoksebelumnya_pcs_jeans=0;
+		$stoksebelumnya=0;
+		$stoksebelumnya_pcs=0;
+		$stokawaljml=0;
+		$stokawal_dz=0;
+		$stokawal_pcs=0;
 		foreach($cmtjahit as $c){
+			$stoksebelumnya=$this->ReportModel->klo_mingguan_seblelumnya($c['id_cmt'],$tanggal1,'JAHIT','KIRIM');
+			$stoksebelumnya_pcs=$this->ReportModel->klo_mingguan_seblelumnya_pcs($c['id_cmt'],$tanggal1,'JAHIT','KIRIM');
+			$stoksebelumnya_jeans=$this->ReportModel->klo_mingguan_seblelumnya_jeans($c['id_cmt'],$tanggal1,'JAHIT','KIRIM');
+			$stoksebelumnya_pcs_jeans=$this->ReportModel->klo_mingguan_seblelumnya_pcs_jeans($c['id_cmt'],$tanggal1,'JAHIT','KIRIM');
 			$kirim=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','KIRIM');
 			$setor=$this->ReportModel->klo_mingguan($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
 			$kirimjeans=$this->ReportModel->klo_mingguanjeans($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','KIRIM');
 			$setorjeans=$this->ReportModel->klo_mingguanjeans($c['id_cmt'],$tanggal1,$tanggal2,'JAHIT','SETOR');
 			$stok=$this->ReportModel->stok_akhir_cmt($c['id_cmt']);
+			
+			$stokawaljml		= $stoksebelumnya+$stoksebelumnya_jeans;
+			$stokawal_dz		= ($stoksebelumnya_pcs/12) + ($stoksebelumnya_pcs_jeans/12);
+			$stokawal_pcs 		= ($stoksebelumnya_pcs) + ($stoksebelumnya_pcs_jeans);
+			
 			$data['jahit'][]=array(
 				'no'=>$no++,
 				'nama'=>strtolower($c['cmt_name']),
+				'stokawalkaosjml' =>$stokawaljml,
+				'stokawalkaosdz' =>$stokawal_dz,
+				'stokawalkaospcs' =>$stokawal_pcs,
 				'kirimkaosjml'=>!empty($kirim)?$kirim['jmlpo']:0,
 				'kirimkaosdz'=>!empty($kirim)?$kirim['dz']:0,
 				'kirimkaospcs'=>!empty($kirim)?$kirim['pcs']:0,
 				'setorkaosjml'=>!empty($setor)?$setor['jmlpo']:0,
 				'setorkaosdz'=>!empty($setor)?$setor['dz']:0,
 				'setorkaospcs'=>!empty($setor)?$setor['pcs']:0,
-				'stokakhirkaosjml'=>$stok['jmlpo'],
-				'stokakhirkaosdz'=>(($stok['pcs']/12)),
-				'stokakhirkaospcs'=>($stok['pcs']),
+				'stokakhirkaosjml'=>( $stokawaljml - ($setor['jmlpo']+$setorjeans['jmlpo']) ),
+				'stokakhirkaosdz'=>( $stokawal_dz - ($setor['dz']+$setorjeans['dz']) ),
+				'stokakhirkaospcs'=>( $stokawal_pcs - ($setor['pcs']+$setorjeans['pcs'])  ),
 				'kirimjeansjml'=>!empty($kirimjeans)?$kirimjeans['jmlpo']:0,
 				'kirimjeansdz'=>!empty($kirimjeans)?$kirimjeans['dz']:0,
 				'kirimjeanspcs'=>!empty($kirimjeans)?$kirimjeans['pcs']:0,
