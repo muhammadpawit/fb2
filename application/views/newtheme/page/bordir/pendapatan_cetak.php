@@ -84,7 +84,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                           <?php 
                             if (isset($data->data)) {
                               $nilaiData = $data->data;
-                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                              echo ($nilaiData); // Ini akan mencetak "321753.61278533936"
                             } else {
                                // echo "Tidak ada data yang ditemukan.";
                             }
