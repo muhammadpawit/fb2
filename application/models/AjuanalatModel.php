@@ -232,7 +232,8 @@ class AjuanalatModel extends CI_Model {
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d',strtotime("saturday last week"));
+			//$tanggal2=date('Y-m-d',strtotime("saturday last week"));
+			$tanggal2=date('Y-m-d');
 		}
 
 		if(isset($get['jenis'])){
