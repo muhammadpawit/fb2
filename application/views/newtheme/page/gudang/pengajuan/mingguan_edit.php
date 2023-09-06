@@ -9,7 +9,7 @@
             <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></td>
           </tr>
           <tr>
-            <td colspan="10" align="center"><b>Untuk 1 Minggu</b></td>
+            <td colspan="10" align="center"><b><input name="keterangan" value="<?php echo $k['keterangan2']?>" class="form-control"></b></td>
           </tr>
           <tr>
             <td colspan="10">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>

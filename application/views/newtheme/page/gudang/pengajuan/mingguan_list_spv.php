@@ -58,36 +58,39 @@
                 </tr>
               </thead>
               <tbody>
+                <?php $i=0;?>
                 <?php if($products){?>
                   <?php foreach($products as $p){?>
-                    <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan">
-                    <input type="hidden" name="id" value="<?php echo $p['id']?>">
-                    <input type="hidden" hidden name="tanggal" value="<?php echo $p['tanggal']?>">
+                    <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_all">
+                    <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
+                    <input type="hidden" name="prods[<?php echo $i ?>][id]" value="<?php echo $p['id']?>">
+                    <input type="hidden" hidden name="prods[<?php echo $i ?>][tanggal]" value="<?php echo $p['tanggal']?>">
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
-                      <td><input type="number" name="jml_acc" value="<?php echo $p['jml_acc']?>"></td>
+                      <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']?>"></td>
                       <td>
                         
                         <!-- <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data"> -->
                         
-                        <button class="btn btn-success btn-xs">Disetujui</button>
+                        <!-- <button class="btn btn-success btn-xs">Disetujui</button> -->
 
                         <a href="<?php echo $p['detail']?>?&spv=true" class="btn btn-warning btn-xs text-white">Detail</a>
 
                         <a href="<?php echo $p['batal']?>?&spv=true" onclick="return confirm('Apakah yakin ajuan ini akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
                       </td>
                     </tr>
-                    </form>
+                    <!-- </form> -->
+                    <?php $i++; ?>
                   <?php }?>
                 <?php }?>
-                <!-- <tr>
-                  <td colspan="4" align="right"><?php echo !empty($tgl_diacc ) ? 'diacc terkahir pada '.$tgl_diacc :'belum di klik persetujuan'?></td>
+                <tr>
+                  <td colspan="5" align="right"><?php echo !empty($tgl_diacc ) ? 'diacc terkahir pada '.$tgl_diacc :''?></td>
                   <td>
-                    <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan">
+                    <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
                     <button type="submit" class="btn btn-success btn-sm full">Disetujui</button>
                     </form>
@@ -98,7 +101,7 @@
                     <button type="submit" class="btn btn-danger btn-sm full">Dibatalkan</button>
                     </form>
                   </td>
-                </tr> -->
+                </tr>
               </tbody>
             
             </table>

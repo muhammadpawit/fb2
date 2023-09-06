@@ -374,7 +374,7 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('ajuan_mingguan_detail',$insert);
 			}
-			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
+			$this->db->update('ajuan_mingguan',array('keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan');
@@ -696,12 +696,12 @@ class Gudang extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=null;
+			$tanggal1=date('Y-m-d',strtotime("monday this week"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=null;
+			$tanggal2=date('Y-m-d');
 		}
 		if(isset($get['cat'])){
 			$cat=$get['cat'];
@@ -2325,7 +2325,7 @@ class Gudang extends CI_Controller {
 				'transfer'=>0,
 				'status'=>1,
 				'hapus'=>0,
-				'tanggal'=>date('Y-m-d',strtotime($post['tanggal'])),
+				'tanggal'=>date('Y-m-d'),
 				'keterangan'=>'',
 				'dibuat'=>date('Y-m-d H:i:s'),
 				'from_alat' => TRUE
@@ -2350,6 +2350,85 @@ class Gudang extends CI_Controller {
 					'from_alat' => $p['id']
 			);
 			$this->db->insert('pengajuan_harian_new_detail',$rip);
+			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
+		}else{
+			$id=$cekajuan_harian['id'];
+			
+			$transfer=0;
+			$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$post['id']));
+			$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+			$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+			$transfer=($item['harga_beli']*$p['jml_acc']);
+			$rip=array(
+					'idpengajuan'=>$id,
+					'nama_item'=>$item['nama'],
+					'jumlah'=>$p['jml_acc'],
+					'satuan'=>$item['satuan'],
+					'harga'=>$item['harga_beli'],
+					'pembayaran'=>2, // transfer
+					'supplier'=>$supplier['nama'],
+					'keterangan'=>$p['keterangan'],
+					'status'=>1,
+					'from_alat' => $p['id']
+			);
+			$this->db->insert('pengajuan_harian_new_detail',$rip);
+			
+			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+		}
+		$this->session->set_flashdata('msg','Data berhasil di acc');
+		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+	}
+
+	function acc_ajuan_mingguan_all(){
+		$post = $this->input->post();
+		pre($post);
+		foreach($post['prods'] as $pr){
+			$update = array(
+				'jml_acc' => $pr['jml_acc']
+			);
+			$where = array(
+				'id' => $pr['id'],
+			);
+			$this->db->update('ajuan_mingguan',$update,$where);
+		}
+		$cat=3; // kategori untuk ajuan harian bagian konveksi
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		//pre($cekajuan_harian);
+		//pre();
+		if(empty($cekajuan_harian)){
+			$ip=array(
+				'kategori'=>$cat,
+				'cash'=>0,
+				'transfer'=>0,
+				'status'=>1,
+				'hapus'=>0,
+				'tanggal'=>date('Y-m-d'),
+				'keterangan'=>'',
+				'dibuat'=>date('Y-m-d H:i:s'),
+				'from_alat' => TRUE
+			);
+			$this->db->insert('pengajuan_harian_new',$ip);
+			$id=$this->db->insert_id();
+			$transfer=0;
+			foreach($post['prods'] as $pr){
+				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
+				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+				$transfer+=($item['harga_beli']*$pr['jml_acc']);
+				$rip=array(
+						'idpengajuan'=>$id,
+						'nama_item'=>$item['nama'],
+						'jumlah'=>$pr['jml_acc'],
+						'satuan'=>$item['satuan'],
+						'harga'=>$item['harga_beli'],
+						'pembayaran'=>2, // transfer
+						'supplier'=>$supplier['nama'],
+						'keterangan'=>$p['keterangan'],
+						'status'=>1,
+						'from_alat' => $p['id']
+				);
+				$this->db->insert('pengajuan_harian_new_detail',$rip);
+			}
 			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
 		}else{
 			$id=$cekajuan_harian['id'];
