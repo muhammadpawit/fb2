@@ -205,7 +205,7 @@ class Ajuanalatalat extends CI_Controller {
 
 	public function save(){
 		$data=$this->input->post();
-		pre($data);
+		//pre($data);
 		$this->AlatsukabumiModel->insert($data);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect($this->url);
