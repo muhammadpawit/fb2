@@ -1725,9 +1725,6 @@ class Masterdata extends CI_Controller {
 	{
 
 		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang',null);
-		// $this->load->view('global/header');
-		// $this->load->view('master/satuanbarang/satuan-view',$viewData);
-		// $this->load->view('global/footer');
 		$viewData['page']='master/satuanbarang/satuan-view';
 		$this->load->view('newtheme/page/main',$viewData);
 
@@ -1768,7 +1765,7 @@ class Masterdata extends CI_Controller {
 
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
 
-		redirect(BASEURL.'masterdata/satuanbarang');
+		redirect(BASEURL.'Masterdata/satuanbarang');
 
 	}
 
@@ -2091,6 +2088,51 @@ class Masterdata extends CI_Controller {
 			$this->load->view('newtheme/page/main',$data);
 		}
 		
+	}
+
+	public function kategoribarang()
+
+	{
+		$viewData['title']	= 'Kategori Barang';
+		$viewData['satuan']	= $this->GlobalModel->getData('kategori_barang',null);
+		$viewData['page']='master/satuanbarang/kategori-view';
+		$this->load->view('newtheme/page/main',$viewData);
+
+	}
+
+
+
+	public function kategoribarangAdd()
+
+	{
+		$data['title']	= 'Form Kategori Barang';
+		//$this->load->view('global/header');
+		$data['page']='master/satuanbarang/kategori-tambah';
+		$this->load->view('newtheme/page/main',$data);
+		//$this->load->view('global/footer');
+
+	}
+
+
+
+	public function kategoribarangOnCreate()
+
+	{
+
+		$post = $this->input->post();
+
+		$dataInserted = array(
+
+			'nama'	=> 	$post['nama'],
+
+		);
+
+		$this->GlobalModel->insertData('kategori_barang',$dataInserted);
+
+		$this->session->set_flashdata('msg','Data berhasil ditambah');
+
+		redirect(BASEURL.'Masterdata/kategoribarang');
+
 	}
 
 

@@ -8,7 +8,7 @@
                 <div class="card-box">
                     <h4 class="header-title m-t-0 m-b-20">Tambah Satuan Barang</h4>
                     <hr>
-                   <form action="<?php echo BASEURL.'master/satuanbarangOnCreate' ?>" method="POST">
+                   <form action="<?php echo BASEURL.'masterdata/satuanbarangOnCreate' ?>" method="POST">
                         <div class="form-group">
                         	<label>Nama Satuan</label>
                         	<input type="text" class="form-control" name="nama" required>

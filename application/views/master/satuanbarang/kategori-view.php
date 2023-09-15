@@ -13,31 +13,28 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group text-right">
-        <a href="<?php echo BASEURL.'masterdata/satuanbarangTambah' ?>" class="btn btn-primary">Tambah</a>
+        <a href="<?php echo BASEURL.'masterdata/kategoribarangAdd' ?>" class="btn btn-primary">Tambah</a>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-                    <table id="datatable" class="table table-bordered">
+                    <table class="table table-bordered yessearch">
                         <thead>
                         <tr>
-                            <th>NAMA SATUAN</th>
-                            <th>KODE SATUAN BARANG</th>
-                            <th>TANGGAL DIBUAT</th>
-                            <th>ACTION</th>
+                            <th>NAMA </th>
+                            <!-- <th>ACTION</th> -->
                         </tr>
                         </thead>
                         <tbody>
                                 <?php foreach ($satuan as $key => $sat): ?>
                             <tr>
-                                <td><?php echo $sat['nama_satuan_barang'] ?></td>
-                                <td><?php echo $sat['kode_satuan_barang'] ?></td>
-                                <td><?php echo $sat['created_date'] ?></td>
-                                <th>
-                                    <a href="<?php echo BASEURL.'masterdata/satuanbarangEdit/'.$sat['id_satuan_barang'] ?>" class="btn btn-custom"> EDIT</a>
-                                    <a href="<?php echo BASEURL.'masterdata/satuanDelete/'.$sat['id_satuan_barang'] ?>" class="btn btn-danger"> DELETE</a>
-                                </th>
+                                <td><?php echo $sat['nama'] ?></td>
+                               
+                                <!-- <th>
+                                    <a href="<?php echo BASEURL.'masterdata/kategoribarangEdit/'.$sat['id'] ?>" class="btn btn-custom"> EDIT</a>
+                                    <a href="<?php echo BASEURL.'masterdata/kategoriDelete/'.$sat['id'] ?>" class="btn btn-danger"> DELETE</a>
+                                </th> -->
                             </tr>
                                 <?php endforeach ?>
                         </tbody>
