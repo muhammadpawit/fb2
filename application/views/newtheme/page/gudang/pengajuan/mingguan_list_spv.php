@@ -150,7 +150,7 @@
   })
 
   function filterwithbagian(){
-    var url='?';
+    var url='?&spv=true';
     var tanggal1 =$("#tanggal1").val();
     var tanggal2 =$("#tanggal2").val();
     if(tanggal1){
