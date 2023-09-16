@@ -31,7 +31,7 @@
                                     <?php if(aksesedit()==1){?>
                                         <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Edit</i></a>
                                     <?php }else{ ?>
-                                        <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Susulan</i></a>
+                                        <!-- <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Susulan</i></a> -->
                                     <?php } ?>
 
                                     <?php if(akseshapus()==1){?>
