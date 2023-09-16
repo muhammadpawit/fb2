@@ -109,12 +109,12 @@ $(document).on('click', '.add3', function(){
     <?php endforeach ?>
     html += '</select>';
     html += '</td>';
-    html += '<td><input type="number" class="form-control" name="rincianlusin[]" required ></td>';
-    html += '<td><input type="number" class="form-control" name="rincianpiece[]"  ></td>';
-    html += '<td><input type="number" name="banke[]" class="form-control" ></td>';
-    html += '<td><input type="number" class="form-control" name="barangCacad[]"></td>';
-    html += '<td><input type="number" class="form-control" name="hilangBarang[]" required></td>';
-    html += '<td><input type="number" class="form-control" name="claimBarang[]" required></td>';
+    html += '<td><input type="number" class="form-control" name="rincianlusin[]" value="0" ></td>';
+    html += '<td><input type="number" class="form-control" name="rincianpiece[]" value="0" ></td>';
+    html += '<td><input type="number" name="banke[]" class="form-control" value="0"></td>';
+    html += '<td><input type="number" class="form-control" name="barangCacad[]" value="0"></td>';
+    html += '<td><input type="number" class="form-control" name="hilangBarang[]" value="0"></td>';
+    html += '<td><input type="number" class="form-control" name="claimBarang[]" value="0" required></td>';
     html += '<td><input type="text" class="form-control" name="keterangan[]"  ></td>';
     html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
     $('#item_table3').append(html);
