@@ -662,6 +662,7 @@ class ReportModel extends CI_Model {
 			if(!empty($tanggal1)){
 				//$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 				$bangke.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
+			}
 			$dbangke=$this->db->query($bangke)->row();
 			$bangkenya=0;
 			if(!empty($dbangke)){
