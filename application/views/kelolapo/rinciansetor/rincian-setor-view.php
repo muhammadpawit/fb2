@@ -24,7 +24,7 @@
                                 <td>
                                     
                                     <?php if(!empty($sat['rincianSetor'])){ ?>
-                                    <a href="<?php echo BASEURL.'finishing/editsetoran_susulan/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Susulan</i></a>
+                                    <a href="<?php echo BASEURL.'finishing/editsetoran_susulan/'.$sat['kode_po'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil">Susulan</i></a>
                                     <?php }else{ ?>
                                         <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['idpo'].'/'.$sat['kode_po'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
                                     <?php } ?>
