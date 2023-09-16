@@ -265,7 +265,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 
 	<div class="col-md-4">
 		<div class="form-group">
-		<h5><b>Bahan Terpakai</b></h5>
+		<h5><b></b></h5>
 			<table>
 				<thead style="text-align: center;">
 		          <tr>
@@ -334,7 +334,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 
 	<div class="col-md-4">
 		<div class="form-group">
-		<h5><b>Bahan Tak Terpakai</b></h5>
+		<h5><b></b></h5>
 			<table>
 				<thead style="text-align: center;">
 		          <tr>
