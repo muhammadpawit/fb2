@@ -23,6 +23,7 @@
                         <thead>
                         <tr>
                             <th>NAMA </th>
+                            <th>WARNING STOK</th>
                             <!-- <th>ACTION</th> -->
                         </tr>
                         </thead>
@@ -30,7 +31,13 @@
                                 <?php foreach ($satuan as $key => $sat): ?>
                             <tr>
                                 <td><?php echo $sat['nama'] ?></td>
-                               
+                               <td>
+                                <?php if($sat['in_warning']==0){ ?>
+                                    <a href="<?php echo BASEURL.'masterdata/editkategori/'.$sat['id'] ?>/1" class="btn btn-success btn-sm"> Tampilkan</a>
+                                <?php }else{ ?>
+                                    <a href="<?php echo BASEURL.'masterdata/editkategori/'.$sat['id'] ?>/0" class="btn btn-warning btn-sm"> Sembunyikan</a>
+                                <?php } ?>
+                                </td>
                                 <!-- <th>
                                     <a href="<?php echo BASEURL.'masterdata/kategoribarangEdit/'.$sat['id'] ?>" class="btn btn-custom"> EDIT</a>
                                     <a href="<?php echo BASEURL.'masterdata/kategoriDelete/'.$sat['id'] ?>" class="btn btn-danger"> DELETE</a>

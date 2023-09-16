@@ -1923,6 +1923,27 @@ class Gudang extends CI_Controller {
 		}
 	}
 
+	function nolin($id){
+		$update = array(
+			'ukuran_item' =>0,
+			'quantity'    =>0,
+		);
+		$post = $this->GlobalModel->getDataRow('product',array('product_id'=>$id));
+		$kartustok=array(
+			'tanggal'=>date('Y-m-d'),
+			'idproduct'=>$id,
+			'nama'=>$post['nama'],
+			'saldomasuk_uk'=>0,
+			'saldomasuk_qty'=>0,
+			'harga'=>0,
+			'keterangan'=>'Nolin Produk oleh '.callSessUser('nama_user'),
+		);
+		kartustok($kartustok,2);
+		$this->db->update('product',$update,array('product_id'=>$id));
+		$this->db->update('gudang_persediaan_item',array('ukuran_item'=>0,'jumlah_item'=>0),array('id_persediaan'=>$id));
+		redirect(BASEURL.'/Gudang/persediaanstok');
+	}
+
 
 	public function persediaan()
 	{

@@ -62,6 +62,8 @@
                                 <td>
                                     <a href="<?php echo BASEURL.'Gudang/kartustok/'.$sat['id_persediaan'] ?>" class="btn btn-info btn-xs text-white"> Kartustok</a>
 
+                                    <a href="<?php echo BASEURL.'Gudang/nolin/'.$sat['id_persediaan'] ?>"  onclick="confirm('Apakah yakin ?')" class="btn btn-warning btn-xs text-white"> Kosongkan</a>
+
                                     <?php if(akseshapus()==1){?>
                                     <a href="<?php echo BASEURL.'Gudang/persediaanhapus/'.$sat['id_persediaan'] ?>" class="btn btn-danger btn-xs text-white"> Hapus</a>
                                     <?php } ?>

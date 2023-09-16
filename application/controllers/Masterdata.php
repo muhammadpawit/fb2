@@ -2100,6 +2100,11 @@ class Masterdata extends CI_Controller {
 
 	}
 
+	function editkategori($id,$jenis){
+		$this->db->update('kategori_barang',array('in_warning'=>$jenis),array('id'=>$id));
+		redirect(BASEURL.'/Masterdata/kategoribarang');
+	}
+
 
 
 	public function kategoribarangAdd()
