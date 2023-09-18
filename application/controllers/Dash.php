@@ -1157,6 +1157,7 @@ class Dash extends CI_Controller {
 		$takterpakai=1;
 		$data['terpakai']=[];
 		$data['takterpakai']=[];
+		$data['kaos_sisa']=[];
 		$data['bahansisa']=[];
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
@@ -1298,7 +1299,7 @@ class Dash extends CI_Controller {
 					);	
 				}
 
-				if($row['kategori']==23){
+				if($row['tipe']==2){
 					$data['takterpakai'][]=array(
 						'no'=>$takterpakai++,
 						'nama'	=>strtolower($row['nama_item']),
@@ -1576,6 +1577,8 @@ class Dash extends CI_Controller {
 
 		$data['bulan']=$bulan;
 		$data['tahun']=$tahun;
+		$data['terpakai']=[];
+		$data['takterpakai']=[];
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;

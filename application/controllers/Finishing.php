@@ -2010,7 +2010,7 @@ class Finishing extends CI_Controller {
 		}
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
-		$jumlahditerima = $this->db->query("SELECT COALESCE(SUM(jml_setor_qty),0) as total, COALESCE(SUM(jumlah_piece_diterima),0) as totalsisa FROM kelolapo_rincian_setor_cmt WHERE idpo='".$post['idpo']."' ")->row();
+		$jumlahditerima = $this->db->query("SELECT COALESCE(SUM(jml_setor_qty),0) as total, COALESCE(SUM(jumlah_piece_diterima-bangke_qty),0) as totalsisa FROM kelolapo_rincian_setor_cmt WHERE idpo='".$post['idpo']."' ")->row();
 		//pre($jumlahditerima->total);
 		if ( ($jmlYangDisetor+$jumlahditerima->totalsisa) <= $jumlahditerima->total ) {
 

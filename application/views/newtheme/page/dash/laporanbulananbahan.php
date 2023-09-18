@@ -334,7 +334,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 
 	<div class="col-md-4">
 		<div class="form-group">
-		<h5><b></b></h5>
+		<h5><b>Bahan Sisa Kaos</b></h5>
 			<table>
 				<thead style="text-align: center;">
 		          <tr>
@@ -362,7 +362,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        		$total=0;
 		        	?>
 		        	<?php foreach($takterpakai as $p){?>
-						<?php if($p['total'] > 0){ ?>
+						<?php //if($p['total'] > 0){ ?>
 						<?php
 							$color='';
 							$ket='';
@@ -376,7 +376,7 @@ h5 { font-weight:bold !important; font-size:20px; text-decoration:underline ; ma
 		        			<td><?php echo number_format($p['stokakhirroll'])?></td>
 		        			<td><?php echo $p['ket']?> <?php echo $ket ?></td>
 		        		</tr>
-						<?php } ?>
+						<?php //} ?>
 		        		<?php
 			        		$stokawalroll+=($p['stokawalroll']);
 			        		$stokawalyard+=($p['stokawalyard']);
