@@ -403,7 +403,7 @@ class ReportModel extends CI_Model {
 		$d=$this->GlobalModel->queryManualRow($sql);
 
 			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo WHERE rpo.kode_po='".$kodepo."' ";
-			$kbangke=$this->db->query("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke rpo WHERE rpo.kode_po='".$kodepo."' ")->row();
+			$kbangke=$this->db->query("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke rpo WHERE rpo.kode_po='".$kodepo."' and id >554 ")->row();
 			if(!empty($kbangke)){
 				$qtykembalianbangke=$kbangke->total;
 			}
