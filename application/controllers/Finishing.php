@@ -2026,7 +2026,7 @@ class Finishing extends CI_Controller {
 				'nama_cmt'			=>	$sj['nama_cmt'],
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
-				'created_date'		=>	date('Y-m-d',strtotime($post['tanggal'])), // ditambah tanggal penerimaan pada 8 juli 2023
+				'created_date'		=>	isset($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'), // ditambah tanggal penerimaan pada 8 juli 2023
 				'jumlah_piece_diterima'	=> $jmlYangDisetor
 			);
 
@@ -2076,7 +2076,7 @@ class Finishing extends CI_Controller {
 			
 			redirect(BASEURL.'finishing/editsetoran_susulan/'.$po['kode_po']);
 		}
-
+		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
 		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
 	}
 }
