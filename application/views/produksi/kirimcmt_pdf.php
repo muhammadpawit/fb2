@@ -52,48 +52,58 @@
 		</tr>
 	</thead>
 </table>
-<table border="1" style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;font-size: 19.5px !important;">
-									<thead>
-										<tr>
-											<th class="center">No</th>
-											<th>Nama PO</th>
-											<th>Rincian PO</th>
-											<th>Jumlah PO (pcs)</th>
-											<th>JML Barang</th>
-											<th>Keterangan</th>
-										</tr>
-									</thead>
-								<tbody>
-								<?php foreach($kirims as $k){?>
-									<?php $po=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$k['kode_po'])); ?>
-									<tr>
-										<td align="center" width="2%"><?php echo $no?></td>
-										<td align="center" width="6%"><?php echo $k['kode_po'].' '.$po['serian']?></td>
-										<td align="center" width="10%"><?php echo $k['rincian_po']?></td>
-										<td align="center" width="7%"><?php echo $k['jumlah_pcs']?></td>
-										<td align="center" width="5%"><?php echo $k['jml_barang']?></td>
-										<td align="center" width="10%"><?php echo $k['keterangan']?></td>
-									</tr>
-									<?php $no++; ?>
-								<?php } ?>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="3" align="center"><b>Total</b>&nbsp;</td>
-										<td align="center"><b><?php echo number_format($kirim['totalkirim'],0,",",".");?></b></td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-									</tr>
-								</tfoot>
-								</table>
-								<!-- <p>Catatan :</p>
-								<ol>
-									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
-									<li>Apabila ada kekurangan, harap segera konfirmasi bagian QC</li>
-									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
-									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
-								</ol>
-<br>							 -->	
+<table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
+    <thead>
+        <tr>
+            <th class="center">No</th>
+            <th>Nama PO</th>
+            <th>Rincian PO</th>
+            <th>Jumlah PO (pcs)</th>
+            <th>JML Barang</th>
+            <th>Keterangan</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($kirims as $k){?>
+            <?php $po=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$k['kode_po'])); ?>
+            <tr>
+                <td align="center" width="2%"><?php echo $no?></td>
+                <td align="center" width="6%"><?php echo $k['kode_po'].' '.$po['serian']?></td>
+                <td align="center" width="10%"><?php echo $k['rincian_po']?></td>
+                <td align="center" width="7%"><?php echo $k['jumlah_pcs']?></td>
+                <td align="center" width="5%"><?php echo $k['jml_barang']?></td>
+                <td align="center" width="10%"><?php echo $k['keterangan']?></td>
+            </tr>
+            <?php $no++; ?>
+            <?php if ($no == 6) { ?>
+                </tbody>
+                </table>
+                <div class="break"></div> <!-- Tambahkan class "break" untuk page break -->
+                <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
+                    <thead>
+                        <tr>
+                            <th class="center">No</th>
+                            <th>Nama PO</th>
+                            <th>Rincian PO</th>
+                            <th>Jumlah PO (pcs)</th>
+                            <th>JML Barang</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            <?php } ?>
+        <?php } ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="center"><b>Total</b>&nbsp;</td>
+            <td align="center"><b><?php echo number_format($kirim['totalkirim'],0,",",".");?></b></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tfoot>
+</table>
+
 
 <?php if(count($kirims) < 3){?>
 
