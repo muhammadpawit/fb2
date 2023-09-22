@@ -97,7 +97,7 @@
 
 <?php if(count($kirims) < 3){?>
 
-<?php }else if(count($kirims)>5 && count($kirims)<=15){?>
+<?php }else if(count($kirims)>5 && count($kirims)<=13){?>
 
 <?php }else{ ?>
 <!-- <div class="break"></div> -->
