@@ -20,7 +20,7 @@
         <div class="timeline-item">
             <div class="timeline-body" style="overflow:scroll;max-height:500px;">
                 <?php foreach($po as $p){ ?>
-                    <img src="<?php echo BASEURL.$p['gambar_po']?>" alt="<?php echo $p['kode_po']?>" class="margin">
+                    <img src="<?php echo BASEURL.$p['gambar_po']?>" alt="<?php echo $p['kode_po']?>" class="margin" width="150">
                 <?php } ?>
             </div>
         </div>
