@@ -26,7 +26,12 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<label>Nama PO</label>
-			<input type="text" name="idpo" id="idpo" class="form-control autopoid">
+			<select name="idpo" class="form-control select2bs4" id="idpo" data-live-search="true">
+		      <option value="*">Semua</option>
+		      <?php foreach($pos as $c){?>
+		        <option value="<?php echo $c['id_produksi_po']?>"><?php echo $c['kode_po']?></option>
+		      <?php } ?>
+		    </select>
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -119,8 +124,8 @@
 	      url += '&cmt=' + encodeURIComponent(filter_status);
 	    }
 
-		var idpo =  $().val();
-		if(idpo!=''){
+		var idpo =  $("#idpo").val();
+		if(idpo!='*'){
 			url +='&idpo='+idpo;
 		}
 
@@ -147,6 +152,11 @@
 	    if (filter_status != '*') {
 	      url += '&cmt=' + encodeURIComponent(filter_status);
 	    }
+
+		var idpo =  $("#idpo").val();
+		if(idpo!='*'){
+			url +='&idpo='+idpo;
+		}
 
 	    
 	    location =url;

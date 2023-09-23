@@ -37,9 +37,9 @@ class Laporanrinciansetoran extends CI_Controller {
 		}
 
 		if(isset($get['idpo'])){
-			$cmt=$get['cmt'];
+			$idpo=$get['idpo'];
 		}else{
-			$cmt=null;
+			$idpo=null;
 		}
 
 
@@ -47,11 +47,14 @@ class Laporanrinciansetoran extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['cm']=$cmt;
 		$sql="SELECT * FROM kelolapo_rincian_setor_cmt WHERE id_kelolapo_rincian_setor_cmt > 0";
-		if(!empty($tanggal1)){
+		if(!empty($tanggal1) && empty($idpo)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 		if(!empty($cmt)){
 			$sql.=" AND lower(nama_cmt)='".strtolower($cmt)."' ";
+		}
+		if(!empty($idpo)){
+			$sql.=" AND lower(idpo)='".strtolower($idpo)."' ";
 		}
 		$sql.=" ORDER BY id_kelolapo_rincian_setor_cmt DESC ";
 		$res=$this->GlobalModel->QueryManual($sql);
@@ -85,6 +88,7 @@ class Laporanrinciansetoran extends CI_Controller {
 			$no++;
 		}
 		$data['cmt']=$this->GlobalModel->GetData('master_cmt',array('cmt_job_desk'=>'JAHIT','hapus'=>0));
+		$data['pos']=$this->GlobalModel->GetData('produksi_po',array('hapus'=>0));
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'list_excel',$data);
 		}else{
