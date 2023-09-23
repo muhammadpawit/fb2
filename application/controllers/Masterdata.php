@@ -2141,5 +2141,62 @@ class Masterdata extends CI_Controller {
 	}
 
 
+	public function size()
+
+	{
+		$viewData['title']	= 'Master Size';
+		$viewData['satuan']	= $this->GlobalModel->getData('master_size',null);
+		$viewData['page']='master/size/list';
+		$this->load->view('newtheme/page/main',$viewData);
+
+	}
+
+	public function sizeAdd()
+
+	{
+		$data['title']	= 'Form Master Size';
+		$data['page']='master/size/form';
+		$data['cancel']=BASEURL.'Masterdata/size';
+		$data['action']=BASEURL.'Masterdata/sizeOnCreate';
+		$this->load->view('newtheme/page/main',$data);
+
+	}
+
+
+
+	public function sizeOnCreate()
+
+	{
+
+		$post = $this->input->post();
+
+		$dataInserted = array(
+
+			'nama_size'	=> 	$post['nama_size'],
+
+		);
+
+		$this->GlobalModel->insertData('master_size',$dataInserted);
+
+		$this->session->set_flashdata('msg','Data berhasil ditambah');
+
+		redirect(BASEURL.'Masterdata/size');
+
+	}
+
+
+	public function sizeOnDelete($id)
+
+	{
+
+		$this->db->delete('master_size',array('id_master_size'=>$id));
+
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+
+		redirect(BASEURL.'Masterdata/size');
+
+	}
+
+
 }
 
