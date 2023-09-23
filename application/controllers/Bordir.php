@@ -744,10 +744,35 @@ class Bordir extends CI_Controller {
 				'id'=>$p['id'],
 				'nama'=>strtolower($p['nama']),
 				'pemilik'=>strtolower($pemilik['nama']),
+				'edit'=>BASEURL.'Bordir/poluardetail/'.$p['id'],
 			);
 		}
 		$data['page']=$this->page.'bordir/poluar_list';
 		$this->load->view($this->page.'main',$data);
+	}
+
+	public function poluardetail($id){
+		$data=array();
+		$data['n']=1;
+		$data['action']=BASEURL.'Bordir/poluardetail_save';
+		$data['batal']=BASEURL.'Bordir/poluar';
+		$data['products']=array();
+		$data['pemilik']=$this->GlobalModel->getData('pemilik_poluar',array('hapus'=>0));
+		$data['prods']=$this->GlobalModel->getDataRow('master_po_luar',array('hapus'=>0,'id'=>$id));
+		$data['page']=$this->page.'bordir/poluar_edit';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function poluardetail_save(){
+		$data=$this->input->post();
+		$insert=array(
+			'nama'=>$data['nama'],
+			'idpemilik'=>$data['pemilik'],
+			'hapus'=>0,
+		);
+		$this->db->update('master_po_luar',$insert,array('id'=>$data['id']));
+		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+		redirect(BASEURL.'Bordir/poluar');
 	}
 
 	public function poluarsave(){

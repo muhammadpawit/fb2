@@ -47,7 +47,7 @@
           </div>
           <div class="form-group">
             <label>Pemilik PO</label>
-            <select name="pemilik" class="form-control select2bs4" required="required">
+            <select name="pemilik" class="form-control select2bs4" required="required" style="width: 100%;">
               <option value="">Pilih</option>
               <?php foreach($pemilik as $p){?>
                 <option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option>
@@ -81,6 +81,7 @@
                   <th>#</th>
                   <th>Pemilik</th>
                   <th>Nama PO</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,6 +91,9 @@
                       <td><?php echo $n++?></td>
                       <td><?php echo ucwords($p['pemilik'])?></td>
                       <td><?php echo ucwords($p['nama'])?></td>
+                      <td>
+                        <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-sm">Edit</a>
+                      </td>
                     </tr>
                   <?php }?>
                 <?php }?>
