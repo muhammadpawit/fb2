@@ -17,7 +17,7 @@ class Gambar extends CI_Controller {
 		$data=[];
 		$data['title']='Gambar';
 		$get=$this->input->get();
-		$data['po']=$this->db->query("SELECT * FROM produksi_po WHERE hapus=0 ")->result_array();
+		$data['po']=$this->db->query("SELECT * FROM produksi_po WHERE hapus=0 AND gambar_po IS NOT NULL ")->result_array();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
 		}else{
