@@ -534,7 +534,7 @@ class Dash extends CI_Controller {
 			$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
 			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
 			$last_masuk = $this->GlobalModel->QueryManualRow($qry);
-			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity)) as total FROM product WHERE kategori='".$m['id']."' ");
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity)) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
 				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
