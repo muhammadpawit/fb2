@@ -11,7 +11,7 @@
         <form method="post" action="<?php echo $action?>">
           <div class="form-group">
             <label>Jenis</label>
-            <select name="jenis" id="jenis" class="form-control select2bs4" style="width:100%">
+            <select name="jenis" id="jenis" class="form-control select2bs4" style="width:100%" required>
               <option value="">Pilih</option>
               <?php foreach($jenis as $j){?>
                 <option value="<?php echo $j['nama_jenis_po']?>"><?php echo $j['nama_jenis_po']?></option>
@@ -21,7 +21,7 @@
           </div>
           <div class="form-group">
             <label>Harga Potongan</label>
-            <input type="number" name="nominal" class="form-control">
+            <input type="number" name="nominal" class="form-control" required>
           </div>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" data-dismiss="modal">Batal</a>

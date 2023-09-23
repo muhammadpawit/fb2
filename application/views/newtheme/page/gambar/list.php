@@ -14,6 +14,22 @@
         width: 12px; /* Ganti dengan lebar yang diinginkan */
     }
 
+    .image-container {
+        text-align: center; /* Mengatur teks di tengah */
+        position: relative; /* Untuk mengatur posisi .caption */
+    }
+
+    .caption {
+        position: absolute; /* Mengatur posisi absolut untuk .caption */
+        bottom: 0; /* Atur posisi di bagian bawah gambar */
+        left: 0; /* Atur posisi di sisi kiri gambar */
+        width: 100%; /* Lebar .caption 100% dari parentnya */
+        background-color: rgba(0, 0, 0, 0.7); /* Latar belakang caption dengan warna transparan */
+        color: white; /* Warna teks caption */
+        padding: 5px; /* Spasi padding di sekitar teks caption */
+    }
+
+
 </style>
 <div class="row">
     <div class="col-md-6">
@@ -33,10 +49,16 @@
         <div class="form-group">
             <div class="timeline-item">
                 <div class="timeline-body" style="overflow:scroll;max-height:500px;">
-                    <?php foreach($po as $p){ ?>
-                        <img src="<?php echo BASEURL.$p['gambar_po']?>" alt="<?php echo $p['kode_po']?>" class="margin" width="150">
-                        <caption><?php echo $p['kode_po']?></caption>
-                    <?php } ?>
+                    <div class="row">
+                        <?php foreach($po as $p){ ?>
+                            <div class="col-md-2">
+                                <div class="image-container">
+                                    <img src="<?php echo BASEURL.$p['gambar_po']?>" alt="<?php echo $p['kode_po']?>" class="margin" width="150">
+                                    <div class="caption"><?php echo $p['kode_po']?></div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
         </div>
