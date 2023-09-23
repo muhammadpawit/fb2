@@ -35,6 +35,14 @@ class Laporanrinciansetoran extends CI_Controller {
 		}else{
 			$cmt=null;
 		}
+
+		if(isset($get['idpo'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cm']=$cmt;

@@ -11,16 +11,22 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Nama PO</label>
+			<input type="text" name="idpo" id="idpo" class="form-control autopoid">
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -34,7 +40,7 @@
 		    </select>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filterwithcmts()">Filter</button>
@@ -112,6 +118,11 @@
 	    if (filter_status != '*') {
 	      url += '&cmt=' + encodeURIComponent(filter_status);
 	    }
+
+		var idpo =  $().val();
+		if(idpo!=''){
+			url +='&idpo='+idpo;
+		}
 
 	    location =url;
 	  }
