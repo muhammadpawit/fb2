@@ -531,7 +531,11 @@ class Dash extends CI_Controller {
 			$qry ="SELECT COALESCE(SUM(a.jumlah)) as total FROM penerimaan_item_detail a
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
 			 WHERE a.hapus=0 AND b.hapus=0 AND b.kategori='".$m['id']."' ";
-			$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			if($m['id']==16){
+				$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			}else{
+				$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			}
 			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
 			$last_masuk = $this->GlobalModel->QueryManualRow($qry);
 			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity)) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
