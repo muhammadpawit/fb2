@@ -125,19 +125,19 @@
                         <tr style="background-color: #e9bceb;">
                             <td colspan="2"><b>Total</b></td>
                             <td><b><?php echo number_format($total1)?></b></td>
-                            <td><b><?php echo number_format($total2)?></b></td>
+                            <td><b><?php echo number_format($total2,2)?></b></td>
                             <td><b><?php echo number_format($total3)?></b></td>
                             <td><b><?php echo number_format($total4)?></b></td>
-                            <td><b><?php echo number_format($total5)?></b></td>
+                            <td><b><?php echo number_format($total5,2)?></b></td>
                             <td><b><?php echo number_format($total6)?></b></td>
                             <td><b><?php echo number_format($total7)?></b></td>
-                            <td><b><?php echo number_format($total8)?></b></td>
+                            <td><b><?php echo number_format($total8,2)?></b></td>
                             <td><b><?php echo number_format($total9)?></b></td>
                             <td><b><?php echo number_format($total10)?></b></td>
-                            <td><b><?php echo number_format($total11)?></b></td>
+                            <td><b><?php echo number_format($total11,2)?></b></td>
                             <td><b><?php echo number_format($total12)?></b></td>
                             <td><b><?php echo number_format($total13)?></b></td>
-                            <td><b><?php echo number_format($total14)?></b></td>
+                            <td><b><?php echo number_format($total14,2)?></b></td>
                             <td><b><?php echo number_format($total15)?></b></td>
                         </tr>
                 </tbody>
