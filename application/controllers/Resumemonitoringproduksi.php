@@ -23,7 +23,7 @@ class Resumemonitoringproduksi extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+			$tanggal1=periodeproduksi()['tahun'].'-'.periodeproduksi()['bulan'].'-01';
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -38,11 +38,20 @@ class Resumemonitoringproduksi extends CI_Controller {
 			array('type'=>'Celana','id'=>3),
 		);
         $i=1;
+		$potongan=0;
         foreach($arpo as $arp){
 			$data['prods'][]=array(
 				'no'=>$i,
 				'id'=>$arp['id'],
 				'type'=>$arp['type'],
+				'jml_potongan' => $this->ReportModel->ppcsjml_filter($arp['id'],$tanggal1,$tanggal2),
+				'pcs_potongan' =>$this->ReportModel->ppcs_filter($arp['id'],$tanggal1,$tanggal2),
+				'jml_kirim'=>$this->ReportModel->countdashkirim($arp['id'],$tanggal1,$tanggal2),
+				'pcs_kirim'=>$this->ReportModel->rpdashkirim($arp['id'],$tanggal1,$tanggal2),
+				'jml_setor'=>$this->ReportModel->countdashsetor($arp['id'],$tanggal1,$tanggal2),
+				'pcs_setor'=>$this->ReportModel->rpdashsetor($arp['id'],$tanggal1,$tanggal2),
+				'jml_kirim_gudang'=>$this->ReportModel->count_monitoring_kirimgudang($arp['id'],$tanggal1,$tanggal2),
+				'pcs_kirim_gudang'=>$this->ReportModel->pcs_monitoring_kirimgudang($arp['id'],$tanggal1,$tanggal2),
 			);
 			$i++;
 		}
