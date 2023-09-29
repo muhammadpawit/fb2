@@ -55,7 +55,7 @@ class Resumemonitoringproduksi extends CI_Controller {
 			);
 			$i++;
 		}
-        $data['page']       = $this->page.'index';
+        $data['page']       = $this->page.'list';
         $this->load->view($this->layout,$data);
     }
 
