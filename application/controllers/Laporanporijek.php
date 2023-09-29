@@ -36,7 +36,7 @@ class Laporanporijek extends CI_Controller {
 		
 		//$sql.=" AND barang_cacad_qty > 0 OR bangke_qty > 0  ";
 		$sql.=" AND bangke_qty > 0  ";
-		$sql.=" GROUP BY idpo ORDER BY kode_po ASC ";
+		$sql.=" GROUP BY idpo ORDER BY krs.created_date ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($results);
 		$data['prods']=[];
