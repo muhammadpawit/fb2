@@ -46,7 +46,7 @@
 				<?php $rijek+=($p['rijek']);?>
 				<?php } ?>
 				<tr>
-					<td colspan="3"><b>Total</b></td>
+					<td colspan="4"><b>Total</b></td>
 					<td><b><?php echo $total ?></b></td>
 					<td><b><?php echo $rijek ?></b></td>
 				</tr>
