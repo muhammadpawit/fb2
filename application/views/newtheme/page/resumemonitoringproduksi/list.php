@@ -37,7 +37,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group table-responsive">
-            <table class="table table-bordered table-hovered">
+            <table style="border-collapse: collapse;width:100%" border="1">
                 <thead style="font-weight:bold; text-align:center">
                     <tr>
                         <td rowspan="2">No</td>
