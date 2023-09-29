@@ -116,15 +116,25 @@ class Laporanrinciansetoran extends CI_Controller {
 		}else{
 			$cmt=null;
 		}
+		if(isset($get['idpo'])){
+			$idpo=$get['idpo'];
+		}else{
+			$idpo=null;
+		}
+		$data['pos']=$this->GlobalModel->GetData('produksi_po',array('hapus'=>0));
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cm']=$cmt;
 		$sql="SELECT * FROM kelolapo_rincian_setor_cmt_celana WHERE id_kelolapo_rincian_setor_cmt > 0";
-		if(!empty($tanggal1)){
+		if(!empty($tanggal1) && empty($idpo)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 		if(!empty($cmt)){
 			$sql.=" AND lower(nama_cmt)='".strtolower($cmt)."' ";
+		}
+		if(!empty($idpo)){
+			$sql.=" AND lower(idpo)='".strtolower($idpo)."' ";
 		}
 		$sql.=" ORDER BY id_kelolapo_rincian_setor_cmt DESC ";
 		$res=$this->GlobalModel->QueryManual($sql);
