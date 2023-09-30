@@ -2079,4 +2079,120 @@ class Finishing extends CI_Controller {
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
 		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
 	}
+
+	// susulan celana
+	public function editsetoran_susulan_celana($kodepo='')
+	{
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.kode_po="'.$kodepo.'"');
+		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
+		$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+		$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+		//pre($viewData);
+		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po LIKE' => '%' . $kodepo . '%'));
+		$viewData['setorcmtjahititem'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana',array('id_kelolapo_rincian_setor_cmt'=>$viewData['setorcmtjahit']['id_kelolapo_rincian_setor_cmt']));
+		//pre($viewData['setorcmtjahititem']);
+		//$this->load->view('global/header');
+		$viewData['page']='kelolapo/rinciansetor/rincian-setor-edit-susulan';
+		$viewData['editaction']=BASEURL.'Finishing/editsave_susulan_celana';
+		$this->load->view($this->page.'main',$viewData);
+		//$this->load->view('global/footer');
+	}
+
+	public function editsave_susulan_celana($value='')
+	{
+		$post = $this->input->post();
+		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
+		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo']));
+		$pcs = 0;
+		$jml = 0;
+		$bangke = 0;
+		$barangccd = 0;$barangHilang=0;$barangClaim=0;
+		
+		foreach ($post['rinciansize'] as $key => $rinciansize) {
+			$pcs += $post['rincianpiece'][$key];
+			$jml += $post['rincianlusin'][$key]*12;
+			$bangke += $post['banke'][$key];
+			$barangccd += $post['barangCacad'][$key];
+			$barangHilang += $post['hilangBarang'][$key];
+			$barangClaim += $post['claimBarang'][$key];
+		}
+		
+		
+		if(empty($sj)){
+			$this->session->set_flashdata('gagal','Belum ada surat jalannya');
+			
+			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+		}
+
+		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
+		$jumlahditerima = $this->db->query("SELECT COALESCE(SUM(jml_setor_qty),0) as total, COALESCE(SUM(jumlah_piece_diterima-bangke_qty),0) as totalsisa FROM kelolapo_rincian_setor_cmt_celana WHERE idpo='".$post['idpo']."' ")->row();
+		//pre($jumlahditerima->total);
+		if ( ($jmlYangDisetor+$jumlahditerima->totalsisa) <= $jumlahditerima->total ) {
+
+			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po' => $po['kode_po'],));
+
+			$insertData = array(
+				'idpo'=>$post['idpo'],
+				'kode_po'			=>	$po['kode_po'],
+				'pcs_setor_qty'		=>	$pcs,
+				'jml_setor_qty'		=>	$jmlYangDisetor,
+				'bangke_qty'		=>	$bangke,
+				'barang_cacad_qty'	=>	$barangccd,
+				'nama_cmt'			=>	$sj['nama_cmt'],
+				'barang_claim_qty'	=>	$barangClaim,
+				'barang_hilang_qty'	=>	$barangHilang,
+				'created_date'		=>	isset($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'), // ditambah tanggal penerimaan pada 8 juli 2023
+				'jumlah_piece_diterima'	=> $jmlYangDisetor
+			);
+
+			//if (empty($dataInput)) {
+				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_celana',$insertData);
+				$lastId = $this->db->insert_id();
+			// } else {
+			// 	$this->session->set_flashdata('msg','INPUT NYA SANTAI AJA DONG, KODE PO INI SUDAH DI INPUT!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/kunti.mp3" type="audio/mpeg"></audio>');
+			// 	redirect(BASEURL.'finishing/editsetoran_susulan/'.$po['kode_po']);
+			// }
+			
+			$rijek=0;
+			$ket=[];
+			foreach ($post['rinciansize'] as $key => $rin) {
+				$rijek+=($post['barangCacad'][$key]);
+				$ket[]=$post['keterangan'][$key];
+				$insertRincinan = array(
+					'id_kelolapo_rincian_setor_cmt'	=>	$lastId,
+					'kode_po'	=> $po['kode_po'],
+					'rincian_size'	=> $rin,
+					'rincian_lusin'	=> $post['rincianlusin'][$key],
+					'rincian_piece'	=> $post['rincianpiece'][$key],
+					'rincian_keterangan'	=> $post['keterangan'][$key],
+					'rincian_bangke' 	=>	$post['banke'][$key],
+					'rincian_reject' 	=>	$post['barangCacad'][$key],
+					'rincian_claim' 	=>	$post['claimBarang'][$key],
+					'rincian_hilang'	=>	$post['hilangBarang'][$key],
+					'created_date'	=> isset($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'),
+				);
+				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish_celana',$insertRincinan);
+			}
+			//$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$po['kode_po']),array('progress'=>'FINISHING'));
+			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+			if($rijek>0){
+				$this->db->insert(
+					'rijek',
+					array(
+						'idpo'=>$po['id_produksi_po'],
+						'pcs'=>$rijek,
+						'kode_po'=>$po['kode_po'],
+						'keterangan'=>implode(",",$ket),
+					)
+				);
+			}
+		} else {
+			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
+			
+			redirect(BASEURL.'finishing/editsetoran_susulan_celana/'.$po['kode_po']);
+		}
+		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
+		redirect(BASEURL.'finishing/rinciansetorcelanacmt');
+	}
 }

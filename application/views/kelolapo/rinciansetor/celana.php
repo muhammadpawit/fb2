@@ -29,8 +29,11 @@
                                 <td><?php echo $sat['qty_tot_pcs'] ?></td>
                                 <td><?php echo $sat['created_date'] ?></td>
                                 <td>
-                                    <a href="<?php echo BASEURL.'finishing/produksikaoscmt_celana/'.$sat['id'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
-
+                                    <?php if(empty($sat['rincianSetor'])){ ?>
+                                        <a href="<?php echo BASEURL.'finishing/produksikaoscmt_celana/'.$sat['id'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
+                                    <?php }else{ ?>
+                                        <a href="<?php echo BASEURL.'finishing/editsetoran_susulan_celana/'.$sat['kode_po'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil">Susulan</i></a>
+                                    <?php } ?>
                                     <?php if(aksesedit()==1){?>
                                         <!-- <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Edit</i></a> -->
                                     <?php } ?>
