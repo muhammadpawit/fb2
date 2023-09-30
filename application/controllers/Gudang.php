@@ -158,6 +158,7 @@ class Gudang extends CI_Controller {
 		}else{
 			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
 		}
+		//pre($data['products']);
 		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
 		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
 		$this->load->view($this->page.'main',$data);
@@ -1648,7 +1649,8 @@ class Gudang extends CI_Controller {
 	public function itemkeluarSearchId($id='')
 	{
 		$getId = $this->input->get('id');
-		$data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
+		// $data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
+		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,price as harga_item FROM product where product_id='".$getId."' ");
 		echo json_encode($data);
 	}
 
@@ -2455,23 +2457,30 @@ class Gudang extends CI_Controller {
 			$id=$cekajuan_harian['id'];
 			
 			$transfer=0;
-			$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$post['id']));
-			$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-			$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-			$transfer=($item['harga_beli']*$p['jml_acc']);
-			$rip=array(
-					'idpengajuan'=>$id,
-					'nama_item'=>$item['nama'],
-					'jumlah'=>$p['jml_acc'],
-					'satuan'=>$item['satuan'],
-					'harga'=>$item['harga_beli'],
-					'pembayaran'=>2, // transfer
-					'supplier'=>$supplier['nama'],
-					'keterangan'=>$p['keterangan'],
-					'status'=>1,
+			foreach($post['prods'] as $pr){
+				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
+				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+				$transfer=($item['harga_beli']*$p['jml_acc']);
+				$rip=array(
+						'nama_item'=>$item['nama'],
+						'jumlah'=>$p['jml_acc'],
+						'satuan'=>$item['satuan'],
+						'harga'=>$item['harga_beli'],
+						'pembayaran'=>2, // transfer
+						'supplier'=>$supplier['nama'],
+						'keterangan'=>$p['keterangan'],
+						'status'=>1,
+						'from_alat' => $p['id']
+				);
+				$wu = array(
 					'from_alat' => $p['id']
-			);
-			$this->db->insert('pengajuan_harian_new_detail',$rip);
+				);
+				$this->db->update('pengajuan_harian_new_detail',$rip, $wu);
+			}
+
+			//pre($id);
+			
 			
 			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
 		}

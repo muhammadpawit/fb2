@@ -122,9 +122,10 @@
                 dai.find(".ukuran").html(obj.ukuran_item);
                 //dai.find(".satuanUkran").html(obj.satuan_ukuran_item);
                 dai.find(".satuanukuran").val(obj.satuan_ukuran_item);
-                dai.find(".jumlah").val(obj.jumlah_item);
+                dai.find(".jumlah").val(0);
                 dai.find(".satuanJml").val(obj.satuan_jumlah_item);
                 dai.find(".id").val(obj.id_persediaan);
+                // dai.find(".harga").val(obj.harga_item);
                 dai.find(".harga").val(obj.harga_item);
                 dai.find(".idpersediaan").val(obj.id_persediaan);
             });
