@@ -107,7 +107,7 @@ class Laporanporijek extends CI_Controller {
 		foreach($results as $r){
 			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po LIKE '%".$r['kode_po']."%' ");
 			$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish_celana where kode_po LIKE '%".$r['kode_po']."%' ");
-			$keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish_celana where kode_po LIKE '%".$r['kode_po']."%' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
+			$keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish_celana where rincian_bangke > 0 AND  kode_po LIKE '%".$r['kode_po']."%' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
 			$cmt=$this->GlobalModel->QueryManualRow(" 
 				SELECT * FROM kelolapo_rincian_setor_cmt_celana WHERE kode_po LIKE '%".$r['kode_po']."%'
 			");
