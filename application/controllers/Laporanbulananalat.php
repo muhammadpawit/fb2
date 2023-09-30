@@ -60,7 +60,7 @@ class Laporanbulananalat extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['bulan']=$bulan;
 
-		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		$sql="SELECT gpi.*, p.harga_beli FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
 		}
@@ -110,17 +110,17 @@ class Laporanbulananalat extends CI_Controller {
 				'kode'=>null,
 				'stokawal'=>$stokawal,
 				'stokawalyard'=>0,
-				'stokawalharga'=>$row['harga_item'],
+				'stokawalharga'=>$row['harga_beli'],
 				'stokmasuk'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
 				'stokmasukyard'=>0,
-				'stokmasukharga'=>$row['harga_item'],
+				'stokmasukharga'=>$row['harga_beli'],
 				'stokkeluarroll'=>$stokkeluar,
 				'stokkeluaryard'=>0,
-				'stokkeluarharga'=>$row['harga_item'],
+				'stokkeluarharga'=>$row['harga_beli'],
 				'stokakhirroll'=>$row['jumlah_item'],
 				'stokakhiryard'=>0,
-				'stokakhirharga'=>$row['harga_item'],
-				'total'=>round($row['harga_item']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
+				'stokakhirharga'=>$row['harga_beli'],
+				'total'=>round($row['harga_beli']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
 				//'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$supplier.' <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
 				'ket'=>!empty($barangmasukterakhir)?'Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/hari'.'<br>'.$barangmasukterakhir['keterangan']:null,
 				'satuan'=>$row['satuan_jumlah_item'],
