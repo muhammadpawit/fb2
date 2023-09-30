@@ -1163,6 +1163,7 @@ class Dash extends CI_Controller {
 		$data['takterpakai']=[];
 		$data['kaos_sisa']=[];
 		$data['bahansisa']=[];
+		$data['singlet']=[];
 		foreach($results as $row){
 			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
 			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal1);
@@ -1278,6 +1279,33 @@ class Dash extends CI_Controller {
 
 				if($row['kategori']==22){
 					$data['terpakai'][]=array(
+						'no'=>$terpakai++,
+						'nama'	=>strtolower($row['nama_item']),
+						'warna'	=>strtolower($row['warna_item']),
+						'kode'=>null,
+						//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+						'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+						'stokawalharga'=>$row['harga_item'],
+						'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+						'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+						'stokmasukharga'=>$row['harga_item'],
+						'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+						'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+						'stokkeluarharga'=>$row['harga_item'],
+						//'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+						//'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+						'stokakhirroll'=>!empty($stokakhirroll['roll'])?$stokakhirroll['roll']:0,
+						'stokakhiryard'=>!empty($stokakhirroll['yard'])?$stokakhirroll['yard']:0,
+						'stokakhirharga'=>$row['harga_item'],
+						//'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+						'total'=>!empty($stokakhirroll['roll'])?$row['harga_item']*($stokakhirroll['yard']):0,
+						'ket'=>null,
+					);	
+				}
+
+				if($row['kategori']==25){
+					$data['singlet'][]=array(
 						'no'=>$terpakai++,
 						'nama'	=>strtolower($row['nama_item']),
 						'warna'	=>strtolower($row['warna_item']),
