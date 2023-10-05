@@ -45,14 +45,31 @@ class Laporanporijek extends CI_Controller {
 		$kembali=0;
 		$bangke=0;
 		foreach($results as $r){
-			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po='".$r['kode_po']."' ");
-			$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' ");
-			$keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
+			// $rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po='".$r['kode_po']."' ");
+			// $bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' ");
+			// $keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
+			// $cmt=$this->GlobalModel->QueryManualRow(" 
+			// 	SELECT * FROM kelolapo_rincian_setor_cmt WHERE kode_po='".$r['kode_po']."'
+			// ");
+			// $kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po='".$r['kode_po']."' ");
+			// $sisa = $bangke['total']-$kembali['total'];
+
+			$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po LIKE '%".$r['kode_po']."%' ");
+			$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$r['kode_po']."%' ");
+			$keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish where rincian_bangke > 0 AND  kode_po LIKE '%".$r['kode_po']."%' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
 			$cmt=$this->GlobalModel->QueryManualRow(" 
-				SELECT * FROM kelolapo_rincian_setor_cmt WHERE kode_po='".$r['kode_po']."'
+				SELECT * FROM kelolapo_rincian_setor_cmt WHERE kode_po LIKE '%".$r['kode_po']."%'
 			");
-			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po='".$r['kode_po']."' ");
-			$sisa = $bangke['total']-$kembali['total'];
+			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po LIKE '%".$r['kode_po']."%' ");
+			$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$r['kode_po']."%' ");
+			if(empty($pot_drikeu)){
+				$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$r['kode_po']."%' ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
+				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish_celana where kode_po LIKE '%".$r['kode_po']."%' ");
+				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$r['kode_po']."%' ");
+				$sisa = ($diterima_seharusnya['total']+$bangke['total']) - $kembali['total'];
+			}else{
+				$sisa = $bangke['total']-$kembali['total'];
+			}
 			
 			if($sisa<>0){
 				$data['prods'][]=array(
