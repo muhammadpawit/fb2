@@ -64,7 +64,7 @@ class Laporanporijek extends CI_Controller {
 			$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$r['kode_po']."%' ");
 			if(empty($pot_drikeu)){
 				$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$r['kode_po']."%' ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
-				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish_celana where kode_po LIKE '%".$r['kode_po']."%' ");
+				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$r['kode_po']."%' ");
 				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$r['kode_po']."%' ");
 				$sisa = ($diterima_seharusnya['total']+$bangke['total']) - $kembali['total'];
 			}else{
