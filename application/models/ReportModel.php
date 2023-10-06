@@ -1369,7 +1369,7 @@ class ReportModel extends CI_Model {
 		}
 
 		if(!empty($data['jenis'])){
-			 $sql.=" AND kode_po LIKE '".$data['jenis']."%' ";
+			 $sql.=" AND kbp.kode_po LIKE '".$data['jenis']."%' ";
 			if(!empty($data['tanggal1'])){
 				$sql.=" AND date(kbp.created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 			}
@@ -1378,8 +1378,8 @@ class ReportModel extends CI_Model {
 				$sql.=" AND date(kbp.created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 			}
 		}
-		$sql.=" GROUP BY kode_po ";
-		$sql.=" ORDER BY date(kbp.created_date) ASC, kode_po ASC ";
+		$sql.=" GROUP BY kbp.kode_po ";
+		$sql.=" ORDER BY date(kbp.created_date) ASC, kbp.kode_po ASC ";
 		$data=$this->db->query($sql);
 		return $data->result_array();
 	}
