@@ -37,47 +37,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-7">
-		<div class="form-group">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>Tanggal</th>
-						<th>Nama</th>
-						<th align="center">Jumlah (Roll)</th>
-						<th align="center" colspan="2">Satuan</th>
-						<!-- <th>Harga (Rp)</th>
-						<th>Total (Rp)</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($prods as $p){?>
-						<tr>
-							<td><?php echo $p['no']?></td>
-							<td><?php echo $p['tanggal']?></td>
-							<td><?php echo $p['nama']?></td>
-							<td><?php echo $p['roll']?></td>
-							<td><?php echo number_format($p['yardkg'],2)?></td>
-							<td><?php echo $p['satuan']?></td>
-							<!-- <td><?php //echo number_format($p['harga'])?></td>
-							<td><?php //echo number_format($p['total'])?></td> -->
-						</tr>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="3" align="center"><b>Total</b></td>
-						<td><b><?php echo number_format($roll)?></b></td>
-						<td><b><?php echo number_format($yardkg,2)?></b></td>
-						<!-- <td></td>
-						<td><b><?php echo number_format($total,2)?></b></td> -->
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-	</div>
-	<div class="col-md-5">
+	<div class="col-md-6">
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Kemeja</h3>
 			<table class="table table-bordered">
@@ -119,9 +79,16 @@
 				</tfoot>
 			</table>
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
+			<br><br>
 			<div id="kemeja"></div>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Spandek</h3>
 			<table class="table table-bordered">
@@ -163,9 +130,15 @@
 				</tfoot>
 			</table>
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
 			<div id="spandek"></div>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Celana</h3>
 			<table class="table table-bordered">
@@ -207,9 +180,15 @@
 				</tfoot>
 			</table>
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
 			<div id="celana"></div>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
 		<div class="form-group">
 			<h3 class="text-center">Rekap Perbulan Bahan Keluar Bahan Singlet</h3>
 			<table class="table table-bordered">
@@ -251,9 +230,55 @@
 				</tfoot>
 			</table>
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
 			<div id="bahanSinglet"></div>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Tanggal</th>
+						<th>Nama</th>
+						<th align="center">Jumlah (Roll)</th>
+						<th align="center" colspan="2">Satuan</th>
+						<!-- <th>Harga (Rp)</th>
+						<th>Total (Rp)</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($prods as $p){?>
+						<tr>
+							<td><?php echo $p['no']?></td>
+							<td><?php echo $p['tanggal']?></td>
+							<td><?php echo $p['nama']?></td>
+							<td><?php echo $p['roll']?></td>
+							<td><?php echo number_format($p['yardkg'],2)?></td>
+							<td><?php echo $p['satuan']?></td>
+							<!-- <td><?php //echo number_format($p['harga'])?></td>
+							<td><?php //echo number_format($p['total'])?></td> -->
+						</tr>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3" align="center"><b>Total</b></td>
+						<td><b><?php echo number_format($roll)?></b></td>
+						<td><b><?php echo number_format($yardkg,2)?></b></td>
+						<!-- <td></td>
+						<td><b><?php echo number_format($total,2)?></b></td> -->
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-5">
 	</div>
 </div>
 <script src="https://code.highcharts.com/highcharts.js"></script>
