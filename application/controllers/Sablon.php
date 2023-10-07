@@ -177,22 +177,33 @@ class Sablon extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		}
-
-		if(isset($get['tim'])){
-			$tim=$get['tim'];
+		$where='';
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+			$where.=" AND a.idcmt='".$cmt."' ";
 		}else{
-			$tim=null;
+			$cmt=null;
 		}
 
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['cmt']=$cmt;
 		$data['n']=1;
 		$data['action']=BASEURL.'Sablon/claimpo_save';
 		$data['prods']=array();
-		$data['prods']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
+		// $data['prods']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
+		$data['prods']=$this->GlobalModel->QueryManual(
+			"SELECT a.*, b.cmt_name as namacmt FROM claim_sablon as a LEFT JOIN master_cmt b ON b.id_cmt=a.idcmt WHERE a.hapus=0 $where ORDER BY a.id DESC"
+		);
 		$data['cm']=$this->GlobalModel->GetData('master_cmt',array('lokasi'=>4,'hapus'=>0,'cmt_job_desk'=>'SABLON'));
-		$data['page']=$this->page.'sablon/klaim_list';
-		$this->load->view($this->page.'main',$data);
+
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'sablon/klaim_list_excel',$data);
+		}else{
+			$data['page']=$this->page.'sablon/klaim_list';
+			$this->load->view($this->page.'main',$data);
+		}
+		
 	}
 
 	// public function claimpotambah(){
@@ -726,7 +737,19 @@ class Sablon extends CI_Controller {
 
 	function claimpo_save(){
 		$post = $this->input->post();
-		if($post['type']==2){
+		if($post['type']==2){ // kasbon
+			$insert = array(
+				'tanggal' => $post['tanggal'],
+				'idcmt' => $post['idcmt'],
+				'harga'	=> $post['nominal'],
+				'quantity'=>1,
+				'keterangan'=>$post['keterangan'],
+				'hapus'=>0,
+			);
+			$this->db->insert('claim_sablon',$insert);
+			$this->session->set_flashdata('msg','Data berhasil disimpan');
+			redirect($this->url.'claimpo');
+		}else if($post['type']==1){ // klaim
 			$insert = array(
 				'tanggal' => $post['tanggal'],
 				'idcmt' => $post['idcmt'],

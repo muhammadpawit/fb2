@@ -23,7 +23,7 @@
           </div>
           <div class="form-group">
             <label>Nama CMT</label>
-            <select name="idcmt" class="form-control" required>
+            <select name="idcmt" class="form-control select2bs4" style="width: 100%;" required>
                 <option value=""></option>
                 <?php foreach($cm as $c){?>
                 <option value="<?php echo $c['id_cmt']?>"><?php echo $c['cmt_name']?></option>
@@ -63,51 +63,58 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" autocomplete="off" value="<?php echo $tanggal2?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-4">
+  <div class="col-md-3">
+		<div class="form-group">
+			<label>CMT</label>
+			<select name="cmt" id="cmt" class="form-control select2bs4">
+        <option value="*"></option>
+        <?php foreach($cm as $c){ ?>
+          <option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmt ? 'selected':'';?>><?php echo $c['cmt_name']?></option>
+        <?php } ?>
+      </select>
+		</div>
+	</div>
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filterwithcmt()">Filter</button>
 			<span class=""><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah</button></span>
+      <button class="btn btn-success btn-sm" onclick="excelwithtglcmt()">Excel</button>
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered yessearch">
     <thead>
         <tr>
             <th>ID</th>
             <th>Tanggal</th>
-            <th>IDCMT</th>
-            <th>Kode PO</th>
-            <th>Harga</th>
-            <th>Quantity</th>
-            <th>Satuan</th>
+            <th>Nama CMT</th>
+            <th>Nominal</th>
             <th>Keterangan</th>
         </tr>
     </thead>
     <tbody>
+        <?php $no=1;?>
         <?php foreach ($prods as $data): ?>
         <tr>
-            <td><?php echo $data['id']; ?></td>
+            <td><?php echo $no++; ?></td>
             <td><?php echo $data['tanggal']; ?></td>
-            <td><?php echo $data['idcmt']; ?></td>
-            <td><?php echo $data['kode_po']; ?></td>
-            <td><?php echo $data['harga']; ?></td>
-            <td><?php echo $data['quantity']; ?></td>
-            <td><?php echo $data['satuan']; ?></td>
+            <td><?php echo $data['namacmt']; ?></td>
+            <td><?php echo number_format($data['harga'],2); ?></td>
             <td><?php echo $data['keterangan']; ?></td>
         </tr>
         <?php endforeach; ?>
@@ -115,3 +122,27 @@
 </table>
 	</div>
 </div>
+<script>
+  function excelwithtglcmt(){
+    var url='?&excel=1';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    var filter_status = $('select[name=\'cmt\']').val();
+
+    if (filter_status != '*') {
+      url += '&cmt=' + encodeURIComponent(filter_status);
+    }
+
+
+
+    location =url;
+  }
+
+</script>
