@@ -913,6 +913,8 @@ class Gaji extends CI_Controller {
 					'insentif'=>isset($p['insentif'])?1:0,
 					'claim'=>$p['claim'],
 					'pinjaman'=>$p['pinjaman'],
+					'saving'=>isset($p['saving'])? $p['saving']:0,
+					'keluarkansaving'=>isset($p['keluarkansaving'])? $p['keluarkansaving']:0,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}
@@ -960,6 +962,8 @@ class Gaji extends CI_Controller {
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
 					'claim'=>$d['claim'],
 					'pinjaman'=>$d['pinjaman'],
+					'saving'=>$d['saving'],
+					'keluarkansaving'=>$d['keluarkansaving'],
 				);
 			}
 		}

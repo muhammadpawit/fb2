@@ -67,15 +67,23 @@
 						<td align="right"><label><?php echo number_format($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']) ?></label></td>
 					</tr>
 					<tr>
+						<td><b>Saving</b></td>
+						<td align="right"><label><?php echo number_format($k['saving']) ?></label></td>
+					</tr>
+					<tr>
+						<td><b>Keluarkan Saving</b></td>
+						<td align="right"><label><?php echo number_format($k['keluarkansaving']) ?></label></td>
+					</tr>
+					<tr>
 						<td><b>Pembulatan</b></td>
-						<td align="right"><label><?php echo number_format(pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman'])) ?></label></td>
+						<td align="right"><label><?php echo number_format(pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving'])) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 	<?php
-		$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']);
+		$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']+$k['keluarkansaving']-$k['saving']);
 
 	?>
 	<?php } ?>

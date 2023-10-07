@@ -100,12 +100,20 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 								<td><b>Total (Rp)</b></td>
 								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']) ?></label></td>
 							</tr>
+							<tr>
+							<td><b>Saving</b></td>
+							<td align="right"><label><?php echo number_format($k['saving']) ?></label></td>
+								</tr>
+								<tr>
+							<td><b>Keluarkan Saving</b></td>
+							<td align="right"><label><?php echo number_format($k['keluarkansaving']) ?></label></td>
+						</tr>
 						</tbody>
 					</table><br>
 				</td>
 				<?php
 					//$i++;
-					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
+					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
 				?>
 
 				<?php } ?>
@@ -205,6 +213,14 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 								<td><b>Total (Rp)</b></td>
 								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']) ?></label></td>
 							</tr>
+							<tr>
+								<td><b>Saving</b></td>
+								<td align="right"><label><?php echo number_format($k['saving']) ?></label></td>
+							</tr>
+							<tr>
+								<td><b>Keluarkan Saving</b></td>
+								<td align="right"><label><?php echo number_format($k['keluarkansaving']) ?></label></td>
+							</tr>
 						</tbody>
 					</table><br>
 				</td>
@@ -223,7 +239,7 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 	<?php 
 		$totals=0;
 		foreach($karyawans as $k){
-			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
+			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
 		}
 	?>
 
