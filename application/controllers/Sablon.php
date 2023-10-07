@@ -192,9 +192,27 @@ class Sablon extends CI_Controller {
 		$data['action']=BASEURL.'Sablon/claimpo_save';
 		$data['prods']=array();
 		// $data['prods']=$this->GlobalModel->getData('claim_sablon',array('hapus'=>0));
-		$data['prods']=$this->GlobalModel->QueryManual(
+		$prods=$this->GlobalModel->QueryManual(
 			"SELECT a.*, b.cmt_name as namacmt FROM claim_sablon as a LEFT JOIN master_cmt b ON b.id_cmt=a.idcmt WHERE a.hapus=0 $where ORDER BY a.id DESC"
 		);
+		$data['prods']=[];
+		$potongan=0;
+		foreach($prods as $p){
+			$potonganya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(nominal),0) as total FROM claim_potongan_sablon_detail WHERE idclaim='".$p['id']."' ");
+			if(!empty($potonganya)){
+				$potongan = $potonganya['total'];
+			}
+			$data['prods'][]=array(
+				'id'    => $p['id'],
+				'tanggal' => date('d F Y',strtotime($p['tanggal'])),
+				'namacmt' => $p['namacmt'],
+				'harga'   => $p['harga'],
+				'type'    => $p['type'],
+				'sisa'    => !empty($potonganya) ? ($p['harga']-$potonganya['total']):0,
+				'keterangan'=> $p['keterangan']
+			);
+		}
+
 		$data['cm']=$this->GlobalModel->GetData('master_cmt',array('lokasi'=>4,'hapus'=>0,'cmt_job_desk'=>'SABLON'));
 
 		if(isset($get['excel'])){
@@ -737,7 +755,7 @@ class Sablon extends CI_Controller {
 
 	function claimpo_save(){
 		$post = $this->input->post();
-		if($post['type']==2){ // kasbon
+		if(isset($post['type'])){ // 1 claim, 2 kasbon
 			$insert = array(
 				'tanggal' => $post['tanggal'],
 				'idcmt' => $post['idcmt'],
@@ -745,18 +763,7 @@ class Sablon extends CI_Controller {
 				'quantity'=>1,
 				'keterangan'=>$post['keterangan'],
 				'hapus'=>0,
-			);
-			$this->db->insert('claim_sablon',$insert);
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect($this->url.'claimpo');
-		}else if($post['type']==1){ // klaim
-			$insert = array(
-				'tanggal' => $post['tanggal'],
-				'idcmt' => $post['idcmt'],
-				'harga'	=> $post['nominal'],
-				'quantity'=>1,
-				'keterangan'=>$post['keterangan'],
-				'hapus'=>0,
+				'type'=>$post['type'],
 			);
 			$this->db->insert('claim_sablon',$insert);
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
@@ -765,6 +772,29 @@ class Sablon extends CI_Controller {
 			$this->session->set_flashdata('gagal','Data Gagal disimpan. Harap coba lagi nanti');
 			redirect($this->url.'claimpo');
 		}
+	}
+
+	function history($type,$id){
+		$data['title']			='Input Potongan';
+		$data['prods']			= $this->GlobalModel->getDataRow('claim_sablon',array('id'=>$id));
+		$data['history']		= [];
+		$data['history']		= $this->GlobalModel->getData('claim_potongan_sablon_detail',array('idclaim'=>$id));
+		$data['action']			= BASEURL.'Sablon/history_save';
+		$data['page']			= $this->page.'sablon/klaim_form';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	function history_save(){
+		$post = $this->input->post();
+		//pre($post);
+		$insert = array(
+			'tanggal' => $post['tanggal'],
+			'idclaim' => $post['idclaim'],
+			'nominal'=> $post['nominal'],
+		);
+		$this->db->insert('claim_potongan_sablon_detail',$insert);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url.'claimpo/'.$post['type'].'/'.$post['idclaim']);
 	}
 
 }

@@ -104,7 +104,9 @@
             <th>Tanggal</th>
             <th>Nama CMT</th>
             <th>Nominal</th>
+            <th>Sisa</th>
             <th>Keterangan</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -115,7 +117,11 @@
             <td><?php echo $data['tanggal']; ?></td>
             <td><?php echo $data['namacmt']; ?></td>
             <td><?php echo number_format($data['harga'],2); ?></td>
+            <td><?php echo number_format($data['sisa'],2); ?></td>
             <td><?php echo $data['keterangan']; ?></td>
+            <td>
+              <a href="<?php echo BASEURL.'Sablon/history/'.$data['type'].'/'.$data['id'] ?>" class="btn btn-xs btn-warning">History</a>
+            </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
