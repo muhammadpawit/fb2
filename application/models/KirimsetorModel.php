@@ -204,7 +204,7 @@ class kirimsetorModel extends CI_Model {
 		$results=[];
 		$tanggal=date('Y-m-d',strtotime($tanggal));
 		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
-		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		kg.keterangan,kg.nama_penerima FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 ";
 		$sql.=" and DATE(tanggal_kirim)='".$tanggal."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
@@ -228,7 +228,7 @@ class kirimsetorModel extends CI_Model {
 					'nama'=>$row['nama_jenis_po'],
 					'nilai'=>$row['nilai'] - $this->kirimgudangharian_jml($tanggal,$row['nama_jenis_po'],$row['tanggal_kirim'])['nilai'],
 					'tujuan'=>$row['tujuan'],
-					'keterangan'=> 'H Soleh ('. $row['keterangan'].')',
+					'keterangan'=> $row['nama_penerima'].' '.$row['tujuan'].' ('. $row['keterangan'].')',
 				);
 			}
 			
