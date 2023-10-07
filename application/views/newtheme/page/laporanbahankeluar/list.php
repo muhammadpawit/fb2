@@ -63,7 +63,7 @@
 								<?php echo $k['roll']?>
 							</td>
 							<td>
-								<?php echo $k['yard']?>
+								<?php echo number_format($k['yard'],2)?>
 							</td>
 						</tr>
 						<?php $kmj+=($k['roll']);?>
@@ -114,7 +114,7 @@
 								<?php echo $k['roll']?>
 							</td>
 							<td>
-								<?php echo $k['kg']?>
+								<?php echo number_format($k['kg'],2)?>
 							</td>
 						</tr>
 						<?php $kos+=($k['roll']);?>
@@ -164,7 +164,7 @@
 								<?php echo $k['roll']?>
 							</td>
 							<td>
-								<?php echo $k['yard']?>
+								<?php echo number_format($k['yard'],2)?>
 							</td>
 						</tr>
 						<?php $cln+=($k['roll']);?>
@@ -214,7 +214,7 @@
 								<?php echo $k['roll']?>
 							</td>
 							<td>
-								<?php echo $k['yard']?>
+							<?php echo number_format($k['yard'],2)?>
 							</td>
 						</tr>
 						<?php $Bsinglet+=($k['roll']);?>
