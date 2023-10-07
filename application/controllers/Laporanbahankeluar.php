@@ -75,9 +75,11 @@ class Laporanbahankeluar extends CI_Controller {
 		$data['rkemeja']=[];
 		$data['rkaos']=[];
 		$data['rcelana']=[];
+		$data['bahanSinglet']=[];
 		$kemeja=[];
 		$kaos=[];
 		$celana=[];
+		$bahanSinglet=[];
 		$data['perminggu']=[];
 		$total=0;
 		foreach($bulan as $b=>$val){
@@ -108,6 +110,13 @@ class Laporanbahankeluar extends CI_Controller {
 					'roll'=>$this->ReportModel->barangkeluar_bulanan(1,16,$month,$y),
 					'yard'=>$this->ReportModel->barangkeluar_bulanan(2,16,$month,$y),
 				);
+				$data['bahanSinglet'][]=array(
+					'bulan'=>$val,
+					'bln'=>$month,
+					'year'=>$y,
+					'roll'=>$this->ReportModel->barangkeluar_bulanan(1,25,$month,$y),
+					'yard'=>$this->ReportModel->barangkeluar_bulanan(2,25,$month,$y),
+				);
 			$kemeja[]=array(
 					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,17,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,17,$month,$y):0,
 				);
@@ -117,11 +126,15 @@ class Laporanbahankeluar extends CI_Controller {
 			$celana[]=array(
 					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,16,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,16,$month,$y):0,
 				);
+			$bahanSinglet[]=array(
+					'tot'=>!empty($this->ReportModel->barangkeluar_bulanan(1,25,$month,$y))?$this->ReportModel->barangkeluar_bulanan(1,25,$month,$y):0,
+				);
 		}
 		$data['kem']=implode(",", array_column($kemeja, 'tot'));
 		//pre($data['kem']);
 		$data['kao']=implode(",", array_column($kaos, 'tot'));
 		$data['cel']=implode(",", array_column($celana, 'tot'));
+		$data['bahSing']=implode(",", array_column($bahanSinglet, 'tot'));
 		$bulan=$this->ReportModel->month();
 		$data['bulan']=json_encode($bulan);
 		if(isset($get['excel'])){

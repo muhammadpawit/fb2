@@ -33,7 +33,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<h1 class="text-center">Rincian Pengambilan Bahan Keluar <?php echo bulan()[date('n',strtotime($tanggal1))] .' '.date('Y',strtotime($tanggal1))?></h1>
+		<h1 class="text-center">Rincian Pengambilan Bahan Keluar <?php echo bulan()[date('m',strtotime($tanggal1))] .' '.date('Y',strtotime($tanggal1))?></h1>
 	</div>
 </div>
 <div class="row">
@@ -58,10 +58,10 @@
 							<td><?php echo $p['tanggal']?></td>
 							<td><?php echo $p['nama']?></td>
 							<td><?php echo $p['roll']?></td>
-							<td><?php echo $p['yardkg']?></td>
+							<td><?php echo number_format($p['yardkg'],2)?></td>
 							<td><?php echo $p['satuan']?></td>
-							<!-- <td><?php echo number_format($p['harga'])?></td>
-							<td><?php echo number_format($p['total'])?></td> -->
+							<!-- <td><?php //echo number_format($p['harga'])?></td>
+							<td><?php //echo number_format($p['total'])?></td> -->
 						</tr>
 					<?php } ?>
 				</tbody>
@@ -69,9 +69,9 @@
 					<tr>
 						<td colspan="3" align="center"><b>Total</b></td>
 						<td><b><?php echo number_format($roll)?></b></td>
-						<td><b><?php echo number_format($yardkg)?></b></td>
+						<td><b><?php echo number_format($yardkg,2)?></b></td>
 						<!-- <td></td>
-						<td><b><?php echo number_format($total)?></b></td> -->
+						<td><b><?php echo number_format($total,2)?></b></td> -->
 					</tr>
 				</tfoot>
 			</table>
@@ -209,6 +209,50 @@
 		</div>
 		<div class="form-group">
 			<div id="celana"></div>
+		</div>
+		<div class="form-group">
+			<h3 class="text-center">Rekap Perbulan Bahan Keluar Bahan Singlet</h3>
+			<table class="table table-bordered">
+				<thead>
+					<tr align="center">
+					    <!-- <td rowspan="2">No</td> -->
+					    <td rowspan="2">Bulan</td>
+					    <td colspan="2">Satuan</td>
+					</tr>
+					<tr align="center">
+					    <td>Roll</td>
+					    <td>Yard</td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $Bsinglet=0; $Bsinglet2=0;?>
+					<?php foreach($bahanSinglet as $k){?>
+						<tr align="center">
+							<td>
+								<?php echo $k['bulan'] ?>
+							</td>
+							<td>
+								<?php echo $k['roll']?>
+							</td>
+							<td>
+								<?php echo $k['yard']?>
+							</td>
+						</tr>
+						<?php $Bsinglet+=($k['roll']);?>
+						<?php $Bsinglet2+=($k['yard']);?>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr align="center">
+						<td><b>Total</b></td>
+						<td><b><?php echo $Bsinglet ?></b></td>
+						<td><b><?php echo $Bsinglet2?></b></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="form-group">
+			<div id="bahanSinglet"></div>
 		</div>
 	</div>
 </div>
@@ -420,6 +464,73 @@
 	     	},
 	    ]
 	});
+
+	Highcharts.chart('bahanSinglet', {
+	  
+	  chart: {
+		  type: 'column',
+		  style: {
+			  color: "blue"
+		  }
+	  },
+	  title: {
+		  text: 'Grafik Bahan Keluar Bahan Singlet',
+		  style: {
+				  color: '#34c9eb',
+				  //font: '11px Trebuchet MS, Verdana, sans-serif'
+			  }
+	  },
+	  subtitle: {
+		  text: 'Jumlah Roll ',
+		  style: {
+				  color: '#34c9eb',
+				  //font: '11px Trebuchet MS, Verdana, sans-serif'
+			  }
+	  },
+	  xAxis: {
+		  categories: <?php echo $bulan?>,
+		  crosshair: true,
+		  labels: {
+			  style: {
+				  color: '#34c9eb',
+				  //font: '11px Trebuchet MS, Verdana, sans-serif'
+			  }
+			},
+	  },
+	  yAxis: {
+		  min: 0,
+		  title: {
+			  text: '',
+		  },
+		   labels: {
+			  style: {
+				  color: '#34c9eb',
+				  //font: '11px Trebuchet MS, Verdana, sans-serif'
+			  }
+			},
+	  },
+	  tooltip: {
+		  headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+			  '<td style="padding:0"><b>{point.y:.1f} Roll</b></td></tr>',
+		  footerFormat: '</table>',
+		  shared: true,
+		  useHTML: true
+	  },
+	  plotOptions: {
+		  column: {
+			  pointPadding: 0.2,
+			  borderWidth: 0
+		  }
+	  },
+	  colors:colors,
+	  series: [
+			{
+				 name:'Bahan Singlet',
+			   data: [<?php echo $bahSing?>],
+		   },
+	  ]
+  });
 
 
 </script>
