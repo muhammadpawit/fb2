@@ -44,6 +44,7 @@ class Laporanporijek extends CI_Controller {
 		$rjk=0;
 		$kembali=0;
 		$bangke=0;
+		$susulan=null;
 		foreach($results as $r){
 			// $rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po='".$r['kode_po']."' ");
 			// $bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po='".$r['kode_po']."' ");
@@ -68,7 +69,9 @@ class Laporanporijek extends CI_Controller {
 				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$r['kode_po']."%'  ");
 				$sisa = ($diterima_seharusnya['total']+$bangke['total']) - $kembali['total'];
 			}else{
-				$sisa = $bangke['total']-$kembali['total'];
+				$susulan=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$r['kode_po']."%' GROUP BY id_kelolapo_rincian_setor_cmt LIMIT 18446744073709551615 OFFSET 1");
+				// $sisa = $bangke['total']-$kembali['total'];
+				$sisa = $bangke['total']-$susulan['total'];
 			}
 			
 			if($sisa<>0){
@@ -76,7 +79,7 @@ class Laporanporijek extends CI_Controller {
 					'no'=>$no++,
 					'kode_po'=>$r['kode_po'],
 					'bangke'=>$sisa,
-					'keterangan' => $keterangan_bangke['keterangan'],
+					'keterangan' => empty($susulan) ? $keterangan_bangke['keterangan'] : 'kurang ' .$sisa,
 					'tanggal' => date('d/m/Y',strtotime($cmt['created_date'])),
 					'cmt'	=> $cmt['nama_cmt'],
 					'rijek'=>$rjk['total'],
