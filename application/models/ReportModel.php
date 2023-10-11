@@ -414,8 +414,24 @@ class ReportModel extends CI_Model {
 			$dbangke=$this->db->query($bangke)->row();
 			$bangkenya=0;
 			if($progress=='SETOR' && $kat=='JAHIT'){
-				if(!empty($dbangke)){
-					$bangkenya=$dbangke->total - $qtykembalianbangke;
+				// if(!empty($dbangke)){
+				// 	$bangkenya=$dbangke->total - $qtykembalianbangke;
+				// }
+				$rjk=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(pcs),0) as total FROM rijek where kode_po LIKE '%".$kodepo."%' ");
+				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$kodepo."%' ");
+				$keterangan_bangke=$this->GlobalModel->QueryManualRow("SELECT created_date,rincian_keterangan as keterangan FROM kelolapo_rincian_setor_cmt_finish where rincian_bangke > 0 AND  kode_po LIKE '%".$kodepo."%' AND rincian_keterangan IS NOT NULL and rincian_keterangan <>'-' ");
+				$cmt=$this->GlobalModel->QueryManualRow(" 
+					SELECT * FROM kelolapo_rincian_setor_cmt WHERE kode_po LIKE '%".$kodepo."%'
+				");
+				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po LIKE '%".$kodepo."%' ");
+				$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$kodepo."%' ");
+				if(empty($pot_drikeu)){
+					$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$kodepo."%' GROUP BY id_kelolapo_rincian_setor_cmt ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
+					$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$kodepo."%' ");
+					$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$kodepo."%' ");
+					$bangkenya = ($diterima_seharusnya['total']+$bangke['total']) - $kembali['total'];
+				}else{
+					$bangkenya = $bangke['total']-$kembali['total'];
 				}
 			}
 
