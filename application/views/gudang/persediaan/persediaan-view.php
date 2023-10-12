@@ -58,7 +58,7 @@
                                     <?php echo strtolower($sat['satuan_ukuran_item']) ?>
                                 </td>
                                 <td><?php echo strtolower($sat['jumlah_item']) ?> <?php echo strtolower($sat['satuan_jumlah_item']) ?></td>
-                                <td><?php echo number_format($sat['harga_item']) ?></td>
+                                <td><?php echo ($sat['harga_item']) ?></td>
                                 <td>
                                     <a href="<?php echo BASEURL.'Gudang/kartustok/'.$sat['id_persediaan'] ?>" class="btn btn-info btn-xs text-white"> Kartustok</a>
 
