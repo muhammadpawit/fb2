@@ -35,7 +35,8 @@
                     <table class="table table-bordered" id="addbahankeluars">
                       <tr>
                         <th>Nama Barang</th>
-                        <th>Jumlah</th>
+                        <th>Stok</th>
+                        <th>Jumlah Keluar</th>
                         <th>Satuan</th>
                         <th>Keterangan</th>
                         <th><button type="button" name="add" class="btn btn-success btn-sm addbahankeluars"><i class="fa fa-plus"></i></button></th>
@@ -61,6 +62,7 @@ $(document).ready(function(){
         html += '<tr>';
         html += '<td style="display:none;"><input type="hidden" class="form-control id" name="products['+i+'][idpersediaan]" ><input type="hidden" class="form-control harga" name="products['+i+'][harga]" ></td>';
         html += '<td><select type="text" class="form-control barang select2bs4" name="products['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
+        html += '<td><input type="number" class="form-control stok" name="products['+i+'][stok]" disabled></td>';
         html += '<td><input type="number" class="form-control jumlah" name="products['+i+'][jumlah]" ></td>';
         html += '<td><select class="form-control satuanJml" name="products['+i+'][satuan]" readonly><?php foreach ($satuan as $key => $satt): ?><option value="<?php echo $satt['kode_satuan_barang'] ?>"><?php echo $satt['kode_satuan_barang'] ?></option><?php endforeach ?></select></td>';
         html += '<td><input type="text" class="form-control" name="products['+i+'][keterangan]"></td>';
@@ -85,7 +87,8 @@ $(document).ready(function(){
           .done(function( data ) {
             var obj = JSON.parse(data);
             console.log(obj);
-            dai.find(".jumlah").val(obj.jumlah_item);
+            dai.find(".stok").val(obj.quantity);
+            dai.find(".jumlah").val(obj.quantity);
             dai.find(".satuanJml").val(obj.satuan_jumlah_item);
             dai.find(".id").val(obj.id_persediaan);
             dai.find(".harga").val(obj.harga_item);

@@ -1650,7 +1650,7 @@ class Gudang extends CI_Controller {
 	{
 		$getId = $this->input->get('id');
 		// $data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
-		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,price as harga_item FROM product where product_id='".$getId."' ");
+		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,price as harga_item, quantity FROM product where product_id='".$getId."' ");
 		echo json_encode($data);
 	}
 
