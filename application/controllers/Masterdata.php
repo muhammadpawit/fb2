@@ -1859,6 +1859,7 @@ class Masterdata extends CI_Controller {
 		$post=$this->input->post();
 		$update=array(
 			'tampil'=>$post['tampil'],
+			'online'=>$post['online']
 		);
 		$where=array(
 			'id_jenis_po'=>$post['id_jenis_po'],

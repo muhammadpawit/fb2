@@ -20,6 +20,7 @@ class Monitoring extends CI_Controller {
 	public function index() {
 		$data			=[];
 		$data['celana']	=[];
+		$data['kemeja']	=[];
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
