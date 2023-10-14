@@ -1123,6 +1123,31 @@
 	
 		return $hasil + $hasil2;
 	}
+
+	function perminggu($bulan, $tahun){
+		// Tanggal awal dan akhir dari bulan yang diinginkan
+		$bulan = $bulan; // Oktober (ganti dengan bulan yang diinginkan)
+		$tahun = $tahun; // Tahun (ganti dengan tahun yang diinginkan)
+
+		$tanggalAwal = new DateTime("$tahun-$bulan-01");
+		$tanggalAkhir = new DateTime("$tahun-$bulan-" . $tanggalAwal->format('t'));
+
+		// Loop untuk menghasilkan semua minggu dalam bulan
+		$minggu = 1;
+		$hasil  = [];
+		while ($tanggalAwal <= $tanggalAkhir) {
+			$hasil[] = array(
+				'minggu' => $minggu,
+				'awal' 	=> $tanggalAwal->format('Y-m-d'),
+				'akhir'	=> $tanggalAwal->modify('next Sunday')->format('Y-m-d'),
+			);
+			// echo "Minggu ke-$minggu: " . $tanggalAwal->format('Y-m-d') . " hingga " . $tanggalAwal->modify('next Sunday')->format('Y-m-d') . "<br>";
+			$minggu++;
+		}
+		return $hasil;
+		// Output akan menampilkan semua minggu dalam bulan Oktober 2023
+
+	}
 	
 
  ?>

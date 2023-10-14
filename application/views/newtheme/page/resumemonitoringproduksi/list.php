@@ -1,3 +1,43 @@
+<style>
+    .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown .dropdown-toggle {
+    color: #333;
+    text-decoration: none;
+    /* padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px; */
+    display: block;
+}
+
+.dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown .dropdown-menu a {
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown:hover .dropdown-menu a:hover {
+    background-color: #e9bceb;
+}
+
+</style>
 <div class="row">
 	<div class="col-md-4">
 		<div class="form-group">
@@ -42,7 +82,17 @@
                     <tr>
                         <td rowspan="2">No</td>
                         <td rowspan="2">Jenis PO</td>
-                        <td colspan="3">Potongan</td>
+                        <td colspan="3">
+                        <div class="dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle">Potongan</a>
+                            <div class="dropdown-menu">
+                                <a href="">Potongan Harian</a>
+                                <a href="">Potongan Mingguan</a>
+                                <a href="">Potongan Bulanan</a>
+                            </div>
+                        </div>
+
+                        </td>
                         <td colspan="3">Kirim CMT</td>
                         <td colspan="3">Setor CMT</td>
                         <td colspan="3">Kirim Gudang</td>
