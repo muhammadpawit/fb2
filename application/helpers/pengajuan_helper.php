@@ -1074,7 +1074,7 @@
 	// 	return $hasil+$hasil2;
 	// }
 
-	function count_mdetails_perpo_mingguan_rekap($namapo, $proses = 0) {
+	function count_mdetails_perpo_mingguan_rekap($proses,$namapo) {
 		$CI =& get_instance();
 		$hasil = 0;
 		$get = $CI->input->get();
