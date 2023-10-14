@@ -20,6 +20,9 @@ class kirimsetorModel extends CI_Model {
 		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs,mjp.nama_jenis_po,count(kg.kode_po) as jml,SUM(kg.jumlah_harga_piece) as nilai,mjp.perkalian FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
+		if(isset($data['online'])){
+			$sql.=" AND mjp.online='".$data['online']."' ";
+		}
 		$sql.=" AND lower(kg.keterangan) NOT IN('kirim sample','po susulan') ";
 		$sql.="GROUP BY mjp.nama_jenis_po";
 		$results=$this->GlobalModel->QueryManual($sql);
@@ -122,6 +125,9 @@ class kirimsetorModel extends CI_Model {
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'Kirim Sample%' ";
+		if(isset($data['online'])){
+			$sql.=" AND mjp.online='".$data['online']."' ";
+		}
 		$sql.="GROUP BY kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
@@ -199,7 +205,7 @@ class kirimsetorModel extends CI_Model {
 		return $hasil;
 	}
 
-	public function kirimgudangharian_hari($tanggal,$hari){
+	public function kirimgudangharian_hari($tanggal,$hari,$data){
 		$hasil=[];
 		$results=[];
 		$tanggal=date('Y-m-d',strtotime($tanggal));
@@ -207,6 +213,9 @@ class kirimsetorModel extends CI_Model {
 		kg.keterangan,kg.nama_penerima FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 ";
 		$sql.=" and DATE(tanggal_kirim)='".$tanggal."' ";
+		if(isset($data['online'])){
+			$sql.=" AND mjp.online='".$data['online']."' ";
+		}
 		//$sql.=" AND kg.susulan IN(2) ";
 		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'kirim sample%' ";
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";

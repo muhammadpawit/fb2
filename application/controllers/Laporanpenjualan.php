@@ -48,6 +48,7 @@ class Laporanpenjualan extends CI_Controller {
 		$filter=array(
 			'tanggal1'=>$tanggal1,
 			'tanggal2'=>$tanggal2,
+			'online'  =>'ya'
 		);
 
 		$results=$this->KirimsetorModel->kirimgudangharian_group($filter);
@@ -58,7 +59,7 @@ class Laporanpenjualan extends CI_Controller {
 		$dets=[];
 		foreach($results as $row){
 			$hari=hari(date('l',strtotime($row['tanggal'])));
-			$dets = $this->KirimsetorModel->kirimgudangharian_hari($row['tanggal'],$hari);
+			$dets = $this->KirimsetorModel->kirimgudangharian_hari($row['tanggal'],$hari,$filter);
 			$ket = !empty($row['tujuan']) ? strtoupper($row['tujuan']) :'';
 			$data['products'][]=array(
 				'no'=>$no,
