@@ -96,7 +96,7 @@ class Laporanpenjualan extends CI_Controller {
 		if(!empty($tanggal2)){
 			$url.="&tanggal2=".$tanggal2;
 		}
-		$data['excel']=BASEURL.'laporankirimgudangharian?&excel=true'.$url;
+		$data['excel']=BASEURL.'Laporanpenjualan?&excel=true'.$url;
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['bulan']=$bulan;
