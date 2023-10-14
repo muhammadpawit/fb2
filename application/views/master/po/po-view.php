@@ -50,6 +50,7 @@
                             <th>Nama PO</th>
                             <th>Type</th>
                             <th>Tampilkan Di laporan</th>
+                            <th>Tampilkan Di laporan Penjualan</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -59,6 +60,7 @@
                                 <td><?php echo $sat['nama_jenis_po'] ?></td>
                                 <td><?php echo $sat['idjenis']==1?'Kemeja':'Kaos' ?></td>
                                 <td><?php echo $sat['tampil']==1?'Ya':'Tidak' ?></td>
+                                <td><?php echo $sat['online'] ?></td>
                                 <th>
                                     <a href="<?php echo BASEURL.'Masterdata/editnamapo/'.$sat['id_jenis_po'] ?>" class="btn btn-custom"><i class="fa fa-edit"></i></a>
                                     <!--<a href="<?php echo BASEURL.'master/deletePoKode/'.$sat['id_jenis_po'] ?>" class="btn btn-danger"><i class="fa fa-trash"></i></a>-->
