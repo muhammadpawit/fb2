@@ -1166,6 +1166,7 @@ class Gudang extends CI_Controller {
 
 	{
 		$data=array();
+		$data['title']='Form Penerimaan Item Masuk';
 		$data['i']=0;
 		$data['url']=BASEURL.'Gudang/penerimaanitem';
 		$data['action']=BASEURL.'Gudang/penerimaanitemsave';

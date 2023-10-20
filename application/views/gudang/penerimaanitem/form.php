@@ -1,73 +1,109 @@
-<h4 class="header-title">Tambah Penerimaan</h4>
-<div class="sub-header text-right">
-                            <span class="pull-right text-white"><a onclick="simpan()" class="btn btn-primary">Simpan</a> <a href="<?php echo BASEURL.'gudang/penerimaanitem'?>" class="btn btn-danger">Batal</a> </span>
-                        </div>
-                        <div class="table-responsive">
-                            <form method="post" class="form-group" action="<?php echo $action?>">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                    <label>Tanggal (Tahun-bulan-tanggal) Contoh : 2021-01-01</label>&nbsp;
-                                    <input type="text" autocomplete="off" id="tanggal" name="tanggal" class="form-control datepicker" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>No.Nota / Surat Jalan</label>
-                                    <input type="text" id="nosj" name="nosj" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Keterangan</label>
-                                    <input type="text" id="keterangan" name="keterangan" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nama Supplier</label>
-                                    <select name="supplier" id="supplier" class="form-control select2bs4" data-live-search="true" required>
-                                        <option value=""></option>
-                                        <?php if($supplier){ ?>
-                                        <?php foreach($supplier as $s){ ?>
-                                            <option value="<?php echo $s['id']?>"><?php echo $s['nama']?></option>
-                                        <?php } ?>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Jenis Penerimaan</label>
-                                    <select name="jenis" id="jenis" class="form-control select2bs4" data-live-search="true"  required="required">
-                                        <option value="">Pilih</option>
-                                        <option value="1">Bahan</option>
-                                        <option value="2">Alat-alat Bordir</option>
-                                        <option value="3">Alat-alat Konveksi</option>
-                                        <option value="4">Sablon</option>
-                                        <option value="5">Penyesuaian Stok Awal</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Rincian Barang</label><br>
-                                    &nbsp;<a onclick="additem()" class="btn btn-success text-white"><i class="fa fa-plus"></i></a>
-                                </div>
-                                    </div>
-                                </div>
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nama Barang</th>
-                                            <th>Warna</th>
-                                            <th>Quantity.Satuan</th>
-                                            <th>Satuan</th>
-                                            <th>Jumlah Qty</th>
-                                            <th>Satuan</th>
-                                            <th>Harga Satuan</th>
-                                            <th>Jumlah</th>
-                                            <th>Keterangan</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <?php $i=0?>
-                                    <tbody id="item-list">
-                                        
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <form action="<?php echo $action ?>" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tanggal Terima</label>
+                        <input type="text" autocomplete="off" id="tanggal" name="tanggal" class="form-control datepicker" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tanggal Hari Ini</label>
+                        <span class="form-control"><?php echo hari(date('l')).' , '.date('d F Y')?></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Jenis Penerimaan</label>
+                        <select name="jenis" id="jenis" class="form-control select2bs4" data-live-search="true"  required="required">
+                            <option value="">Pilih</option>
+                            <option value="1">Bahan</option>
+                            <option value="2">Alat-alat Bordir</option>
+                            <option value="3">Alat-alat Konveksi</option>
+                            <option value="4">Sablon</option>
+                            <option value="5">Penyesuaian Stok Awal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                         <label>Nama Supplier</label>
+                        <select name="supplier" id="supplier" class="form-control select2bs4" data-live-search="true" required>
+                            <option value=""></option>
+                            <?php if($supplier){ ?>
+                                <?php foreach($supplier as $s){ ?>
+                                    <option value="<?php echo $s['id']?>"><?php echo $s['nama']?></option>
+                                <?php } ?>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <input type="text" id="keterangan" name="keterangan" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nota Penerimaan / Nota Surat</label>
+                        <input type="text" id="nosj" name="nosj" class="form-control" required>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label></label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label></label>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nama Barang</th>
+                                <th>Warna</th>
+                                <th>Quantity.Satuan</th>
+                                <th>Satuan</th>
+                                <th>Jumlah Qty</th>
+                                <th>Satuan</th>
+                                <th>Harga Satuan</th>
+                                <th>Jumlah</th>
+                                <th>Keterangan</th>
+                                <th><a onclick="additem()" class="btn btn-success text-white"><i class="fa fa-plus"></i></a></th>
+                            </tr>
+                        </thead>
+                        <?php $i=0?>
+                        <tbody id="item-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                     <a onclick="simpan()" class="btn btn-primary full">Simpan</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <a href="<?php echo BASEURL.'gudang/penerimaanitem'?>" class="btn btn-danger full">Batal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     function simpan(){
         var tanggal=$("#tanggal").val();
