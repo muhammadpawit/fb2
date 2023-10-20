@@ -114,7 +114,7 @@
             var dataItem = $(this).find(':selected').data('item');
             var dai = $(this).closest('tr');
             var jumlahItem = $('#piecesPo').val();
-            $.get( "<?php echo BASEURL.'gudang/itemkeluarSearchId' ?>", { id: dataItem } )
+            $.get( "<?php echo BASEURL.'gudang/itemSearchPenerimaan' ?>", { id: dataItem } )
               .done(function( data ) {
                 var obj = JSON.parse(data);
                 console.log(obj);
