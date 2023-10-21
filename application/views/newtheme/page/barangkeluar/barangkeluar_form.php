@@ -124,11 +124,11 @@ $(document).ready(function(){
             dai.find(".ukuran").val(0);
             dai.find(".satuanUkran").val(obj.satuan_ukuran_item);
             //dai.find(".jumlah").val(obj.jumlah_item);
-            dai.find(".stokjum").html(obj.jumlah_item);
-            dai.find(".jumlah").val(0);
+            dai.find(".stokjum").html(obj.quantity);
+            dai.find(".jumlah").val(obj.quantity);
             dai.find(".satuanJml").val(obj.satuan_jumlah_item);
             dai.find(".id").val(obj.id_persediaan);
-            dai.find(".jumlah").attr('max',obj.jumlah_item);
+            dai.find(".jumlah").attr('max',obj.quantity);
             dai.find(".harga").val(obj.harga_item)
         });
     });
