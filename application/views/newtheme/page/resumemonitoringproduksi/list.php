@@ -89,7 +89,8 @@
                                 <!-- <a href="<?php echo BASEURL.'Resumemonitoringproduksi'?>/potongan_harian">Potongan Harian</a> -->
                                 <a href="<?php echo BASEURL.'report/potongan?'.'?&tanggal1='.date('Y-m-d',strtotime("-7 days")).'&tanggal2='.date('Y-m-d')?>">Potongan Harian</a>
                                 <!-- /report/potongan -->
-                                <a href="<?php echo BASEURL.'Resumemonitoringproduksi'?>/potongan_mingguan">Potongan Mingguan</a>
+                                <!-- <a href="<?php echo BASEURL.'Resumemonitoringproduksi'?>/potongan_mingguan">Potongan Mingguan</a> -->
+                                <a href="<?php echo BASEURL.'report/potongan?'.'?&tanggal1='.date('Y-m-d',strtotime("-14 days")).'&tanggal2='.date('Y-m-d')?>">Potongan Mingguan</a>
                                 <a href="<?php echo BASEURL.'Grafikpotongan'?>" target="_blank">Potongan Bulanan</a>
                             </div>
                         </div>
