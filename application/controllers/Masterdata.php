@@ -1428,6 +1428,11 @@ class Masterdata extends CI_Controller {
 				'href' => BASEURL.'Masterdata/useredit/'.$u['id_user'],
 			);
 			$action[] = array(
+				'class'=>'primary',
+				'text' => 'Akses CMT',
+				'href' => BASEURL.'Masterdata/akses_cmt/'.$u['id_user'],
+			);
+			$action[] = array(
 				'class'=>'success',
 				'text' => 'Akses Data',
 				'href' => BASEURL.'Masterdata/userakses/'.$u['id_user'],
@@ -1468,6 +1473,17 @@ class Masterdata extends CI_Controller {
 		$data['kembali']=BASEURL.'masterdata/user';
 		$data['action']=BASEURL.'masterdata/useredit_save';
 		$data['page']=$this->page.'masterdata/userdetail';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function akses_cmt($id){
+		$data=[];
+		$data['users']=$this->GlobalModel->getDataRow('user',array('id_user'=>$id,));
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0));
+		$data['title']='Detail User';
+		$data['kembali']=BASEURL.'masterdata/user';
+		$data['action']=BASEURL.'masterdata/useredit_save';
+		$data['page']=$this->page.'masterdata/user_cmt';
 		$this->load->view($this->page.'main',$data);
 	}
 

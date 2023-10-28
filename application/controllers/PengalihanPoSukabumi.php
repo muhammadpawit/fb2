@@ -81,7 +81,7 @@ class PengalihanPoSukabumi extends CI_Controller {
 			$action=array();
 			$action[] = array(
 				'text' => 'Detail',
-				'href' => BASEURL.'Kelolapo/kirimcmtview/'.$result['id'],
+				'href' => BASEURL.'PengalihanPoSukabumi/kirimcmtview/'.$result['id'],
 			);
 
 			if(aksesedit()==1){
@@ -92,6 +92,7 @@ class PengalihanPoSukabumi extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
 			
 			$data['products'][]=array(
 				'no'=>$no++,
@@ -103,12 +104,44 @@ class PengalihanPoSukabumi extends CI_Controller {
 				'keterangan'=>$result['keterangan'],
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
 				'action'=>$action,
+				'dets' => $dets,
 			);
 		}
 		$data['page']='produksi/kirimcmt_list';
 		$this->load->view('newtheme/page/main',$data);
 		
 	}
+
+	public function kirimcmtview($id='',$kodepo=''){
+		$toarray=explode(",", $kodepo);
+		$row=count($toarray);
+		$data=array();
+		$rincian=array();
+		$data['no']=1;
+		$data['kembali']=BASEURL.'PengalihanPoSukabumi';
+		$data['cetak']=BASEURL.'Kelolapo/kirimcmtcetak/'.$id.'/1';
+		$data['excel']=BASEURL.'Kelolapo/kirimcmtcetak/'.$id.'/2';
+		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
+		$kirims=$this->GlobalModel->getData('kirimcmt_detail',array('idkirim'=>$id,'hapus'=>0));
+		$job=null;
+		foreach($kirims as $k){
+			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$k['kode_po']));
+			$data['kirims'][]=array(
+				'kode_po'=>$k['kode_po'].' '.$po['serian'],
+				'rincian_po'=>$k['rincian_po'],
+				'job'=>$job['nama_job'],
+				'jumlah_pcs'=>$k['jumlah_pcs'],
+				'keterangan'=>$k['keterangan'],
+				'jml_barang'=>$k['jml_barang'],
+			);
+		}
+		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		$data['page']='produksi/kirimcmt_view';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+
     // public function index(){
 	// 	$data=[];
 	// 	$data['title']='Kirim PO CMT Sukabumi';
