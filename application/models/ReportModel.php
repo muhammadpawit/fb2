@@ -1906,7 +1906,8 @@ class ReportModel extends CI_Model {
 			}else{
 				//$sqlhistrory="SELECT saldoawal_uk as yard, saldoawal_qty as roll FROM kartustok_product WHERE idproduct='$id' ";
 				$sqlhistrory="SELECT sisa_uk as yard, sisa_qty as roll FROM kartustok_product WHERE idproduct='$id' ";
-				$sqlhistrory.=" AND DATE(tanggal) < '$tglendstok' ";
+				// $sqlhistrory.=" AND DATE(tanggal) < '$tglendstok' ";
+				$sqlhistrory.=" AND DATE(tanggal) <= '$tglendstok' ";
 				$sqlhistrory.=" ORDER BY id DESC limit 1 ";
 				$ds=$this->GlobalModel->QueryManualRow($sqlhistrory);
 				if(!empty($ds)){
