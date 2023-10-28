@@ -103,5 +103,82 @@ class PenjualanModel extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}
 
+	public function getAnalisaDataPenjualan(){
+		$analisa=[];
+		$tanggal_awal = date('Y-m-d',strtotime("sunday last week"));
+		$tanggal_akhir = date('Y-m-d',strtotime("saturday this week"));
+
+		// penjualan minggu ini
+		$between = " AND DATE(tanggal) BETWEEN '".$tanggal_awal."' AND '".$tanggal_akhir."' ";
+		$wherin = $this->db->query("SELECT id FROM penjualan_online WHERE hapus=0 $between ")->result();
+		$idIn=[];
+		foreach($wherin as $w){
+			$idIn[]=$w->id;
+		}
+		$whereIN = implode(",",$idIn);
+		$minggu_ini = "
+			SELECT a.*, b.nama_po, d.nama as marketplace FROM penjualan_online_product a
+			LEFT JOIN produksi_po b ON b.id_produksi_po = a.id_po
+			LEFT JOIN penjualan_online c ON c.id=a.penjualan_id
+			LEFT JOIN marketplace d ON d.id=c.marketplace_id
+			WHERE 1=1
+		";
+		if(!empty($whereIN)){
+			$minggu_ini .=" AND a.penjualan_id IN($whereIN) ";
+		}else{
+			$minggu_ini .=" AND a.penjualan_id IN(0) ";
+		}
+
+		$minggu_ini.=" GROUP BY b.nama_po, a.size ";
+		$data = $this->db->query($minggu_ini)->result_array();
+
+		// PENJUALAN BULAN BERJALAN
+		$bulan = $this->db->query("
+			SELECT 
+			COALESCE(SUM(a.total),0) as total_penjualan
+			
+			FROM penjualan_online a
+			
+			WHERE a.hapus=0 AND MONTH(a.tanggal)='".date('m')."' AND YEAR(a.tanggal)='".date('Y')."'
+			
+		")->row();
+		$bulanQTY = $this->db->query("
+			SELECT 
+			COALESCE(SUM(b.quantity),0) as quantity
+			FROM penjualan_online a
+			LEFT JOIN penjualan_online_product b ON a.id=b.penjualan_id
+			WHERE a.hapus=0 AND MONTH(a.tanggal)='".date('m')."' AND YEAR(a.tanggal)='".date('Y')."'
+			
+		")->row();
+
+		$bulan_lalu = $this->db->query("
+			SELECT 
+			COALESCE(SUM(a.total),0) as total_penjualan
+			
+			FROM penjualan_online a
+			
+			WHERE a.hapus=0 AND MONTH(a.tanggal)='".date('m',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'
+			
+		")->row();
+		$bulanQTY_lalu = $this->db->query("
+			SELECT 
+			COALESCE(SUM(b.quantity),0) as quantity
+			FROM penjualan_online a
+			LEFT JOIN penjualan_online_product b ON a.id=b.penjualan_id
+			WHERE a.hapus=0 AND MONTH(a.tanggal)='".date('m',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'
+			
+		")->row();
+
+		$analisa = array(
+			'minggu_ini' 	=> $data,
+			'total_bulan'	=> $bulan,
+			'qty_bulan'		=> $bulanQTY,
+			'total_bulan_lalu'	=> $bulan_lalu,
+			'qty_bulan_lalu'		=> $bulanQTY_lalu,
+		);
+		// pre($analisa);
+		return $analisa;
+	}
+
 
 }
