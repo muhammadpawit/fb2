@@ -528,7 +528,7 @@ class Dash extends CI_Controller {
 		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
 		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
 		foreach($menipis as $m){
-			$qry ="SELECT COALESCE(SUM(a.jumlah)) as total FROM penerimaan_item_detail a
+			$qry ="SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
 			 WHERE a.hapus=0 AND b.hapus=0 AND b.kategori='".$m['id']."' ";
 			if($m['id']==16){
@@ -538,7 +538,7 @@ class Dash extends CI_Controller {
 			}
 			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
 			$last_masuk = $this->GlobalModel->QueryManualRow($qry);
-			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity)) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
 				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
