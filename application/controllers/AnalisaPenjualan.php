@@ -19,7 +19,7 @@ class Analisapenjualan extends CI_Controller {
 
 	public function index(){
 		$data=[];
-		$data['title']='Data Analisa Penjualan Online';
+		$data['title']='Data Analisa PO Online';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
