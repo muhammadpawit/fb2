@@ -28,8 +28,11 @@ class PenjualanModel extends CI_Model {
 
 	public function getDataPenjualanProductDetail($id){
 		$query =
-		"SELECT a.*, b.kode_po FROM penjualan_online_product a
-		LEFT JOIN produksi_po b ON b.id_produksi_po=a.id_po
+		"SELECT a.*, b.id_size as size, d.kode_po, e.nama as serian FROM penjualan_online_product a
+		LEFT JOIN master_po_online_detail b ON b.id=a.id_po
+		LEFT JOIN master_po_online c ON c.id=b.id_master_po_online
+		LEFT JOIN produksi_po d ON d.id_produksi_po=c.id_po
+		LEFT JOIN master_po_online_serian e ON e.id=b.id_serian
 		WHERE a.penjualan_id='".$id."' ";
 		return $this->db->query($query)->result_array();
 	}
@@ -66,6 +69,7 @@ class PenjualanModel extends CI_Model {
 				'hapus'				=> 0,
 			);
 			$this->db->insert('penjualan_online_product',$detail);
+			$this->history_stok_penjualan($id,$p['id_po'],$p['quantity']);
 		}
 		$biaya_pengiriman=$input['biaya_pengiriman'];
 		$total=($total_harga-$total_discount+$biaya_pengiriman);
@@ -83,6 +87,18 @@ class PenjualanModel extends CI_Model {
 				'message'		=> 'failed',
 			);
 		}
+	}
+
+	function history_stok_penjualan($id_penjualan,$id_po_online_detail,$qty){
+		$insert = array(
+			'id_penjualan' 			=> $id_penjualan,
+			'id_po_online_detail'	=> $id_po_online_detail,
+			'qty'					=> $qty
+		);
+		$this->db->insert('history_stok_penjualan',$insert);
+		$this->db->query("UPDATE master_po_online_detail SET pcs=pcs-'".$qty."' WHERE id=$id_po_online_detail ");
+		$po = $this->GlobalModel->getDataRow('master_po_online_detail',array('id'=>$id_po_online_detail));
+		$this->db->query("UPDATE master_po_online SET pcs=pcs-'".$qty."' WHERE id='".$po['id_master_po_online']."' ");
 	}
 
 	public function getDataEkspedisi(){
@@ -117,10 +133,16 @@ class PenjualanModel extends CI_Model {
 		}
 		$whereIN = implode(",",$idIn);
 		$minggu_ini = "
-			SELECT a.*, b.nama_po, d.nama as marketplace FROM penjualan_online_product a
-			LEFT JOIN produksi_po b ON b.id_produksi_po = a.id_po
+			SELECT a.*, COALESCE(SUM(a.quantity),0) as quantity, e.nama_po, d.nama as marketplace,
+			b.id_size as size, g.nama as serian
+			FROM penjualan_online_product a
+			LEFT JOIN master_po_online_detail b ON b.id = a.id_po
 			LEFT JOIN penjualan_online c ON c.id=a.penjualan_id
 			LEFT JOIN marketplace d ON d.id=c.marketplace_id
+			LEFT JOIN master_po_online f ON f.id=b.id_master_po_online
+			LEFT JOIN produksi_po e ON e.id_produksi_po=f.id_po
+			
+			LEFT JOIN master_po_online_serian g ON g.id=b.id_serian
 			WHERE 1=1
 		";
 		if(!empty($whereIN)){
@@ -129,7 +151,7 @@ class PenjualanModel extends CI_Model {
 			$minggu_ini .=" AND a.penjualan_id IN(0) ";
 		}
 
-		$minggu_ini.=" GROUP BY b.nama_po, a.size ";
+		$minggu_ini.=" GROUP BY e.nama_po, b.id_size, g.nama ";
 		$data = $this->db->query($minggu_ini)->result_array();
 
 		// PENJUALAN BULAN BERJALAN
@@ -179,6 +201,8 @@ class PenjualanModel extends CI_Model {
 		// pre($analisa);
 		return $analisa;
 	}
+
+	
 
 
 }

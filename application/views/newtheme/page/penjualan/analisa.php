@@ -13,6 +13,7 @@
                     <tr>
                         <th>No</th>
                         <th>PO</th>
+                        <th>Serian</th>
                         <th>Size</th>
                         <th>Quantity (Pcs)</th>
                         <th>Harga (Rp)</th>
@@ -24,6 +25,7 @@
                         <tr align="center">
                             <td><?php echo $c['no']?></td>
                             <td><?php echo $c['nama_po']?></td>
+                            <td><?php echo $c['serian']?></td>
                             <td><?php echo $c['size']?></td>
                             <td><?php echo $c['quantity']?></td>
                             <td align="right"><?php echo number_format($c['harga'])?></td>

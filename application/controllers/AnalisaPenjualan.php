@@ -47,6 +47,7 @@ class Analisapenjualan extends CI_Controller {
 			$data['prods'][]=array(
 				'no'=>$no,
 				'nama_po' 	=> $r['nama_po'],
+				'serian' 	=> $r['serian'],
 				'size'		=> $r['size'],
 				'quantity'	=> $r['quantity'],
 				'harga'		=> $r['harga'],

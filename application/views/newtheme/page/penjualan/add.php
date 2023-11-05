@@ -64,7 +64,8 @@
                 <thead>
                     <tr>
                         <th>Nama PO</th>
-                        <th>Size</th>
+                        <th>Serian</th>
+                        <th>Stok</th>
                         <th>Harga</th>
                         <th>Quantity</th>
                         <th>Discount</th>
@@ -94,17 +95,42 @@
         
         html ='';
         html +='<tr>';
-        html +='<td><select class="select2bs4" name="products['+i+'][id_po]"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id_produksi_po']?>"><?php echo $p['kode_po']?></option><?php }?></select></td>';
-        html +='<td><input type="text" name="products['+i+'][size]" required></td>';
-        html +='<td><input type="text" name="products['+i+'][harga]" onkeyUp="hitung('+i+')" required></td>';
-        html +='<td><input type="text" name="products['+i+'][quantity]" onkeyUp="hitung('+i+')" required></td>';
-        html +='<td><input type="text" name="products['+i+'][discount]" onkeyUp="hitung('+i+')" required></td>';
+        html +='<td><select class="select2bs4" name="products['+i+'][id_po]"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id']?>" data-item="<?php echo $p['id'] ?>"><?php echo $p['kode_po']?> <?php echo $p['serian']?> <?php echo $p['id_size']?></option><?php }?></select></td>';
+        html +='<td><span class="id_size"></span></td>';
+        html +='<td><span class="stok"></span></td>';
+        html +='<td><input type="text" name="products['+i+'][harga]" class="harga" onkeyUp="hitung('+i+')" required></td>';
+        html +='<td><input type="text" name="products['+i+'][quantity]" autocomplete="off" onkeyUp="hitung('+i+')" required></td>';
+        html +='<td><input type="text" name="products['+i+'][discount]" autocomplete="off" onkeyUp="hitung('+i+')" value="0" required></td>';
         html +='<td><input type="text" name="products['+i+'][jumlah]" required></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td>';
         html +='<tr>';
         i++;
         $("#listp tbody").append(html);
         $('.select2bs4').select2();
+
+        // Mengaktifkan Ajax saat pemilihan diubah
+        $(".select2bs4").on("change", function() {
+            var selectedValue = $(this).val();
+            var dataItem = $(this).find(':selected').data('item');
+            var dai = $(this).closest('tr');
+
+            // Ganti URL dengan URL sebenarnya Anda
+            var url = "<?php echo BASEURL?>Masterpoonline/getPo?id=" + selectedValue;
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(data) {
+                    // console.log(response);
+                    var obj = JSON.parse(data);
+                    console.log(obj);
+                    dai.find(".id_size").html(obj.serian+' '+obj.id_size);
+                    dai.find(".stok").html(obj.pcs);
+                    dai.find(".harga").val(obj.harga);
+                    dai.find(".harga").attr("readonly",true);
+                },
+            });
+        });
         
     }
 

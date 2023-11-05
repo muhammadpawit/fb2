@@ -7,6 +7,7 @@ class Penjualan extends CI_Controller {
 		parent::__construct();
 		$this->load->model('CustomerModel');
 		$this->load->model('PenjualanModel');
+		$this->load->model('OnlineModel');
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->layout='newtheme/page/main';
@@ -84,8 +85,9 @@ class Penjualan extends CI_Controller {
 		$data['ekspedisi']=$this->PenjualanModel->getDataEkspedisi();
 		$data['marketplace']=$this->PenjualanModel->getDataMarketplace();
 		// pre($data['marketplace']);
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		// pre($data['customer']);
+		// $data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['po']=$this->OnlineModel->getDataStok();
+		// pre($data['po']);
 		$data['action'] = $this->url.'insert';
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
@@ -106,7 +108,7 @@ class Penjualan extends CI_Controller {
 
 	public function insert(){
 		$input = $this->input->post();
-		//pre($input);
+		// pre($input);
 		$save = $this->PenjualanModel->insertPenjualan($input);
 		if($save['success']==TRUE){
 			$this->session->set_flashdata('msg','Data berhasil disimpan');

@@ -20,6 +20,7 @@
                     <tr>
                         <th>Qty</th>
                         <th>PO</th>
+                        <th>Serian Warna #</th>
                         <th>Size #</th>
                         <th>Harga (Rp)</th>
                         <th>Discount (Rp)</th>
@@ -31,6 +32,7 @@
                     <tr>
                         <td><?php echo $p['quantity']?></td>
                         <td><?php echo $p['kode_po']?></td>
+                        <td><?php echo $p['serian']?></td>
                         <td><?php echo $p['size']?></td>
                         <td><?php echo number_format($p['harga'])?></td>
                         <td><?php echo number_format($p['discount'])?></td>

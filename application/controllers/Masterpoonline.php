@@ -93,6 +93,13 @@ class Masterpoonline extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+	function getPo(){
+		$get = $this->input->get();
+		$id  = $get['id'];
+		$data = $this->OnlineModel->getPo($id);
+		echo json_encode($data);
+	}
+
 	function terima(){
 		// $input = $this->input->post();
 		// pre($input);
