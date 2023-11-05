@@ -9,7 +9,7 @@
     <div class="row invoice-info">
         <div class="col-sm-4 invoice-col"> From <address> Penerimaan PO Online<br>
 				<?php echo $prods['kode_po']?><br>
-				Dari : <?php echo $prods['namacmt']?> </address>
+				Dari : <?php echo $prods['namacmt']?></address>
         </div>
         <!-- <div class="col-sm-4 invoice-col"> From <address> Jl.Z No.1 Kampung Baru,<br>Sukabumi Selatan<br>
 				Kebon Jeruk,Jakarta Barat, Indonesia<br>
