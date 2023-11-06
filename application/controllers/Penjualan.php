@@ -118,4 +118,12 @@ class Penjualan extends CI_Controller {
 			redirect($this->url);
 		}
 	}
+
+	function stokpo(){
+		$data['title']='Stok PO Online';
+		$data['products']=$this->OnlineModel->getDataStok();
+		// pre($data['products']);
+		$data['page']=$this->page.'stok';
+		$this->load->view($this->layout,$data);
+	}
 }
