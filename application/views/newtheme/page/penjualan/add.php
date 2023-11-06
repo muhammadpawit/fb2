@@ -127,7 +127,7 @@
                     dai.find(".id_size").html(obj.serian+' '+obj.id_size);
                     dai.find(".stok").html(obj.pcs);
                     dai.find(".harga").val(obj.harga);
-                    dai.find(".harga").attr("readonly",true);
+                    // dai.find(".harga").attr("readonly",true);
                 },
             });
         });
