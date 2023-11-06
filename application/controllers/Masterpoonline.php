@@ -187,6 +187,7 @@ class Masterpoonline extends CI_Controller {
 
 	function editserian($id){
 		$data 			=[];
+		$data['title']	= 'Edit Serian';
 		$data['prods']	= $this->GlobalModel->getDataRow('master_po_online_serian',array('id'=>$id));
 		$data['action'] = $this->url.'save_serian';
 		$data['batal'] = $this->url.'serian';
