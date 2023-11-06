@@ -92,6 +92,13 @@ class OnlineModel extends CI_Model {
 		return $this->db->query($query)->row_array();
 	}
 
+	public function getSerian(){
+		$query =
+		"SELECT * FROM master_po_online_serian
+		WHERE hapus=0 ";
+		return $this->db->query($query)->result_array();
+	}
+
 	
 
 }

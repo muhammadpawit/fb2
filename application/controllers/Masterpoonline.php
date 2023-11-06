@@ -127,4 +127,70 @@ class Masterpoonline extends CI_Controller {
 			redirect($this->url);
 		}
 	}
+
+	public function serian(){
+		$data=[];
+		$data['title']='Data Master Serian PO Online';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-7 day"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$filter = array();
+		$data['prods']=[];
+		$data['prods']=$this->OnlineModel->getSerian($filter);
+		$data['action'] = $this->url.'add_serian';
+		$data['link'] = $this->url;
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'excel',$data);
+		}else{
+			$data['page']=$this->page.'serian';
+			$this->load->view($this->layout,$data);
+		}
+	}
+
+	function add_serian(){
+		$data 			=[];
+		$data['action'] = $this->url.'save_serian';
+		$data['batal'] = $this->url.'serian';
+		$data['page']=$this->page.'serian_form';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function save_serian(){
+		$input = $this->input->post();
+		// pre($input);
+		if(isset($input['id'])){
+			$insert = array('nama'=>$input['nama']);
+			$save = $this->db->update('master_po_online_serian',$insert,array('id'=>$input['id']));
+		}else{
+			$insert = array('nama'=>$input['nama']);
+			$save = $this->db->insert('master_po_online_serian',$insert);
+		}
+		if($save==TRUE){
+			$this->session->set_flashdata('msg','Data berhasil disimpan');
+			redirect($this->url.'serian');
+		}else{
+			$this->session->set_flashdata('gagal','Data gagal disimpan');
+			redirect($this->url.'serian');
+		}
+	}
+
+	function editserian($id){
+		$data 			=[];
+		$data['prods']	= $this->GlobalModel->getDataRow('master_po_online_serian',array('id'=>$id));
+		$data['action'] = $this->url.'save_serian';
+		$data['batal'] = $this->url.'serian';
+		$data['page']=$this->page.'serian_form';
+		$this->load->view($this->layout,$data);
+	}
 }
