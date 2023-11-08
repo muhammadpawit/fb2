@@ -122,7 +122,8 @@ class PenjualanModel extends CI_Model {
 
 	public function getAnalisaDataPenjualan(){
 		$analisa=[];
-		$tanggal_awal = date('Y-m-d',strtotime("sunday last week"));
+		// $tanggal_awal = date('Y-m-d',strtotime("sunday last week"));
+		$tanggal_awal  = date('Y-m-d',strtotime("first day of previous month"));
 		$tanggal_akhir = date('Y-m-d',strtotime("saturday this week"));
 
 		// penjualan minggu ini
