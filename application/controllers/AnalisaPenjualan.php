@@ -24,7 +24,8 @@ class Analisapenjualan extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 day"));
+			// $tanggal1=date('Y-m-d',strtotime("-7 day"));
+			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
 		}
 
 		if(isset($get['tanggal2'])){
