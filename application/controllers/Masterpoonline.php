@@ -85,7 +85,8 @@ class Masterpoonline extends CI_Controller {
 		$data['title']='Detail Penerimaan PO Online';
 		$data['prods']=$this->OnlineModel->getMasterPoOnlineDetail($id);
 		$data['products']=[];
-		$data['products']=$this->GlobalModel->getData('master_po_online_detail',array('id_master_po_online'=>$id,'hapus'=>0));
+		// $data['products']=$this->GlobalModel->getData('master_po_online_detail',array('id_master_po_online'=>$id,'hapus'=>0));
+		$data['products']= $this->OnlineModel->getMasterPoDetail($id);
 		// pre($data['products']);
 		$data['page']=$this->page.'detail';
 		$data['action']= $this->url.'terima';

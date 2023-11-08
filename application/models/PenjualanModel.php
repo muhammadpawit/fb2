@@ -28,11 +28,12 @@ class PenjualanModel extends CI_Model {
 
 	public function getDataPenjualanProductDetail($id){
 		$query =
-		"SELECT a.*, b.id_size as size, d.kode_po, e.nama as serian FROM penjualan_online_product a
+		"SELECT a.*, f.nama as size, d.kode_po, e.nama as serian FROM penjualan_online_product a
 		LEFT JOIN master_po_online_detail b ON b.id=a.id_po
 		LEFT JOIN master_po_online c ON c.id=b.id_master_po_online
 		LEFT JOIN produksi_po d ON d.id_produksi_po=c.id_po
 		LEFT JOIN master_po_online_serian e ON e.id=b.id_serian
+		LEFT JOIN size_po_online f ON f.id=b.id_size
 		WHERE a.penjualan_id='".$id."' ";
 		return $this->db->query($query)->result_array();
 	}
