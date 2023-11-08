@@ -26,7 +26,7 @@
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Stok</td>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Ajuan</td>
         </tr>
-        <?php $i=0;$pcs=0;$dz=0;?>
+        <?php $i=0;$pcs=0;$dz=0;$jmlpo=0;?>
         <?php foreach($kd as $d){?>
           <tr>
             <td><?php echo $n++?></td>
@@ -47,10 +47,13 @@
           <?php 
             $pcs+=$d['jml_pcs'];
             $dz+=$d['jml_dz'];
+            $jmlpo+=($d['jumlah_po']);
           ?>
         <?php } ?>
           <tr style="background-color: #ffe0fb">
-            <td colspan="4"><b>Total</b></td>
+            <td colspan="2"><b>Total</b></td>
+            <td><b><?php echo $jmlpo?></b></td>
+            <td></td>
             <td><b><?php echo $pcs?></b></td>
             <td><b><?php echo $dz?></b></td>
             <td align="center"><b><?php echo $k['ajuan_kebutuhan']?></b></td>
