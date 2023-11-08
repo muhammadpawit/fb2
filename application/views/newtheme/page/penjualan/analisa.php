@@ -7,7 +7,7 @@
 <div class="row table-responsive">
     <div class="col-md-12">
         <div class="form-group">
-            <label>Penjualan Online Minggu Ini </label>
+            <label>Penjualan Online </label>
             <table style="border-collapse:collapse;width:100%" border="1">
                 <thead>
                     <tr>
