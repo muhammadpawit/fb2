@@ -18,7 +18,6 @@
           <td colspan="2" style="vertical-align: middle;text-align: center;"><b>Jumlah PO</b></td>
           <td colspan="3" style="vertical-align: middle;text-align: center;"><b>Ajuan </b></td>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket</b></td>
-          <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket</b></td>
         </tr>
         <tr>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">PCS</td>
@@ -43,7 +42,6 @@
             <?php } ?>
             <!-- <td>lusinan <?php echo number_format($d['jml_dz'])?></td> -->
             <td><?php echo ($d['keterangan'])?></td>
-            <td><?php echo ($d['keterangan2'])?></td>
           </tr>
           <?php $i++?>
           <?php 
