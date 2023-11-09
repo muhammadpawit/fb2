@@ -2,13 +2,13 @@
     <div class="col-md-12 table-responsive">
       <table class="table table-bordered">
         <tr>
-          <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></td>
+          <td colspan="11" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></td>
         </tr>
+        <!-- <tr>
+          <td colspan="11" align="center"><b><?php echo $k['keterangan2']?></b></td>
+        </tr> -->
         <tr>
-          <td colspan="10" align="center"><b><?php echo $k['keterangan2']?></b></td>
-        </tr>
-        <tr>
-          <td colspan="10">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
+          <td colspan="11">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
         </tr>
         <tr>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>No</b></td>
@@ -17,6 +17,7 @@
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Rincian PO</b></td>
           <td colspan="2" style="vertical-align: middle;text-align: center;"><b>Jumlah PO</b></td>
           <td colspan="3" style="vertical-align: middle;text-align: center;"><b>Ajuan </b></td>
+          <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket.Satuan</b></td>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket</b></td>
         </tr>
         <tr>
@@ -39,6 +40,7 @@
             <?php if(0==$i){?>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
+            <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['keterangan2']?></td>
             <?php } ?>
             <!-- <td>lusinan <?php echo number_format($d['jml_dz'])?></td> -->
             <td><?php echo ($d['keterangan'])?></td>
@@ -60,8 +62,9 @@
             <td><b><?php //echo $k['stok']?></b></td>
             <td><b><?php //echo $k['jml_ajuan']?></b></td>
             <td></td>
+            <td></td>
           <tr>
-            <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
+            <td colspan="11" align="right"><b>Registered by Forboys Production System</b></td>
           </tr>
       </table>
     </div>

@@ -4,13 +4,13 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
 ?>
       <table  class="table table-bordered" border="1" style="border-collapse: collapse;width: 100%">
         <tr>
-          <td colspan="10" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></t>
+          <td colspan="11" align="center"><b>Kebutuhan <?php echo $k['kebutuhan']?></b></t>
         </tr>
-        <tr>
+        <!-- <tr>
           <td colspan="10" align="center"><b>Untuk 1 Minggu</b></t>
-        </tr>
+        </tr> -->
         <tr>
-          <td colspan="10">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
+          <td colspan="11">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
         </tr>
         <tr>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>No</b></td>
@@ -19,6 +19,7 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Rincian PO</b></td>
           <td colspan="2" style="vertical-align: middle;text-align: center;"><b>Jumlah PO</b></td>
           <td colspan="3" style="vertical-align: middle;text-align: center;"><b>Ajuan </b></td>
+          <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket.Satuan</b></td>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Ket</b></td>
         </tr>
         <tr>
@@ -28,7 +29,7 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Stok</td>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Ajuan</td>
         </tr>
-        <?php $i=0;$pcs=0;$dz=0;?>
+        <?php $i=0;$pcs=0;$dz=0;$jmlpo=0;?>
         <?php foreach($kd as $d){?>
           <tr>
             <td><?php echo $n++?></td>
@@ -41,6 +42,7 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
             <?php if(0==$i){?>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['stok']?></td>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['jml_ajuan']?></td>
+            <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $k['keterangan2']?></td>
             <?php } ?>
             <!-- <td>lusinan <?php echo number_format($d['jml_dz'])?></td> -->
             <td><?php echo ($d['keterangan'])?></td>
@@ -49,10 +51,13 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
           <?php 
             $pcs+=$d['jml_pcs'];
             $dz+=$d['jml_dz'];
+            $jmlpo+=($d['jumlah_po']);
           ?>
         <?php } ?>
           <tr style="background-color: #ffe0fb">
-            <td colspan="4"><b>Total</b></td>
+            <td colspan="2"><b>Total</b></td>
+            <td><b><?php echo $jmlpo?></b></td>
+            <td></td>
             <td><b><?php echo $pcs?></b></td>
             <td><b><?php echo $dz?></b></td>
             <td align="center"><b><?php echo $k['ajuan_kebutuhan']?></b></td>
@@ -60,6 +65,6 @@ header("Content-Disposition: attachment; filename=kebutuhan_".$k['kebutuhan']."_
             <td><b><?php //echo $k['jml_ajuan']?></b></td>
             <td></td>
           <tr>
-            <td colspan="10" align="right"><b>Registered by Forboys Production System</b></td>
+            <td colspan="11" align="right"><b>Registered by Forboys Production System</b></td>
           </tr>          
     </table>
