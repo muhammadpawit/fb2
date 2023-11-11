@@ -12,6 +12,7 @@
   <div class="col-md-4">
     <div class="form-group">
         <button class="btn btn-sm btn-info" onclick="filtertglonly()">Filter</button>
+        <button class="btn btn-sm btn-info" onclick="filtertglonly_excel()">Excel</button>
     </div>
   </div>
 </div>
