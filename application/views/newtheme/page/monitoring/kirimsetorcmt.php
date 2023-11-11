@@ -131,6 +131,7 @@
 	            <tbody>
 	                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
 	                <?php foreach($rekapkemeja as $r){?>
+					<?php if($r['countkirim'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -142,6 +143,7 @@
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                    <td align="center"><?php echo $r['qtykirimpcs']>0?number_format(($r['qtysetorpcs']/$r['qtykirimpcs']*100),2):0 ?> %</td>
 	                </tr>
+					<?php } ?>
 	                <?php
 	                    $jmlpo1+=($r['countkirim']);
 	                    $jmlpo2+=($r['countsetor']);
@@ -186,6 +188,7 @@
 	            <tbody>
 	                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
 	                <?php foreach($rekapcelana as $r){?>
+					<?php if($r['countkirim'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -196,6 +199,7 @@
 	                    <td><?php echo number_format($r['qtysetordz'])?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                </tr>
+					<?php } ?>
 	                <?php
 	                    $jmlpo1+=($r['countkirim']);
 	                    $jmlpo2+=($r['countsetor']);
@@ -241,6 +245,7 @@
 	            <tbody>
 	                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
 	                <?php foreach($rekapkaos as $r){?>
+					<?php if($r['countkirim'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -251,6 +256,7 @@
 	                    <td><?php echo number_format($r['qtysetordz'])?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                </tr>
+					<?php } ?>
 	                <?php
 	                    $jmlpo1+=($r['countkirim']);
 	                    $jmlpo2+=($r['countsetor']);
