@@ -346,6 +346,7 @@ class kirimsetorModel extends CI_Model {
 		$row=$this->db->query($sql)->row_array();
 		$hasil=$row;
 		$bangkenya=0;
+		$sisa=0;
 		if($proses=='SETOR'){
 			// bangke 
 			
@@ -355,13 +356,32 @@ class kirimsetorModel extends CI_Model {
 				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
 			$dbangke=$this->db->query($bangke)->row();
+
+			// pengembalian bangke
+			$susulan=[];
+			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
+			$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
+			if(empty($pot_drikeu)){
+				$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
+				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%' ");
+				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%'  ");
+				$sisa = 13;
+			}else{
+				$susulan=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt LIMIT 18446744073709551615 OFFSET 1");
+				// $sisa = $bangke['total']-$kembali['total'];
+				$susul = !empty($susulan['total']) ? $susulan['total']:0;
+				$sisa = $dbangke->total;
+			}
+
+			// pre($bangke['total']);
 			
 			if(!empty($dbangke)){
-				$bangkenya=$dbangke->total;
+				$bangkenya=$sisa;
 			}
 		}
 		if($hasil['total']>0){
-			return ($hasil['total']>0?$hasil['total']-$bangkenya:'');
+			return ($hasil['total']>0?$hasil['total']-$bangkenya+$sisa:'');
+			// return $sisa;
 		}else{
 			$out=0;
 			return $out;
