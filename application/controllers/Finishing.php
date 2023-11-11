@@ -242,26 +242,29 @@ class Finishing extends CI_Controller {
 			$kirimkaosdz=$this->KirimsetorModel->dz(2,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejajml=$this->KirimsetorModel->jumlah(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
 			$kirimkemejadz=$this->KirimsetorModel->dz(1,$tanggal1,$tanggal2,$c['id_cmt'],'KIRIM',$kjahit);
-			$data['products'][]=array(
-				'no'=>$no++,
-				'nama'=>strtolower($c['cmt_name']),
-				'stokawalkaosjml'=>$stokawalkaosjml,
-				'stokawalkaosdz'=>$stokawalkaosdz,
-				'stokawalkemejajml'=>$stokawalkemejajml,
-				'stokawalkemejadz'=>$stokawalkemejadz,
-				'setorkaosjml'=>$setorkaosjml,
-				'setorkaosdz'=>$setorkaosdz,
-				'setorkemejajml'=>$setorkemejajml,
-				'setorkemejadz'=>$setorkemejadz,
-				'kirimkaosjml'=>$kirimkaosjml,
-				'kirimkaosdz'=>$kirimkaosdz,
-				'kirimkemejajml'=>$kirimkemejajml,
-				'kirimkemejadz'=>$kirimkemejadz,
-				'stokakhirkaosjml'=>($stokawalkaosjml-$setorkaosjml+$kirimkaosjml),
-				'stokakhirkaosdz'=>($stokawalkaosdz-$setorkaosdz+$kirimkaosdz),
-				'stokakhirkemejajml'=>($stokawalkemejajml-$setorkemejajml+$kirimkemejajml),
-				'stokakhirkemejadz'=>($stokawalkemejadz-$setorkemejadz+$kirimkemejadz),
-			);
+
+			if($kirimkaosjml > 0 || $kirimkemejajml > 0 || $setorkaosjml > 0 || $stokawalkaosjml > 0 || $stokawalkemejadz > 0){
+				$data['products'][]=array(
+					'no'=>$no++,
+					'nama'=>strtolower($c['cmt_name']),
+					'stokawalkaosjml'=>$stokawalkaosjml,
+					'stokawalkaosdz'=>$stokawalkaosdz,
+					'stokawalkemejajml'=>$stokawalkemejajml,
+					'stokawalkemejadz'=>$stokawalkemejadz,
+					'setorkaosjml'=>$setorkaosjml,
+					'setorkaosdz'=>$setorkaosdz,
+					'setorkemejajml'=>$setorkemejajml,
+					'setorkemejadz'=>$setorkemejadz,
+					'kirimkaosjml'=>$kirimkaosjml,
+					'kirimkaosdz'=>$kirimkaosdz,
+					'kirimkemejajml'=>$kirimkemejajml,
+					'kirimkemejadz'=>$kirimkemejadz,
+					'stokakhirkaosjml'=>($stokawalkaosjml-$setorkaosjml+$kirimkaosjml),
+					'stokakhirkaosdz'=>($stokawalkaosdz-$setorkaosdz+$kirimkaosdz),
+					'stokakhirkemejajml'=>($stokawalkemejajml-$setorkemejajml+$kirimkemejajml),
+					'stokakhirkemejadz'=>($stokawalkemejadz-$setorkemejadz+$kirimkemejadz),
+				);
+			}
 		}
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'finishing/kirimsetor_excel',$data);
