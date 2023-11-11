@@ -9,18 +9,22 @@
     <div class="col-md-12">
         <div class="form-group">
             <table class="table table-bordered yessearch">
-                <tr>
-                    <th>Nama PO</th>
-                    <th>Size</th>
-                    <th>Stok</th>
-                </tr>
-                <?php foreach($rekap as $r){ ?>
+                <thead>
                     <tr>
-                        <td><?php echo $r['kode_po']?></td>
-                        <td><?php echo $r['id_size']?></td>
-                        <td><?php echo $r['stok']?></td>
+                        <th>Nama PO</th>
+                        <th>Size</th>
+                        <th>Stok</th>
                     </tr>
-                <?php } ?>
+                </thead>
+                <tbody>
+                    <?php foreach($rekap as $r){ ?>
+                        <tr>
+                            <td><?php echo $r['kode_po']?></td>
+                            <td><?php echo $r['id_size']?></td>
+                            <td><?php echo $r['stok']?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
             </table>
         </div>
     </div>
