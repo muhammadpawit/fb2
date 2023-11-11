@@ -81,7 +81,8 @@ class OnlineModel extends CI_Model {
 		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
 		LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
 		LEFT JOIN size_po_online e ON e.id=a.id_size
-		WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 ";
+		WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
+		";
 		return $this->db->query($query)->result_array();
 	}
 
@@ -113,6 +114,20 @@ class OnlineModel extends CI_Model {
 		$query =
 		"SELECT * FROM master_po_online_serian
 		WHERE hapus=0 ";
+		return $this->db->query($query)->result_array();
+	}
+
+	public function getDataStokGroupBySize(){
+		$query =
+		"SELECT COALESCE(SUM(a.pcs),0) as stok ,c.kode_po,e.nama as id_size 
+		FROM master_po_online_detail a 
+		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
+		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
+		LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
+		LEFT JOIN size_po_online e ON e.id=a.id_size
+		WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
+		GROUP BY c.kode_po, e.nama 
+		";
 		return $this->db->query($query)->result_array();
 	}
 

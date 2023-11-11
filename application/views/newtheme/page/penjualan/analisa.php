@@ -1,6 +1,17 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-4">
     <div class="form-group">
+        <input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1 ?>">
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+    <input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2 ?>">
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group">
+        <button class="btn btn-sm btn-info" onclick="filtertglonly()">Filter</button>
     </div>
   </div>
 </div>

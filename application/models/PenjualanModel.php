@@ -122,9 +122,25 @@ class PenjualanModel extends CI_Model {
 
 	public function getAnalisaDataPenjualan(){
 		$analisa=[];
+
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal_awal=$get['tanggal1'];
+		}else{
+			// $tanggal1=date('Y-m-d',strtotime("-7 day"));
+			$tanggal_awal  = date('Y-m-d',strtotime("first day of previous month"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal_akhir=$get['tanggal2'];
+		}else{
+			$tanggal_akhir = date('Y-m-d',strtotime("saturday this week"));
+		}
+
+		
 		// $tanggal_awal = date('Y-m-d',strtotime("sunday last week"));
-		$tanggal_awal  = date('Y-m-d',strtotime("first day of previous month"));
-		$tanggal_akhir = date('Y-m-d',strtotime("saturday this week"));
+		// $tanggal_awal  = date('Y-m-d',strtotime("first day of previous month"));
+		// $tanggal_akhir = date('Y-m-d',strtotime("saturday this week"));
 
 		// penjualan minggu ini
 		$between = " AND DATE(tanggal) BETWEEN '".$tanggal_awal."' AND '".$tanggal_akhir."' ";

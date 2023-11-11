@@ -1,34 +1,44 @@
-<div class="row">
-    <div class="col-md-4">
-        <div class="form-group">
-            <a onclick="stokpoonlineexcel()" class="btn btn-sm btn-success">Excel</a>
-        </div>
-    </div>
-</div>
+<?php
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls");
+?>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+    font-weight:bold;
+    float: right;
+  }
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <table class="table table-bordered yessearch">
+            <table border="1" style="border-collapse: collapse;width: 100%;">
                 <tr>
                     <th>Nama PO</th>
                     <th>Size</th>
                     <th>Stok</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <?php foreach($rekap as $r){ ?>
                     <tr>
                         <td><?php echo $r['kode_po']?></td>
                         <td><?php echo $r['id_size']?></td>
                         <td><?php echo $r['stok']?></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 <?php } ?>
             </table>
         </div>
     </div>
 </div>
+<br><br>
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <table class="table table-bordered yessearch">
+            <table border="1" style="border-collapse: collapse;width: 100%;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -54,11 +64,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function stokpoonlineexcel(){
-        var url='?&excel=1';
-        
-        location =url;
-    }
-</script>
