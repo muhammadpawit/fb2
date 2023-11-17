@@ -195,4 +195,34 @@ class Masterpoonline extends CI_Controller {
 		$data['page']=$this->page.'serian_form';
 		$this->load->view($this->layout,$data);
 	}
+
+	function edit($id){
+		$data['title']='Edit Master PO Online';
+		$data['prods']=$this->OnlineModel->getMasterPoOnlineDetail($id);
+		$data['products']=[];
+		// $data['products']=$this->GlobalModel->getData('master_po_online_detail',array('id_master_po_online'=>$id,'hapus'=>0));
+		$data['products']= $this->OnlineModel->getMasterPoDetail($id);
+		$data['serians'] = $this->GlobalModel->GetData('master_po_online_serian',array('hapus'=>0));
+		$data['sizes'] = $this->GlobalModel->GetData('size_po_online',array('hapus'=>0));
+		// pre($data['products']);
+		$data['page']=$this->page.'edit';
+		$data['action']= $this->url.'edit_save';
+		$data['batal']= $this->url.'';
+		$this->load->view($this->layout,$data);
+	}
+
+	function edit_save(){
+		// $input = $this->input->post();
+		// pre($input);
+		$input = $this->input->post();
+		// pre($input);
+		$save = $this->OnlineModel->updateDetail($input);
+		if($save==TRUE){
+			$this->session->set_flashdata('msg','Data berhasil disimpan');
+			redirect($this->url);
+		}else{
+			$this->session->set_flashdata('gagal','Data gagal disimpan');
+			redirect($this->url);
+		}
+	}
 }

@@ -131,6 +131,21 @@ class OnlineModel extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}
 
+	function updateDetail($data){
+		foreach($data['prods'] as $p){
+			
+			$update = array(
+				'id_size' => $p['id_size'],
+				'id_serian' => $p['id_serian']
+			);
+			$where = array(
+				'id'	=> $p['id']
+			);
+			$update = $this->db->update('master_po_online_detail',$update,$where);
+		}
+		return $update;
+	}
+
 	
 
 }
