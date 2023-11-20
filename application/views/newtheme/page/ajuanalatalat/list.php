@@ -70,12 +70,12 @@
 						<td>
 							<?php if(!empty($spv)) { ?>
 								<?php if($p['acc_ajuan']==0){ ?>
-									<button type="submit" class="btn btn-success">Disetujui</button>
+									<!-- <button type="submit" class="btn btn-success">Disetujui</button> -->
 								<?php } ?>
-								</form>
+								<!-- </form>
 								<br><br>
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Dibatalkan</a>
-								<br><br>
+								<br><br> -->
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>?&spv=true" class="btn btn-sm btn-warning">Detail</a>
 							<?php }else{ ?>
 							<?php //if(aksesedit()==1){ ?>
@@ -91,6 +91,21 @@
 					<?php //} ?>
 					<?php $no++; ?>
 				<?php } ?>
+				<tr>
+                  <td colspan="8" align="right"></td>
+                  <td>
+                    <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
+                    <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
+                    <button type="submit" class="btn btn-success btn-sm full">Disetujui</button>
+                    </form>
+                  </td>
+                  <td>
+                  <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_batal" hidden>
+                    <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
+                    <button type="submit" class="btn btn-danger btn-sm full">Dibatalkan</button>
+                    </form>
+                  </td>
+                </tr>
 			</tbody>
 		</table>
 	</div>
