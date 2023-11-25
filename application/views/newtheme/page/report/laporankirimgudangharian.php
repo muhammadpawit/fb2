@@ -57,6 +57,7 @@
 							<td></td>
 							<td></td>
 							<td><?php echo $p['dz'] > 0 ? number_format($p['dz'],2):''?></td>
+							<td><?php echo $p['dz'] > 0 ? number_format($p['dz']*12):''?></td>
 							<td><?php echo $p['dz'] > 0 ? number_format($p['nilai']):''?></td>
 							<td><?php echo $p['dz'] > 0 ? $p['keterangan']: ''?></td>
 					</tr>
