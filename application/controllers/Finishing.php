@@ -916,9 +916,11 @@ class Finishing extends CI_Controller {
 		$data['hapus']=BASEURL.'Finishing/karyawanhapus/';
 		$get = $this->input->get();
 		if(isset($get['bagian'])){
+			$data['title'] = 'Data Karyawan Harian Sukabumi ';
 			$products=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0,'bagian'=>'Cabang Sukabumi',));
 		}else{
 			// $products=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
+			$data['title'] = 'Data Karyawan Harian & Borongan Pusat ';
 			$products=$this->GlobalModel->queryManual("
 			SELECT * FROM karyawan_harian WHERE bagian NOT LIKE '%cabang sukabumi%'
 			");

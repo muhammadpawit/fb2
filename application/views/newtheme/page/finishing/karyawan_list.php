@@ -58,7 +58,7 @@
       <!-- Default box -->
       <div class="card card-info">
         <div class="card-header">
-          <h3 class="card-title">Data Karyawan Harian dan Borongan</h3>
+          <h3 class="card-title"><?php echo $title ?></h3>
           <div class="card-tools">
             <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
           </div>
