@@ -106,7 +106,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td></td>
 					<td align="center"><?php echo $jml?></td>
 					<td align="center"><?php echo number_format($dz+$gdz,2)?></td>
-					<td><?php echo number_format($pcs)?></td>
+					<td><?php echo number_format(($dz*12)+($gdz*12))?></td>
 					<td align="center"><?php echo number_format($nilai+$gnilai)?></td>
 					<td></td>
 				</tr>

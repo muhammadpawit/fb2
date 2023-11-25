@@ -39,7 +39,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $jml=0; $nilai=0;$dz=0;$gdz=0;$gnilai=0;$pcs=0;?>
+				<?php $jml=0; $nilai=0;$dz=0;$gdz=0;$gnilai=0;$pcs=0;$tpcs=0;?>
 				<?php foreach($products as $p){?>
 					<tr>
 							<td><?php echo $p['no']?></td>
@@ -95,7 +95,8 @@
 					<?php } ?>
 					<?php 
 						$gdz+=($p['dz']); 
-						$gnilai+=($p['nilai']); 
+						$gnilai+=($p['nilai']);
+						
 					?>
 				<?php } ?>
 			</tbody>
@@ -106,7 +107,7 @@
 					<td></td>
 					<td><?php echo $jml?></td>
 					<td><?php echo number_format($dz+$gdz,2)?></td>
-					<td><?php echo number_format($pcs)?></td>
+					<td><?php echo number_format(($dz*12)+($gdz*12))?></td>
 					<td><?php echo number_format($nilai+$gnilai)?></td>
 					<td></td>
 				</tr>
