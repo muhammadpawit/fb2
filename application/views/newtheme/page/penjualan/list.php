@@ -35,6 +35,8 @@
                             <td><?php echo number_format($c['total'])?></td>
                             <td>
                               <a href="<?php echo $c['detail']?>" class="btn btn-xs btn-info">Detail</a>
+
+                              <a href="<?php echo $c['hapus']?>" class="btn btn-xs btn-danger" onclick="return confirm('Apakah yakin?')">Hapus</a>
                             </td>
                         </tr>
                     <?php } ?>

@@ -221,6 +221,56 @@ class PenjualanModel extends CI_Model {
 	}
 
 	
+	public function hapusPenjualan($id){
+		$total_harga=0;
+		$total_discount=0;
+		$total=0;
+		$where = array(
+			'hapus'		=> 1,
+		);
+		$save = $this->db->update($this->table,$where,array('id'=>$id));
+		$input = $this->GlobalModel->GetData('penjualan_online_product',array('penjualan_id' => $id));
+		$id=$id;
+		foreach($input as $p){
+
+			$total_harga+=($p['harga']*$p['quantity']);
+			$total_discount+=($p['discount']);
+			// $total+=($total_harga);
+
+			$detail = array(
+				'hapus'				=> 1,
+			);
+			$this->db->update('penjualan_online_product',$detail,array('penjualan_id' => $id));
+			$this->history_stok_batal_penjualan($id,$p['id_po'],$p['quantity']);
+		}
+
+		if($save==TRUE){
+			return $hasil = array(
+				'success' 		=> true,
+				'message'		=> 'success',
+			);
+		}else{
+			return $hasil = array(
+				'success' 		=> false,
+				'message'		=> 'failed',
+			);
+		}
+	}
+
+	function history_stok_batal_penjualan($id_penjualan,$id_po_online_detail,$qty){
+		$insert = array(
+			'id_penjualan' 			=> $id_penjualan,
+			'id_po_online_detail'	=> $id_po_online_detail,
+			'qty'					=> $qty,
+			'keterangan'			=> 'pembatalan '.date('Y-m-d H:i:s'),
+		);
+		$this->db->insert('history_stok_penjualan',$insert);
+		$this->db->query("UPDATE master_po_online_detail SET pcs=pcs+'".$qty."' WHERE id=$id_po_online_detail ");
+		$po = $this->GlobalModel->getDataRow('master_po_online_detail',array('id'=>$id_po_online_detail));
+		$this->db->query("UPDATE master_po_online SET pcs=pcs+'".$qty."' WHERE id='".$po['id_master_po_online']."' ");
+	}
+
+	
 
 
 }

@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" hidden>
     <div class="col-md-12">
         <div class="form-group">
             <table class="table table-bordered yessearch">
@@ -58,7 +58,21 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama PO</th>
+                    <th>Serian</th>
+                    <th>Size QTY</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 <script>
     function stokpoonlineexcel(){
         var url='?&excel=1';

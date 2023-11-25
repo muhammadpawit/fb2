@@ -50,7 +50,8 @@ class Penjualan extends CI_Controller {
 				'biaya_pengiriman'=>$r['biaya_pengiriman'],
 				'total_discount'=>$r['total_discount'],
 				'total'=>$r['total'],
-				'detail'=>$this->url.'detail/'.$r['id']
+				'detail'=>$this->url.'detail/'.$r['id'],
+				'hapus'=>$this->url.'hapus/'.$r['id'],
 			);
 			$no++;
 		}
@@ -115,6 +116,19 @@ class Penjualan extends CI_Controller {
 			redirect($this->url);
 		}else{
 			$this->session->set_flashdata('gagal','Data gagal disimpan');
+			redirect($this->url);
+		}
+	}
+
+	public function hapus($id){
+		// $input = $this->GlobalModel->getdata('');
+		// pre($input);
+		$save = $this->PenjualanModel->hapusPenjualan($id);
+		if($save['success']==TRUE){
+			$this->session->set_flashdata('msg','Data berhasil dihapus');
+			redirect($this->url);
+		}else{
+			$this->session->set_flashdata('gagal','Data gagal dihapus');
 			redirect($this->url);
 		}
 	}
