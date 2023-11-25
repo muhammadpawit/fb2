@@ -932,7 +932,13 @@ class Pembayaran extends CI_Controller {
 		}
 
 		$data['kode_po']=$kode_po[0];
-		
+
+		// history pembayaran
+		$history = [];
+		$history = $this->GlobalModel->getDataRow('pembayaran_skb',array('hapus'=>0,'kode_po'=>$kode_po[0],'id_cmt'=>$cmt));
+		$history = !empty($history) ? $this->GlobalModel->getData('pembayaran_skb_pmb',array('hapus'=>0,'id_pembayaran_skb'=>$history['id'])) : [];
+		$data['history']=$history;
+		// pre($history);
 		$data['kirim']=[];
 		if(!empty($kode_po)){
 			$data['kirim']=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$cmt."' AND hapus=0 ");
@@ -1011,7 +1017,9 @@ class Pembayaran extends CI_Controller {
 		$jmlsetor=0;
 		$jmlkirim=0;
 		$total_alat=0;
+		$pelunasan=[];
 		foreach($results as $result){
+			$pelunasan=$this->GlobalModel->getdataRow('pelunasan_pembayaran_skb',array('idpembayaran'=>$result['id']));
 			$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$result['id_cmt']));
 			$total_alat=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM pembayaran_skb_alat WHERE hapus=0 AND idpembayaran='".$result['id']."' ");
 			$data['products'][]=array(
@@ -1024,6 +1032,7 @@ class Pembayaran extends CI_Controller {
 				'potongan_alat'=>!empty($total_alat)?$total_alat['total']:0,
 				'detail'=>BASEURL.'Pembayaran/cmtjahit_skb_detail/'.$result['id'],
 				'hapus'=>BASEURL.'Pembayaran/cmtjahit_skb_hapus/'.$result['id'],
+				'pelunasan' => $pelunasan,
 			);
 		}
 		//pre($data['products']);
@@ -1036,6 +1045,7 @@ class Pembayaran extends CI_Controller {
 		$data['gajiskb']=[];
 		$data['opsskb']=[];
 		$data['vermak']=0;
+		
 		if(!empty($cmt)){
 			$data['gajiskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM gajisukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
 			$data['opsskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
@@ -1074,6 +1084,13 @@ class Pembayaran extends CI_Controller {
 		$data['kode_po']=$kode_po[0];
 		$data['action']=null;
 		$data['kirim']=[];
+		
+		$history = [];
+		$history = $this->GlobalModel->getDataRow('pembayaran_skb',array('hapus'=>0,'kode_po'=>$data['prods']['kode_po'],'id_cmt'=>$data['prods']['id_cmt']));
+		$history = !empty($history) ? $this->GlobalModel->getData('pelunasan_pembayaran_skb',array('idpembayaran'=>$id)) : [];
+		$data['history']=$history;
+		// pre($history);
+
 		if(!empty($kode_po)){
 			$data['kirim']=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$cmt."' AND hapus=0 ");
 		}
@@ -1088,82 +1105,97 @@ class Pembayaran extends CI_Controller {
 	}
 	public function cmtjahitsave_skb(){
 		$data=$this->input->post();
-		//pre($data);		
-		$po=$this->GlobalModel->QueryManualRow("SELECT * FROM produksi_po WHERE kode_po LIKE '%".$data['kode_po']."%' LIMIT 1 ");
-		$insert=array(
-			'tanggal'=>$data['tgl'],
-			'idpo'=>$po['id_produksi_po'],
-			'kode_po'=>$data['kode_po'],
-			'id_cmt'=>$data['id_cmt'],
-			'tagihan'=>$data['tagihan'],
-			'hapus'=>0,
-		);
-		$this->db->insert('pembayaran_skb',$insert);
-		$id=$this->db->insert_id();
-		// po
-		foreach($data['po'] as $p){
-			$pembayaran_skb_po=array(
-				'id_pembayaran_skb'=>$id,
-				'tanggal'=>$p['tanggal'],
-				'idpo'=>$po['id_produksi_po'],
-				'kode_po'=>$data['kode_po'],
-				'jumlah_dz'=>$p['dz'],
-				'jumlah_pcs'=>$p['pcs'],
-				'harga'=>$p['harga'],
-				'total'=>$p['nilaipo'],
-				'hapus'=>0,
+		// pre($data);		
+		if(isset($data['tanggal_pelunasan'])){
+			$pelunasan = array(
+				'tagihan' => $data['tagihan'],
+				'tanggal' => date('Y-m-d'),
+				'idpembayaran'	=> $data['idpembayaran'],
+				'tanggal_pelunasan'	=> $data['tanggal_pelunasan'],
+				'rincian_pcs'	=> $data['rincian_pcs'],
+				'nominal'		=> $data['nominal'],
+				'keterangan'	=> $data['keterangan']
 			);
-			$this->db->insert('pembayaran_skb_po',$pembayaran_skb_po);
-		}
-
-		// po setor
-		foreach($data['setor'] as $p){
-			$pembayaran_skb_setor=array(
-				'id_pembayaran_skb'=>$id,
-				'tanggal'=>$p['tanggal'],
-				'idpo'=>$po['id_produksi_po'],
-				'kode_po'=>$data['kode_po'],
-				'jumlah_pcs_kirim'=>$p['kirim_pcs']==0?null:$p['kirim_pcs'],
-				'jumlah_pcs_setor'=>$p['setor_pcs']==0?null:$p['setor_pcs'],
-				'hapus'=>0,
-			);
-			$this->db->insert('pembayaran_skb_setor',$pembayaran_skb_setor);
-		}
-
-		// pembayaran
-		if(isset($data['pmby'])){
-			foreach($data['pmby'] as $p){
-				$pembayaran_skb_pmb=array(
-					'id_pembayaran_skb'=>$id,
-					'tanggal'=>$p['tgl'],
-					'rincian'=>$p['rincian'],
-					'kredit'=>$p['kredit'],
-					'saldo'=>$p['saldo'],
-					'keterangan'=>'Pembayaran '.($p['percent']*100).' %',
-					'hapus'=>0,
-				);
-				$this->db->insert('pembayaran_skb_pmb',$pembayaran_skb_pmb);
-			}
+			$this->db->insert('pelunasan_pembayaran_skb',$pelunasan);
 		}else{
-			$kode_po=explode("_", $data['kode_po']);
-			$p=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$data['id_cmt']."' AND hapus=0 ");
-				$pembayaran_skb_pmb=array(
+			$po=$this->GlobalModel->QueryManualRow("SELECT * FROM produksi_po WHERE kode_po LIKE '%".$data['kode_po']."%' LIMIT 1 ");
+			$insert=array(
+				'tanggal'=>$data['tgl'],
+				'idpo'=>$po['id_produksi_po'],
+				'kode_po'=>$data['kode_po'],
+				'id_cmt'=>$data['id_cmt'],
+				'tagihan'=>$data['tagihan'],
+				'hapus'=>0,
+			);
+			$this->db->insert('pembayaran_skb',$insert);
+			$id=$this->db->insert_id();
+			// po
+			foreach($data['po'] as $p){
+				$pembayaran_skb_po=array(
 					'id_pembayaran_skb'=>$id,
 					'tanggal'=>$p['tanggal'],
-					'rincian'=>$p['pcs'],
-					'kredit'=>0,
-					'saldo'=>$data['tagihan'],
-					'keterangan'=>'Pembayaran 100 %',
+					'idpo'=>$po['id_produksi_po'],
+					'kode_po'=>$data['kode_po'],
+					'jumlah_dz'=>$p['dz'],
+					'jumlah_pcs'=>$p['pcs'],
+					'harga'=>$p['harga'],
+					'total'=>$p['nilaipo'],
 					'hapus'=>0,
 				);
-				$this->db->insert('pembayaran_skb_pmb',$pembayaran_skb_pmb);
+				$this->db->insert('pembayaran_skb_po',$pembayaran_skb_po);
+			}
+
+			// po setor
+			foreach($data['setor'] as $p){
+				$pembayaran_skb_setor=array(
+					'id_pembayaran_skb'=>$id,
+					'tanggal'=>$p['tanggal'],
+					'idpo'=>$po['id_produksi_po'],
+					'kode_po'=>$data['kode_po'],
+					'jumlah_pcs_kirim'=>$p['kirim_pcs']==0?null:$p['kirim_pcs'],
+					'jumlah_pcs_setor'=>$p['setor_pcs']==0?null:$p['setor_pcs'],
+					'hapus'=>0,
+				);
+				$this->db->insert('pembayaran_skb_setor',$pembayaran_skb_setor);
+			}
+
+			// pembayaran
+			if(isset($data['pmby'])){
+				foreach($data['pmby'] as $p){
+					$pembayaran_skb_pmb=array(
+						'id_pembayaran_skb'=>$id,
+						'tanggal'=>$p['tgl'],
+						'rincian'=>$p['rincian'],
+						'kredit'=>$p['kredit'],
+						'saldo'=>$p['saldo'],
+						'keterangan'=>'Pembayaran '.($p['percent']*100).' %',
+						'hapus'=>0,
+					);
+					$this->db->insert('pembayaran_skb_pmb',$pembayaran_skb_pmb);
+				}
+			}else{
+				$kode_po=explode("_", $data['kode_po']);
+				$p=$this->GlobalModel->QueryManualRow("SELECT create_date as tanggal,id_master_cmt,cmt_job_price,SUM(qty_tot_pcs) as pcs FROM kelolapo_kirim_setor WHERE progress='KIRIM' AND kategori_cmt = 'JAHIT' AND kode_po LIKE '".$kode_po[0]."%' AND id_master_cmt='".$data['id_cmt']."' AND hapus=0 ");
+					$pembayaran_skb_pmb=array(
+						'id_pembayaran_skb'=>$id,
+						'tanggal'=>$p['tanggal'],
+						'rincian'=>$p['pcs'],
+						'kredit'=>0,
+						'saldo'=>$data['tagihan'],
+						'keterangan'=>'Pembayaran 100 %',
+						'hapus'=>0,
+					);
+					$this->db->insert('pembayaran_skb_pmb',$pembayaran_skb_pmb);
+			}
 		}
+		
 
 		// alat
 				if(isset($data['alat'])){
 					foreach($data['alat'] as $p){
 						$pembayaran_skb_alat=array(
-							'idpembayaran'=>$id,
+							// 'idpembayaran'=>$id,
+							'idpembayaran'=>$data['idpembayaran'],
 							'rincian'=>$p['rincian'],
 							'qty'=>$p['qty'],
 							'harga'=>$p['harga'],

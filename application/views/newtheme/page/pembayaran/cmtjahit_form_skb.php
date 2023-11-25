@@ -132,6 +132,62 @@
             </tr>
             </thead>
             <tbody id="pmby">
+                <?php if(!empty($history)){ ?>
+                    <input type="hidden" name="pelunasan" value="1" class="form-control">
+                    <?php $tothis=0;?>
+                    <?php foreach($history as $h){ ?>
+                        <input type="hidden" name="idpembayaran" value="<?php echo $h['id_pembayaran_skb']?>" class="form-control">
+                        <tr align="center">
+                            <td><?php echo $h['tanggal']?></td>
+                            <td><?php echo $h['rincian']?></td>
+                            <td></td>
+                            <td><?php echo $h['saldo']?></td>
+                            <td><?php echo $h['keterangan']?></td>
+                        </tr>
+                        <?php $tothis+=$h['saldo'];?>
+                    <?php } ?>
+                    <tr>
+                        <td>
+                            <input type="text" name="tanggal_pelunasan" class="form-control datepicker" required>
+                        </td>
+                        <td>
+                            <input type="text" name="rincian_pcs" class="form-control" required>
+                        </td>
+                        <td></td>
+                        <td>
+                            <input type="text" name="nominal" value="<?php echo ($kirim['cmt_job_price']*($kirim['pcs']/12)) - $tothis  ?>" class="form-control" readonly>
+                        </td>
+                        <td>
+                            <input type="text" name="keterangan" value="Pelunasan Pembayaran 100%" class="form-control">
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group" hidden>
+        <label>  <input type="checkbox"> Pelunasan CMT</label>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th><center>Tanggal</center></th>
+                <th><center>Rincian Setor (pcs)</center></th>
+                <th><center>Kredit</center></th>
+                <th><center>Saldo</center></th>
+                <th><center>Ket</center></th>
+                <th><center><a onclick="tambahp()" class="btn btn-sm btn-info"><i class="fa fa-plus"></i></a></center></th>
+            </tr>
+            <tr align="center">
+                <td><?php echo $kirim['tanggal']?></td>
+                <td>Tagihan</td>
+                <td></td>
+                <td><input type="hidden" name="tagihan" value="<?php echo ($kirim['cmt_job_price']*($kirim['pcs']/12))?>"><?php echo ($kirim['cmt_job_price']*($kirim['pcs']/12))?></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
                 
             </tbody>
         </table>

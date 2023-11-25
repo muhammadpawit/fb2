@@ -92,6 +92,45 @@
                         <td><?php echo $pm['keterangan']?></td>
                     </tr>
                 <?php } ?>
+
+                <?php if(!empty($history)){ ?>
+                    <input type="hidden" name="pelunasan" value="1" class="form-control">
+                    <?php $tothis=0;?>
+                    <?php foreach($history as $h){ ?>
+                        <input type="hidden" name="idpembayaran" value="<?php echo $h['idpembayaran']?>" class="form-control">
+                        <tr align="center">
+                            <td><?php echo $h['tanggal_pelunasan']?></td>
+                            <td><?php echo $h['rincian_pcs']?></td>
+                            <td></td>
+                            <td><?php echo $h['nominal']?></td>
+                            <td><?php echo $h['keterangan']?></td>
+                        </tr>
+                        <?php $tothis+=$h['nominal'];?>
+                    <?php } ?>
+
+                    <?php 
+                    $totalat=0;
+                    foreach($alat as $a){
+                        $totalat+=($a['qty']*$a['harga']);
+                    }
+                    ?>
+                        
+                    <tr align="center">
+                        <td>
+                            Total Yang Harus Dibayar
+                        </td>
+                        <td>
+                        
+                        </td>
+                        <td></td>
+                        <td>
+                            <b><?php echo ($tothis-$totalat) ?></b>
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
