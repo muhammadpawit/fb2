@@ -731,7 +731,7 @@ class ReportModel extends CI_Model {
 
 	public function dashkirimgdgpcs($kodepo){
 		$out=0;
-		$sql="SELECT COALESCE(sum(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` WHERE kode_po='$kodepo' ";		
+		$sql="SELECT COALESCE(sum(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` WHERE kode_po='$kodepo' AND tahunpo IS NULL ";		
 		$row=$this->GlobalModel->QueryManualRow($sql);
 		return (int)$row['total'];
 		
