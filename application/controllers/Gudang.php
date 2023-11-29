@@ -291,6 +291,30 @@ class Gudang extends CI_Controller {
 		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all',$data);
 	}
 
+	public function ajuanmingguandetailkemeja($id){
+		$data=array();
+		$data['n']=1;
+		$data['title']='Detail Ajuan Alat-alat Kirim Kemeja';
+		$get=$this->input->get();
+		$url='';
+		if(isset($get['spv'])){
+			$url='?&spv=true';
+		}
+		$data['action']=BASEURL.'Gudang/ajuanmingguansavekemeja';
+		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_kemeja'.$url;
+		$data['excel']=BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$id.'?&excel=1';
+		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan_kemeja',array('hapus'=>0,'id'=>$id));
+		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail_kemeja',array('hapus'=>0,'idajuan'=>$id));
+		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['acc']=BASEURL.'Gudang/ajuanmingguanacckemeja';
+		$get=$this->input->get();		
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
+		}else{
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_detail';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
 
 	public function ajuanmingguandetail($id){
 		$data=array();
