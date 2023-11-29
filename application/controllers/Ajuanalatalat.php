@@ -305,6 +305,19 @@ class Ajuanalatalat extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function cariproduct_stok_skb($id='')
+	{
+		$getId = $this->input->get('id');
+		$type= $this->input->get('id');
+		if($type==1){
+			$data = $this->GlobalModel->getDataRow('stok_barang_skb',array('id_persediaan'=>$getId));
+		}else{
+			$data = $this->GlobalModel->getDataRow('stok_barang_skb',array('id_persediaan'=>$getId));
+		}
+		
+		echo json_encode($data);
+	}
+
 	public function Ajuanalatalat_hapus($id){
 		$this->db->update('ajuanalatalat',array('hapus'=>1),array('id'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
