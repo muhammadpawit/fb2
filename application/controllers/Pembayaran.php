@@ -1077,7 +1077,7 @@ class Pembayaran extends CI_Controller {
 		$data['prods']=$this->GlobalModel->GetDataRow('pembayaran_skb',array('id'=>$id));
 		$data['setor']=$this->GlobalModel->GetData('pembayaran_skb_setor',array('id_pembayaran_skb'=>$id));
 		$data['pmby']=$this->GlobalModel->GetData('pembayaran_skb_pmb',array('id_pembayaran_skb'=>$id));
-		$data['alat']=$this->GlobalModel->GetData('pembayaran_skb_alat',array('idpembayaran'=>$id));
+		$data['alat']=$this->GlobalModel->GetData('pembayaran_skb_alat',array('hapus'=>0,'idpembayaran'=>$id));
 		$kode_po=explode("_", $data['prods']['kode_po']);
 		$cmt=$data['prods']['id_cmt'];
 		$data['cmt']=$cmt;
