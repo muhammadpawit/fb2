@@ -397,7 +397,7 @@ class Gudang extends CI_Controller {
 				'product_id' => $item['product_id'],
 				// 'ajuan_kebutuhan'=>$data['ajuan_kebutuhan'],
 				'ajuan_kebutuhan'=>0,
-				'stok'=>$data['stok'],
+				'stok'=>$data['stok_skb'],
 				//'jml_ajuan'=>$data['jml_ajuan'],
 				'jml_ajuan'=>0,
 				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
@@ -426,7 +426,7 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('ajuan_mingguan_detail_kemeja',$insert);
 			}
-			$this->db->update('ajuan_mingguan_kemeja',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+			$this->db->update('ajuan_mingguan_kemeja',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok_skb']),array('id'=>$id));
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan_kemeja');
