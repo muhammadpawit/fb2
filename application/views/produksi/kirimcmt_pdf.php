@@ -123,11 +123,11 @@
 					$nama=$this->GlobalModel->getDatarow('product',array('product_id'=>$a['id_persediaan']));
 				?>
 				<tr>
-					<td><?php echo $noalat++;?></td>
-					<td><?php echo $nama['nama']?></td>
-					<td><?php echo $a['jumlah']?></td>
-					<td><?php echo number_format($nama['price']) ?></td>
-					<td><?php echo $a['keterangan']?></td>
+					<td align="center"><?php echo $noalat++;?></td>
+					<td>&nbsp;<?php echo $nama['nama']?></td>
+					<td align="center"><?php echo $a['jumlah']?></td>
+					<td align="center"><?php echo number_format($nama['price']) ?></td>
+					<td>&nbsp;<?php echo $a['keterangan']?></td>
 				</tr>
 			<?php } ?>
 		</tbody>
