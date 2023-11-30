@@ -104,6 +104,7 @@
     </tfoot>
 </table>
 <?php if(!empty($alat)){ ?>
+	<br><br>
 	<div style="clear: both;"></div>
 	<?php $noalat=1;?>
 	<table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
