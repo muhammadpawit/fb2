@@ -158,7 +158,7 @@
 					<p>Catatan :</p>
 								<ol>
 									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
-									<li>Apabila ada kekurangan, harap segera konfirmasi bagian QC</li>
+									<li>Apabila ada kekurangan, harap segera konfirmasi <?php if(!empty($alat)){ ?> Kantor Cab. Sukabumi <?php }else{ ?> bagian QC <?php } ?> </li>
 									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
 									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
 								</ol>
