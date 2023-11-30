@@ -361,6 +361,26 @@ class Gudang extends CI_Controller {
 		}
 	}
 
+	public function ajuanmingguaneditkemeja($id){
+		$data=array();
+		$data['n']=1;
+		$data['title']='Edit Ajuan Alat-alat Kirim Kemeja';
+		$data['action']=BASEURL.'Gudang/ajuanmingguansave_editkemeja';
+		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_kemeja';
+		$data['excel']=BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$id.'?&excel=1';
+		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan_kemeja',array('hapus'=>0,'id'=>$id));
+		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail_kemeja',array('hapus'=>0,'idajuan'=>$id));
+		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['acc']=BASEURL.'Gudang/ajuanmingguanacc_kemeja';
+		$get=$this->input->get();		
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
+		}else{
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_edit';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
 	public function ajuanmingguantambah(){
 		$data=array();
 		$data['title']='Form Ajuan Alat-alat Kirim PO';
@@ -542,6 +562,37 @@ class Gudang extends CI_Controller {
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan');
+	}
+
+	public function ajuanmingguansave_editkemeja(){
+		$data=$this->input->post();
+		//pre($data);
+		if(isset($data['products'])){
+			
+			$this->db->update('ajuan_mingguan_detail_kemeja',array('hapus'=>1),array('idajuan'=>$data['id']));
+			$totalajuan=0;
+			foreach($data['products'] as $p){
+				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
+				$insert=array(
+					'idajuan'=>$data['id'],
+					'tanggal'=>$data['tanggal'],
+					'tanggal2'=>$data['tanggal'],
+					'kode_po'=>$p['kode_po'],
+					'jumlah_po'=>$p['jumlah_po'],
+					'rincian_po'=>$p['rincian_po'],
+					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
+					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
+					'jml_pcs'=>$p['jml_pcs'],
+					'jml_dz'=>$p['jml_dz'],
+					'keterangan'=>$p['keterangan'],
+					'hapus'=>0,
+				);
+				$this->db->insert('ajuan_mingguan_detail_kemeja',$insert);
+			}
+			$this->db->update('ajuan_mingguan_kemeja',array('keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok_skb'],'jml_ajuan'=>$totalajuan-$data['stok_skb']),array('id'=>$data['id']));
+		}
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Gudang/ajuanmingguan_kemeja');
 	}
 
 	public function barangkeluar($jenis){
