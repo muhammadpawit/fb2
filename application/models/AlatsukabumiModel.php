@@ -96,9 +96,6 @@ class AlatsukabumiModel extends CI_Model {
 
 	public function distribusi($data){
 		$hasil=[];
-		$data['sj'] = $this->GlobalModel->QueryManual("
-		SELECT a.nosj from kirimcmt a LEFT JOIN master_cmt b ON b.id_cmt=a.idcmt WHERE b.lokasi IN(3) AND nosj IS NOT NULL
-		");
 		$sql="SELECT d.*, mc.cmt_name, s.nama, s.satuan FROM distribusi_alat_sukabumi d ";
 		$sql.=" LEFT JOIN master_cmt mc ON mc.id_cmt=d.idcmt ";
 		$sql.=" LEFT JOIN stok_barang_skb s ON s.id_persediaan=d.id_persediaan ";
