@@ -156,7 +156,7 @@ class Gudang extends CI_Controller {
 		if(isset($get['spv'])){
 			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv_kemeja';
 		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_kemeja';
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
 		}
 		//pre($data['products']);
 		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
