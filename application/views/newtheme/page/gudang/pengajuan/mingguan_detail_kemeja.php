@@ -24,7 +24,7 @@
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">PCS</td>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">DZ</td>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Kebutuhan</td>
-          <td style="vertical-align: middle;text-align: center;font-weight: bold;">Stok</td>
+          <td style="vertical-align: middle;text-align: center;font-weight: bold;">Stok SKB</td>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Ajuan</td>
         </tr>
         <?php $i=0;$pcs=0;$dz=0;$jmlpo=0;?>

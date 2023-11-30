@@ -103,7 +103,33 @@
         </tr>
     </tfoot>
 </table>
-
+<?php if(!empty($alat)){ ?>
+	<div style="clear: both;"></div>
+	<?php $noalat=1;?>
+	<table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
+		<thead>
+			<tr>
+				<th>No</th>
+				<th>Rincian Alat</th>
+				<th>Jumlah</th>
+				<th>Keterangan</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($alat as $a){ ?>
+				<?php 
+					$nama=$this->GlobalModel->getDatarow('product',array('product_id'=>$a['id_persediaan']));
+				?>
+				<tr>
+					<td><?php echo $noalat++;?></td>
+					<td><?php echo $nama['nama']?></td>
+					<td><?php echo $a['jumlah']?></td>
+					<td><?php echo $a['keterangan']?></td>
+				</tr>
+			<?php } ?>
+		</tbody>
+	</table>
+<?php } ?>
 
 <?php if(count($kirims) < 3){?>
 

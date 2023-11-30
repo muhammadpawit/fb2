@@ -134,6 +134,7 @@ class AlatsukabumiModel extends CI_Model {
 				'keterangan' => $post['keterangan'],
 				'hapus'=>0,
 				'validasi'=>0,
+				'nomorsj'=>isset($post['nomorsj'])? $post['nomorsj']:null,
 			);
 			$this->db->insert('distribusi_alat_sukabumi',$insert);
 			$id = $this->db->insert_id();

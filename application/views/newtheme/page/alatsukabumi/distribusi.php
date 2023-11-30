@@ -39,6 +39,15 @@
             <label>Keterangan</label>
             <textarea class="form-control" required="required" name="keterangan"></textarea>
           </div>
+          <div class="form-group">
+            <label for="">Nomor Surat Jalan</label>
+            <select name="nomorsj" id="nomorsj" class="form-control select2bs4" style="width:100%">
+                <option value="">Pilih</option>
+                <?php foreach($sj as $s){ ?>
+                  <option value="<?php echo $s['nosj']?>"><?php echo $s['nosj']?></option>
+                <?php } ?>
+            </select>
+          </div>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" data-dismiss="modal">Batal</a>
         </form>
@@ -91,11 +100,12 @@
 				<tr>
 					<th>No</th>
 					<th>Tanggal</th>
-                    <th>Nama CMT</th>
+          <th>Nama CMT</th>
 					<th>Nama Alat</th>
 					<th>Jumlah</th>
 					<th>Satuan</th>
 					<th>Keterangan</th>
+          <th>Nomor SJ</th>
 					<th>
 						Aksi
 					</th>
@@ -112,6 +122,7 @@
 						<td><?php echo $p['jumlah']?></td>
 						<td><?php echo $p['satuan']?></td>
 						<td><?php echo $p['keterangan']?></td>
+            <td><?php echo $p['nomorsj']?></td>
 						<td>
 							<?php if(akseshapus()==1){ ?>
                 <?php if($p['validasi']==0){ ?>

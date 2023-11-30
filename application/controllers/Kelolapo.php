@@ -2269,9 +2269,11 @@ class Kelolapo extends CI_Controller {
 		$data=array();
 		$data['nota']='CMT';
 		$data['no']=1;
+		$data['alat']=null;
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
 		$data['kirims']=$this->GlobalModel->getData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$id));
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		$data['alat']= $this->GlobalModel->getData('distribusi_alat_sukabumi',array('hapus'=>0,'nomorsj'=>$data['kirim']['nosj']));
 		if($type==2){
 			$pdf=false;
 		}else{
