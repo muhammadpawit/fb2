@@ -113,6 +113,7 @@
 				<th>No</th>
 				<th>Rincian Alat</th>
 				<th>Jumlah</th>
+				<th>Harga</th>
 				<th>Keterangan</th>
 			</tr>
 		</thead>
@@ -125,6 +126,7 @@
 					<td><?php echo $noalat++;?></td>
 					<td><?php echo $nama['nama']?></td>
 					<td><?php echo $a['jumlah']?></td>
+					<td><?php echo number_format($nama['price']) ?></td>
 					<td><?php echo $a['keterangan']?></td>
 				</tr>
 			<?php } ?>
@@ -168,13 +170,13 @@
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
 							<td align="center">CMT</td>
-							<td align="center">SPV</td>
-							<td align="center">Admin KLO</td>
+							<td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td>
+							<td align="center"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin KLO <?php } ?></td>
 						</tr>
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
-						<td align="center" height="100" valign="bottom">(TIA)</td>
+						<td align="center" height="100" valign="bottom"> <?php if(!empty($alat)){ ?> (TONI) <?php }else{ ?> (MUCHLAS) <?php } ?></td>
+						<td align="center" height="100" valign="bottom"><?php if(!empty($alat)){ ?> (VINA) <?php }else{ ?> (DINDA) <?php } ?></td>
 						</tr>
 					</table>
 				</td>
