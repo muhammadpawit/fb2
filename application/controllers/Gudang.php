@@ -2908,7 +2908,7 @@ class Gudang extends CI_Controller {
 			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
 		}
 		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguankemeja?&spv=true');
+		redirect(BASEURL.'Gudang/ajuanmingguan_kemeja?&spv=true');
 	}
 
 	function acc_ajuan_mingguan_batal(){
