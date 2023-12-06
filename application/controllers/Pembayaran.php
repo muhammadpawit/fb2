@@ -1105,7 +1105,7 @@ class Pembayaran extends CI_Controller {
 	}
 	public function cmtjahitsave_skb(){
 		$data=$this->input->post();
-		pre($data);		
+		// pre($data);		
 		if(isset($data['tanggal_pelunasan'])){
 			$pelunasan = array(
 				'tagihan' => $data['tagihan'],
@@ -1195,7 +1195,7 @@ class Pembayaran extends CI_Controller {
 					foreach($data['alat'] as $p){
 						$pembayaran_skb_alat=array(
 							// 'idpembayaran'=>$id,
-							'idpembayaran'=>$data['idpembayaran'],
+							'idpembayaran'=>isset($data['idpembayaran']) ? $data['idpembayaran'] : $id,
 							'rincian'=>$p['rincian'],
 							'qty'=>$p['qty'],
 							'harga'=>$p['harga'],
