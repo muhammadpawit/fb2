@@ -130,6 +130,10 @@
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
                                     <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a>
                                     <?php }?>
+
+                                    <?php if($us['status']==1){?>
+                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a>
+                                    <?php }?>
                                 </td>
                                 <td>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
