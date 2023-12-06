@@ -1018,7 +1018,9 @@ class Pembayaran extends CI_Controller {
 		$jmlkirim=0;
 		$total_alat=0;
 		$pelunasan=[];
+		$ket=null;
 		foreach($results as $result){
+			$ket=$this->GlobalModel->getdataRow('pembayaran_skb',array('hapus'=>0,'id_pembayaran_skb'=>$result['id']));
 			$pelunasan=$this->GlobalModel->getdataRow('pelunasan_pembayaran_skb',array('idpembayaran'=>$result['id']));
 			$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$result['id_cmt']));
 			$total_alat=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM pembayaran_skb_alat WHERE hapus=0 AND idpembayaran='".$result['id']."' ");
@@ -1033,6 +1035,7 @@ class Pembayaran extends CI_Controller {
 				'detail'=>BASEURL.'Pembayaran/cmtjahit_skb_detail/'.$result['id'],
 				'hapus'=>BASEURL.'Pembayaran/cmtjahit_skb_hapus/'.$result['id'],
 				'pelunasan' => $pelunasan,
+				'ket'		=> !empty($ket) ? $ket['keterangan']:null,
 			);
 		}
 		//pre($data['products']);

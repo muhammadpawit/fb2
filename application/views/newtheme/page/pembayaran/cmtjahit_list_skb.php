@@ -77,7 +77,7 @@
                             <td><?php echo ($p['kode_po'])?></td>
                             <td><?php echo number_format($p['tagihan']-$p['potongan_alat'])?></td>
                             <td>
-                                <?php if(!empty($p['pelunasan'])){ ?>
+                                <?php if(!empty($p['pelunasan']) || $p['ket'] == 'Pembayaran 100 %'){ ?>
                                     <span class="badge bg-green">Lunas</span>
                                 <?php } ?>
                             </td>
