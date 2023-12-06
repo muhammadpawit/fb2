@@ -79,6 +79,8 @@
                             <td>
                                 <?php if(!empty($p['pelunasan']) || $p['ket'] == 'Pembayaran 100 %'){ ?>
                                     <span class="badge bg-green">Lunas</span>
+                                <?php }else{ ?>
+                                    <span class="badge bg-warning"><?php echo $p['ket'] ?></span>
                                 <?php } ?>
                             </td>
                             <td>
