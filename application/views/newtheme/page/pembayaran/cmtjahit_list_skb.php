@@ -84,7 +84,7 @@
                             <td>
                                 <a href="<?php echo $p['detail']?>" class="btn btn-success btn-xs text-white">Detail</a>
                                 <?php if($menghapus==1){?>
-                                    <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs text-white">Hapus</a>
+                                    <a href="<?php echo $p['hapus']?>" onclick="return confirm('Apakah yakin ini akan dihapus ?') " class="btn btn-danger btn-xs text-white">Hapus</a>
                                 <?php } ?>
                             </td>
                         </tr>

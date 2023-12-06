@@ -1068,7 +1068,7 @@ class Pembayaran extends CI_Controller {
 			'id'=>$id
 		);
 		$this->db->update('pembayaran_skb',$update,$where);
-		$this->session->set_flashdata('msg','Data berhasil ditambah');
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Pembayaran/cmtjahit_skb');
 	}
 
