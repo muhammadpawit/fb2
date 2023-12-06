@@ -1020,7 +1020,7 @@ class Pembayaran extends CI_Controller {
 		$pelunasan=[];
 		$ket=null;
 		foreach($results as $result){
-			$ket=$this->GlobalModel->getdataRow('pembayaran_skb',array('hapus'=>0,'id_pembayaran_skb'=>$result['id']));
+			$ket=$this->GlobalModel->getdataRow('pembayaran_skb_pmb',array('hapus'=>0,'id_pembayaran_skb'=>$result['id']));
 			$pelunasan=$this->GlobalModel->getdataRow('pelunasan_pembayaran_skb',array('idpembayaran'=>$result['id']));
 			$cmt=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$result['id_cmt']));
 			$total_alat=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM pembayaran_skb_alat WHERE hapus=0 AND idpembayaran='".$result['id']."' ");
