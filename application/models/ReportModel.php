@@ -1283,7 +1283,8 @@ class ReportModel extends CI_Model {
 			if(!empty($dbangke)){
 				$bangkenya=$sisa;
 			}
-			
+			$data=$this->db->query($sql)->row_array();
+			return ($hasil['total']>0?$hasil['total']-$bangkenya+$sisa:'');
 		}else{
 			$data=$this->db->query($sql)->row_array();
 			return $hasil=$data['total']-$bangkenya;
