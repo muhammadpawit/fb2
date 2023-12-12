@@ -1243,47 +1243,44 @@ class ReportModel extends CI_Model {
 		if($progress=='SETOR' && $cmtkat=='JAHIT'){
 			// bangke 
 			
-			// $bangke="SELECT COALESCE(SUM(jml_setor_qty-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			// $bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
-			// if(!empty($bulan)){
-			// 	$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
-			// }
-			// $dbangke=$this->db->query($bangke)->row();
-			// $bangkenya=0;
-			// if(!empty($dbangke)){
-			// 	$bangkenya=$dbangke->total;
-			// }
-			// return $bangkenya;
-
-			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and kbp.id_master_cmt='$cmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses' and mjp.id_jenis_po='$jenis' AND kbp.hapus=0";
-			if(!empty($tanggal1)){
-				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$bangke="SELECT COALESCE(SUM(jml_setor_qty-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
+			if(!empty($bulan)){
+				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 			}
 			$dbangke=$this->db->query($bangke)->row();
-
-			// pengembalian bangke
-			$susulan=[];
-			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
-			$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
-			if(empty($pot_drikeu)){
-				$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
-				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%' ");
-				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%'  ");
-				$sisa = $kembali['total'];
-			}else{
-				$susulan=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt LIMIT 18446744073709551615 OFFSET 1");
-				// $sisa = $bangke['total']-$kembali['total'];
-				$susul = !empty($susulan['total']) ? $susulan['total']:0;
-				$sisa = $dbangke->total;
-			}
-
-			// pre($bangke['total']);
-			
+			$bangkenya=0;
 			if(!empty($dbangke)){
-				$bangkenya=$sisa;
+				$bangkenya=$dbangke->total;
 			}
-			return ($hasil['total']>0?$hasil['total']-$bangkenya+$sisa:'');
+			
+
+			// $susulan = $this->GlobalModel->QueryManualRow(
+			// 	"SELECT COALESCE(SUM(a.jml_setor_qty),0) as total FROM kelolapo_rincian_setor_cmt a
+			// 	LEFT JOIN produksi_po b ON b.id_produksi_po=a.idpo
+				
+			// 	WHERE 1=1 AND mjp.nama_jenis_po=''
+			// 	"
+			// );
+
+
+			// // pengembalian bangke
+			// $susulan=[];
+			// $kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
+			// $pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
+			// if(empty($pot_drikeu)){
+			// 	$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
+			// 	$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%' ");
+			// 	$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%'  ");
+			// 	$sisa = 0;
+			// }else{
+			// 	$susulan=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt LIMIT 18446744073709551615 OFFSET 1");
+			// 	// $sisa = $bangke['total']-$kembali['total'];
+			// 	$susul = !empty($susulan['total']) ? $susulan['total']:0;
+			// 	$sisa = $dbangke->total;
+			// }
+			
+			return $bangkenya;
 		}else{
 			$data=$this->db->query($sql)->row_array();
 			return $hasil=$data['total']-$bangkenya;
