@@ -359,8 +359,8 @@ class kirimsetorModel extends CI_Model {
 
 			// pengembalian bangke
 			$susulan=[];
-			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
-			$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where hapus=0 and kode_po LIKE '%".$jenis."%' ");
+			$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke where idpembayaran > 553 AND hapus=0 and kode_po LIKE '%".$jenis."%' ");
+			$pot_drikeu=$this->GlobalModel->QueryManualRow("SELECT * FROM potongan_bangke where idpembayaran > 553 AND hapus=0 and kode_po LIKE '%".$jenis."%' ");
 			if(empty($pot_drikeu)){
 				$diterima_seharusnya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$jenis."%' GROUP BY id_kelolapo_rincian_setor_cmt ORDER BY id_kelolapo_rincian_setor_cmt ASC LIMIT 1 ");
 				$bangke=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$jenis."%' ");
