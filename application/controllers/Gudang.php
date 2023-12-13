@@ -229,6 +229,7 @@ class Gudang extends CI_Controller {
 				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
 				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatal/'.$result['id'],
+				'bataladmin'=>null,
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
 			);
@@ -309,6 +310,7 @@ class Gudang extends CI_Controller {
 				'edit'=>BASEURL.'Gudang/ajuanmingguaneditkemeja/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'],
 				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemeja/'.$result['id'],
+				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemejaadmin/'.$result['id'],,
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
 			);
