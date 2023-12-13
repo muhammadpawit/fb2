@@ -310,7 +310,7 @@ class Gudang extends CI_Controller {
 				'edit'=>BASEURL.'Gudang/ajuanmingguaneditkemeja/'.$result['id'],
 				'detail'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'],
 				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemeja/'.$result['id'],
-				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemejaadmin/'.$result['id'],,
+				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemejaadmin/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
 			);
