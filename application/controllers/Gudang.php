@@ -373,7 +373,7 @@ class Gudang extends CI_Controller {
 		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
 		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
-		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all',$data);
+		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all_kemeja',$data);
 	}
 
 	public function ajuanmingguan_excel_all(){
