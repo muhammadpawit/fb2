@@ -153,6 +153,7 @@ class Gudang extends CI_Controller {
 				'stok'=>$result['stok'],
 			);
 		}
+		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguankemeja_excel_all';
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambahkemeja';
 		if(isset($get['spv'])){
 			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv_kemeja';
@@ -241,6 +242,7 @@ class Gudang extends CI_Controller {
 			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
 		}
 		//pre($data['products']);
+		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguan_excel_all';
 		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
 		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
 		$this->load->view($this->page.'main',$data);
@@ -325,6 +327,53 @@ class Gudang extends CI_Controller {
 		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
 		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
 		$this->load->view($this->page.'main',$data);
+	}
+
+	public function ajuanmingguankemeja_excel_all(){
+		$data=array();
+		$data['title']='Ajuan Alat-alat Kirim PO Kemeja';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+
+		$data['products']=array();
+		$data['prods']=[];
+		$data['n']=1;
+		$date=looping_tanggal($tanggal1,$tanggal2);
+		$ajuan=[];
+		foreach($date as $d){
+			//$ajuan=$this->GlobalModel->Getdata('ajuan_mingguan',array('hapus'=>0,'tanggal'=>$d['tanggal']));
+			$sql="SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0 AND DATE(tanggal)='".$d['tanggal']."' ";
+			if(!empty($cat)){
+				$sql.=" AND jenis='".$cat."' ";
+			}
+			$ajuan=$this->GlobalModel->queryManual($sql);
+			
+			$data['prods'][]=array(
+				'tanggal'=>$d['tanggal'],
+				'ajuan'=>$ajuan,
+			);
+		}		
+		//pre($data['prods']);
+		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
+		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
+		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all',$data);
 	}
 
 	public function ajuanmingguan_excel_all(){

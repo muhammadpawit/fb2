@@ -107,7 +107,7 @@
   }
 
   function excelnya(){
-    var url='<?php echo BASEURL?>Gudang/ajuanmingguan_excel_all?';
+    var url='<?php echo $urlexcel ?>?';
     var tanggal1 =$("#tanggal1").val();
     var tanggal2 =$("#tanggal2").val();
     if(tanggal1){
