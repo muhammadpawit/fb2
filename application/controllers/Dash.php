@@ -528,16 +528,8 @@ class Dash extends CI_Controller {
 		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
 		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
 		foreach($menipis as $m){
-			$qry ="SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
-			 LEFT JOIN product b on b.product_id=a.id_persediaan
-			 WHERE a.hapus=0 AND b.hapus=0 AND b.kategori='".$m['id']."' ";
-			if($m['id']==16){
-				$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
-			}else{
-				$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
-			}
-			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
-			$last_masuk = $this->GlobalModel->QueryManualRow($qry);
+			
+			$last_masuk = $this->last_masuk($m['id']); 
 			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
@@ -549,6 +541,21 @@ class Dash extends CI_Controller {
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
+	}
+
+	function last_masuk($id,){
+		$data=[];
+		$qry ="SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
+			 LEFT JOIN product b on b.product_id=a.id_persediaan
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
+			if($id==16){
+				$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			}else{
+				$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			}
+			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
+		$data = $this->GlobalModel->QueryManualRow($qry);
+		return $data;
 	}
 
 	public function produksi2122(){
