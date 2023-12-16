@@ -92,9 +92,9 @@ class Laporanbulanancabang extends CI_Controller {
 		$setorpcs=0;
 		$kirimpo=0;
         if(!empty($tanggal1)){
-        	$cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE idlokasi IN(3) AND id_cmt NOT IN(63) AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and kategori_cmt='JAHIT' ) order by cmt_name ");
+        	$cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE lokasi IN(3) AND id_cmt NOT IN(63) AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and kategori_cmt='JAHIT' ) order by cmt_name ");
         }else{
-        	$cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE idlokasi IN(3) AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 and kategori_cmt='JAHIT' ) order by cmt_name ");
+        	$cmtnya = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE lokasi IN(3) AND id_cmt IN (SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE hapus=0 and kategori_cmt='JAHIT' ) order by cmt_name ");
         }
 		if(!empty($cmt)){
 			foreach($cmtnya as $val){
