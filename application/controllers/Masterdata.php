@@ -1233,14 +1233,17 @@ class Masterdata extends CI_Controller {
 
 	public function editsave(){
 		$post=$this->input->post();
+		// pre($_FILES['gambarPO1']['name']);
 		$id=$post['product_id'];
-		if (empty($_FILES['userfile']['name'])) {
-			$config['upload_path']          = './uploads/persediaan/';
-	        $config['allowed_types']        = 'gif|jpg|png|jpeg';
-	        $this->load->library('upload', $config);
-	        $this->upload->do_upload('gambarPO1');
-	        $fileName = $this->upload->data('file_name');
-	        $this->db->update('product',array('foto'=>$fileName),array('product_id'=>$id));
+		if (isset($_FILES['gambarPO1']['name'])) {
+			if(!empty($_FILES['gambarPO1']['name'])){
+				$config['upload_path']          = './uploads/persediaan/';
+				$config['allowed_types']        = 'gif|jpg|png|jpeg';
+				$this->load->library('upload', $config);
+				$this->upload->do_upload('gambarPO1');
+				$fileName = $this->upload->data('file_name');
+				$this->db->update('product',array('foto'=>$fileName),array('product_id'=>$id));
+			}
 		}
 		$u=array(
 			'minstok'=>$post['minstok'],
