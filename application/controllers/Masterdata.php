@@ -1101,6 +1101,7 @@ class Masterdata extends CI_Controller {
 		$data['products']=array();
 		$data['action']=BASEURL.'Masterdata/Productsave';
 		$data['url']=BASEURL.'Masterdata/Persediaan';
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array());
 		$get=$this->input->get();
 		if(isset($get['product_id'])){
 			$product_id=$get['product_id'];
@@ -1118,6 +1119,7 @@ class Masterdata extends CI_Controller {
 		}else{
 			$kategori=null;
 		}
+		$data['kate']	= $kategori;
 
 		$data['i']=1;
 			$filter=array(
@@ -1997,6 +1999,7 @@ class Masterdata extends CI_Controller {
 		$data['products']=array();
 		$data['action']=BASEURL.'Masterdata/Productsave';
 		$data['url']=BASEURL.'Masterdata/Persediaan';
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array());
 		$get=$this->input->get();
 		if(isset($get['product_id'])){
 			$product_id=$get['product_id'];
@@ -2014,6 +2017,8 @@ class Masterdata extends CI_Controller {
 		}else{
 			$kategori=null;
 		}
+
+		$data['kate']	= $kategori;
 
 		$data['i']=1;
 			$filter=array(
@@ -2077,7 +2082,7 @@ class Masterdata extends CI_Controller {
 				'satuanqty'=>$result['satuan'],
 				'color'=>$result['jenis']==4?'#ed8664':'',
 				'price'=>number_format($result['price'],2),
-				'harga_beli'=>number_format($result['harga_beli'],2),
+				'harga_beli'=>$result['harga_beli'],
 				'action'=>$action,
 			);
 		}
@@ -2119,6 +2124,11 @@ class Masterdata extends CI_Controller {
 
 	function editkategori($id,$jenis){
 		$this->db->update('kategori_barang',array('in_warning'=>$jenis),array('id'=>$id));
+		redirect(BASEURL.'/Masterdata/kategoribarang');
+	}
+
+	function tampildicrosscek($id,$jenis){
+		$this->db->update('kategori_barang',array('tampildicrosscek'=>$jenis),array('id'=>$id));
 		redirect(BASEURL.'/Masterdata/kategoribarang');
 	}
 

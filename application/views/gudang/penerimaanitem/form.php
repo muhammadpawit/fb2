@@ -25,6 +25,7 @@
                             <option value="3">Alat-alat Konveksi</option>
                             <option value="4">Sablon</option>
                             <option value="5">Penyesuaian Stok Awal</option>
+                            <option value="6">Penyesuaian Stok</option>
                         </select>
                     </div>
                 </div>

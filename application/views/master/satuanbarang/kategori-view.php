@@ -24,6 +24,7 @@
                         <tr>
                             <th>NAMA </th>
                             <th>WARNING STOK</th>
+                            <th>Tampil Di Laporan Crosscek Bahan</th>
                             <!-- <th>ACTION</th> -->
                         </tr>
                         </thead>
@@ -36,6 +37,13 @@
                                     <a href="<?php echo BASEURL.'masterdata/editkategori/'.$sat['id'] ?>/1" class="btn btn-success btn-sm"> Tampilkan</a>
                                 <?php }else{ ?>
                                     <a href="<?php echo BASEURL.'masterdata/editkategori/'.$sat['id'] ?>/0" class="btn btn-warning btn-sm"> Sembunyikan</a>
+                                <?php } ?>
+                                </td>
+                                <td>
+                                <?php if($sat['tampildicrosscek']==0){ ?>
+                                    <a href="<?php echo BASEURL.'masterdata/tampildicrosscek/'.$sat['id'] ?>/1" class="btn btn-success btn-sm"> Tampilkan</a>
+                                <?php }else{ ?>
+                                    <a href="<?php echo BASEURL.'masterdata/tampildicrosscek/'.$sat['id'] ?>/0" class="btn btn-warning btn-sm"> Sembunyikan</a>
                                 <?php } ?>
                                 </td>
                                 <!-- <th>
