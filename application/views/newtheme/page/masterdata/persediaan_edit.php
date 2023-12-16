@@ -77,6 +77,7 @@
                             </div>
 			<div class="form-group">
 				<label>Gambar saat ini</label><br>
+				<input type="hidden" name="userfile" value="<?php echo $prod['foto'] ?>">
 				<img src="<?php echo BASEURL.'uploads/persediaan/'.$prod['foto'] ?>" class="img-thumbnail" >
 			</div>
 			<div class="form-group">
