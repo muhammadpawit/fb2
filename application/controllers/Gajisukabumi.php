@@ -170,6 +170,7 @@ class Gajisukabumi extends CI_Controller {
 		$data['batal']=$this->link;
 		$data['p']=$this->GlobalModel->GetDataRow('gajisukabumi',array('hapus'=>0,'id'=>$id));
 		$data['detail']=$this->GlobalModel->GetData('gajisukabumi_detail',array('hapus'=>0,'idgaji'=>$id));
+		$data['harian']=$this->GlobalModel->queryManual("SELECT COALESCE(SUM(total),0) as total, keterangan FROM gajisukabumi_detail WHERE hapus=0 and idgaji='".$id."' AND lower(keterangan) <> 'kasbon' ");
 		$data['a']=$this->GlobalModel->GetDataRow('anggaran_operasional_sukabumi',array('hapus'=>0,'id'=>$id));
 		$data['sd']=$this->GlobalModel->GetData('anggaran_operasional_sukabumi_detail',array('hapus'=>0,'idanggaran'=>$id));
 		if(isset($get['excel'])){

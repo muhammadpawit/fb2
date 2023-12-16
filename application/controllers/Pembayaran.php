@@ -832,9 +832,10 @@ class Pembayaran extends CI_Controller {
 		$data['opsskb']=[];
 		$data['vermak']=0;
 		if(!empty($cmt)){
-			$data['gajiskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM gajisukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['gajiskb']=$this->GlobalModel->QueryManual("SELECT COALESCE(SUM(b.total),0) as total, b.keterangan FROM gajisukabumi a LEFT JOIN gajisukabumi_detail b ON b.idgaji=a.id WHERE a.hapus=0 AND DATE(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' GROUP BY b.keterangan ");
 			$data['opsskb']=$this->GlobalModel->QueryManualRow("SELECT * FROM anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
 		}
+		// pre($data['gajiskb']);
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_list_excel',$data);
 		}else if(isset($get['rekap'])){
@@ -887,6 +888,8 @@ class Pembayaran extends CI_Controller {
 		$data['saldo_bangke']=$this->GlobalModel->QueryManual("SELECT pb.*,mc.cmt_name, mc.id_cmt FROM potongan_bangke pb LEFT JOIN pembayaran_cmt pc ON pb.idpembayaran=pc.id LEFT JOIN master_cmt mc ON mc.id_cmt=pc.idcmt WHERE kode_po NOT IN (SELECT kode_po FROM pengembalian_bangke WHERE hapus=0) AND pc.hapus=0 AND mc.id_cmt='".$data['detail']['idcmt']."' ");
 		//pre($data['saldo_bangke']);
 		$data['namacmt']=$cmt['cmt_name'];
+		$data['lokasi']=$cmt['lokasi'];
+		// pre($data['lokasi']);
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_excel',$data);

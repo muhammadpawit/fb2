@@ -20,7 +20,57 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="form-group">
-				<h3 class="text-center">Rincian Gaji Karyawan Sukabumi</h3>
+				<h3 class="text-center">Rekap</h3>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Nama CMT</th>
+							<th>Atas Nama</th>
+							<th>No.Rek</th>
+							<th>Jml.Transferan (Rp)</th>
+						</tr>
+					</thead>
+					<tbody >
+						<?php foreach($harian as $d){?>
+							
+						<tr>
+							<td>Gaji Anak Harian</td>
+							<td></td>
+							<td></td>
+							<td><?php echo number_format($d['total'])?></td>
+						</tr>
+						<?php } ?>
+						<?php foreach($detail as $d){?>
+							<?php if(strtolower($d['keterangan'])=='kasbon'){ ?>
+						<tr>
+							<td>Kasbon Karyawan</td>
+							<td>TONI ANDRIAN</td>
+							<td>4088-01-001034-50-7</td>
+							<td><?php echo number_format($d['total'])?></td>
+						</tr>
+						<?php } ?>
+						<?php } ?>
+						<tr>
+							<td>Anggaran Operasional</td>
+							<td></td>
+							<td></td>
+							<td><?php echo number_format($a['total'])?></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3" align="center"><b>Total</b></td>
+							<td><b><?php echo number_format($p['total']+$a['total'])?></b></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<h3 class="text-center">Rincian Gaji Harian Sukabumi</h3>
 				<table class="table table-bordered">
 					<thead>
 						<tr>
@@ -33,7 +83,9 @@
 						</tr>
 					</thead>
 					<tbody id="bod">
+						<?php $totalkasbon=0; ?>
 						<?php foreach($detail as $d){?>
+							<?php if(strtolower($d['keterangan'])!='kasbon'){ ?>
 							<tr>
 								<td><?php echo strtolower($d['nama'])?></td>
 								<td><?php echo strtolower($d['bagian'])?></td>
@@ -42,12 +94,55 @@
 								<td><?php echo number_format($d['total'])?></td>
 								<td><?php echo strtolower($d['keterangan'])?></td>
 							</tr>
+							<?php $totalkasbon+=($d['total']);?>
+						<?php } ?>
 						<?php } ?>
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="4" align="center"><b>Total</b></td>
-							<td><b><?php echo number_format($p['total'])?></b></td>
+							<td><b><?php echo number_format($totalkasbon)?></b></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<h3 class="text-center">Rincian Kasbon Karyawan Sukabumi</h3>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Nama</th>
+							<th>Bagian</th>
+							<th>Jml Hari Kerja</th>
+							<th>Upah / Hari</th>
+							<th>Jumlah (Rp)</th>
+							<th>Keterangan</th>
+						</tr>
+					</thead>
+					<tbody id="bod">
+						<?php $totalkasbon=0; ?>
+						<?php foreach($detail as $d){?>
+							<?php if(strtolower($d['keterangan'])=='kasbon'){ ?>
+							<tr>
+								<td><?php echo strtolower($d['nama'])?></td>
+								<td><?php echo strtolower($d['bagian'])?></td>
+								<td><?php echo strtolower($d['jml_hari_kerja'])?></td>
+								<td><?php echo number_format($d['upah'])?></td>
+								<td><?php echo number_format($d['total'])?></td>
+								<td><?php echo strtolower($d['keterangan'])?></td>
+							</tr>
+							<?php $totalkasbon+=($d['total']);?>
+						<?php } ?>
+						<?php } ?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4" align="center"><b>Total</b></td>
+							<td><b><?php echo number_format($totalkasbon)?></b></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -89,43 +184,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="form-group">
-				<h3 class="text-center">Rekap</h3>
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>Nama CMT</th>
-							<th>Atas Nama</th>
-							<th>No.Rek</th>
-							<th>Jml.Transferan (Rp)</th>
-						</tr>
-					</thead>
-					<tbody >
-						<tr>
-							<td>Kasbon & Gaji Anak Harian</td>
-							<td>TONI ANDRIAN</td>
-							<td>4408-01-001034-50-7</td>
-							<td><?php echo number_format($p['total'])?></td>
-						</tr>
-						<tr>
-							<td>Anggaran Operasional</td>
-							<td></td>
-							<td></td>
-							<td><?php echo number_format($a['total'])?></td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="3" align="center"><b>Total</b></td>
-							<td><b><?php echo number_format($p['total']+$a['total'])?></b></td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
+	
 	<div class="row no-print">
 		<div class="col-md-6">
 			<div class="form-group"><button class="btn btn-success btn-full full" onclick="cetak()">Cetak</button></div>

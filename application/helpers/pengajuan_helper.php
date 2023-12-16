@@ -200,10 +200,10 @@
 		return $menu;
 	}
 
-	function globaldaftarharga(){
+	function globaldaftarharga($lokasi){
 		$CI =& get_instance();
 		$menu=[];
-		$menu=$CI->GlobalModel->queryManual("SELECT * FROM global_daftarharga WHERE hapus=0 ");
+		$menu=$CI->GlobalModel->queryManual("SELECT * FROM global_daftarharga WHERE hapus=0 and lokasi='".$lokasi."' ");
 		return $menu;
 	}
 

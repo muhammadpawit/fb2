@@ -62,7 +62,9 @@ Periode : <?php echo $detail['keterangan'] ?>
                         <td align="center"><?php echo $p['jumlah_pcs']?></td>
                         <td align="center"><?php echo ($p['harga'])?></td>
                         <td align="center"><?php echo ($p['total']-$p['potpertama'])?></td>
-                        <td><?php echo strtolower($p['keterangan'])?></td>
+                        <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
+                            <?php echo strtolower($p['keterangan'])?>
+                        </td>
                     </tr>
                 <?php }?>
                     <?php for($j=0;$j<1;$j++){?>
@@ -430,6 +432,9 @@ Periode : <?php echo $detail['keterangan'] ?>
     <tr></tr>
             <tr>
                 <td>
+                <?php if($lokasi==3){ ?>
+
+                <?php }else{ ?>
                     <table style="width: 100%;border:1px solid black" cellpadding="5">
                         <thead>
                             <tr>
@@ -452,6 +457,7 @@ Periode : <?php echo $detail['keterangan'] ?>
                             </tr>
                         </thead>
                     </table>
+                <?php } ?>
                 </td>
                 <td></td>
                 <td>
@@ -496,12 +502,22 @@ Periode : <?php echo $detail['keterangan'] ?>
                                 <th>Nama PO</th>
                                 <th>Harga Lama/Dz</th>
                                 <th>Harga Baru/Dz</th>
-                                <th>Ket</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $number=1;?>
                             <?php foreach(daftarharga_cmt($detail['idcmt']) as $r){?>
+                                <tr>
+                                    <td><?php echo $number++?></td>
+                                    <td><?php echo $r['namapo']?></td>
+                                    <td><?php echo ($r['hargalama'])?></td>
+                                    <td><?php echo ($r['hargabaru'])?></td>
+                                    <td><?php echo $r['keterangan']?></td>
+                                </tr>
+                            <?php } ?>
+
+                            <?php foreach(globaldaftarharga($lokasi) as $r){?>
                                 <tr>
                                     <td><?php echo $number++?></td>
                                     <td><?php echo $r['namapo']?></td>
@@ -520,7 +536,7 @@ Periode : <?php echo $detail['keterangan'] ?>
            <td colspan="6"></td> 
            <td colspan="5" align="right">
                <table>
-
+                                    <?php if($lokasi!=3){ ?>
                                         <tr>
                                             <th>Menyetujui</th>
                                             <th>Di Buat oleh:</th>
@@ -565,6 +581,68 @@ Periode : <?php echo $detail['keterangan'] ?>
 
                                             </td>
                                         </tr>
+                                        <?php }else{ ?>
+                                            <tr>
+                                                <th>Mengetahui : </th>
+                                                <th>Di Buat oleh :</th>
+                                                <th>Menyetujui :</th>
+
+                                            </tr>
+
+                                            <tr align="center">
+                                                <td><b>Kepala Cabang</b></td>
+                                                <td><b>ADM Keuangan</b></td>
+                                                <td><b>SPV</b></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td height="100" align="center">
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    ( Toni )
+
+                                                </td>
+                                                <td height="100" align="center">
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    ( Vina )
+
+                                                </td>
+                                                <td height="100" align="center">
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    <br>
+
+                                                    ( Muchlas )
+
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
                                     </table>
            </td>
         </tr>

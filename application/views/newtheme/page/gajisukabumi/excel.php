@@ -99,7 +99,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<tr>
 							<td>Kasbon & Gaji Anak Harian</td>
 							<td>TONI ANDRIAN</td>
-							<td>4408-01-001034-50-7</td>
+							<td>4088-01-001034-50-7</td>
 							<td><?php echo ($p['total'])?></td>
 						</tr>
 						<tr>

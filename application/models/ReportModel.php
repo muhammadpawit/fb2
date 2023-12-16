@@ -2975,4 +2975,58 @@ class ReportModel extends CI_Model {
 		
 		return $hasil-$hasil_2;
 	}
+
+	function getJumlahJenisPoCmtGrupLokasi($lokasicmt){
+		$sql="SELECT count(Distinct kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp 
+		JOIN produksi_po p ON(p.kode_po=kbp.kode_po) 
+		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
+		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
+		WHERE  kbp.kategori_cmt='JAHIT' 
+		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND mc.lokasi='".$lokasicmt."'
+		";
+		
+		//$sql.="GROUP BY kbp.kode_po ";
+		$row=$this->db->query($sql)->row_array();
+		$d=$row;
+		if($d['total']>0){
+			$hasil=$d['total'];
+				if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
+					$hasil=round($d['total']*$d['perkalian']);
+				}
+			// return ($hasil['total']);
+		}else{
+			$out=0;
+			$hasil=$out;
+			//return $out;
+		}
+
+		// setor 
+		$hasil_2=0;
+		$sql_2="SELECT count(Distinct kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp 
+		JOIN produksi_po p ON(p.kode_po=kbp.kode_po) 
+		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
+		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
+		WHERE kbp.kategori_cmt='JAHIT' 
+		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND mc.lokasi='".$lokasicmt."'
+		";
+		
+		//$sql.="GROUP BY kbp.kode_po ";
+		$row_2=$this->db->query($sql_2)->row_array();
+		$d_2=$row_2;
+		if($d['total']>0){
+			$hasil_2=$d_2['total'];
+				if($d_2['nama_jenis_po']=="SKF" OR strtoupper($d_2['nama_jenis_po'])=="SIMULASI SKF"){
+					$hasil_2=round($d_2['total']*$d_2['perkalian']);
+				}
+			// return ($hasil['total']);
+		}else{
+			$out=0;
+			$hasil_2=$out;
+			//return $out;
+		}
+		
+		return $hasil-$hasil_2;
+	}
 }

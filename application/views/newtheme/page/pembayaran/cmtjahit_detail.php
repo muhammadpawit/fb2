@@ -64,8 +64,10 @@
                         <td align="center">
                             <input type="text" name="products[<?php echo $n?>][total]" value="<?php echo ($p['total']-$p['potpertama'])?>" class="form-control">
                         </td>
-                        <td>
-                            <input type="text" name="products[<?php echo $n?>][keterangan]" value="<?php echo strtolower($p['keterangan'])?>" class="form-control"></td>
+                        <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
+                            <input type="hidden" name="products[<?php echo $n?>][keterangan]" value="<?php echo strtolower($p['keterangan'])?>" class="form-control">
+                            <?php echo strtolower($p['keterangan'])?>
+                        </td>
                     </tr>
                     <?php $n++;?>
                 <?php }?>
@@ -146,6 +148,9 @@
         </table>
     </div>
     <div class="col-md-6">
+        <?php if($lokasi==3){ ?>
+
+        <?php }else{ ?>
         <table style="background-color: #ffba75;width: 100%;border:1px solid black" cellpadding="5">
             <thead>
                 <tr>
@@ -168,7 +173,7 @@
                 </tr>
             </thead>
         </table>
-
+        <?php } ?>
         <table style="width: 100%;border:1px solid black" cellpadding="5">
             <thead>
                 <tr style="background-color: #adffc5;width: 100%;border:1px solid black">
@@ -179,12 +184,12 @@
                     <th>Nama PO</th>
                     <th>Harga Lama/Dz</th>
                     <th>Harga Baru/Dz</th>
-                    <th>Ket</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $number=1;?>
-                <?php foreach(globaldaftarharga() as $r){?>
+                <?php foreach(globaldaftarharga($lokasi) as $r){?>
                     <tr>
                         <td><?php echo $number++?></td>
                         <td><?php echo $r['namapo']?></td>

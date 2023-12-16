@@ -59,15 +59,19 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
                             <td align="right"><b><?php echo $totals?>&nbsp;</b></td>
                             <td></td>
                         </tr>
+                        <?php $totalskbgaji=0;?>
                         <?php if(isset($gajiskb)){ ?>
+                            <?php foreach($gajiskb as $g){ ?>
                             <tr>
-                                <td colspan="4"><b>Transferan Anak Harian</b></td>
+                                <td colspan="4"><b><?php echo ucfirst(strtolower($g['keterangan'])) ?></b></td>
                                 <td></td>
                                 <td><b></b></td>
                                 <td><b></b></td>
-                                <td align="right"><b><?php echo $gajiskb['total']?>&nbsp;</b></td>
+                                <td align="right"><b><?php echo $g['total'] ?>&nbsp;</b></td>
                                 <td></td>
                             </tr>
+                            <?php $totalskbgaji+=($g['total'] );?>
+                            <?php } ?>
                             <tr>
                                 <td colspan="4"><b>Transferan Borongan (Permak)</b></td>
                                 <td></td>
@@ -76,22 +80,22 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
                                 <td align="right"><b><?php echo $vermak?>&nbsp;</b></td>
                                 <td></td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td colspan="4"><b>Transferan Ops Cab. Sukabumi</b></td>
                                 <td></td>
                                 <td><b></b></td>
                                 <td><b></b></td>
                                 <td align="right"><b><?php echo $opsskb['total']?>&nbsp;</b></td>
                                 <td></td>
-                            </tr>
+                            </tr>-->
                             <tr>
                                 <td colspan="4"><b>Total Transferan Cab. Sukabumi</b></td>
                                 <td></td>
                                 <td><b></b></td>
                                 <td><b></b></td>
-                                <td align="right"><b><?php echo ($totals+$gajiskb['total']+$opsskb['total'])?>&nbsp;</b></td>
+                                <td align="right"><b><?php echo ($totals+$totalskbgaji+$opsskb['total'])?>&nbsp;</b></td>
                                 <td></td>
-                            </tr>
+                            </tr> 
                         <?php } ?>
                 <?php }else{ ?>
                 <tr>
