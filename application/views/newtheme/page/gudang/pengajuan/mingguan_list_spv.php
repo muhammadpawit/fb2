@@ -73,7 +73,7 @@
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']?>"></td>
-                      <td><?php echo strtolower($p['keterangan2'])?></td>
+                      <td><input type="hidden" name="prods[<?php echo $i ?>][keterangan]" value="<?php echo $p['keterangan2']?>"><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         
                         <!-- <input type="button" name="view" value="Acc" data-id="<?php echo $p["id"]; ?>" class="btn btn-xs btn-primary view_data"> -->

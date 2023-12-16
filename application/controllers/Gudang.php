@@ -2799,7 +2799,7 @@ class Gudang extends CI_Controller {
 
 	function acc_ajuan_mingguan_all(){
 		$post = $this->input->post();
-		//pre($post);
+		// pre($post);
 		foreach($post['prods'] as $pr){
 			$update = array(
 				'jml_acc' => $pr['jml_acc']
@@ -2810,7 +2810,8 @@ class Gudang extends CI_Controller {
 			$this->db->update('ajuan_mingguan',$update,$where);
 		}
 		$cat=3; // kategori untuk ajuan harian bagian konveksi
-		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		// $cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		$cekajuan_harian = null;
 		//pre($cekajuan_harian);
 		//pre();
 		if(empty($cekajuan_harian)){
@@ -2841,7 +2842,7 @@ class Gudang extends CI_Controller {
 						'harga'=>$item['harga_beli'],
 						'pembayaran'=>2, // transfer
 						'supplier'=>$supplier['nama'],
-						'keterangan'=>$p['keterangan'],
+						'keterangan'=>$p['keterangan2'],
 						'status'=>1,
 						'from_alat' => $p['id']
 				);
@@ -2849,35 +2850,38 @@ class Gudang extends CI_Controller {
 			}
 			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
 		}else{
-			$id=$cekajuan_harian['id'];
+			// $id=$cekajuan_harian['id'];
 			
-			$transfer=0;
-			foreach($post['prods'] as $pr){
-				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
-				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-				$transfer=($item['harga_beli']*$p['jml_acc']);
-				$rip=array(
-						'nama_item'=>$item['nama'],
-						'jumlah'=>$p['jml_acc'],
-						'satuan'=>$item['satuan'],
-						'harga'=>$item['harga_beli'],
-						'pembayaran'=>2, // transfer
-						'supplier'=>$supplier['nama'],
-						'keterangan'=>$p['keterangan'],
-						'status'=>1,
-						'from_alat' => $p['id']
-				);
-				$wu = array(
-					'from_alat' => $p['id']
-				);
-				$this->db->update('pengajuan_harian_new_detail',$rip, $wu);
-			}
+			// $transfer=0;
+			// foreach($post['prods'] as $pr){
+			// 	$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
+			// 	$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
+			// 	$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+			// 	$transfer=($item['harga_beli']*$p['jml_acc']);
+			// 	$rip=array(
+			// 			'nama_item'=>$item['nama'],
+			// 			'jumlah'=>$p['jml_acc'],
+			// 			'satuan'=>$item['satuan'],
+			// 			'harga'=>$item['harga_beli'],
+			// 			'pembayaran'=>2, // transfer
+			// 			'supplier'=>$supplier['nama'],
+			// 			'keterangan'=>$p['keterangan'],
+			// 			'status'=>1,
+			// 			'from_alat' => $p['id']
+			// 	);
+			// 	$wu = array(
+			// 		'from_alat' => $p['id']
+			// 	);
+			// 	$this->db->update('pengajuan_harian_new_detail',$rip, $wu);
+			// }
 
-			//pre($id);
+			// //pre($id);
 			
 			
-			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+			// $this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+
+			$this->session->set_flashdata('gagal','Data gagal di tersimpan ke ajuan harian.');
+			redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
 		}
 		$this->session->set_flashdata('msg','Data berhasil di acc');
 		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
