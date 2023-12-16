@@ -55,6 +55,17 @@
 					</th>
 				</tr>
 				<tr>
+					<th>Kategori PO</th>
+					<th>:</th>
+					<th>
+						<select class="form-control select2bs4 kategoriPo" name="kategoriPo" title="select jenis po" required >
+                            <option value="DALAM" <?php echo $detail['kategori_po']=='DALAM'?'selected':'';?>>DALAM</option>
+                            <option value="LUAR" <?php echo $detail['kategori_po']=='LUAR'?'selected':'';?>>LUAR</option>
+                            <option value="ONLINE" <?php echo $detail['kategori_po']=='ONLINE'?'selected':'';?>>ONLINE</option>
+                        </select>
+					</th>
+				</tr>
+				<tr>
 					<th>HPP (Rp)</th>
 					<th>:</th>
 					<th>

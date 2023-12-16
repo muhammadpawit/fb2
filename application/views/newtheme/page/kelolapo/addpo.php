@@ -35,6 +35,7 @@
                             <select class="form-control select2bs4 kategoriPo" name="kategoriPo" title="select jenis po" required >
                                 <option value="DALAM">DALAM</option>
                                 <option value="LUAR">LUAR</option>
+                                <option value="ONLINE">ONLINE</option>
                             </select>
                         </div>
                         <div class="form-group pemilikPO hide">
