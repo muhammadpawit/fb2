@@ -55,7 +55,7 @@
         <?php } ?>
     </div>
     <div class="col-md-12">
-        <table class="table table-bordered nosearch">
+            <table class="" border="1" style="border-collapse: collapse;width:100%">
             <thead>
                 <tr>
                     <th>No</th>

@@ -23,7 +23,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="table-responsive">
-		<table class="table table-bordered">
+		<table class="" border="1" style="border-collapse: collapse;width:100%">
 			<thead class="thead-light">
 				<tr>
 					<th rowspan="2" style="vertical-align: middle;text-align: center;">Nama CMT</th>
@@ -80,6 +80,7 @@
                         <td align="center"><b><?php echo $totalsetor?></b></td>
                         <td align="center"><b><?php echo number_format($totalsetordz,2)?></b></td>
                         <td align="center"><b><?php echo number_format($totalsetorpcs,0)?></b></td>
+						<td></td>
 					</tr>
 				<?php }else{ ?>
 					<tr>

@@ -27,7 +27,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered" id="datatable">
+    <table class="" border="1" style="border-collapse: collapse;width:100%">
                       <thead>
                         <tr>
                           <th>#</th>

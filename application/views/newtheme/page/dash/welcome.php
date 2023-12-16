@@ -51,7 +51,7 @@
 <div class="row">
     <div class="col-md-12">
        <div class="alert" style="background-color: #eb4034 !important;color: white">
-           Warning ! Stok Gudang Menipis dan Habis
+           Warning  Stok Barang
        </div>
         <table class="table table-bordered yessearch">
             <thead>
@@ -67,9 +67,9 @@
             </thead>
             <?php $no=1;?>
             <?php foreach($menipis as $req){?>
-                <?php  $minimal_order=($req['minstok']*0.2);?>
+                <?php  $minimal_order=($req['minstok']*0.2); //  ?>
             <?php //if($req['quantity'] < $minimal_order){ ?>
-            <tr>
+            <tr style="background-color:<?php echo ($req['quantity'] == 0) ? 'red' : (($req['quantity'] < $minimal_order) ? '#e2ff85' : ''); ?>">
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
@@ -79,7 +79,11 @@
                     <?php if($req['quantity'] < $minimal_order){ ?>
                         <span class="text-danger">Wajib Order</span>
                     <?php }else{ ?>
-                        <span>Stok Masih Mencukupi</span>
+                        <?php if($req['quantity']==0){ ?>
+                            <span>Stok Habis</span>
+                        <?php }else{ ?>
+                            <span>Stok Masih Mencukupi</span>
+                        <?php } ?>
                     <?php } ?>
                 </td>
                 <td><?php echo $req['satuan']?></td> 
