@@ -69,7 +69,24 @@ class Laporanporijek extends CI_Controller {
 				$kembali=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(rincian_lusin*12)+SUM(rincian_piece+rincian_bangke),0) as total FROM kelolapo_rincian_setor_cmt_finish where kode_po LIKE '%".$r['kode_po']."%'  ");
 				$sisa = ($diterima_seharusnya['total']+$bangke['total']) - $kembali['total'];
 			}else{
-				$susulan=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$r['kode_po']."%' GROUP BY id_kelolapo_rincian_setor_cmt LIMIT 18446744073709551615 OFFSET 1");
+				// $susulan=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM kelolapo_rincian_setor_cmt  where kode_po LIKE '%".$r['kode_po']."%' GROUP BY id_kelolapo_rincian_setor_cmt LIMIT 18446744073709551615 OFFSET 1");
+				$susulan=$this->GlobalModel->QueryManualRow("
+				SELECT 
+				SUM(jumlah_piece_diterima) as total 
+			FROM 
+				(
+					SELECT 
+						jumlah_piece_diterima
+					FROM 
+						kelolapo_rincian_setor_cmt  
+					WHERE 
+						kode_po LIKE '%".$r['kode_po']."%'
+					ORDER BY 
+						id_kelolapo_rincian_setor_cmt
+					LIMIT 18446744073709551615 OFFSET 1
+				) AS subquery;
+			
+				");
 				// $sisa = $bangke['total']-$kembali['total'];
 				$sisa = $bangke['total']-$susulan['total'];
 			}
