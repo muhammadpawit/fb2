@@ -116,7 +116,7 @@ header("Content-Disposition: attachment; filename=Ongkos_Jahit_Periode_".date('d
                 </tr>
                 <tr>
                     <td style="text-align: center;width: 50%;height: 120px" valign="bottom">Muchlas</td>
-                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom" colspan="2">Dinda Dahlia</td>
+                    <td style="text-align: center;width: 50%;height: 120px" valign="bottom" colspan="2"><?php echo $lokasi==3 ? 'Vina':'Dinda Dahlio';?></td>
                 </tr>
             </table>        
         </td>
