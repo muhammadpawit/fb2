@@ -564,7 +564,7 @@ class Dash extends CI_Controller {
 		$data=[];
 		$qry ="SELECT a.tanggal FROM penerimaan_item_detail a
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
-			 WHERE a.jenis NOT IN (5,6,3) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
 			// if($id==16){
 			// 	$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
 			// }else{
