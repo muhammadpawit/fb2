@@ -151,6 +151,7 @@ class Gudang extends CI_Controller {
 				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemejaadmin/'.$result['id'],
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
+				'acc_satuan'=> $result['acc_satuan'],
 			);
 		}
 		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguankemeja_excel_all';
@@ -233,6 +234,7 @@ class Gudang extends CI_Controller {
 				'bataladmin'=>null,
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
+				'acc_satuan' => $result['acc_satuan'],
 			);
 		}
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
@@ -2726,7 +2728,7 @@ class Gudang extends CI_Controller {
 		$post = $this->input->post();
 		//pre($post);
 		$update = array(
-			'jml_acc' => $post['jml_acc']
+			'jml_acc' => $post['jml_acc'],
 		);
 		$where = array(
 			'id' => $post['id'],
@@ -2802,7 +2804,8 @@ class Gudang extends CI_Controller {
 		// pre($post);
 		foreach($post['prods'] as $pr){
 			$update = array(
-				'jml_acc' => $pr['jml_acc']
+				'jml_acc' => $pr['jml_acc'],
+				'acc_satuan'=> $pr['acc_satuan'],
 			);
 			$where = array(
 				'id' => $pr['id'],
@@ -2892,7 +2895,8 @@ class Gudang extends CI_Controller {
 		//pre($post);
 		foreach($post['prods'] as $pr){
 			$update = array(
-				'jml_acc' => $pr['jml_acc']
+				'jml_acc' => $pr['jml_acc'],
+				'acc_satuan'=> $pr['acc_satuan'],
 			);
 			$where = array(
 				'id' => $pr['id'],

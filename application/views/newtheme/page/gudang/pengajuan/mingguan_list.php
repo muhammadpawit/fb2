@@ -54,6 +54,7 @@
                   <th>Satuan</th>
                   <th>Jumlah Ajuan</th>
                   <th>Jumlah ACC</th>
+                  <th>Acc Satuan</th>
                   <th>Keterangan</th>
                   <th></th>
                 </tr>
@@ -68,6 +69,7 @@
                       <td><?php echo ($p['satuan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><?php echo $p['jml_acc']?></td>
+                      <td><?php echo $p['acc_satuan']?></td>
                       <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         <a href="<?php echo $p['edit']?>" class="btn btn-info btn-xs text-white">edit</a>
