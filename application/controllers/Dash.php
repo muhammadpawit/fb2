@@ -543,19 +543,36 @@ class Dash extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
-	function last_masuk($id,){
+	function last_masuk($id){
 		$data=[];
+		$lasttgl = $this->last_masuk_tgl($id);
 		$qry ="SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
 			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
 			if($id==16){
-				$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+				//$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
 			}else{
-				$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+				//$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
 			}
+			$qry .=" AND DATE(a.tanggal)='".$lasttgl."' ";
 			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
 		$data = $this->GlobalModel->QueryManualRow($qry);
 		return $data;
+	}
+
+	function last_masuk_tgl($id){
+		$data=[];
+		$qry ="SELECT a.tanggal FROM penerimaan_item_detail a
+			 LEFT JOIN product b on b.product_id=a.id_persediaan
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
+			// if($id==16){
+			// 	$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			// }else{
+			// 	$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			// }
+			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
+		$data = $this->GlobalModel->QueryManualRow($qry);
+		return $data['tanggal'];
 	}
 
 	public function produksi2122(){

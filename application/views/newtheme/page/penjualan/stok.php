@@ -60,16 +60,69 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <table class="table table-bordered">
+    
+    <table border="1" style="border-collapse: collapse;width: 100%;">
+    <thead>
+        <tr>
+            <th rowspan="2"><center>No</center></th>
+            <th rowspan="2"><center>Nama PO</center></th>
+            <th rowspan="2"><center>Serian</center></th>
+            <th colspan="6"><center>Size</center> </th>
+            <th rowspan="2"><center>Jumlah</center></th>
+            <th rowspan="2"><center>Ket</center></th>
+        </tr>
+        <tr style="text-align: center !important;">
+            <th><center>1</center></th>
+            <th><center>2</center></th>
+            <th><center>3</center></th>
+            <th><center>4</center></th>
+            <th><center>5</center></th>
+            <th><center>6</center></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $no = 1; ?>
+        
+    </tbody>
+</table>
+
+              
+        <table class="" border="1" style="border-collapse: collapse;width: 100%;" hidden>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama PO</th>
-                    <th>Serian</th>
-                    <th>Size QTY</th>
-                    <th>Jumlah</th>
+                    <th rowspan="1">No</th>
+                    <th rowspan="2">Nama PO</th>
+                    <th rowspan="2">Serian</th>
+                    <th rowspan="2" colspan="6">Size QTY</th>
+                    <th rowspan="2">Jumlah</th>
                 </tr>
             </thead>
+            <tbody>
+                <?php $no=1;?>
+                <?php //foreach($products as $p){ ?>
+                    <!-- <tr>
+                        <td rowspan="4"><?php //echo $no++ ?></td>
+                        <td rowspan="4"><?php //echo $p['kode_po']?></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> -->
+                <?php //} ?>
+                <tr>
+                    <td rowspan="3">1</td>
+                    <td rowspan="3">abcd</td>
+                    <td>sat</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>du</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>tig</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

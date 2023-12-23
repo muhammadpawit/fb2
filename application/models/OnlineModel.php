@@ -73,17 +73,69 @@ class OnlineModel extends CI_Model {
 	}
 
 	public function getDataStok(){
+		$hasil = [];
+		// $query =
+		// "SELECT a.id,a.id_master_po_online,a.id_serian,a.pcs,b.harga,c.kode_po,
+		// b.harga, c.kode_po,d.nama as serian, e.nama as id_size 
+		// FROM master_po_online_detail a 
+		// LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
+		// LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
+		// LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
+		// LEFT JOIN size_po_online e ON e.id=a.id_size
+		// WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
+		// ";
 		$query =
-		"SELECT a.id,a.id_master_po_online,a.id_serian,a.pcs,b.harga,c.kode_po,
-		b.harga, c.kode_po,d.nama as serian, e.nama as id_size 
+		"SELECT  b.id, c.kode_po
 		FROM master_po_online_detail a 
 		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
 		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
-		LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
-		LEFT JOIN size_po_online e ON e.id=a.id_size
-		WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
+		WHERE a.hapus=0 AND a.pcs > 0 
+		GROUP BY kode_po LIMIT 1
 		";
-		return $this->db->query($query)->result_array();
+		$data = $this->db->query($query)->result_array();
+		if(!empty($data)){
+			foreach($data as $d){
+				$hasil[]=array(
+					'kode_po'	=> $d['kode_po'],
+					'serian'	=> $this->getSerianPo($d['id'])['data'],
+					'jml_serian' => $this->getSerianPo($d['id'])['total'],
+					'size'		=> $this->getSizePo($d['id'])['data'],
+					'jumlah_size'=> $this->getSizePo($d['id'])['total'],
+					'ket'		=> null,
+				);
+			}
+		}
+		return $hasil;
+	}
+
+	function getSerianPo($id_master_po_online){
+		$hasil=[];
+		$query = "SELECT b.id as id_serian, b.nama, a.pcs FROM master_po_online_detail a ";
+		$query .= " LEFT JOIN master_po_online_serian b ON b.id=a.id_serian ";
+
+		$query .=" WHERE a.id_master_po_online='".$id_master_po_online."'  AND a.hapus=0 ";
+
+		$query .=" GROUP BY b.nama ORDER BY b.nama  ";
+		$data = $this->db->query($query)->result_array();
+		return $hasil[] = array(
+			'data' => $data,
+			'total' => count($data),
+		);
+	}
+
+	function getSizePo($id_master_po_online){
+		$hasil=[];
+		$query = "SELECT b.id as id_size, b.nama FROM master_po_online_detail a ";
+		$query .= " LEFT JOIN size_po_online b ON b.id=a.id_size ";
+
+		$query .=" WHERE a.id_master_po_online='".$id_master_po_online."' AND a.hapus=0 ";
+
+		$query .=" GROUP BY b.id ORDER BY b.id ASC  ";
+		$data = $this->db->query($query)->result_array();
+		return $hasil[] = array(
+			'data' => $data,
+			'total' => count($data),
+		);
 	}
 
 	function getPo($id){
