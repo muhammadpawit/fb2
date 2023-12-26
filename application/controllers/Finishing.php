@@ -1451,7 +1451,8 @@ class Finishing extends CI_Controller {
 		if(strtolower($namapo)=="kfb" OR strtolower($namapo)=="kkf"){
 			$viewData['packing']=array(
 				array(
-					'harga_dz'=>12000,
+					// 'harga_dz'=>12000,
+					'harga_dz'=>24000,
 					'keterangan'=>'Packing',
 				),
 			);
