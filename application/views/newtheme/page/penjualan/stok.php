@@ -80,7 +80,7 @@
                         <td align="center"><?php echo $d['serian']?></td>
                         <?php for($s=0;$s<=$rangesize;$s++){ ?>
                         <?php $stok=$this->OnlineModel->getPcs($p['id'],$d['idserian'],$s); ?>
-                        <td align="center" style="background-color: <?php echo ($stok == 0 ) ? '#d6facd' : ($stok > 1 ? '' : '#ff9373');?>"><?php echo $stok ?></td>
+                        <td align="center" style="background-color: <?php if(!empty($stok)){ echo ($stok == 0 ) ? '#d6facd' : ($stok > 1 ? '' : '#ff9373'); }else{ echo ($stok==0) ? '#a2ffa1':''; }?>"><?php echo $stok ?></td>
                         <?php } ?>
                         <td></td>
                         <td></td>
