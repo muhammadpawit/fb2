@@ -67,13 +67,13 @@
             <th rowspan="2"><center>No</center></th>
             <th rowspan="2"><center>Nama PO</center></th>
             <th rowspan="2"><center>Serian</center></th>
-            <th colspan="<?php echo $rangesize ?>"><center>Size</center> </th>
+            <th colspan="<?php echo $rangesize+1 ?>"><center>Size</center> </th>
             <th rowspan="2"><center>Jumlah</center></th>
             <th rowspan="2"><center>Ket</center></th>
         </tr>
         <tr style="text-align: center !important;">
-        <?php for($rs=1;$rs<=$rangesize;$rs++){ ?>
-            <th><center><?php echo $rs ?></center></th>
+        <?php for($rs=0;$rs<=$rangesize;$rs++){ ?>
+            <th><center><?php echo GetName('size_po_online',$rs) ?></center></th>
         <?php } ?>
             <!-- <th><center>2</center></th>
             <th><center>3</center></th>
@@ -100,8 +100,9 @@
                 <td></td>
                 <td></td>
                 <td align="center"><?php echo $d['serian']?></td>
-                <?php for($s=1;$s<=$rangesize;$s++){ ?>
-                <td align="center"><?php echo $this->OnlineModel->getPcs($p['id'],$d['idserian'],$s); ?></td>
+                <?php for($s=0;$s<=$rangesize;$s++){ ?>
+                <?php $stok=$this->OnlineModel->getPcs($p['id'],$d['idserian'],$s); ?>
+                <td align="center" style="background-color: <?php echo ($stok == 0 ) ? '#ff9373':''; ?> ;"><?php echo $stok ?></td>
                 <?php } ?>
                 <td></td>
                 <td></td>
