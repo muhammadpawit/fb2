@@ -39,25 +39,53 @@ header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls"
     <div class="col-md-12">
         <div class="form-group">
             <table border="1" style="border-collapse: collapse;width: 100%;">
-                <thead>
+                <thead style="background-color: #e8e6e6;">
                     <tr>
-                        <th>No</th>
-                        <th>Nama PO</th>
-                        <th>Serian</th>
-                        <th>Size</th>
-                        <th>Quantity</th>
+                        <th rowspan="2"><center>No</center></th>
+                        <th rowspan="2"><center>Nama PO</center></th>
+                        <th rowspan="2"><center>Serian</center></th>
+                        <th colspan="<?php echo $rangesize+1 ?>"><center>Size</center> </th>
+                        <th rowspan="2"><center>Jumlah</center></th>
+                        <th rowspan="2"><center>Ket</center></th>
+                    </tr>
+                    <tr style="text-align: center !important;">
+                    <?php for($rs=0;$rs<=$rangesize;$rs++){ ?>
+                        <th><center><?php echo GetName('size_po_online',$rs) ?></center></th>
+                    <?php } ?>
+                        <!-- <th><center>2</center></th>
+                        <th><center>3</center></th>
+                        <th><center>4</center></th>
+                        <th><center>5</center></th>
+                        <th><center>6</center></th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no=1; ?>
-                    <?php foreach($products as $p){?>
-                        <tr>
-                            <td><?php echo $no++;?></td>
+                    <?php $no = 1; $pcs=null;?>
+                    <?php foreach($products as $p){ ?>
+                        <tr style="background-color: #d6facd;">
+                            <td><?php echo $no++; ?></td>
                             <td><?php echo $p['kode_po']?></td>
-                            <td><?php echo $p['serian']?></td>
-                            <td><?php echo $p['id_size']?></td>
-                            <td><?php echo $p['pcs']?></td>
+                            <?php 
+                                for($i=1;$i<=14;$i++){
+                                    echo "<td></td>"; 
+                                }        
+                            ?>
+                            <td align="center"><?php echo $p['total']?></td>
+                            <td></td>
                         </tr>
+                        <?php foreach($p['detail'] as $d){ ?>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td align="center"><?php echo $d['serian']?></td>
+                            <?php for($s=0;$s<=$rangesize;$s++){ ?>
+                            <?php $stok=$this->OnlineModel->getPcs($p['id'],$d['idserian'],$s); ?>
+                            <td align="center" style="background-color: <?php echo ($stok == 0 ) ? '#ff9373':''; ?> ;"><?php echo $stok ?></td>
+                            <?php } ?>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <?php } ?>
                     <?php } ?>
                 </tbody>
             </table>
