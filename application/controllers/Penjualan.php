@@ -137,57 +137,8 @@ class Penjualan extends CI_Controller {
 		$data['title']='Stok PO Online';
 		$data['rekap']=$this->OnlineModel->getDataStokGroupBySize();
 		$data['products']=$this->OnlineModel->getDataStok();
+		$data['rangesize']=12;
 		// pre($data['products']);
-
-		$pos = [
-			[
-				'kode_po' => 'PO 1',
-				'items' => [
-					[
-						'serian' => 'Greens',
-						'sizes' => [
-							['size' => 1, 'qty' => 1],
-							['size' => 2, 'qty' => 1],
-							['size' => 3, 'qty' => 1],
-							['size' => 4, 'qty' => 1],
-							['size' => 5, 'qty' => 1],
-							['size' => 6, 'qty' => 2]
-						]
-					],
-					[
-						'serian' => 'Coklut',
-						'sizes' => [
-							['size' => 1, 'qty' => 1],
-							['size' => 2, 'qty' => 1],
-							['size' => 3, 'qty' => 1],
-							['size' => 4, 'qty' => 1],
-							['size' => 5, 'qty' => 1],
-							['size' => 6, 'qty' => 1]
-						]
-					],
-					// Anda dapat menambahkan item lain dengan struktur yang sama di sini
-				]
-			],
-			[
-				'kode_po' => 'PO 2',
-				'items' => [
-					[
-						'serian' => 'Green',
-						'sizes' => [
-							['size' => 1, 'qty' => 1],
-							['size' => 2, 'qty' => 1],
-							['size' => 3, 'qty' => 1],
-							['size' => 4, 'qty' => 1],
-							['size' => 5, 'qty' => 1],
-							['size' => 6, 'qty' => 1]
-						]
-					],
-					// Anda dapat menambahkan item lain dengan struktur yang sama di sini
-				]
-			]
-		];
-		
-		$data['pos']=$pos;		
 		$get = $this->input->get();
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'stok';

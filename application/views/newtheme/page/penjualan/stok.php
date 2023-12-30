@@ -67,22 +67,47 @@
             <th rowspan="2"><center>No</center></th>
             <th rowspan="2"><center>Nama PO</center></th>
             <th rowspan="2"><center>Serian</center></th>
-            <th colspan="6"><center>Size</center> </th>
+            <th colspan="<?php echo $rangesize ?>"><center>Size</center> </th>
             <th rowspan="2"><center>Jumlah</center></th>
             <th rowspan="2"><center>Ket</center></th>
         </tr>
         <tr style="text-align: center !important;">
-            <th><center>1</center></th>
-            <th><center>2</center></th>
+        <?php for($rs=1;$rs<=$rangesize;$rs++){ ?>
+            <th><center><?php echo $rs ?></center></th>
+        <?php } ?>
+            <!-- <th><center>2</center></th>
             <th><center>3</center></th>
             <th><center>4</center></th>
             <th><center>5</center></th>
-            <th><center>6</center></th>
+            <th><center>6</center></th> -->
         </tr>
     </thead>
     <tbody>
-        <?php $no = 1; ?>
-        
+        <?php $no = 1; $pcs=null;?>
+        <?php foreach($products as $p){ ?>
+            <tr>
+                <td><?php echo $no++; ?></td>
+                <td><?php echo $p['kode_po']?></td>
+                <?php 
+                    for($i=1;$i<=15;$i++){
+                        echo "<td></td>"; 
+                    }        
+                ?>
+            </tr>
+            <?php foreach($p['detail'] as $d){ ?>
+                
+            <tr>
+                <td></td>
+                <td></td>
+                <td align="center"><?php echo $d['serian']?></td>
+                <?php for($s=1;$s<=$rangesize;$s++){ ?>
+                <td align="center"><?php echo $this->OnlineModel->getPcs($p['id'],$d['idserian'],$s); ?></td>
+                <?php } ?>
+                <td></td>
+                <td></td>
+            </tr>
+            <?php } ?>
+        <?php } ?>
     </tbody>
 </table>
 

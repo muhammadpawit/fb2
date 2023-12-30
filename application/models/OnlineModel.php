@@ -90,22 +90,50 @@ class OnlineModel extends CI_Model {
 		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
 		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
 		WHERE a.hapus=0 AND a.pcs > 0 
-		GROUP BY kode_po LIMIT 1
+		GROUP BY kode_po 
 		";
 		$data = $this->db->query($query)->result_array();
 		if(!empty($data)){
 			foreach($data as $d){
 				$hasil[]=array(
+					'id'		=> $d['id'],
 					'kode_po'	=> $d['kode_po'],
-					'serian'	=> $this->getSerianPo($d['id'])['data'],
-					'jml_serian' => $this->getSerianPo($d['id'])['total'],
-					'size'		=> $this->getSizePo($d['id'])['data'],
-					'jumlah_size'=> $this->getSizePo($d['id'])['total'],
-					'ket'		=> null,
+					'detail'	=> $this->detailOnlinePO($d['id']),
+					// 'jml_serian' => $this->getSerianPo($d['id'])['total'],
+					// 'size'		=> $this->getSizePo($d['id'])['data'],
+					// 'jumlah_size'=> $this->getSizePo($d['id'])['total'],
+					// 'ket'		=> null,
 				);
 			}
 		}
 		return $hasil;
+	}
+
+	function detailOnlinePO($id_master_po_online){
+		$hasil=[];
+		$query = "SELECT a.id_serian, b.nama, c.nama as namasize FROM master_po_online_detail a ";
+		$query .= " LEFT JOIN master_po_online_serian b ON b.id=a.id_serian ";
+		$query .= " LEFT JOIN size_po_online c ON c.id=a.id_size ";
+		$query .=" WHERE id_master_po_online='".$id_master_po_online."'  AND a.hapus=0  ";
+		$query .=" GROUP BY b.nama ";
+		$data = $this->db->query($query)->result_array();
+		foreach($data as $d){
+			$hasil[] = array(
+				'idserian' => $d['id_serian'],
+				'serian' => $d['nama'],
+				// 'size' => $d['namasize'],
+				// 'qty' => $d['total'],
+			);
+		}
+		return $hasil;
+	}
+
+	function getPcs($id_master_po_online,$idserian,$idsize){
+		$sql ="SELECT a.pcs FROM master_po_online_detail a ";
+		// $sql .= " LEFT JOIN master_po_online_serian b ON b.id=a.id_serian ";
+		$sql .=" WHERE a.id_master_po_online='".$id_master_po_online."' AND a.id_serian='".$idserian."' AND a.id_size='".$idsize."' AND a.hapus=0 ";
+		$data = $this->db->query($sql)->row();
+		return !empty($data) ? $data->pcs : '';
 	}
 
 	function getSerianPo($id_master_po_online){
