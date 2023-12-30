@@ -49,6 +49,7 @@ class Gajisukabumi extends CI_Controller {
 		$no=1;
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$anggaran = 0;
 		foreach($results as $result){
 			$action=array();
 			$action[] = array(
@@ -62,11 +63,11 @@ class Gajisukabumi extends CI_Controller {
 					'href' => $this->link.'hapus/'.$result['id'],
 				);
 			}
-			
+			$anggaran = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$result['tanggal']."' ");
 			$data['products'][]=array(
 				'no'=>$no++,
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
-				'total'=>$result['total'],
+				'total'=>$result['total'] + $anggaran['total'],
 				'keterangan'=>$result['keterangan'],
 				'action'=>$action,
 			);
