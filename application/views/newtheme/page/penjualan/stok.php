@@ -62,7 +62,7 @@
             <tbody>
                 <?php $no = 1; $pcs=null;?>
                 <?php foreach($products as $p){ ?>
-                    <tr style="background-color: #d6facd;">
+                    <tr>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo $p['kode_po']?></td>
                         <?php 
@@ -80,7 +80,7 @@
                         <td align="center"><?php echo $d['serian']?></td>
                         <?php for($s=0;$s<=$rangesize;$s++){ ?>
                         <?php $stok=$this->OnlineModel->getPcs($p['id'],$d['idserian'],$s); ?>
-                        <td align="center" style="background-color: <?php echo ($stok == 0 ) ? '#ff9373':''; ?> ;"><?php echo $stok ?></td>
+                        <td align="center" style="background-color: <?php echo ($stok == 0 ) ? '#d6facd' : ($stok > 1 ? '' : '#ff9373');?>"><?php echo $stok ?></td>
                         <?php } ?>
                         <td></td>
                         <td></td>

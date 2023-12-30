@@ -50,8 +50,8 @@
 <?php //if(!empty($request) & callSessUser('id_user')=='10' OR callSessUser('id_user')=='11'){?>
 <div class="row">
     <div class="col-md-12">
-       <div class="alert" style="background-color: #eb4034 !important;color: white">
-           Warning  Stok Barang
+       <div class="alert" style="background-color: #eb4034 !important;color: white;text-align:center !important;font-size:20px" class="text-center">
+           Warning  Stok Barang !!!
        </div>
         <table class="table table-bordered yessearch">
             <thead>
