@@ -62,7 +62,7 @@
     <div class="col-md-12">
     
     <table border="1" style="border-collapse: collapse;width: 100%;">
-    <thead>
+    <thead style="background-color: #e8e6e6;">
         <tr>
             <th rowspan="2"><center>No</center></th>
             <th rowspan="2"><center>Nama PO</center></th>
@@ -85,17 +85,18 @@
     <tbody>
         <?php $no = 1; $pcs=null;?>
         <?php foreach($products as $p){ ?>
-            <tr>
+            <tr style="background-color: #d6facd;">
                 <td><?php echo $no++; ?></td>
                 <td><?php echo $p['kode_po']?></td>
                 <?php 
-                    for($i=1;$i<=15;$i++){
+                    for($i=1;$i<=14;$i++){
                         echo "<td></td>"; 
                     }        
                 ?>
+                <td align="center"><?php echo $p['total']?></td>
+                <td></td>
             </tr>
             <?php foreach($p['detail'] as $d){ ?>
-                
             <tr>
                 <td></td>
                 <td></td>

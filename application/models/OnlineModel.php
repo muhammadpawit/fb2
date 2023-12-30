@@ -85,7 +85,7 @@ class OnlineModel extends CI_Model {
 		// WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
 		// ";
 		$query =
-		"SELECT  b.id, c.kode_po
+		"SELECT b.id,b.pcs, c.kode_po
 		FROM master_po_online_detail a 
 		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
 		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
@@ -98,6 +98,7 @@ class OnlineModel extends CI_Model {
 				$hasil[]=array(
 					'id'		=> $d['id'],
 					'kode_po'	=> $d['kode_po'],
+					'total'		=> $d['pcs'],
 					'detail'	=> $this->detailOnlinePO($d['id']),
 					// 'jml_serian' => $this->getSerianPo($d['id'])['total'],
 					// 'size'		=> $this->getSizePo($d['id'])['data'],
