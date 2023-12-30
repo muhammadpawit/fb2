@@ -501,7 +501,7 @@ class Dash extends CI_Controller {
 	}
 
 	public function welcome(){
-		$data['title']='welcome';
+		$data['title']='';
 		$user=user();
 		$setujui=0;
 		if(isset($user['id_user'])){
