@@ -10,7 +10,7 @@ header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls"
     float: right;
   }
 </style>
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12">
         <div class="form-group">
             <table border="1" style="border-collapse: collapse;width: 100%;">
@@ -33,7 +33,7 @@ header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls"
             </table>
         </div>
     </div>
-</div>
+</div> -->
 <br><br>
 <div class="row">
     <div class="col-md-12">
