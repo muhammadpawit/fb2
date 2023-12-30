@@ -58,11 +58,11 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Stok Terkini (Pcs)</th>
-                    <th>Order Terakhir (Pcs)</th>
+                    <th>Stok Terkini </th>
+                    <th>Order Terakhir </th>
                     <th>Wajib Order Kembali (20%)</th>
-                    <th>Status</th>
                     <th>Satuan</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <?php $no=1;?>
@@ -75,6 +75,7 @@
                 <td><?php echo number_format($req['quantity'])?></td>
                 <td><?php echo number_format($req['minstok'])?></td>
                 <td><?php echo number_format($minimal_order) ?></td>
+                <td><?php echo $req['satuan']?></td>
                 <td>
                     <?php if($req['quantity'] < $minimal_order){ ?>
                         <span class="text-danger">Wajib Order</span>
@@ -85,8 +86,7 @@
                             <span>Stok Masih Mencukupi</span>
                         <?php } ?>
                     <?php } ?>
-                </td>
-                <td><?php echo $req['satuan']?></td> 
+                </td> 
             </tr>
             <?php $no++;?>
             <?php } ?>

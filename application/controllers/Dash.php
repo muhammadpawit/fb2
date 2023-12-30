@@ -535,7 +535,7 @@ class Dash extends CI_Controller {
 				'nama'			=> $m['nama'],
 				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
 				'minstok'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
-				'satuan'		=> 'PCS',
+				'satuan'		=> $m['satuan'],
 			);
 		}
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
