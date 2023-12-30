@@ -58,7 +58,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row  table-responsive">
     <div class="col-md-12">
     
     <table border="1" style="border-collapse: collapse;width: 100%;">
