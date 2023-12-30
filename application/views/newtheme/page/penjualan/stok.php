@@ -5,30 +5,7 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <table class="table table-bordered yessearch">
-                <thead>
-                    <tr>
-                        <th>Nama PO</th>
-                        <th>Size</th>
-                        <th>Stok</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($rekap as $r){ ?>
-                        <tr>
-                            <td><?php echo $r['kode_po']?></td>
-                            <td><?php echo $r['id_size']?></td>
-                            <td><?php echo $r['stok']?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+
 <div class="row" hidden>
     <div class="col-md-12">
         <div class="form-group">
@@ -152,6 +129,32 @@
             </tbody>
         </table>
     </div>
+</div>
+<div class="table-responsive">
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <table class="table table-bordered yessearch">
+                <thead>
+                    <tr>
+                        <th>Nama PO</th>
+                        <th>Size</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($rekap as $r){ ?>
+                        <tr>
+                            <td><?php echo $r['kode_po']?></td>
+                            <td><?php echo $r['id_size']?></td>
+                            <td><?php echo $r['stok']?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </div>
 <script>
     function stokpoonlineexcel(){
