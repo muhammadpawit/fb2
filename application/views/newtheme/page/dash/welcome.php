@@ -53,7 +53,7 @@
        <div class="alert" style="background-color: #eb4034 !important;color: white;text-align:center !important;font-size:20px" class="text-center">
            Warning  Stok Barang !!!
        </div>
-        <table class="table table-bordered yessearch">
+        <table class="table table-bordered table-hover yessearch">
             <thead>
                 <tr>
                     <th>No</th>
