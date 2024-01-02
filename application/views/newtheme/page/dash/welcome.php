@@ -69,7 +69,7 @@
             <?php foreach($menipis as $req){?>
                 <?php  $minimal_order=($req['minstok']*0.2); //  ?>
             <?php //if($req['quantity'] < $minimal_order){ ?>
-            <tr style="background-color:<?php echo ($req['quantity'] == 0) ? 'red' : (($req['quantity'] < $minimal_order) ? '#e2ff85' : ''); ?>">
+            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? 'red' : (($req['quantity'] < $minimal_order) ? '#e2ff85' : ''); ?>">
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
