@@ -94,7 +94,7 @@ class Ajuanalatalat extends CI_Controller {
 			$cat=1;
 		}
 		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_mingguan IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
-		//pre($cekajuan_harian);
+		// pre($cekajuan_harian);
 		if(empty($cekajuan_harian)){
 			$ip=array(
 				'kategori'=>$cat,
@@ -113,7 +113,7 @@ class Ajuanalatalat extends CI_Controller {
 			foreach($post['prods'] as $p){
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
-				$transfer=($item['harga_beli']*$p['acc_ajuan']);
+				$transfer+=($item['harga_beli']*$p['acc_ajuan']);
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],

@@ -132,7 +132,10 @@
                                     <?php }?>
 
                                     <?php if($us['status']==1){?>
-                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a>
+                                    <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a> -->
+                                    <?php if(akseshapus()==1){?>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger  text-white">Batalkan</a>
+                                    <?php } ?>
                                     <?php }?>
                                 </td>
                                 <td>
@@ -152,8 +155,8 @@
                                 </td>
                                 <td>
                                   <?php if(akseshapus()==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" class="btn btn-danger  text-white">Hapus</a>
-                                    <?php } ?>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger  text-white">Hapus</a>
+                                  <?php } ?>
                                 </td>
                                 <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td>
 
