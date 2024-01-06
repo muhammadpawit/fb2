@@ -57,17 +57,19 @@
                     <?php $row=0;?>
                     <span class="alert alert-dark text-white">Setiap PO yang akan di kirim harus sudah diinput pada pengecekan.</span>
                     
-                    <table class="table table-bordered" id="addkirimgudang">
-                        <tr>
-                          <th>Nama PO</th>
-                          <th>Pekerjaan</th>
-                          <th>Rincian PO</th>
-                          <th>Jumlah PO (Pcs)</th>
-                          <th>Jumlah Barang</th>
-                          <th>Keterangan</th>
-                          <th><button type="button" name="add" class="btn btn-success btn-sm addkirimgudang" onclick="addkirimgudang()"><i class="fa fa-plus"></i></button></th>
-                        </tr>
-                    </table>
+                    <div class="table-responsive">
+                      <table class="table table-bordered" id="addkirimgudang">
+                          <tr>
+                            <th>Nama PO</th>
+                            <th>Pekerjaan</th>
+                            <th>Rincian PO</th>
+                            <th>Jumlah PO (Pcs)</th>
+                            <th>Jumlah Barang</th>
+                            <th>Keterangan</th>
+                            <th><button type="button" name="add" class="btn btn-success btn-sm addkirimgudang" onclick="addkirimgudang()"><i class="fa fa-plus"></i></button></th>
+                          </tr>
+                      </table>
+                    </div>
 
                     <div id="rincianbahan"></div>
                   </form>
@@ -91,7 +93,7 @@
         html += '<td width="50px"><select type="text" class="form-control kirimautopo" name="products['+i+'][kode_po]" style="width:200px" required></select></td>';
         html += '<td><select type="text" class="selectpicker" name="products['+i+'][cmtjob]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($pekerjaan as $key => $po) { ?><option value="<?php echo $po['id'] ?>" data-item="<?php echo $po['id'] ?>"><?php echo $po['nama_job']; ?></option><?php } ?></select></td>';
         html += '<td><input type="text" name="products['+i+'][rincian_po]"  required ></td>';
-        html += '<td><input type="number"  name="products['+i+'][jumlah_pcs]" required ></td>';
+        html += '<td><input type="number" class="jumlah_pcs"  name="products['+i+'][jumlah_pcs]" required readonly></td>';
         html += '<td><input type="text" value="1 plastik" name="products['+i+'][jml_barang]" required ></td>';
         html += '<td><input type="text" name="products['+i+'][keterangan]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
@@ -121,9 +123,23 @@ $(document).ready(function(){
         $(this).closest('tr').remove();
     });
 
-    $(document).on('change', '.selectpicker', function(e){
-       
-    });
+    // $(document).on('change', '.kirimautopo', function(e){
+    //    alert(this.value);
+    // });
+
+    $(document).on('change', '.kirimautopo', function(e){
+            var dataItem = this.value;
+            var dai = $(this).closest('tr');
+            var jumlahItem = 1000;
+            // dai.find(".jumlah_pcs").val(jumlahItem);
+            $.get( "<?php echo BASEURL.'Kelolapo/cariproduct' ?>", { id: dataItem } )
+              .done(function( data ) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+            dai.find(".jumlah_pcs").val(obj.hasil_pieces_potongan);
+            });
+        });
+
 });
  </script>                  
 <script type="text/javascript">

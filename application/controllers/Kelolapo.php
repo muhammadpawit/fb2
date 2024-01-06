@@ -3202,5 +3202,12 @@ class Kelolapo extends CI_Controller {
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'kelolapo/pengirimansablon');
 	}
+
+	public function cariproduct($id='')
+	{
+		$getId = $this->input->get('id');
+		$data = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('hapus'=>0,'kode_po'=>$getId));
+		echo json_encode($data);
+	}
 		
 }
