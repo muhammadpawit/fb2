@@ -390,7 +390,8 @@ class Keuangan extends CI_Controller {
 		$data['page']=$this->page.'keuangan/umsecurity_form';
 		$data['action']=BASEURL.'Keuangan/uangmakansecuritysave';
 		$data['batal']=BASEURL.'Keuangan/uangmakansecurity';
-		$data['sec']=$this->GlobalModel->getData('karyawan',array('jabatan'=>10,'hapus'=>0));
+		// $data['sec']=$this->GlobalModel->getData('karyawan',array('jabatan'=>10,'hapus'=>0));
+		$data['sec']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan WHERE hapus=0 AND jabatan IN (10,46) ");
 		$this->load->view($this->page.'main',$data);
 	}
 
