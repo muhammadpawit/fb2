@@ -104,10 +104,10 @@
     function addkirimgudang(){
         var html = '';
         html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" class="form-control selectpicker kodepo kirimautopo" name="products['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><option>Pilih</option><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
         html += '<td><select type="text" class="form-control selectpicker" name="products['+i+'][cmtjob]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($pekerjaan as $key => $po) { ?><option value="<?php echo $po['id'] ?>" data-item="<?php echo $po['id'] ?>"><?php echo $po['nama_job']; ?></option><?php } ?></select></td>';
         html += '<td><input type="text" class="form-control" name="products['+i+'][rincian_po]"  required ></td>';
-        html += '<td><input type="number" class="form-control"  name="products['+i+'][jumlah_pcs]" required ></td>';
+        html += '<td><input type="number" class="form-control jumlah_pcs"  name="products['+i+'][jumlah_pcs]" required ></td>';
         html += '<td><input type="text" class="form-control" value="1 plastik" name="products['+i+'][jml_barang]" required ></td>';
         html += '<td><input type="text" class="form-control" name="products['+i+'][keterangan]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
@@ -122,18 +122,36 @@ $(document).ready(function(){
         $(this).closest('tr').remove();
     });
 
-    $(document).on('change', '.selectpicker', function(e){
-        /*
-        var dataItem = $(this).find(':selected').data('item');
-        var dai = $(this).closest('tr');
-        var jumlahItem = $('#piecesPo').val();
-        $.get( "<?php echo BASEURL.'finishing/kirimgudangsendRincinan' ?>", { kodepo: dataItem } )
-          .done(function( data ) {
-            var obj = JSON.parse(data);
-            console.log(obj);
-            dai.find(".jumlahPc").val(obj.jumlah_pcs_po);
-        });*/
-    });
+      $(document).on('change', '.kirimautopo', function(e){
+            var dataItem = this.value;
+            var dai = $(this).closest('tr');
+            var jumlahItem = 1000;
+            // dai.find(".jumlah_pcs").val(jumlahItem);
+            $.get( "<?php echo BASEURL.'Kelolapo/cariproduct' ?>", { id: dataItem } )
+              .done(function( data ) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                if(obj != null){
+                  dai.find(".jumlah_pcs").val(obj.hasil_pieces_potongan);
+                }else{
+                  alert("Kode PO "+dataItem+" belum diinput pada buku potongan");
+                  dai.closest('tr').remove();
+                }
+            });
+        });
+
+    // $(document).on('change', '.selectpicker', function(e){
+    //     /*
+    //     var dataItem = $(this).find(':selected').data('item');
+    //     var dai = $(this).closest('tr');
+    //     var jumlahItem = $('#piecesPo').val();
+    //     $.get( "<?php echo BASEURL.'finishing/kirimgudangsendRincinan' ?>", { kodepo: dataItem } )
+    //       .done(function( data ) {
+    //         var obj = JSON.parse(data);
+    //         console.log(obj);
+    //         dai.find(".jumlahPc").val(obj.jumlah_pcs_po);
+    //     });*/
+    // });
 });
  </script>                  
 <script type="text/javascript">

@@ -130,7 +130,7 @@ $(document).ready(function(){
     //    alert(this.value);
     // });
 
-    $(document).on('change', '.kirimautopo', function(e){
+        $(document).on('change', '.kirimautopo', function(e){
             var dataItem = this.value;
             var dai = $(this).closest('tr');
             var jumlahItem = 1000;

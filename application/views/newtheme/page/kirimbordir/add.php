@@ -85,7 +85,7 @@
         html += '<td width="50px"><select type="text" class="form-control kirimautopo" name="products['+i+'][kode_po]" style="width:200px" required></select></td>';
         //html += '<td><select type="text" class="selectpicker" name="products['+i+'][cmtjob]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($pekerjaan as $key => $po) { ?><option value="<?php echo $po['id'] ?>" data-item="<?php echo $po['id'] ?>"><?php echo $po['nama_job']; ?></option><?php } ?></select></td>';
         //html += '<td><input type="text" name="products['+i+'][rincian_po]"  required ></td>';
-        html += '<td><input type="number" class="form-control" name="products['+i+'][jumlah_pcs]" required ></td>';
+        html += '<td><input type="number" class="form-control jumlah_pcs" name="products['+i+'][jumlah_pcs]" required ></td>';
         //html += '<td><input type="text" value="1 plastik" name="products['+i+'][jml_barang]" required ></td>';
         //html += '<td><input type="text" name="products['+i+'][keterangan]" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
@@ -114,6 +114,24 @@ $(document).ready(function(){
     $(document).on('click', '.remove', function(){
         $(this).closest('tr').remove();
     });
+
+      $(document).on('change', '.kirimautopo', function(e){
+            var dataItem = this.value;
+            var dai = $(this).closest('tr');
+            var jumlahItem = 1000;
+            // dai.find(".jumlah_pcs").val(jumlahItem);
+            $.get( "<?php echo BASEURL.'Kelolapo/cariproduct' ?>", { id: dataItem } )
+              .done(function( data ) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                if(obj != null){
+                  dai.find(".jumlah_pcs").val(obj.hasil_pieces_potongan);
+                }else{
+                  alert("Kode PO "+dataItem+" belum diinput pada buku potongan");
+                  dai.closest('tr').remove();
+                }
+            });
+        });
 
     $(document).on('change', '.selectpicker', function(e){
        
