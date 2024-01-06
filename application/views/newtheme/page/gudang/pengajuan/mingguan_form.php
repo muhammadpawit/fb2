@@ -71,6 +71,15 @@
                 <input type="text" name="keterangan2" class="form-control" value="Untuk 1 minggu">
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Metode Pembayaran</label>
+                <select name="metodebayar" id="metodebayar" class="form-control">
+                  <option value="Transfer">Transfer</option>
+                  <option value="Cash">Cash</option>
+                </select>
+              </div>
+            </div>
             <div class="col-md-12">
               <table class="table table-bordered">
                 <thead>

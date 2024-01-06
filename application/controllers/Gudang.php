@@ -604,6 +604,7 @@ class Gudang extends CI_Controller {
 				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
 				'keterangan2'=>$data['keterangan2'],
 				'supplier_id'=>$data['supplier_id'],
+				'metodebayar'=>isset($data['metodebayar']) ? $data['metodebayar'] : null,
 				//'keterangan'=>$data['keterangan'],
 			);
 			$this->db->insert('ajuan_mingguan',$am);
@@ -2838,18 +2839,27 @@ class Gudang extends CI_Controller {
 			$this->db->insert('pengajuan_harian_new',$ip);
 			$id=$this->db->insert_id();
 			$transfer=0;
+			$cash=0;
 			foreach($post['prods'] as $pr){
 				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-				$transfer+=($item['harga_beli']*$pr['jml_acc']);
+				if(isset($item['metodebayar'])){
+					if($item['metodebayar']=='Transfer'){
+						$transfer+=($item['harga_beli']*$pr['jml_acc']);
+						$cash=0;
+					}else{
+						$transfer=0;
+						$cash+=($item['harga_beli']*$pr['jml_acc']);
+					}
+				}
 				$rip=array(
 						'idpengajuan'=>$id,
 						'nama_item'=>$item['nama'],
 						'jumlah'=>$pr['jml_acc'],
 						'satuan'=>$item['satuan'],
 						'harga'=>$item['harga_beli'],
-						'pembayaran'=>2, // transfer
+						'pembayaran'=> isset($item['metodebayar']) ? $item['metodebayar'] : 2, // transfer
 						'supplier'=>$supplier['nama'],
 						'keterangan'=>$p['keterangan2'],
 						'status'=>1,
@@ -2857,7 +2867,7 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('pengajuan_harian_new_detail',$rip);
 			}
-			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
+			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
 		}else{
 			// $id=$cekajuan_harian['id'];
 			
