@@ -60,8 +60,9 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $no = 1; $pcs=null;?>
+                <?php $no = 1; $pcs=null;$total=0;?>
                 <?php foreach($products as $p){ ?>
+                    <?php $total+=($p['total'])?>
                     <tr>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo $p['kode_po']?></td>
@@ -88,6 +89,13 @@
                     <?php } ?>
                 <?php } ?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td align="center" colspan="16"><b>Total</b></td>
+                    <td align="center"><b><?php echo $total ?></b></td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
 
               
@@ -130,7 +138,7 @@
         </table>
     </div>
 </div>
-<div class="table-responsive">
+<div class="table-responsive" hidden>
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">

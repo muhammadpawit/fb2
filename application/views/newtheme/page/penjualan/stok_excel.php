@@ -10,6 +10,7 @@ header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls"
     float: right;
   }
 </style>
+<h1>Laporan Stok PO Online</h1>
 <!-- <div class="row">
     <div class="col-md-12">
         <div class="form-group">
@@ -60,8 +61,9 @@ header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls"
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no = 1; $pcs=null;?>
-                    <?php foreach($products as $p){ ?>
+                <?php $no = 1; $pcs=null;$total=0;?>
+                <?php foreach($products as $p){ ?>
+                    <?php $total+=($p['total'])?>
                         <tr style="background-color: #d6facd;">
                             <td><?php echo $no++; ?></td>
                             <td><?php echo $p['kode_po']?></td>
@@ -88,6 +90,13 @@ header("Content-Disposition: attachment; filename=Stok_PO_Online_".time().".xls"
                         <?php } ?>
                     <?php } ?>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td align="center" colspan="16"><b>Total</b></td>
+                    <td align="center"><b><?php echo $total ?></b></td>
+                    <td></td>
+                </tr>
+            </tfoot>
             </table>
         </div>
     </div>
