@@ -526,7 +526,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="form-group text-center">
-			<label>Monitoring PO Kaos<br>Periode : <?php echo date('d F Y',strtotime($tanggal1)) .' - '. date('d F Y',strtotime($tanggal2)); ?><br>Tahun Produksi 2023-2024</label>
+			<label>Monitoring PO<br>Periode : <?php echo date('d F Y',strtotime($tanggal1)) .' - '. date('d F Y',strtotime($tanggal2)); ?><br>Tahun Produksi 2023-2024</label>
 		</div>
 	</div>
 </div>

@@ -18,26 +18,32 @@ class Stokpoberedar extends CI_Controller {
     function index(){
         $data                   = [];
         $data['title']          = 'STOK PO KAOS YANG BEREDAR ';
+        $details                = [];
         $data['lokasi']         = array(
             array(
                 'id'        =>1,
-                'lokasi'    => 'Serang'
+                'lokasi'    => 'Serang',
+                'details'   => [],
             ),
             array(
                 'id'        =>2,
-                'lokasi'    => 'Jawa'
+                'lokasi'    => 'Jawa',
+                'details'   => [],
             ),
             array(
                 'id'        =>3,
-                'lokasi'    => 'Sukabumi'
+                'lokasi'    => 'Sukabumi',
+                'details'   => [],
             ),
             array(
                 'id'        =>4,
-                'lokasi'    => 'Pusat'
+                'lokasi'    => 'Pusat',
+                'details'   => 1, // sablon, bordir, KLO (sudah dipotong tapi belum di bordir dan di sablon)
             ),
             array(
                 'id'        =>5,
-                'lokasi'    => 'Bogor'
+                'lokasi'    => 'Bogor',
+                'details'   => [],
             ),
         );
         $data['jenis']                  = $this->GlobalModel->GetData('master_jenis_po',array('status'=>1,'tampil'=>1));

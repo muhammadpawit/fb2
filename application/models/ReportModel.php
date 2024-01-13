@@ -3017,9 +3017,12 @@ class ReportModel extends CI_Model {
 		$d_2=$row_2;
 		if($d['total']>0){
 			$hasil_2=$d_2['total'];
-				if($d_2['nama_jenis_po']=="SKF" OR strtoupper($d_2['nama_jenis_po'])=="SIMULASI SKF"){
-					$hasil_2=round($d_2['total']*$d_2['perkalian']);
+				if(!empty($d_2['nama_jenis_po'])){
+					if($d_2['nama_jenis_po']=="SKF" OR strtoupper($d_2['nama_jenis_po'])=="SIMULASI SKF"){
+						$hasil_2=round($d_2['total']*$d_2['perkalian']);
+					}
 				}
+				
 			// return ($hasil['total']);
 		}else{
 			$out=0;
@@ -3028,5 +3031,12 @@ class ReportModel extends CI_Model {
 		}
 		
 		return $hasil-$hasil_2;
+	}
+
+	function pendingPo(){
+		$sql ="SELECT COUNT(a.kode_po) FROM konveksi_buku_potongan ";
+		$sql.=" LEFT JOIN produksi_po b ON bl";
+		$data = $this->GlobalModel->QueryManualRow();
+		return !empty($data) ? $data['total']:0;
 	}
 }
