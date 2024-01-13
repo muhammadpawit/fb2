@@ -66,8 +66,10 @@ class Monitoringprosespo extends CI_Controller {
 				'siapkirimgudang'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],9)*$k['perkalian'],
 				'pending'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],10)*$k['perkalian'],
 				'prods'=>$this->ReportModel->monitoring_jml_details($k['nama_jenis_po']),
-				'retur'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],12)*$k['perkalian'],
 				'tambahbordir'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],15)*$k['perkalian'],
+				'retur'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],12)*$k['perkalian'],
+				'tress'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],16)*$k['perkalian'],
+				'pasangkancing'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],17)*$k['perkalian'],
 			);
 		}
 
@@ -96,6 +98,8 @@ class Monitoringprosespo extends CI_Controller {
 				'siapkirimcmt'=>count_mdetails_perpo_mingguan(13,$k['nama_jenis_po']),
 				'kirimsample'=>count_mdetails_perpo_mingguan(14,$k['nama_jenis_po']),
 				'tambahbordir'=>count_mdetails_perpo_mingguan(15,$k['nama_jenis_po']),
+				'tress'=>0,
+				'pasangkancing'=>0,
 			);
 		}
 		//pre($data['kaos']);
@@ -115,6 +119,8 @@ class Monitoringprosespo extends CI_Controller {
 		$data['selesai']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=11 WHERE p.hapus=0');
 		$data['tarpo']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p WHERE p.kode_po IN(SELECT kode_po FROM proses_po WHERE hapus=0 ) ');
 		$data['tambahbordir']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=15 WHERE p.hapus=0');
+		$data['tress']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=16 WHERE p.hapus=0');
+		$data['pasangkancing']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=17 WHERE p.hapus=0');
 		
 		$data['action']=$this->url.'proses_save';
 		$data['action_hapus']=$this->url.'proses_hapus_save';

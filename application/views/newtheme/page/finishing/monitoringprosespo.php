@@ -42,10 +42,19 @@
                     <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">QC <span class="badge bg-black"><?php echo count_mdetails(1)?></span> </a>
                   </li>
 				  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-returs-tab" data-toggle="pill" href="#custom-tabs-one-returs" role="tab" aria-controls="custom-tabs-one-pendings" aria-selected="false">Retur <span class="badge bg-black"><?php echo count_mdetails(12)?></span></a>
+                  </li>
+				  <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-home-bordir-tab" data-toggle="pill" href="#custom-tabs-one-home-bordir" role="tab" aria-controls="custom-tabs-one-home-bordir" aria-selected="true">Tambah Bordir <span class="badge bg-black"><?php echo count_mdetails(15)?></span> </a>
+                  </li>
+				  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-tress-tab" data-toggle="pill" href="#custom-tabs-one-tress" role="tab" aria-controls="custom-tabs-one-tress" aria-selected="false">Tress <span class="badge bg-black"><?php echo count_mdetails(16)?></span></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Lobang Kancing <span class="badge bg-black"><?php echo count_mdetails(2)?></span></a>
+                  </li>
+				  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-pasangkancing-tab" data-toggle="pill" href="#custom-tabs-one-pasangkancing" role="tab" aria-controls="custom-tabs-one-pasangkancing" aria-selected="false">Pasang Kancing <span class="badge bg-black"><?php echo count_mdetails(17)?></span></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Siap Cucian <span class="badge bg-black"><?php echo count_mdetails(3)?></span></a>
@@ -77,10 +86,6 @@
 				  <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-samples-tab" data-toggle="pill" href="#custom-tabs-one-samples" role="tab" aria-controls="custom-tabs-one-samples" aria-selected="false">Kirim Sample <span class="badge bg-black"><?php echo count_mdetails(14)?></span></a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-one-returs-tab" data-toggle="pill" href="#custom-tabs-one-returs" role="tab" aria-controls="custom-tabs-one-pendings" aria-selected="false">Retur <span class="badge bg-black"><?php echo count_mdetails(12)?></span></a>
-                  </li>
-
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-selesais-tab" data-toggle="pill" href="#custom-tabs-one-selesais" role="tab" aria-controls="custom-tabs-one-selesais" aria-selected="false">Selesai <span class="badge bg-black"><?php echo count_mdetails(11)?></span></a>
                   </li>
@@ -175,6 +180,65 @@
                     	</div>
                     </form>
                   </div>
+
+				  <div class="tab-pane fade" id="custom-tabs-one-tress" role="tabpanel" aria-labelledby="custom-tabs-one-tress-tab">
+                    <form method="post" action="<?php echo $action; ?>">
+                    	<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+		                    		<label>Kode PO</label>
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    		<?php foreach($po as $p){?>
+			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+			                    		<?php } ?>
+			                    	</select>
+		                    	</div>
+		                    	<div class="form-group">
+		                    		<input type="hidden" name="proses" value="16">
+		                    		<button class="btn btn-success btn-sm">Simpan</button>
+		                    	</div>
+							</div>
+							<div class="col-md-6">
+								<label>Rincian PO di Lobang Tress</label>
+								<div style="height: 200px;overflow: auto">
+									<?php foreach(mdetails(16) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
+							</div>                      		
+                    	</div>
+                    </form>
+                  </div>
+
+				  <div class="tab-pane fade" id="custom-tabs-one-pasangkancing" role="tabpanel" aria-labelledby="custom-tabs-one-pasangkancing-tab">
+                    <form method="post" action="<?php echo $action; ?>">
+                    	<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+		                    		<label>Kode PO</label>
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    		<?php foreach($po as $p){?>
+			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+			                    		<?php } ?>
+			                    	</select>
+		                    	</div>
+		                    	<div class="form-group">
+		                    		<input type="hidden" name="proses" value="17">
+		                    		<button class="btn btn-success btn-sm">Simpan</button>
+		                    	</div>
+							</div>
+							<div class="col-md-6">
+								<label>Rincian PO di Lobang Tress</label>
+								<div style="height: 200px;overflow: auto">
+									<?php foreach(mdetails(17) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
+							</div>                      		
+                    	</div>
+                    </form>
+                  </div>
+
                   <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                      <form method="post" action="<?php echo $action; ?>">
                     	<div class="row">
