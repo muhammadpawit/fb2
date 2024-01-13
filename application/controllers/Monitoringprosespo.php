@@ -66,6 +66,8 @@ class Monitoringprosespo extends CI_Controller {
 				'siapkirimgudang'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],9)*$k['perkalian'],
 				'pending'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],10)*$k['perkalian'],
 				'prods'=>$this->ReportModel->monitoring_jml_details($k['nama_jenis_po']),
+				'retur'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],12)*$k['perkalian'],
+				'tambahbordir'=>$this->ReportModel->monitoring_jml($k['nama_jenis_po'],15)*$k['perkalian'],
 			);
 		}
 
@@ -93,6 +95,7 @@ class Monitoringprosespo extends CI_Controller {
 				'retur'=>count_mdetails_perpo_mingguan(12,$k['nama_jenis_po']),
 				'siapkirimcmt'=>count_mdetails_perpo_mingguan(13,$k['nama_jenis_po']),
 				'kirimsample'=>count_mdetails_perpo_mingguan(14,$k['nama_jenis_po']),
+				'tambahbordir'=>count_mdetails_perpo_mingguan(15,$k['nama_jenis_po']),
 			);
 		}
 		//pre($data['kaos']);
@@ -111,7 +114,8 @@ class Monitoringprosespo extends CI_Controller {
 		$data['retur']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=12 WHERE p.hapus=0');
 		$data['selesai']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=11 WHERE p.hapus=0');
 		$data['tarpo']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p WHERE p.kode_po IN(SELECT kode_po FROM proses_po WHERE hapus=0 ) ');
-
+		$data['tambahbordir']=$this->GlobalModel->QueryManual('SELECT p.nama_po,p.kode_po FROM produksi_po p JOIN proses_po pp ON(pp.kode_po=p.kode_po) AND proses=15 WHERE p.hapus=0');
+		
 		$data['action']=$this->url.'proses_save';
 		$data['action_hapus']=$this->url.'proses_hapus_save';
 		$data['log']=$this->GlobalModel->QueryManualRow("SELECT * FROM finishing_proses_updated ORDER BY id DESC LIMIT 1 ");

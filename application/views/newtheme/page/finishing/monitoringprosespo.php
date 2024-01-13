@@ -41,6 +41,9 @@
                   <li class="nav-item">
                     <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">QC <span class="badge bg-black"><?php echo count_mdetails(1)?></span> </a>
                   </li>
+				  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-home-bordir-tab" data-toggle="pill" href="#custom-tabs-one-home-bordir" role="tab" aria-controls="custom-tabs-one-home-bordir" aria-selected="true">Tambah Bordir <span class="badge bg-black"><?php echo count_mdetails(15)?></span> </a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Lobang Kancing <span class="badge bg-black"><?php echo count_mdetails(2)?></span></a>
                   </li>
@@ -109,6 +112,34 @@
 								<label>Rincian PO di QC</label>
 								<div style="height: 200px;overflow: auto">
 									<?php foreach(mdetails(1) as $k){?>
+										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
+									<?php } ?>
+								</div>
+							</div>                    		
+                    	</div>
+                    </form>
+                  </div>
+				  <div class="tab-pane fade" id="custom-tabs-one-home-bordir" role="tabpanel" aria-labelledby="custom-tabs-one-home-bordir-tab">
+                    <form method="post" action="<?php echo $action; ?>">
+                    	<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+		                    		<label>Kode PO</label>
+			                    	<select name="prods[][kode_po]" style="width:100% !important;" class="form-control select2bs4" data-live-search="true" multiple="multiple">
+			                    		<?php foreach($po as $p){?>
+			                    			<option value="<?php echo $p['nama_po']?>-<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+			                    		<?php } ?>
+			                    	</select>
+		                    	</div>
+		                    	<div class="form-group">
+		                    		<input type="hidden" name="proses" value="15">
+		                    		<button class="btn btn-success btn-sm">Simpan</button>
+		                    	</div>
+							</div>
+							<div class="col-md-6">
+								<label>Rincian PO Tambah Bordir</label>
+								<div style="height: 200px;overflow: auto">
+									<?php foreach(mdetails(15) as $k){?>
 										<span class="badge bg-green"><?php echo $k['kode_po']?></span>
 									<?php } ?>
 								</div>
@@ -540,6 +571,7 @@
 						<th>Jenis PO</th>
 						<td>Jumlah PO</td>
 						<td>QC</td>
+						<td>Tambah Bordir</td>
 						<td>LB Kancing</td>
 						<td>Siap Cucian</td>
 						<td>Proses Cucian</td>
@@ -549,15 +581,17 @@
 						<td>Proses Packing</td>
 						<td>Siap Kirim Gudang</td>
 						<td>Pending</td>
+						<td>Retur</td>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach($kemeja as $k){?>
 						<?php if($k['jmlpo'] >0){ ?>
-							<tr>
+							<tr align="center">
 								<td><?php echo $k['nama']?></td>
 								<td><?php echo $k['jmlpo']?></td>
 								<td><?php echo $k['qc']?></td>
+								<td><?php echo $k['tambahbordir']?></td>
 								<td><?php echo $k['kancing']?></td>
 								<td><?php echo $k['siapcucian']?></td>
 								<td><?php echo $k['prosescucian']?></td>
@@ -567,6 +601,7 @@
 								<td><?php echo $k['prosespacking']?></td>
 								<td><?php echo $k['siapkirimgudang']?></td>
 								<td><?php echo $k['pending']?></td>
+								<td><?php echo $k['retur']?></td>
 							</tr>
 						<?php } ?>
 					<?php } ?>
