@@ -2095,7 +2095,7 @@ class ReportModel extends CI_Model {
 		return $total;
 	}
 
-	public function stokkeluar_alat_last($id,$tgl,$tgl2){
+	public function stokkeluar_alat_last($id){
 		$hasil=0;
 		$sql = "SELECT SUM(gik.jumlah_item_keluar) as pcs FROM gudang_item_keluar gik WHERE gik.hapus=0";
 		$sql.=" AND id_persediaan='$id' GROUP BY gik.created_date ORDER BY gik.created_date DESC LIMIT 1 ";
@@ -2105,7 +2105,7 @@ class ReportModel extends CI_Model {
 		}
 		$hasil2=0;
 		$sql2="SELECT SUM(jumlah) as total FROM barangkeluarharian_detail WHERE hapus=0 AND idpersediaan='$id' ";
-		$sql2.=" AND GROUP BY tanggal ORDER BY tanggal DESC LIMIT 1  ";
+		$sql2.=" GROUP BY tanggal ORDER BY tanggal DESC LIMIT 1  ";
 		$s2=$this->GlobalModel->QueryManualRow($sql2);
 		if(!empty($s2)){
 			$hasil2=$s2['total'];
