@@ -2064,6 +2064,17 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function stokmasuk_alat_last($id){
+		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
+		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM penerimaan_item_detail pid JOIN penerimaan_item pi ON(pi.id=pid.penerimaan_item_id) WHERE pi.hapus=0";
+		$sql.=" AND pid.hapus=0 AND id_persediaan='$id' ORDER BY pi.tanggal DESC LIMIT 1 ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d['roll'];
+		}
+		return $hasil;
+	}
+
 	public function stokkeluar_alat($id,$tgl,$tgl2){
 		$hasil=0;
 		$sql = "SELECT SUM(gik.jumlah_item_keluar) as pcs FROM gudang_item_keluar gik WHERE gik.hapus=0";

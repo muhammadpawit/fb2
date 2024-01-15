@@ -309,7 +309,7 @@ class AjuanalatModel extends CI_Model {
 				'stokawal'=>$stokawal,
 				'stokawalyard'=>0,
 				'stokawalharga'=>$row['harga_item'],
-				'stokmasuk'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+				'stokmasuk'=>empty($stokmasuk['roll'])? $this->ReportModel->stokmasuk_alat_last($row['id_persediaan']) :$stokmasuk['roll'],
 				'stokmasukyard'=>0,
 				'stokmasukharga'=>$row['harga_item'],
 				'stokkeluarroll'=>$stokkeluar,
