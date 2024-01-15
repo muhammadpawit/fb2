@@ -2095,6 +2095,26 @@ class ReportModel extends CI_Model {
 		return $total;
 	}
 
+	public function stokkeluar_alat_last($id,$tgl,$tgl2){
+		$hasil=0;
+		$sql = "SELECT SUM(gik.jumlah_item_keluar) as pcs FROM gudang_item_keluar gik WHERE gik.hapus=0";
+		$sql.=" AND id_persediaan='$id' GROUP BY gik.created_date ORDER BY gik.created_date DESC LIMIT 1 ";
+		$d=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($d)){
+			$hasil=$d['pcs'];
+		}
+		$hasil2=0;
+		$sql2="SELECT SUM(jumlah) as total FROM barangkeluarharian_detail WHERE hapus=0 AND idpersediaan='$id' ";
+		$sql2.=" AND GROUP BY tanggal ORDER BY tanggal DESC LIMIT 1  ";
+		$s2=$this->GlobalModel->QueryManualRow($sql2);
+		if(!empty($s2)){
+			$hasil2=$s2['total'];
+		}
+		$total=0;
+		$total=$hasil+$hasil2;
+		return $total;
+	}
+
 	public function SumBonusOptBordir($id,$shift){
 		$hasil=0;
 		$sql = "SELECT SUM(bonus) as bonus FROM gaji_operator go JOIN gaji_operator_new gon ON(gon.idgajiopt=go.id) JOIN gaji_operator_detail_new godn ON(godn.idgaji=gon.id) AND gon.idgajiopt='$id' AND godn.shift='$shift' and godn.hapus=0 ";

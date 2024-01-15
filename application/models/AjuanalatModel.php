@@ -312,7 +312,7 @@ class AjuanalatModel extends CI_Model {
 				'stokmasuk'=>empty($stokmasuk['roll'])? $this->ReportModel->stokmasuk_alat_last($row['id_persediaan']) :$stokmasuk['roll'],
 				'stokmasukyard'=>0,
 				'stokmasukharga'=>$row['harga_item'],
-				'stokkeluarroll'=>$stokkeluar,
+				'stokkeluarroll'=> ( $stokkeluar > 0 ) ? $stokkeluar : $this->ReportModel->stokkeluar_alat_last($row['id_persediaan'],$tanggal1,$tanggal2),
 				'stokkeluaryard'=>0,
 				'stokkeluarharga'=>$row['harga_item'],
 				'stokakhirroll'=>$row['jumlah_item'],
