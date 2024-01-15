@@ -48,8 +48,8 @@
                                 <td align="right">&bull;</td>  
                                 <td>Pending</td>
                                 <?php foreach($jenis as $j){ ?>
-                                    <td><?php echo $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']); ?></td>
-                                    <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
+                                    <td><?php echo $this->ReportModel->pendingPo($j['id_jenis_po']); ?></td>
+                                    <?php $total=($this->ReportModel->pendingPo($j['id_jenis_po'])) ?>
                                 <?php } ?>
                             </tr>
                         <?php } ?>
