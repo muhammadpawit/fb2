@@ -17,7 +17,8 @@ class Stokpoberedar extends CI_Controller {
 
     function index(){
         $data                   = [];
-        $data['title']          = 'STOK PO KAOS YANG BEREDAR ';
+        // $data['title']          = 'STOK PO YANG BEREDAR ';
+        $data['title']          = '';
         $details                = [];
         $data['lokasi']         = array(
             array(
@@ -46,7 +47,8 @@ class Stokpoberedar extends CI_Controller {
                 'details'   => [],
             ),
         );
-        $data['jenis']                  = $this->GlobalModel->GetData('master_jenis_po',array('status'=>1,'tampil'=>1));
+        $data['jenis_kemeja']           = $this->GlobalModel->GetData('master_jenis_po',array('status'=>1,'tampil'=>1,'idjenis'=>1));
+        $data['jenis']                  = $this->GlobalModel->GetData('master_jenis_po',array('status'=>1,'tampil'=>1,'idjenis'=>2));
         $data['page']=$this->page.'list';
 		$this->load->view($this->layout,$data);
     }

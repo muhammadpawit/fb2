@@ -9,6 +9,16 @@
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
+				<label>Type jenis</label>
+				<select name="idjenis" class="form-control">
+					<option value="1" <?php echo $p['idjenis']==1?'selected':''; ?>>Kemeja</option>
+					<option value="2" <?php echo $p['idjenis']==2?'selected':''; ?>>Kaos</option>
+					<option value="3" <?php echo $p['idjenis']==2?'selected':''; ?>>Celana</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="form-group">
 				<label>Tampilkan Di Laporan Monitoring ?</label>
 				<select name="tampil" class="form-control">
 					<option value="1" <?php echo $p['id_jenis_po']==1?'selected':''; ?>>Ya</option>

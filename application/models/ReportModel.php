@@ -2986,14 +2986,14 @@ class ReportModel extends CI_Model {
 		return $hasil-$hasil_2;
 	}
 
-	function getJumlahJenisPoCmtGrupLokasi($lokasicmt){
+	function getJumlahJenisPoCmtGrupLokasi($lokasicmt,$idjenis){
 		$sql="SELECT count(Distinct kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp 
 		JOIN produksi_po p ON(p.kode_po=kbp.kode_po) 
 		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE  kbp.kategori_cmt='JAHIT' 
 		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
-		AND mc.lokasi='".$lokasicmt."'
+		AND mc.lokasi='".$lokasicmt."' AND mjp.idjenis='$idjenis'
 		";
 		
 		//$sql.="GROUP BY kbp.kode_po ";
@@ -3019,7 +3019,7 @@ class ReportModel extends CI_Model {
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE kbp.kategori_cmt='JAHIT' 
 		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
-		AND mc.lokasi='".$lokasicmt."'
+		AND mc.lokasi='".$lokasicmt."' AND mjp.idjenis='$idjenis'
 		";
 		
 		//$sql.="GROUP BY kbp.kode_po ";

@@ -1881,8 +1881,9 @@ class Masterdata extends CI_Controller {
 	public function simpaneditnama(){
 		$post=$this->input->post();
 		$update=array(
+			'idjenis'=>$post['idjenis'],
 			'tampil'=>$post['tampil'],
-			'online'=>$post['online']
+			'online'=>$post['online'],
 		);
 		$where=array(
 			'id_jenis_po'=>$post['id_jenis_po'],
