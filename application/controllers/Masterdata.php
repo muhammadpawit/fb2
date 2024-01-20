@@ -2088,6 +2088,7 @@ class Masterdata extends CI_Controller {
 				'color'=>$result['jenis']==4?'#ed8664':'',
 				'price'=>number_format($result['price'],2),
 				'harga_beli'=>$result['harga_beli'],
+				'harga_skb'=>$result['harga_skb'],
 				'action'=>$action,
 			);
 		}
