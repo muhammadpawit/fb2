@@ -35,6 +35,7 @@
                                     <td><?php echo $this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON'); ?></td>
                                     <?php $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON')) ?>
                                 <?php } ?>
+                                <td><b><?php echo $this->ReportModel->BeredarPo(null,'SABLON'); ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  
@@ -43,6 +44,7 @@
                                     <td><?php echo $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR'); ?></td>
                                     <?php $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR')) ?>
                                 <?php } ?>
+                                <td><b><?php echo $this->ReportModel->BeredarPo(null,'BORDIR'); ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  
@@ -51,6 +53,7 @@
                                     <td><?php echo $this->ReportModel->pendingPo($j['id_jenis_po']); ?></td>
                                     <?php $total=($this->ReportModel->pendingPo($j['id_jenis_po'])) ?>
                                 <?php } ?>
+                                <td><b><?php echo $this->ReportModel->pendingPo(null); ?></b></td>
                             </tr>
                         <?php } ?>
                     <?php } ?>
