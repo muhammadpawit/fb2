@@ -126,7 +126,7 @@
 					<td align="center"><?php echo $noalat++;?></td>
 					<td>&nbsp;<?php echo $nama['nama']?></td>
 					<td align="center"><?php echo $a['jumlah']?></td>
-					<td align="center"><?php echo number_format($nama['price']) ?></td>
+					<td align="center"><?php echo number_format($nama['harga_beli']) ?></td>
 					<td>&nbsp;<?php echo $a['keterangan']?></td>
 				</tr>
 			<?php } ?>
