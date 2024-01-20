@@ -2939,8 +2939,12 @@ class ReportModel extends CI_Model {
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE mjp.id_jenis_po ='$idjenis' AND kbp.kategori_cmt='JAHIT' 
 		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
-		AND mc.lokasi='".$lokasicmt."'
+		
 		";
+
+		if(!empty($lokasicmt)){
+			$sql.=" AND mc.lokasi='".$lokasicmt."' ";
+		}
 		
 		//$sql.="GROUP BY kbp.kode_po ";
 		$row=$this->db->query($sql)->row_array();
@@ -2965,9 +2969,13 @@ class ReportModel extends CI_Model {
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE mjp.id_jenis_po ='$idjenis' AND kbp.kategori_cmt='JAHIT' 
 		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
-		AND mc.lokasi='".$lokasicmt."'
+		
 		";
 		
+		if(!empty($lokasicmt)){
+			$sql_2.=" AND mc.lokasi='".$lokasicmt."' ";
+		}
+
 		//$sql.="GROUP BY kbp.kode_po ";
 		$row_2=$this->db->query($sql_2)->row_array();
 		$d_2=$row_2;
@@ -3061,10 +3069,13 @@ class ReportModel extends CI_Model {
 		$sql ="SELECT COALESCE(COUNT(a.kode_po),0) AS total FROM kelolapo_kirim_setor a ";
 		$sql.=" LEFT JOIN produksi_po b ON b.kode_po=a.kode_po";
 		$sql.=" LEFT JOIN master_jenis_po c ON c.nama_jenis_po=b.nama_po ";
-		$sql.=" WHERE a.hapus=0 and a.kategori_cmt='$kategori' AND a.progress='KIRIM' AND c.tampil=1
-		AND a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt != '$kategori' ) 
-		AND a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt = '$kategori' AND progress='SETOR'  )
-		";
+		
+		if(!empty($kategori)){
+			$sql.=" WHERE a.hapus=0 and a.kategori_cmt='$kategori' AND a.progress='KIRIM' AND c.tampil=1
+			AND a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt != '$kategori' ) 
+			AND a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt = '$kategori' AND progress='SETOR'  )
+			";
+		}
 
 		if( !empty($namapo) ){
 			$sql.=" AND c.id_jenis_po='$namapo' ";
@@ -3090,6 +3101,26 @@ class ReportModel extends CI_Model {
 		
 		$data = $this->GlobalModel->QueryManual($sql);
 		return $data;
+	}
+
+	function BeredarPoSum($id_jenis_po,$kategori){
+		$sql ="SELECT COALESCE(COUNT(a.kode_po),0) AS total FROM kelolapo_kirim_setor a ";
+		$sql.=" LEFT JOIN produksi_po b ON b.kode_po=a.kode_po";
+		$sql.=" LEFT JOIN master_jenis_po c ON c.nama_jenis_po=b.nama_po ";
+		
+		if(!empty($kategori)){
+			$sql.=" WHERE a.hapus=0 and a.kategori_cmt='$kategori' AND a.progress='KIRIM' AND c.tampil=1
+			AND a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt != '$kategori' ) 
+			AND a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt = '$kategori' AND progress='SETOR'  )
+			";
+		}
+
+		if( !empty($id_jenis_po) ){
+			$sql.=" AND c.idjenis='$id_jenis_po' ";
+		}
+		
+		$data = $this->GlobalModel->QueryManualRow($sql);
+		return !empty($data) ? $data['total']:0;
 	}
 
 	function pendingPoDetail($namapo){

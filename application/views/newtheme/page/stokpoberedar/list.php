@@ -34,7 +34,7 @@
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
-                            <td><b><?php echo $j['id_jenis_po']?><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],$j['id_jenis_po']); ?></b></td>
+                            <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],2); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
                             <tr>
@@ -83,6 +83,14 @@
                         <?php } ?>
                     <?php } ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><b><center>Total</center></b></td>
+                        <?php foreach($jenis as $j){ ?>
+                            <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
+                        <?php } ?>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -99,7 +107,7 @@
                     <tr>
                         <th rowspan="2">No</th>
                         <th rowspan="2">Cabang</th>
-                        <th colspan="<?php echo count($jenis) ?>"><center>Nama PO</center></th>
+                        <th colspan="<?php echo count($jenis_kemeja) ?>"><center>Nama PO</center></th>
                         <th rowspan="2">Jumlah</th>
                     </tr>
                     <tr>
@@ -119,12 +127,12 @@
                                 <td>
                                 <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" 
                                     href="javascript:void(0);" onclick="detailKirim('<?php echo $j['id_jenis_po'] ?>','<?php echo $l['id'] ?>','<?php echo $l['lokasi'] ?>')">
-                                        <?php echo $total ?>
+                                        <?php echo $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']) ?>
                                     </a>
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
-                            <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],$j['id_jenis_po']); ?></b></td>
+                            <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
                             <tr>
@@ -173,6 +181,14 @@
                         <?php } ?>
                     <?php } ?>
                 </tbody>
+                <tfoot>
+                    <tr style="background-color: yellow;">
+                        <td colspan="2"><b><center>Total</center></b></td>
+                        <?php foreach($jenis_kemeja as $j){ ?>
+                            <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
+                        <?php } ?>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
