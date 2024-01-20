@@ -40,8 +40,8 @@
                                 <td align="right">&bull;</td>  
                                 <td>Bordir</td>
                                 <?php foreach($jenis as $j){ ?>
-                                    <td><?php echo $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']); ?></td>
-                                    <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
+                                    <td><?php echo $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR'); ?></td>
+                                    <?php $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR')) ?>
                                 <?php } ?>
                             </tr>
                             <tr>

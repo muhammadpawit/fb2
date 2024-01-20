@@ -38,7 +38,7 @@ class Stokpoberedar extends CI_Controller {
             array(
                 'id'        =>4,
                 'lokasi'    => 'Pusat',
-                'details'   => 1, // sablon, bordir, KLO (sudah dipotong tapi belum di bordir dan di sablon)
+                'details'   => 'sablon, bordir KLO', // sablon, bordir, KLO (sudah dipotong tapi belum di bordir dan di sablon)
             ),
             array(
                 'id'        =>5,
