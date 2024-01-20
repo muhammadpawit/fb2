@@ -84,7 +84,7 @@
                     <?php } ?>
                 </tbody>
                 <tfoot>
-                    <tr>
+                    <tr style="background-color: yellow;">
                         <td colspan="2"><b><center>Total</center></b></td>
                         <?php foreach($jenis as $j){ ?>
                             <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
