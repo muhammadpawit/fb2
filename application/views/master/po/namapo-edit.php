@@ -13,7 +13,7 @@
 				<select name="idjenis" class="form-control">
 					<option value="1" <?php echo $p['idjenis']==1?'selected':''; ?>>Kemeja</option>
 					<option value="2" <?php echo $p['idjenis']==2?'selected':''; ?>>Kaos</option>
-					<option value="3" <?php echo $p['idjenis']==2?'selected':''; ?>>Celana</option>
+					<option value="3" <?php echo $p['idjenis']==3?'selected':''; ?>>Celana</option>
 				</select>
 			</div>
 		</div>
