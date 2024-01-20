@@ -22,7 +22,13 @@
                             <td><?php echo $no++; ?></td>
                             <td><?php echo $l['lokasi'];?></td>
                             <?php foreach($jenis as $j){ ?>
-                                <td><?php echo $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']); ?></td>
+                                <?php $total= $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']); ?>
+                                <td>
+                                <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" 
+                                    href="javascript:void(0);" onclick="detailKirim('<?php echo $j['id_jenis_po'] ?>','<?php echo $l['id'] ?>','<?php echo $l['lokasi'] ?>')">
+                                        <?php echo $total ?>
+                                    </a>
+                                </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
                             <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id']); ?></b></td>
@@ -111,6 +117,34 @@
              var span='<div>';
             // Menampilkan detail data dalam modal
             $('.modal-title').html(proses);
+            
+            for (let i = 0; i < obj.length; i++) {
+                // Mengakses properti objek dan menambahkannya ke span
+                span += `<div class="badge bg-green">${obj[i].kode_po}</div>&nbsp;`; // Ganti dengan nama properti sesuai objek Anda
+                }
+
+                span += '</div>';
+                $('.modal-body').html(span);
+            // Menampilkan modal
+            $('#myModal').modal('show');
+            },
+            error: function(error) {
+            console.error('Error:', error);
+            }
+        });
+    }
+
+    function detailKirim(po, proses,lokasi){
+        $('#myModal').modal('show');
+        $.ajax({
+            url: '<?php echo BASEURL?>Stokpoberedar/detailKirim', // Ganti dengan URL server dan endpoint yang sesuai
+            type: 'POST',
+            data: { id: po, proses:proses },
+            success: function(response) {
+             const obj = JSON.parse(response);
+             var span='<div>';
+            // Menampilkan detail data dalam modal
+            $('.modal-title').html(lokasi);
             
             for (let i = 0; i < obj.length; i++) {
                 // Mengakses properti objek dan menambahkannya ke span

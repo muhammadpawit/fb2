@@ -62,4 +62,11 @@ class Stokpoberedar extends CI_Controller {
         echo json_encode($detail);
     }
 
+
+    function detailKirim(){
+        $post = $this->input->post();
+        $detail = $this->ReportModel->getJumlahJenisPoCmtGrupDetail($post['id'],$post['proses']);
+        echo json_encode($detail);
+    }
+
 }

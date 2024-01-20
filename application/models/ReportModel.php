@@ -3105,4 +3105,19 @@ class ReportModel extends CI_Model {
 		$data = $this->GlobalModel->QueryManual($sql);
 		return $data;
 	}
+
+	function getJumlahJenisPoCmtGrupDetail($idjenis,$lokasicmt){
+		$sql="SELECT kbp.kode_po FROM `kelolapo_kirim_setor` kbp 
+		JOIN produksi_po p ON(p.kode_po=kbp.kode_po) 
+		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
+		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
+		WHERE mjp.id_jenis_po ='$idjenis' AND kbp.kategori_cmt='JAHIT' 
+		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND mc.lokasi='".$lokasicmt."' 
+
+		AND kbp.kode_po NOT IN (SELECT kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='SETOR' AND id_master_cmt NOT IN (63) AND kategori_cmt='JAHIT' )
+		";
+		$row=$this->GlobalModel->QueryManual($sql);
+		return $row;
+	}
 }
