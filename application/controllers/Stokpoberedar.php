@@ -51,4 +51,15 @@ class Stokpoberedar extends CI_Controller {
 		$this->load->view($this->layout,$data);
     }
 
+    function detail(){
+        $post = $this->input->post();
+        if($post['proses']=='PENDING'){
+            $detail = $this->ReportModel->pendingPoDetail($post['id']);
+        }else{
+            $detail = $this->ReportModel->BeredarPoDetail($post['id'],$post['proses']);
+        }
+
+        echo json_encode($detail);
+    }
+
 }
