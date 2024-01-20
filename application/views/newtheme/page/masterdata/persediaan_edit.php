@@ -97,6 +97,10 @@
 				<input type="text" name="harga_beli" class="form-control" value="<?php echo $prod['harga_beli']?>">
 			</div>
 			<div class="form-group">
+				<label>Harga Jual SKB</label>
+				<input type="text" name="harga_skb" class="form-control" value="<?php echo $prod['harga_skb']?>">
+			</div>
+			<div class="form-group">
 				<label>Tipe </label>
 				<select name="tipe" class="form-control">
 					<option value=""></option>

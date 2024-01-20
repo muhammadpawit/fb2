@@ -1188,6 +1188,7 @@ class Masterdata extends CI_Controller {
 				'color'=>$result['jenis']==4?'#ed8664':'',
 				'price'=>($result['price']),
 				'harga_beli'=>$result['harga_beli'],
+				'harga_skb'=>$result['harga_skb'],
 				'action'=>$action,
 			);
 		}
@@ -1255,6 +1256,7 @@ class Masterdata extends CI_Controller {
 			'satuan'=>$post['satuan'],
 			'price'	=>$post['price'], // harga di hpp
 			'harga_beli'=>$post['harga_beli'], //harga untuk laporan rekap 
+			'harga_skb'=>$post['harga_skb'], //harga untuk sj sukabumi
 			'tipe' => $post['tipe'],
 			'status' => $post['status'],
 			'keterangan_tipe' => $post['keterangan_tipe'],
