@@ -137,7 +137,7 @@
                                         <?php
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
-                                                SELECT * FROM product where nama LIKE '".$item['nama_item']."'
+                                                SELECT * FROM product where nama LIKE '".$tem['nama_item']."'
                                                 "); 
                                             }    
                                         ?>
@@ -239,7 +239,7 @@
                                         <?php 
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
-                                                SELECT * FROM product where nama LIKE '".$item['nama_item']."'
+                                                SELECT * FROM product where nama LIKE '".$tem['nama_item']."'
                                                 "); 
                                             }        
                                         ?>
