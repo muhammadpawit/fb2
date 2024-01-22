@@ -67,6 +67,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <th>NO.</th>
 
                                             <th>NAMA AJUAN</th>
+                                            <th>WARNA</th>
 
                                             <th>JUMLAH</th>
 
@@ -90,15 +91,24 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                     <tbody>
 
-                                    <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
+                                    <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0;$warna=null; ?>
 
                                     <?php foreach ($item_cash as $key => $tem): ?>
+                                        <?php
+                                            if(isset($tem['nama_item'])){
+                                                $warna = $this->GlobalModel->QueryManualRow("
+                                                SELECT * FROM product where nama LIKE '".$tem['nama_item']."'
+                                                "); 
+                                            }    
+                                        ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
                                             <td align="center"><?php echo $no++; ?></td>
 
                                             <td><?php echo $tem['nama_item'] ?></td>
+
+                                            <td><?php echo !empty($warna) ? $warna['warna_item'] :null;?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
@@ -130,7 +140,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                         <?php $i++?>
                                     <?php endforeach ?>
                                         <tr style="background-color: yellow" class="yaprint">
-                                            <td colspan="2">Total Cash (Rp)</td>
+                                            <td colspan="3">Total Cash (Rp)</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -159,6 +169,8 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                         <th>NAMA AJUAN</th>
 
+                                        <th>WARNA</th>
+
                                         <th>JUMLAH</th>
 
                                         <th>SATUAN</th>
@@ -184,12 +196,21 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
+                                        <?php
+                                            if(isset($tem['nama_item'])){
+                                                $warna = $this->GlobalModel->QueryManualRow("
+                                                SELECT * FROM product where nama LIKE '".$tem['nama_item']."'
+                                                "); 
+                                            }    
+                                        ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
                                             <td align="center"><?php echo $no++; ?></td>
 
                                             <td><?php echo $tem['nama_item'] ?></td>
+
+                                            <td><?php echo !empty($warna) ? $warna['warna_item'] :null;?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
@@ -221,7 +242,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                         <?php $i++?>
                                     <?php endforeach ?>
                                         <tr style="background-color: yellow" class="yaprint">
-                                            <td colspan="2">Total Transfer (Rp)</td>
+                                            <td colspan="3">Total Transfer (Rp)</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
