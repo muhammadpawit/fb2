@@ -134,7 +134,9 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_cash as $key => $tem): ?>
-                                        <?php $warna = $this->GlobalModel->GetdataRow('product',array('nama'=>$item['nama_item'])); ?>
+                                        <?php $warna = $this->GlobalModel->QueryManualRow("
+                                        SELECT * FROM product where nama LIKE '".$item['nama_item']."'
+                                        "); ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
@@ -230,7 +232,9 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
-                                        <?php $warna = $this->GlobalModel->GetdataRow('product',array('nama'=>$item['nama_item'])); ?>
+                                        <?php $warna = $this->GlobalModel->QueryManualRow("
+                                        SELECT * FROM product where nama LIKE '".$item['nama_item']."'
+                                        "); ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
