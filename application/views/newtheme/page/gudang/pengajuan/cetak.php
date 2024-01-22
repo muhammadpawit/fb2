@@ -237,11 +237,11 @@
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
                                         <?php 
-                                             if(isset($item['nama_item'])){
-                                                $warna = $this->GlobalModel->QueryManualRow("
+                                            
+                                                $warnas = $this->GlobalModel->QueryManualRow("
                                                 SELECTs * FROM product where nama LIKE '".$item['nama_item']."'
                                                 "); 
-                                            }        
+                                               
                                         ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
@@ -250,7 +250,7 @@
 
                                             <td><?php echo $tem['nama_item'] ?></td>
 
-                                            <td><?php echo !empty($warna) ? null:'' ?></td>
+                                            <td><?php echo !empty($warnas) ? null:'' ?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
