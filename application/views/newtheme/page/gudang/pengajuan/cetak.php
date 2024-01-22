@@ -135,9 +135,9 @@
 
                                     <?php foreach ($item_cash as $key => $tem): ?>
                                         <?php
-                                            if(!empty($item_cash)){
+                                            if(!empty($item['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
-                                                SELECT * FROM product where nama LIKE '".!empty($item['nama_item']) ? $item['nama_item'] : null."'
+                                                SELECT * FROM product where nama LIKE '".$item['nama_item']."'
                                                 "); 
                                             }    
                                         ?>
@@ -236,9 +236,13 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
-                                        <?php $warna = $this->GlobalModel->QueryManualRow("
-                                        SELECT * FROM product where nama LIKE '".!empty($item['nama_item']) ? $item['nama_item'] : null."'
-                                        "); ?>
+                                        <?php 
+                                        if(!empty($item['nama_item'])){
+                                            $warna = $this->GlobalModel->QueryManualRow("
+                                            SELECT * FROM product where nama LIKE '".$item['nama_item']."'
+                                            "); 
+                                        }    
+                                        ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
