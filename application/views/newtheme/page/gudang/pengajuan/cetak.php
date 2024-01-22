@@ -106,6 +106,8 @@
                                             <th>NO.</th>
 
                                             <th>NAMA AJUAN</th>
+                                            
+                                            <th>WARNA</th>
 
                                             <th>JUMLAH</th>
 
@@ -132,12 +134,15 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_cash as $key => $tem): ?>
+                                        <?php $warna = $this->GlobalModel->GetdataRow('product',array('nama'=>$item['nama_item'])); ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
                                             <td align="center"><?php echo $no++; ?></td>
 
                                             <td><?php echo $tem['nama_item'] ?></td>
+
+                                            <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
@@ -169,7 +174,7 @@
                                         <?php $i++?>
                                     <?php endforeach ?>
                                         <tr style="background-color: yellow" class="yaprint">
-                                            <td colspan="2">Total Cash (Rp)</td>
+                                            <td colspan="3">Total Cash (Rp)</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -198,6 +203,8 @@
 
                                             <th>NAMA AJUAN</th>
 
+                                            <th>WARNA</th>
+
                                             <th>JUMLAH</th>
 
                                             <th>SATUAN</th>
@@ -223,12 +230,15 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
+                                        <?php $warna = $this->GlobalModel->GetdataRow('product',array('nama'=>$item['nama_item'])); ?>
                                         <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                                         <tr>
 
                                             <td align="center"><?php echo $no++; ?></td>
 
                                             <td><?php echo $tem['nama_item'] ?></td>
+
+                                            <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
@@ -260,7 +270,7 @@
                                         <?php $i++?>
                                     <?php endforeach ?>
                                         <tr style="background-color: yellow" class="yaprint">
-                                            <td colspan="2">Total Transfer (Rp)</td>
+                                            <td colspan="3">Total Transfer (Rp)</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
