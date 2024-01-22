@@ -237,7 +237,7 @@
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
                                         <?php 
-                                             if(!empty($item['nama_item'])){
+                                             if(isset($item['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
                                                 SELECTs * FROM product where nama LIKE '".$item['nama_item']."'
                                                 "); 
