@@ -474,8 +474,12 @@
                             <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a>
                             <a onclick="excel()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-excel m-r-5"></i> Excel</a>
                             <?php }?>
-                            <a href="<?php echo BASEURL.'Gudang/pengajuan';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
 
+                            <?php if($parent['kategori']==4){ ?>
+                                <a href="<?php echo BASEURL.'Gudang/pengajuan?&list_skb&cat=4';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
+                                <?php }else{ ?>
+                                    <a href="<?php echo BASEURL.'Gudang/pengajuan';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
+                                <?php } ?>
                         </div>
 
                     </div>
