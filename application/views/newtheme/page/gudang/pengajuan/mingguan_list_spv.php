@@ -75,7 +75,7 @@
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']?>"></td>
-                      <td><input type="text" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo $p['acc_satuan']?>"></td>
+                      <td><input type="<?php echo $p['accsatuan']==1?'text':'hidden' ?>" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo $p['acc_satuan']?>"></td>
                       <td><input type="hidden" name="prods[<?php echo $i ?>][keterangan]" value="<?php echo $p['keterangan2']?>"><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         

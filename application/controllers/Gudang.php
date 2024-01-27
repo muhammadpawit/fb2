@@ -235,6 +235,7 @@ class Gudang extends CI_Controller {
 				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
 				'stok'=>$result['stok'],
 				'acc_satuan' => $result['acc_satuan'],
+				'accsatuan'	 => $satuan['accsatuan'],
 			);
 		}
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
