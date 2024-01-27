@@ -1397,7 +1397,10 @@ class ReportModel extends CI_Model {
 		return $d->result_array();
 	}
 	public function potongan($data){
-		$sql="SELECT kbp.*, mjp.nama_jenis_po as nama_po FROM konveksi_buku_potongan kbp ";
+		// $sql="SELECT kbp.*, mjp.nama_jenis_po as nama_po FROM konveksi_buku_potongan kbp ";
+		$sql =" SELECT kbp.*, mjp.nama_jenis_po as nama_po ";
+		$sql.="  FROM konveksi_buku_potongan kbp ";
+		
 		$sql.=" JOIN produksi_po p ON p.id_produksi_po=kbp.idpo ";
 		$sql.=" JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po ";
 		$sql.=" WHERE kbp.hapus=0 ";
@@ -1418,7 +1421,7 @@ class ReportModel extends CI_Model {
 				$sql.=" AND date(kbp.created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 			}
 		}
-		$sql.=" GROUP BY kbp.kode_po ";
+		// $sql.=" GROUP BY kbp.kode_po ";
 		$sql.=" ORDER BY date(kbp.created_date) ASC, kbp.kode_po ASC ";
 		$data=$this->db->query($sql);
 		return $data->result_array();

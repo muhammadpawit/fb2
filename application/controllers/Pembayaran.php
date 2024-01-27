@@ -518,6 +518,7 @@ class Pembayaran extends CI_Controller {
 			$no++;
 		}
 		$sisa=[];
+		$res=[];
 		//$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 AND gtd.hapus=0 AND gtd.full_payment_id=0 ");
 		$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 ");
 		foreach($res as $r){
@@ -533,13 +534,15 @@ class Pembayaran extends CI_Controller {
 					'timpotong'=>$timpotong==null?$r['timpotong']:$timpotong['nama'],
 					'lusin'=>$r['jml_dz'],
 					'pcs'=>$r['jml_pcs'],
-					'harga'=>number_format($harga['harga_potongan']),
-					'total'=>number_format($harga['harga_potongan']*$r['jml_pcs']),
-					'price'=>($harga['harga_potongan']),
-					'totals'=>($harga['harga_potongan']*$r['jml_pcs']),
+					'harga'=>!empty($r['harga_potongan']) ? number_format($harga['harga_potongan']) : 0,
+					'total'=>!empty($r['harga_potongan']) ? number_format($harga['harga_potongan']*$r['jml_pcs']) : 0,
+					'price'=>!empty($harga['harga_potongan']) ? $harga['harga_potongan'] : 0,
+					'totals'=>!empty($r['harga_potongan']) ? $harga['harga_potongan']*$r['jml_pcs'] : 0,
 					'full'=>$r['full'],
 				);
-				$total+=($harga['harga_potongan']*$r['jml_pcs']);
+				if(!empty($r['harga_potongan'])){
+					$total+=($harga['harga_potongan']*$r['jml_pcs']);
+				}
 			}
 			$no++;
 		}
