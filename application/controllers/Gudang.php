@@ -1439,9 +1439,14 @@ class Gudang extends CI_Controller {
 				$kategori='Konveksi';
 			}
 			$pesan='Sdr ibu Ulpah, Pak '.callSessUser('nama_user').' telah mengomentari pengajuan harian '.$kategori.' tanggal '.date('d F Y',strtotime($data['tanggal'])).' .silahkan perbaiki segera';
-			kirim_email('ulfahcahayaag@gmail.com',$pesan);
+			// kirim_email('ulfahcahayaag@gmail.com',$pesan);
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'Gudang/pengajuan');
+			if($data['kategori']==4){
+				redirect(BASEURL.'Gudang/pengajuan?&list_skb&cat=4');
+			}else{
+				redirect(BASEURL.'Gudang/pengajuan');
+			}
+			
 		}
 	}
 

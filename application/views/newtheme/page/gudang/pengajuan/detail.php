@@ -115,13 +115,15 @@
 
                                             <th>SATUAN</th>
 
+                                            <?php if($parent['kategori']<4){ ?>
+
                                             <th width="125">HARGA SATUAN (Rp)</th>
 
                                             <th width="125">JUMLAH PEMBAYARAN (Rp)</th>
                                             <th>TIPE PEMBAYARAN</th>
 
                                             <th>NAMA SUPPLIER</th>
-
+                                             <?php } ?>
                                             <th>KETERANGAN</th>
 
                                             <th width="200">REVISI SPV</th>
@@ -145,7 +147,7 @@
                                             <td><?php echo $tem['jumlah'] ?></td>
 
                                             <td><?php echo $tem['satuan'] ?></td>
-
+                                            <?php if($parent['kategori']<4){ ?>
                                             <td width="125">Rp. <?php echo number_format($tem['harga']) ?></td>
 
                                             <?php if ($tem['pembayaran'] == 2){ 
@@ -161,7 +163,7 @@
                                             <td width="125">Rp. <?php echo number_format($tem['jumlah'] * $tem['harga']) ;?></td>
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':($tem['pembayaran']==2?'Transfer':'-'); ?></td>
                                             <td><?php echo $tem['supplier']; ?></td>
-
+                                            <?php } ?>
                                             <td><?php echo $tem['keterangan']; ?></td>
                                             <td><textarea name="products[<?php echo $i?>][komentar]" class="form-control"><?php echo $tem['komentar']?></textarea></td>
                                         </tr>
@@ -172,12 +174,15 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <?php if($parent['kategori']<4){ ?>
                                             <td>
+                                            
                                                 Rp. <?php echo number_format($parent['cash'] + $parent['transfer']) ;?>
                                             </td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <?php } ?>
                                             <td><button type="submit" class="btn btn-info btn-sm">Simpan</button></td>
                                         </tr>
                                     </tbody>
@@ -195,7 +200,7 @@
                         <div class="col-6">
 
                             <div class="float-left">
-
+                                <?php if($parent['kategori']<4){ ?>     
                                 <table width="200" class="text-center" border="2">
 
                                     <tr>
@@ -215,7 +220,7 @@
                                     </tr>
 
                                 </table>
-
+                                <?php } ?>
                             </div>
 
                             <div class="clearfix"></div>
@@ -276,7 +281,12 @@
 
                                                 <br>
 
-                                                ( <?php echo strtoupper($adminkeu)?> )
+                                                <?php if($parent['kategori']==4){ ?>
+                                                    <?php $adminkeu='Vina';?>
+                                                <?php }else{ ?>
+                                                    <?php $adminkeu='Ulfah'; ?>
+                                                <?php } ?>
+                                                ( <?php echo ($adminkeu)?> )
 
                                             </td>
 
@@ -302,7 +312,12 @@
                             <?php }else{?>
                                 <!-- <a href="<?php echo BASEURL.'Dash';?>" class="btn btn-info waves-effect waves-light">Setujui</a> -->
                             <?php } ?>
-                            <a href="<?php echo BASEURL.'Gudang/pengajuan';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
+                            
+                            <?php if($parent['kategori']==4){ ?>
+                                <a href="<?php echo BASEURL.'Gudang/pengajuan?&list_skb&cat=4';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
+                            <?php }else{ ?>
+                                    <a href="<?php echo BASEURL.'Gudang/pengajuan';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
+                            <?php } ?>
 
                         </div>
 

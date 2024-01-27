@@ -477,9 +477,9 @@
 
                             <?php if($parent['kategori']==4){ ?>
                                 <a href="<?php echo BASEURL.'Gudang/pengajuan?&list_skb&cat=4';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
-                                <?php }else{ ?>
+                            <?php }else{ ?>
                                     <a href="<?php echo BASEURL.'Gudang/pengajuan';?>" class="btn btn-danger waves-effect waves-light">Kembali</a>
-                                <?php } ?>
+                            <?php } ?>
                         </div>
 
                     </div>
