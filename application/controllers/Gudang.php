@@ -1124,7 +1124,13 @@ class Gudang extends CI_Controller {
 		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
 
 		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI',4=>'SUKABUMI');
-		$viewData['page']='newtheme/page/gudang/pengajuan/tambah';
+		if(isset($get['sukabumi'])){
+			$page='newtheme/page/gudang/pengajuan/tambah_skb';
+			
+		}else{
+			$page='newtheme/page/gudang/pengajuan/tambah';
+		}
+		$viewData['page']=$page;
 		$this->load->view('newtheme/page/main',$viewData);
 	}
 
