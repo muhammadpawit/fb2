@@ -270,7 +270,8 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                     </tbody>
 
                                 </table>
-<br>                                       
+<br>                       
+<?php if( $parent['kategori']<4){ ?>                
                                 <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
 
                                     <tr>
@@ -295,7 +296,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                 </table>
 <br><br>
-<?php if( $parent['kategori']<4){ ?>
+
 <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
 
                                     <tr>
