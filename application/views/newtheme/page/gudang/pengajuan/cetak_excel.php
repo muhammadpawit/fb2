@@ -72,15 +72,12 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <th>JUMLAH</th>
 
                                             <th>SATUAN</th>
-
+                                            <?php if( $parent['kategori']<4){ ?>
                                             <th width="125">HARGA SATUAN (Rp)</th>
-
                                             <th width="125">JUMLAH PEMBAYARAN (Rp)</th>
-
                                             <th>TIPE PEMBAYARAN</th>
-
                                             <th>NAMA SUPPLIER</th>
-
+                                            <?php } ?>
                                             <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
                                             <th width="200">REVISI SPV</th>
@@ -114,6 +111,8 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <td><?php echo $tem['satuan'] ?></td>
 
+                                            <?php if( $parent['kategori']<4){ ?>
+
                                             <td width="125" align="center"><?php echo ($tem['harga']) ?></td>
 
                                             <?php if ($tem['pembayaran'] == 2){ 
@@ -131,6 +130,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
                                             <td><?php echo $tem['supplier']; ?></td>
+                                            <?php } ?>
 
                                             <td><?php echo $tem['keterangan']; ?></td>
                                             <?php if($parent['status']!=1){?>
@@ -139,6 +139,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                         </tr>
                                         <?php $i++?>
                                     <?php endforeach ?>
+                                        <?php if( $parent['kategori']<4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
                                             <td colspan="3">Total Cash (Rp)</td>
                                             <td></td>
@@ -155,6 +156,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <td></td>
                                             <?php } ?>
                                         </tr>
+                                        <?php } ?>
                                     </tbody>
 
                                 </table>
@@ -174,7 +176,8 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                         <th>JUMLAH</th>
 
                                         <th>SATUAN</th>
-
+                                        
+                                        <?php if( $parent['kategori']<4){ ?>
                                         <th width="125">HARGA SATUAN (Rp)</th>
 
                                         <th width="125">TOTAL (Rp)</th>
@@ -182,6 +185,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                         <th>TIPE PEMBAYARAN</th>
 
                                         <th>NAMA SUPPLIER</th>
+                                        <?php } ?>
 
                                         <th>KETERANGAN</th>
                                         <?php if($parent['status']!=1){?>
@@ -216,6 +220,8 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                             <td><?php echo $tem['satuan'] ?></td>
 
+                                            <?php if( $parent['kategori']<4){ ?>
+
                                             <td width="125" align="center"><?php echo ($tem['harga']) ?></td>
 
                                             <?php if ($tem['pembayaran'] == 2){ 
@@ -233,6 +239,8 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
                                             <td><?php echo $tem['supplier']; ?></td>
+                                            <?php } ?>
+
 
                                             <td><?php echo $tem['keterangan']; ?></td>
                                             <?php if($parent['status']!=1){?>
@@ -241,6 +249,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                         </tr>
                                         <?php $i++?>
                                     <?php endforeach ?>
+                                        <?php if( $parent['kategori']<4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
                                             <td colspan="3">Total Transfer (Rp)</td>
                                             <td></td>
@@ -257,6 +266,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <td></td>
                                             <?php } ?>
                                         </tr>
+                                        <?php } ?>
                                     </tbody>
 
                                 </table>
@@ -285,6 +295,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                 </table>
 <br><br>
+<?php if( $parent['kategori']<4){ ?>
 <table border="2" style="width: 100%;border-collapse: collapse; text-align: center;">
 
                                     <tr>
@@ -337,6 +348,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                         </tr>
 
                         </table>      
+<?php } ?>                        
 <br><br>
                                     <table>
                                         <tr>
@@ -399,7 +411,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                                 <?php 
 
                                                     if($parent['kategori']==4){
-                                                        echo "(Asmiya)";
+                                                        echo "(Vina)";
                                                     }else{
                                                         echo "(Ifah)";
                                                     }

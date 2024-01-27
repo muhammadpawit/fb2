@@ -14,10 +14,11 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>Divisi / Cabang</label>
-            <select class="form-control select2bs4" name="kategoriPengajuan" data-live-search="true" required>
+            <input type="hidden" name="kategoriPengajuan" value="4">
+            <select class="form-control select2bs4" name="kategoriPengajuans" data-live-search="true" readonly disabled>
                 <option value="">Pilih</option>
                 <?php foreach ($katpeng as $key => $value): ?>
-                    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                    <option value="<?php echo $key ?>" <?php echo $key==4?'selected':'' ?>><?php echo $value ?></option>
                 <?php endforeach ?>
             </select>
         </div>

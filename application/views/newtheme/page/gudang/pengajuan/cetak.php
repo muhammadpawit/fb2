@@ -112,7 +112,7 @@
                                             <th>JUMLAH</th>
 
                                             <th>SATUAN</th>
-
+                                            <?php if( $parent['kategori']<4){ ?>
                                             <th width="125">HARGA SATUAN (Rp)</th>
 
                                             <th width="125">JUMLAH PEMBAYARAN (Rp)</th>
@@ -120,7 +120,7 @@
                                             <th>TIPE PEMBAYARAN</th>
 
                                             <th>NAMA SUPPLIER</th>
-
+                                            <?php } ?>
                                             <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
                                             <th width="200">SPV</th>
@@ -153,7 +153,7 @@
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
                                             <td><?php echo $tem['satuan'] ?></td>
-
+                                            <?php if( $parent['kategori']<4){ ?>
                                             <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
 
                                             <?php if ($tem['pembayaran'] == 2){ 
@@ -171,7 +171,7 @@
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
                                             <td><?php echo $tem['supplier']; ?></td>
-
+                                            <?php } ?>
                                             <td><?php echo $tem['keterangan']; ?></td>
                                             <?php if($parent['status']!=1){?>
                                             <td><span class="no-print"><?php echo $tem['komentar']?></span></td>
@@ -179,6 +179,7 @@
                                         </tr>
                                         <?php $i++?>
                                     <?php endforeach ?>
+                                        <?php if( $parent['kategori']<4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
                                             <td colspan="3">Total Cash (Rp)</td>
                                             <td></td>
@@ -195,6 +196,7 @@
                                             <td></td>
                                             <?php } ?>
                                         </tr>
+                                        <?php } ?>
                                     </tbody>
 
                                 </table>
@@ -214,7 +216,7 @@
                                             <th>JUMLAH</th>
 
                                             <th>SATUAN</th>
-
+                                            <?php if( $parent['kategori']<4){ ?>
                                             <th width="125">HARGA SATUAN (Rp)</th>
 
                                             <th width="125">JUMLAH PEMBAYARAN (Rp)</th>
@@ -222,7 +224,7 @@
                                             <th>TIPE PEMBAYARAN</th>
 
                                             <th>NAMA SUPPLIER</th>
-
+                                            <?php } ?>
                                             <th>KETERANGAN</th>
                                             <?php if($parent['status']!=1){?>
                                             <th width="200">REVISI SPV</th>
@@ -256,6 +258,8 @@
 
                                             <td><?php echo $tem['satuan'] ?></td>
 
+                                            <?php if( $parent['kategori']<4){ ?>
+                                            
                                             <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
 
                                             <?php if ($tem['pembayaran'] == 2){ 
@@ -273,6 +277,7 @@
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
                                             <td><?php echo $tem['supplier']; ?></td>
+                                            <?php } ?>
 
                                             <td><?php echo $tem['keterangan']; ?></td>
                                             <?php if($parent['status']!=1){?>
@@ -281,6 +286,7 @@
                                         </tr>
                                         <?php $i++?>
                                     <?php endforeach ?>
+                                        <?php if( $parent['kategori']<4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
                                             <td colspan="3">Total Transfer (Rp)</td>
                                             <td></td>
@@ -297,6 +303,7 @@
                                             <td></td>
                                             <?php } ?>
                                         </tr>
+                                        <?php } ?>
                                     </tbody>
 
                                 </table>
@@ -312,7 +319,7 @@
                         <div class="col-md-4">
 
                             <div class="float-left">
-
+                                <?php if( $parent['kategori']<4){ ?>               
                                 <table class="table" width="200" class="text-center" border="2">
 
                                     <tr>
@@ -341,6 +348,7 @@
 
 
                                 </table>
+                                <?php } ?>
 
                             </div>
 
@@ -436,7 +444,7 @@
                                                 <?php 
 
                                                     if($parent['kategori']==4){
-                                                        echo "(Asmiya)";
+                                                        echo "(Vina)";
                                                     }else{
                                                         echo "(Ifah)";
                                                     }

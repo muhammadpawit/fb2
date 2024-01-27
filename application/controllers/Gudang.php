@@ -1052,10 +1052,10 @@ class Gudang extends CI_Controller {
 
 	public function pengajuan(){
 		$data=array();
-		$data['title']='Pengajuan Harian';
+		
 		$data['products']=array();
 		$data['n']=1;
-		$data['tambah']=BASEURL.'Gudang/pengajuanadd';
+		
 		$user=user();
 		$setujui=0;
 		if(isset($user['id_user'])){
@@ -1088,7 +1088,11 @@ class Gudang extends CI_Controller {
 		if(!empty($cat)){
 			$sql.=" AND kategori='".$cat."' ";
 		}else{
-			$sql.=" AND kategori NOT IN (4) ";
+			if(isset($get['list_skb'])){
+				$sql.=" AND kategori IN (4) ";
+			}else{
+				
+			}
 		}
 		$sql.=" ORDER BY id DESC ";
 		if( isset($get['tanggal1']) OR isset($get['cat']) ){
@@ -1103,8 +1107,18 @@ class Gudang extends CI_Controller {
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gudang/pengajuan/view_excel',$data);
 		}else{
-			$data['page']=$this->page.'gudang/pengajuan/view';		
-			$this->load->view($this->page.'main',$data);
+			if(!isset($get['list_skb'])){
+				$data['title']='Pengajuan Harian';
+				$data['tambah']=BASEURL.'Gudang/pengajuanadd';
+				$data['page']=$this->page.'gudang/pengajuan/view';		
+				$this->load->view($this->page.'main',$data);
+			}else{
+				$data['title']='Pengajuan Harian Sukabumi (Non-pembelian)';
+				$data['page']=$this->page.'gudang/pengajuan/list_ajuan_skb';
+				$data['tambah']=BASEURL.'Gudang/pengajuanadd?&sukabumi=true';
+				$this->load->view($this->page.'main',$data);
+			}
+			
 		}
 	}
 
@@ -1125,7 +1139,12 @@ class Gudang extends CI_Controller {
 
 		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI',4=>'SUKABUMI');
 		if(isset($get['sukabumi'])){
-			$page='newtheme/page/gudang/pengajuan/tambah_skb';
+			$viewData['batal']=BASEURL.'Gudang/pengajuan?&list_skb';
+			if(isset($get['list'])){
+				$page='newtheme/page/gudang/pengajuan/list_ajuan_skb';
+			}else{
+				$page='newtheme/page/gudang/pengajuan/list_ajuan_skb_form';
+			}
 			
 		}else{
 			$page='newtheme/page/gudang/pengajuan/tambah';
@@ -1241,8 +1260,8 @@ class Gudang extends CI_Controller {
 			kirim_email('muchlasmuchtar25@gmail.com',callSessUser('nama_user').' telah meminta pengajuan harian '.$peng);
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
 
-			if(isset($data['sukabumi'])){
-				redirect(BASEURL.'Gudang/pengajuan?&cat=4');
+			if($data['kategoriPengajuan']==4){
+				redirect(BASEURL.'Gudang/pengajuan?&list_skb=4&cat=4');
 			}else{
 				redirect(BASEURL.'Gudang/pengajuan');
 			}
