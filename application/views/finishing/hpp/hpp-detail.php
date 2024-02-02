@@ -840,7 +840,9 @@
                                 <?php foreach ($boronganmesin as $key => $mesin): ?>
                                     <?php 
                                         $hargapertitik=$mesin['harga_titik'];
-                                        if(strtolower($produk['nama_po'])=="kfb" OR strtolower($produk['nama_po'])=="kkf" OR strtolower($produk['nama_po'])=="skf"){
+                                        if(strtolower($produk['nama_po'])=="kfb" OR strtolower($produk['nama_po'])=="kkf" OR strtolower($produk['nama_po'])=="skf"
+                                        OR strtolower($produk['nama_po'])=="ksf"
+                                        ){
                                             $hargapertitik=30;
                                         }
                                     ?>
