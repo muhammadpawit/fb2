@@ -1287,7 +1287,7 @@ class Gudang extends CI_Controller {
 			$this->load->view('newtheme/page/gudang/pengajuan/cetak_excel',$viewData);
 		}else{
 			if(isset($get['sukabumiforjkt'])){
-				$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+				$viewData['page']='newtheme/page/gudang/pengajuan/cetakskbjkt';
 			}else{
 				$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
 			}
@@ -2882,7 +2882,7 @@ class Gudang extends CI_Controller {
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
 				if(isset($pr['metodebayar'])){
-					
+
 					if($pr['metodebayar']=='Transfer'){
 						$transfer+=($item['harga_beli']*$pr['jml_acc']);
 						// $cash=0;
