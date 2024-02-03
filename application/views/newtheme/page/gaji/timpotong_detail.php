@@ -22,6 +22,7 @@
 			</thead>
 			<tbody>
 				<?php foreach($products as $p){?>
+					<?php if($p['total'] > 0){ ?>
 					<tr>
 						<td><?php echo $p['no']?></td>
 						<td><?php echo $p['tanggal']?></td>
@@ -34,6 +35,7 @@
 						<td><?php echo number_format($p['total'])?></td>
 						<td></td>
 					</tr>
+					<?php } ?>
 				<?php } ?>
 				<tr>
 					<td colspan="8"><b></b></td>
