@@ -118,7 +118,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no=1;$total=0;?>
+                    <?php $no=1;$total=0;$perjalanan=0;?>
                     <?php foreach($lokasi as $l){ ?>
                         <tr>
                             <td><?php echo $no++; ?></td>
@@ -128,7 +128,11 @@
                                 <td>
                                 <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" 
                                     href="javascript:void(0);" onclick="detailKirim('<?php echo $j['id_jenis_po'] ?>','<?php echo $l['id'] ?>','<?php echo $l['lokasi'] ?>')">
-                                        <?php echo $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']) ?>
+                                        <?php 
+                                            echo $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']);
+
+                                            $perjalanan+=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id']));
+                                         ?>
                                     </a>
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
@@ -205,7 +209,9 @@
                         <?php foreach($jenis_kemeja as $j){ ?>
                             <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
                         <?php } ?>
-                        <td></td>
+                        <td align="center">
+                            <b><?php echo $perjalanan ?></b>
+                        </td>
                         <td></td>
                     </tr>
                 </tfoot>
