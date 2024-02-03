@@ -134,11 +134,11 @@
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
                             <td align="center">
-                                <b>
+                                
                                     <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detailberedar('<?php echo $l['id'] ?>','DETAIL')">
                                         <?php echo $this->ReportModel->BeredarPoPerjalanan($l['id'],'total'); ?>
                                     </a>
-                                </b>
+                                
                             </td>
                             <td><b><?php echo ($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') ); ?></b></td>
                         </tr>
