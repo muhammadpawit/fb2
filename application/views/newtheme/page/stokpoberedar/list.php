@@ -86,9 +86,16 @@
                 <tfoot>
                     <tr style="background-color: yellow;">
                         <td colspan="2"><b><center>Total</center></b></td>
+                        <?php $allkaos=0;?>
                         <?php foreach($jenis as $j){ ?>
                             <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
+                            <?php $allkaos+=(($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)));?>
                         <?php } ?>
+                        <td align="center">
+                            <b>
+                                <?php echo $allkaos; ?>
+                            </b>
+                        </td>
                     </tr>
                 </tfoot>
             </table>
@@ -109,7 +116,7 @@
                         <th rowspan="2">Cabang</th>
                         <th colspan="<?php echo count($jenis_kemeja) ?>"><center>Nama PO</center></th>
                         <th rowspan="2" width="10%">Dikirim Ke Pusat</th>
-                        <th rowspan="2" width="10%">Jumlah</th>
+                        <th rowspan="2" width="10%"><center>Jumlah</center></th>
                     </tr>
                     <tr>
                         <?php foreach($jenis_kemeja as $j){ ?>
