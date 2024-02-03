@@ -2839,7 +2839,7 @@ class Gudang extends CI_Controller {
 
 	function acc_ajuan_mingguan_all(){
 		$post = $this->input->post();
-		// pre($post);
+		pre($post);
 		foreach($post['prods'] as $pr){
 			$update = array(
 				'jml_acc' => $pr['jml_acc'],
