@@ -133,7 +133,13 @@
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
-                            <td align="center"><b><?php echo $this->ReportModel->BeredarPoPerjalanan($l['id'],'total');?></b></td>
+                            <td align="center">
+                                <b>
+                                    <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detailberedar('<?php echo $l['id'] ?>','DETAIL')">
+                                        <?php echo $this->ReportModel->BeredarPoPerjalanan($l['id'],'total'); ?>
+                                    </a>
+                                </b>
+                            </td>
                             <td><b><?php echo ($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') ); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
@@ -261,6 +267,34 @@
         $('#myModal').modal('show');
         $.ajax({
             url: '<?php echo BASEURL?>Stokpoberedar/detailKirim', // Ganti dengan URL server dan endpoint yang sesuai
+            type: 'POST',
+            data: { id: po, proses:proses },
+            success: function(response) {
+             const obj = JSON.parse(response);
+             var span='<div>';
+            // Menampilkan detail data dalam modal
+            $('.modal-title').html(lokasi);
+            
+            for (let i = 0; i < obj.length; i++) {
+                // Mengakses properti objek dan menambahkannya ke span
+                span += `<div class="badge bg-green">${obj[i].kode_po}</div>&nbsp;`; // Ganti dengan nama properti sesuai objek Anda
+                }
+
+                span += '</div>';
+                $('.modal-body').html(span);
+            // Menampilkan modal
+            $('#myModal').modal('show');
+            },
+            error: function(error) {
+            console.error('Error:', error);
+            }
+        });
+    }
+
+    function detailberedar(po, proses,lokasi='Sedang Di Kirim Ke Pusat'){
+        $('#myModal').modal('show');
+        $.ajax({
+            url: '<?php echo BASEURL?>Stokpoberedar/detailberedar', // Ganti dengan URL server dan endpoint yang sesuai
             type: 'POST',
             data: { id: po, proses:proses },
             success: function(response) {

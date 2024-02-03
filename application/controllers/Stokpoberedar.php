@@ -71,4 +71,10 @@ class Stokpoberedar extends CI_Controller {
         echo json_encode($detail);
     }
 
+    function detailberedar(){
+        $post = $this->input->post();
+        $detail = $this->ReportModel->BeredarPoPerjalanan($post['id'],'DETAIL');
+        echo json_encode($detail);
+    }
+
 }
