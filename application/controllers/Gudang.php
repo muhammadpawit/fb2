@@ -1286,7 +1286,12 @@ class Gudang extends CI_Controller {
 		if(isset($get['excel'])){
 			$this->load->view('newtheme/page/gudang/pengajuan/cetak_excel',$viewData);
 		}else{
-			$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+			if(isset($get['sukabumiforjkt'])){
+				$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+			}else{
+				$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+			}
+			
 			$this->load->view('newtheme/page/main',$viewData);
 		}
 	}
@@ -2877,11 +2882,12 @@ class Gudang extends CI_Controller {
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
 				if(isset($pr['metodebayar'])){
-					if($item['metodebayar']=='Transfer'){
+					
+					if($pr['metodebayar']=='Transfer'){
 						$transfer+=($item['harga_beli']*$pr['jml_acc']);
-						$cash=0;
+						// $cash=0;
 					}else{
-						$transfer=0;
+						// $transfer=0;
 						$cash+=($item['harga_beli']*$pr['jml_acc']);
 					}
 				}
