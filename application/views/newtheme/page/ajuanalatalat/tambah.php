@@ -12,6 +12,7 @@
                     <th>Tanggal Ajuan</th>
                     <th>Supplier</th>
                     <th>Keterangan</th>
+                    <th>Pemb</th>
                     <th width="20">
                         <button type="button" name="add" class="btn btn-success btn-sm itemajaun" onclick="itemajaun()"><i class="fa fa-plus"></i></button>
                     </th>
@@ -46,6 +47,7 @@
         html += '<td><input type="text" value="<?php echo date('Y-m-d') ?>" class="form-control datepicker" readonly name="products['+i+'][tanggal]"></td>';
         html+='<td width="200"><select type="text" data-dropup-auto="false" data-size="5" class="form-control brg select2bs4" data-live-search="true" data-title="pilih item" name="products['+i+'][supplier_id]" required><option value="0">Pilih Supplier</option><?php foreach ($supplier as $key => $item) { ?><option value="<?php echo $item['id'] ?>"><?php echo strtolower($item['nama']) ?></option><?php } ?></select></td>';
         html+='<td><textarea class="form-control" name="products['+i+'][keterangan]"></textarea></td>';
+        html += '<td><select name="products['+i+'][pembayaran]" class="form-control" required><option value="-"></option><option value="1">Cash</option><option value="2">Transfer</option></select></td>';
         html+='<td><i class="fa fa-trash remove"></i></td>';
         html+='</tr>';
         $('#itemajaun').append(html);

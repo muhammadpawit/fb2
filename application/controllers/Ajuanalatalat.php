@@ -110,10 +110,15 @@ class Ajuanalatalat extends CI_Controller {
 			$this->db->insert('pengajuan_harian_new',$ip);
 			$id=$this->db->insert_id();
 			$transfer=0;
+			$cash=0;
 			foreach($post['prods'] as $p){
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
-				$transfer+=($item['harga_beli']*$p['acc_ajuan']);
+				if($p['pembayaran']==2){
+					$transfer+=($item['harga_beli']*$p['acc_ajuan']);
+				}else{
+					$cash+=($item['harga_beli']*$p['acc_ajuan']);
+				}
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],
@@ -128,14 +133,19 @@ class Ajuanalatalat extends CI_Controller {
 				);
 				$this->db->insert('pengajuan_harian_new_detail',$rip);
 			}
-			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
+			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
 		}else{
 			$id=$cekajuan_harian['id'];
 			$transfer=0;
+			$cash=0;
 			foreach($post['prods'] as $p){
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier']));
-				$transfer=($item['harga_beli']*$p['acc_ajuan']);
+				if($p['pembayaran']==2){
+					$transfer+=($item['harga_beli']*$p['acc_ajuan']);
+				}else{
+					$cash+=($item['harga_beli']*$p['acc_ajuan']);
+				}
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],
@@ -150,7 +160,7 @@ class Ajuanalatalat extends CI_Controller {
 				);
 				$this->db->insert('pengajuan_harian_new_detail',$rip);
 			}
-			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+			$this->db->query("UPDATE pengajuan_harian_new SET cash=cash+'".$cash."',transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
 		}
 		//pre($transfer);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
@@ -284,6 +294,7 @@ class Ajuanalatalat extends CI_Controller {
 				'keterangan'	=> $p['keterangan'],
 				'bagian'		=> $data['bagian'],
 				'supplier_id'	=> $p['supplier_id'],
+				'pembayaran'	=> $p['pembayaran'],
 				'hapus'			=> 0,
 			);
 			$this->db->insert('ajuanalatalat', $insert);
