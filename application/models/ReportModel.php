@@ -2981,11 +2981,13 @@ class ReportModel extends CI_Model {
 
 		//$sql.="GROUP BY kbp.kode_po ";
 		$row_2=$this->db->query($sql_2)->row_array();
-		$d_2=$row_2;
+		$d_2=$row_2 ?? null;
 		if($d['total']>0){
 			$hasil_2=$d_2['total'];
-				if($d_2['nama_jenis_po']=="SKF" OR strtoupper($d_2['nama_jenis_po'])=="SIMULASI SKF"){
-					$hasil_2=round($d_2['total']*$d_2['perkalian']);
+				if (!empty($d_2)) {
+					if ($d_2['nama_jenis_po'] && (strtoupper($d_2['nama_jenis_po']) === "SKF" || strtoupper($d_2['nama_jenis_po']) === "SIMULASI SKF")) {
+						$hasil_2 = round($d_2['total'] * $d_2['perkalian']);
+					}
 				}
 			// return ($hasil['total']);
 		}else{
@@ -3104,6 +3106,32 @@ class ReportModel extends CI_Model {
 		
 		$data = $this->GlobalModel->QueryManual($sql);
 		return $data;
+	}
+
+	function BeredarPoPerjalanan($lokasi,$type){
+		$data = null;
+		if($type=='total'){
+			$sqlfirst = "SELECT COUNT(*) as total ";
+		}else{
+			$sqlfirst = "SELECT * ";
+		}
+		$sql ="
+		
+		$sqlfirst FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po 
+		LEFT JOIN master_jenis_po mjp ON pp.nama_po=mjp.nama_jenis_po
+		LEFT JOIN master_cmt mc ON mc.id_cmt=kks.id_master_cmt
+		WHERE pp.hapus=0 and  kks.progress='FINISHING' AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' AND mjp.idjenis=1 
+		AND pp.id_produksi_po NOT IN (SELECT idpo FROM kelolapo_rincian_setor_cmt) AND mc.lokasi='$lokasi'
+
+		";
+
+		if($type=='total'){
+			$data = $this->GlobalModel->QueryManualRow($sql);
+		}else{
+			$data = $this->GlobalModel->QueryManual($sql);
+		}
+
+		return ($type=='total') ? $data['total']:$data;
 	}
 
 	function BeredarPoSum($id_jenis_po,$kategori){

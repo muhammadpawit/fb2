@@ -108,6 +108,7 @@
                         <th rowspan="2">No</th>
                         <th rowspan="2">Cabang</th>
                         <th colspan="<?php echo count($jenis_kemeja) ?>"><center>Nama PO</center></th>
+                        <th rowspan="2">Dikirim Ke Pusat</th>
                         <th rowspan="2">Jumlah</th>
                     </tr>
                     <tr>
@@ -132,6 +133,7 @@
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
+                            <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
                             <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
