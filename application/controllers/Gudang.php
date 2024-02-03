@@ -1284,7 +1284,12 @@ class Gudang extends CI_Controller {
 		$viewData['menyetujui']=0;
 		$get=$this->input->get();
 		if(isset($get['excel'])){
-			$this->load->view('newtheme/page/gudang/pengajuan/cetak_excel',$viewData);
+			if(isset($get['sukabumiforjkt'])){
+				$this->load->view('newtheme/page/gudang/pengajuan/cetak_exceljktskb',$viewData);
+			}else{
+				$this->load->view('newtheme/page/gudang/pengajuan/cetak_excel',$viewData);
+			}
+			
 		}else{
 			if(isset($get['sukabumiforjkt'])){
 				$viewData['page']='newtheme/page/gudang/pengajuan/cetakskbjkt';
