@@ -138,7 +138,7 @@
                             <tr>
                                 <td align="right">&bull;</td>
                                 <td>Sablon</td>
-                                <?php $kemeja_sablon=0;?>
+                                <?php $kemeja_sablon=0;$kemeja_bordir=0;$kemeja_pending=0;?>
                                 <?php foreach($jenis_kemeja as $j){ ?>
                                     <?php $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON')) ?>
                                     <td>
@@ -154,7 +154,10 @@
                                 <td align="right">&bull;</td>  
                                 <td>Bordir</td>
                                 <?php foreach($jenis_kemeja as $j){ ?>
-                                    <?php $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR')) ?>
+                                    <?php 
+                                        $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR'));
+                                        $kemeja_bordir+=($this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR'));
+                                    ?>
                                     <td>
                                         <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detail('<?php echo $j['id_jenis_po'] ?>','BORDIR')">
                                             <?php echo $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR'); ?>
@@ -162,14 +165,17 @@
                                     </td>
                                     
                                 <?php } ?>
-                                <td><b><?php echo $this->ReportModel->BeredarPo(null,'BORDIR'); ?></b></td>
+                                <td><b><?php echo $kemeja_bordir ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  
                                 <td>Pending</td>
                                 <?php foreach($jenis_kemeja as $j){ ?>
                                     <?php $po=$j['id_jenis_po']; ?>
-                                    <?php $total=($this->ReportModel->pendingPo($j['id_jenis_po'])) ?>
+                                    <?php 
+                                        $total=($this->ReportModel->pendingPo($j['id_jenis_po']));
+                                        $kemeja_pending+=($this->ReportModel->pendingPo($j['id_jenis_po']));
+                                    ?>
                                     <td>
                                         <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detail('<?php echo $po ?>','PENDING')">
                                         <?php echo $this->ReportModel->pendingPo($j['id_jenis_po']); ?>
@@ -177,7 +183,7 @@
                                     </td>
                                     
                                 <?php } ?>
-                                <td><b><?php echo $this->ReportModel->pendingPo(null); ?></b></td>
+                                <td><b><?php echo $kemeja_pending ?></b></td>
                             </tr>
                         <?php } ?>
                     <?php } ?>
