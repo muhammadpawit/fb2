@@ -206,6 +206,7 @@ class AjuanalatModel extends CI_Model {
 					'keterangan'=>$r['keterangan'],
 					'acc_ajuan'	=> $r['acc_ajuan'],
 					'supplier_id'=>$r['supplier_id'],
+					'pembayaran'=>$r['pembayaran'],
 				);
 			}
 		}
