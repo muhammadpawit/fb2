@@ -164,7 +164,7 @@
                                     <?php $kemeja_sablon+=($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON'));?>
                                 <?php } ?>
                                 <td></td>
-                                <td><b><?php echo $kemeja_sablon ?></b></td>
+                                <td align="center"><b><?php echo $kemeja_sablon ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  
@@ -182,7 +182,7 @@
                                     
                                 <?php } ?>
                                 <td></td>
-                                <td><b><?php echo $kemeja_bordir ?></b></td>
+                                <td align="center"><b><?php echo $kemeja_bordir ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  
@@ -201,7 +201,7 @@
                                     
                                 <?php } ?>
                                 <td></td>
-                                <td><b><?php echo $kemeja_pending ?></b></td>
+                                <td align="center"><b><?php echo $kemeja_pending ?></b></td>
                             </tr>
                         <?php } ?>
                     <?php } ?>
