@@ -134,6 +134,7 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; $warna=null; ?>
 
                                     <?php foreach ($item_cash as $key => $tem): ?>
+                                        <?php if($tem['harga']>0){ ?>
                                         <?php
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
@@ -178,6 +179,7 @@
                                             <?php } ?>
                                         </tr>
                                         <?php $i++?>
+                                        <?php } ?>
                                     <?php endforeach ?>
                                         <?php if( $parent['kategori']==4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
@@ -238,6 +240,7 @@
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
+                                        <?php if($tem['harga']>0){ ?>
                                         <?php 
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
@@ -285,6 +288,7 @@
                                             <?php } ?>
                                         </tr>
                                         <?php $i++?>
+                                        <?php } ?>
                                     <?php endforeach ?>
                                         <?php if( $parent['kategori']==4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
