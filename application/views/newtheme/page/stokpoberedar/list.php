@@ -138,6 +138,7 @@
                             <tr>
                                 <td align="right">&bull;</td>
                                 <td>Sablon</td>
+                                <?php $kemeja_sablon=0;?>
                                 <?php foreach($jenis_kemeja as $j){ ?>
                                     <?php $total=($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON')) ?>
                                     <td>
@@ -145,9 +146,9 @@
                                             <?php echo $this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON'); ?>
                                         </a>
                                     </td>
-                                    
+                                    <?php $kemeja_sablon+=($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON'));?>
                                 <?php } ?>
-                                <td><b><?php echo $this->ReportModel->BeredarPo(null,'SABLON'); ?></b></td>
+                                <td><b><?php echo $kemeja_sablon ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  
