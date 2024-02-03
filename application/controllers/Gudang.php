@@ -2840,7 +2840,7 @@ class Gudang extends CI_Controller {
 
 	function acc_ajuan_mingguan_all(){
 		$post = $this->input->post();
-		pre($post);
+		// pre($post);
 		foreach($post['prods'] as $pr){
 			$update = array(
 				'jml_acc' => $pr['jml_acc'],
@@ -2876,7 +2876,7 @@ class Gudang extends CI_Controller {
 				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
 				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
 				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-				if(isset($item['metodebayar'])){
+				if(isset($pr['metodebayar'])){
 					if($item['metodebayar']=='Transfer'){
 						$transfer+=($item['harga_beli']*$pr['jml_acc']);
 						$cash=0;
@@ -2891,7 +2891,7 @@ class Gudang extends CI_Controller {
 						'jumlah'=>$pr['jml_acc'],
 						'satuan'=>$item['satuan'],
 						'harga'=>$item['harga_beli'],
-						'pembayaran'=> isset($item['metodebayar']) ? $item['metodebayar'] : 2, // transfer
+						'pembayaran'=> ($pr['metodebayar']=='Cash') ? 1 : 2, // 1 Cash, 2 Transfer
 						'supplier'=>$supplier['nama'],
 						'keterangan'=>$p['keterangan2'],
 						'status'=>1,
