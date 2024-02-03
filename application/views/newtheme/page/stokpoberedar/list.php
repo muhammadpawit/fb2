@@ -118,7 +118,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no=1;$total=0;$perjalanan=0;?>
+                    <?php $no=1;$total=0;$perjalanan=0;$alljumlah=0;?>
                     <?php foreach($lokasi as $l){ ?>
                         <tr>
                             <td><?php echo $no++; ?></td>
@@ -144,7 +144,10 @@
                                     $perjalanan+=($this->ReportModel->BeredarPoPerjalanan($l['id'],'total'));
                                 ?>
                             </td>
-                            <td><b><?php echo ($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') ); ?></b></td>
+                            <td>
+                                <?php $alljumlah+=(($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') )); ?>
+                                <b><?php echo ($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') ); ?></b>
+                            </td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
                             <tr>
@@ -212,7 +215,9 @@
                         <td align="center">
                             <b><?php echo $perjalanan ?></b>
                         </td>
-                        <td></td>
+                        <td align="center">
+                            <b><?php echo $alljumlah ?></b>
+                        </td>
                     </tr>
                 </tfoot>
             </table>
