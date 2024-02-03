@@ -1703,7 +1703,7 @@ class Gudang extends CI_Controller {
 
 	public function penerimaanitem_hapus($id){
 		$p=$this->GlobalModel->GetDataRow('penerimaan_item_detail',array('hapus'=>0,'id'=>$id));
-		// pre($p);
+		pre($p);
 		$kartustok=array(
 				'tanggal'=>date('Y-m-d H:i:s'),
 				'idproduct'=>$p['id_persediaan'],
