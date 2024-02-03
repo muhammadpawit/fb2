@@ -144,7 +144,7 @@
                                     $perjalanan+=($this->ReportModel->BeredarPoPerjalanan($l['id'],'total'));
                                 ?>
                             </td>
-                            <td>
+                            <td align="center">
                                 <?php $alljumlah+=(($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') )); ?>
                                 <b><?php echo ($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') ); ?></b>
                             </td>
