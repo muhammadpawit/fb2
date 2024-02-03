@@ -28,6 +28,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 			</thead>
 			<tbody>
 				<?php foreach($products as $p){?>
+					<?php if($p['total'] > 0){ ?>
 					<tr>
 						<td><?php echo $p['no']?></td>
 						<td><?php echo $p['tanggal']?></td>
@@ -40,6 +41,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 						<td><?php echo $p['total']?></td>
 						<td></td>
 					</tr>
+					<?php } ?>
 				<?php } ?>
 				<tr>
 					<td colspan="6"><b></b></td>
