@@ -236,6 +236,7 @@ class Gudang extends CI_Controller {
 				'stok'=>$result['stok'],
 				'acc_satuan' => $result['acc_satuan'],
 				'accsatuan'	 => $satuan['accsatuan'],
+				'metodebayar'	=> $result['metodebayar'],
 			);
 		}
 		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
