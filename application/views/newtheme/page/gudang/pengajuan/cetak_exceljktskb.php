@@ -202,6 +202,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
+                                        <?php if($tem['harga']){ ?>
                                         <?php
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
@@ -250,6 +251,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                             <?php } ?>
                                         </tr>
                                         <?php $i++?>
+                                        <?php } ?>
                                     <?php endforeach ?>
                                         <?php if( $parent['kategori']==4){ ?>
                                         <tr style="background-color: yellow" class="yaprint">
