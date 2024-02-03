@@ -91,7 +91,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0;$warna=null; ?>
 
                                     <?php foreach ($item_cash as $key => $tem): ?>
-                                        <?php if($tem['harga']){ ?>
+                                        <?php if($tem['harga']>0){ ?>
                                         <?php
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
@@ -202,7 +202,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
                                     <?php $i=0; $total = 0;$no=1;$totalCash=0;$totalTF=0; ?>
 
                                     <?php foreach ($item_tf as $key => $tem): ?>
-                                        <?php if($tem['harga']){ ?>
+                                        <?php if($tem['harga']>0){ ?>
                                         <?php
                                             if(isset($tem['nama_item'])){
                                                 $warna = $this->GlobalModel->QueryManualRow("
