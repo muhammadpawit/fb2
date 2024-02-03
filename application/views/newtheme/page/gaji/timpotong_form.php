@@ -67,6 +67,7 @@
 				<input type="hidden" name="saving" value="<?php echo $savings?>">
 				<input type="hidden" name="nominal" value="<?php echo $nominals?>">
 				<?php foreach($products as $p){?>
+					<?php if($p['total'] > 0){ ?>
 					<input type="hidden" name="products[<?php echo $p['no']?>][tanggal]" value="<?php echo $p['tanggal']?>">
 					<input type="hidden" name="products[<?php echo $p['no']?>][kode_po]" value="<?php echo $p['kode_po']?>">
 					<input type="hidden" name="products[<?php echo $p['no']?>][lusin]" value="<?php echo $p['lusin']?>">
@@ -90,6 +91,7 @@
 						<td><?php echo $p['total']?></td>
 						<td></td>
 					</tr>
+					<?php } ?>
 				<?php } ?>
 				<tr>
 					<td colspan="7"><b></b></td>
