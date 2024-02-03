@@ -126,6 +126,7 @@
                                 <td>
                                     <?php if($us['kategori']==4){ ?>
                                       <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>?&sukabumiforjkt=true" class="btn btn-info  text-white">Lihat</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true?&sukabumiforjkt=true" class="btn btn-warning  text-white">Edit</a>
                                     <?php }else{ ?>
                                       <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info  text-white">Lihat</a>
                                     <?php } ?>
