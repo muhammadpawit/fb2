@@ -125,7 +125,7 @@ class Ajuanalatalat extends CI_Controller {
 					'jumlah'=>$p['acc_ajuan'],
 					'satuan'=>$p['satuan'],
 					'harga'=>$item['harga_beli'],
-					'pembayaran'=>2, // transfer
+					'pembayaran'=>$p['pembayaran'], // transfer & cash
 					'supplier'=>$supplier['nama'],
 					'keterangan'=>$p['keterangan'],
 					'status'=>1,
