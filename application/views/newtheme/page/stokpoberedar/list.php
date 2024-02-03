@@ -91,7 +91,7 @@
                             <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
                             <?php $allkaos+=(($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)));?>
                         <?php } ?>
-                        <td align="center">
+                        <td align="left">
                             <b>
                                 <?php echo $allkaos; ?>
                             </b>
