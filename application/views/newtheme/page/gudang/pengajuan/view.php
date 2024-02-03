@@ -124,7 +124,11 @@
                                 </td>
 
                                 <td>
-                                    <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info  text-white">Lihat</a>
+                                    <?php if($us['kategori']==4){ ?>
+                                      <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>?&sukabumiforjkt=true" class="btn btn-info  text-white">Lihat</a>
+                                    <?php }else{ ?>
+                                      <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info  text-white">Lihat</a>
+                                    <?php } ?>
                                 </td>
                                 <td>
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
