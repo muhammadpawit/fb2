@@ -133,8 +133,8 @@
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
-                            <td><b><?php echo $this->ReportModel->BeredarPoPerjalanan($l['id'],'total');?></b></td>
-                            <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
+                            <td align="center"><b><?php echo $this->ReportModel->BeredarPoPerjalanan($l['id'],'total');?></b></td>
+                            <td><b><?php echo ($this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1) + $this->ReportModel->BeredarPoPerjalanan($l['id'],'total') ); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
                             <tr>
@@ -199,6 +199,8 @@
                         <?php foreach($jenis_kemeja as $j){ ?>
                             <td><b><?php echo ($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON') + $this->ReportModel->BeredarPo($j['id_jenis_po'],'BORDIR') +  $this->ReportModel->pendingPo($j['id_jenis_po']) + $this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],null)) // +  ?></b></td>
                         <?php } ?>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
