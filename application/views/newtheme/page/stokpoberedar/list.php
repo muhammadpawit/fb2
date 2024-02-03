@@ -108,7 +108,7 @@
                         <th rowspan="2">No</th>
                         <th rowspan="2">Cabang</th>
                         <th colspan="<?php echo count($jenis_kemeja) ?>"><center>Nama PO</center></th>
-                        <th rowspan="2">Dikirim Ke Pusat</th>
+                        <th rowspan="2" width="10%">Dikirim Ke Pusat</th>
                         <th rowspan="2">Jumlah</th>
                     </tr>
                     <tr>
