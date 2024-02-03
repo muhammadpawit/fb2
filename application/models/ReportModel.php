@@ -3111,7 +3111,7 @@ class ReportModel extends CI_Model {
 	function BeredarPoPerjalanan($lokasi,$type){
 		$data = null;
 		if($type=='total'){
-			$sqlfirst = "SELECT COUNT(*) as total ";
+			$sqlfirst = "SELECT COALESCE(COUNT(*),0) as total ";
 		}else{
 			$sqlfirst = "SELECT * ";
 		}

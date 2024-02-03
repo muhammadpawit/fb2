@@ -133,7 +133,7 @@
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
-                            <td><b>2323</b></td>
+                            <td><b><?php echo $this->ReportModel->BeredarPoPerjalanan($l['id'],'total');?></b></td>
                             <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
