@@ -133,7 +133,7 @@
                                 </td>
                                 <?php $total=($this->ReportModel->getJumlahJenisPoCmtGrup($j['id_jenis_po'],$l['id'])) ?>
                             <?php } ?>
-                            <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
+                            <td><b>2323</b></td>
                             <td><b><?php echo $this->ReportModel->getJumlahJenisPoCmtGrupLokasi($l['id'],1); ?></b></td>
                         </tr>
                         <?php if(!empty($l['details'])){ ?>
@@ -150,6 +150,7 @@
                                     </td>
                                     <?php $kemeja_sablon+=($this->ReportModel->BeredarPo($j['id_jenis_po'],'SABLON'));?>
                                 <?php } ?>
+                                <td></td>
                                 <td><b><?php echo $kemeja_sablon ?></b></td>
                             </tr>
                             <tr>
@@ -167,6 +168,7 @@
                                     </td>
                                     
                                 <?php } ?>
+                                <td></td>
                                 <td><b><?php echo $kemeja_bordir ?></b></td>
                             </tr>
                             <tr>
@@ -185,6 +187,7 @@
                                     </td>
                                     
                                 <?php } ?>
+                                <td></td>
                                 <td><b><?php echo $kemeja_pending ?></b></td>
                             </tr>
                         <?php } ?>
