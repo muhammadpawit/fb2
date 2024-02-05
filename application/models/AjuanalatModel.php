@@ -238,7 +238,7 @@ class AjuanalatModel extends CI_Model {
 
 			");
 			$tanggal1=date('Y-m-d',strtotime("monday last week"));
-			echo json_encode($lastdate[1]);
+			// echo json_encode($lastdate[1]['Saldomasuk_qty']);
 			// $tanggal1=date('Y-m-d',strtotime($lastdate[0]['tanggal']));
 		}
 		if(isset($get['tanggal2'])){
@@ -318,10 +318,12 @@ class AjuanalatModel extends CI_Model {
 				'nama'	=>$row['nama_item'],
 				'warna'	=>$row['warna_item'],
 				'kode'=>null,
-				'stokawal'=>$stokawal,
+				// 'stokawal'=>$stokawal,
+				'stokawal' => $lastdate[1]['Saldomasuk_qty'],
 				'stokawalyard'=>0,
 				'stokawalharga'=>$row['harga_item'],
-				'stokmasuk'=>empty($stokmasuk['roll'])? $this->ReportModel->stokmasuk_alat_last($row['id_persediaan']) :$stokmasuk['roll'],
+				// 'stokmasuk'=>empty($stokmasuk['roll'])? $this->ReportModel->stokmasuk_alat_last($row['id_persediaan']) :$stokmasuk['roll'],
+				'stokmasuk'=> $lastdate[0]['Saldomasuk_qty'],
 				'stokmasukyard'=>0,
 				'stokmasukharga'=>$row['harga_item'],
 				'stokkeluarroll'=> ( $stokkeluar > 0 ) ? $stokkeluar : $this->ReportModel->stokkeluar_alat_last($row['id_persediaan']),
