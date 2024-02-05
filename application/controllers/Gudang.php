@@ -1360,10 +1360,10 @@ class Gudang extends CI_Controller {
 	}
 	public function pengajuaneditallsave(){
 		$data=$this->input->post();
-		
+		$pengajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('id'=>$data['id']));
 		$cash=0;
 		$transfer=0;
-		$status=0; // 0 diajukan, 1 disetujui
+		$status=($pengajuan['kategori']==4)?1:0; // 0 diajukan, 1 disetujui
 		if(isset($data['editacc'])){
 			// $status=1; // request jika edit maka perlu acc ulang, 24 Oktober 2022
 		}
