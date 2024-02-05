@@ -228,7 +228,17 @@ class AjuanalatModel extends CI_Model {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday last week"));
+			$lastdate = $this->GlobalModel->QueryManualRow("
+				SELECT * FROM kartustok_product WHERE idproduct='$idped'
+
+				AND keterangan='BARANG MASUK'  
+				
+				ORDER BY tanggal DESC LIMIT 2
+
+
+			");
+			// $tanggal1=date('Y-m-d',strtotime("monday last week"));
+			$tanggal1=date('Y-m-d',strtotime($lastdate[0]['tanggal']));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
