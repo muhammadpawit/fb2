@@ -237,8 +237,8 @@ class AjuanalatModel extends CI_Model {
 
 
 			");
-			// $tanggal1=date('Y-m-d',strtotime("monday last week"));
-			$tanggal1=date('Y-m-d',strtotime($lastdate[0]['tanggal']));
+			$tanggal1=date('Y-m-d',strtotime("monday last week"));
+			// $tanggal1=date('Y-m-d',strtotime($lastdate[0]['tanggal']));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
