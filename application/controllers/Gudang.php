@@ -1363,7 +1363,7 @@ class Gudang extends CI_Controller {
 		
 		$cash=0;
 		$transfer=0;
-		$status=1; // 0 diajukan, 1 disetujui
+		$status=0; // 0 diajukan, 1 disetujui
 		if(isset($data['editacc'])){
 			// $status=1; // request jika edit maka perlu acc ulang, 24 Oktober 2022
 		}
