@@ -228,7 +228,7 @@ class AjuanalatModel extends CI_Model {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$lastdate = $this->GlobalModel->QueryManualRow("
+			$lastdate = $this->GlobalModel->QueryManual("
 				SELECT * FROM kartustok_product WHERE idproduct='$idped'
 
 				AND keterangan='BARANG MASUK'  
