@@ -117,7 +117,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="9" align="center"><b>Potongan Vermak</b></td>
+                    <td colspan="9" align="center"><b>Potongan Permak</b></td>
                     <td align="center"><b><?php echo number_format($detail['potongan_vermak'])?></b></td>
                     <td></td>
                 </tr>
