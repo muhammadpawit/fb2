@@ -282,7 +282,7 @@
             
             for (let i = 0; i < obj.length; i++) {
                 // Mengakses properti objek dan menambahkannya ke span
-                span += `<div class="badge bg-green">${obj[i].kode_po}</div>&nbsp;`; // Ganti dengan nama properti sesuai objek Anda
+                span += `<div class="badge bg-green">${i + 1}. ${obj[i].kode_po}</div>&nbsp;`; // Ganti dengan nama properti sesuai objek Anda
                 }
 
                 span += '</div>';
