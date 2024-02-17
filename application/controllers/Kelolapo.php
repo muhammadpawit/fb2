@@ -23,6 +23,7 @@ class Kelolapo extends CI_Controller {
 		$data['namapo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_kaos',array());
 		$data['polama']=$this->GlobalModel->getData2('produksi_po',array('hapus'=>0));
+		$data['model_po']=$this->GlobalModel->getData('model_po',array('hapus'=>0));
 		$data['page']=$this->page.'editpo';
 		$data['batal']=BASEURL.'Kelolapo/produksipo';
 		$data['editsave']=BASEURL.'Kelolapo/produksipoedit_save';
@@ -46,6 +47,7 @@ class Kelolapo extends CI_Controller {
 			'jenis_uk'=>$data['jenis_uk'],
 			'type'=>$data['type'],
 			'keterangan'=>$data['keterangan'],
+			'model_po'=>$data['model_po'],
 			//'spesifikasi'=>$spesifikasi,
 		);
 		$where=array(

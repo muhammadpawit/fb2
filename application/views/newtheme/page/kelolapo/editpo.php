@@ -123,6 +123,18 @@
 						<input type="text" name="keterangan" value="<?php echo $detail['keterangan']?>" class="form-control">		
 					</th>
 				</tr>
+				<tr>
+					<th>Model PO</th>
+					<th>:</th>
+					<td>
+						<select class="form-control selectpicker select2bs4" name="model_po" data-title="Pilih PO" data-live-search="true">
+							<option value="">Tidak Ada</option>
+                            <?php foreach ($model_po as $key => $nama): ?>
+                                <option value="<?php echo $nama['id'] ?>" <?php echo (strtolower($nama['id'])==strtolower($detail['model_po']))?'selected':''; ?>><?php echo $nama['nama_model'] ?></option>
+                            <?php endforeach ?>
+                        </select>
+					</td>
+				</tr>
 			</thead>
 		</table>
 	</div>
