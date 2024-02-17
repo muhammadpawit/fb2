@@ -87,7 +87,7 @@
                                     <?php $po=$j['id_jenis_po']; ?>
                                     <?php $total=($this->ReportModel->KLOPo($j['id_jenis_po'])) ?>
                                     <td>
-                                        <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detail('<?php echo $po ?>','PENDING')">
+                                        <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detail('<?php echo $po ?>','KLO')">
                                         <?php echo $this->ReportModel->KLOPo($j['id_jenis_po']); ?>
                                         </a>
                                     </td>

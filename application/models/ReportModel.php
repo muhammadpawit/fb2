@@ -3197,4 +3197,18 @@ class ReportModel extends CI_Model {
 		return !empty($data) ? $data['total']:0;
 	}
 
+	function kloPoDetail($namapo){
+		$sql ="SELECT a.kode_po FROM konveksi_buku_potongan a ";
+		$sql.=" LEFT JOIN produksi_po b ON b.id_produksi_po=a.idpo";
+		$sql.=" LEFT JOIN master_jenis_po c ON c.nama_jenis_po=b.nama_po ";
+		$sql.=" WHERE a.hapus=0 AND c.tampil=1 and a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND kategori_cmt='JAHIT' ) ";
+		
+		if( !empty($namapo) ){
+			$sql.=" AND c.id_jenis_po='$namapo' ";
+		}
+
+		$data = $this->GlobalModel->QueryManual($sql);
+		return $data;
+	}
+
 }
