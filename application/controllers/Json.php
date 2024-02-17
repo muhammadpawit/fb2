@@ -157,6 +157,7 @@ class Json extends CI_Controller {
 		$posisi=isset($_REQUEST['posisi'])?$_REQUEST['posisi']:'';
 		$jenispo=isset($_REQUEST['jenispo'])?$_REQUEST['jenispo']:null;
 		$validasi=isset($_REQUEST['validasi'])?$_REQUEST['validasi']:null;
+		$model_po=isset($_REQUEST['model_po'])?$_REQUEST['model_po']:null;
 		$output['data']=array();
 		$output=array();
 		$output['draw']=$draw;
@@ -171,6 +172,12 @@ class Json extends CI_Controller {
 		if($validasi!='null'){
 			$sql.=" AND produksi_po.validasi='".$validasi."' ";
 		}
+
+		if(!empty($model_po)){
+			$sql.=" AND produksi_po.model_po='".$model_po."' ";
+		}
+
+
 		$sql.=" ORDER BY kode_po ASC";
 		//echo $sql; die();
 		$allpos=$this->GlobalModel->QueryManual($sql);

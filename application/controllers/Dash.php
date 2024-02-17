@@ -410,6 +410,15 @@ class Dash extends CI_Controller {
     	}else{
     		$data['jenispo']=null;
     	}
+
+		if(isset($get['model_po'])){
+    		$data['model_po']=$get['model_po'];
+    	}else{
+    		$data['model_po']=null;
+    	}
+
+		$data['model_pos']=$this->GlobalModel->getData('model_po',array('hapus'=>0));
+
     	$data['title']='Laporan Monitoring Proses Produksi Berjalan ';
     	$data['allpo']=[];
     	$data['allpos']=[];

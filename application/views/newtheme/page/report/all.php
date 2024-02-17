@@ -1,11 +1,22 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-group">
             <label>Nama PO</label>
             <select name="jenispo" class="form-control select2bs4" data-live-search="true">
                 <option value="*">Semua</option>
                 <?php foreach($jenis as $j){?>
                     <option value="<?php echo $j['id_jenis_po']?>" <?php echo $j['id_jenis_po']==$jenispo?'selected':'';?>><?php echo $j['nama_jenis_po']?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Model PO</label>
+            <select name="model_po" class="form-control select2bs4" data-live-search="true">
+                <option value="*">Semua</option>
+                <?php foreach($model_pos as $j){?>
+                    <option value="<?php echo $j['id']?>" <?php echo $j['id']==$model_po?'selected':'';?>><?php echo $j['nama_model']?></option>
                 <?php } ?>
             </select>
         </div>
@@ -79,6 +90,12 @@
           url += '&validasi=' + encodeURIComponent(val);
         }
 
+        var model_po = $('select[name=\'model_po\']').val();
+
+        if (model_po != '*') {
+          url += '&model_po=' + encodeURIComponent(model_po);
+        }
+
         location =url;
       }
 
@@ -89,6 +106,7 @@
             const page_type = urlParams.get('halaman');
             const jenispo = urlParams.get('jenispo');
             const validasi = urlParams.get('validasi');
+            const model_po = urlParams.get('model_po');
             //alert(jenispo);
             url='?';
 
@@ -98,6 +116,10 @@
 
             if (validasi != '*') {
               url += '&validasi=' + encodeURIComponent(validasi);
+            }
+
+            if (model_po != '*') {
+              url += '&model_po=' + encodeURIComponent(model_po);
             }
 
         $('.ss').DataTable( {
