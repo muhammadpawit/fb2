@@ -368,7 +368,10 @@ class Setorancmt extends CI_Controller {
 		$idcmt=explode("-",$data['namacmt']);
 		//$sql="SELECT k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
 		//$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
-		$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0  ";
+		$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) 
+		LEFT JOIN produksi_po p ON p.kode_po=kd.kode_po
+		WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0  ";
+		
 		$sj=$this->GlobalModel->queryManual($sql);
 		$i=0;
 		$no=1;
@@ -377,7 +380,7 @@ class Setorancmt extends CI_Controller {
 				if( ($s['jumlah_pcs']-$s['totalsetor'])>=1 ){
 					echo "<tr>";
 					echo '<td>'.$no.' <input type="checkbox" name="products['.$i.'][pilih]"><input type="hidden" name="products['.$i.'][kode_po] class="form-control" value="'.$s['kode_po'].'"><input type="hidden" name="products['.$i.'][idkirim] class="form-control" value="'.$s['idkirim'].'"></td>';
-					echo '<td>'.$s['kode_po'].'</td>';
+					echo '<td>'.$s['kode_po'].'  ('.$s['keterangan'].') </td>';
 					echo '<td>'.$s['nosj'].' ('.date('d-m-Y',strtotime($s['tanggal'])).')</td>';
 					echo '<td>'.$s['jumlah_pcs'].'</td>';
 					echo '<td><input type="text" name="products['.$i.'][totalsetor] class="form-control" value="'.($s['jumlah_pcs']-$s['totalsetor']).'"><input type="hidden" name="products['.$i.'][cmtjob] class="form-control" value="'.$s['cmtjob'].'"></td>';
