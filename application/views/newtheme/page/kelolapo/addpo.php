@@ -25,6 +25,15 @@
                                 <?php endforeach ?>
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label>Model PO</label>
+                            <select class="form-control selectpicker select2bs4" name="model_po" data-live-search="true" data-size="4" data-title="Pilih Jenis" required>
+                                <?php foreach ($model_po as $key => $jen): ?>
+                                <option value="<?php echo $jen['id'] ?>"><?php echo $jen['nama_model'] ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
                         
                         <div class="form-group">
                             <label>Tanggal Produksi</label>

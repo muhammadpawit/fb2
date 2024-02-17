@@ -618,6 +618,7 @@ class Kelolapo extends CI_Controller {
 		$data['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$data['JenisPo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
+		$data['model_po']=$this->GlobalModel->getData('model_po',array('hapus'=>0));
 		$data['page']='newtheme/page/kelolapo/addpo';
 		$data['action']=BASEURL.'Kelolapo/posave';
 		$data['batal']=BASEURL.'Kelolapo/produksipo';
@@ -657,6 +658,7 @@ class Kelolapo extends CI_Controller {
 				'serian'=>$post['serian'],
 				'jenis_uk'=>$data['jenis_uk'],
 				'type'=>$data['type'],
+				'model_po' => $post['model_po'],
 			);
 			user_activity(callSessUser('id_user'),1,' input kode po baru '.$po);
 			$this->GlobalModel->insertData('produksi_po',$dataInsert);
