@@ -80,6 +80,21 @@
                                 <?php } ?>
                                 <td><b><?php echo $this->ReportModel->pendingPo(null); ?></b></td>
                             </tr>
+                            <tr>
+                                <td align="right">&bull;</td>  
+                                <td>KLO</td>
+                                <?php foreach($jenis as $j){ ?>
+                                    <?php $po=$j['id_jenis_po']; ?>
+                                    <?php $total=($this->ReportModel->KLOPo($j['id_jenis_po'])) ?>
+                                    <td>
+                                        <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detail('<?php echo $po ?>','PENDING')">
+                                        <?php echo $this->ReportModel->KLOPo($j['id_jenis_po']); ?>
+                                        </a>
+                                    </td>
+                                    
+                                <?php } ?>
+                                <td><b><?php echo $this->ReportModel->KLOPo(null); ?></b></td>
+                            </tr>
                         <?php } ?>
                     <?php } ?>
                 </tbody>
