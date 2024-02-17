@@ -588,6 +588,7 @@ class Kelolapo extends CI_Controller {
 				'kategori'=>$result['kategori_po'],
 				'tanggal'=>date('d-m-Y',strtotime($result['created_date'])),
 				'status'=>$result['status'],
+				'keterangan'=>$result['keterangan'],
 				//'nama_progress'=>$progress['nama_progress'],
 				'nama_progress'=>null,
 				'action'=>$action,

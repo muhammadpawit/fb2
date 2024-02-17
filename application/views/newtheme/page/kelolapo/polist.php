@@ -47,7 +47,7 @@
                   <th>NAMA PO</th>
                   <th>KODE PO</th>
                   <th>JENIS PO</th>
-                  <th>KATEGORI PO</th>
+                  <th>KETERANGAN PO</th>
                   <th>STATUS</th>
                   <th>ACTION</th>                 
                 </tr>
@@ -65,7 +65,7 @@
                                 <td><?php echo $sat['nama_po'] ?></td>
                                 <td><?php echo $sat['kode_po'] ?></td>
                                 <td><?php echo $sat['jenis_po'] ?></td>
-                                <td><?php echo $sat['kategori']?></td>
+                                <td><?php echo $sat['keterangan']?></td>
                                 <td>
                                     <span class="badge badge-primary"><?php echo $sat['nama_progress'] ?></span>
                                 </td>
