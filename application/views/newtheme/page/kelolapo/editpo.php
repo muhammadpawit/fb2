@@ -116,6 +116,13 @@
 						</select>
 					</td>
 				</tr>
+				<tr>
+					<th>Keterangan PO</th>
+					<th>:</th>
+					<th>
+						<input type="text" name="keterangan" value="<?php echo $detail['keterangan']?>" class="form-control">		
+					</th>
+				</tr>
 			</thead>
 		</table>
 	</div>
