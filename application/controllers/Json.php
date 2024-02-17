@@ -173,7 +173,7 @@ class Json extends CI_Controller {
 			$sql.=" AND produksi_po.validasi='".$validasi."' ";
 		}
 
-		if(!empty($model_po)){
+		if($model_po!='null'){
 			$sql.=" AND produksi_po.model_po='".$model_po."' ";
 		}
 
