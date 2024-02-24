@@ -856,7 +856,7 @@
 
                                         <td align="center"><?php echo $hargapertitik ?></td>
 
-                                        <td align="right"><?php echo ($mesin['jumlah_titik']*12)*$hargapertitik ?></td>
+                                        <td align="right"><?php echo number_format(($mesin['jumlah_titik']*12)*$hargapertitik) ?></td>
 
                                     </tr>
 
