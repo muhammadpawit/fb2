@@ -93,8 +93,8 @@
                             <span class="menuhover" style="display: none;">
                                 <ul>
                                     <li>
-                                        <a>
-                                        <?php echo BASEURL?>Grafikpotongan
+                                        <a href="<?php echo BASEURL?>Grafikpotongan">
+                                            Bulanan
                                         </a>
                                     </li>
                                 </ul>
