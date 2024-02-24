@@ -62,6 +62,44 @@
       padding: 15px;
     }
   </style>
+
+<style>
+    /* CSS untuk menu saat hover */
+    .menuhover {
+        display: none;
+        position: absolute;
+        background-color: #fff; /* Warna background */
+        box-shadow: 0 2px 5px rgba(0,0,0,.2); /* Efek bayangan */
+        z-index: 1; /* Atur lapisan z */
+    }
+
+    a:hover .menuhover {
+        display: block; /* Menu muncul saat tombol dihover */
+    }
+
+    /* CSS untuk styling menu */
+    .menuhover ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menuhover ul li {
+        padding: 8px 12px;
+    }
+
+    .menuhover ul li a {
+        text-decoration: none;
+        color: #333; /* Warna teks */
+    }
+
+    .menuhover ul li a:hover {
+        background-color: #f4f4f4; /* Warna background saat dihover */
+    }
+</style>
+
+
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->

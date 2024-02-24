@@ -87,7 +87,20 @@
                 <?php foreach($rekappot as $r){?>
                 <tr>
                     <td><?php echo $r['no']?></td>
-                    <td><?php echo $r['type']?></td>
+                    <td>
+                        <a href="javascript:void(0)">
+                            <?php echo $r['type']?>
+                            <span class="menuhover" style="display: none;">
+                                <ul>
+                                    <li>
+                                        <a>
+                                        <?php echo BASEURL?>Grafikpotongan
+                                        </a>
+                                    </li>
+                                </ul>
+                            </span>
+                        </a>
+                    </td>
                     <td><?php echo number_format($r['po'])?></td>
                     <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
