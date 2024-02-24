@@ -89,7 +89,7 @@
                     <td><?php echo $r['no']?></td>
                     <td>
                         <div class="menu-container">
-                            <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?> <i class="fa fa-arrow-right"></i> </a>
+                            <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?> <i class="fa fa-angle-right"></i> </a>
                             <ul class="menu">
                                 <li><a href="<?php echo BASEURL?>report/potongan">Harian</a></li>
                                 <li><a href="#">Mingguan</a></li>
@@ -192,7 +192,7 @@
                     <td><?php echo $r['no']?></td>
                     <td>
                         <div class="menu-container">
-                            <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?> <i class="fa fa-arrow-right"></i> </a>
+                            <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?> <i class="fa fa-angle-right"></i> </a>
                             <ul class="menu">
                                 <li><a href="<?php echo BASEURL?>Rinciankirimgudang#finishing">Harian</a></li>
                                 <li><a href="<?php echo BASEURL?>laporankirimgudangharian">Mingguan</a></li>
