@@ -78,7 +78,7 @@
                                     </td>
                                     
                                 <?php } ?>
-                                <td><b><?php echo $this->ReportModel->pendingPo(null); ?></b></td>
+                                <td><b><?php echo $this->ReportModel->pendingPo('kaos'); ?></b></td>
                             </tr>
                             <tr>
                                 <td align="right">&bull;</td>  

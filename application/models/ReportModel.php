@@ -3063,8 +3063,14 @@ class ReportModel extends CI_Model {
 		$sql.=" WHERE a.hapus=0 AND c.tampil=1 and a.kode_po NOT IN (select kode_po FROM kelolapo_kirim_setor WHERE hapus=0) ";
 		
 		if( !empty($namapo) ){
-			$sql.=" AND c.id_jenis_po='$namapo' ";
+			if($namapo=='kaos'){
+				$sql.=" AND c.idjenis='1' ";
+			}else{
+				$sql.=" AND c.id_jenis_po='$namapo' ";
+			}
 		}
+
+		
 
 		$data = $this->GlobalModel->QueryManualRow($sql);
 		return !empty($data) ? $data['total']:0;
