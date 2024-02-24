@@ -900,7 +900,7 @@
 
                                         <td align="center"><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
 
-                                        <td align="right"><?php echo number_format($mesin['harga_dz'])) ?></td>
+                                        <td align="right"><?php echo number_format($mesin['harga_dz']) ?></td>
 
                                     </tr>
 
