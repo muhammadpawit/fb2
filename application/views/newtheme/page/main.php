@@ -119,6 +119,8 @@
         margin: 0;
         background-color: #f9f9f9; /* Warna background menu */
         border: 1px solid #ccc; /* Border menu */
+        left: 100%; /* Letakkan menu ke samping */
+        top: 0;
     }
 
     .menu li {
