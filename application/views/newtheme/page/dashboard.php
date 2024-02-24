@@ -190,7 +190,17 @@
                 <?php foreach($rekapkg as $r){?>
                 <tr>
                     <td><?php echo $r['no']?></td>
-                    <td><?php echo $r['type']?></td>
+                    <td>
+                        <div class="menu-container">
+                            <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?></a>
+                            <ul class="menu">
+                                <li><a href="<?php echo BASEURL?>Rinciankirimgudang#finishing">Harian</a></li>
+                                <li><a href="<?php echo BASEURL?>laporankirimgudangharian">Mingguan</a></li>
+                                <li><a href="<?php echo BASEURL?>laporankirimgudangbulanan">Bulanan</a></li>
+                            </ul>
+                        </div>
+                        <?php //echo $r['type']?>
+                    </td>
                     <td><?php echo number_format($r['po'])?></td>
                     <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
