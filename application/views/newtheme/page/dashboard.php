@@ -91,7 +91,7 @@
                         <div class="menu-container">
                             <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?></a>
                             <ul class="menu">
-                                <li><a href="#">Harian</a></li>
+                                <li><a href="<?php echo BASEURL?>report/potongan">Harian</a></li>
                                 <li><a href="#">Mingguan</a></li>
                                 <li><a href="<?php echo BASEURL?>Grafikpotongan">Bulanan</a></li>
                             </ul>
