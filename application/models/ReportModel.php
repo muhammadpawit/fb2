@@ -3064,7 +3064,7 @@ class ReportModel extends CI_Model {
 		
 		if( !empty($namapo) ){
 			if($namapo=='kaos'){
-				$sql.=" AND c.idjenis='1' ";
+				$sql.=" AND c.idjenis='2' ";
 			}else{
 				$sql.=" AND c.id_jenis_po='$namapo' ";
 			}
