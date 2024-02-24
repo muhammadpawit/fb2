@@ -73,7 +73,7 @@
         z-index: 1; /* Atur lapisan z */
     }
 
-    a:hover .menuhover {
+    .mmenuhover:hover .menuhover {
         display: block; /* Menu muncul saat tombol dihover */
     }
 

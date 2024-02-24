@@ -88,7 +88,7 @@
                 <tr>
                     <td><?php echo $r['no']?></td>
                     <td>
-                        <a href="javascript:void(0)">
+                        <a href="javascript:void(0)" class="mmenuhover">
                             <?php echo $r['type']?>
                             <span>
                                 <ul class="menuhover" style="display: none;">
