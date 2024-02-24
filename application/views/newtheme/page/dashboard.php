@@ -90,8 +90,8 @@
                     <td>
                         <a href="javascript:void(0)">
                             <?php echo $r['type']?>
-                            <span class="menuhover" style="display: none;">
-                                <ul>
+                            <span>
+                                <ul class="menuhover" style="display: none;">
                                     <li>
                                         <a href="<?php echo BASEURL?>Grafikpotongan">
                                             Bulanan
