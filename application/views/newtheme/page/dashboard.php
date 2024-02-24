@@ -88,18 +88,14 @@
                 <tr>
                     <td><?php echo $r['no']?></td>
                     <td>
-                        <a href="javascript:void(0)" class="mmenuhover">
-                            <?php echo $r['type']?>
-                            <span>
-                                <ul class="menuhover" style="display: none;">
-                                    <li>
-                                        <a href="<?php echo BASEURL?>Grafikpotongan">
-                                            Bulanan
-                                        </a>
-                                    </li>
-                                </ul>
-                            </span>
-                        </a>
+                        <div class="menu-container">
+                            <a href="javascript:void(0)" class="menu-link"><?php echo $r['type']?></a>
+                            <ul class="menu">
+                                <li><a href="#">Harian</a></li>
+                                <li><a href="#">Mingguan</a></li>
+                                <li><a href="<?php echo BASEURL?>Grafikpotongan">Bulanan</a></li>
+                            </ul>
+                        </div>
                     </td>
                     <td><?php echo number_format($r['po'])?></td>
                     <td><?php echo number_format($r['dz'],2)?></td>

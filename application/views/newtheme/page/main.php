@@ -63,7 +63,7 @@
     }
   </style>
 
-<style>
+  <style>
     /* CSS untuk menu saat hover */
     .menuhover {
         display: none;
@@ -73,7 +73,7 @@
         z-index: 1; /* Atur lapisan z */
     }
 
-    .mmenuhover:hover .menuhover {
+    a:hover .menuhover {
         display: block; /* Menu muncul saat tombol dihover */
     }
 
@@ -97,8 +97,49 @@
         background-color: #f4f4f4; /* Warna background saat dihover */
     }
 </style>
+<style>
+    /* Reset gaya default */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    /* Styling menu */
+    .menu-container {
+        position: relative;
+        display: inline-block;
+    }
 
+    .menu {
+        display: none;
+        position: absolute;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        background-color: #f9f9f9; /* Warna background menu */
+        border: 1px solid #ccc; /* Border menu */
+    }
+
+    .menu li {
+        padding: 10px;
+    }
+
+    .menu li a {
+        text-decoration: none;
+        color: #333; /* Warna teks menu */
+    }
+
+    /* Munculkan menu saat elemen dihover */
+    .menu-container:hover .menu {
+        display: block;
+    }
+
+    /* Efek hover pada menu item */
+    .menu li:hover {
+        background-color: #ddd; /* Warna background saat dihover */
+    }
+</style>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
