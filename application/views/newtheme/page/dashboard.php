@@ -29,7 +29,7 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #379294 !important;color: white">Update Potongan Mingguan.<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
+      <div class="alert" style="background-color: #379294 !important;color: white">Update Potongan Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
