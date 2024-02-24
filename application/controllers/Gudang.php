@@ -131,7 +131,7 @@ class Gudang extends CI_Controller {
 		if(!empty($cat)){
 			$sql.=" AND jenis='".$cat."' ";
 		}
-		$sql.=" ORDER BY id DESC ";
+		$sql.=" ORDER BY jml_acc ASC ";
 		
 		$results=$this->GlobalModel->queryManual($sql);
 		foreach($results as $result){
