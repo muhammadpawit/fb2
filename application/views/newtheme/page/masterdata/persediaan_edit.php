@@ -121,7 +121,7 @@
 				<input type="text" class="form-control" name="keterangan_tipe" value="<?php echo $prod['keterangan_tipe']?>">
 			</div>
 			<div class="form-group">
-				<label>Status </label>
+				<label>Tampilkan ACC Satuan </label>
 				<select name="accsatuan" class="form-control">
 					<option value=""></option>
 					<option value="0" <?php echo $prod['accsatuan']=='0' ? 'selected':'' ?>>Tidak</option>
