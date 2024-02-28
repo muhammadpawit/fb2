@@ -1260,6 +1260,7 @@ class Masterdata extends CI_Controller {
 			'tipe' => $post['tipe'],
 			'status' => $post['status'],
 			'keterangan_tipe' => $post['keterangan_tipe'],
+			'accsatuan' => $post['accsatuan'],
 		);
 		$this->db->update('product',$u,array('product_id'=>$id));
 		$ug=array(
