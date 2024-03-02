@@ -3140,6 +3140,32 @@ class ReportModel extends CI_Model {
 		return ($type=='total') ? $data['total']:$data;
 	}
 
+	function BeredarPoPerjalananBelumLengkap($lokasi,$type){
+		$data = null;
+		if($type=='total'){
+			$sqlfirst = "SELECT COALESCE(COUNT(*),0) as total ";
+		}else{
+			$sqlfirst = "SELECT * ";
+		}
+		$sql ="
+		
+		$sqlfirst FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po 
+		LEFT JOIN master_jenis_po mjp ON pp.nama_po=mjp.nama_jenis_po
+		LEFT JOIN master_cmt mc ON mc.id_cmt=kks.id_master_cmt
+		WHERE pp.hapus=0 and  kks.progress='FINISHING' AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' AND mjp.idjenis=1 
+		AND pp.id_produksi_po NOT IN (SELECT idpo FROM kelolapo_rincian_setor_cmt) AND mc.lokasi='$lokasi'
+
+		";
+
+		if($type=='total'){
+			$data = $this->GlobalModel->QueryManualRow($sql);
+		}else{
+			$data = $this->GlobalModel->QueryManual($sql);
+		}
+
+		return ($type=='total') ? $data['total']:$data;
+	}
+
 	function BeredarPoSum($id_jenis_po,$kategori){
 		$sql ="SELECT COALESCE(COUNT(a.kode_po),0) AS total FROM kelolapo_kirim_setor a ";
 		$sql.=" LEFT JOIN produksi_po b ON b.kode_po=a.kode_po";

@@ -225,6 +225,27 @@
                                 <td></td>
                                 <td align="center"><b><?php echo $kemeja_pending ?></b></td>
                             </tr>
+                            <tr>
+                                <td align="right">&bull;</td>  
+                                <td>Finishing</td>
+                                <?php $tofinish=0;?>
+                                <?php foreach($jenis_kemeja as $j){ ?>
+                                    <?php $po=$j['id_jenis_po']; ?>
+                                    <?php 
+                                        $total=($this->ReportModel->pendingPo($j['id_jenis_po']));
+                                        // $tofinish+=($this->ReportModel->pendingPo($j['id_jenis_po']));
+                                        $tofinish+=0;
+                                    ?>
+                                    <td>
+                                        <a class="<?php echo $total > 0 ?'text-success':'text-danger';?>" href="javascript:void(0);" onclick="detail('<?php echo $po ?>','PENDING')">
+                                        <?php //echo $this->ReportModel->pendingPo($j['id_jenis_po']); ?>0
+                                        </a>
+                                    </td>
+                                    
+                                <?php } ?>
+                                <td></td>
+                                <td align="center"><b><?php echo $tofinish ?></b></td>
+                            </tr>
                         <?php } ?>
                     <?php } ?>
                 </tbody>
