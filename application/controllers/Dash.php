@@ -568,7 +568,7 @@ class Dash extends CI_Controller {
 			);
 		}
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
-		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('2'));
+		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
 	}
