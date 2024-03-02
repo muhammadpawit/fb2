@@ -25,7 +25,7 @@
                             <th>NAMA </th>
                             <th>WARNING STOK</th>
                             <th>Tampil Di Laporan Crosscek Bahan</th>
-                            <!-- <th>ACTION</th> -->
+                            <th>ACTION</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,10 +46,10 @@
                                     <a href="<?php echo BASEURL.'masterdata/tampildicrosscek/'.$sat['id'] ?>/0" class="btn btn-warning btn-sm"> Sembunyikan</a>
                                 <?php } ?>
                                 </td>
-                                <!-- <th>
-                                    <a href="<?php echo BASEURL.'masterdata/kategoribarangEdit/'.$sat['id'] ?>" class="btn btn-custom"> EDIT</a>
-                                    <a href="<?php echo BASEURL.'masterdata/kategoriDelete/'.$sat['id'] ?>" class="btn btn-danger"> DELETE</a>
-                                </th> -->
+                                <th>
+                                    <a href="<?php echo BASEURL.'masterdata/kategoribarangEdit/'.$sat['id'] ?>" class="btn btn-primary btn-sm"> EDIT</a>
+                                    <!-- <a href="<?php echo BASEURL.'masterdata/kategoriDelete/'.$sat['id'] ?>" class="btn btn-danger"> DELETE</a> -->
+                                </th>
                             </tr>
                                 <?php endforeach ?>
                         </tbody>

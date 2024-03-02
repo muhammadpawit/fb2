@@ -533,6 +533,26 @@ class Dash extends CI_Controller {
 				'status'=>$r['status']==1?'sudah diproses':'belum diproses',
 			);
 		}
+		
+		$data['warning_atas']=[];
+		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
+		$warning_atas=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND spesial_warning=1 ORDER BY nama ");
+		foreach($warning_atas as $m){
+			
+			$last_masuk = $this->last_masuk($m['id']); 
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
+			$data['warning_atas'][] = array(
+				'nama'			=> $m['nama'],
+				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
+				'variabel_pengirimanpo' => $m['variabel_pengirimanpo'],
+				'dz'			=> $m['rata_rata_dz'],
+				'pcs'			=> $m['rata_rata_dz']*12,
+				'keseluruhan'			=> ($m['variabel_pengirimanpo'] * ($m['rata_rata_dz']*12)),
+				'satuan'		=> $m['satuan'],
+			);
+		}
+
+
 		$data['menipis']=[];
 		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
 		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");

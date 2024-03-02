@@ -56,6 +56,50 @@
        <div class="alert" style="background-color: #eb4034 !important;color: white;text-align:center !important;font-size:20px" class="text-center">
            Warning  Stok Barang !!!
        </div>
+       <table class="table table-bordered table-hover yessearch">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Stok Terkini </th>
+                    <th>Total Pengiriman PO </th>
+                    <th>Rata-rata Dz</th>
+                    <th>Total Pcs</th>
+                    <th>Total Keseluruhan</th>
+                    <th>Satuan</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <?php $no=1;?>
+            <?php foreach($warning_atas as $req){?>
+                <?php  $minimal_order=$req['keseluruhan']; //  ?>
+            <?php //if($req['quantity'] < $minimal_order){ ?>
+            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? 'red' : (($req['quantity'] < $minimal_order) ? '#e2ff85' : ''); ?>">
+                <td><?php echo $no?></td>    
+                <td><?php echo $req['nama']?></td>      
+                <td><?php echo number_format($req['quantity'])?></td>
+                <td><?php echo number_format($req['variabel_pengirimanpo'])?></td>
+                <td><?php echo number_format($req['dz'])?></td>
+                <td><?php echo number_format($req['pcs']) ?></td>
+                <td><?php echo number_format($req['keseluruhan']) ?></td>
+                <td><?php echo $req['satuan']?></td>
+                <td>
+                    <?php if($req['quantity'] < $minimal_order){ ?>
+                        <span class="text-danger">Wajib Order</span>
+                    <?php }else{ ?>
+                        <?php if($req['quantity']==0){ ?>
+                            <span>Stok Habis</span>
+                        <?php }else{ ?>
+                            <span>Stok Masih Mencukupi</span>
+                        <?php } ?>
+                    <?php } ?>
+                </td> 
+            </tr>
+            <?php $no++;?>
+            <?php } ?>
+            <?php //} ?>
+        </table>
+
         <table class="table table-bordered table-hover yessearch">
             <thead>
                 <tr>

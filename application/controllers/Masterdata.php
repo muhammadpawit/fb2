@@ -2130,6 +2130,16 @@ class Masterdata extends CI_Controller {
 
 	}
 
+	function kategoribarangEdit($id)
+
+	{
+		$viewData['title']	= 'Kategori Barang';
+		$viewData['prods']	= $this->GlobalModel->getDataRow('kategori_barang',array('id'=>$id));
+		$viewData['page']='master/satuanbarang/kategori-edit';
+		$this->load->view('newtheme/page/main',$viewData);
+
+	}
+
 	function editkategori($id,$jenis){
 		$this->db->update('kategori_barang',array('in_warning'=>$jenis),array('id'=>$id));
 		redirect(BASEURL.'/Masterdata/kategoribarang');
@@ -2170,6 +2180,33 @@ class Masterdata extends CI_Controller {
 		$this->GlobalModel->insertData('kategori_barang',$dataInserted);
 
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
+
+		redirect(BASEURL.'Masterdata/kategoribarang');
+
+	}
+
+
+	public function kategoribarangOnCreateEdit()
+
+	{
+
+		$post = $this->input->post();
+
+		$dataInserted = array(
+
+			'nama'	=> 	$post['nama'],
+			'variabel_pengirimanpo'	=> 	$post['variabel_pengirimanpo'],
+			'rata_rata_dz'	=> 	$post['rata_rata_dz'],
+			'spesial_warning'	=> 	$post['spesial_warning'],
+			'in_warning'	=> 	$post['in_warning'],
+
+		);
+		$where = array(
+			'id'	=> $post['id'],
+		);
+		$this->db->update('kategori_barang',$dataInserted,$where);
+
+		$this->session->set_flashdata('msg','Data berhasil diubah');
 
 		redirect(BASEURL.'Masterdata/kategoribarang');
 
