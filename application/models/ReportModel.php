@@ -3210,7 +3210,13 @@ class ReportModel extends CI_Model {
 		) ";
 
 		if( !empty($namapo) ){
-			$sql.=" AND c.id_jenis_po='$namapo' ";
+			if($namapo=='kemeja'){
+				$sql.=" AND c.idjenis='1' ";
+			}else if($namapo=='kaos'){
+				$sql.=" AND c.idjenis='2' ";
+			}else{
+				$sql.=" AND c.id_jenis_po='$namapo' ";
+			}
 		}
 
 		$data = $this->GlobalModel->QueryManualRow($sql);
