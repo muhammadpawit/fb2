@@ -97,14 +97,30 @@
 		        			<td><?php echo strtoupper($p['nama'])?></td>
 		        			<td><?php echo $p['warna']?></td>
 		        			<td><?php echo $p['kode']?></td>
-		        			<td><?php echo ($p['stokawal'])?></td>
-		        			<!-- <td><?php echo ($p['stokawalharga'])?></td> -->
-		        			<td><?php echo ($p['stokmasuk'])?></td>
-		        			<!-- <td><?php echo ($p['stokmasukharga'])?></td> -->
-		        			<td><?php echo ($p['stokkeluarroll'])?></td>
-		        			<!-- <td><?php echo ($p['stokkeluarharga'])?></td> -->
+		        			<td>
+								<?php if(!empty($prods['awal'])){ ?>
+									<?php echo ($prods['awal'])?>
+								<?php } else { ?>
+									<?php echo ($p['stokawal'])?>
+								<?php } ?>
+							</td>
+		        			<td>
+								<?php //echo ($p['stokmasuk'])?>
+								<?php if(!empty($prods['masuk'])){ ?>
+									<?php echo ($prods['masuk'])?>
+								<?php } else { ?>
+									<?php echo ($p['stokmasuk'])?>
+								<?php } ?>
+							</td>
+		        			<td>
+								<?php //echo ($p['stokkeluarroll'])?>
+								<?php if(!empty($prods['keluar'])){ ?>
+									<?php echo ($prods['keluar'])?>
+								<?php } else { ?>
+									<?php echo ($p['stokkeluarroll'])?>
+								<?php } ?>
+							</td>
 		        			<td><?php echo ($p['stokakhirroll'])?></td>
-		        			<!-- <td><?php echo ($p['stokakhirharga'])?></td> -->
 		        			<td><?php echo $p['satuan']?></td>
 		        			<td><?php echo ($p['stokakhirharga'])?></td>
 		        			<td><?php echo (($p['stokakhirroll']*$p['stokakhirharga']))?></td>
