@@ -5,14 +5,14 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="form-group">
-				<label>Nama Barang</label>
+				<label>Nama Barang</label><br>
 				<!-- <select name="id_persediaan" class="form-control select2bs4" disabled readonly>
 					<?php foreach($barang as $b){ ?>
 						<option value="<?php echo $b['id_persediaan']?>"
 							<?php echo $b['id_persediaan']==$prods['id_persediaan']?'selected':'';?>><?php echo $b['nama_item']?></option>
 					<?php } ?>
 				</select> -->
-				<?php echo $prods['nama'] ?>
+				<b><?php echo $prods['nama'] ?></b>
 			</div>
 		</div>
 		<div class="col-md-12">
