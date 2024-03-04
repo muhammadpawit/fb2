@@ -107,7 +107,7 @@
 							</td>
 		        			<td>
 								<?php //echo ($p['stokmasuk'])?>
-								<?php if(!empty($prods['masuk']) || $prods['masuk']==0){ ?>
+								<?php if(!empty($prods['masuk']) || $prods['masuk']!=null){ ?>
 									<?php echo ($prods['masuk'])?>
 								<?php } else { ?>
 									<?php echo ($p['stokmasuk'])?>
