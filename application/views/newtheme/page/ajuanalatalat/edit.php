@@ -12,7 +12,7 @@
 							<?php echo $b['id_persediaan']==$prods['id_persediaan']?'selected':'';?>><?php echo $b['nama_item']?></option>
 					<?php } ?>
 				</select> -->
-				<input type="text" name="id_persediaan" class="form-control" value="<?php echo $prods['nama']?>">
+				<?php echo $prods['nama'] ?>
 			</div>
 		</div>
 		<div class="col-md-12">
