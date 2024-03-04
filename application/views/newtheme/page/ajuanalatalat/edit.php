@@ -6,12 +6,13 @@
 		<div class="col-md-12">
 			<div class="form-group">
 				<label>Nama Barang</label>
-				<select name="id_persediaan" class="form-control select2bs4" disabled readonly>
+				<!-- <select name="id_persediaan" class="form-control select2bs4" disabled readonly>
 					<?php foreach($barang as $b){ ?>
 						<option value="<?php echo $b['id_persediaan']?>"
 							<?php echo $b['id_persediaan']==$prods['id_persediaan']?'selected':'';?>><?php echo $b['nama_item']?></option>
 					<?php } ?>
-				</select>
+				</select> -->
+				<input type="text" name="id_persediaan" class="form-control" value="<?php echo $prods['nama']?>">
 			</div>
 		</div>
 		<div class="col-md-12">
