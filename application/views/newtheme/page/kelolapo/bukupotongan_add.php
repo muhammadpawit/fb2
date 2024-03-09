@@ -223,7 +223,8 @@ $(document).on('change', '#poSelect', function(){
     var i=0;
     $('#item_table').empty();
     var poid = $(this).children("option:selected").val();
-    $.post( "<?php echo BASEURL.'Kelolapo/searchPO' ?>",{kodepo: explode[1] }).done(function( json ) {
+    // $.post( "<?php echo BASEURL.'Kelolapo/searchPO' ?>",{kodepo: explode[1] }).done(function( json ) {
+    $.post( "<?php echo BASEURL.'Kelolapo/searchPO' ?>",{kodepo: poid }).done(function( json ) {
        console.log(json);
        if(json==''){
         var html='';
