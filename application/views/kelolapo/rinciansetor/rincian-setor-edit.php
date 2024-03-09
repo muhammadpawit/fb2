@@ -204,7 +204,7 @@
         </table>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="">Tanggal Terima</label>
                 <!-- <input type="text" class="form-control datepicker" name="tgl" required > -->
