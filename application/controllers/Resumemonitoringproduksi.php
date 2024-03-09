@@ -55,8 +55,13 @@ class Resumemonitoringproduksi extends CI_Controller {
 			);
 			$i++;
 		}
-        $data['page']       = $this->page.'list';
-        $this->load->view($this->layout,$data);
+        if(isset($get['excel'])){
+			$this->load->view($this->page.'excel',$data);
+		}else{
+			$data['page']       = $this->page.'list';
+			$this->load->view($this->layout,$data);
+		}
+        
     }
 
 	function potongan_mingguan(){
