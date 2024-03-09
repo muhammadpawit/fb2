@@ -1,3 +1,7 @@
+<?php
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Resume_monitoring_".date('d F Y',strtotime($tanggal1)).' s.d '.date('d F Y',strtotime($tanggal2)).".xls");
+?>
 <style>
     .dropdown {
     position: relative;
