@@ -125,21 +125,21 @@ header("Content-Disposition: attachment; filename=Resume_monitoring_".date('d F 
                         <tr>
                             <td align="center"><?php echo $p['no']?></td>
                             <td><?php echo $p['type']?></td>
-                            <td><?php echo number_format($p['jml_potongan'])?></td>
-                            <td><?php echo number_format($p['pcs_potongan']/12,2)?></td>
-                            <td><?php echo number_format($p['pcs_potongan'])?></td>
-                            <td><?php echo number_format($p['jml_kirim'])?></td>
-                            <td><?php echo number_format($p['pcs_kirim']/12,2)?></td>
-                            <td><?php echo number_format($p['pcs_kirim'])?></td>
-                            <td><?php echo number_format($p['jml_setor'])?></td>
-                            <td><?php echo number_format($p['pcs_setor']/12,2)?></td>
-                            <td><?php echo number_format($p['pcs_setor'])?></td>
-                            <td><?php echo number_format($p['jml_kirim_gudang'])?></td>
-                            <td><?php echo number_format($p['pcs_kirim_gudang']/12,2)?></td>
-                            <td><?php echo number_format($p['pcs_kirim_gudang'])?></td>
-                            <td><?php echo number_format($p['jml_potongan']-$p['jml_kirim_gudang'])?></td>
-                            <td><?php echo number_format(($p['pcs_potongan']/12) - ($p['pcs_kirim_gudang']/12),2)?></td>
-                            <td><?php echo number_format($p['pcs_potongan']-$p['pcs_kirim_gudang'])?></td>
+                            <td><?php echo ($p['jml_potongan'])?></td>
+                            <td><?php echo ($p['pcs_potongan']/12)?></td>
+                            <td><?php echo ($p['pcs_potongan'])?></td>
+                            <td><?php echo ($p['jml_kirim'])?></td>
+                            <td><?php echo ($p['pcs_kirim']/12)?></td>
+                            <td><?php echo ($p['pcs_kirim'])?></td>
+                            <td><?php echo ($p['jml_setor'])?></td>
+                            <td><?php echo ($p['pcs_setor']/12)?></td>
+                            <td><?php echo ($p['pcs_setor'])?></td>
+                            <td><?php echo ($p['jml_kirim_gudang'])?></td>
+                            <td><?php echo ($p['pcs_kirim_gudang']/12)?></td>
+                            <td><?php echo ($p['pcs_kirim_gudang'])?></td>
+                            <td><?php echo ($p['jml_potongan']-$p['jml_kirim_gudang'])?></td>
+                            <td><?php echo (($p['pcs_potongan']/12) - ($p['pcs_kirim_gudang']/12))?></td>
+                            <td><?php echo ($p['pcs_potongan']-$p['pcs_kirim_gudang'])?></td>
                         </tr>
                         <?php
                             $total1+=($p['jml_potongan']);
@@ -161,21 +161,21 @@ header("Content-Disposition: attachment; filename=Resume_monitoring_".date('d F 
                     <?php } ?>
                         <tr style="background-color: #e9bceb;">
                             <td colspan="2"><b>Total</b></td>
-                            <td><b><?php echo number_format($total1)?></b></td>
-                            <td><b><?php echo number_format($total2,2)?></b></td>
-                            <td><b><?php echo number_format($total3)?></b></td>
-                            <td><b><?php echo number_format($total4)?></b></td>
-                            <td><b><?php echo number_format($total5,2)?></b></td>
-                            <td><b><?php echo number_format($total6)?></b></td>
-                            <td><b><?php echo number_format($total7)?></b></td>
-                            <td><b><?php echo number_format($total8,2)?></b></td>
-                            <td><b><?php echo number_format($total9)?></b></td>
-                            <td><b><?php echo number_format($total10)?></b></td>
-                            <td><b><?php echo number_format($total11,2)?></b></td>
-                            <td><b><?php echo number_format($total12)?></b></td>
-                            <td><b><?php echo number_format($total13)?></b></td>
-                            <td><b><?php echo number_format($total14,2)?></b></td>
-                            <td><b><?php echo number_format($total15)?></b></td>
+                            <td><b><?php echo ($total1)?></b></td>
+                            <td><b><?php echo ($total2)?></b></td>
+                            <td><b><?php echo ($total3)?></b></td>
+                            <td><b><?php echo ($total4)?></b></td>
+                            <td><b><?php echo ($total5)?></b></td>
+                            <td><b><?php echo ($total6)?></b></td>
+                            <td><b><?php echo ($total7)?></b></td>
+                            <td><b><?php echo ($total8)?></b></td>
+                            <td><b><?php echo ($total9)?></b></td>
+                            <td><b><?php echo ($total10)?></b></td>
+                            <td><b><?php echo ($total11)?></b></td>
+                            <td><b><?php echo ($total12)?></b></td>
+                            <td><b><?php echo ($total13)?></b></td>
+                            <td><b><?php echo ($total14)?></b></td>
+                            <td><b><?php echo ($total15)?></b></td>
                         </tr>
                 </tbody>
             </table>
