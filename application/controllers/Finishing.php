@@ -1275,7 +1275,7 @@ class Finishing extends CI_Controller {
 				'nama_cmt'			=>	$post['nama_cmt'],
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
-				'created_date'		=>	$post['tgl'],
+				'created_date'		=>	$post['tanggal_terima'],
 				'jumlah_piece_diterima'	=> $post['jumlahditerima']
 			);
 
@@ -1301,7 +1301,7 @@ class Finishing extends CI_Controller {
 				$this->db->update('kelolapo_rincian_setor_cmt_finish',$insertRincinan,array('id_kelolapo_rincian_setor_cmt_finish'=>$post['idr'][$key]));
 			}
 			//pre($insertRincinan);
-			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$post['kode_po']),array('progress'=>'FINISHING'));
+			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$post['kode_po'],'create_date'	=>	$post['tanggal_terima']),array('progress'=>'FINISHING'));
 			$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
 		} else {
 			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');

@@ -132,7 +132,7 @@
 	                    <!-- RINCIAN INPUT SETOR CMT -->
 	                    <div class="tab-pane show active" id="profile1">
 	                        <form action="<?php echo $editaction ?>" method="post">
-                            <input type="hidden" class="form-control" name="tgl" value="<?php echo $poProd['created_date'] ?>" >
+                            
 <div class="row">
     <div class="col-sm-12">
         <hr>
@@ -164,13 +164,14 @@
     		<input type="text" class="form-control" name="jumlahditerima" required >
     	</div>
         <div class="form-group col-sm-12 col-lg-3">
-        <label>Progress</label>
-        <select class="form-control selectpicker" id="poSelect" name="progresName" title="Select Progress" data-live-search="true" required>
-            <?php foreach ($progress as $key => $pro): ?>
-            <option selected="selected" value="<?php echo $pro['id_proggresion_po'] ?>"><?php echo $pro['nama_progress'] ?></option>
-            <?php endforeach ?>
-        </select>
-    </div>
+            <label>Progress</label>
+            <select class="form-control selectpicker" id="poSelect" name="progresName" title="Select Progress" data-live-search="true" required>
+                <?php foreach ($progress as $key => $pro): ?>
+                <option selected="selected" value="<?php echo $pro['id_proggresion_po'] ?>"><?php echo $pro['nama_progress'] ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+        
     <div class="table-responsive">
         <table class="table table-bordered" id="item_table3">
             <tr>
@@ -202,8 +203,23 @@
             <?php endif ?>
         </table>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="">Tanggal Terima</label>
+                <!-- <input type="text" class="form-control datepicker" name="tgl" required > -->
+                <input type="text" class="form-control datepicker" name="tanggal_terima" required >
+            </div>
+        </div>
+    </div>
     <?php //if (empty($setorcmtjahititem)){ ?>
-    <button class="btn btn-info" type="submit">Update</button>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <button class="btn btn-info" type="submit">Update</button>
+            </div>
+        </div>
+    </div>
     <?php //} ?>
 </div>
 	                        </form>
