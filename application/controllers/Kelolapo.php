@@ -919,6 +919,7 @@ class Kelolapo extends CI_Controller {
 
 		if(isset($post['namaPo'])){
 			$dapetinpo = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['namaPo']));
+			$id_po = $dapetinpo['id_produksi_po'];
 			$ponya = $dapetinpo['nama_po'].'-'.$dapetinpo['kode_po'];
 			$explode = explode('-',$ponya);
 			// pre($explode);
@@ -926,13 +927,13 @@ class Kelolapo extends CI_Controller {
 			if(isset($post['refPO'])){
 				if(!empty($post['refPO'])){
 					$refpo='-'.$post['refPO']; // penanda po
-					$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1],'refpo'=>$post['refPO']));
+					$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('idpo' => $id_po,'refpo'=>$post['refPO']));
 				}else{
-					$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1]));	
+					$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('idpo' => $id_po));	
 					$refpo=null;
 				}
 			}else{
-				$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po' =>  $explode[1]));
+				$dataCek = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('idpo' => $id_po));
 				$refpo=null;
 			}
 			/*
@@ -977,10 +978,10 @@ class Kelolapo extends CI_Controller {
 						
 
 				$jumlahPiecePot = ($jumBl*$post['jumlahGambar']);
-				$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
+				$idpo=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$id_po));
 				$dataInsert = array(
 					'idpo'								=> $idpo['id_produksi_po'],
-					'kode_po'							=> $explode[1],
+					'kode_po'							=> $idpo['kode_po'],
 					'sample_bahan_utama_img'			=> BASEURL.$imageGambar,
 					'sample_bahan_variasi_img'			=> BASEURL.$imageGambarVar,
 					'sample_bahan_utama_img2'			=> BASEURL.$imageGambar2,
@@ -1009,7 +1010,7 @@ class Kelolapo extends CI_Controller {
 						$dataPotonganUtama = array(
 							'idbukupotongan'			=> $idbukupotongan,
 							'idpo'						=> $idpo['id_produksi_po'],
-							'kode_po'					=> $explode[1],
+							'kode_po'					=> $idpo['kode_po'],
 							'bidang_bahan_potongan'		=> $bidangBahan,
 							'warna_potongan'			=> $post['warna'][$key].$refpo,
 							'kode_bahan_potongan'		=> $post['kodeBahan'][$key].$refpo,
@@ -1029,7 +1030,7 @@ class Kelolapo extends CI_Controller {
 						$dataPotonganVariasi = array(
 							'idbukupotongan'				=>  $idbukupotongan,
 							'idpo'							=> $idpo['id_produksi_po'],
-							'kode_po'						=>	$explode[1],
+							'kode_po'						=>	$idpo['kode_po'],
 							'bidang_bahan_potongan'			=>	$bidangBahanVar,
 							'warna_potongan'				=>	$post['warnaVar'][$key].$refpo,
 							'kode_bahan_potongan'			=>	$post['kodeBahanVar'][$key].$refpo,
