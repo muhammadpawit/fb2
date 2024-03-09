@@ -915,10 +915,13 @@ class Kelolapo extends CI_Controller {
 	public function bukupotonganTambahOnCreate($value='')
 	{
 		$post = $this->input->post();	
-		//pre($post);
+		
 
 		if(isset($post['namaPo'])){
-			$explode = explode('-',$post['namaPo']);
+			$dapetinpo = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['namaPo']));
+			$ponya = $dapetinpo['nama_po'].'-'.$dapetinpo['kode_po'];
+			$explode = explode('-',$ponya);
+			// pre($explode);
 			$po2022celana = substr($explode[1], 6);
 			if(isset($post['refPO'])){
 				if(!empty($post['refPO'])){
