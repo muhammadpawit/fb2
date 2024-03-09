@@ -1147,10 +1147,7 @@ class Kelolapo extends CI_Controller {
 		$post = $this->input->post();
 		$jumBl=0;
 		$jumBls=0;
-		$dapetinpo = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['namaPo']));
-		$ponya = $dapetinpo['nama_po'].'-'.$dapetinpo['kode_po'];
-		$explode = explode('-',$ponya);
-		// $explode = explode('-',$post['namaPo']);
+		$explode = explode('-',$post['namaPo']);
 		$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
 		$po2022celana = substr($explode[1], 6);
 		//pre(substr($explode[1], 6));
