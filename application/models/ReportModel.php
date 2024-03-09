@@ -741,8 +741,15 @@ class ReportModel extends CI_Model {
 			$rijek=$rjpot['total'];
 		}
 
+		$bangke=0;
+		$sql_bangke="SELECT COALESCE(sum(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt WHERE kode_po='$kodepo' ";	
+		$rbangke=$this->GlobalModel->QueryManualRow($sql_bangke);
+		if(!empty($rbangke)){
+			$bangke=$rbangke['total'];
+		}
 
-		$selisih=($kirim-$potong+$rijek);
+
+		$selisih=($kirim-$potong+$rijek+$bangke);
 
 		return $selisih;
 
