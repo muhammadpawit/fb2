@@ -217,8 +217,9 @@ $(document).on('change', '#poSelect', function(){
     $('#listbahanutama').empty();
     $('#listbahan tr').detach();
     var poid = $(this).children("option:selected").val();
+    console.log(poid);
     var explode = poid.split("-");
-    console.log(explode[1]);
+    // console.log(explode[1]);
     var i=0;
     $('#item_table').empty();
     var poid = $(this).children("option:selected").val();

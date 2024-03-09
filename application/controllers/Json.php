@@ -113,7 +113,8 @@ class Json extends CI_Controller {
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
 			$hasil[]=array(
-				'id'=>$row['nama_po'].'-'.$row['kode_po'],
+				// 'id'=>$row['nama_po'].'-'.$row['kode_po'],
+				'id'=>$row['id_produksi_po'],
 				'text'=>$row['kode_po'].' '.$row['serian'],
 			);
 		}
@@ -189,9 +190,11 @@ class Json extends CI_Controller {
 		$setorjahit=0;
 		$stokfinishing=0;
 		$rijek=0;
+		$bangke=0;
 		if(!empty($allpos)){
 			foreach($allpos as $p){
 				$selisih=$this->ReportModel->selisih($p['kode_po']);
+				$bangke=$this->ReportModel->bangke($p['kode_po']);
 				// $potongan="<a href='".BASEURL.'kelolapo/bukupotonganDetail/'.$p['kode_po']."'>".$this->ReportModel->getpcs($p['kode_po'],1)."</a>";
 				// $pengecekan="<a href='".BASEURL.'kelolapo/pengecekanpotongandetail/'.$p['kode_po']."'>".$this->ReportModel->getpcs($p['kode_po'],2)."</a>";
 				// $sablon="<a href='".BASEURL.'kelolapo/pengecekanpotongandetail/'.$p['kode_po']."'>".$this->ReportModel->getpcsK($p['kode_po'],"SABLON","KIRIM")."</a>";
@@ -220,6 +223,7 @@ class Json extends CI_Controller {
 					$kirimgudang,
 					$rijek,
 					$selisih,
+					$bangke,
 				);
 				$nomors++;
 			}
