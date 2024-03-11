@@ -235,7 +235,8 @@ $(document).on('change', '#poSelect', function(){
        }
     });
    $('#listbahan').empty();
-    $.post( "<?php echo BASEURL.'Kelolapo/searchPObahan' ?>",{kodepo: explode[1] }).done(function( json ) {
+    $.post( "<?php echo BASEURL.'Kelolapo/searchPObahan' ?>",{kodepo: poid }).done(function( json ) {
+    //$.post( "<?php echo BASEURL.'Kelolapo/searchPObahan' ?>",{kodepo: explode[1] }).done(function( json ) {
        console.log(json);
        if(json==''){
         var html='';
