@@ -50,7 +50,7 @@
                         <th>Kirim Gudang</th>
                          <th>Rijek</th>
                          <th>Selisih</th>
-                         <th>Bangke</th>
+                         <!-- <th>Bangke</th> -->
                   </tr>
                 </thead>
                 <tbody>
