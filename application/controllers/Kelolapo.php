@@ -3118,7 +3118,7 @@ class Kelolapo extends CI_Controller {
 	public function bukupotonganEditOnUpdateRef($value='')
 	{
 		$post = $this->input->post();
-		//pre($post);
+		pre($post);
 		$jumBl=0;
 		$jumBls=0;
 		$explode = explode('-',$post['namaPo']);
