@@ -1151,7 +1151,7 @@ class Kelolapo extends CI_Controller {
 		$explode = explode('-',$post['namaPo']);
 		$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$explode[1]));
 		$po2022celana = substr($explode[1], 6);
-		//pre(substr($explode[1], 6));
+		pre($post);
 		updateDataProdPO(2,$explode[1]);
 			if(isset($post['bidangBahan'])){
 				$this->GlobalModel->deleteData('konveksi_buku_potongan_utama',array('kode_po'=>$explode[1]));
