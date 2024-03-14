@@ -213,7 +213,7 @@ class Json extends CI_Controller {
 				$rijek=$this->ReportModel->pcsRijek($p['kode_po'],null,null);
 				$output['data'][]=array(
 					$nomors,
-					strtoupper($p['kode_po']),
+					!empty($p['keterangan']) ? strtoupper($p['keterangan']):strtoupper($p['kode_po']),
 					$potongan,
 					$pengecekan,
 					$sablon,
