@@ -1057,7 +1057,7 @@ class Kelolapo extends CI_Controller {
 					$this->db->update('konveksi_buku_potongan',$up,$where);
 				}*/
 
-				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ" OR $explode[0]=="BKK"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
 						'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
@@ -3118,7 +3118,7 @@ class Kelolapo extends CI_Controller {
 	public function bukupotonganEditOnUpdateRef($value='')
 	{
 		$post = $this->input->post();
-		pre($post);
+		// pre($post);
 		$jumBl=0;
 		$jumBls=0;
 		$explode = explode('-',$post['namaPo']);
@@ -3169,7 +3169,7 @@ class Kelolapo extends CI_Controller {
 				'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
 			);
 			//$this->GlobalModel->updateData('konveksi_buku_potongan',array('id_potongan'=>$post['id_potongan']),$dataInsert);
-				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){
+				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ" OR $explode[0]=="BKK"){
 					$up=array(
 						'hasil_lusinan_potongan'			=> (($jumBls*$post['jumlahGambar'])/12),
 						'hasil_pieces_potongan'				=> (($jumBls*$post['jumlahGambar'])/12) * 12,
