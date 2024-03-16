@@ -42,13 +42,14 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="tambahan()">Tambahan</button>
 		</div>
 	</div>
 </div>
 <form method="post" action="<?php echo $action?>">
 <div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered nosearch">
+		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>No</th>
@@ -62,7 +63,8 @@
 					<th>Keterangan</th>
 				</tr>
 			</thead>
-			<tbody>
+			<?php $buku=1; ?>
+			<tbody id="listajuan">
 				<input type="hidden" name="total" value="<?php echo $totals?>">
 				<input type="hidden" name="saving" value="<?php echo $savings?>">
 				<input type="hidden" name="nominal" value="<?php echo $nominals?>">
@@ -91,9 +93,14 @@
 						<td><?php echo $p['total']?></td>
 						<td></td>
 					</tr>
+					<?php $buku++; ?>
 					<?php } ?>
 				<?php } ?>
-				<tr>
+				
+			</tbody>
+			<tfoot>
+				
+			<tr>
 					<td colspan="7"><b></b></td>
 					<td></td>
 					<td></td>
@@ -113,7 +120,7 @@
 					<td><b><?php echo $nominal?></b></td>
 					<td></td>
 				</tr>
-			</tbody>
+			</tfoot>
 		</table>
 	</div>
 </div>
@@ -175,4 +182,81 @@
 		}
 		location =url;
 	}
+
+
+	let i=<?php echo $buku ?>;
+	function tambahan() {
+    	var html='<tr>';
+        html+='<td>'+i+'</td>';
+        html+='<td><input type="text" name="products['+i+'][tanggal]" class="form-control datepicker" required="required"</td>';
+        
+        html+='<td><input type="text" name="products['+i+'][kode_po]" class="" required="required"></td>';
+        html+='<td><input type="text" name="products['+i+'][dz]" onblur="jumlahpo('+i+')" class="" required="required" value="0" ></td>';
+        html+='<td><input type="text" name="products['+i+'][pcs]" onblur="udz('+i+')" class="" required="required" value="0"></td>';
+		html += '<td><select name="products['+i+'][perkalian]">';
+		html += '<option value="1">100%</option>';
+		html += '<option value="0.5">50%</option>';
+		html += '<option value="0">0%</option>';
+		html += '</select></td>';
+		html+='<td width="50"><input type="text" name="products['+i+'][harga]" onblur="hargatotal('+i+')" required="required" value="0"></td>';
+		html+='<td width="50"><span class="pendapatan'+i+'"></span></td>';
+        html+='<td><i class="fa fa-trash remove"></i></td>';
+        html+='</tr>';
+        $("#listajuan").append(html);
+        //$(".select2bs4").select2();
+        i++;
+
+		$.fn.datepicker.defaults.format = "yyyy-mm-dd";
+		$('.datepicker').datepicker({
+			
+		autoclose: true
+		});
+  	}
+
+	function jumlahpo(k){
+		total=0;
+        grand=0;
+            if(i > 0){
+                j=0;
+                while(j < i){
+                    dz=$("input[name='products["+k+"][dz]']").val();
+                    $("input[name='products["+k+"][pcs]']").val((dz*12));
+                    j++;
+                }
+            }
+	}
+
+	function udz(k){
+		total=0;
+        grand=0;
+            if(i > 0){
+                j=0;
+                while(j < i){
+                    dz=$("input[name='products["+k+"][pcs]']").val();
+                    $("input[name='products["+k+"][dz]']").val((dz/12));
+                    j++;
+                }
+            }
+	}
+
+	function hargatotal(k){
+		total=0;
+        grand=0;
+            if(i > 0){
+                j=0;
+                while(j < i){
+                    harga=$("input[name='products["+k+"][harga]']").val();
+					pcs=$("input[name='products["+k+"][pcs]']").val();
+                    $('.pendapatan'+k+'').html(Number(harga)*Number(pcs));
+                    j++;
+                }
+            }
+	}
+
+	$(document).on('click', '.remove', function(){
+
+			$(this).closest('tr').remove();
+
+		});
+
 </script>

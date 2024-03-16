@@ -562,7 +562,7 @@ class Pembayaran extends CI_Controller {
 
 	public function gajitimpotongsave(){
 		$data=$this->input->post();
-		//pre($data);
+		// pre($data);
 		if(isset($data['products'])){
 			$insert=array(
 				'tanggal'=>date('Y-m-d'),
@@ -596,8 +596,8 @@ class Pembayaran extends CI_Controller {
 					'idgaji'=>$id,
 					'tanggal'=>date('Y-m-d',strtotime($p['tanggal'])),
 					'kode_po'=>$p['kode_po'],
-					'jml_dz'=>$p['lusin'],
-					'jml_pcs'=>$p['pcs'],
+					'jml_dz'=>isset($p['lusin']) ? $p['lusin'] : $p['jml_dz'],
+					'jml_pcs'=> isset($p['pcs']) ? $p['pcs'] : $p['jml_pcs'],
 					'harga'=>($p['perkalian']*$p['harga']),
 					//'total'=>($p['total']),
 					'total'=>($p['perkalian']*$p['harga']*$p['pcs']),
