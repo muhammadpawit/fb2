@@ -115,7 +115,7 @@
                                     <?php $jumPb += $utama['pemakaian_bahan_potongan']; ?>
                                     <?php $jumBl += $utama['banyak_lapis_potongan']; ?>
                                 <?php endforeach ?>
-                                    <tr>
+                                    <tr style="font-weight: bold;background-color:yellow">
                                         <td colspan="5">Jumlah</td>  
                                         <td><?php echo $jumPb ?></td>
                                         <?php if ($potonganHead['nama_po'] == "HGK"){ ?>
@@ -192,7 +192,7 @@
                                 <?php $jumPbv += $variasi['pemakaian_bahan_potongan']; ?>
                                 <?php $jumBlv += $variasi['banyak_lapis_potongan']; ?>
                                 <?php endforeach ?>
-                                <tr>
+                                <tr style="font-weight: bold;background-color:yellow">
                                     <td colspan="5">Jumlah</td>  
                                     <td><?php echo $jumPbv ?></td>
                                     <!-- <td><?php echo ($jumBlv); ?></td> -->
