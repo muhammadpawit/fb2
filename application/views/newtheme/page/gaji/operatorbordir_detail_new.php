@@ -184,6 +184,17 @@
 					<td>Mandor Malam</td>
 					<td><?php echo ($this->ReportModel->getMandor($gaji['id'],2))?></td>
 				</tr>
+				<tr>
+					<td colspan="2">
+						<!-- <b class="besar">Catatan :</b><br> -->
+						<b class="besar">
+							1.Operator sudah sistem borongan<br>
+							2.Gaji dihitung dari Sabtu ke Jum'at<br>
+							3.Rumus perhitungan gaji borongan operator bordir<br>
+							<b>Rumus : Jumlah yang di bordir X Stich X Tarif X Jumlah persentase (%)</b>
+						</b>
+					</td>
+				</tr>
 			</table>
 		</div>
 	</div>

@@ -137,9 +137,9 @@ function komplit(coba){
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][qty]" value="'+details_value['jumlah_naik_mesin']+'">'+details_value['jumlah_naik_mesin']+'</td>';
           html += '<td><input type="hidden" class="form-control" name="products['+coba+'][totalsticth]" value="'+totalsticth.toFixed(0)+'">'+totalsticth.toFixed(0)+'</td>';
 
-          html += '<td><input type="hidden" class="form-control" name="products['+coba+'][harga]" value="'+harga.toFixed(0)+'">'+harga.toFixed(0)+'</td>';
+          html += '<td><input type="text" class="form-control" name="products['+coba+'][harga]" onblur="hargatotal('+coba+')" value="'+harga.toFixed(0)+'"></td>';
 
-          html += '<td><input type="hidden" class="form-control" name="products['+coba+'][total]" value="'+total.toFixed(0)+'">'+total.toFixed(0)+'</td>';
+          html += '<td><input type="text" class="form-control" name="products['+coba+'][total]" value="'+total.toFixed(0)+'"></td>';
           
           html += '<td><input type="text" class="form-control" name="products['+coba+'][ket]"></td>';
 
@@ -166,5 +166,11 @@ function komplit(coba){
 
 }
 
-
+function hargatotal(k){
+  
+  harga=$("input[name='products["+k+"][harga]']").val();
+	pcs=$("input[name='products["+k+"][qty]']").val();
+  $("input[name='products["+k+"][total]']").val(Number(harga)*Number(pcs));
+  // alert(pcs);
+	}
  </script>      

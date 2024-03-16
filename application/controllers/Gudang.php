@@ -775,9 +775,28 @@ class Gudang extends CI_Controller {
 		}else{
 			$kode_po=null;
 		}
-		$sql="SELECT * FROM barangkeluar_harian WHERE hapus=0 ";
-		if(!empty($tanggal1)){
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+
+		if(isset($get['id_bahan'])){
+			$id_bahan=$get['id_bahan'];
+		}else{
+			$id_bahan=null;
+		}
+
+		$data['persediaan']= $this->GlobalModel->Getdata('product',array('hapus'=>0));
+		$sql="SELECT * FROM barangkeluar_harian  ";
+		if(!empty($id_bahan)){
+			$sql .=" LEFT JOIN barangkeluar_harian_detail ON barangkeluar_harian_detail.idbarangkeluar=barangkeluar_harian.id ";
+			$sql .=" WHERE barangkeluar_harian.hapus=0 AND barangkeluar_harian_detail.id_persediaan='".$id_bahan."' ";
+		}else{
+			$sql .=" WHERE hapus=0 ";
+		}
+		
+		if(!empty($id_bahan)){
+
+		}else{
+			if(!empty($tanggal1)){
+				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
 		}
 
 		if(!empty($kode_po)){
@@ -785,10 +804,10 @@ class Gudang extends CI_Controller {
 		}
 
 		if(!empty($jenis)){
-			$sql.=" AND jenis='".$jenis."' ";
+			$sql.=" AND barangkeluar_harian.jenis='".$jenis."' ";
 		}
 
-		$sql.=" ORDER BY id DESC";
+		$sql.=" ORDER BY barangkeluar_harian.id DESC";
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['kode_po']=$kode_po;
