@@ -235,7 +235,7 @@
 								$color=$warna;
 							}
 						?>
-					<?php if($r['po'] > 0){ ?>
+					<?php //if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -255,7 +255,7 @@
 	                    $pcs1+=($r['hppdz']);
 	                    $pcs2+=($r['hpppcs']);
 	                ?>
-	                <?php } ?>
+	                <?php //} ?>
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
 	                    <td><b><?php echo number_format($po)?></b></td>
