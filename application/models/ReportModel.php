@@ -161,7 +161,7 @@ class ReportModel extends CI_Model {
 		return $h;
 	}
 
-	public function count_monitoring_kirimgudangOnline($jenis,$tgl1,$tgl2){
+	public function count_monitoring_kirimgudangLangsung($jenis,$tgl1,$tgl2){
 		$h=0;
 		$data=array('total'=>0);
 		$h=0;
@@ -180,7 +180,7 @@ class ReportModel extends CI_Model {
 		return $h;
 	}
 
-	public function pcs_monitoring_kirimgudangOnline($jenis,$tgl1,$tgl2){
+	public function pcs_monitoring_kirimgudangLangsung($jenis,$tgl1,$tgl2){
 		$h=0;
 		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";
 		if(!empty($tgl1)){
@@ -194,7 +194,7 @@ class ReportModel extends CI_Model {
 		return $h;
 	}
 
-	public function pcs_monitoring_kirimgudang_hargaOnline($jenis,$tgl1,$tgl2){
+	public function pcs_monitoring_kirimgudang_hargaLangsung($jenis,$tgl1,$tgl2){
 		$h=0;
 		$sql="SELECT COALESCE(SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";	
 		if(!empty($tgl1)){

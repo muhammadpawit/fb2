@@ -429,9 +429,9 @@ class Monitoring extends CI_Controller {
 				'no'=>$i,
 				'id'=>$arp['id'],
 				'type'=>$arp['type'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudangOnline($arp['id'],$tanggal1,$tanggal2),
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudangOnline($arp['id'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudangOnline($arp['id'],$tanggal1,$tanggal2),
+				'po'=>$this->ReportModel->count_monitoring_kirimgudangLangsung($arp['id'],$tanggal1,$tanggal2),
+				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudangLangsung($arp['id'],$tanggal1,$tanggal2)/12,
+				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudangLangsung($arp['id'],$tanggal1,$tanggal2),
 				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_hargaOnline($arp['id'],$tanggal1,$tanggal2),
 			);
 			$i++;
