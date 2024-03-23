@@ -80,7 +80,7 @@
                           <?php 
                             if (isset($data->data)) {
                               $nilaiData = $data->data;
-                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                              echo 'debug '.number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
                             } else {
                                // echo "Tidak ada data yang ditemukan.";
                             }
