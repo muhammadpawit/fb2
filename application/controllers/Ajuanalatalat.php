@@ -23,7 +23,7 @@ class Ajuanalatalat extends CI_Controller {
 		$data['title'].=' Mingguan ';
 		$get=$this->input->get();
 		$url='';
-		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat order by id desc limit 1");
+		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat where hapus=1 order by id desc limit 1");
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 			$url.='&tanggal1='.$tanggal1;
