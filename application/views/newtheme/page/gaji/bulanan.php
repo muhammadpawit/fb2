@@ -73,6 +73,7 @@
 					<th>No</th>
 					<th>Tanggal</th>
 					<th>Nama Karyawan</th>
+					<th>Saving Gaji Kontrak</th>
 					<th>Total</th>
 					<th></th>
 				</tr>
@@ -83,6 +84,7 @@
 						<td><?php echo $g['no']?></td>
 						<td><?php echo $g['tanggal']?></td>
 						<td><?php echo $g['nama']?></td>
+						<td><?php echo number_format($g['gantungan_gaji'])?></td>
 						<td><?php echo number_format($g['total'])?></td>
 						<td>
 							<a href="<?php echo $g['slip']?>" class="btn btn-info btn-sm text-white">Slip</a>
