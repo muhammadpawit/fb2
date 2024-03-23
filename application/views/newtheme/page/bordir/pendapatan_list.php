@@ -108,26 +108,8 @@
                       <td align="right"><?php echo number_format($t)?></td>
                       <td align="right"><?php echo number_format($g015)?></td>
                       <td align="right"><?php echo number_format($g018)?></td>
-                      <!-- <td align="center" colspan="<?php echo count($luar)?>">
-                          <?php //echo number_format($g02)?> 
-                      </td> -->
-                      <?php foreach($luar as $b){?>
-                      <td align="right">
-                        <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php 
-                            $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'],$p['shift'],$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
-                            $data = json_decode($hasil);
-                            ?>
-                          <?php 
-                            if (isset($data->data)) {
-                              $nilaiData = $data->data;
-                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
-                              $total_g02 += $nilaiData;
-                            } else {
-                               // echo "Tidak ada data yang ditemukan.";
-                            }
-                          //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
-                        <?php //} ?>
+                      <td align="center" colspan="<?php echo count($luar)?>">
+                          <?php echo number_format($g02)?> 
                       </td>
                       <!-- <td></td> -->
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
