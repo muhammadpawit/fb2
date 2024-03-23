@@ -53,7 +53,10 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $rowspan=0;?>
+                <?php 
+                $rowspan=0;
+                $total_g02 = 0; // Initialize total variable
+                ?>
                 <?php foreach($products as $p){?>
                     <?php 
                       $mesin[]=$p['nomesin'];
@@ -80,33 +83,36 @@
                           <?php 
                             if (isset($data->data)) {
                               $nilaiData = $data->data;
-                              echo 'debug '.number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                              $total_g02 += $nilaiData;
                             } else {
                                // echo "Tidak ada data yang ditemukan.";
                             }
                           //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                         <?php //} ?>
                       </td>
-                    <?php } ?>
-                      <td align="right"><?php echo number_format($p['pendapatan'])?></td>
-                      <td align="right">
-                        <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
-                        <?php if($j%2==1){?>
-                        <?php echo number_format($p['jumlah']); ?>.
-                        <?php } ?>
-                      </td>
-                      <td><?php //echo ?></td>
-                    </tr>
-                    <?php $j++;?>
-                  <?php }?>
+                      <?php } ?>
+                        <td align="right"><?php echo number_format($p['pendapatan'])?></td>
+                        <td align="right">
+                          <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
+                          <?php if($j%2==1){?>
+                          <?php echo number_format($p['jumlah']); ?>.
+                          <?php } ?>
+                        </td>
+                        <td><?php //echo ?></td>
+                      </tr>
+                      <?php $j++;?> 
+                    <?php }?>
                     <tr>
                       <td colspan="2"><b>Total</b></td>
                       <td align="right"><?php echo number_format($t)?></td>
                       <td align="right"><?php echo number_format($g015)?></td>
                       <td align="right"><?php echo number_format($g018)?></td>
-                      <td align="center" colspan="<?php echo count($luar)?>">
-                          <?php echo number_format($g02)?> 
-                      </td>
+                      <!-- <td align="center" colspan="<?php echo count($luar)?>">
+                          <?php //echo number_format($g02)?> 
+                      </td> -->
+                      <td align="right"><?php echo number_format($total_g02)?></td>
+                      <td align="right"><?php echo number_format($total_g02)?></td>
                       <!-- <td></td> -->
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
