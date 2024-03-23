@@ -1795,7 +1795,16 @@ class ReportModel extends CI_Model {
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
 		WHERE a.hapus=0 and a.jenis=2 ";
-		$sql.= " AND a.mesin_bordir='$nomor' AND shift='$shift' ";
+		
+		if(!empty($nomor)){
+			$sql.= " AND a.mesin_bordir='$nomor'  ";
+		}
+
+		if(!empty($shift)){
+			$sql.= " AND shift='$shift' ";
+		}
+
+
 		if(!empty($tanggal1)){
 			//$sql.=" AND DATE(a.created_date)='".$tanggal1."'";
 			$sql.=" AND DATE(a.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
