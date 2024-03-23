@@ -1,6 +1,58 @@
 <form method="POST" action="<?php echo $action?>">
 <input type="hidden" name="bagian" value="<?php echo $type ?>">
 <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="">Tanggal</label>
+            <input type="text" size="10" class="form-control datepicker" name="utama[0][tanggal]" required readonly>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="">Nama Barang</label>
+            <select type="text" data-dropup-auto="false" data-size="5" class="form-control barang select2bs4" data-live-search="true" data-title="pilih item" name="utama[0][nama_item]" required><option value="">Pilih Barang / Item</option><?php foreach ($products as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['product_id'] ?>"><?php echo strtolower($item['nama']) ?></option><?php } ?></select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Kebutuhan Barang</label>
+            <input type="text" size="10" class="form-control kebutuhan" name="utama[0][kebutuhan]" required>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Stok Barang</label>
+            <input type="text" size="10" class="form-control stok" id="stok" name="utama[0][stok]" required readonly>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="">Satuan Barang</label>
+            <input type="text" size="10" class="form-control" id="satuan" name="utama[0][satuan]" required readonly>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="">Supplier</label>
+            <select type="text" data-dropup-auto="false" data-size="5" class="form-control select2bs4" data-live-search="true" data-title="pilih item" name="utama[0][supplier_id]" required><option value="0">Pilih Supplier</option><?php foreach ($supplier as $key => $item) { ?><option value="<?php echo $item['id'] ?>"><?php echo strtolower($item['nama']) ?></option><?php } ?></select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="">Keterangan</label>
+            <textarea class="form-control" name="utama[0][keterangan]"></textarea>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="">Pembayaran</label>
+            <select name="utama[0][pembayaran]" class="form-control" required><option value="-"></option><option value="1">Cash</option><option value="2">Transfer</option></select>
+        </div>
+    </div>
+</div>
+<div class="row">
             <div class="col-md-12">
               <table class="table table-bordered">
                 <thead>
@@ -19,11 +71,11 @@
                 </tbody>
               </table>
               <div class="form-group">
-                <button type="submit" class="btn btn-info">Simpan</button>
+                <!-- <button type="submit" class="btn btn-info">Simpan</button> -->
               </div>
             </div>
 </div>
-<div class="row">
+<div class="row" hidden>
     <div class="col-md-12">
             <table class="table table-bordered" id="itemajaun">
                 <tr>
@@ -92,8 +144,11 @@
               .done(function( data ) {
                 var obj = JSON.parse(data);
                 console.log(obj);
-                dai.find(".satuan").val(obj.satuan);
-                dai.find(".stok").val(obj.quantity);
+                // dai.find(".satuan").val(obj.satuan);
+                // dai.find(".stok").val(obj.quantity);
+                // dai.find(".product_id").val(obj.product_id);
+                $("#satuan").val(obj.satuan);
+                $("#stok").val(obj.quantity);
                 dai.find(".product_id").val(obj.product_id);
             });
         });
@@ -135,7 +190,7 @@ var i=0;
 
     });
 
-    $(document).on('change', '.select2bs4', function(e){
+    $(document).on('change', '.barang', function(e){
             var dataItem = $(this).find(':selected').data('item');
             //alert(dataItem);
             var type = '1';
@@ -144,6 +199,7 @@ var i=0;
                 var obj = JSON.parse(data);
                 console.log(obj);
                 $("#stok").val(obj.quantity);
+                $("#satuan").val(obj.satuan);
                 $("#stok").attr("readonly",true);
             });
         });

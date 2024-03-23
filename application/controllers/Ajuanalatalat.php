@@ -282,8 +282,8 @@ class Ajuanalatalat extends CI_Controller {
 
 	function save_ajuanalat(){
 		$data = $this->input->post();
-		//pre($data);
-		foreach($data['products'] as $p){
+		pre($data);
+		foreach($data['utama'] as $p){
 			$ajuan =($p['kebutuhan']-$p['stok']);
 			$insert=array(
 				'id_persediaan' => $p['product_id'],
@@ -298,7 +298,30 @@ class Ajuanalatalat extends CI_Controller {
 				'hapus'			=> 0,
 			);
 			$this->db->insert('ajuanalatalat', $insert);
+			$id=$this->db->insert_id();
+			if(isset($data['products'])){
+				foreach($data['products'] as $p){
+					$insert=array(
+						'idajuan'=>$id,
+						'tanggal'=>$data['tanggal'],
+						'tanggal2'=>$data['tanggal'],
+						'kode_po'=>$p['kode_po'],
+						'jumlah_po'=>$p['jumlah_po'],
+						'rincian_po'=>$p['rincian_po'],
+						// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
+						// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
+						'jml_pcs'=>$p['jml_pcs'],
+						'jml_dz'=>$p['jml_dz'],
+						'keterangan'=>$p['keterangan'],
+						'hapus'=>0,
+					);
+					$this->db->insert('ajuanalatalat_detail',$insert);
+				}
+				// $this->db->update('ajuanalatalat',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+			}
 		}
+		
+
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect($this->url.$data['bagian']);
 	}
