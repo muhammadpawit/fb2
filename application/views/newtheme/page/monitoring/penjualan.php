@@ -64,7 +64,7 @@
 
                 <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0; ?>
                 <?php foreach($rekap as $r){?>
-					<?php //if($r['po'] > 0){ ?>
+					<?php if($r['po'] > 0){ ?>
                 <tr>
                     <td><?php echo $nom++?></td>
                     <td><?php echo $r['type']?></td>
@@ -73,7 +73,7 @@
                     <td><?php echo number_format($r['pcs'])?></td>
                     <td><?php echo number_format($r['total'])?></td>
                 </tr>
-				<?php //} ?>
+				<?php } ?>
                 <?php
                     $po+=($r['po']);
                     $dz+=($r['dz']);
@@ -119,7 +119,7 @@
 								$color=$warna;
 							}
 						?>
-					<?php //if($r['po'] > 0){ ?>
+					<?php if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -130,7 +130,7 @@
 	                    <td><?php echo number_format($r['hppdz'],2)?></td>
 	                    <td><?php echo number_format($r['hpppcs'])?></td>
 	                </tr>
-					<?php //} ?>
+					<?php } ?>
 	                <?php
 	                    $po+=($r['po']);
 	                    $dz+=($r['dz']);
@@ -176,7 +176,7 @@
 								$color=$warna;
 							}
 						?>
-					<?php //if($r['po'] > 0){ ?>
+					<?php if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -187,7 +187,7 @@
 	                    <td><?php echo number_format($r['hppdz'],2)?></td>
 	                    <td><?php echo number_format($r['hpppcs'])?></td>
 	                </tr>
-					<?php //} ?>
+					<?php } ?>
 	                <?php
 	                    $po+=($r['po']);
 	                    $dz+=($r['dz']);
@@ -235,7 +235,7 @@
 								$color=$warna;
 							}
 						?>
-					<?php //if($r['po'] > 0){ ?>
+					<?php if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -246,7 +246,7 @@
 	                    <td><?php echo number_format($r['hppdz'],2)?></td>
 	                    <td><?php echo number_format($r['hpppcs'])?></td>
 	                </tr>
-					<?php //} ?>
+					<?php } ?>
 	                <?php
 	                    $po+=($r['po']);
 	                    $dz+=($r['dz']);
