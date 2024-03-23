@@ -113,7 +113,6 @@
                       </td> -->
                       <?php foreach($luar as $b){?>
                       <td align="right">
-                        <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
                           <?php 
                             $hasil = json_encode($this->ReportModel->total02_array(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
                             $data = json_decode($hasil);
@@ -127,9 +126,8 @@
                                // echo "Tidak ada data yang ditemukan.";
                             }
                           //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
-                        <?php //} ?>
                       </td>
-
+                    <?php } ?>
                       <!-- <td></td> -->
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
