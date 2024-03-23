@@ -23,7 +23,7 @@ class Ajuanalatalat extends CI_Controller {
 		$data['title'].=' Mingguan ';
 		$get=$this->input->get();
 		$url='';
-		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat where hapus=0 order by id desc limit 1");
+		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat order by id desc limit 1");
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 			$url.='&tanggal1='.$tanggal1;
@@ -341,6 +341,7 @@ class Ajuanalatalat extends CI_Controller {
 		$data['title']="Ajuan alat-alat ";
 		$data['title'].=$id==1?'Bordir':'Konveksi';
 		$data['prods']=$this->AjuanalatModel->getshowId($id);
+		$data['kd']=$this->GlobalModel->getData('ajuanalatalat_detail',array('hapus'=>0,'idajuan'=>$id));
 		$id_persediaan= $data['prods']['id_persediaan'];
 		//pre($data['prods']);
 		$data['prods_rincian'] =$this->AjuanalatModel->rincian($data['prods'],$id_persediaan);

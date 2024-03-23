@@ -520,6 +520,7 @@ class Gudang extends CI_Controller {
 	public function ajuanmingguantambah(){
 		$data=array();
 		$data['title']='Form Ajuan Alat-alat Kirim PO';
+		$data['typeajuan']	='alat-alat';
 		$data['action']=BASEURL.'Gudang/ajuanmingguansave';
 		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
