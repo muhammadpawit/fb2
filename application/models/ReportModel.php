@@ -691,7 +691,8 @@ class ReportModel extends CI_Model {
 			}
 		if($hasil['total']>0){
 			// return ($hasil['total']-$bangkenya);
-			return ($bangkenya);
+			// return ($bangkenya);
+			return $hasil['total'];
 		}else{
 			$out=0;
 			return $out;
