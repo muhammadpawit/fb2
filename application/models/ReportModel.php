@@ -2267,7 +2267,7 @@ class ReportModel extends CI_Model {
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(tanggal_kirim) ='".$bulan."' and YEAR(tanggal_kirim)='".$tahun."' ";
 		}	
-		$sql.=" AND p.hapus=0 ";
+		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL ";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
