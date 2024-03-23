@@ -139,7 +139,7 @@
 	                    <td><?php echo number_format($r['qtykirimdz'])?></td>
 	                    <td><?php echo number_format($r['qtykirimpcs'])?></td>
 	                    <td><?php echo number_format($r['countsetor'])?></td>
-	                    <td><?php echo number_format($r['qtysetordz'])?></td>
+	                    <td><?php echo number_format($r['qtysetordz'],2)?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                    <td align="center"><?php echo $r['qtykirimpcs']>0?number_format(($r['qtysetorpcs']/$r['qtykirimpcs']*100),2):0 ?> %</td>
 	                </tr>
@@ -159,7 +159,7 @@
 	                    <td><b><?php echo number_format($dz1)?></b></td>
 	                    <td><b><?php echo number_format($pcs1)?></b></td>
 	                    <td><b><?php echo number_format($jmlpo2)?></b></td>
-	                    <td><b><?php echo number_format($dz2)?></b></td>
+	                    <td><b><?php echo number_format($dz2,2)?></b></td>
 	                    <td><b><?php echo number_format($pcs2)?></b></td>
 	                    <td align="center"><b><?php echo $pcs1>0 ? number_format(($pcs2/$pcs1*100),2) :0 ?> %</b></td>
 	                </tr>
