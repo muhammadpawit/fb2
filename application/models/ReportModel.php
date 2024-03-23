@@ -288,7 +288,7 @@ class ReportModel extends CI_Model {
 				$bangkenya=$dbangke->total;
 			}
 		if($hasil['total']>0){
-			return ($bangkenya);
+			return ($hasil['total']);
 		}else{
 			$out=0;
 			return $out;
