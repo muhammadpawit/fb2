@@ -282,7 +282,7 @@ class Ajuanalatalat extends CI_Controller {
 
 	function save_ajuanalat(){
 		$data = $this->input->post();
-		pre($data);
+		// pre($data);
 		foreach($data['utama'] as $p){
 			$ajuan =($p['kebutuhan']-$p['stok']);
 			$insert=array(
