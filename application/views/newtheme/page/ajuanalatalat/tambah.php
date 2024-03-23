@@ -1,6 +1,29 @@
 <form method="POST" action="<?php echo $action?>">
 <input type="hidden" name="bagian" value="<?php echo $type ?>">
 <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Nama PO</th>
+                    <th>Jumlah PO</th>
+                    <th>Rincian PO</th>
+                    <th>Jml Pcs</th>
+                    <th>Jml Dz</th>
+                    <th>Keterangan</th>
+                    <th align="right"><a onclick="tambah()" class="btn btn-info btn-sm text-white"><i class="fa fa-plus"></i></a></th>
+                  </tr>
+                </thead>
+                <tbody id="listajuan">
+                  
+                </tbody>
+              </table>
+              <div class="form-group">
+                <button type="submit" class="btn btn-info">Simpan</button>
+              </div>
+            </div>
+</div>
+<div class="row">
     <div class="col-md-12">
             <table class="table table-bordered" id="itemajaun">
                 <tr>
@@ -88,5 +111,42 @@ $(document).ready(function(){
     
 
 });
+
+
+var i=0;
+  function tambah() {
+    var html='<tr>';
+        html+='<td><input type="text" name="products['+i+'][kode_po]" class="form-control" required="required" value="-"></td>';
+        html+='<td><input type="text" name="products['+i+'][jumlah_po]" class="form-control" required="required" value="0"></td>';
+        html+='<td><textarea cols="50" rows="5" name="products['+i+'][rincian_po]" class="form-control" required="required"></textarea></td>';
+        html+='<td><input type="text" name="products['+i+'][jml_pcs]" class="form-control" required="required" value="0"></td>';
+        html+='<td><input type="text" name="products['+i+'][jml_dz]" class="form-control" required="required" value="0"></td>';
+        html+='<td><textarea cols="50" rows="5" name="products['+i+'][keterangan]" class="form-control" required="required"></textarea></td>';
+        html+='<td><i class="fa fa-trash remove"></i></td>';
+        html+='</tr>';
+        $("#listajuan").append(html);
+        //$(".select2bs4").select2();
+        i++;
+  }
+
+  $(document).on('click', '.remove', function(){
+
+        $(this).closest('tr').remove();
+
+    });
+
+    $(document).on('change', '.select2bs4', function(e){
+            var dataItem = $(this).find(':selected').data('item');
+            //alert(dataItem);
+            var type = '1';
+            $.get( "<?php echo BASEURL.'Ajuanalatalat/cariproduct_stok' ?>", { id: dataItem } )
+              .done(function( data ) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                $("#stok").val(obj.quantity);
+                $("#stok").attr("readonly",true);
+            });
+        });
+
 
  </script>
