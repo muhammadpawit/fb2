@@ -2263,7 +2263,7 @@ class ReportModel extends CI_Model {
 
 	public function pendapatanbulanan($bulan,$tahun,$jenis){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";	
+		$sql="SELECT COALESCE(SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' and mjp.tampil=1 ";	
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(tanggal_kirim) ='".$bulan."' and YEAR(tanggal_kirim)='".$tahun."' ";
 		}	
