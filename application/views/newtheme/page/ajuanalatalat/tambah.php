@@ -10,7 +10,7 @@
     <div class="col-md-4">
         <div class="form-group">
             <label for="">Nama Barang</label>
-            <select type="text" data-dropup-auto="false" data-size="5" class="form-control barang select2bs4" data-live-search="true" data-title="pilih item" name="utama[0][nama_item]" required><option value="">Pilih Barang / Item</option><?php foreach ($products as $key => $item) { ?><option value="<?php echo $item['nama'] ?>" data-item="<?php echo $item['product_id'] ?>"><?php echo strtolower($item['nama']) ?></option><?php } ?></select>
+            <select type="text" data-dropup-auto="false" data-size="5" class="form-control barang select2bs4" data-live-search="true" data-title="pilih item" name="utama[0][product_id]" required><option value="">Pilih Barang / Item</option><?php foreach ($products as $key => $item) { ?><option value="<?php echo $item['product_id'] ?>" data-item="<?php echo $item['product_id'] ?>"><?php echo strtolower($item['nama']) ?></option><?php } ?></select>
         </div>
     </div>
     <div class="col-md-2">
