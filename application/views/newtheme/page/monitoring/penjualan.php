@@ -21,7 +21,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="text-center">
-			<h3>Monitoring Penjualan Langsung & Online </h3>
+			<h3><?php echo $title ?></h3>
 		</div>
 	</div>
 </div>

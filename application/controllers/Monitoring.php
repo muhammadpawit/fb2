@@ -395,7 +395,7 @@ class Monitoring extends CI_Controller {
 
 	public function penjualan() {
 		$data=[];
-		$data['title']='Monitoring Penjualan Online ';
+		$data['title']='Monitoring Penjualan Langsung & Online  ';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
