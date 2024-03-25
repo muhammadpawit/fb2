@@ -24,7 +24,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 <table>
     <tr align="center">
         <td colspan="10">
-            <h4 class="m-0">FORM AJUAN HARIAN FORBOYS<br>BAGIAN : <?php if ($parent['kategori'] == 1) {
+            <h4 class="m-0">FORM AJUAN <?php echo $mingguan ?> FORBOYS<br>BAGIAN : <?php if ($parent['kategori'] == 1) {
 
                                    echo "SABLON";
 
