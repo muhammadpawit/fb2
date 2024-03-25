@@ -1129,12 +1129,12 @@ class Gudang extends CI_Controller {
 			$this->load->view($this->page.'gudang/pengajuan/view_excel',$data);
 		}else{
 			if(!isset($get['list_skb'])){
-				$data['title']='Pengajuan Harian';
+				$data['title']='Pengajuan';
 				$data['tambah']=BASEURL.'Gudang/pengajuanadd';
 				$data['page']=$this->page.'gudang/pengajuan/view';		
 				$this->load->view($this->page.'main',$data);
 			}else{
-				$data['title']='Pengajuan Harian Sukabumi (Non-pembelian)';
+				$data['title']='Pengajuan Sukabumi (Non-pembelian)';
 				$data['page']=$this->page.'gudang/pengajuan/list_ajuan_skb';
 				$data['tambah']=BASEURL.'Gudang/pengajuanadd?&sukabumi=true';
 				$this->load->view($this->page.'main',$data);
@@ -1297,6 +1297,7 @@ class Gudang extends CI_Controller {
 		$viewData['item_tf'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>2,'idpengajuan'=>$kode,'hapus'=>0));
 
 		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
+		$viewData['mingguan'] = !empty($viewData['parent']['from_mingguan']) ? 'Mingguan':'Harian';
 		$adminkeu=null;
 		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>24));
 		$viewData['adminkeu']=$adminkeu['nama'];

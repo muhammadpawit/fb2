@@ -28,7 +28,7 @@
 
                         <div class="text-center">
 
-                            <h4 class="m-0">FORM AJUAN HARIAN FORBOYS<br>BAGIAN : <?php if ($parent['kategori'] == 1) {
+                            <h4 class="m-0">FORM AJUAN <?php echo $mingguan ?> FORBOYS<br>BAGIAN : <?php if ($parent['kategori'] == 1) {
 
                                    echo "SABLON";
 
