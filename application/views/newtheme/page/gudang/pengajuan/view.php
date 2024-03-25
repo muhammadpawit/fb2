@@ -93,12 +93,25 @@
 
                                 <td><?php echo date('d F Y',strtotime($us['tanggal'])) ?></td>
 
-                                <td><?php if ($us['kategori'] == 1) {
-
+                                <td>
+                                  <?php 
+                                  
+                                  if ($us['kategori'] == 1) {
                                    echo "Sablon";
+                                  }else if($us['kategori'] == 2) { 
+                                    echo "Bordir"; 
+                                  } else if($us['kategori'] == 3) {
+                                    echo "Konveksi";
+                                  }else if($us['kategori'] == 4) {
+                                    echo "Sukabumi";
+                                  }
 
-                                } else if($us['kategori'] == 2) { echo "Bordir"; } else if($us['kategori'] == 3) {echo "Konveksi";}
-                                else if($us['kategori'] == 4) {echo "Sukabumi";}?></td>
+                                  if(!empty($us['from_mingguan'])){
+                                    echo ' Mingguan';
+                                  }
+                                  ?>
+                                
+                              </td>
 
                                 <td><?php echo number_format($us['cash'])?></td>
                                 <td><?php echo number_format($us['transfer'])?></td>
