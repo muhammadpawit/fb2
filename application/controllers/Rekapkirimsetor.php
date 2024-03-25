@@ -130,19 +130,19 @@ class Rekapkirimsetor extends CI_Controller {
 		}else{
 			foreach(nama_po() as $p){
 				if(!empty($tanggal1)){
-					$jml=$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2);
+					$jml=$this->KirimsetorModel->rekapjumlah_tglklo($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2);
 					$data['products'][]=array(
 						'no'=>$no++,
 						'nama'=>$p['nama_jenis_po'],
 						'jmlkirim'=>$jml,
-						'kirimdz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2))/12,
-						'kirimpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2)),
-						'jmlsetor'=>$this->KirimsetorModel->rekapjumlah_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2),
-						'setordz'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2))/12,
-						'setorpcs'=>($this->KirimsetorModel->rekappcs_tgl($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2)),
+						'kirimdz'=>($this->KirimsetorModel->rekappcs_tglklo($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2))/12,
+						'kirimpcs'=>($this->KirimsetorModel->rekappcs_tglklo($p['id_jenis_po'],$cmt,'KIRIM',$tanggal1,$tanggal2)),
+						'jmlsetor'=>$this->KirimsetorModel->rekapjumlah_tglklo($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2),
+						'setordz'=>($this->KirimsetorModel->rekappcs_tglklo($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2))/12,
+						'setorpcs'=>($this->KirimsetorModel->rekappcs_tglklo($p['id_jenis_po'],$cmt,'SETOR',$tanggal1,$tanggal2)),
 					);
 				}else{
-					$jml=$this->KirimsetorModel->rekapjumlah($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
+					$jml=$this->KirimsetorModel->rekapjumlah_tglklo($p['id_jenis_po'],$cmt,'KIRIM',$bulan,$tahun);
 					$data['products'][]=array(
 						'no'=>$no++,
 						'nama'=>$p['nama_jenis_po'],
