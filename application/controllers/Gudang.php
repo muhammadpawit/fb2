@@ -1297,7 +1297,7 @@ class Gudang extends CI_Controller {
 		$viewData['item_tf'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>2,'idpengajuan'=>$kode,'hapus'=>0));
 
 		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
-		$viewData['mingguan'] = !empty($viewData['parent']['from_mingguan']) ? 'Mingguan':'Harian';
+		$viewData['mingguan'] = !empty($viewData['parent']['from_mingguan']) ? 'MINGGUAN':'HARIAN';
 		$adminkeu=null;
 		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>24));
 		$viewData['adminkeu']=$adminkeu['nama'];
