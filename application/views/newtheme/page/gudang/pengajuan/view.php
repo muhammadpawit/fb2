@@ -95,9 +95,9 @@
 
                                 <td><?php if ($us['kategori'] == 1) {
 
-                                   echo "Sablon";
+                                   echo "Sablon ".!empty($us['from_mingguan']) ? 'Mingguan':'';
 
-                                } else if($us['kategori'] == 2) { echo "Bordir"; } else if($us['kategori'] == 3) {echo "Konveksi";}
+                                } else if($us['kategori'] == 2) { echo "Bordir".!empty($us['from_mingguan']) ? 'Mingguan':''; } else if($us['kategori'] == 3) {echo "Konveksi".!empty($us['from_mingguan']) ? 'Mingguan':'';}
                                 else if($us['kategori'] == 4) {echo "Sukabumi";}?></td>
 
                                 <td><?php echo number_format($us['cash'])?></td>
