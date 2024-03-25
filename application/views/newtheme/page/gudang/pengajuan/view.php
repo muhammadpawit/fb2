@@ -108,6 +108,8 @@
 
                                   if(!empty($us['from_mingguan'])){
                                     echo ' Mingguan';
+                                  }else{
+                                    echo ' Harian';
                                   }
                                   ?>
                                 
