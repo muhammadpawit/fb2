@@ -101,15 +101,15 @@ class Laporanrekapstokcmt extends CI_Controller {
 				$month=null;
 			    $y=null;
 			    if(!empty($tanggal1)){
-			    	$kirimjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
-					$kirimpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
-					$setorjmlpo=$this->ReportModel->rekapjml_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
-					$setorpcs=$this->ReportModel->rekappcs_tgl($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
+			    	$kirimjmlpo=$this->ReportModel->rekapjml_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
+					$kirimpcs=$this->ReportModel->rekappcs_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
+					$setorjmlpo=$this->ReportModel->rekapjml_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
+					$setorpcs=$this->ReportModel->rekappcs_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
 			    }else{
-			    	$kirimjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
-				    $kirimpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
-				    $setorjmlpo=$this->ReportModel->rekapjml($month,$y,$val['id_cmt'],'JAHIT','SETOR');
-				    $setorpcs=$this->ReportModel->rekappcs($month,$y,$val['id_cmt'],'JAHIT','SETOR');
+			    	$kirimjmlpo=$this->ReportModel->rekapjml_tglKLO($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
+				    $kirimpcs=$this->ReportModel->rekappcsKLO($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
+				    $setorjmlpo=$this->ReportModel->rekapjml_tglKLO($month,$y,$val['id_cmt'],'JAHIT','SETOR');
+				    $setorpcs=$this->ReportModel->rekappcsKLO($month,$y,$val['id_cmt'],'JAHIT','SETOR');
 			    }
 				$data['products'][]=array(
 					'bulan'=>strtoupper($val['cmt_name']),
