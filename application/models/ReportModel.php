@@ -1299,7 +1299,7 @@ class ReportModel extends CI_Model {
 			// bangke 
 			//pre($sql);
 			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' AND mjp.idjenis IN(1,2,3) and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$progress' AND kbp.hapus=0";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' AND mjp.idjenis IN(1,2,3) and  mjp.tampil IN (1,2) AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$progress' AND kbp.hapus=0";
 			if(!empty($bulan)){
 				$bangke .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
 			}
@@ -1398,7 +1398,7 @@ class ReportModel extends CI_Model {
 			// bangke 
 			
 			$bangke="SELECT COALESCE(SUM(jml_setor_qty-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil=1 AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' and  mjp.tampil IN (1,2) AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0";
 			if(!empty($bulan)){
 				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 			}
