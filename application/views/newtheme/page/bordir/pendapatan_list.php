@@ -149,10 +149,10 @@
                               $jadi+=($val);
                           }
 
-                          echo $jadi;
+                          echo number_format($jadi);
                         ?>
                       </td>
-                      <td align="right"><?php echo number_format($gpendapatan)?></td>
+                      <td align="right"><?php echo number_format($jadi); //echo number_format($gpendapatan)?></td>
                       <td></td>
                     </tr>
                 <?php }?>
