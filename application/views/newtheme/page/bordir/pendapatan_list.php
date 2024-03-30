@@ -114,7 +114,7 @@
                       <?php foreach($luar as $b){?>
                       <td align="right">
                           <?php 
-                            $hasil = json_encode($this->ReportModel->total02_array(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
+                            $hasil = json_encode($this->ReportModel->total02_arrayD(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
                             $data = json_decode($hasil);
                             ?>
                           <?php 
