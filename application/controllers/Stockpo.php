@@ -194,7 +194,7 @@ class Stockpo extends CI_Controller {
 		    $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']); // angka 6 bulan juni, periode awal potongan
 		    $bulan[]=$months[date('n', $timestamp)] = date('M Y', $timestamp);
 		}
-		//pre($bulan);
+		// pre($bulan);
 		$kirimjmlpo=null;
 		$kirimdz=0;
 		$kirimpcs=0;
@@ -208,7 +208,8 @@ class Stockpo extends CI_Controller {
 				$g=date('n',strtotime($b[0]));
 				$t=explode(" ", $val);
 				$timestamp = mktime(0, 0, 0, $g + $i, 1,$t[1]);
-				$month=$months[date('n', $timestamp)] = date('n', $timestamp);
+				// $month=$months[date('n', $timestamp)] = date('n', $timestamp);
+				$month=SingkatanBulan($t[0]);
 			    $y=$t[1];
 			    $kirimjmlpo=$this->ReportModel->rekapjmlKLO($month,$y,$cmt,NULL,'KIRIM');
 			    $kirimpcs=$this->ReportModel->rekappcsKLO($month,$y,$cmt,NULL,'KIRIM');

@@ -111,10 +111,10 @@
 						<td><?php echo $p['bulan']?></td>
 						<td><?php echo $p['kirimpo']?></td>
 						<td><?php echo number_format($p['kirimdz'],2)?></td>
-						<td><?php echo $p['kirimpcs']?></td>
+						<td><?php echo number_format($p['kirimpcs'])?></td>
 						<td><?php echo $p['setorjmlpo']?></td>
 						<td><?php echo number_format($p['setordz'],2)?></td>
-						<td><?php echo $p['setorpcs']?></td>
+						<td><?php echo number_format($p['setorpcs'])?></td>
 						<td></td>
 					</tr>
 					<?php
@@ -130,10 +130,10 @@
 						<td><b>Total</b></td>
 						<td align="center"><b><?php echo $kirimpo?></b></td>
 						<td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
-						<td align="center"><b><?php echo $kirimpcs?></b></td>
+						<td align="center"><b><?php echo number_format($kirimpcs)?></b></td>
 						<td align="center"><b><?php echo $setorjmlpo?></b></td>
 						<td align="center"><b><?php echo number_format($setordz,2)?></b></td>
-						<td align="center"><b><?php echo $setorpcs?></b></td>
+						<td align="center"><b><?php echo number_format($setorpcs)?></b></td>
 					</tr>
 				<?php }else{ ?>
 					<tr>
