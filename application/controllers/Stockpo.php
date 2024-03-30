@@ -210,7 +210,7 @@ class Stockpo extends CI_Controller {
 				$timestamp = mktime(0, 0, 0, $g + $i, 1,$t[1]);
 				$month=$months[date('n', $timestamp)] = date('n', $timestamp);
 			    $y=$t[1];
-			    $kirimjmlpo=$this->ReportModel->rekapjmlKLO($month,$y,$cmt,NULL,'KIRIM');
+			    $kirimjmlpo=$this->ReportModel->rekapjmlKLO($month,$y,$cmt,'JAHIT','KIRIM');
 			    $kirimpcs=$this->ReportModel->rekappcsKLO($month,$y,$cmt,NULL,'KIRIM');
 			    $setorjmlpo=$this->ReportModel->rekapjmlKLO($month,$y,$cmt,NULL,'SETOR');
 			    $setorpcs=$this->ReportModel->rekappcsKLO($month,$y,$cmt,NULL,'SETOR');
