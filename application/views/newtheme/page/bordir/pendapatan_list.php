@@ -134,7 +134,9 @@
                       <!-- <td></td> -->
                       <td align="right">
                         <?php 
-                          pre($permesin);
+                          foreach($permesin as $p=>$val){
+                            echo ceil($val).'<br>';
+                          }
                           echo number_format($gpendapatan)
                         ?>
                       </td>
