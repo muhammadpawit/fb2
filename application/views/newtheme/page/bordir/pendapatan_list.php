@@ -111,26 +111,20 @@
                       <!-- <td align="center" colspan="<?php echo count($luar)?>">
                           <?php //echo number_format($g02)?> 
                       </td> -->
-                      <?php $t=0;?>
                       <?php foreach($luar as $b){?>
                       <td align="right">
                           <?php 
-                            $hasil = ($this->ReportModel->total02_arrayD(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
-                            $data = $hasil;
+                            $hasil = json_encode($this->ReportModel->total02_array(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
+                            $data = json_decode($hasil);
                             ?>
                           <?php 
-                           /*
                             if (isset($data->data)) {
                               $nilaiData = $data->data;
                               echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                              // $total_g02 += $nilaiData;
                             } else {
-                            }*/
-                            // echo json_encode($data);
-                            foreach($data as $d){
-                              // echo $d['total'].'<br>';
-                              $t+=($d['total']);
+                               // echo "Tidak ada data yang ditemukan.";
                             }
-                            echo $t;
                           //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                       </td>
                     <?php } ?>
