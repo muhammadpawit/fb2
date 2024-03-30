@@ -124,7 +124,10 @@
                               echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
                             } else {
                             }*/
-                            echo json_encode($data);
+                            // echo json_encode($data);
+                            foreach($data as $d){
+                              echo $d['total'];
+                            }
                           //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                       </td>
                     <?php } ?>
