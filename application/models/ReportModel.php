@@ -1924,12 +1924,21 @@ class ReportModel extends CI_Model {
 
 	public function total02_array($nomor,$shift,$tanggal1,$tanggal2,$pemilik){
 		//$total=['total'=>0,'0.2'=>0,'0.3'=>0];
-		$sql="
-		SELECT SUM(COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0), 0) as total, a.laporan_perkalian_tarif as tarif
+		/*$sql="
+		SELECT ROUND(COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0), 0) as total, a.laporan_perkalian_tarif as tarif
 		FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
-		WHERE a.hapus=0 and a.jenis=2 ";
+		WHERE a.hapus=0 and a.jenis=2 ";*/
+		$sql="
+		SELECT COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0) as total, 
+		a.laporan_perkalian_tarif as tarif
+		FROM kelola_mesin_bordir a
+		LEFT JOIN master_po_luar b ON b.id = a.kode_po
+		LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+		WHERE a.hapus = 0 AND a.jenis = 2
+ 
+		";
 		
 		if(!empty($nomor)){
 			$sql.= " AND a.mesin_bordir='$nomor'  ";
