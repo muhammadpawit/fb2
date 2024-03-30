@@ -134,7 +134,7 @@
                       <!-- <td></td> -->
                       <td align="right">
                         <?php 
-                          echo json_encode($permesin);
+                          pre($permesin);
                           echo number_format($gpendapatan)
                         ?>
                       </td>
