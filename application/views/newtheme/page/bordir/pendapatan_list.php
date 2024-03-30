@@ -116,7 +116,7 @@
                           <?php 
                             $hasil = json_encode($this->ReportModel->total02_arrayD(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
                             // $data = json_decode($hasil);
-                            echo $hasil;
+                            echo number_format($hasil);
                             ?>
                           <?php 
                             // if (isset($data->data)) {

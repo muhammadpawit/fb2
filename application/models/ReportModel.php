@@ -1999,8 +1999,10 @@ class ReportModel extends CI_Model {
 		$row=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
 		$total = 0;
-		foreach($row as $t){
-			$total+=($t['total']);
+		if(!empty($row)){
+			foreach($row as $t){
+				$total+=($t['total']);
+			}
 		}
 		return $total;
 	}
