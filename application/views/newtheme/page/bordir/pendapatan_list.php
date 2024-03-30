@@ -134,9 +134,15 @@
                       <!-- <td></td> -->
                       <td align="right">
                         <?php 
-                          foreach($permesin as $p=>$val){
-                            echo $val.' pembulatan : '.ceil($val).'<br>';
+                          foreach ($permesin as $key => $value) {
+                            $decimal = $value - floor($value); // Mendapatkan nilai desimal
+                            if ($decimal >= 0.5) {
+                                $permesin[$key] = ceil($value);
+                            } else {
+                                $permesin[$key] = intval($value);
+                            }
                           }
+                          json_encode($permesin);
                           echo number_format($gpendapatan)
                         ?>
                       </td>
