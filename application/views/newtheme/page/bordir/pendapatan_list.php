@@ -120,8 +120,8 @@
                           <?php 
                             if (isset($data->data)) {
                               $nilaiData = $data->data;
-                              // echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
-                              echo $nilaiData;
+                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
+                              // echo $nilaiData;
                             } else {
                                // echo "Tidak ada data yang ditemukan.";
                             }
