@@ -1998,8 +1998,11 @@ class ReportModel extends CI_Model {
 		";
 		$row=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
-		
-		return $row;
+		$total = 0;
+		foreach($row as $t){
+			$total+=($t['total']);
+		}
+		return $total;
 	}
 
 	public function total02sql($nomor,$shift,$tanggal1,$tanggal2){
