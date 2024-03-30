@@ -111,6 +111,7 @@
                       <!-- <td align="center" colspan="<?php echo count($luar)?>">
                           <?php //echo number_format($g02)?> 
                       </td> -->
+                      <?php $t=0;?>
                       <?php foreach($luar as $b){?>
                       <td align="right">
                           <?php 
@@ -126,8 +127,10 @@
                             }*/
                             // echo json_encode($data);
                             foreach($data as $d){
-                              echo $d['total'].'<br>';
+                              // echo $d['total'].'<br>';
+                              $t+=($d['total']);
                             }
+                            echo $t;
                           //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                       </td>
                     <?php } ?>
