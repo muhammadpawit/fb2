@@ -1986,7 +1986,9 @@ class ReportModel extends CI_Model {
 			$sql.=" AND c.id='".$pemilik."' ";
 		}
 		$sql.=" AND laporan_perkalian_tarif IS NOT NULL ";
-		$sql.=" GROUP BY a.mesin_bordir ";
+		$sql.=" GROUP BY a.mesin_bordir, a.shift
+		ORDER BY a.mesin_bordir, a.shift DESC
+ ";
 		$row=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
 		
