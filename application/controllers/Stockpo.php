@@ -218,7 +218,7 @@ class Stockpo extends CI_Controller {
 					'bulan'=>$val,
 					'bln'=>$month,
 					'year'=>$y,
-					'kirimpo'=>0,
+					'kirimpo'=>$kirimjmlpo,
 					'kirimdz'=>($kirimpcs/12),
 					'kirimpcs'=>!empty($kirimpcs) ? $kirimpcs : 0,
 					'setorjmlpo'=>!empty($setorjmlpo) ? $setorjmlpo : 0,
