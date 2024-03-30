@@ -1897,7 +1897,7 @@ class ReportModel extends CI_Model {
 		if(!empty($row)){
 			$total=$row['total'];
 		}
-		return $total;
+		return $row;
 	}
 
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
