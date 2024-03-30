@@ -1893,7 +1893,7 @@ class ReportModel extends CI_Model {
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$row=$this->GlobalModel->QueryManualRow($sql);
+		$row=$this->GlobalModel->QueryManual($sql);
 		if(!empty($row)){
 			$total=$row['total'];
 		}
