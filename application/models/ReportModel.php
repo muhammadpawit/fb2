@@ -1931,7 +1931,7 @@ class ReportModel extends CI_Model {
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
 		WHERE a.hapus=0 and a.jenis=2 ";*/
 		$sql="
-		sSELECT COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0) as total, 
+		SELECT COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0) as total, 
        	a.laporan_perkalian_tarif as tarif
 		FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id = a.kode_po
