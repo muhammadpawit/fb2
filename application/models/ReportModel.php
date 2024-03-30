@@ -1394,6 +1394,10 @@ class ReportModel extends CI_Model {
 			if(!empty($cmtkat)){
 				$sql.=" AND kbp.kategori_cmt='$cmtkat' ";
 			}
+
+			$data=$this->db->query($sql)->row_array();
+
+
 		if($progress=='SETOR' && $cmtkat=='JAHIT'){
 			// bangke 
 			
@@ -1434,9 +1438,10 @@ class ReportModel extends CI_Model {
 			// 	$sisa = $dbangke->total;
 			// }
 			
-			return $bangkenya;
+			// return $bangkenya;
+			return $data['total'];
 		}else{
-			$data=$this->db->query($sql)->row_array();
+			
 			return $hasil=$data['total']-$bangkenya;
 		}
 		

@@ -215,10 +215,10 @@
 						<td><?php echo $p['nama']?></td>
 						<td align="center"><?php echo $p['jmlkirim']?></td>
 						<td align="center"><?php echo number_format($p['kirimdz'],2)?></td>
-						<td align="center"><?php echo $p['kirimpcs']?></td>
+						<td align="center"><?php echo number_format($p['kirimpcs'])?></td>
 						<td align="center"><?php echo $p['jmlsetor']?></td>
 						<td align="center"><?php echo number_format($p['setordz'],2)?></td>
-						<td align="center"><?php echo $p['setorpcs']?></td>
+						<td align="center"><?php echo number_format($p['setorpcs'])?></td>
 						<td></td>
 					</tr>
 				<?php } ?>
@@ -229,10 +229,10 @@
 					<td align="center"><b>Total</b></td>
 					<td align="center"><b><?php echo $jml1 ?></b></td>
 					<td align="center"><b><?php echo number_format($kirimdz,2)?></b></td>
-					<td align="center"><b><?php echo $kirimpcs?></b></td>
+					<td align="center"><b><?php echo number_format($kirimpcs)?></b></td>
 					<td align="center"><b><?php echo $jml2?></b></td>
 					<td align="center"><b><?php echo number_format($setordz,2)?></b></td>
-					<td align="center"><b><?php echo $setorpcs?></b></td>
+					<td align="center"><b><?php echo number_format($setorpcs)?></b></td>
 					<td></td>
 				</tr>
 				<tr>
