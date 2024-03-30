@@ -120,7 +120,7 @@
                           <?php 
                             if (isset($data->data)) {
                               $nilaiData = $data->data;
-                              echo number_format($nilaiData,2); // Ini akan mencetak "321753.61278533936"
+                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
                               // $total_g02 += $nilaiData;
                             } else {
                                // echo "Tidak ada data yang ditemukan.";
