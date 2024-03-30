@@ -1889,15 +1889,7 @@ class ReportModel extends CI_Model {
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
 		$sql="
-		SELECT 
-		CASE
-			WHEN 
-				SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
-				THEN 
-					CEILING(SUM(a.total_stich * a.laporan_perkalian_tarif))
-			ELSE 
-				FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif))
-		END AS total
+		SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total 
 		FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
