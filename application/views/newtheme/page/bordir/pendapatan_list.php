@@ -96,7 +96,7 @@
                         <td align="right">
                           <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
                           <?php if($j%2==1){?>
-                          <?php echo number_format($p['jumlah']); ?>.
+                          <?php echo number_format($p['jumlah']); ?>
                           <?php } ?>
                         </td>
                         <td><?php //echo ?></td>
@@ -130,7 +130,12 @@
                       </td>
                     <?php } ?>
                       <!-- <td></td> -->
-                      <td align="right"><?php echo number_format($gpendapatan)?></td>
+                      <td align="right">
+                        <?php 
+                          echo json_encode($this->ReportModel->total018Sum($p['tanggal1'],$p['tanggal2']));
+                          echo number_format($gpendapatan)
+                        ?>
+                      </td>
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
                       <td></td>
                     </tr>

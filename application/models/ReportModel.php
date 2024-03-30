@@ -1886,6 +1886,20 @@ class ReportModel extends CI_Model {
 		return $total;
 	}
 
+	public function total018Sum($tanggal1,$tanggal2){
+		$total=0;
+		$sql="SELECT COALESCE(SUM(total_stich*0.18),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql.= " AND mesin_bordir IN (1,2,3,4,5,6,7,8,9,10) ";
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$row=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($row)){
+			$total=$row['total'];
+		}
+		return $total;
+	}
+
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
 		$sql="
