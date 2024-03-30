@@ -1971,40 +1971,31 @@ class ReportModel extends CI_Model {
 	public function total02_arrayD($nomor,$shift,$tanggal1,$tanggal2,$pemilik){
 		//$total=['total'=>0,'0.2'=>0,'0.3'=>0];
 		$sql="
-		SELECT 
-		CASE
-			WHEN 
-				SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
-				THEN 
-					CEILING(SUM(a.total_stich * a.laporan_perkalian_tarif))
-			ELSE 
-				FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif))
-		END AS total
-		FROM kelola_mesin_bordir a
-		LEFT JOIN master_po_luar b ON b.id=a.kode_po
-		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
-		WHERE a.hapus=0 and a.jenis=2 ";
-		
-		if(!empty($nomor)){
-			$sql.= " AND a.mesin_bordir='$nomor'  ";
-		}
-
-		if(!empty($shift)){
-			$sql.= " AND shift='$shift' ";
-		}
-
-
-		if(!empty($tanggal1)){
-			//$sql.=" AND DATE(a.created_date)='".$tanggal1."'";
-			$sql.=" AND DATE(a.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}
-		if(!empty($pemilik)){
-			$sql.=" AND c.id='".$pemilik."' ";
-		}
-		$sql.=" AND laporan_perkalian_tarif IS NOT NULL ";
-		$sql.=" GROUP BY a.mesin_bordir, a.shift
-		ORDER BY a.mesin_bordir, a.shift DESC
- ";
+			SELECT 
+			CASE
+				WHEN 
+					SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
+					THEN 
+						CEILING(SUM(a.total_stich * a.laporan_perkalian_tarif))
+				ELSE 
+					FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif))
+			END AS total
+		FROM 
+			kelola_mesin_bordir a
+			LEFT JOIN master_po_luar b ON b.id = a.kode_po
+			LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+		WHERE 
+			a.hapus = 0
+			AND a.jenis = 2
+			AND a.mesin_bordir IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+			AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			AND c.id = '$pemilik'
+			AND laporan_perkalian_tarif IS NOT NULL
+		GROUP BY 
+			a.mesin_bordir, a.shift
+		ORDER BY 
+			a.mesin_bordir, a.shift DESC;
+		";
 		$row=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
 		
