@@ -93,7 +93,7 @@
                         <?php //} ?>
                       </td>
                       <?php } ?>
-                      <?php $permesin[]=$p['pendapatan'];?>
+                      <?php $permesin[]=$p['pendapatan'];$jadi=0;?>
                         <td align="right"><?php echo number_format($p['pendapatan'])?></td>
                         <td align="right">
                           <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
@@ -137,14 +137,19 @@
                           foreach ($permesin as $key => $value) {
                             $decimal = $value - floor($value); // Mendapatkan nilai desimal
                             if ($decimal >= 0.5) {
-                              echo $permesin[$key] = ceil($value).'<br>';
+                              $permesin[$key] = ceil($value);
                             } else {
-                              echo $permesin[$key] = intval($value).'<br>';;
+                              $permesin[$key] = intval($value);
                             }
                             
                           }
                           // json_encode($permesin);
-                          echo number_format($gpendapatan)
+                          // echo number_format($gpendapatan)
+                          foreach($permesin as $per=>$val){
+                              $jadi+=($val);
+                          }
+
+                          echo $jadi;
                         ?>
                       </td>
                       <td align="right"><?php echo number_format($gpendapatan)?></td>
