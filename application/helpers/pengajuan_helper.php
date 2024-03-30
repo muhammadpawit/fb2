@@ -269,7 +269,15 @@
 
 	function nama_po(){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM master_jenis_po WHERE status=1 ORDER BY nama_jenis_po ASC');
+		$menu=$CI->GlobalModel->queryManual("
+		SELECT * 
+		FROM master_jenis_po 
+		WHERE status = 1 
+		AND tampil IN (1,2)
+		AND nama_jenis_po NOT IN ('BJK', 'BJF', 'BJH', 'BKK') 
+		ORDER BY nama_jenis_po ASC;
+		
+		");
 		return $menu;
 	}
 
