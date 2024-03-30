@@ -126,7 +126,7 @@
                             }*/
                             // echo json_encode($data);
                             foreach($data as $d){
-                              echo $d['total'];
+                              echo $d['total'].'<br>';
                             }
                           //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
                       </td>
