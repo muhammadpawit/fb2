@@ -113,6 +113,7 @@
                       </td> -->
                       <?php foreach($luar as $b){?>
                       <td align="right">
+                        sa
                           <?php 
                             $hasil = json_encode($this->ReportModel->total02_array(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
                             $data = json_decode($hasil);
