@@ -137,12 +137,12 @@
                           foreach ($permesin as $key => $value) {
                             $decimal = $value - floor($value); // Mendapatkan nilai desimal
                             if ($decimal >= 0.5) {
-                                $permesin[$key] = ceil($value);
+                              echo '1..'.  $permesin[$key] = ceil($value);
                             } else {
-                                $permesin[$key] = intval($value);
+                              echo '2..'.  $permesin[$key] = intval($value);
                             }
                           }
-                          json_encode($permesin);
+                          // json_encode($permesin);
                           echo number_format($gpendapatan)
                         ?>
                       </td>
