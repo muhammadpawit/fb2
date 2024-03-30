@@ -11,6 +11,7 @@ class Laporanrekapstokcmt extends CI_Controller {
 		$this->page='newtheme/page/laporanbulanancabang/';
 		$this->link='Laporanrekapstokcmt /';
 		$this->load->model('ReportModel');
+		$this->load->model('KirimsetorModel');
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
@@ -105,6 +106,7 @@ class Laporanrekapstokcmt extends CI_Controller {
 					$kirimpcs=$this->ReportModel->rekappcs_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','KIRIM');
 					$setorjmlpo=$this->ReportModel->rekapjml_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
 					$setorpcs=$this->ReportModel->rekappcs_tglKLO($tanggal1,$tanggal2,$val['id_cmt'],'JAHIT','SETOR');
+					// $setorpc=$this->KirimsetorModel->rekappcs_tglklo(null,$val['id_cmt'],'SETOR',$tanggal1,$tanggal2);
 			    }else{
 			    	$kirimjmlpo=$this->ReportModel->rekapjml_tglKLO($month,$y,$val['id_cmt'],'JAHIT','KIRIM');
 				    $kirimpcs=$this->ReportModel->rekappcsKLO($month,$y,$val['id_cmt'],'JAHIT','KIRIM');

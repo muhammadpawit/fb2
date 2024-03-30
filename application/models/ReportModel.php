@@ -1192,7 +1192,7 @@ class ReportModel extends CI_Model {
 
 	public function rekapjml_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
-		$sql="SELECT count(kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
+		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
 		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
 		if(!empty($bulan)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
@@ -1213,7 +1213,7 @@ class ReportModel extends CI_Model {
 
 	public function rekapjml_tglKLO($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
-		$sql="SELECT count(kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
+		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
 		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil IN (1,2) AND kbp.id_master_cmt NOT IN(63) ";
 		if(!empty($bulan)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
@@ -1298,16 +1298,16 @@ class ReportModel extends CI_Model {
 		if($progress=='SETOR'){
 			// bangke 
 			//pre($sql);
-			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' AND mjp.idjenis IN(1,2,3) and  mjp.tampil IN (1,2) AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$progress' AND kbp.hapus=0";
-			if(!empty($bulan)){
-				$bangke .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
-			}
-			$dbangke=$this->db->query($bangke)->row();
+			// $bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
+			// $bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='$idcmt' AND mjp.idjenis IN(1,2,3) and  mjp.tampil IN (1,2) AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$progress' AND kbp.hapus=0";
+			// if(!empty($bulan)){
+			// 	$bangke .=" AND MONTH(create_date)='$bulan' AND YEAR(create_date) ='$tahun' ";
+			// }
+			// $dbangke=$this->db->query($bangke)->row();
 			
-			if(!empty($dbangke)){
-				$bangkenya=$dbangke->total;
-			}
+			// if(!empty($dbangke)){
+			// 	$bangkenya=$dbangke->total;
+			// }
 		}
 		return $hasil=$data['total']-$bangkenya;
 	}
