@@ -56,6 +56,7 @@
                 <?php 
                 $rowspan=0;
                 $total_g02 = 0; // Initialize total variable
+                $permesin=[];
                 ?>
                 <?php foreach($products as $p){?>
                     <?php 
@@ -92,6 +93,7 @@
                         <?php //} ?>
                       </td>
                       <?php } ?>
+                      <?php $permesin[]=$p['pendapatan'];?>
                         <td align="right"><?php echo number_format($p['pendapatan'])?></td>
                         <td align="right">
                           <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
@@ -132,7 +134,7 @@
                       <!-- <td></td> -->
                       <td align="right">
                         <?php 
-                          echo json_encode($this->ReportModel->total018Sum($p['tanggal1'],$p['tanggal2']));
+                          echo json_encode($permesin);
                           echo number_format($gpendapatan)
                         ?>
                       </td>
