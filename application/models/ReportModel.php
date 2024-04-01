@@ -2872,14 +2872,15 @@ class ReportModel extends CI_Model {
 		
 			for ($i = 0; $i < 12; $i++) {
 		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
-		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
+				$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
+				// $bulan = SingkatanBulan($t[0]);
 		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
 		    	$total=0;
 		    	$total2=0;
 		    	$pengeluaran=0;
 				$sql="SELECT SUM(total_stich*laporan_perkalian_tarif) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 				$sql.= " AND mesin_bordir<>11 ";
-				 $sql.=" AND MONTH(created_date) ='".$bulan."' ";
+				 $sql.=" AND MONTH(created_date) ='".$bulan."' AND YEAR(created_date) ='".$tahun."' ";
 				$row=$this->GlobalModel->QueryManualRow($sql);
 				if(!empty($row)){
 					$total=$row['total'];
@@ -2888,21 +2889,21 @@ class ReportModel extends CI_Model {
 				
 				
 				$sql2.= " AND mesin_bordir<>11 ";
-				 $sql2.=" AND MONTH(created_date) ='".$bulan."' ";
+				 $sql2.=" AND MONTH(created_date) ='".$bulan."'  AND YEAR(created_date) ='".$tahun."' ";
 				$row2=$this->GlobalModel->QueryManualRow($sql2);
 				if(!empty($row2)){
 					$total2=$row2['total'];
 				}
 
 				// pengeluaran
-				$peng=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM `pengeluaran_bordir` WHERE hapus=0 AND MONTH(tanggal)='".$bulan."' ");
+				$peng=$this->GlobalModel->QueryManualRow("SELECT SUM(total) as total FROM `pengeluaran_bordir` WHERE hapus=0 AND MONTH(tanggal)='".$bulan."' AND YEAR(tanggal) ='".$tahun."' ");
 				if(!empty($peng)){
-					$pengeluaran=$peng['total'];
+					// $pengeluaran=$peng['total'];
 				}
 
 		    	$lusin['bulan'][]=$total==null?0:($total+$total2-$pengeluaran);
 			}
-
+			// pre($tahun);
 			$hasil=$lusin['bulan'];
 		
 		return $hasil;
