@@ -3235,7 +3235,7 @@ class ReportModel extends CI_Model {
 
 		//$sql.="GROUP BY kbp.kode_po ";
 		$row_2=$this->db->query($sql_2)->row_array();
-		$d_2=$row_2 ?? null;
+		$d_2=!empty($row_2 )? $row_2 : null;
 		if($d['total']>0){
 			$hasil_2=$d_2['total'];
 				if (!empty($d_2)) {
