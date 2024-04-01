@@ -30,8 +30,11 @@
               <button class="btn btn-info" onclick="excel()">Excel</button>
           </div>
       </div>
-  </div>
-<table class="table table-bordered table-striped">
+</div>
+<div class="row table-responsive">
+  <div class="col-md-12">
+    <div class="form-group">
+    <table class="table table-bordered table-striped">
               <thead>
                 <tr style="background-color:yellow">
                   <!-- <th>Tanggal</th> -->
@@ -157,7 +160,11 @@
                     </tr>
                 <?php }?>
               </tbody>
-            </table>
+</table>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
   function filter(){
     var url='?';
