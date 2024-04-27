@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered yessearch">
+		<table class="table table-bordered default">
 			<thead>
 				<tr>
 					<th>No</th>

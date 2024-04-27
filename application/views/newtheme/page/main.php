@@ -809,6 +809,16 @@
         'autoWidth'   : false,
         responsive: true
       });
+
+      $('.default').DataTable({
+        'paging'      : true,
+        'lengthChange': true,
+        'searching'   : true,
+        'ordering'    : false,
+        'info'        : false,
+        'autoWidth'   : false,
+        responsive: true
+      });
   });
 </script>
 <?php //$this->load->view('newtheme/page/script');?>
