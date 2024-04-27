@@ -1344,6 +1344,7 @@ class Masterdata extends CI_Controller {
 		foreach($resutls as $s){
 			$data['hasil'][]=array(
 				'id'=>$s['id'],
+				'kategori' => $s['category'],
 				'nama'=>$s['nama'],
 				'telephone'=>$s['telephone'],
 				'alamat'=>$s['alamat'],

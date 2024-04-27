@@ -23,6 +23,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Kategori</th>
                                         <th>Nama Supplier</th>
                                         <th>Telephone</th>
                                         <th>PIC</th>
@@ -35,6 +36,23 @@
                                     <?php foreach($hasil as $h){?>
                                     <tr>
                                         <td><?php echo $n++?></td>
+                                        <td>
+                                            <?php 
+
+                                                if($h['kategori']==1){
+                                                    echo 'Konveksi';
+                                                }else if($h['kategori']==2){
+                                                    echo 'Bordir';
+                                                }else if($h['kategori']==3){
+                                                    echo 'Sablon';
+                                                }else if($h['kategori']==4){
+                                                    echo 'Bahan';
+                                                }else{
+                                                    echo 'Belum Disetting';
+                                                }
+                                            
+                                            ?>
+                                        </td>
                                         <td><?php echo $h['nama']?></td>
                                         <td><?php echo $h['telephone']?></td>
                                         <td><?php echo $h['pic']?></td>
