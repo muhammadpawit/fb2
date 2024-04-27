@@ -9,9 +9,9 @@
 					<th>Nama Item</th>
 					<th>Jumlah</th>
 					<th>Satuan</th>
-					<th>Harga Lama</th>
-					<th>Harga Harga Baru</th>
-					<th>Kenaikan</th>
+					<th>Harga Lama (Rp)</th>
+					<th>Harga Harga Baru (Rp)</th>
+					<th>Kenaikan (Rp)</th>
 				</tr>
 			</thead>
 			<tbody>
