@@ -20,10 +20,10 @@
                   <label>Kategori</label>
                   <select name="category" class="form-control select2bs4">
                     <option value=""></option>
-                    <option value="1">Konveksi</option>
-                    <option value="2">Bordir</option>
-                    <option value="3">Sablon</option>
-                    <option value="4">Bahan</option>
+                    <option value="1" <?php echo $products['category']==1 ? 'selected':'';?>>Konveksi</option>
+                    <option value="2" <?php echo $products['category']==2 ? 'selected':'';?>>Bordir</option>
+                    <option value="3" <?php echo $products['category']==3 ? 'selected':'';?>>Sablon</option>
+                    <option value="4" <?php echo $products['category']==4 ? 'selected':'';?>>Bahan</option>
                   </select>
                 </div>
                 <div class="form-group">

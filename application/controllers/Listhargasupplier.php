@@ -33,20 +33,23 @@ class Listhargasupplier extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['prods']=[];
-		$sql="SELECT pid.id_persediaan,pid.nama as namaitem,pi.tanggal,pid.harga,ms.nama as supplier FROM `penerimaan_item_detail` pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) LEFT JOIN master_supplier ms ON ms.id=pi.supplier WHERE pid.id_persediaan > 0 ";
-
-		$sql.=" GROUP BY pid.id_persediaan,pid.harga ORDER BY pid.nama ASC ";
-		$results=$this->GlobalModel->QueryManual($sql);
+		// $sql="SELECT pid.id_persediaan,pid.nama as namaitem,pi.tanggal,pid.harga,ms.nama as supplier FROM `penerimaan_item_detail` pid JOIN penerimaan_item pi ON (pi.id=pid.penerimaan_item_id) LEFT JOIN master_supplier ms ON ms.id=pi.supplier WHERE pid.id_persediaan > 0 ";
+		// $sql.=" GROUP BY pid.id_persediaan,pid.harga ORDER BY pid.nama ASC ";
+		// $results=$this->GlobalModel->QueryManual($sql);
+		$results = $this->GlobalModel->QueryManual("SELECT * FROM master_supplier where hapus=0 and category > 0 ORDER BY nama ASC, category ASC ");
 		$no=1;
 		$absen=[];
+		$item=[];
 		foreach($results as $r){
+			$item = $this->GlobalModel->GetData('product',array('hapus'=>0,'supplier'=>$r['id']));
 			$data['prods'][]=array(
 				'no'=>$no,
-				'tanggal'=>$r['tanggal'],
-				'id'=>$r['id_persediaan'],
-				'namaitem'=>$r['namaitem'],
-				'harga'=>$r['harga'],
-				'supplier'=>$r['supplier'],
+				'tanggal'=>null,
+				'id'=>null,
+				'namaitem'=>null,
+				'harga'=>null,
+				'supplier'=>$r['nama'],
+				'item'	=> $item,
 			);
 			$no++;
 		}
