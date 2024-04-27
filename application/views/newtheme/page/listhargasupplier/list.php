@@ -17,7 +17,7 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['no']?></td>
-						<td><?php echo $p['supplier']?></td>
+						<td><?php echo $p['supplier']?>  <small>(<?php echo $p['telephone']?>)</small></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -29,7 +29,7 @@
 							<tr>
 								<td></td>
 								<td></td>
-								<td><?php echo $i['nama']?> <small>(<?php echo $i['telephone']?>)</small></td>
+								<td><?php echo $i['nama']?></td>
 								<td>1</td>
 								<td><?php echo $i['satuan']?></td>
 								<td><?php echo $i['harga_lama']?></td>
