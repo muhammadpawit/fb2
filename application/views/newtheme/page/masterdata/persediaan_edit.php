@@ -71,7 +71,7 @@
                               <select name="supplier" class="form-control select2bs4" data-live-search="true">
                                 <option value="0">Pilih</option>
                                 <?php foreach($supplier as $st){?>
-                                  <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
+                                  <option value="<?php echo $st['id'] ?>" <?php echo $st['id']==$prod['supplier'] ? 'selected':''; ?>><?php echo $st['nama']?></option>
                                 <?php } ?>
                               </select>
                             </div>
