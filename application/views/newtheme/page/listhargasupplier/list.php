@@ -5,6 +5,7 @@
 				<tr>
 					<th>No</th>
 					<th>Nama Supplier / Toko </th>
+					<th>Telephone / HP </th>
 					<th>Nama Item</th>
 					<th>Jumlah</th>
 					<th>Satuan</th>
@@ -17,7 +18,8 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['no']?></td>
-						<td><?php echo $p['supplier']?>  <small>(<?php echo $p['telephone']?>)</small></td>
+						<td><?php echo $p['supplier']?></td>
+						<td><?php echo $p['telephone']?></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -27,6 +29,7 @@
 					</tr>
 						<?php foreach($p['item'] as $i){ ?>
 							<tr>
+								<td></td>
 								<td></td>
 								<td></td>
 								<td><?php echo $i['nama']?></td>
