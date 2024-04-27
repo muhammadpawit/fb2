@@ -37,7 +37,7 @@
 								<td><?php echo $i['satuan']?></td>
 								<td><?php echo $i['harga_lama']?></td>
 								<td><?php echo $i['harga_beli']?></td>
-								<td><?php echo ($i['harga_veli']-$i['harga_lama']) ?></td>
+								<td><?php echo ($i['harga_beli']-$i['harga_lama']) ?></td>
 							</tr>
 						<?php } ?>
 				<?php } ?>
