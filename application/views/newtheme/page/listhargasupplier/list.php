@@ -29,7 +29,7 @@
 							<tr>
 								<td></td>
 								<td></td>
-								<td><?php echo $i['nama']?></td>
+								<td><?php echo $i['nama']?> <small>(<?php echo $i['telephone']?>)</small></td>
 								<td>1</td>
 								<td><?php echo $i['satuan']?></td>
 								<td><?php echo $i['harga_lama']?></td>

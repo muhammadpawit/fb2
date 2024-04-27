@@ -49,6 +49,7 @@ class Listhargasupplier extends CI_Controller {
 				'namaitem'=>null,
 				'harga'=>null,
 				'supplier'=>$r['nama'],
+				'telephone'=>$r['telephone'],
 				'item'	=> $item,
 			);
 			$no++;
