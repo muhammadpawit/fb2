@@ -179,7 +179,7 @@
                 </div>
 
               <?php }else{ ?>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger no-print">
                   Tidak Ada Lampiran
                 </div>
               <?php } ?>
