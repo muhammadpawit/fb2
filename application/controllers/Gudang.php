@@ -1613,7 +1613,7 @@ class Gudang extends CI_Controller {
 
 	public function penerimaanitemsave(){
 		$data=$this->input->post();
-		//pre($data);
+		// pre($_FILES['lampiran']['name']);
 		if(isset($data['products'])){
 			if(!empty($data['products'])){
 				$it=array(
@@ -1626,6 +1626,60 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('penerimaan_item',$it);
 				$id=$this->db->insert_id();
+
+				if(isset($_FILES['lampiran']['name'])){
+					// Konfigurasi upload
+					$config['upload_path'] = './uploads/lampiran/';
+					$config['allowed_types'] = 'gif|jpg|png|jpeg';
+
+					// Inisialisasi upload library
+					$this->load->library('upload', $config);
+
+					// Memeriksa apakah folder uploads/lampiran/ sudah ada
+					$folderPath = $config['upload_path'];
+					if (!file_exists($folderPath)) {
+						// Membuat folder jika belum ada
+						if (!mkdir($folderPath, 0777, true)) {
+							die('Gagal membuat folder...');
+						}
+					}
+
+					// Melakukan upload file
+					$this->upload->do_upload('lampiran');
+
+					// Mendapatkan nama file yang diunggah
+					$fileName = $config['upload_path'] . $this->upload->data('file_name');
+
+					// Mendapatkan tipe file yang diunggah
+					$fileType = $this->upload->data('file_type');
+
+					// Mengkompres gambar jika tipe file adalah gambar
+					if ($fileType == 'image/jpeg' || $fileType == 'image/jpg') {
+						$compressedFileName = $fileName . '_compressed.jpg';
+						$quality = 75; // Kualitas kompresi, rentang 0-100 (semakin tinggi semakin baik kualitasnya)
+						$source = imagecreatefromjpeg($fileName);
+						imagejpeg($source, $compressedFileName, $quality);
+						imagedestroy($source);
+					} elseif ($fileType == 'image/png') {
+						$compressedFileName = $fileName . '_compressed.png';
+						$quality = 6; // Kualitas kompresi, rentang 0-9 (semakin tinggi semakin baik kualitasnya)
+						$source = imagecreatefrompng($fileName);
+						imagepng($source, $compressedFileName, $quality);
+						imagedestroy($source);
+					} elseif ($fileType == 'image/gif') {
+						$compressedFileName = $fileName . '_compressed.gif';
+						// Tidak ada opsi kompresi untuk format GIF
+					} else {
+						$compressedFileName = $fileName;
+					}
+
+					$this->db->update('penerimaan_item',array('lampiran'=>$_FILES['lampiran']['name']),array('id'=>$id));
+					// Menghapus file asli
+					unlink($fileName);
+				}
+
+				
+
 				foreach($data['products'] as $p){
 					$itd=array(
 						'penerimaan_item_id'=>$id,

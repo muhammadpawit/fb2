@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <form action="<?php echo $action ?>" method="POST">
+            <form action="<?php echo $action ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -52,6 +52,12 @@
                     <div class="form-group">
                         <label>Nota Penerimaan / Nota Surat</label>
                         <input type="text" id="nosj" name="nosj" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">Upload Foto Surat Jalan / Dokumen Pendukung Lainnya</label>
+                        <input type="file" name="lampiran" class="form-control" accept=".jpg,.jpeg,.png">
                     </div>
                 </div>
                 <!-- <div class="col-md-6">

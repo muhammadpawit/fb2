@@ -170,7 +170,20 @@
       <div class="row">
         <!-- accepted payments column -->
         <div class="col-xs-6">
-          
+            <div class="form-group">
+              <label for="">Lampiran</label>
+              <?php if(!empty($results['lampiran'])){ ?>
+
+                <div class="image img-responsive">
+                <img src="<?php echo BASEURL?>uploads/lampiran/<?php echo $results['lampiran']?>" class="img-thumbnail">
+                </div>
+
+              <?php }else{ ?>
+                <div class="alert alert-danger">
+                  Tidak Ada Lampiran
+                </div>
+              <?php } ?>
+            </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-6">
