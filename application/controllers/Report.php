@@ -136,7 +136,7 @@ class Report extends CI_Controller {
 		$sbl=[];
 		$sql2="SELECT bagian,tanggal FROM aruskas WHERE hapus=0 ";
 		$sql2.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$sql2.=" AND bagian=3 ";
+		$sql2.=" AND bagian IN (1,2,3) ";
 		$sql2.=" GROUP BY tanggal ORDER BY tanggal ASC ";
 		$products2=$this->GlobalModel->QueryManual($sql2);
 		$ket=[];
@@ -151,9 +151,22 @@ class Report extends CI_Controller {
 		//pre($ket);
 		$merger=[];
 		$merger=array_merge($tf,$sbl);
-		//pre($merger);\
+		// pre($merger);
+		// Step 1: Sort the array by 'tanggal'
+			usort($merger, function($a, $b) {
+				return strtotime($a['tanggal']) - strtotime($b['tanggal']);
+			});
+
+			// Step 2: Remove duplicate entries based on the entire sub-array
+			$uniqueArray = array_map("unserialize", array_unique(array_map("serialize", $merger)));
+
+			// Step 3: Re-index the array if needed
+			$uniqueArray = array_values($uniqueArray);
+
+			// pre($uniqueArray);
+			// array_unique($merger,SORT_REGULAR)
 		$i=0;
-		foreach(array_unique($merger,SORT_REGULAR) as $p){
+		foreach($uniqueArray as $p){
 			$ket=$this->ReportModel->getket($p['tanggal'],$p['bagian']);
 			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);
 			$data['products'][]=array(
@@ -161,11 +174,14 @@ class Report extends CI_Controller {
 				'kasmasuk'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],$cat),
 				'masukkonveksi'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],1),
 				'keluarkonveksi'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],1),
+				'sisa_konveksi'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],1),
 				//'masukbordir'=>$cat==2?$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2):0,
 				'masukbordir'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2),
 				'keluarbordir'=>$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],2),
+				'sisa_bordir'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],2),
 				'masuksablon'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],3),
 				'keluarsablon'=>$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],3),
+				'sisa_sablon'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],3),
 				'konveksi'=>$konveksi,
 				'keterangan'=>!empty($ket)?implode(',',$ket):null,
 			);

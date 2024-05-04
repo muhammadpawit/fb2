@@ -32,7 +32,7 @@
     <table class="table table-bordered">
       <thead>
         <tr style="text-align: center!important;" valign="top">
-          <th rowspan="2" style="vertical-align : middle;text-align:center;">#</th>
+          <th rowspan="2" style="vertical-align : middle;text-align:center;">No</th>
           <th rowspan="2" style="vertical-align : middle;text-align:center;">Tanggal</th>
           <th rowspan="2" style="vertical-align : middle;text-align:center;">Trf</th>
           <th rowspan="2" style="vertical-align : middle;text-align:center;">Kas Diterima</th>
@@ -54,26 +54,71 @@
         </tr>
       </thead>
       <tbody>
+      <?php 
+
+        $total_trf=0;
+        $total_kasmasuk=0;
+        $total_kasmasuk_bordir=0;
+        $total_kasmasuk_sablon=0;
+
+        $total_trf_konveksi=0;
+        $total_cash_konveksi=0;
+        $total_sisa_konveksi=0;
+
+        $total_trf_bordir=0;
+        $total_cash_bordir=0;
+        $total_sisa_bordir=0;
+
+
+        $total_trf_sablon=0;
+        $total_cash_sablon=0;
+        $total_sisa_sablon=0;
+
+        $no=1;
+
+      ?>
         <?php foreach($products as $p){?>
           <?php $hari= date('l',strtotime($p['tanggal']))?>
         <tr>
-          <td>#</td>
+          <td><?php echo $no++; ?></td>
           <td><?php echo hari($hari).', '.date('d-m-Y',strtotime($p['tanggal']))?></td>
           <td></td>
           <td><?php echo number_format($p['kasmasuk'])?></td>
           <td></td>
           <td><?php echo number_format($p['masukkonveksi'])?></td>
-          <td><?php echo number_format($p['masukkonveksi']-$p['keluarkonveksi'])?></td>
+          <td><?php echo number_format($p['sisa_konveksi'])?></td>
           <td></td>
           <td><?php echo number_format($p['masukbordir'])?></td>
-          <td><?php echo number_format($p['masukbordir']-$p['keluarbordir'])?></td>
+          <td><?php echo number_format($p['sisa_bordir'])?></td>
           <td></td>
           <td><?php echo number_format($p['masuksablon'])?></td>
-          <td><?php echo number_format($p['masuksablon']-$p['keluarsablon'])?></td>
+          <td><?php echo number_format($p['sisa_sablon'])?></td>
           <td><?php echo $p['keterangan']?></td>
         </tr>
+
+        <?php
+
+              $total_kasmasuk+=($p['kasmasuk']);
+              $total_cash_konveksi+=($p['masukkonveksi']);
+              $total_sisa_konveksi+=($p['sisa_konveksi']);
+
+              $total_kasmasuk_bordir+=($p['masukbordir']);
+              $total_cash_bordir+=($p['masukbordir']);
+              $total_sisa_bordir+=($p['sisa_bordir']);
+
+              $total_kasmasuk_sablon+=($p['masuksablon']);
+              $total_cash_sablon+=($p['masuksablon']);
+              $total_sisa_sablon+=($p['sisa_sablon']);
+
+            ?>
+       
         <?php if($p['konveksi']){?>
           <?php foreach($p['konveksi'] as $k){?>
+            <?php
+
+              $total_trf+=($k['nominal']);
+
+            ?>
             <tr>
               <td></td>
               <td></td>
@@ -82,6 +127,7 @@
               <td>
                 <?php if($k['bagian']==1){?>
                   <?php echo number_format($k['nominal'])?>
+                  <?php $total_trf_konveksi+=($k['nominal']);?>
                 <?php } ?>
               </td>
               <td></td>
@@ -89,6 +135,7 @@
               <td>
                 <?php if($k['bagian']==2){?>
                   <?php echo number_format($k['nominal'])?>
+                  <?php $total_trf_bordir+=($k['nominal']);?>
                 <?php } ?>
               </td>
               <td></td>
@@ -96,6 +143,7 @@
               <td>
                 <?php if($k['bagian']==3){?>
                   <?php echo number_format($k['nominal'])?>
+                  <?php $total_trf_sablon+=($k['nominal']);?>
                 <?php } ?>
               </td>
               <td></td>
@@ -105,6 +153,114 @@
           <?php } ?>
         <?php } ?>
       <?php } ?>
+      <tfoot>
+        <tr>
+          <td colspan="2" align="center">
+            <b>
+            Total
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_trf,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_kasmasuk,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_trf_konveksi,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_cash_konveksi,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_sisa_konveksi,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_trf_bordir,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_cash_bordir,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_sisa_bordir,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_trf_sablon,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_cash_sablon,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_sisa_sablon,0) ?>
+            </b>
+          </td>
+        </tr>
+          <tr>
+            <td colspan="2" align="center">
+              <b>
+              Total Keseluruhan
+              </b>
+            </td>
+            <td colspan="2" align="center">
+              <b>
+                <?php echo number_format($total_trf+$total_kasmasuk,0) ?>
+              </b>
+            </td>
+            <td colspan="3" align="center">
+              <b>
+                <?php echo number_format($total_trf_konveksi+$total_cash_konveksi,0) ?>
+              </b>
+            </td>
+            <td colspan="3" align="center">
+              <b>
+                <?php echo number_format($total_cash_bordir+$total_trf_bordir,0) ?>
+              </b>
+            </td>
+            <td colspan="3" align="center">
+              <b>
+                <?php echo number_format($total_cash_sablon+$total_trf_sablon,0) ?>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+              <b>
+              Grand Total
+              </b>
+            </td>
+            <td colspan="2" align="center">
+              <b>
+                <?php echo number_format($total_trf+$total_kasmasuk,0) ?>
+              </b>
+            </td>
+            <td colspan="3" align="center">
+              <b>
+                <?php echo number_format( ($total_trf_konveksi+$total_cash_konveksi) + ($total_cash_bordir+$total_trf_bordir) + ($total_cash_sablon+$total_trf_sablon) ,0) ?>
+              </b>
+            </td>
+          </tr>
+      </tfoot>
       </tbody>
     </table>
     </div>

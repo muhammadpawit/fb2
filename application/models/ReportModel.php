@@ -1130,6 +1130,16 @@ class ReportModel extends CI_Model {
 		return $hasil=$data['total'];
 	}
 
+	public function sisa($column,$tanggal,$bagian){
+		$sql="SELECT SUM($column) as total FROM aruskas WHERE date(tanggal)='$tanggal'";
+		if(!empty($bagian)){
+			$sql.=" and bagian='$bagian' ";
+		}
+		$sql.=" AND keterangan LIKE '%Sisa%' ";
+		$data=$this->db->query($sql)->row_array();
+		return $hasil=$data['total'];
+	}
+
 	public function rekapjml($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
 		// $sql="SELECT COALESCE(count(kelolapo_kirim_setor.kode_po),0) as total, mjp.perkalian FROM `kelolapo_kirim_setor` ";
