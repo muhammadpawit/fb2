@@ -1337,7 +1337,12 @@ class Bordir extends CI_Controller {
 
 		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$post['jenis'],'nomer_mesin'=>$post['mesin']));
 		if($post['jenis']==2){ // po luar
-			$perkalian_mesin=0.18;
+			$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$post['namaPo']));
+			if($pemilik['pemilik']==3){
+				$perkalian_mesin=0.15;
+			}else{
+				$perkalian_mesin=0.18;
+			}
 		}else{
 			$perkalian_mesin=0.15; // po dalam
 		}
