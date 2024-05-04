@@ -768,7 +768,9 @@ class Kelolapo extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$j=1;
-		$sql="SELECT kbp.*,kbp.kode_po as nama_po,kbp.created_date as tanggalProd, kbp.tim_potong_potongan FROM konveksi_buku_potongan kbp WHERE id_potongan > 0";
+		$sql="SELECT kbp.*,kbp.kode_po as nama_po,kbp.created_date as tanggalProd, kbp.tim_potong_potongan FROM konveksi_buku_potongan kbp 
+		JOIN produksi_po o ON p.id_produksi_po=kbp.idpo
+		WHERE id_potongan > 0";
 		if(empty($kode_po)){
 			if(!empty($tanggal1)){
 				$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
