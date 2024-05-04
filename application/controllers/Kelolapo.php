@@ -835,10 +835,11 @@ class Kelolapo extends CI_Controller {
 				$status="Pengiriman Ke CMT";
 			}
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$result['tim_potong_potongan']));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$result['idpo']));
 			$data['potongan'][]=array(
 				'no'=>$j,
-				'kode_po'=>$result['kode_po'],
-				'nama_po'=>$result['nama_po'],
+				'kode_po'=>$po['kode_po'],
+				'nama_po'=>$po['nama_po'],
 				'refpo'=>$result['refpo'],
 				'dz'=>number_format($result['hasil_lusinan_potongan'],2),
 				'pcs'=>$result['hasil_pieces_potongan'],
