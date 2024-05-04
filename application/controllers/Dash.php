@@ -17,6 +17,10 @@ class Dash extends CI_Controller {
 		if(empty($this->auth)) {redirect($this->login);}
 	}
 
+	function produksitahunlalu(){
+		redirect('https://2223.forboysproduction.com');
+	}
+
 	public function index(){
 		$data=array();
 		$data['allpo']=[];
