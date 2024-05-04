@@ -175,7 +175,7 @@
               <?php if(!empty($results['lampiran'])){ ?>
 
                 <div class="image img-responsive">
-                <img src="<?php echo BASEURL?>uploads/lampiran/<?php echo $results['lampiran']?>" class="img-thumbnail">
+                <img src="<?php echo BASEURL?><?php echo $results['lampiran']?>" class="img-thumbnail">
                 </div>
 
               <?php }else{ ?>
