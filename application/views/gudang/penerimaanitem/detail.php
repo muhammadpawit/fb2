@@ -182,6 +182,22 @@
                 <div class="alert alert-danger no-print">
                   Tidak Ada Lampiran
                 </div>
+                <form action="<?php echo $action ?>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?php echo $results['id'] ?>">
+                    <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label for="">Upload Foto Surat Jalan / Dokumen Pendukung Lainnya</label>
+                              <input type="file" name="lampiran" class="form-control" accept=".jpg,.jpeg,.png">
+                          </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <button class="btn btn-primary full" type="submit">Upload Lampiran</buton>
+                        </div>
+                      </div>
+                    </div>
+                </form>
               <?php } ?>
             </div>
         </div>
