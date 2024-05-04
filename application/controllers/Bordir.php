@@ -992,10 +992,10 @@ class Bordir extends CI_Controller {
 	public function mesinharian_edit($id){
 		$data=[];
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
-		$id=$po['kode_po'];
+		$id=$po['id_produksi_po'];
 		$data['title']='Edit Inputan Mesin Bordir '.$id;
 		$data['kode_po']=$id;
-		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'kode_po'=>$id));
+		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'idpo'=>$id));
 		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
 		$data['action']=BASEURL.'Bordir/mesinharian_save';
 		$data['batal']=BASEURL.'Bordir/inputharianmesinpodalam/';
