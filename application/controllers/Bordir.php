@@ -957,7 +957,7 @@ class Bordir extends CI_Controller {
 						);
 					}
 					
-					$po = $this->GlobalModel->getData('produksi_po',array('id_produksi_po'=>$b['idpo']));
+					$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$b['idpo']));
 					$data['bordir'][]=array(
 						'kode_po'=>$po['kode_po'],
 						'operator'=>$b['nama_operator'],
