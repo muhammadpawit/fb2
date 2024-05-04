@@ -773,17 +773,17 @@ class Kelolapo extends CI_Controller {
 		WHERE id_potongan > 0";
 		if(empty($kode_po)){
 			if(!empty($tanggal1)){
-				$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+				$sql.=" AND date(kbp.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
 		}else{
 			$sql.=" AND kbp.idpo='".$kode_po."' ";
 		}
 		if(!empty($refpo)){
-			$sql.=" AND refpo='".$refpo."' ";
+			$sql.=" AND kbp.refpo='".$refpo."' ";
 		}
 		//$sql.=" GROUP BY kbp.idpo ";
 		$sql.=" ORDER BY kbp.waktuinput DESC ";
-		$sql.=" LIMIT 20 ";
+		// $sql.=" LIMIT 20 ";
 		$results	= $this->GlobalModel->queryManual($sql);
 		$cp=null;
 		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
