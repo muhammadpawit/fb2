@@ -37,7 +37,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Referensi PO</label>
-      <select class="form-control autopo" name="refpo" data-live-search="true">
+      <select class="form-control autopoid" name="refpo" data-live-search="true">
         <option value="*">Pilih</option>
       </select>
     </div>
