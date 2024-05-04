@@ -487,7 +487,7 @@ class Pembayaran extends CI_Controller {
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['tim_potong_potongan']));
 			$roll=$this->ReportModel->getsumroll($r['kode_po'],'UTAMA');
 			$rolv=$this->ReportModel->getsumroll($r['kode_po'],'CELANA');
-			$angka=$this->ReportModel->getangkapotongan($r['kode_po']);
+			$angka=$this->ReportModel->getangkapotongan($r['idpo']);
 			$totaldz+=($r['hasil_lusinan_potongan']);
 			$totalpcs+=($r['hasil_pieces_potongan']);
 			if(!empty($tim)){
