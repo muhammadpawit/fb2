@@ -909,13 +909,13 @@ class Bordir extends CI_Controller {
 					}
 				if (!empty($get['tanggalMulai'])) {
 					if(isset($get['namaPo'])){
-						$sql .= "WHERE kmb.jenis=1 AND kmb.hapus=0  AND kmb.kode_po='".$po."' ";
+						$sql .= "WHERE kmb.jenis=1 AND kmb.hapus=0  AND kmb.idpo='".$po."' ";
 						}else{
 							$sql .= 'WHERE kmb.jenis=1 AND kmb.hapus=0 and DATE(kmb.created_date) BETWEEN "'.$get['tanggalMulai'].'" AND "'.$get['tanggalEnd'].'"';
 						}
 				}else{
 					if(isset($get['namaPo'])){
-						$sql .= "WHERE kmb.jenis=1 AND kmb.hapus=0 and kmb.kode_po='".$po."' ";
+						$sql .= "WHERE kmb.jenis=1 AND kmb.hapus=0 and kmb.idpo='".$po."' ";
 						}else{
 							$sql .= 'WHERE kmb.jenis=1 AND kmb.hapus=0 and DATE(kmb.created_date) BETWEEN "'.$data['tanggalMulai'].'" AND "'.$data['tanggalMulai'].'"';
 						}
@@ -957,12 +957,12 @@ class Bordir extends CI_Controller {
 						);
 					}
 					
-					
+					$po = $this->GlobalModel->getData('produksi_po',array('id_produksi_po'=>$b['idpo']));
 					$data['bordir'][]=array(
-						'kode_po'=>$b['kode_po'],
+						'kode_po'=>$po['kode_po'],
 						'operator'=>$b['nama_operator'],
 						'mandor'=>$b['mandor'],
-						'nama_po'=>$b['kode_po'],
+						'nama_po'=>$po['kode_po'],
 						'mesin'=>$b['mesin_bordir'],
 						'created_date'=>date('d F Y',strtotime($b['created_date'])),
 						'bagian_bordir'=>$b['bagian_bordir'],

@@ -25,7 +25,7 @@
     </div>
     <div class="col-md-2">
         <label>Nama PO</label>
-        <select name="namaPo" class="form-control autopo" data-live-search="true">
+        <select name="namaPo" class="form-control autopoid" data-live-search="true">
             <option value="*">Semua</option>
         </select>
     </div>
