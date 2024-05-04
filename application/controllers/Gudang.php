@@ -1673,7 +1673,7 @@ class Gudang extends CI_Controller {
 						$compressedFileName = $fileName;
 					}
 
-					$this->db->update('penerimaan_item',array('lampiran'=>$_FILES['lampiran']['name']),array('id'=>$id));
+					$this->db->update('penerimaan_item',array('lampiran'=>$compressedFileName),array('id'=>$id));
 					// Menghapus file asli
 					unlink($fileName);
 				}
