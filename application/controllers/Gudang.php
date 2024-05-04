@@ -2576,7 +2576,7 @@ class Gudang extends CI_Controller {
 			$hapus=akses($user['id_user'],2);
 		}
 		foreach($item as $i){
-			$po = $this->GlobalModel->getData('produksi_po',array('id_produksi_po'=>$i['idpo']));
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$i['idpo']));
 			$action=array();
 			$action[]=array(
 				'text'=>'Detail / Edit',

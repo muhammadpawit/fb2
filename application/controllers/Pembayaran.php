@@ -493,8 +493,9 @@ class Pembayaran extends CI_Controller {
 			if(!empty($tim)){
 				$data['products'][]=array(
 					'no'=>$no,
+					'idpo'=>$r['idpo'],
 					'tanggal'=>date('d-m-Y',strtotime($r['created_date'])),
-					'kode_po'=>$r['kode_po'].'',
+					'kodepo'=>$r['kodepo'].'',
 					'timpotong'=>$timpotong==null?$r['tim_potong_potongan']:$timpotong['nama'],
 					'panjang_gelaran_potongan_utama'=>$r['panjang_gelaran_potongan_utama'],
 					'pemakaian_bahan_utama'=>$r['pemakaian_bahan_utama'],
@@ -529,8 +530,9 @@ class Pembayaran extends CI_Controller {
 			if(!empty($tim)){
 				$data['products'][]=array(
 					'no'=>$no,
+					'idpo'=>$r['kode_po'],
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-					'kode_po'=>$r['kode_po'].'',
+					'kodepo'=>$r['kode_po'].'',
 					'timpotong'=>$timpotong==null?$r['timpotong']:$timpotong['nama'],
 					'lusin'=>$r['jml_dz'],
 					'pcs'=>$r['jml_pcs'],

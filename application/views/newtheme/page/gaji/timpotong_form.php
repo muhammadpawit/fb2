@@ -71,7 +71,7 @@
 				<?php foreach($products as $p){?>
 					<?php //if($p['total'] > 0){ ?>
 					<input type="hidden" name="products[<?php echo $p['no']?>][tanggal]" value="<?php echo $p['tanggal']?>">
-					<input type="hidden" name="products[<?php echo $p['no']?>][kode_po]" value="<?php echo $p['kode_po']?>">
+					<input type="hidden" name="products[<?php echo $p['no']?>][idpo]" value="<?php echo $p['idpo']?>">
 					<input type="hidden" name="products[<?php echo $p['no']?>][lusin]" value="<?php echo $p['lusin']?>">
 					<input type="hidden" name="products[<?php echo $p['no']?>][pcs]" value="<?php echo $p['pcs']?>">
 					<input type="hidden" name="products[<?php echo $p['no']?>][harga]" value="<?php echo $p['price']?>">
@@ -79,7 +79,7 @@
 					<tr>
 						<td><?php echo $p['no']?></td>
 						<td><?php echo $p['tanggal']?></td>
-						<td><?php echo $p['kode_po']?></td>
+						<td><?php echo $p['kodepo']?></td>
 						<td><?php echo $p['lusin']?></td>
 						<td><?php echo $p['pcs']?></td>
 						<td>

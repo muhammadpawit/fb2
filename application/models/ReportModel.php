@@ -1578,7 +1578,7 @@ class ReportModel extends CI_Model {
 	}
 	public function potongan($data){
 		// $sql="SELECT kbp.*, mjp.nama_jenis_po as nama_po FROM konveksi_buku_potongan kbp ";
-		$sql =" SELECT kbp.*, mjp.nama_jenis_po as nama_po ";
+		$sql =" SELECT kbp.*, mjp.nama_jenis_po as nama_po, p.id_produksi_po as idpo, p.kode_po as kodepo ";
 		$sql.="  FROM konveksi_buku_potongan kbp ";
 		
 		$sql.=" JOIN produksi_po p ON p.id_produksi_po=kbp.idpo ";
