@@ -26,7 +26,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Kode PO</label>
-      <select name="kode_po" class="form-control autopo">
+      <select name="kode_po" class="form-control autopoid">
       </select>
     </div>
   </div>

@@ -2562,7 +2562,7 @@ class Gudang extends CI_Controller {
 		$viewData['title']='Pemakaian Bahan';
 		$sql='SELECT * FROM gudang_bahan_keluar WHERE hapus=0';
 		if(!empty($kode_po)){
-			$sql.=" AND kode_po='".$kode_po."'";
+			$sql.=" AND idpo='".$kode_po."'";
 		}else{
 			$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  ";
 		}
@@ -2576,6 +2576,7 @@ class Gudang extends CI_Controller {
 			$hapus=akses($user['id_user'],2);
 		}
 		foreach($item as $i){
+			$po = $this->GlobalModel->getData('produksi_po',array('id_produksi_po'=>$i['idpo']));
 			$action=array();
 			$action[]=array(
 				'text'=>'Detail / Edit',
@@ -2598,7 +2599,7 @@ class Gudang extends CI_Controller {
 				'created_date'=>$i['created_date'],
 				'nama_item_keluar'=>$i['nama_item_keluar'],
 				'bahan_kategori'=>$i['bahan_kategori'],
-				'kode_po'=>$i['kode_po'],
+				'kode_po'=>$po['kode_po'],
 				'faktur_no'=>$i['faktur_no'],
 				'id_item_keluar'=>$i['id_item_keluar'],
 				'action'=>$action,
