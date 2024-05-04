@@ -1756,7 +1756,7 @@ class Gudang extends CI_Controller {
 			$this->upload->do_upload('lampiran');
 
 			// Mendapatkan nama file yang diunggah
-			$fileName = $this->upload->data('file_name');
+			$fileName = $config['upload_path'].$this->upload->data('file_name');
 
 			// Mendapatkan tipe file yang diunggah
 			$fileType = $this->upload->data('file_type');
