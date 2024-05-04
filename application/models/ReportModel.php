@@ -1614,7 +1614,7 @@ class ReportModel extends CI_Model {
 		if(!empty($d['lusin'])){
 			return $d['lusin'];
 		}else{
-			$d=$this->GlobalModel->QueryManualRow("SELECT SUM(banyak_lapis_potongan) as lusin FROM konveksi_buku_potongan_variasi WHERE hapus=0 AND idpo='".$kode_po."' ");	
+			$d=$this->GlobalModel->QueryManualRow("SELECT SUM(banyak_lapis_potongan) as lusin FROM konveksi_buku_potongan_variasi WHERE idpo='".$kode_po."' ");	
 			return !empty($d)?$d['lusin']:0;
 		}
 	}
