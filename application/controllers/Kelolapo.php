@@ -1256,8 +1256,8 @@ class Kelolapo extends CI_Controller {
 		);
 		$viewData['potonganHead'] = $this->GlobalModel->queryManualRow('SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po = pp.kode_po WHERE pp.kode_po="'.$kode.'"');
 		$viewData['tim']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$viewData['potonganHead']['tim_potong_potongan']));
-		$viewData['potonganUtama'] = $this->GlobalModel->getData('konveksi_buku_potongan_utama',$kodePOArr);
-		$viewData['potonganVariasi'] = $this->GlobalModel->getData('konveksi_buku_potongan_variasi',$kodePOArr);
+		$viewData['potonganUtama'] = $this->GlobalModel->getData('konveksi_buku_potongan_utama',array('idpo'=>$po['id_produksi_po']));
+		$viewData['potonganVariasi'] = $this->GlobalModel->getData('konveksi_buku_potongan_variasi',array('idpo'=>$po['id_produksi_po']));
 		$viewData['page']='kelolapo/bukupotongan/buku-potongan-detail';
 		$this->load->view('newtheme/page/main',$viewData);
 	}
