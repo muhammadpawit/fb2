@@ -1527,8 +1527,9 @@ class Kelolapo extends CI_Controller {
    				$totalkirim+=($p['jumlah_pcs']);
    				$detail=array(
    					'idkirim'=>$id,
-   					'kode_po'=>$p['kode_po'],
-   					'cmtjob'=>$p['cmtjob'],
+   					'kode_po'=>null,
+   					'idpo'=>$p['idpo'],
+					'cmtjob'=>$p['cmtjob'],
    					'rincian_po'=>$p['rincian_po'],
    					'jumlah_pcs'=>$p['jumlah_pcs'],
    					'keterangan'=>$p['keterangan'],
@@ -1536,9 +1537,9 @@ class Kelolapo extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmtsablon_detail',$detail);
-   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
    				$insertkks=array(
-   					'kode_po'=>$p['kode_po'],
+   					'kode_po'=>$masterpo['kode_po'],
    					'create_date'=>$post['tanggal'],
    					'kode_nota_cmt'=>$id,
    					'progress'=>'KIRIM',
