@@ -1529,7 +1529,7 @@ class Kelolapo extends CI_Controller {
    				$detail=array(
    					'idkirim'=>$id,
    					'kode_po'=>null,
-   					'idpo'=>$p['idpo'],
+   					'idpo'=>$p['kode_po'],
 					'cmtjob'=>$p['cmtjob'],
    					'rincian_po'=>$p['rincian_po'],
    					'jumlah_pcs'=>$p['jumlah_pcs'],
