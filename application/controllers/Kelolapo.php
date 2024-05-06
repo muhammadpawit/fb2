@@ -1485,7 +1485,7 @@ class Kelolapo extends CI_Controller {
 		$data['action']=BASEURL.'Kelolapo/kirimcmtsablonsave';
 		$data['progress'] = $this->GlobalModel->queryManual('SELECT * FROM master_progress WHERE id_progress IN(1) ');
 		$data['po']=$this->GlobalModel->queryManual('SELECT * FROM konveksi_buku_potongan kbp JOIN produksi_po pp ON kbp.kode_po=pp.kode_po ');
-		pre($data);
+		// pre($data);
 		$data['pekerjaan']=$this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
 		$data['page']='produksi/kirimcmtsablon_form';
 		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
