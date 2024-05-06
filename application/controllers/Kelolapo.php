@@ -3221,7 +3221,7 @@ class Kelolapo extends CI_Controller {
 	public function cariproduct($id='')
 	{
 		$getId = $this->input->get('id');
-		$data = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('hapus'=>0,'kode_po'=>$getId));
+		$data = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('hapus'=>0,'idpo'=>$getId));
 		echo json_encode($data);
 	}
 		
