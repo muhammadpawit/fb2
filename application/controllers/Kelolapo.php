@@ -1631,7 +1631,7 @@ class Kelolapo extends CI_Controller {
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
 			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['idpo']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['idpo'],
+				'kode_po'=>$po['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>$job['nama_job'],
 				'jumlah_pcs'=>$k['jumlah_pcs'],
