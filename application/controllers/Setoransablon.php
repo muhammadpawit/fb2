@@ -271,14 +271,16 @@ public function save(){
 		}
 		$idcmt=explode("-",$data['namacmt']);
 		//$sql="SELECT k.nosj,kd.* FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
-		$sql="SELECT k.idcmt,k.nosj,kd.* FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.idpo NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 AND totalsetor>0 ) ";
+		$sql="SELECT k.idcmt,k.nosj,kd.*,p.kode_po as kodepo FROM kirimcmtsablon k JOIN kirimcmtsablon_detail kd ON(kd.idkirim=k.id) 
+		INNER JOIN produksi_po p on p.id_produksi_po=kd.idpo
+		WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.idpo NOT IN (SELECT kode_po FROM setorcmt_sablon_detail WHERE hapus=0 AND totalsetor>0 ) ";
 		$sj=$this->GlobalModel->queryManual($sql);
 		$i=0;
 		if(!empty($sj)){
 			foreach($sj as $s){
 				echo "<tr>";
-				echo '<td><input type="checkbox" name="products['.$i.'][pilih]"><input type="hidden" name="products['.$i.'][kode_po] class="form-control" value="'.$s['kode_po'].'"><input type="hidden" name="products['.$i.'][idkirim] class="form-control" value="'.$s['idkirim'].'"></td>';
-				echo '<td>'.$s['kode_po'].'</td>';
+				echo '<td><input type="checkbox" name="products['.$i.'][pilih]"><input type="hidden" name="products['.$i.'][kode_po] class="form-control" value="'.$s['idpo'].'"><input type="hidden" name="products['.$i.'][idkirim] class="form-control" value="'.$s['idkirim'].'"></td>';
+				echo '<td>'.$s['kodepo'].'</td>';
 				echo '<td>'.$s['nosj'].'</td>';
 				echo '<td>'.$s['jumlah_pcs'].'</td>';
 				echo '<td><input type="text" name="products['.$i.'][totalsetor] class="form-control" value="'.($s['jumlah_pcs']-$s['totalsetor']).'"><input type="hidden" name="products['.$i.'][cmtjob] class="form-control" value="'.$s['cmtjob'].'"></td>';
