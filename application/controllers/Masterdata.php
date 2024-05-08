@@ -2271,6 +2271,43 @@ class Masterdata extends CI_Controller {
 
 	}
 
+	public function modelpo()
+
+	{
+		$viewData['title']	= 'Model PO';
+		$viewData['satuan']	= $this->GlobalModel->getData('model_po',null);
+		$viewData['page']='master/modelpo/list';
+		$this->load->view('newtheme/page/main',$viewData);
+
+	}
+
+
+	public function modelpoAdd(){
+		$data['title']	= 'Form Model PO ';
+		$data['page']='master/modelpo/form';
+		$data['cancel']=BASEURL.'Masterdata/modelpo';
+		$data['action']=BASEURL.'Masterdata/modelpo_save';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+
+	public function modelpo_save()
+
+	{
+		$post = $this->input->post();
+		$nama_model = strtolower($post['nama_model']);
+		$insert = array(
+			'nama_model' => ucwords($nama_model),
+			'hapus'	     => 0,
+		);
+		$this->db->insert('model_po',$insert);
+
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+
+		redirect(BASEURL.'Masterdata/modelpo');
+
+	}
+
 
 }
 
