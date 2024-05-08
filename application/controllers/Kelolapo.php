@@ -2024,7 +2024,7 @@ class Kelolapo extends CI_Controller {
 
 	public function kirimcmtsave(){
 		$post=$this->input->post();
-		//pre($post);
+		// pre($post);
 		$atas=array();
 		$bawah=array();
 		$totalatas=0;
@@ -2065,9 +2065,9 @@ class Kelolapo extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
-   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
    				$insertkks=array(
-   					'kode_po'=>$p['kode_po'],
+   					'kode_po'=>$masterpo['kode_po'],
    					'create_date'=>$post['tanggal'],
    					'kode_nota_cmt'=>$id,
    					'progress'=>'KIRIM',
@@ -2093,7 +2093,8 @@ class Kelolapo extends CI_Controller {
    				);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);
    				$iks = $this->db->insert_id();
-   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+   				/*
+				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
    				if(!empty($atas)){
 	   				foreach($atas as $a){
 	   					$ia=array(
@@ -2130,7 +2131,7 @@ class Kelolapo extends CI_Controller {
 	   					);
 	   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
 	   				}
-	   			}
+	   			}*/
    			}
 	   		$nosj='SJFB'.'-'.date('Y-m').'-'.$id;
 			user_activity(callSessUser('id_user'),1,' input pengiriman surat jalan jahit '.$nosj);
