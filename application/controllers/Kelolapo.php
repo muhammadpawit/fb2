@@ -1988,12 +1988,12 @@ class Kelolapo extends CI_Controller {
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
-
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$result['kode_po']));
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
-				'kode_po'=>$result['kode_po'],
+				'kode_po'=>$po['kode_po'],
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>$namacmt['cmt_name'],
 				'keterangan'=>$result['keterangan'],
