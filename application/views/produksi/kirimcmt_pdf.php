@@ -65,7 +65,13 @@
     </thead>
     <tbody>
         <?php foreach($kirims as $k){?>
-            <?php $po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['idpo'])); ?>
+            <?php 
+				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['idpo']));
+				
+				if(!empty($po)){
+					$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
+				}
+			?>
             <tr>
                 <td align="center" width="2%"><?php echo $no?></td>
                 <td align="center" width="6%"><?php echo $po['kode_po']?> <?php echo $po['serian']=='0' ? '':$po['serian'];?></td>
