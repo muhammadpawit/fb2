@@ -95,8 +95,9 @@ class Setoransablon extends CI_Controller {
 		$data['kirims']=[];
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('idpo'=>$k['kode_po']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['kode_po'],
+				'kode_po'=>$po['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>!empty($job)?$job['nama_job']:'',
 				'totalsetor'=>$k['totalsetor'],
