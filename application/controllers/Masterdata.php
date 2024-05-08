@@ -2275,7 +2275,7 @@ class Masterdata extends CI_Controller {
 
 	{
 		$viewData['title']	= 'Model PO';
-		$viewData['satuan']	= $this->GlobalModel->getData('model_po',null);
+		$viewData['satuan']	= $this->GlobalModel->getData('model_po',array('hapus'=>0));
 		$viewData['page']='master/modelpo/list';
 		$this->load->view('newtheme/page/main',$viewData);
 
