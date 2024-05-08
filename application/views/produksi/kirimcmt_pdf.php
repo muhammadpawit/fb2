@@ -68,7 +68,7 @@
             <?php 
 				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['idpo']));
 				
-				if(!empty($po)){
+				if(empty($po)){
 					$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 				}
 			?>
