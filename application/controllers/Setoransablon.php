@@ -127,7 +127,7 @@ class Setoransablon extends CI_Controller {
 
 public function save(){
 		$post=$this->input->post();
-		pre($post);
+		// pre($post);
 		//$po=implode(",", $post['namaPo']);
 		//$rowpo=count($post['namaPo']);
 		$atas=array();
@@ -164,7 +164,7 @@ public function save(){
    				if(isset($p['pilih'])){
    					// eksekusi di table kirim
    					$this->db->query("UPDATE kirimcmtsablon set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE id='".$p['idkirim']."' ");
-   					$this->db->query("UPDATE kirimcmtsablon_detail set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE idkirim='".$p['idkirim']."' AND kode_po='".$p['kode_po']."' ");
+   					$this->db->query("UPDATE kirimcmtsablon_detail set totalsetor=totalsetor+'".$p['totalsetor']."' WHERE idkirim='".$p['idkirim']."' AND idpo='".$p['kode_po']."' ");
    					$jobprice=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$p['cmtjob']));
 	   				$totalsetor+=($p['totalsetor']);
 
@@ -188,9 +188,9 @@ public function save(){
 	   				$this->db->insert('setorcmt_sablon_detail',$detail);
 	   				
 	   				// setor
-	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
 	   				$insertkks=array(
-	   					'kode_po'=>$p['kode_po'],
+	   					'kode_po'=>$masterpo['kode_po'],
 	   					'create_date'=>$post['tanggal'],
 	   					'kode_nota_cmt'=>$idsetor,
 	   					'progress'=>'SETOR',
@@ -215,7 +215,8 @@ public function save(){
 	   				);
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
 	   				$iks = $this->db->insert_id();
-	   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+	   				/*
+					$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
 	   				if(!empty($atas)){
 		   				foreach($atas as $a){
 		   					$ia=array(
@@ -252,7 +253,7 @@ public function save(){
 		   					);
 		   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
 		   				}
-		   			}
+		   			}*/
    				}
    			}
 	   		$nosj='STSBFB'.'-'.date('Y-m').'-'.$idsetor;
