@@ -2588,7 +2588,7 @@ class Kelolapo extends CI_Controller {
 		}
 
 		if(!empty($kode_po)){
-			$sql.=" AND kks.kode_po='".$kode_po."' ";
+			$sql.=" AND kks.idpo='".$kode_po."' ";
 		}else{
 			if(!empty($cmt)){
 				if(!empty($tanggal1) && !empty($tanggal2) ){
