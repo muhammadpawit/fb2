@@ -49,7 +49,7 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Nama PO</label>
-      <select name="kode_po" class="form-control autopo" data-live-search="true">
+      <select name="kode_po" class="form-control autopoid" data-live-search="true">
         <option value="*">Semua</option>
       </select>
     </div>
