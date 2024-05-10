@@ -2324,8 +2324,8 @@ class Masterdata extends CI_Controller {
 		$viewData['title']	= 'Potongan Transport CMT';
 		$viewData['details']	= $this->GlobalModel->getDataRow('harga_transport',array('id'=>$id));
 		$viewData['page']='master/potongantransport/edit';
-		$data['cancel']=BASEURL.'Masterdata/potongantransportcmt';
-		$data['action']=BASEURL.'Masterdata/potongantransportcmtedit_save';
+		$viewData['cancel']=BASEURL.'Masterdata/potongantransportcmt';
+		$viewData['action']=BASEURL.'Masterdata/potongantransportcmtedit_save';
 		$this->load->view('newtheme/page/main',$viewData);
 
 	}

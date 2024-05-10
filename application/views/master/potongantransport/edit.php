@@ -5,25 +5,25 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="">Dari DZ</label>
-                <input type="text" class="form-control" name="dz1" value="<?php echo $details['dz1']?>" required>
+                <input type="text" class="form-control" name="dz1" value="<?php echo $details['dz1']?>" required autocomplete="off">
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
                 <label for="">Sampai DZ</label>
-                <input type="text" class="form-control" name="dz2" value="<?php echo $details['dz2']?>" required>
+                <input type="text" class="form-control" name="dz2" value="<?php echo $details['dz2']?>" required autocomplete="off">
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
                 <label for="">Harga Lama</label>
-                <input type="text" class="form-control" name="harga_lama" value="<?php echo $details['harga_lama']?>" required>
+                <input type="text" class="form-control" name="harga_lama" value="<?php echo $details['harga_lama']?>" required autocomplete="off" readonly>
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
                 <label for="">Harga Baru</label>
-                <input type="text" class="form-control" name="harga" value="<?php echo $details['harga']?>" required>
+                <input type="text" class="form-control" name="harga" value="<?php echo $details['harga']?>" required autocomplete="off">
             </div>
         </div>
         <div class="col-md-12">
