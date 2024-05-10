@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label>Tujuan</label>
                                     <input type="text" name="tujuan_item" class="form-control" value="-">
-                                    <input type="hidden" name="kode_po" class="form-control" value="<?php echo $project['kode_po']; ?>">
+                                    <input type="hidden" name="kode_po" class="form-control" value="<?php echo $project['idpo']; ?>">
                                 </div>
                                 <div>
                                     <label></label><br>

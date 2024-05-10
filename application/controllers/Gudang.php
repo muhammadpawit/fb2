@@ -2108,11 +2108,13 @@ class Gudang extends CI_Controller {
 		$viewData['tanggal1']=$tanggal1;
 		$viewData['tanggal2']=$tanggal2;
 		$viewData['title']='Pengeluaran Alat';
-		$sql='SELECT * FROM gudang_item_keluar WHERE hapus=0';
+		$sql='SELECT gudang_item_keluar.*, p.kode_po as kodepo FROM gudang_item_keluar
+		 INNER JOIN produksi_po p ON p.id_produksi_po=gudang_item_keluar.idpo
+		 WHERE hapus=0';
 		if(!empty($kode_po)){
-			$sql.=" AND kode_po='".$kode_po."' ";
+			$sql.=" AND idpo='".$kode_po."' ";
 		}else{
-			$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$sql.=" AND date(gudang_item_keluar.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 
 		$sql.=" LIMIT 30 ";
@@ -2127,7 +2129,7 @@ class Gudang extends CI_Controller {
 			$action=array();
 			$action[]=array(
 				'text'=>'Detail / Edit ',
-				'href'=>BASEURL.'gudang/itemkeluarDetail/'.$i['kode_po'],
+				'href'=>BASEURL.'gudang/itemkeluarDetail/'.$i['idpo'],
 			);
 			if($hapus==1){
 				$action[]=array(
@@ -2138,11 +2140,11 @@ class Gudang extends CI_Controller {
 			$viewData['item'][] =array(
 				'created_date'=>$i['created_date'],
 				'nama_penerima'=>$i['nama_penerima'],
-				'kode_po'=>$i['kode_po'],
+				'kode_po'=>$i['kodepo'],
 				'faktur_no'=>$i['faktur_no'],
 				'nama_item_keluar'=>$i['nama_item_keluar'],
 				'action'=>$action,
-				'edit'=>BASEURL.'Gudang/pengeluaranalatedit/'.$i['kode_po'],
+				'edit'=>BASEURL.'Gudang/pengeluaranalatedit/'.$i['idpo'],
 			);
 			
 		}
@@ -2155,8 +2157,8 @@ class Gudang extends CI_Controller {
 	public function pengeluaranalatedit($id="")
 	{
 		$viewData['cmt'] = $this->GlobalModel->getData('master_cmt',array('hapus' => 0));
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('kode_po' => $id));
-		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('kode_po' => $viewData['barang'][0]['kode_po']));
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('idpo' => $id));
+		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po' => $viewData['barang'][0]['idpo']));
 		$viewData['action']=BASEURL.'Gudang/editcmtoutbarang';
 		$viewData['page']='gudang/outbound/editcmt';
 		$this->load->view('newtheme/page/main',$viewData);
@@ -2169,7 +2171,7 @@ class Gudang extends CI_Controller {
     		'tujuan_item'=>$data['tujuan_item'],
     		'kode_po'=>$data['kode_po'],
     	);
-    	$this->db->update('gudang_item_keluar',$update,array('kode_po'=>$data['kode_po']));
+    	$this->db->update('gudang_item_keluar',$update,array('idpo'=>$data['kode_po']));
     	$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect(BASEURL.'gudang/pengeluaranalat');
 	}
@@ -2291,8 +2293,9 @@ class Gudang extends CI_Controller {
 	public function itemkeluarOnCreate()
 	{
 		$post = $this->input->post();
-		pre($post);
-		$dataInput = $this->GlobalModel->getDataRow('gudang_item_keluar',array('kode_po' => $post['namaPo']));
+		// pre($post);
+		$ex = explode("-",$post['namaPo']);
+		$dataInput = $this->GlobalModel->getDataRow('gudang_item_keluar',array('idpo' => $ex[0]));
 		//pre($dataInput);
 		//if (empty($dataInput)) {
 
@@ -2325,7 +2328,8 @@ class Gudang extends CI_Controller {
 					$dataInserted = array(
 						'id_persediaan'			=>  $post['id_persediaan'][$key],
 						'nama_item_keluar' 		=>	$nama,
-						'kode_po'				=>	$post['namaPo'],
+						'kode_po'				=>	null,
+						'idpo'					=>  $ex[0],
 						'warna_item_keluar' 	=>	$post['warna'][$key],
 						'ukuran_item_keluar' 	=>	$post['ukuran'][$key],
 						'satuan_item_keluar' 	=>	$post['satuanUkran'][$key],
@@ -2347,7 +2351,7 @@ class Gudang extends CI_Controller {
 				'no_faktur'		=> $post['noFaktur'],
 				'nama_penerima' => $post['namaPenerima'],
 				'tujuan_item'	=> $post['tujuanItem'],
-				'kode_po'		=> $post['namaPo'],
+				'kode_po'		=> $ex[0],
 				'create_date'	=> date('Y-m-d')
 			);
 			$this->GlobalModel->insertData('gudang_out_po',$insertFaktur);
