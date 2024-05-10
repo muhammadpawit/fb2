@@ -24,6 +24,7 @@
                         <tr>
                             <th>Jumlah DZ </th>
                             <th>Harga </th>
+                            <th>Keterangan</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -31,7 +32,8 @@
                                 <?php foreach ($satuan as $key => $sat): ?>
                             <tr>
                                 <td><?php echo $sat['keterangan'] ?></td>
-                                <td><?php echo $sat['harga'] ?></td>
+                                <td><?php echo number_format($sat['harga']) ?></td>
+                                <td><?php echo $sat['keterangan'] ?></td>
                                 <td>
                                     <!-- <a href="<?php echo BASEURL.'Masterdata/modelpoDelete/'.$sat['id']?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah yakin akan menghapus data ini ? ')">Hapus</a> -->
                                     <a href="<?php echo BASEURL.'Masterdata/potongantransportcmtEdit/'.$sat['id']?>" class="btn btn-warning btn-sm">Edit</a>
