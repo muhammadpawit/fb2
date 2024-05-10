@@ -2110,7 +2110,7 @@ class Gudang extends CI_Controller {
 		$viewData['title']='Pengeluaran Alat';
 		$sql='SELECT gudang_item_keluar.*, p.kode_po as kodepo FROM gudang_item_keluar
 		 INNER JOIN produksi_po p ON p.id_produksi_po=gudang_item_keluar.idpo
-		 WHERE hapus=0';
+		 WHERE p.hapus=0';
 		if(!empty($kode_po)){
 			$sql.=" AND idpo='".$kode_po."' ";
 		}else{
