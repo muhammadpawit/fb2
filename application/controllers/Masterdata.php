@@ -2308,6 +2308,78 @@ class Masterdata extends CI_Controller {
 
 	}
 
+	public function potongantransportcmt()
+
+	{
+		$viewData['title']	= 'Potongan Transport CMT';
+		$viewData['satuan']	= $this->GlobalModel->getData('harga_transport',array('hapus'=>0));
+		$viewData['page']='master/potongantransport/list';
+		$this->load->view('newtheme/page/main',$viewData);
+
+	}
+
+	public function potongantransportcmtEdit($id)
+
+	{
+		$viewData['title']	= 'Potongan Transport CMT';
+		$viewData['details']	= $this->GlobalModel->getDataRow('harga_transport',array('id'=>$id));
+		$viewData['page']='master/potongantransport/edit';
+		$data['cancel']=BASEURL.'Masterdata/potongantransportcmt';
+		$data['action']=BASEURL.'Masterdata/potongantransportcmtedit_save';
+		$this->load->view('newtheme/page/main',$viewData);
+
+	}
+
+
+	public function potongantransportcmtAdd(){
+		$data['title']	= 'Form Potongan Transport CMT';
+		$data['page']='master/potongantransport/form';
+		$data['cancel']=BASEURL.'Masterdata/potongantransportcmt';
+		$data['action']=BASEURL.'Masterdata/potongantransportcmt_save';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+
+	public function potongantransportcmt_save()
+
+	{
+		$post = $this->input->post();
+		$nama_model = strtolower($post['nama_model']);
+		$insert = array(
+			'dz1' 			=> $post['dz1'],
+			'dz2' 			=> $post['dz2'],
+			'harga' 		=> $post['harga'],
+			'keterangan' 	=> $post['keterangan'],
+			'hapus'	    	=> 0,
+		);
+		$this->db->insert('harga_transport',$insert);
+
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+
+		redirect(BASEURL.'Masterdata/potongantransportcmt');
+
+	}
+
+	public function potongantransportcmtedit_save()
+
+	{
+		$post = $this->input->post();
+		
+		$insert = array(
+			'dz1' 			=> $post['dz1'],
+			'dz2' 			=> $post['dz2'],
+			'harga' 		=> $post['harga'],
+			'keterangan' 	=> $post['keterangan'],
+			'hapus'	    	=> 0,
+		);
+		$this->db->update('harga_transport',$insert,array('id'=>$post['id']));
+
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+
+		redirect(BASEURL.'Masterdata/potongantransportcmt');
+
+	}
+
 
 }
 
