@@ -2349,6 +2349,7 @@ class Masterdata extends CI_Controller {
 			'dz1' 			=> $post['dz1'],
 			'dz2' 			=> $post['dz2'],
 			'harga' 		=> $post['harga'],
+			'harga_lama' 	=> $post['harga_lama'],
 			'keterangan' 	=> $post['keterangan'],
 			'hapus'	    	=> 0,
 		);
@@ -2369,6 +2370,7 @@ class Masterdata extends CI_Controller {
 			'dz1' 			=> $post['dz1'],
 			'dz2' 			=> $post['dz2'],
 			'harga' 		=> $post['harga'],
+			'harga_lama' 	=> $post['harga_lama'],
 			'keterangan' 	=> $post['keterangan'],
 			'hapus'	    	=> 0,
 		);

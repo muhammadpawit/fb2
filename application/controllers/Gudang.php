@@ -2291,7 +2291,7 @@ class Gudang extends CI_Controller {
 	public function itemkeluarOnCreate()
 	{
 		$post = $this->input->post();
-
+		pre($post);
 		$dataInput = $this->GlobalModel->getDataRow('gudang_item_keluar',array('kode_po' => $post['namaPo']));
 		//pre($dataInput);
 		//if (empty($dataInput)) {

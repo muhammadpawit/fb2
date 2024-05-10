@@ -16,7 +16,13 @@
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                <label for="">Harga</label>
+                <label for="">Harga Lama</label>
+                <input type="text" class="form-control" name="harga_lama" value="<?php echo $details['harga_lama']?>" required>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="">Harga Baru</label>
                 <input type="text" class="form-control" name="harga" value="<?php echo $details['harga']?>" required>
             </div>
         </div>

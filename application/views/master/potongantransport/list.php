@@ -23,7 +23,8 @@
                         <thead>
                         <tr>
                             <th>Jumlah DZ </th>
-                            <th>Harga </th>
+                            <th>Harga Lama</th>
+                            <th>Harga Baru</th>
                             <th>Keterangan</th>
                             <th>Action</th>
                         </tr>
@@ -32,6 +33,7 @@
                                 <?php foreach ($satuan as $key => $sat): ?>
                             <tr>
                                 <td><?php echo $sat['keterangan'] ?></td>
+                                <td><?php echo number_format($sat['harga_lama']) ?></td>
                                 <td><?php echo number_format($sat['harga']) ?></td>
                                 <td><?php echo $sat['keterangan'] ?></td>
                                 <td>

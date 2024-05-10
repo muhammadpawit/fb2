@@ -28,7 +28,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Nama PO </label>
-                <select class="form-control autopo" title="Pilih PO" name="namaPo" id="po" data-size="5" data-live-search="true">
+                <select class="form-control autopoid" title="Pilih PO" name="namaPo" id="po" data-size="5" data-live-search="true">
                 </select>
             </div>
         </div>
