@@ -391,13 +391,14 @@ class Pembayaran extends CI_Controller {
 		$bukupotongan=null;
 		$jenis=null;
 		foreach($results as $r){
+				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$r['kode_po']));
 				$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
 				$bukupotongan=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po'=>$r['kode_po']));
 				$jenis=$this->GlobalModel->QueryManualRow("SELECT idjenis FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE kode_po='".$r['kode_po']."' ");
 				$data['products'][]=array(
 					'no'=>$no,
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-					'kode_po'=>$r['kode_po'],
+					'kode_po'=>$po['kode_po'],
 					'jenis'=>($jenis['idjenis']==1)?'Kemeja':($jenis['idjenis']==2?'Kaos':'Celana'),
 					'size'=>$bukupotongan['size_potongan'],
 					'timpotong'=>$timpotong==null?'':$timpotong['nama'],
