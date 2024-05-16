@@ -37,7 +37,7 @@ class Kirimbordir extends CI_Controller {
 		$sql='SELECT * FROM kelolapo_kirim_setor kks LEFT JOIN produksi_po pp ON kks.kode_po=pp.kode_po';
 		$sql.=" WHERE kks.hapus=0 AND kategori_cmt='BORDIR' ";
 		if(!empty($kode_po)){
-			$sql.=" AND kks.kode_po='".$kode_po."' ";
+			$sql.=" AND kks.idpo='".$kode_po."' ";
 		}else{
 			$sql.=" AND date(kks.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -69,7 +69,7 @@ class Kirimbordir extends CI_Controller {
 
 	public function save(){
 		$post=$this->input->post();
-		//pre($post);
+		pre($post);
 		$atas=array();
 		$bawah=array();
 		$totalatas=0;
