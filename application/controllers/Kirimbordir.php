@@ -69,7 +69,7 @@ class Kirimbordir extends CI_Controller {
 
 	public function save(){
 		$post=$this->input->post();
-		pre($post);
+		// pre($post);
 		$atas=array();
 		$bawah=array();
 		$totalatas=0;
@@ -79,9 +79,11 @@ class Kirimbordir extends CI_Controller {
 		if(isset($post['tanggal'])){
 			$cmt=explode('-', $post['cmtName']);
    			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt[0]));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
    			foreach($post['products'] as $p){
    				$insertkks=array(
-   					'kode_po'=>$p['kode_po'],
+   					'kode_po'=>$po['kode_po'],
+					'idpo'=>$po['id_produksi_po'],
    					'create_date'=>$post['tanggal'],
    					'kode_nota_cmt'=>0,
    					'progress'=>$post['progress'],
@@ -106,44 +108,44 @@ class Kirimbordir extends CI_Controller {
    				);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);
    				$iks = $this->db->insert_id();
-   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
-   				if(!empty($atas)){
-	   				foreach($atas as $a){
-	   					$ia=array(
-	   						'id_kelolapo_kirim_setor'=>$iks,
-	   						'kode_po'=>$a['kode_po'],
-	   						'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
-	   						'warna_potongan_atas'=>$a['warna_potongan_atas'],
-	   						'jumlah_potongan'=>$a['jumlah_potongan'],
-	   						'keterangan_potongan'=>$a['keterangan_potongan'],
-	   						'created_date'=>$post['tanggal'],
-	   						'qty_bangke_atas'=>0,
-	   						'qty_reject_atas'=>0,
-	   						'qty_hilang_atas'=>0,
-	   						'qty_claim_atas'=>0,
-	   					);
-	   					$this->db->insert('kelolapo_kirim_setor_atas',$ia);
-	   				}
-	   			}
-	   			$bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
-	   			if(!empty($bawah)){
-	   				foreach($bawah as $b){
-	   					$ib=array(
-	   						'id_kelolapo_kirim_setor'=>$iks,
-	   						'kode_po'=>$b['kode_po'],
-	   						'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
-	   						'warna_potongan_atas'=>$b['warna_potongan_bawah'],
-	   						'jumlah_potongan'=>$b['jumlah_potongan'],
-	   						'keterangan_potongan'=>$a['keterangan_potongan'],
-	   						'created_date'=>$post['tanggal'],
-	   						'qty_bangke_atas'=>0,
-	   						'qty_reject_atas'=>0,
-	   						'qty_hilang_atas'=>0,
-	   						'qty_claim_atas'=>0,
-	   					);
-	   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
-	   				}
-	   			}
+   				// $atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+   				// if(!empty($atas)){
+	   			// 	foreach($atas as $a){
+	   			// 		$ia=array(
+	   			// 			'id_kelolapo_kirim_setor'=>$iks,
+	   			// 			'kode_po'=>$a['kode_po'],
+	   			// 			'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
+	   			// 			'warna_potongan_atas'=>$a['warna_potongan_atas'],
+	   			// 			'jumlah_potongan'=>$a['jumlah_potongan'],
+	   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+	   			// 			'created_date'=>$post['tanggal'],
+	   			// 			'qty_bangke_atas'=>0,
+	   			// 			'qty_reject_atas'=>0,
+	   			// 			'qty_hilang_atas'=>0,
+	   			// 			'qty_claim_atas'=>0,
+	   			// 		);
+	   			// 		$this->db->insert('kelolapo_kirim_setor_atas',$ia);
+	   			// 	}
+	   			// }
+	   			// $bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
+	   			// if(!empty($bawah)){
+	   			// 	foreach($bawah as $b){
+	   			// 		$ib=array(
+	   			// 			'id_kelolapo_kirim_setor'=>$iks,
+	   			// 			'kode_po'=>$b['kode_po'],
+	   			// 			'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
+	   			// 			'warna_potongan_atas'=>$b['warna_potongan_bawah'],
+	   			// 			'jumlah_potongan'=>$b['jumlah_potongan'],
+	   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+	   			// 			'created_date'=>$post['tanggal'],
+	   			// 			'qty_bangke_atas'=>0,
+	   			// 			'qty_reject_atas'=>0,
+	   			// 			'qty_hilang_atas'=>0,
+	   			// 			'qty_claim_atas'=>0,
+	   			// 		);
+	   			// 		$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
+	   			// 	}
+	   			// }
    			}
    			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect($this->link);
