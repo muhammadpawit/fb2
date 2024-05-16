@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6">
         <label>Kode PO</label>
-        <select class="form-control autopo" name="kode_po" id="kode_po" data-live-search="true">
+        <select class="form-control autopoid" name="kode_po" id="kode_po" data-live-search="true">
                     <option value="*">Semua</option>
                   </select>
     </div>
