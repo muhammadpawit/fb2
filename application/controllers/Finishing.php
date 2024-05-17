@@ -922,7 +922,7 @@ class Finishing extends CI_Controller {
 			// $products=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 			$data['title'] = 'Data Karyawan Harian & Borongan Pusat ';
 			$products=$this->GlobalModel->queryManual("
-			SELECT * FROM karyawan_harian WHERE bagian NOT LIKE '%cabang sukabumi%'
+			SELECT * FROM karyawan_harian WHERE bagian NOT LIKE '%cabang sukabumi%' AND hapus=0
 			");
 		}
 		
