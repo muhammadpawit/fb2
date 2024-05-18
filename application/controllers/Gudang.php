@@ -2236,8 +2236,8 @@ class Gudang extends CI_Controller {
 		$viewData['lampiran']=BASEURL.'Gudang/lampiran_save';
 		$viewData['l']=[];
 		$viewData['l'] = $this->GlobalModel->getDataRow('lampiran_alat',array('kode_po' => $id));
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('hapus'=>0,'kode_po' => $id));
-		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('kode_po' => $viewData['barang'][0]['kode_po']));
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('hapus'=>0,'idpo' => $id));
+		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po' => $id));
 		$viewData['excel']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&excel=true';
 		$viewData['cetak']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&cetak=true';
 		$get=$this->input->get();
