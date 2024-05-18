@@ -164,14 +164,24 @@
                     <td class="right"><?php echo !empty($sablon)?number_format($sablon['cmt_job_price']):'0';?></td>
                     <?php $total+=!empty($sablon)?$sablon['cmt_job_price']:0;?>
                 </tr>
-                <tr>
+                <?php foreach($jahit as $j){ ?>
+                    <tr>
+                    <td class="center">8</td>
+                    <td>JAHIT : <?php echo strtoupper($j['nama_cmt']) ?></td>
+                    <td class="center"></td>
+                    <td class="center"></td>
+                    <td class="right"><?php echo !number_format($j['cmt_job_price']); ?></td>
+                    <?php $total += $jahit['cmt_job_price'];?>
+                </tr>
+                <?php } ?>
+                <!-- <tr>
                     <td class="center">8</td>
                     <td>JAHIT : <?php echo strtoupper($namacmt) ?></td>
                     <td class="center"></td>
                     <td class="center"></td>
                     <td class="right"><?php echo !empty($jahit)?number_format($jahit['cmt_job_price']):'0';?></td>
                     <?php $total += !empty($jahit)?($jahit['cmt_job_price']):0;?>
-                </tr>
+                </tr> -->
                 <?php $no=8;$totplastik=0;?>
                 <?php if(!empty($plastik)){ ?>
                     

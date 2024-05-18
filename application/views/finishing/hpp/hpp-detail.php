@@ -457,7 +457,7 @@
 
                                         <td>
                                             <?php if($cmtt['kategori_cmt']=='JAHIT'){?>
-                                                <?php echo $cmtt['kategori_cmt'] ?> : <?php echo strtoupper($namacmt) //echo strtoupper($produk['nama_cmt']) ?>
+                                                <?php echo $cmtt['kategori_cmt'] ?> : <?php echo strtoupper($cmtt['nama_cmt']) //echo strtoupper($produk['nama_cmt']) ?>
                                             <?php }else if($cmtt['kategori_cmt']=='BORDIR'){ ?>
                                                 <?php if($produk['nama_po']=="PFK"){?>
                                                 <?php echo $cmtt['kategori_cmt'] ?> : LUAR
