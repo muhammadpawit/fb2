@@ -432,7 +432,36 @@ class ReportModel extends CI_Model {
 	public function getpcsK($kodepo,$kat,$progress){
 		$hasil=0;
 		$qtykembalianbangke=0;
-		$sql="SELECT COALESCE(SUM(kks.qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor kks INNER JOIN produksi_po p ON p.id_produksi_po=kks.idpo WHERE kks.hapus=0 AND kks.kode_po='$kodepo' AND kks.kategori_cmt='$kat' AND kks.progress='$progress' ";
+		// $sql="SELECT COALESCE(SUM(kks.qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor kks INNER JOIN produksi_po p ON p.id_produksi_po=kks.idpo WHERE kks.hapus=0 AND kks.kode_po='$kodepo' AND kks.kategori_cmt='$kat' AND kks.progress='$progress' ";
+		$sql ="
+		
+			SELECT 
+			COALESCE(SUM(
+				CASE 
+					WHEN po_counts.po_count > 1 THEN kks.qty_tot_pcs * 0.5
+					ELSE kks.qty_tot_pcs
+				END
+			), 0) AS pcs
+			FROM kelolapo_kirim_setor kks
+			INNER JOIN produksi_po p ON p.id_produksi_po = kks.idpo
+			INNER JOIN (
+			SELECT 
+				kks.kode_po,
+				COUNT(*) AS po_count
+			FROM kelolapo_kirim_setor kks
+			INNER JOIN produksi_po p ON p.id_produksi_po = kks.idpo
+			WHERE kks.hapus = 0 
+			AND kks.kategori_cmt = '$kat'
+			AND kks.progress = '$progress'
+			GROUP BY kks.kode_po
+			) po_counts ON po_counts.kode_po = kks.kode_po
+			WHERE kks.hapus = 0 
+			AND kks.kode_po = '$kodepo'
+			AND kks.kategori_cmt = '$kat'
+			AND kks.progress = '$progress'
+
+		
+		";
 		$d=$this->GlobalModel->queryManualRow($sql);
 
 			$bangke="SELECT COALESCE(SUM(rpo.bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo INNER JOIN produksi_po p ON p.id_produksi_po=rpo.idpo WHERE rpo.kode_po='".$kodepo."' ";

@@ -263,6 +263,7 @@ class Kelolapo extends CI_Controller {
 	}
 
 	public function kirimsetorhapus($kode_po,$idKelola){
+		// pre($idKelola);
 		$data=[];
 		$data['title']='Kirim Setor Hapus';
 		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE kks.idpo="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
@@ -270,8 +271,10 @@ class Kelolapo extends CI_Controller {
 		$data['masterCmt'] = $this->GlobalModel->getDataRow('master_cmt_job',array('id_master_cmt_job' => $data['poProd']['id_master_cmt_job']));
 		$data['progress'] = $this->GlobalModel->getData('master_progress',null);
 		$data['parent']	= $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('idpo'=>$kode_po,'id_kelolapo_kirim_setor'=>$idKelola));
-		$data['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kode_po,'id_kelolapo_kirim_setor'=>$idKelola));
-		$data['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kode_po,'id_kelolapo_kirim_setor'=>$idKelola));
+		$data['atas'] 	= [];
+		$data['bawah']	= [];
+		// $data['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kode_po,'id_kelolapo_kirim_setor'=>$idKelola));
+		// $data['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kode_po,'id_kelolapo_kirim_setor'=>$idKelola));
 		$data['listcmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0));
 		$data['listjob']=$this->GlobalModel->getData('master_job',array('hapus'=>0));
 		$data['page']='kelolapo/kirimsetorpotongan/hapus';

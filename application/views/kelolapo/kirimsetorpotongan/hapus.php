@@ -119,7 +119,7 @@
                             </table>
                         </div>
                     </div>
-                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        <button type="submit" onclick="return confirm('Apakah yakin akan menghapus data ini?')"  class="btn btn-danger btn-sm">Hapus</button>
                         <a href="<?php echo BASEURL.'kelolapo/kirimsetorcmt';?>" class="btn btn-info btn-sm text-white">Batal</a>
                    </form>
 
