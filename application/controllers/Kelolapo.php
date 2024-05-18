@@ -2192,6 +2192,7 @@ class Kelolapo extends CI_Controller {
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
 			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
+				'id_produksi_po' => $po['id_produksi_po'],
 				'kode_po'=>$po['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>$job['id'],
@@ -2209,7 +2210,7 @@ class Kelolapo extends CI_Controller {
 
 	public function kirimcmteditsave(){
 		$post=$this->input->post();
-		//pre($post);
+		// pre($post);
 		//pre($data);
 		$cmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
 		// update di sj
@@ -2219,12 +2220,12 @@ class Kelolapo extends CI_Controller {
 		$this->db->query($sql);
 		$totalkirim=0;
 		foreach($post['prods'] as $p){
-			$cek_diklo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array('hapus'=>0,'kode_po'=>$p['kode_po'],'progress'=>'KIRIM','kategori_cmt'=>'JAHIT','id_master_cmt'=>$post['idcmt']));
+			$cek_diklo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array('hapus'=>0,'idpo'=>$p['kode_po'],'progress'=>'KIRIM','kategori_cmt'=>'JAHIT','id_master_cmt'=>$post['idcmt']));
 			$totalkirim+=($p['jumlah_pcs']);
 			$rp=explode('-',$p['job']);
 			if(empty($cek_diklo)){
 				// insert to kelola kirim setor
-				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
 				$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
    				$insertkks=array(
    					'kode_po'=>$masterpo['kode_po'],
@@ -2260,7 +2261,7 @@ class Kelolapo extends CI_Controller {
 					'jml_barang'=>$p['jml_barang'],
 				);
 				$where=array(
-					'kode_po'=>$p['kode_po'],
+					'idpo'=>$p['kode_po'],
 					'kategori_cmt'	=>$p['kategori_cmt'],
 					'kode_nota_cmt'=>$post['kode_nota'],
 					'progress'=>'KIRIM',

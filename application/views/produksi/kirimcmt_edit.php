@@ -63,7 +63,7 @@
 										<td>
 											<?php echo $k['kode_po']?>
 											<input type="hidden" name="prods[<?php echo $no?>][kategori_cmt]" value="JAHIT">
-											<input type="hidden" name="prods[<?php echo $no?>][kode_po]" value="<?php echo $k['kode_po']?>">
+											<input type="hidden" name="prods[<?php echo $no?>][kode_po]" value="<?php echo $k['id_produksi_po']?>">
 										</td>
 										<td><input type="text" name="prods[<?php echo $no?>][rincian_po]" value="<?php echo $k['rincian_po']?>" class=""></td>
 										<td class="no-print">
