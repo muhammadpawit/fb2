@@ -2190,8 +2190,9 @@ class Kelolapo extends CI_Controller {
 		$job=null;
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['kode_po'],
+				'kode_po'=>$po['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>$job['id'],
 				'jumlah_pcs'=>$k['jumlah_pcs'],
