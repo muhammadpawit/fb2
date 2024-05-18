@@ -70,13 +70,14 @@
                         <?php $no=1; ?>
                         <?php foreach($products as $p){?>
                           <?php foreach($p['dets'] as $d){?>
+                            <?php $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$d['kode_po'])); ?>
                           <tr>
                             <td><?php echo $no++?></td>
                             <td><?php echo $p['nosj']?></td>
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['namacmt']?></td>
                             <td><?php echo $d['jumlah_pcs']?></td>
-                            <td><?php echo $d['kode_po']?></td>
+                            <td><?php echo $po['kode_po']?></td>
                             <td><?php echo $p['status']?></td>
                             <td class="right"><?php foreach ($p['action'] as $action) { ?>
                             <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
