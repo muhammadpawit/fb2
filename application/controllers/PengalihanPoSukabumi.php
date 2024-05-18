@@ -92,7 +92,8 @@ class PengalihanPoSukabumi extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
-			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
+			// $dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
+			$dets = $this->detail($result['id']);
 			
 			$data['products'][]=array(
 				'no'=>$no++,
@@ -112,6 +113,11 @@ class PengalihanPoSukabumi extends CI_Controller {
 		
 	}
 
+	function detail($id){
+		$sql =" SELECT p.kode_po, k.jumlah_pcs FROM produksi_po p INNER JOIN kirimcmt_detail k ON k.kode_po=p.id_produksi_po WHERE k.hapus=0 and k.idkirim='$id' ";
+		return $this->db->query($sql)->result_array();
+	}
+
 	public function kirimcmtview($id='',$kodepo=''){
 		$toarray=explode(",", $kodepo);
 		$row=count($toarray);
@@ -126,9 +132,9 @@ class PengalihanPoSukabumi extends CI_Controller {
 		$job=null;
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
-			$po=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$k['kode_po']));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['kode_po'].' '.$po['serian'],
+				'kode_po'=>$po['kode_po'].' '.(($po['serian']!=0) ? $po['serian'] :''),
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>$job['nama_job'],
 				'jumlah_pcs'=>$k['jumlah_pcs'],
