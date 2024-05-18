@@ -84,7 +84,8 @@ class Alatsukabumi extends CI_Controller {
 		SELECT 
     COALESCE(SUM(barangkeluarharian_detail.jumlah), 0) AS jumlah,
 		GROUP_CONCAT(barangkeluarharian_detail.keterangan SEPARATOR ', ') AS keterangan,
-		GROUP_CONCAT(barangkeluarharian_detail.id SEPARATOR ', ') AS id
+		GROUP_CONCAT(barangkeluarharian_detail.id SEPARATOR ', ') AS id,
+		barangkeluarharian_detail.idpersediaan
 	FROM barangkeluarharian_detail 
 	LEFT JOIN barangkeluarharian ON barangkeluarharian.id = barangkeluarharian_detail.idbarangkeluarharian
 	WHERE barangkeluarharian_detail.hapus = 0 

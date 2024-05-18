@@ -46,6 +46,7 @@ class AlatsukabumiModel extends CI_Model {
 					'pembuat'=>callSessUser('nama_user').' pada '.date('d-m-Y H:i:s'),
 					'status'=>2, // 1 dikirim. 2 diterima
 					'hapus'=>0,
+					'idbarangkeluar'=>$p['idbarangkeluar'],
 				);
 				$this->db->insert('alat_sukabumi',$insert);
 				$cek=$this->GlobalModel->getDataRow('stok_barang_skb',array('hapus'=>0,'id_persediaan'=>$p['idpersediaan']));

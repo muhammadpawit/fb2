@@ -36,7 +36,7 @@ $(document).ready(function(){
     $(document).on('click', '.addbahankeluars', function(){
         var html = '';
         html += '<tr>';
-        html += '<td style="display:none;"><input type="hidden" class="form-control id" name="products['+i+'][idpersediaan]" ><input type="hidden" class="form-control harga" name="products['+i+'][harga]" ></td>';
+        html += '<td style="display:none;"><input type="hidden" class="form-control id" name="products['+i+'][idpersediaan]" ><input type="hidden" class="form-control idbarangkeluar" name="products['+i+'][idbarangkeluar]" ><input type="hidden" class="form-control harga" name="products['+i+'][harga]" ></td>';
         html += '<td><select type="text" class="form-control barang select2bs4" name="products['+i+'][nama]" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
         html += '<td><input type="number" class="form-control jumlah" name="products['+i+'][jumlah]" readonly ></td>';
         html += '<td><span class="stn"></span><input type="hidden" class="form-control satuanJml" name="products['+i+'][satuan]" ></td>';
@@ -64,7 +64,8 @@ $(document).ready(function(){
             dai.find(".jumlah").val(obj.jumlah);
             dai.find(".satuanJml").val(obj.satuan);
             dai.find(".stn").html(obj.satuan);
-            dai.find(".id").val(obj.id);
+            dai.find(".id").val(obj.idpersediaan);
+            dai.find(".idbarangkeluar").val(obj.id);
              dai.find(".keterangan").val(obj.keterangan);
             //dai.find(".harga").val(obj.harga_item);
             // dai.find(".jumlah").attr('max',obj.jumlah_item);
