@@ -79,8 +79,9 @@ class Kirimbordir extends CI_Controller {
 		if(isset($post['tanggal'])){
 			$cmt=explode('-', $post['cmtName']);
    			$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$cmt[0]));
-			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
+			
    			foreach($post['products'] as $p){
+				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$po['kode_po'],
 					'idpo'=>$po['id_produksi_po'],
@@ -106,7 +107,7 @@ class Kirimbordir extends CI_Controller {
    					'status_keu'=>0,
    					'tglinput'=>date('Y-m-d'),
    				);
-   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
+   				$input = $this->db->insert('kelolapo_kirim_setor',$insertkks);
    				$iks = $this->db->insert_id();
    				// $atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
    				// if(!empty($atas)){
@@ -147,7 +148,11 @@ class Kirimbordir extends CI_Controller {
 	   			// 	}
 	   			// }
    			}
-   			$this->session->set_flashdata('msg','Data berhasil disimpan');
+   			if($input==true){
+				$this->session->set_flashdata('msg','Data berhasil disimpan');
+			}else{
+				$this->session->set_flashdata('gagal','Data gagal disimpan');
+			}
 			redirect($this->link);
 			//pre($post);
 		}else{
