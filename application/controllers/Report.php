@@ -127,7 +127,8 @@ class Report extends CI_Controller {
 			foreach($products as $p){
 				$tf[]=array(
 				'tanggal'=>$p['tanggal'],
-				'bagian'=>$p['bagian'],
+				// 'bagian'=>$p['bagian'],
+				'bagian'=>null,
 				//'keterangan'=>null,
 				);	
 			}
@@ -144,7 +145,8 @@ class Report extends CI_Controller {
 			foreach($products2 as $p){
 				$sbl[]=array(
 				'tanggal'=>$p['tanggal'],
-				'bagian'=>$p['bagian'],
+				// 'bagian'=>$p['bagian'],
+				'bagian'=>null,
 				);	
 			}
 		}
@@ -166,6 +168,7 @@ class Report extends CI_Controller {
 			// pre($uniqueArray);
 			// array_unique($merger,SORT_REGULAR)
 		$i=0;
+		// pre($uniqueArray);
 		foreach($uniqueArray as $p){
 			$ket=$this->ReportModel->getket($p['tanggal'],$p['bagian']);
 			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);

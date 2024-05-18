@@ -537,7 +537,7 @@ class Json extends CI_Controller {
 	public function pmbkirim()
 	{
 		$post = $this->input->get();
-		$data = $this->GlobalModel->QueryManualRow("SELECT SUM(kbp.qty_tot_pcs) as kirimpcs, kbp.cmt_job_price as harga FROM kelolapo_kirim_setor kbp WHERE kode_po='".$post['kodepo']."' AND hapus=0 AND kategori_cmt='JAHIT' AND progress='KIRIM' AND id_master_cmt='".$post['cmt']."' ");
+		$data = $this->GlobalModel->QueryManualRow("SELECT SUM(kbp.qty_tot_pcs) as kirimpcs, kbp.cmt_job_price as harga FROM kelolapo_kirim_setor kbp WHERE idpo='".$post['kodepo']."' AND hapus=0 AND kategori_cmt='JAHIT' AND progress='KIRIM' AND id_master_cmt='".$post['cmt']."' ");
 		echo json_encode($data);
 	}
 

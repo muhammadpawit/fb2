@@ -1704,7 +1704,7 @@ class Finishing extends CI_Controller {
 	public function setorcmtjahit()
 	{
 		$post = $this->input->get();
-		$po = $this->GlobalModel->QueryManualRow("SELECT * FROM produksi_po WHERE kode_po='".$post['kodepo']."' ");
+		$po = $this->GlobalModel->QueryManualRow("SELECT * FROM produksi_po WHERE id_produksi_po='".$post['kodepo']."' ");
 		//echo json_encode($post);exit;
 		//$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
 		if( strtolower($po['nama_po']) == 'bjk' ){
@@ -1720,7 +1720,7 @@ class Finishing extends CI_Controller {
 	public function kirimcmtjahit()
 	{
 		$post = $this->input->get();
-		$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('kode_po'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
+		$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('idpo'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
 		// /$data = $this->GlobalModel->QueryManualROw($sql);
 		echo json_encode($data);
 	}

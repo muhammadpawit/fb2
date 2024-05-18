@@ -80,9 +80,9 @@ class Alatsukabumi extends CI_Controller {
 		$tgl = $this->input->get('tgl');
 		$getId = $this->input->get('id');
 		//$data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
-		$sql="SELECT * FROM barangkeluarharian_detail LEFT JOIN barangkeluarharian ON barangkeluarharian.id=barangkeluarharian_detail.idbarangkeluarharian WHERE barangkeluarharian_detail.hapus=0 and idpersediaan='".$getId."' AND barangkeluarharian_detail.tanggal <='".$tgl."' 
+		$sql="SELECT  COALESCE(SUM(jumlah))  FROM barangkeluarharian_detail LEFT JOIN barangkeluarharian ON barangkeluarharian.id=barangkeluarharian_detail.idbarangkeluarharian WHERE barangkeluarharian_detail.hapus=0 and idpersediaan='".$getId."' AND barangkeluarharian_detail.tanggal <='".$tgl."' 
 		AND barangkeluarharian.bagian=10
-		ORDER BY barangkeluarharian_detail.tanggal DESC LIMIT 1 ";
+		ORDER BY barangkeluarharian_detail.tanggal DESC LIMIT 2 ";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		echo json_encode($data);
 	}
