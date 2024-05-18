@@ -1301,6 +1301,8 @@ class Gudang extends CI_Controller {
 		$adminkeu=null;
 		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>24));
 		$viewData['adminkeu']=$adminkeu['nama'];
+		$adminskb =$this->GlobalModel->getDataRow('user',array('location'=>'Sukabumi','status_user'=>1));
+		$viewData['adminskb']=!empty($adminskb) ? strtolower($adminskb['nama_user']):'';
 		$viewData['action']=BASEURL.'Gudang/pengajuan';
 		$viewData['menyetujui']=0;
 		$get=$this->input->get();

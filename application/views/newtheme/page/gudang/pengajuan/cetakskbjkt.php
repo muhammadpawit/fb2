@@ -448,7 +448,7 @@
                                                 <?php 
 
                                                     if($parent['kategori']==4){
-                                                        echo "(Vina)";
+                                                        echo '( '.ucfirst($adminskb).' )';
                                                     }else{
                                                         echo "(Ifah)";
                                                     }

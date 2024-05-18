@@ -102,8 +102,9 @@ class Setorancmt extends CI_Controller {
 		$data['kirims']=[];
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['kode_po'],
+				'kode_po'=>$po['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>!empty($job)?$job['nama_job']:'',
 				'totalsetor'=>$k['totalsetor'],
@@ -134,7 +135,7 @@ class Setorancmt extends CI_Controller {
 
 	public function save(){
 		$post=$this->input->post();
-		//pre($post);
+		// pre($post);
 		//$po=implode(",", $post['namaPo']);
 		//$rowpo=count($post['namaPo']);
 		$atas=array();
@@ -195,9 +196,9 @@ class Setorancmt extends CI_Controller {
 	   				$this->db->insert('setorcmt_detail',$detail);
 	   				
 	   				// setor
-	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+	   				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
 	   				$insertkks=array(
-	   					'kode_po'=>$p['kode_po'],
+	   					'kode_po'=>$masterpo['kode_po'],
 	   					'create_date'=>$post['tanggal'],
 	   					'kode_nota_cmt'=>$idsetor,
 	   					'progress'=>'SETOR',
@@ -222,48 +223,48 @@ class Setorancmt extends CI_Controller {
 	   				);
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
 	   				$iks = $this->db->insert_id();
-	   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
-	   				if(!empty($atas)){
-		   				foreach($atas as $a){
-		   					$ia=array(
-		   						'id_kelolapo_kirim_setor'=>$iks,
-		   						'kode_po'=>$a['kode_po'],
-		   						'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
-		   						'warna_potongan_atas'=>$a['warna_potongan_atas'],
-		   						'jumlah_potongan'=>$a['jumlah_potongan'],
-		   						'keterangan_potongan'=>$a['keterangan_potongan'],
-		   						'created_date'=>$post['tanggal'],
-		   						'qty_bangke_atas'=>0,
-		   						'qty_reject_atas'=>0,
-		   						'qty_hilang_atas'=>0,
-		   						'qty_claim_atas'=>0,
-		   					);
-		   					$this->db->insert('kelolapo_kirim_setor_atas',$ia);
-		   				}
-		   			}
-		   			$bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
-		   			if(!empty($bawah)){
-		   				foreach($bawah as $b){
-		   					$ib=array(
-		   						'id_kelolapo_kirim_setor'=>$iks,
-		   						'kode_po'=>$b['kode_po'],
-		   						'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
-		   						'warna_potongan_atas'=>$b['warna_potongan_bawah'],
-		   						'jumlah_potongan'=>$b['jumlah_potongan'],
-		   						'keterangan_potongan'=>$a['keterangan_potongan'],
-		   						'created_date'=>$post['tanggal'],
-		   						'qty_bangke_atas'=>0,
-		   						'qty_reject_atas'=>0,
-		   						'qty_hilang_atas'=>0,
-		   						'qty_claim_atas'=>0,
-		   					);
-		   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
-		   				}
-		   			}
+	   				// $atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+	   				// if(!empty($atas)){
+		   			// 	foreach($atas as $a){
+		   			// 		$ia=array(
+		   			// 			'id_kelolapo_kirim_setor'=>$iks,
+		   			// 			'kode_po'=>$a['kode_po'],
+		   			// 			'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
+		   			// 			'warna_potongan_atas'=>$a['warna_potongan_atas'],
+		   			// 			'jumlah_potongan'=>$a['jumlah_potongan'],
+		   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+		   			// 			'created_date'=>$post['tanggal'],
+		   			// 			'qty_bangke_atas'=>0,
+		   			// 			'qty_reject_atas'=>0,
+		   			// 			'qty_hilang_atas'=>0,
+		   			// 			'qty_claim_atas'=>0,
+		   			// 		);
+		   			// 		$this->db->insert('kelolapo_kirim_setor_atas',$ia);
+		   			// 	}
+		   			// }
+		   			// $bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
+		   			// if(!empty($bawah)){
+		   			// 	foreach($bawah as $b){
+		   			// 		$ib=array(
+		   			// 			'id_kelolapo_kirim_setor'=>$iks,
+		   			// 			'kode_po'=>$b['kode_po'],
+		   			// 			'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
+		   			// 			'warna_potongan_atas'=>$b['warna_potongan_bawah'],
+		   			// 			'jumlah_potongan'=>$b['jumlah_potongan'],
+		   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+		   			// 			'created_date'=>$post['tanggal'],
+		   			// 			'qty_bangke_atas'=>0,
+		   			// 			'qty_reject_atas'=>0,
+		   			// 			'qty_hilang_atas'=>0,
+		   			// 			'qty_claim_atas'=>0,
+		   			// 		);
+		   			// 		$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
+		   			// 	}
+		   			// }
 
 		   			// finishing
 		   			$insertkks2=array(
-	   					'kode_po'=>$p['kode_po'],
+	   					'kode_po'=>$masterpo['kode_po'],
 	   					'create_date'=>$post['tanggal'],
 	   					'kode_nota_cmt'=>$idsetor,
 	   					'progress'=>'FINISHING',
@@ -288,44 +289,44 @@ class Setorancmt extends CI_Controller {
 	   				);
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks2);
 	   				$iks2 = $this->db->insert_id();
-	   				$atas2 = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
-	   				if(!empty($atas2)){
-		   				foreach($atas2 as $a){
-		   					$ia2=array(
-		   						'id_kelolapo_kirim_setor'=>$iks2,
-		   						'kode_po'=>$a['kode_po'],
-		   						'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
-		   						'warna_potongan_atas'=>$a['warna_potongan_atas'],
-		   						'jumlah_potongan'=>$a['jumlah_potongan'],
-		   						'keterangan_potongan'=>$a['keterangan_potongan'],
-		   						'created_date'=>$post['tanggal'],
-		   						'qty_bangke_atas'=>0,
-		   						'qty_reject_atas'=>0,
-		   						'qty_hilang_atas'=>0,
-		   						'qty_claim_atas'=>0,
-		   					);
-		   					$this->db->insert('kelolapo_kirim_setor_atas',$ia2);
-		   				}
-		   			}
-		   			$bawah2 = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
-		   			if(!empty($bawah2)){
-		   				foreach($bawah2 as $b){
-		   					$ib2=array(
-		   						'id_kelolapo_kirim_setor'=>$iks2,
-		   						'kode_po'=>$b['kode_po'],
-		   						'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
-		   						'warna_potongan_atas'=>$b['warna_potongan_bawah'],
-		   						'jumlah_potongan'=>$b['jumlah_potongan'],
-		   						'keterangan_potongan'=>$a['keterangan_potongan'],
-		   						'created_date'=>$post['tanggal'],
-		   						'qty_bangke_atas'=>0,
-		   						'qty_reject_atas'=>0,
-		   						'qty_hilang_atas'=>0,
-		   						'qty_claim_atas'=>0,
-		   					);
-		   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib2);
-		   				}
-		   			}
+	   				// $atas2 = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+	   				// if(!empty($atas2)){
+		   			// 	foreach($atas2 as $a){
+		   			// 		$ia2=array(
+		   			// 			'id_kelolapo_kirim_setor'=>$iks2,
+		   			// 			'kode_po'=>$a['kode_po'],
+		   			// 			'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
+		   			// 			'warna_potongan_atas'=>$a['warna_potongan_atas'],
+		   			// 			'jumlah_potongan'=>$a['jumlah_potongan'],
+		   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+		   			// 			'created_date'=>$post['tanggal'],
+		   			// 			'qty_bangke_atas'=>0,
+		   			// 			'qty_reject_atas'=>0,
+		   			// 			'qty_hilang_atas'=>0,
+		   			// 			'qty_claim_atas'=>0,
+		   			// 		);
+		   			// 		$this->db->insert('kelolapo_kirim_setor_atas',$ia2);
+		   			// 	}
+		   			// }
+		   			// $bawah2 = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
+		   			// if(!empty($bawah2)){
+		   			// 	foreach($bawah2 as $b){
+		   			// 		$ib2=array(
+		   			// 			'id_kelolapo_kirim_setor'=>$iks2,
+		   			// 			'kode_po'=>$b['kode_po'],
+		   			// 			'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
+		   			// 			'warna_potongan_atas'=>$b['warna_potongan_bawah'],
+		   			// 			'jumlah_potongan'=>$b['jumlah_potongan'],
+		   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+		   			// 			'created_date'=>$post['tanggal'],
+		   			// 			'qty_bangke_atas'=>0,
+		   			// 			'qty_reject_atas'=>0,
+		   			// 			'qty_hilang_atas'=>0,
+		   			// 			'qty_claim_atas'=>0,
+		   			// 		);
+		   			// 		$this->db->insert('kelolapo_kirim_setor_bawah',$ib2);
+		   			// 	}
+		   			// }
    				}
    			}
 	   		$nosj='STFB'.'-'.date('Y-m').'-'.$idsetor;
@@ -368,8 +369,8 @@ class Setorancmt extends CI_Controller {
 		$idcmt=explode("-",$data['namacmt']);
 		//$sql="SELECT k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
 		//$sql="SELECT k.tanggal,k.nosj,kd.* FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
-		$sql="SELECT k.tanggal,k.nosj,kd.*, p.keterangan as ketpo FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) 
-		LEFT JOIN produksi_po p ON p.kode_po=kd.kode_po
+		$sql="SELECT k.tanggal,k.nosj,kd.*,p.kode_po as kodepo, p.keterangan as ketpo FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) 
+		INNER JOIN produksi_po p ON p.id_produksi_po=kd.kode_po
 		WHERE idcmt='".$idcmt[0]."' AND k.hapus=0 and kd.hapus=0  ";
 		
 		$sj=$this->GlobalModel->queryManual($sql);
@@ -380,7 +381,7 @@ class Setorancmt extends CI_Controller {
 				if( ($s['jumlah_pcs']-$s['totalsetor'])>=1 ){
 					echo "<tr>";
 					echo '<td>'.$no.' <input type="checkbox" name="products['.$i.'][pilih]"><input type="hidden" name="products['.$i.'][kode_po] class="form-control" value="'.$s['kode_po'].'"><input type="hidden" name="products['.$i.'][idkirim] class="form-control" value="'.$s['idkirim'].'"></td>';
-					echo '<td>'.$s['kode_po'].'  ('.$s['ketpo'].') </td>';
+					echo '<td>'.$s['kodepo'].'  ('.$s['ketpo'].') </td>';
 					echo '<td>'.$s['nosj'].' ('.date('d-m-Y',strtotime($s['tanggal'])).')</td>';
 					echo '<td>'.$s['jumlah_pcs'].'</td>';
 					echo '<td><input type="text" name="products['.$i.'][totalsetor] class="form-control" value="'.($s['jumlah_pcs']-$s['totalsetor']).'"><input type="hidden" name="products['.$i.'][cmtjob] class="form-control" value="'.$s['cmtjob'].'"></td>';
