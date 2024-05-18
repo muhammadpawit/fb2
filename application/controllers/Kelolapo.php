@@ -2227,7 +2227,7 @@ class Kelolapo extends CI_Controller {
 				$masterpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
 				$namacmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
    				$insertkks=array(
-   					'kode_po'=>$p['kode_po'],
+   					'kode_po'=>$masterpo['kode_po'],
    					'create_date'=>$post['tanggal'],
    					'kode_nota_cmt'=>$post['kode_nota'],
    					'progress'=>'KIRIM',
