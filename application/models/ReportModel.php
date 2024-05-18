@@ -432,10 +432,10 @@ class ReportModel extends CI_Model {
 	public function getpcsK($kodepo,$kat,$progress){
 		$hasil=0;
 		$qtykembalianbangke=0;
-		$sql="SELECT COALESCE(SUM(qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor WHERE hapus=0 AND kode_po='$kodepo' AND kategori_cmt='$kat' AND progress='$progress' ";
+		$sql="SELECT COALESCE(SUM(kks.qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor kks INNER JOIN produksi_po p ON p.id_produksi_po=kks.idpo WHERE kks.hapus=0 AND kks.kode_po='$kodepo' AND kks.kategori_cmt='$kat' AND kks.progress='$progress' ";
 		$d=$this->GlobalModel->queryManualRow($sql);
 
-			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo WHERE rpo.kode_po='".$kodepo."' ";
+			$bangke="SELECT COALESCE(SUM(rpo.bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo INNER JOIN produksi_po p ON p.id_produksi_po=rpo.idpo WHERE rpo.kode_po='".$kodepo."' ";
 			$kbangke=$this->db->query("SELECT COALESCE(SUM(qty),0) as total FROM pengembalian_bangke rpo WHERE rpo.kode_po='".$kodepo."' and idpembayaran >554 ")->row();
 			if(!empty($kbangke)){
 				$qtykembalianbangke=$kbangke->total;
@@ -481,7 +481,7 @@ class ReportModel extends CI_Model {
 	public function getpcs($kodepo,$table){
 		$hasil=0;
 		if($table==1){
-			$sql="SELECT COALESCE(SUM(hasil_pieces_potongan),0) as pcs FROM konveksi_buku_potongan WHERE kode_po='$kodepo' and hapus=0 ";
+			$sql="SELECT COALESCE(SUM(hasil_pieces_potongan),0) as pcs FROM konveksi_buku_potongan INNER JOIN produksi_po ON produksi_po.id_produksi_po=konveksi_buku_potongan.idpo WHERE produksi_po.kode_po='$kodepo' and konveksi_buku_potongan.hapus=0 ";
 		}else if($table==2){
 			$sql="SELECT jumlah_total_potongan as pcs FROM kelolapo_pengecekan_potongan WHERE kode_po='$kodepo' ";
 		}else if($table==3){
@@ -741,7 +741,7 @@ class ReportModel extends CI_Model {
 
 	public function dashkirimgdgpcs($kodepo){
 		$out=0;
-		$sql="SELECT COALESCE(sum(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` WHERE kode_po='$kodepo' AND tahunpo IS NULL ";		
+		$sql="SELECT COALESCE(sum(fkg.jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` fkg JOIN produksi_po p ON p.id_produksi_po=fkg.idpo WHERE fkg.kode_po='$kodepo' AND tahunpo IS NULL ";		
 		$row=$this->GlobalModel->QueryManualRow($sql);
 		return (int)$row['total'];
 		
