@@ -41,7 +41,8 @@ $(document).ready(function(){
         html += '<td><input type="number" class="form-control jumlah" name="products['+i+'][jumlah]" readonly ></td>';
         html += '<td><span class="stn"></span><input type="hidden" class="form-control satuanJml" name="products['+i+'][satuan]" ></td>';
         html += '<td><input type="number" class="form-control terima" name="products['+i+'][terima]" ></td>';
-        html += '<td><input type="text" class="form-control keterangan" name="products['+i+'][keterangan]"></td>';
+        // html += '<td><input type="text" class="form-control keterangan" name="products['+i+'][keterangan]"></td>';
+        html += '<td><textarea name="products['+i+'][keterangan]" class="form-control keterangan"></textarea></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addbahankeluars').append(html);
@@ -63,7 +64,7 @@ $(document).ready(function(){
             dai.find(".jumlah").val(obj.jumlah);
             dai.find(".satuanJml").val(obj.satuan);
             dai.find(".stn").html(obj.satuan);
-            dai.find(".id").val(obj.idpersediaan);
+            dai.find(".id").val(obj.id);
              dai.find(".keterangan").val(obj.keterangan);
             //dai.find(".harga").val(obj.harga_item);
             // dai.find(".jumlah").attr('max',obj.jumlah_item);

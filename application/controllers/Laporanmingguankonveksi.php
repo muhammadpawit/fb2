@@ -57,11 +57,12 @@ class Laporanmingguankonveksi extends CI_Controller {
 					'jawa'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,10)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,3)),
 					'ajuan'=>($this->LaporanmingguanModel->alokasi_bordir($dt['tanggal'],$bagian,11)+$this->LaporanmingguanModel->alokasi_transferan($dt['tanggal'],$bagian,5)),
 					'girokredit'=>$this->LaporanmingguanModel->alokasi_transfer_giro($dt['tanggal'],$bagian,20),
-					//'keterangan'=>implode(",",$keterangan),
-					'keterangan'=>null,
+					'keterangan'=>implode(",",$keterangan),
+					// 'keterangan'=>null,
 				);
 			}
 		} 
+		// pre($data['results']);
 		if(!isset($get['excel'])){
 			$data['page']=$this->page.'konveksi';
 			$this->load->view($this->layout,$data);

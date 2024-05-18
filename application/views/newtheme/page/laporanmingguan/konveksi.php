@@ -90,9 +90,9 @@
 			  <?php $c=$this->LaporanmingguanModel->alokasi_cash(date('Y-m-d',strtotime($r['tanggal'])),1); ?>
 			  	<?php if(!empty($c)){?>
 			  		<?php foreach($c as $d){?>
-				  <tr>
+				  <!-- <tr>
 				  	<td><?php echo $d['tanggal'];?></td>
-				  </tr>
+				  </tr> -->
 				<?php } ?>
 				<?php } ?>
 			<?php } ?>

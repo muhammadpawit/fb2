@@ -21,7 +21,7 @@ class LaporanmingguanModel extends CI_Model {
 
 	public function transferan_bordir($tanggal,$bagian){
 		$hasil=0;
-		$sql=" SELECT COALESCE(sum(nominal),0) as total FROM transferan where hapus=0 ";
+		$sql=" SELECT COALESCE(sum(nominal)) as total FROM transferan where hapus=0 ";
 		$sql.=" AND DATE(tanggal) ='".$tanggal."' and bagian='$bagian' ";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
