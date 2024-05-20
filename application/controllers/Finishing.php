@@ -1109,7 +1109,7 @@ class Finishing extends CI_Controller {
 	public function produksikaoscmt($idpo,$kodepo='')
 	{
 		$viewData['idpo']=$idpo;
-		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo LIKE "'.$idpo.'%"');
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo LIKE "'.$idpo.'%"');
 		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$viewData['atas'] =[];
 		$viewData['bawah'] =[];
