@@ -1163,7 +1163,7 @@ class Finishing extends CI_Controller {
 		//pre($sj);
 		if ($jmlYangDisetor <= $post['jumlahPotPcs']) {
 
-			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po' => $po['kode_po'],));
+			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo' => $po['id_produksi_po'],));
 
 			$insertData = array(
 				'idpo'=>$post['idpo'],
@@ -1203,7 +1203,8 @@ class Finishing extends CI_Controller {
 					'rincian_reject' 	=>	$post['barangCacad'][$key],
 					'rincian_claim' 	=>	$post['claimBarang'][$key],
 					'rincian_hilang'	=>	$post['hilangBarang'][$key],
-					'created_date'	=> date('Y-m-d')
+					'created_date'	=> date('Y-m-d'),
+					'idpo'=>$post['idpo'],
 				);
 				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish',$insertRincinan);
 			}
