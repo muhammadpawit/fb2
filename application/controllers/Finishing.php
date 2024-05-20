@@ -1114,8 +1114,8 @@ class Finishing extends CI_Controller {
 		$viewData['atas'] =[];
 		$viewData['bawah'] =[];
 		if(!empty($viewData['poProd'])){
-			$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('idpo'=>$idpo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));	
-			$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('idpo'=>$idpo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+			// $viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('idpo'=>$idpo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));	
+			// $viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('idpo'=>$idpo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
 		}
 		
 		
