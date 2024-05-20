@@ -24,20 +24,20 @@
                                 <td>
                                     
                                     <?php if(!empty($sat['rincianSetor'])){ ?>
-                                    <a href="<?php echo BASEURL.'finishing/editsetoran_susulan/'.$sat['kode_po'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil">Susulan</i></a>
+                                    <a href="<?php echo BASEURL.'finishing/editsetoran_susulan/'.$sat['idpo'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil">Susulan</i></a>
                                     <?php }else{ ?>
-                                        <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['idpo'].'/'.$sat['kode_po'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
+                                        <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['idpo'].'/'.$sat['idpo'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
                                     <?php } ?>
                                     <?php if(aksesedit()==1){?>
-                                        <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Edit</i></a>
+                                        <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['idpo'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Edit</i></a>
                                     <?php }else{ ?>
-                                        <!-- <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['kode_po'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Susulan</i></a> -->
+                                        <!-- <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['idpo'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Susulan</i></a> -->
                                     <?php } ?>
 
                                     <?php if(akseshapus()==1){?>
-                                        <?php $cek=$this->GlobalModel->getData('kelolapo_rincian_setor_cmt',array('kode_po'=>$sat['kode_po']));?>
+                                        <?php $cek=$this->GlobalModel->getData('kelolapo_rincian_setor_cmt',array('idpo'=>$sat['idpo']));?>
                                         <?php if(!empty($cek)){ ?>
-                                            <a href="<?php echo BASEURL.'finishing/editsetoran_hapus/'.$sat['kode_po'] ?>" onclick="return confirm('Apakah yakin akan mereset data ini ? Seluruh data penerimaan akan terhapus') " class="btn btn-danger btn-sm"><i class="fa fa-trash">Reset</i></a>
+                                            <a href="<?php echo BASEURL.'finishing/editsetoran_hapus/'.$sat['idpo'] ?>" onclick="return confirm('Apakah yakin akan mereset data ini ? Seluruh data penerimaan akan terhapus') " class="btn btn-danger btn-sm"><i class="fa fa-trash">Reset</i></a>
                                         <?php } ?>
                                     <?php } ?>
                                 </td>
