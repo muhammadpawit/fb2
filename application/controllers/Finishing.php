@@ -1208,7 +1208,7 @@ class Finishing extends CI_Controller {
 				);
 				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish',$insertRincinan);
 			}
-			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$po['kode_po']),array('progress'=>'FINISHING'));
+			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','idpo'=>$post['idpo']),array('progress'=>'FINISHING'));
 			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
 			if($rijek>0){
 				$this->db->insert(
