@@ -1109,19 +1109,19 @@ class Finishing extends CI_Controller {
 	public function produksikaoscmt($idpo,$kodepo='')
 	{
 		$viewData['idpo']=$idpo;
-		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.kode_po LIKE "'.$kodepo.'%"');
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo LIKE "'.$idpo.'%"');
 		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$viewData['atas'] =[];
 		$viewData['bawah'] =[];
 		if(!empty($viewData['poProd'])){
-			$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));	
-			$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+			$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('idpo'=>$idpo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));	
+			$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('idpo'=>$idpo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
 		}
 		
 		
 		// pre($viewData);
 		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
-		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po'=>$kodepo));
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$idpo));
 		//pre($viewData['setorcmtjahit']);
 		$viewData['setorcmtjahititem']=[];
 		if(!empty($viewData['setorcmtjahit'])){
