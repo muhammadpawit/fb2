@@ -1683,10 +1683,10 @@ class Finishing extends CI_Controller {
 	public function kirimgudang($kodepo='')
 	{
 		$viewData['title'] = 'Tambah Surat Jalan Kirim Gudang Tanah Abang';
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',NULL);
+		$viewData['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
-		$viewData['poproduksi'] = $this->GlobalModel->getData('produksi_po',null);
-		$viewData['rincian'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="'.'SELESAI'.'" OR kks.progress="'.'FINISHING'.'" AND pp.id_produksi_po NOT IN(SELECT idpo FROM finishing_kirim_gudang) ORDER BY kks.kode_po ASC');
+		$viewData['poproduksi'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$viewData['rincian'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE kks.progress="'.'SELESAI'.'" OR kks.progress="'.'FINISHING'.'" AND pp.id_produksi_po NOT IN(SELECT idpo FROM finishing_kirim_gudang) ORDER BY kks.kode_po ASC');
 		$viewData['page']='finishing/kirimgudang/kirim-gudang-tambah';
 		$this->load->view($this->page.'main',$viewData);
 	}
@@ -1734,7 +1734,7 @@ class Finishing extends CI_Controller {
 			echo "Dalam Pengembangan";
 		}else{
 			foreach ($post['kodepo'] as $key => $kodepo) {
-				$dataInput = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('kode_po' => $kodepo));
+				$dataInput = $this->GlobalModel->getDataRow('finishing_kirim_gudang',array('idpo' => $kodepo));
 
 					if (empty($dataInput)) {
 
@@ -1744,8 +1744,8 @@ class Finishing extends CI_Controller {
 					);
 					$this->GlobalModel->insertData('finishing_kirim_gudang_faktur',$dataKirim);
 
-					$setorFinishRinci = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$kodepo));
-					$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$kodepo));
+					$setorFinishRinci = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('idpo'=>$kodepo));
+					$idpo=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 						$dataInsert = array(
 							'idpo'				=> $idpo['id_produksi_po'],
 							'nofaktur'			=> 	$post['noFaktur'],
@@ -1762,8 +1762,8 @@ class Finishing extends CI_Controller {
 							'susulan'			=> $post['susulan'],
 
 						);
-						$this->db->update('proses_po',array('proses'=>11),array('kode_po'=>$post['kodepo'][$key]));
-						$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$kodepo),array('id_proggresion_po'=>$post['proggress'],'progress_lokasi'=>'KIRIM GUDANG'));
+						$this->db->update('proses_po',array('proses'=>11),array('id_produksi_po'=>$post['kodepo'][$key]));
+						$this->GlobalModel->updateData('produksi_po',array('id_produksi_po'=>$kodepo),array('id_proggresion_po'=>$post['proggress'],'progress_lokasi'=>'KIRIM GUDANG'));
 						$this->GlobalModel->insertData('finishing_kirim_gudang',$dataInsert);
 						$lastId = $this->db->insert_id();
 
