@@ -81,7 +81,7 @@ $(document).ready(function(){
     $(document).on('click', '.addkirimgudang', function(){
         var html = '';
         html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['id_produksi_po'] ?>" data-item="<?php echo $po['id_produksi_po'] ?>"><?php echo $po['kode_po'] ?></option><?php } ?></select></td>';
         html += '<td><input type="text" class="form-control artikel" name="artikel[]"  required value="" readonly></td>';
         html += '<td><input type="number" class="form-control hargasatuan"  name="hargasatuan[]" required value="" readonly></td>';
         html += '<td><input type="number" class="form-control jumlah" name="jumlahRinci[]" required></td>';
