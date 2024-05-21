@@ -519,6 +519,7 @@ class Masterdata extends CI_Controller {
 		$data=$this->input->post();
 		$insert=array(
 			'nama_job'=>$data['nama_job'],
+			'harga_lama'=>0,
 			'harga'=>$data['harga'],
 			'jenis'=>$data['jenis'],
 			'keterangan'=>$data['keterangan'],
@@ -532,6 +533,7 @@ class Masterdata extends CI_Controller {
 		$data=$this->input->post();
 		$update=array(
 			'nama_job'=>$data['nama_job'],
+			'harga_lama'=>$data['harga_lama'],
 			'harga'=>$data['harga'],
 			'jenis'=>$data['jenis'],
 			'keterangan'=>$data['keterangan'],

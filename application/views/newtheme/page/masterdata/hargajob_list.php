@@ -72,7 +72,8 @@
                 <tr>
                   <th>#</th>
                   <th>Nama Pekerjaan</th>
-                  <th>Harga</th>
+                  <th>Harga Lama</th>
+                  <th>Harga Baru</th>
                   <th>Keterangan</th>
                   <th></th>
                 </tr>
@@ -83,6 +84,7 @@
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo strtoupper($p['nama_job'])?></td>
+                      <td><?php echo number_format($p['harga_lama'])?></td>
                       <td><?php echo number_format($p['harga'])?></td>
                       <td><?php echo $p['keterangan']?></td>
                       <td>

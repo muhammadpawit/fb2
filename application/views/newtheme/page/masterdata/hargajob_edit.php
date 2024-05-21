@@ -14,7 +14,11 @@
                 </select>
               </div>
               <div class="form-group">
-                  <label>Harga</label>
+                  <label>Harga Lama</label>
+                  <input type="number" name="harga_lama" class="form-control" value="<?php echo $products['harga_lama']?>">
+              </div>
+              <div class="form-group">
+                  <label>Harga Baru</label>
                   <input type="number" name="harga" class="form-control" value="<?php echo $products['harga']?>">
               </div>
               <div class="form-group">
