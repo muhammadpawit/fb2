@@ -14,7 +14,7 @@
           </div>
           <div class="form-group">
             <label>Jenis</label>
-            <select name="jenis" class="form-control select2bs4" required>
+            <select name="jenis" class="form-control select2bs4" style="width: 100%;" required>
               <option value="">Pilih</option>
               <?php //if($title=='jahit'){?>
                 <option value="1">Jahit</option>
