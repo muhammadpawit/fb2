@@ -1413,7 +1413,7 @@ class Gudang extends CI_Controller {
 					'pembayaran'=>$p['pembayaran'],
 					'supplier'=>$p['supplier'],
 					'keterangan'=>$p['keterangan'],
-					'status'=>$status,
+					'status'=>$data['statusajuan'],
 					'hapus'=>isset($p['hapus'])?$p['hapus']:0,
 					'idpengajuan'=>$data['id'],
 				);

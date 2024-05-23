@@ -52,6 +52,7 @@
 
                     <form method="post" action="<?php echo $edit?>">
                         <input type="hidden" name="id" value="<?php echo $parent['id']?>">
+                        <input type="hidden" name="statusajuan" value="<?php echo $parent['status']?>">
                         <?php if(isset($editacc)){?>
                         <input type="hidden" name="editacc" value="<?php echo $parent['id']?>">
                         <?php } ?>
