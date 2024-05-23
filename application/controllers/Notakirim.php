@@ -100,9 +100,10 @@ class Notakirim extends CI_Controller {
 		$tahunsebelum = $this->db->query("SELECT tahunpo FROM finishing_kirim_gudang WHERE nofaktur='".$noFaktur."' ")->row();
 		if(!empty($tahunsebelum->tahunpo)){
 			$sql="SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
-			$sql.=" JOIN produksi_po_".getTahunProduksiBefore()." pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur='".$noFaktur."' ";
+			$sql.=" JOIN produksi_po_".getTahunProduksiBefore()." pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur='".$noFaktur."' ";
 		}else{
-			$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
+			$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg 
+			JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
 		}
 		//pre($tahunsebelum->tahunpo);
 		
@@ -175,9 +176,10 @@ class Notakirim extends CI_Controller {
 		$tahunsebelum = $this->db->query("SELECT tahunpo FROM finishing_kirim_gudang WHERE nofaktur='".$noFaktur."' ")->row();
 		if(!empty($tahunsebelum->tahunpo)){
 			$sql="SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
-			$sql.=" JOIN produksi_po_".getTahunProduksiBefore()." pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur='".$noFaktur."' ";
+			$sql.=" JOIN produksi_po_".getTahunProduksiBefore()." pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur='".$noFaktur."' ";
 		}else{
-			$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
+			$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg 
+			JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
 		}
 		if(!empty($hgs)){
 			$sql.=" AND pp.nama_po='".$hgs."' ";
