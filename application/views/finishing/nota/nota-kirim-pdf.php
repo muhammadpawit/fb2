@@ -109,13 +109,14 @@
                                                     <tbody>
                                                         <?php $jumlah = 0;$total=0; ?> 
                                                         <?php foreach ($gudangfb as $key => $gudang): ?>
+                                                          <?php $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=> $gudang['kode_po'])); ?>
                                                             <?php
                                                             //$po=$this->GlobalModel->getdataRow('produksi_po','kode_po'=>$gudang['kode_po']);
                                                             ?>
                                                         <tr>
                                                             <td><?php echo $no++?></td>
                                                             <td><?php echo $gudang['artikel_po'] ?></td>
-                                                            <td><?php echo $gudang['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
+                                                            <td><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
                                                             <td>
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>
