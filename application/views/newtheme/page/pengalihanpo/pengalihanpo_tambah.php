@@ -31,7 +31,7 @@
 	function tambahs(){
 		var html='<tr>';
 			html+='<td><input type="text" name="prods['+i+'][tanggal]" value="<?php echo date('Y-m-d')?>" class="datepicker"></td>';
-			html += '<td><select type="text" class="form-control selectpicker kodepo" name="prods['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($kirim as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>-<?php echo $po['idsj'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['kode_po'] ?> <?php echo $po['tglsj'] ?> <?php echo $po['nosj'] ?></option><?php } ?></select></td>';
+			html += '<td><select type="text" class="form-control selectpicker kodepo" name="prods['+i+'][kode_po]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($kirim as $key => $po) { ?><option value="<?php echo $po['kode_po'] ?>-<?php echo $po['idsj'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['kodepo'] ?> <?php echo $po['tglsj'] ?> <?php echo $po['nosj'] ?></option><?php } ?></select></td>';
 			html += '<td><select type="text" class="form-control selectpicker kodepo" name="prods['+i+'][cmt_tujuan]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($cmt as $key => $po) { ?><option value="<?php echo $po['id_cmt'] ?>-<?php echo $po['idsj'] ?>" data-item="<?php echo $po['id_cmt'] ?>"><?php echo $po['cmt_name'] ?> - <?php echo $po['tglsj'] ?> -<?php echo $po['nosj'] ?></option><?php } ?></select></td>';
 			html+='<td><input type="text" name="prods['+i+'][keterangan]" class="form-control"></td>';
 			html+='<td><i class="fa fa-trash remove"></i></td>';

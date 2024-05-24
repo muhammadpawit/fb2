@@ -62,7 +62,7 @@ class Pengalihanpo extends CI_Controller {
 	public function tambah(){
 		$data=[];
 		$data['title']='Pengalihan PO';
-		$data['kirim']=$this->GlobalModel->QueryManual("SELECT kd.*, k.idcmt,k.nosj,k.tanggal as tglsj,k.id as idsj FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) WHERE kd.hapus=0 AND k.hapus=0");
+		$data['kirim']=$this->GlobalModel->QueryManual("SELECT kd.*, k.idcmt,k.nosj,k.tanggal as tglsj,k.id as idsj,p.id_produksi_po,p.kode_po as kodepo FROM kirimcmt_detail kd JOIN kirimcmt k ON(k.id=kd.idkirim) JOIN produksi_po p ON p.id_produksi_po=kd.kode_po WHERE kd.kode_po IN (SELECT id_produksi_po FROM produksi_po WHERE hapus=0 ) AND kd.hapus=0 AND k.hapus=0");
 		$data['cmt']=$this->GlobalModel->QueryManual("SELECT mc.*,k.tanggal as tglsj, k.id as idsj,k.nosj FROM master_cmt mc JOIN kirimcmt k ON(k.idcmt=mc.id_cmt) WHERE k.hapus=0 and mc.hapus=0 ORDER BY k.nosj DESC ");
 		$data['action']=$this->url.'tambah_save';
 		$data['cancel']=$this->url;
@@ -72,7 +72,7 @@ class Pengalihanpo extends CI_Controller {
 
 	public function tambah_save(){
 		$data=$this->input->post();
-		pre($data);
+		// pre($data);
 		if(isset($data['prods'])){
 			foreach($data['prods'] as $p){
 				$asal=explode('-', $p['kode_po']);
@@ -97,7 +97,7 @@ class Pengalihanpo extends CI_Controller {
 					'kode_nota_cmt'=>$tujuan[1],
 					'nama_cmt'=>$cmttujuan['cmt_name'],
 				);
-				$this->db->update('kelolapo_kirim_setor',$update,array('kategori_cmt'=>'JAHIT','kode_po'=>$asal[0],'kode_nota_cmt'=>$sjdetail['idkirim']));
+				$this->db->update('kelolapo_kirim_setor',$update,array('kategori_cmt'=>'JAHIT','idpo'=>$asal[0],'kode_nota_cmt'=>$sjdetail['idkirim']));
 
 				// update sj asal
 				$this->db->query("update kirimcmt set totalkirim=totalkirim-'".$sjdetail['jumlah_pcs']."' WHERE id='".$sjdetail['idkirim']."' ");
