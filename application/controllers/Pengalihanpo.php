@@ -72,7 +72,7 @@ class Pengalihanpo extends CI_Controller {
 
 	public function tambah_save(){
 		$data=$this->input->post();
-		//pre($data);
+		pre($data);
 		if(isset($data['prods'])){
 			foreach($data['prods'] as $p){
 				$asal=explode('-', $p['kode_po']);
