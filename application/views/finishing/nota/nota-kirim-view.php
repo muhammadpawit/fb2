@@ -51,7 +51,7 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($notarincian as $key => $sat): ?>
-                                        <?php $po = $this->getDataRow('produksi_po',array('id_produksi_po'=> $sat['kode_po'])); ?>
+                                        <?php $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=> $sat['kode_po'])); ?>
                                     <tr>
                                         <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
                                         <td><?php echo $sat['nofaktur'] ?></td>
