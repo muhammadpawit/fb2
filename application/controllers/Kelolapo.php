@@ -1982,12 +1982,12 @@ class Kelolapo extends CI_Controller {
 				'href' => BASEURL.'Kelolapo/kirimcmtview/'.$result['id'],
 			);
 
-			if(aksesedit()==1){
+			//if(aksesedit()==1){
 				$action[] = array(
 					'text' => 'Edit',
 					'href' => BASEURL.'Kelolapo/kirimcmtedit/'.$result['id'],
 				);
-			}
+			//}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
@@ -2220,7 +2220,7 @@ class Kelolapo extends CI_Controller {
 		$this->db->query($sql);
 		$totalkirim=0;
 		foreach($post['prods'] as $p){
-			$cek_diklo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array('hapus'=>0,'idpo'=>$p['kode_po'],'progress'=>'KIRIM','kategori_cmt'=>'JAHIT','id_master_cmt'=>$post['idcmt']));
+			$cek_diklo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array('hapus'=>0,'idpo'=>$p['kode_po'],'kategori_cmt'=>'JAHIT','id_master_cmt'=>$post['idcmt']));
 			$totalkirim+=($p['jumlah_pcs']);
 			$rp=explode('-',$p['job']);
 			if(empty($cek_diklo)){
@@ -2264,7 +2264,8 @@ class Kelolapo extends CI_Controller {
 					'idpo'=>$p['kode_po'],
 					'kategori_cmt'	=>$p['kategori_cmt'],
 					'kode_nota_cmt'=>$post['kode_nota'],
-					'progress'=>'KIRIM',
+					// 'progress'=>'KIRIM',
+					'id_master_cmt'=>$post['idcmt'],
 				);
 				$this->db->update('kelolapo_kirim_setor',$update,$where);
 			}

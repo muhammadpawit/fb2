@@ -81,9 +81,9 @@
                             <td><?php echo $p['keterangan']?></td>
                             <td>
                                 <a href="<?php echo $p['detail']?>" class="btn btn-success btn-xs text-white">Detail</a>
-                                <?php if($menghapus==1){?>
-                                    <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs text-white">Hapus</a>
-                                <?php } ?>
+                                <?php //if($menghapus==1){?>
+                                    <a href="<?php echo $p['hapus']?>" onclick="return confirm('Yakin akan menghapus?')" class="btn btn-danger btn-xs text-white">Hapus</a>
+                                <?php //} ?>
                             </td>
                         </tr>
                     <?php } ?>
