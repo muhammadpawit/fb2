@@ -370,14 +370,16 @@ class Finishing extends CI_Controller {
 			$kode_po=null;
 		}
 
-		$sql='SELECT * FROM finishing_kirim_gudang WHERE id_finishing_kirim_gudang>0 ';
+		$sql='SELECT fkg.* FROM finishing_kirim_gudang fkg 
+			JOIN produksi_po p ON p.id_produksi_po=fkg.idpo
+		WHERE id_finishing_kirim_gudang>0 ';
 		if(!empty($kode_po)){
-			$sql .=" AND idpo='".$kode_po."' ";
+			$sql .=" AND fkg.idpo='".$kode_po."' ";
 		}
 		if(isset($tanggal1)){
-			$sql.=" AND date(tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$sql.=" AND date(fkg.tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" ORDER BY tanggal_kirim DESC ";
+		$sql.=" ORDER BY fkg.tanggal_kirim DESC ";
 		$data['notarincian'] = $this->GlobalModel->queryManual($sql);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
