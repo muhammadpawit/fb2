@@ -1765,7 +1765,7 @@ class Bordir extends CI_Controller {
 		$data['kirim']=$this->GlobalModel->GetDataRow('sj_bordir_luar',array('hapus'=>0,'id'=>$id));
 		$data['kirims']=$this->GlobalModel->GetData('sj_bordir_luar_detail',array('hapus'=>0,'idsj'=>$id));
 		// pre($data['kirims']);
-		$data['cetak']=BASEURL.'Bordir/suratjalanpoluar_detail?cetakpdf=true';
+		$data['cetak']=BASEURL.'Bordir/suratjalanpoluar_detail/'.$id.'?cetakpdf=true';
 		$data['cancel']=BASEURL.'Bordir/suratjalanpoluar';
 		$get = $this->input->get();
 		$pdf=false;
