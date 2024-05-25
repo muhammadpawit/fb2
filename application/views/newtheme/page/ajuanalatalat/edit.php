@@ -1,3 +1,4 @@
+<form method="post" action="<?php echo $action ?>">
 <div class="row">
     <div class="col-md-12 table-responsive">
       <table class="table table-bordered">
@@ -27,15 +28,15 @@
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Stok</td>
           <td style="vertical-align: middle;text-align: center;font-weight: bold;">Ajuan</td>
         </tr>
-        <?php $i=0;$pcs=0;$dz=0;$jmlpo=0;?>
+        <?php $i=0;$pcs=0;$dz=0;$jmlpo=0;$n=1;?>
         <?php foreach($kd as $d){?>
           <tr>
-            <td><?php echo $n++?></td>
-            <td><?php echo $d['kode_po']?></td>
-            <td><?php echo $d['jumlah_po']?> PO</td>
-            <td><?php echo $d['rincian_po']?></td>
-            <td><?php echo number_format($d['jml_pcs'],1)?></td>
-            <td><?php echo number_format($d['jml_dz'],1)?></td>
+            <td><input type="hidden" name="details[<?php echo $i ?>][id]" value="<?php echo $d['id']?>"><?php echo $n++?></td>
+            <td><input type="text" name="details[<?php echo $i ?>][kode_po]" value="<?php echo $d['kode_po']?>"></td>
+            <td><input type="text" name="details[<?php echo $i ?>][jumlah_po]" value="<?php echo $d['jumlah_po']?>"> PO</td>
+            <td><textarea name="details[<?php echo $i ?>][rincian_po]"><?php echo $d['rincian_po']?></textarea></td>
+            <td><input type="text" name="details[<?php echo $i ?>][jml_pcs]" value="<?php echo ($d['jml_pcs'])?>"></td>
+            <td><input type="text" name="details[<?php echo $i ?>][jml_dz]" value="<?php echo ($d['jml_dz'])?>"></td>
             <td valign="middle" style="vertical-align: middle !important;text-align: center !important;"><?php echo ($d['jumlah_po']*$d['jml_pcs'])?></td>
             <?php if(0==$i){?>
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php echo $prods['stok']?></td>
@@ -43,7 +44,7 @@
             <td valign="middle" rowspan="<?php echo count($kd)?>" style="vertical-align: middle !important;text-align: center !important;"><?php //echo $prods['keterangan2']?></td>
             <?php } ?>
             <!-- <td>lusinan <?php echo number_format($d['jml_dz'])?></td> -->
-            <td><?php echo ($d['keterangan'])?></td>
+            <td><textarea name="details[<?php echo $i ?>][keterangan]"><?php echo ($d['keterangan'])?></textarea></td>
           </tr>
           <?php $i++?>
           <?php 
@@ -58,7 +59,7 @@
             <td></td>
             <td><b><?php echo $pcs?></b></td>
             <td><b><?php echo $dz?></b></td>
-            <td align="center"><b><?php echo $k['ajuan_kebutuhan']?></b></td>
+            <td align="center"><b><?php //echo $k['ajuan_kebutuhan']?></b></td>
             <td><b><?php //echo $k['stok']?></b></td>
             <td><b><?php //echo $k['jml_ajuan']?></b></td>
             <td></td>
@@ -70,7 +71,7 @@
     </div>
 </div>
 
-<form method="post" action="<?php echo $action ?>">
+
 	<input type="hidden" name="id" value="<?php echo $prods['id'] ?>">
 	<input type="hidden" name="bagian" value="<?php echo $prods['bagian'] ?>">
 	<input type="hidden" name="stok" value="<?php echo $prods['stok'] ?>">

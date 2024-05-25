@@ -390,6 +390,7 @@ class Ajuanalatalat extends CI_Controller {
 
 	public function edit_ajuanalat(){
 		$post = $this->input->post();
+		// pre($post);
 		$update = array(
 			'keterangan' 	=> $post['keterangan'],
 			'ajuan'	 		=> $post['kebutuhan']-$post['stok'],
@@ -399,6 +400,17 @@ class Ajuanalatalat extends CI_Controller {
 			'id'=>$post['id']
 		);
 		$this->db->update('ajuanalatalat',$update,$where);
+		foreach($post['details'] as $d){
+			$updateD = array(
+				'kode_po' => $d['kode_po'],
+				'jumlah_po' => $d['jumlah_po'],
+				'rincian_po' => $d['rincian_po'],
+				'jml_pcs' => $d['jml_pcs'],
+				'jml_dz' => $d['jml_dz'],
+				'keterangan' => $d['keterangan'],
+			);
+			$this->db->update('ajuanalatalat_detail',$updateD,array('id'=>$d['id']));
+		}
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect($this->url.$post['bagian']);
 	}
