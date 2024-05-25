@@ -883,7 +883,7 @@ class Gaji extends CI_Controller {
 
 	function saving($id,$tgl1,$tgl2){
 		$hasil=0;
-		$sql="SELECT COALESCE(SUM(saving)) as saving FROM gaji_finishing_detail WHERE idkaryawan='$id' ";
+		$sql="SELECT COALESCE(SUM(saving)) as saving FROM gaji_finishing_detail WHERE idkaryawan='$id' AND hapus=0 ";
 		$sql .=" AND DATE(tanggal_saving) BETWEEN '".$tgl1."' AND '".$tgl2."' ";
 		$data = $this->GlobalModel->QueryManualRow($sql);
 		if(isset($data['saving'])){
@@ -955,6 +955,7 @@ class Gaji extends CI_Controller {
 			'id'=>$id
 		);
 		$this->db->update('gaji_finishing',$update,$where);
+		$this->db->update('gaji_finishing_detail',$update,array('idgaji'=>$id));
 		$this->session->set_flashdata('msg',' Berhasil Di Hapus');
 		redirect(BASEURL.'Gaji/gajiklo');
 	}
