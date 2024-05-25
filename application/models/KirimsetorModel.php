@@ -17,7 +17,7 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharianresume($data){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs,mjp.nama_jenis_po,count(kg.kode_po) as jml,SUM(kg.jumlah_harga_piece) as nilai,mjp.perkalian FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs,mjp.nama_jenis_po,count(kg.kode_po) as jml,SUM(kg.jumlah_harga_piece) as nilai,mjp.perkalian FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		if(isset($data['online'])){
@@ -44,7 +44,7 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharianresume_dz($data,$namapo){
 		$hasil=0;
 		$results=[];
-		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima/12),0) as pcs FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		$sql.=" AND mjp.nama_jenis_po='".$namapo."' ";
@@ -63,7 +63,7 @@ class kirimsetorModel extends CI_Model {
 		$susulan=0;
 		$susulan=$this->kirimgudangharian_jml_susulan($data,$namapo,$tanggal);
 		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
-		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		if(!empty($tanggal)){
 			$sql.=" p.hapus=0 and DATE(tanggal_kirim) ='".$tanggal."'";
 		}else{
@@ -94,7 +94,7 @@ class kirimsetorModel extends CI_Model {
 		$hasil=[];
 		$results=[];
 		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
-		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		if(!empty($tanggal)){
 			$sql.=" p.hapus=0 and DATE(tanggal_kirim) ='".$tanggal."'";
 		}else{
@@ -121,7 +121,7 @@ class kirimsetorModel extends CI_Model {
 		$hasil=[];
 		$results=[];
 		$sql="SELECT kg.tanggal_kirim,kg.keterangan FROM finishing_kirim_gudang kg 
-			JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+			JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'Kirim Sample%' ";
@@ -149,7 +149,7 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharian_jml_group($tanggal){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT kg.keterangan,COALESCE(SUM(kg.jumlah_piece_diterima/12),0) as jml,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT kg.keterangan,COALESCE(SUM(kg.jumlah_piece_diterima/12),0) as jml,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		if(!empty($tanggal)){
 			$sql.=" p.hapus=0 and DATE(tanggal_kirim) ='".$tanggal."'";
 		}else{
@@ -180,7 +180,7 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudangharian_jml_group_sum($tanggal){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT COUNT(kg.kode_po) as total FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT COUNT(kg.kode_po) as total FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		if(!empty($tanggal)){
 			$sql.=" p.hapus=0 and DATE(tanggal_kirim) ='".$tanggal."'";
 		}else{
@@ -210,7 +210,7 @@ class kirimsetorModel extends CI_Model {
 		$results=[];
 		$tanggal=date('Y-m-d',strtotime($tanggal));
 		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
-		kg.keterangan,kg.nama_penerima FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		kg.keterangan,kg.nama_penerima FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 ";
 		$sql.=" and DATE(tanggal_kirim)='".$tanggal."' ";
 		if(isset($data['online'])){
@@ -249,7 +249,7 @@ class kirimsetorModel extends CI_Model {
 		$hasil=[];
 		$results=[];
 		$sql="SELECT SUM(jumlah_piece_diterima) as pcs,kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai, tujuan,
-		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		kg.keterangan FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		//$sql.=" AND kg.susulan IN(2) ";
 		//$sql.=" AND lower(kg.keterangan) NOT LIKE 'Kirim Sample%' ";
