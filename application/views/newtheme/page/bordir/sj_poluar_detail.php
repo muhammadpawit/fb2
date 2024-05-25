@@ -76,8 +76,8 @@
 							<div class="row">
 							<div class="col-12">
 								<a href="<?php echo $cancel; ?>" class="btn btn-danger">Kembali</a>
-								<!-- <a href="<?php echo $cetak; ?>" class="btn btn-primary" target="_blank">Cetak</a>
-								<a href="<?php echo $excel; ?>" class="btn btn-info" target="_blank">Excel</a> -->
+								<a href="<?php echo $cetak; ?>" class="btn btn-primary" target="_blank">Cetak</a>
+								<!-- <a href="<?php echo $excel; ?>" class="btn btn-info" target="_blank">Excel</a> -->
 							</div>
 							</div>
 						</div>

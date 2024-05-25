@@ -1765,13 +1765,18 @@ class Bordir extends CI_Controller {
 		$data['kirim']=$this->GlobalModel->GetDataRow('sj_bordir_luar',array('hapus'=>0,'id'=>$id));
 		$data['kirims']=$this->GlobalModel->GetData('sj_bordir_luar_detail',array('hapus'=>0,'idsj'=>$id));
 		// pre($data['kirims']);
-		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
+		$data['cetak']=BASEURL.'Bordir/suratjalanpoluar_detail?cetakpdf=true';
 		$data['cancel']=BASEURL.'Bordir/suratjalanpoluar';
-		$pdf=true;
+		$get = $this->input->get();
+		$pdf=false;
+		if(isset($get['cetakpdf'])){
+			$pdf=true;
+		}
+		
 		if($pdf==true){
 			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
 			
-			$html =  $this->load->view('newtheme/page/bordir/sj_poluar_detail',$data,true);
+			$html =  $this->load->view('newtheme/page/bordir/sj_poluar_detail_pdf',$data,true);
 
 			$this->load->library('pdfgenerator');
 	        
