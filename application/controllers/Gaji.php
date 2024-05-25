@@ -872,6 +872,7 @@ class Gaji extends CI_Controller {
 				'gaji'=>$r['gaji'],
 				'bagian'=>$r['bagian'],
 				'lembur'=>!empty($lembur)?$lembur['total']:0,
+				'saving'	=> $this->saving($r['id'],$tanggal1,$tanggal2),
 			);
 		}
 		//pre($data['harian']);
@@ -880,10 +881,21 @@ class Gaji extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	function saving($id,$tgl1,$tgl2){
+		$hasil=0;
+		$sql="SELECT COALESCE(SUM(saving)) as saving FROM gaji_finishing_detail WHERE idkaryawan='$id' ";
+		$sql .=" AND DATE(tanggal_saving) BETWEEN '".$tgl1."' AND '".$tgl2."' ";
+		$data = $this->GlobalModel->QueryManualRow($sql);
+		if(isset($data['saving'])){
+			$hasil = $data['saving'];
+		}
+		return $hasil;
+	}
+
 	public function gajiklosave(){
 		$data=$this->input->post();
 		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'KLO'));
-		//pre($data);
+		// pre($data);
 		if(!empty($cek)){
 			$this->session->set_flashdata('gagal','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
 			redirect(BASEURL.'Gaji/gajikloadd');	
@@ -925,7 +937,8 @@ class Gaji extends CI_Controller {
 					'pinjaman'=>$p['pinjaman'],
 					// 'saving'=>isset($p['saving'])? $p['saving']:0,
 					'saving'=>$saving,
-					'keluarkansaving'=>isset($p['keluarkansaving'])? $p['keluarkansaving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
+					'tanggal_saving' => date('Y-m-d'),
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}

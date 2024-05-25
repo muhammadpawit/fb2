@@ -35,11 +35,14 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<!--<a class="btn btn-info btn-sm text-white" onclick="filter()">Filter</a>-->
-			<a class="btn btn-info btn-sm text-white" onclick="proses()">Proses</a>
+			<a class="btn btn-info btn-sm text-white" onclick="filter()">Kalkulasi</a>
+			<?php if(isset($_GET['tanggal_awal'])){ ?>
+				<a class="btn btn-info btn-sm text-white" onclick="proses()">Proses</a>
+			<?php } ?>
 		</div>
 	</div>
 </div>
+<?php if(isset($_GET['tanggal_awal'])){ ?>
 <div class="row">
 			<?php $i=0?>
 			<?php foreach($harian as $h){?>
@@ -136,16 +139,18 @@
 							<td>Saving</td>
 							<td align="right"><?php echo number_format(175000)?></td>
 						</tr>
-						<tr style="display: none;">
-							<td><input type="checkbox" name="products[<?php echo $i?>][keluarkansaving]" value="175000"></td>
+						<tr>
+							<td><input type="checkbox" name="products[<?php echo $i?>][keluarkansaving]" value="0"></td>
 							<td>Keluarkan Saving</td>
-							<td align="right"><?php echo number_format(175000)?></td>
+							<td align="right">
+							<input style="text-align: right;" type="number" name="products[<?php echo $i?>][jumlah_keluar_saving]" value="<?php echo $h['saving']?>" class="form-control">
+							</td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][kasbon]" value="0"></td>
 							<td>Kasbon</td>
 							<td align="right">
-							<input style="text-align: right;" type="number" name="products[<?php echo $i?>][jumlah_kasbon]" value="0" class="form-control">
+								<input style="text-align: right;" type="number" name="products[<?php echo $i?>][jumlah_kasbon]" value="0" class="form-control">
 							</td>
 						</tr>
 						<!--
@@ -160,6 +165,7 @@
 			<?php } ?>
 </div>
 </form>
+<?php } ?>
 <script type="text/javascript">
 	function proses(){
 		var tanggal1 =$("#tanggal1").val();
@@ -176,5 +182,31 @@
 		}
 		//console.log(tanggal1);
 		$("form").submit();
+	}
+
+	function filter(){
+		var tanggal1 =$("#tanggal1").val();
+		var tanggal2 =$("#tanggal2").val();
+		var url='?';
+		// $("#proses").attr('disabled',false);
+
+		if(tanggal1===""){
+			alert("Tanggal awal harus diisi");
+			$("#tanggal1").focus();
+			return false;
+		}else{
+			url +='&tanggal_awal='+tanggal1;
+		}
+
+		if(tanggal2===""){
+			alert("Tanggal akhir harus diisi");
+			$("#tanggal2").focus();
+			return false;
+		}else{
+			url +='&tanggal_akhir='+tanggal2;
+		}
+		//console.log(tanggal1);
+		location = url;
+		
 	}
 </script>
