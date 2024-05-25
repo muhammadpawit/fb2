@@ -1525,7 +1525,7 @@ class Pembayaran extends CI_Controller {
 				}
 
 				$insert=array(
-					'total'=>$totalbayar,
+					'total'=>$totalbayar + $data['pengembalian_bangke'] - $data['potongan_bangke'] - $data['potongan_alat'] - $data['potongan_mesin'] - $data['potongan_vermak'] - $data['biaya_transport'] - $data['potongan_lainnya'],
 				);
 				$this->db->update('pembayaran_cmt',$insert,array('id'=>$data['id']));
 

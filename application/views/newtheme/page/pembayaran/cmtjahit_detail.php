@@ -98,37 +98,55 @@
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Pengembalian Bangke</b></td>
-                    <td align="center"><b><?php echo $detail['pengembalian_bangke']?></b></td>
+                    <td align="center">
+                        <!-- <b><?php //echo $detail['pengembalian_bangke']?></b> -->
+                        <input type="number" name="pengembalian_bangke" value="<?php echo ($detail['pengembalian_bangke'])?>">
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Bangke</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_bangke'])?></b></td>
+                    <td align="center">
+                        <!-- <b><?php echo number_format($detail['potongan_bangke'])?></b> -->
+                        <input type="number" name="potongan_bangke" value="<?php echo ($detail['potongan_bangke'])?>">
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Alat</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_alat'])?></b></td>
+                    <td align="center"><b><input type="number" name="potongan_alat" value="<?php echo ($detail['potongan_alat'])?>"></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Mesin</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_mesin'])?></b></td>
+                    <td align="center">
+                        <!-- <b><?php echo number_format($detail['potongan_mesin'])?></b> -->
+                        <input type="number" name="potongan_mesin" value="<?php echo ($detail['potongan_mesin'])?>">
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Permak</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_vermak'])?></b></td>
+                    <td align="center">
+                        <!-- <b><?php echo number_format($detail['potongan_vermak'])?></b> -->
+                        <input type="number" name="potongan_vermak" value="<?php echo ($detail['potongan_vermak'])?>">
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
-                    <td align="center"><b><?php echo number_format($detail['biaya_transport']-$detail['potongan_transport'])?></b></td>
+                    <td align="center">
+                        <!-- <b><?php echo number_format($detail['biaya_transport']-$detail['potongan_transport'])?></b> -->
+                        <input type="number" name="biaya_transport" value="<?php echo ($detail['biaya_transport']-$detail['potongan_transport'])?>">
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Pinjaman/Claim</td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_lainnya'])?></b></td>
+                    <td align="center">
+                        <!-- <b><?php echo number_format($detail['potongan_lainnya'])?></b> -->
+                        <input type="number" name="potongan_lainnya" value="<?php echo ($detail['potongan_lainnya'])?>">
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
