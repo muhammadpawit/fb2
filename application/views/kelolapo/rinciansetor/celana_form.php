@@ -25,7 +25,7 @@
             <select name="refpo" class="form-control select2bs4" required readonly>
                 <option value="">Mohon Dipilih</option>
                 <?php foreach($po as $p){ ?>
-                    <option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+                    <option value="<?php echo $p['id_produksi_po']?>"><?php echo $p['kode_po']?></option>
                 <?php } ?>
             </select>
         </div>

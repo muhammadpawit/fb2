@@ -1934,7 +1934,7 @@ class Finishing extends CI_Controller {
 		$id=isset($post['idrin']) ? $post['idrin'] :0;
 		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
 		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['id_master_cmt'],'idpo'=>$post['idpo']));
-		//pre($post);
+		// pre($post);
 		$pcs = 0;
 		$jml = 0;
 		$bangke = 0;
@@ -1960,8 +1960,8 @@ class Finishing extends CI_Controller {
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
 		//pre($sj);
-		$potongan = $this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('hapus'=>0,'kode_po'=>$post['refpo']));
-		//pre($potongan);
+		$potongan = $this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('hapus'=>0,'idpo'=>$post['refpo']));
+		// pre($potongan);
 		if ($jmlYangDisetor <= $potongan['hasil_pieces_potongan']) {
 
 			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('idpo' => $post['idpo'],'refpo'=>$post['refpo'],'idcmt'=>$post['id_master_cmt']));
