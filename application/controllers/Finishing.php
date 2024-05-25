@@ -302,10 +302,10 @@ class Finishing extends CI_Controller {
 
 	public function gajifinishingsave(){
 		$data=$this->input->post();
-		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'bagian'=>'FINISHING'));
-		//pre($cek);
+		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('hapus'=>0,'tanggal1'=>$data['tanggal1'],'bagian'=>'FINISHING'));
+		// pre($data);
 		if(!empty($cek)){
-			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
+			$this->session->set_flashdata('gagal','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
 			redirect(BASEURL.'Finishing/gajifinishing');	
 		}
 		$insert=array(
@@ -318,6 +318,13 @@ class Finishing extends CI_Controller {
 		$id=$this->db->insert_id();
 		foreach($data['products'] as $p){
 			if(isset($p['idkaryawan'])){
+				$gajiperminggu = $this->GlobalModel->GetDataRow('karyawan_harian',array('id'=>$p['idkaryawan']));
+				if($p['jumlah_kasbon']>0){
+					$saving = !empty($gajiperminggu['perminggu']) ? ($gajiperminggu['perminggu']-$p['jumlah_kasbon']):0;
+				}else{
+					$saving = 0;
+				}
+				
 				$detail=array(
 					'idgaji'=>$id,
 					'idkaryawan'=>$p['idkaryawan'],
@@ -331,6 +338,7 @@ class Finishing extends CI_Controller {
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
+					'saving'=>$saving,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}

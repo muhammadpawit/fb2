@@ -828,7 +828,7 @@ class Gaji extends CI_Controller {
 				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
 				'bagian'=>'Harian '.$r['bagian'],
 				'detail'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'],
-				'hapus'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'],
+				'hapus'=>BASEURL.'Gaji/gajiklohapus/'.$r['id'],
 				'excel'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'].'?&excel=1',
 			);
 			$no++;
@@ -885,7 +885,7 @@ class Gaji extends CI_Controller {
 		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'KLO'));
 		//pre($data);
 		if(!empty($cek)){
-			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
+			$this->session->set_flashdata('gagal','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
 			redirect(BASEURL.'Gaji/gajikloadd');	
 		}
 		$insert=array(
@@ -899,6 +899,15 @@ class Gaji extends CI_Controller {
 		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
 		foreach($data['products'] as $p){
 			if(isset($p['idkaryawan'])){
+
+				$gajiperminggu = $this->GlobalModel->GetDataRow('karyawan_harian',array('id'=>$p['idkaryawan']));
+				if($p['jumlah_kasbon']>0){
+					$saving = !empty($gajiperminggu['perminggu']) ? ($gajiperminggu['perminggu']-$p['jumlah_kasbon']):0;
+				}else{
+					$saving = 0;
+				}
+				
+
 				$detail=array(
 					'idgaji'=>$id,
 					'idkaryawan'=>$p['idkaryawan'],
@@ -914,7 +923,8 @@ class Gaji extends CI_Controller {
 					'insentif'=>isset($p['insentif'])?1:0,
 					'claim'=>$p['claim'],
 					'pinjaman'=>$p['pinjaman'],
-					'saving'=>isset($p['saving'])? $p['saving']:0,
+					// 'saving'=>isset($p['saving'])? $p['saving']:0,
+					'saving'=>$saving,
 					'keluarkansaving'=>isset($p['keluarkansaving'])? $p['keluarkansaving']:0,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
