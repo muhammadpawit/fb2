@@ -372,7 +372,7 @@ class Finishing extends CI_Controller {
 
 		$sql='SELECT * FROM finishing_kirim_gudang WHERE id_finishing_kirim_gudang>0 ';
 		if(!empty($kode_po)){
-			$sql .=" AND kode_po='".$kode_po."' ";
+			$sql .=" AND idpo='".$kode_po."' ";
 		}
 		if(isset($tanggal1)){
 			$sql.=" AND date(tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
