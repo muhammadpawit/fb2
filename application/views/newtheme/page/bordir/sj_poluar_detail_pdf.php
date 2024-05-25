@@ -40,7 +40,7 @@
 		<!-- <div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo ucfirst($cmt['alamat'])?></div>
 		<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $cmt['telephone']?></div> -->
 		<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($kirim['tanggal']))?></div>
-		<div class="hs">Keterangan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $kirim['keterangan']?></div>
+		<div class="hs">Keterangan &nbsp;&nbsp;&nbsp;: <?php echo $kirim['keterangan']?></div>
 	</div>
 </div>
 <br><br>
