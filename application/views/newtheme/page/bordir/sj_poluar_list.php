@@ -10,6 +10,7 @@
               <thead>
                 <tr>
                   <th>Tanggal</th>
+                  <th>No Surat Jalan</th>
                   <th>Kepada</th>
                   <th>Keterangan</th>
                   <th>Action</th>
@@ -19,6 +20,7 @@
                 <?php foreach($products as $p) { ?>
                   <tr>
                     <td><?php echo date('d-m-Y',strtotime($p['tanggal'])) ?></td>
+                    <td><?php echo strtoupper($p['nosj']) ?></td>
                     <td><?php echo strtolower($p['kepada']) ?></td>
                     <td><?php echo strtolower($p['keterangan']) ?></td>
                     <td>
