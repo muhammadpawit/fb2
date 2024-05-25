@@ -1766,7 +1766,7 @@ class Bordir extends CI_Controller {
 		$data['kirims']=$this->GlobalModel->GetData('sj_bordir_luar_detail',array('hapus'=>0,'idsj'=>$id));
 		// pre($data['kirims']);
 		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
-		$data['cancel']=BASEURL.'Bordir/pengeluaran';
+		$data['cancel']=BASEURL.'Bordir/suratjalanpoluar';
 		$data['page']=$this->page.'bordir/sj_poluar_detail';
 		$this->load->view($this->page.'main',$data);
 	}
