@@ -1505,7 +1505,7 @@ class Pembayaran extends CI_Controller {
 
 	public function cmtjahit_update(){
 		$data=$this->input->post();
-		//pre($data);
+		// pre($data);
 		$totalbayar=0;
 		$totalbangke=0;
 		$totalpengembalianbangke=0;
@@ -1514,11 +1514,11 @@ class Pembayaran extends CI_Controller {
 		if(isset($data['cmt'])){
 			if(isset($data['products'])){
 				foreach($data['products'] as $p){
-					$totalbayar+=($p['total']);
+					$totalbayar+=(round($p['jumlah_pcs']/12)) * $p['harga'];
 					$ids=array(
-						'jumlah_dz'=>round($p['jumlah_pcs']*12), // qty setor
+						'jumlah_dz'=>round($p['jumlah_pcs']/12), // qty setor
 						'jumlah_pcs'=>$p['jumlah_pcs'], // qty setor
-						'total'=>$p['total'],
+						'total'=>(round($p['jumlah_pcs']/12)) * $p['harga'],
 						'keterangan'=>$p['keterangan'],
 					);
 					$this->db->update('pembayaran_cmt_detail',$ids,array('id'=>$p['id']));
