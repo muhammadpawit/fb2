@@ -64,7 +64,7 @@
 											<th>Keterangan</th>
 										</tr>
     </thead>
-    <tbody>
+    						<tbody>
                                     <?php $totalkirim=0;$no=1;?>
 								<?php if(isset($kirims)){?>
 									<?php foreach($kirims as $k){?>
@@ -82,6 +82,7 @@
 									<?php } ?>
 								<?php } ?>
 								</tbody>
+
 								<tfoot>
 									<tr>
 										<td colspan="5" align="center"><b>Total</b>&nbsp;</td>
@@ -90,13 +91,7 @@
 										<td class="no-print">&nbsp;</td>
 									</tr>
 								</tfoot>
-        <tr>
-            <td colspan="3" align="center"><b>Total</b>&nbsp;</td>
-            <td align="center"><b><?php echo number_format($kirim['totalkirim'],0,",",".");?></b></td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-    </tfoot>
+								
 </table>
 
 
