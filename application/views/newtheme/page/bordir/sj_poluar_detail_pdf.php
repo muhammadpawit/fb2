@@ -66,28 +66,26 @@
     </thead>
     						<tbody>
                                     <?php $totalkirim=0;$no=1;?>
-								<?php if(isset($kirims)){?>
-									<?php foreach($kirims as $k){?>
-                                        <?php $po = $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$k['idpo']));?>
-										<tr>
-											<td><?php echo $no++?></td>
-											<td><?php echo $po['nama']?></td>
-											<td><?php echo $k['gambar']?></td>
-											<td class="no-print"><?php echo $k['posisi']?></td>
-											<td align="right"><?php echo $k['stich']?></td>
-											<td align="right"><?php echo $k['qty']?></td>
-											<td><?php echo $k['keterangan']?></td>
-										</tr>
-                                        <?php $totalkirim+=($k['qty']);?>
+									<?php if(isset($kirims)){?>
+										<?php foreach($kirims as $k){?>
+											<?php $po = $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$k['idpo']));?>
+											<tr>
+												<td><?php echo $no++?></td>
+												<td><?php echo $po['nama']?></td>
+												<td><?php echo $k['gambar']?></td>
+												<td class="no-print"><?php echo $k['posisi']?></td>
+												<td align="right"><?php echo $k['stich']?></td>
+												<td align="right"><?php echo $k['qty']?></td>
+												<td><?php echo $k['keterangan']?></td>
+											</tr>
+											<?php $totalkirim+=($k['qty']);?>
+										<?php } ?>
 									<?php } ?>
-								<?php } ?>
 								</tbody>
-
 								<tfoot>
 									<tr>
 										<td colspan="5" align="center"><b>Total</b>&nbsp;</td>
 										<td align="right"><b><?php echo $totalkirim?></b></td>
-										<td>&nbsp;</td>
 										<td class="no-print">&nbsp;</td>
 									</tr>
 								</tfoot>
