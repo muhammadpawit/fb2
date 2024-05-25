@@ -279,7 +279,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekapjumlah($jenis,$cmt,$proses,$bulan,$tahun){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpoo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(kbp.create_date) ='".$bulan."' ";
 		}
@@ -298,7 +298,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekapjumlah_tgl($jenis,$cmt,$proses,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil=1 ";
+		$sql="SELECT count(kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil=1 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -317,7 +317,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekappcs($jenis,$cmt,$proses,$bulan,$tahun){
 		$hasil=null;
-		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(kbp.create_date) ='".$bulan."' ";
 		}
@@ -336,7 +336,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekappcs_tgl($jenis,$cmt,$proses,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0  AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil=1 ";
+		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0  AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil=1 ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -351,7 +351,7 @@ class kirimsetorModel extends CI_Model {
 			// bangke 
 			
 			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and kbp.id_master_cmt='$cmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses' and mjp.id_jenis_po='$jenis' AND kbp.hapus=0";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and kbp.id_master_cmt='$cmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses' and mjp.id_jenis_po='$jenis' AND kbp.hapus=0";
 			if(!empty($tanggal1)){
 				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
@@ -391,7 +391,7 @@ class kirimsetorModel extends CI_Model {
 	public function kirimgudang($data){
 		$hasil=[];
 		$results=[];
-		$sql="SELECT kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.kode_po=kg.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
+		$sql="SELECT kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
 		$sql.=" p.hapus=0 and MONTH(tanggal_kirim) ='".$data['bulan']."' AND YEAR(tanggal_kirim) ='".$data['tahun']."' ";
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
@@ -413,7 +413,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function awaljumlah($jenis,$tanggal1,$tanggal2,$cmt,$proses,$kategori){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) < '$tanggal1' ";
 		}
@@ -429,7 +429,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function awaldz($jenis,$tanggal1,$tanggal2,$cmt,$proses,$kategori){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs/12) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT SUM(qty_tot_pcs/12) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) < '$tanggal1' ";
 		}
@@ -445,7 +445,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function jumlah($jenis,$tanggal1,$tanggal2,$cmt,$proses,$kategori){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -461,7 +461,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function dz($jenis,$tanggal1,$tanggal2,$cmt,$proses,$kategori){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs/12) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT SUM(qty_tot_pcs/12) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -544,7 +544,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rjumlah($jenis,$bulan,$tahun,$cmt,$proses,$kategori){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(kbp.create_date) ='".$bulan."' ";
@@ -565,7 +565,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rdz($jenis,$bulan,$tahun,$cmt,$proses,$kategori){
 		$hasil=null;
-		$sql="SELECT SUM(qty_tot_pcs/12) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT SUM(qty_tot_pcs/12) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.kategori_cmt='$kategori' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		
 
 		if(!empty($bulan)){
@@ -586,7 +586,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function stok($id,$jenis){
 		$sj=[];
-		$sql="SELECT COUNT(*) as jml, SUM(jumlah_pcs/12) as dz,kd.kode_po FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and idcmt='".$id."' AND mjp.idjenis='$jenis' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
+		$sql="SELECT COUNT(*) as jml, SUM(jumlah_pcs/12) as dz,kd.kode_po FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.id_produksi_po=kd.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and idcmt='".$id."' AND mjp.idjenis='$jenis' AND k.hapus=0 and kd.hapus=0 AND kd.jumlah_pcs<>kd.totalsetor ";
 		$sj=$this->GlobalModel->queryManualRow($sql);
 		return $sj;
 	}
@@ -608,7 +608,7 @@ class kirimsetorModel extends CI_Model {
 		//$sql="SELECT k.nosj,kd.*,mjp.perkalian FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) ";
 		//$sql .="LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis IN('$jenis') AND idcmt='".$id."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
 		//$sql.=" AND DATE(k.tanggal) <'".$tanggal."' ";
-		$sql=" SELECT count(ks.kode_po) as total,sum(qty_tot_pcs) as pcs,mjp.perkalian FROM kelolapo_kirim_setor ks JOIN produksi_po p ON(p.kode_po=ks.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po)  WHERE p.hapus=0 AND ks.kategori_cmt='JAHIT' AND ks.progress='KIRIM' AND ks.id_master_cmt='$id' AND mjp.idjenis IN('$jenis')  AND DATE(ks.create_date) <'$tanggal' AND ks.kode_po NOT IN (SELECT kode_po FROM kelolapo_kirim_setor ";
+		$sql=" SELECT count(ks.kode_po) as total,sum(qty_tot_pcs) as pcs,mjp.perkalian FROM kelolapo_kirim_setor ks JOIN produksi_po p ON(p.id_produksi_po=ks.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po)  WHERE p.hapus=0 AND ks.kategori_cmt='JAHIT' AND ks.progress='KIRIM' AND ks.id_master_cmt='$id' AND mjp.idjenis IN('$jenis')  AND DATE(ks.create_date) <'$tanggal' AND ks.idpo NOT IN (SELECT kode_po FROM kelolapo_kirim_setor ";
 		$sql.="  WHERE id_master_cmt='$id' AND progress='SETOR' AND DATE(create_date) <'$tanggal' AND mjp.idjenis IN('$jenis') ) ";
 		$sj=$this->GlobalModel->queryManual($sql);
 		// pre($sql);
@@ -631,7 +631,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function stok_baru($id,$jenis){
 		$sj=[];
-		$sql="SELECT k.nosj,kd.*,mjp.perkalian FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.kode_po=kd.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis IN('$jenis') AND idcmt='".$id."' AND k.hapus=0 and kd.hapus=0 AND kd.kode_po NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
+		$sql="SELECT k.nosj,kd.*,mjp.perkalian FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id)  JOIN produksi_po p ON(p.id_produksi_po=kd.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis IN('$jenis') AND idcmt='".$id."' AND k.hapus=0 and kd.hapus=0 AND kd.idpo NOT IN (SELECT kode_po FROM setorcmt_detail WHERE hapus=0 ) ";
 		$sj=$this->GlobalModel->queryManual($sql);
 		$hasil=[];
 		$i=0;
@@ -648,7 +648,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekapjumlah_tglklo($jenis,$cmt,$proses,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT count(DISTINCT kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
+		$sql="SELECT count(DISTINCT kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -667,7 +667,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekappcs_tglklo($jenis,$cmt,$proses,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
+		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
@@ -682,7 +682,7 @@ class kirimsetorModel extends CI_Model {
 			// bangke 
 			
 			$bangke="SELECT COALESCE(SUM(bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and kbp.id_master_cmt='$cmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses'  AND kbp.hapus=0";
+			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and kbp.id_master_cmt='$cmt' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses'  AND kbp.hapus=0";
 			if(!empty($tanggal1)){
 				$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
