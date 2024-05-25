@@ -1072,6 +1072,7 @@ class Finishing extends CI_Controller {
 		//pre($rincian);
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
 		foreach ($rincian as $key => $rinci) {
+			$refpo = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$rinci['refpo']));
 			$viewData['rincian'][$key]['id']=$rinci['id'];
 			$viewData['rincian'][$key]['kode_po'] = $rinci['kode_po'];
 			$viewData['rincian'][$key]['id_cmt'] =$rinci['id_cmt'];
@@ -1080,7 +1081,7 @@ class Finishing extends CI_Controller {
 			$viewData['rincian'][$key]['progress']=null;
 			$viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
 			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
-			$viewData['rincian'][$key]['refpo']=$rinci['refpo'];
+			$viewData['rincian'][$key]['refpo']=!empty($refpo) ? $refpo['kode_po'] : $rinci['refpo'];
 			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('idpo'=>$rinci['id_produksi_po'],'refpo'=>$rinci['refpo']));
 		}
 		
