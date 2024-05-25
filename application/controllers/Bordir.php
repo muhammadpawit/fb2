@@ -1767,8 +1767,35 @@ class Bordir extends CI_Controller {
 		// pre($data['kirims']);
 		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
 		$data['cancel']=BASEURL.'Bordir/suratjalanpoluar';
-		$data['page']=$this->page.'bordir/sj_poluar_detail';
-		$this->load->view($this->page.'main',$data);
+		$pdf=true;
+		if($pdf==true){
+			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			
+			$html =  $this->load->view('newtheme/page/bordir/sj_poluar_detail',$data,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+	        // setting paper
+	        //$paper = 'A4';
+	        $paper = array(0,0,800,850);
+	        //orientasi paper potrait / landscape
+	        $orientation = "landscape";
+	        
+			$this->load->view('laporan_pdf',$this->data, true);	    
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}else{
+			$data['page']=$this->page.'bordir/sj_poluar_detail';
+			$this->load->view($this->page.'main',$data);
+		}
+
+		
 	}
 
 	public function suratjalanpoluar_add()
