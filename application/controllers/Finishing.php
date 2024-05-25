@@ -339,6 +339,7 @@ class Finishing extends CI_Controller {
 					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
 					'saving'=>$saving,
+					'tanggal_saving' => date('Y-m-d'),
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}

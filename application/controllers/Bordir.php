@@ -1746,4 +1746,76 @@ class Bordir extends CI_Controller {
 		$this->session->set_flashdata('msg','Data Berhasil Di hapus');
 		redirect(BASEURL.'Bordir/pengeluaran');
 	}
+
+	public function suratjalanpoluar()
+	{
+		$data=[];
+		$data['title']='Surat Jalan Bordir PO Luar';
+		$data['products']=$this->GlobalModel->GetData('sj_bordir_luar',array('hapus'=>0));
+		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
+		$data['cancel']=BASEURL.'Bordir/pengeluaran';
+		$data['page']=$this->page.'bordir/sj_poluar_list';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function suratjalanpoluar_detail($id)
+	{
+		$data=[];
+		$data['title']='Surat Jalan Bordir PO Luar';
+		$data['kirim']=$this->GlobalModel->GetDataRow('sj_bordir_luar',array('hapus'=>0,'id'=>$id));
+		$data['kirims']=$this->GlobalModel->GetData('sj_bordir_luar_detail',array('hapus'=>0,'idsj'=>$id));
+		// pre($data['kirims']);
+		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
+		$data['cancel']=BASEURL.'Bordir/pengeluaran';
+		$data['page']=$this->page.'bordir/sj_poluar_detail';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function suratjalanpoluar_add()
+	{
+		$data=[];
+		$data['title']='Surat Jalan Bordir PO Luar';
+		$data['products']=[];
+		$data['action']=BASEURL.'Bordir/suratjalanpoluar_save';
+		$data['cancel']=BASEURL.'suratjalanpoluar';
+		$data['page']=$this->page.'bordir/sj_poluar_form';
+		$data['pos']	= $this->GlobalModel->GetData('master_po_luar',array('hapus'=>0));
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function suratjalanpoluar_save()
+	{
+		$data=$this->input->post();
+		// pre($data);
+		$total=0;
+		$insert=array(
+			'tanggal'	=>$data['tanggal'],
+			'kepada'	=>$data['kepada'],
+			'keterangan'=>$data['keterangan'],
+			'hapus'=>0,
+		);
+		$this->db->insert('sj_bordir_luar',$insert);
+		$id=$this->db->insert_id();
+		
+		foreach($data['products'] as $p){
+			$total+=($p['total']);
+			$details=array(
+				'idsj'=>$id,
+				'tanggal'=>$data['tanggal'],
+				'idpo'=>$p['idpo'],
+				'gambar'=>$p['gambar'],
+				'posisi'=>$p['posisi'],
+				'stich'=>$p['stich'],
+				'qty'=>$p['qty'],
+				'keterangan'=>$p['keterangan'],
+				'hapus'=>0,
+			);
+			$this->db->insert('sj_bordir_luar_detail',$details);
+		}
+		$nosj ="SJ-BL-".date('m').'-'.str_pad($id,3,'0',STR_PAD_LEFT);
+		$this->db->update('sj_bordir_luar',array('nosj'=>$nosj),array('id'=>$id));
+		
+		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+		redirect(BASEURL.'Bordir/suratjalanpoluar');
+	}
 }
