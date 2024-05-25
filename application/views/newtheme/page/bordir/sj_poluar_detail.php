@@ -5,7 +5,7 @@
 				<div class="container">
 					<div class="card">
 						<div class="card-header">
-						  <strong><?php //echo $kirim['nosj']?></strong> 
+						  <strong><?php echo $kirim['nosj']?></strong> 
 						  <span class="float-right"> <strong>Tanggal:</strong> <?php echo date('d F Y',strtotime($kirim['tanggal']))?></span>
 						</div>
 						<div class="card-body">
