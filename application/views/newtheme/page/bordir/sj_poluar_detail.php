@@ -25,7 +25,7 @@
 									<div>
 									<strong>Bpk/ibu&nbsp;<?php echo strtolower($kirim['kepada'])?></strong>
 									</div>
-									<div><?php //echo $cmt['alamat']?></div>
+									<div><?php echo $kirim['keterangan']?></div>
 									<div>Email: <?php //echo $cmt['email']?></div>
 									<div>Phone: <?php //echo $cmt['telephone']?></div>
 								</div>
