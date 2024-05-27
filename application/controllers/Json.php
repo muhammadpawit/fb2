@@ -530,7 +530,7 @@ class Json extends CI_Controller {
 	public function pmbpotong()
 	{
 		$post = $this->input->get();
-		$data = $this->GlobalModel->QueryManualRow("SELECT SUM(kbp.hasil_pieces_potongan) as potongan FROM konveksi_buku_potongan kbp WHERE kode_po='".$post['kodepo']."' ");
+		$data = $this->GlobalModel->QueryManualRow("SELECT SUM(kbp.hasil_pieces_potongan) as potongan FROM konveksi_buku_potongan kbp WHERE idpo='".$post['kodepo']."' ");
 		echo json_encode($data);
 	}
 
