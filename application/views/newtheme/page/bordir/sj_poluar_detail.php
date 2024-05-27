@@ -54,8 +54,8 @@
 											<td><?php echo $po['nama']?></td>
 											<td><?php echo $k['gambar']?></td>
 											<td class="no-print"><?php echo $k['posisi']?></td>
-											<td align="right"><?php echo $k['stich']?></td>
-											<td align="right"><?php echo $k['qty']?></td>
+											<td align="center"><?php echo $k['stich']?></td>
+											<td align="center"><?php echo $k['qty']?></td>
 											<td><?php echo $k['keterangan']?></td>
 										</tr>
                                         <?php $totalkirim+=($k['qty']);?>
