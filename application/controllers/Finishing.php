@@ -1723,7 +1723,7 @@ class Finishing extends CI_Controller {
 		if( strtolower($po['nama_po']) == 'bjk' ){
 			$sql ="SELECT COALESCE(SUM((rincian_lusin*12) + rincian_piece),0) as qty_tot_pcs FROM kelolapo_rincian_setor_cmt_finish_celana WHERE kode_po lIKE '".$post['kodepo'].'-'.$post['cmt']."%'  ";
 		}else{
-			$sql ="SELECT COALESCE(SUM((rincian_lusin*12) + rincian_piece),0) as qty_tot_pcs FROM kelolapo_rincian_setor_cmt_finish WHERE kode_po='".$post['kodepo']."'  ";
+			$sql ="SELECT COALESCE(SUM((rincian_lusin*12) + rincian_piece),0) as qty_tot_pcs FROM kelolapo_rincian_setor_cmt_finish WHERE idpo='".$post['kodepo']."'  ";
 		}
 		
 		$data = $this->GlobalModel->QueryManualROw($sql);
