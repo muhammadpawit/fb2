@@ -90,7 +90,7 @@ class Laporanbulananbahan extends CI_Controller {
 
 		$sql .=" ORDER BY nama_item ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
-		pre($sql);
+		// pre($sql);
 		$no=1;
 		$stokawal=[];
 		$stokmasuk=[];
