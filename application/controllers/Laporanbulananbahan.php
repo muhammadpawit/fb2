@@ -87,6 +87,8 @@ class Laporanbulananbahan extends CI_Controller {
 		if(!empty($supplier)){
 			$sql.=" AND gpi.supplier='".$supplier."'";
 		}
+
+		$sql .=" ORDER BY nama_item ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
 		$no=1;
