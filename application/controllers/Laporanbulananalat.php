@@ -69,7 +69,7 @@ class Laporanbulananalat extends CI_Controller {
 			$sql.=" AND p.kategori='".$kategori."' ";
 			$url.="&kategori=".$kategori;
 		}else{
-			$sql.=" AND p.kategori NOT IN(1,2,3,4,5,6,7,8,9,10,11,13,14,27,28,35) ";
+			$sql.=" AND p.kategori IN(1,2,3,4,5,6,7,8,9,10,11,13,14,27,28,35) ";
 		}
 
 		// /$sql.=" AND p.product_id=1181 ";
