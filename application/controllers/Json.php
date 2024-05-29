@@ -209,7 +209,7 @@ class Json extends CI_Controller {
 				$bordir=$this->ReportModel->getpcsK($p['kode_po'],"BORDIR","KIRIM");
 				$kirimcmt=$this->ReportModel->getpcsK($p['kode_po'],"JAHIT","KIRIM");
 				$setorcmt=$this->ReportModel->getpcsK($p['kode_po'],"JAHIT","SETOR");
-				$kirimgudang=$this->ReportModel->dashkirimgdgpcs($p['kode_po']);
+				$kirimgudang=$this->ReportModel->dashkirimgdgpcs($p['id_produksi_po']);
 				$rijek=$this->ReportModel->pcsRijek($p['kode_po'],null,null);
 				$output['data'][]=array(
 					$nomors,
