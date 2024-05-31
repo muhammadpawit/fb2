@@ -1367,7 +1367,8 @@ class Finishing extends CI_Controller {
 			$c= $this->GlobalModel->GetDataRow('master_cmt',array('cmt_job_desk'=>'JAHIT','id_cmt'=>$k['id_master_cmt']));
 			$cmt[]= $c['cmt_name'];
 		}
-		$namacmt = implode(",",$cmt);
+		$namacmts = array_unique($cmt);
+		$namacmt = implode(",",$namacmts);
 		// pre($namacmt);
 		$viewData['namacmt']=!empty($cmt)?$namacmt:'';
 		$viewData['variasi']=null;
