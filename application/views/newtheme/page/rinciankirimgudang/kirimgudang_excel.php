@@ -30,7 +30,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                             <tr>
                                 <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
                                 <td><?php echo strtoupper($sat['kode_artikel']) ?></td>
-                                <td><?php echo strtoupper($sat['kode_po']) ?></td>
+                                <td><?php echo strtoupper($sat['kodepo']) ?></td>
                                 <td><?php echo $sat['jumlah_piece_diterima']?></td>
                                 <td><?php echo ($sat['harga_satuan']) ?></td>
                                 <td><?php echo ($sat['harga_satuan']*$sat['jumlah_piece_diterima']) ?></td>
