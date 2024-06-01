@@ -67,7 +67,7 @@
 										</td>
 										<td><input type="text" name="prods[<?php echo $no?>][rincian_po]" value="<?php echo $k['rincian_po']?>" class=""></td>
 										<td class="no-print">
-											<select name="prods[<?php echo $no?>][job]" class="form-control select2bs4" data-live-search="true">
+											<select name="prods[<?php echo $no?>][job]" class="form-control select2bs4" data-live-search="true" style="width:100%">
 											<?php foreach($listjob as $l){?>
 												<option value="<?php echo $l['id']?>-<?php echo $l['harga']?>" <?php echo $k['job']==$l['id']?'selected':'';?>><?php echo $l['nama_job']?></option>
 											<?php } ?>
