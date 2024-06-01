@@ -68,13 +68,13 @@ class Laporanrinciansetoran extends CI_Controller {
 				$lokasi=$this->GlobalModel->GetDataRow('lokasi_cmt',array('id'=>$cabang['lokasi']));
 			}
 			$potong=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('hapus'=>0,'idpo'=>$r['idpo']));
-			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_tot_pcs) as total FROM kelolapo_kirim_setor WHERE idpo='".$r['idpo']."' AND lower(nama_cmt)='".strtolower($r['nama_cmt'])."' AND hapus=0 AND kategori_cmt='JAHIT' AND progress='SETOR' ");
+			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_tot_pcs) as total FROM kelolapo_kirim_setor WHERE idpo='".$r['idpo']."' AND lower(nama_cmt)='".strtolower($r['nama_cmt'])."' AND hapus=0 AND kategori_cmt='JAHIT' AND progress='KIRIM' ");
 			$data['prods'][]=array(
 				'no'=>$no,
 				'tanggal'=>date('d/m/Y',strtotime($r['created_date'])),
 				'kode_po'=>$r['kode_po'],
 				'potong'=>$potong['hasil_lusinan_potongan'],
-				'tgl_kirim'=>null,
+				'tgl_kirim'=>date('d/m/Y',strtotime($pcs_kirim['create_date'])),
 				'pcs_kirim'=>$pcs_kirim['total'],
 				'pcs_setor'=>$r['jml_setor_qty'],
 				'pcs_bagus'=>($r['jumlah_piece_diterima']-$r['bangke_qty']-$r['barang_cacad_qty']),
