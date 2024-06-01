@@ -27,7 +27,10 @@ class Pobelumkirimgudang extends CI_Controller {
 
 		$data['kode_po']=$kodepo;
 		
-		$sql="SELECT * FROM produksi_po WHERE hapus=0 AND kategori_po='DALAM' AND kode_po IN(select kode_po FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt='JAHIT') AND kode_PO NOT IN (select kode_po FROM finishing_kirim_gudang ) AND kode_po IN(SELECT kode_po FROM konveksi_buku_potongan) AND nama_po NOT LIKE 'BJ%' ";
+		$sql="SELECT * FROM produksi_po WHERE hapus=0 AND kategori_po='DALAM' AND id_produksi_po IN(select idpo FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt='JAHIT') AND id_produksi_po NOT IN (select idpo FROM finishing_kirim_gudang ) AND id_produksi_po IN(SELECT idpo FROM konveksi_buku_potongan) AND nama_po NOT LIKE 'BJ%' ";
+		if(!empty($kodepo)){
+			$sql .=" AND id_produksi_po='".$kodepo."' ";
+		}
 		$sql.=" ORDER BY id_produksi_po ASC ";
 		$results=[];
 		$data['prods']=[];
