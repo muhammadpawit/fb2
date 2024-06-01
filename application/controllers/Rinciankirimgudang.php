@@ -33,9 +33,9 @@ class Rinciankirimgudang extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		}
 
-		$sql='SELECT fkg.*, p.kode_artikel FROM finishing_kirim_gudang fkg LEFT JOIN produksi_po p ON(p.kode_po=fkg.kode_po) WHERE id_finishing_kirim_gudang>0 ';
+		$sql='SELECT fkg.*, p.kode_artikel, p.kode_po as kodepo FROM finishing_kirim_gudang fkg LEFT JOIN produksi_po p ON(p.id_produksi_po=fkg.idpo) WHERE id_finishing_kirim_gudang>0 ';
 		if(isset($tanggal1)){
-			$sql.=" AND date(tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			$sql.=" AND date(fkg.tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 
 		$data['notarincian'] = $this->GlobalModel->queryManual($sql);
