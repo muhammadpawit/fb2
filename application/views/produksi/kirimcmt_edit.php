@@ -67,7 +67,7 @@
 										</td>
 										<td>
 											<!-- <input type="text" name="prods[<?php echo $no?>][rincian_po]" value="<?php echo $k['rincian_po']?>" class=""> -->
-											<textarea name="prods[<?php echo $no?>][rincian_po]" cols="5"><?php echo $k['rincian_po']?></textarea>
+											<textarea name="prods[<?php echo $no?>][rincian_po]" cols="35"><?php echo $k['rincian_po']?></textarea>
 										</td>
 										<td class="no-print">
 											<select name="prods[<?php echo $no?>][job]" class="form-control select2bs4" data-live-search="true" style="width:100%">
