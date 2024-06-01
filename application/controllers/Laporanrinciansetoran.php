@@ -67,8 +67,8 @@ class Laporanrinciansetoran extends CI_Controller {
 			if(!empty($cabang)){
 				$lokasi=$this->GlobalModel->GetDataRow('lokasi_cmt',array('id'=>$cabang['lokasi']));
 			}
-			$potong=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('hapus'=>0,'kode_po'=>$r['kode_po']));
-			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_pcs) as total FROM kirimcmt_detail WHERE kode_po='".$r['kode_po']."' AND hapus=0 ");
+			$potong=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('hapus'=>0,'idpo'=>$r['idpo']));
+			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(jumlah_pcs) as total FROM kirimcmt_detail WHERE idpo='".$r['idpo']."' AND hapus=0 ");
 			$data['prods'][]=array(
 				'no'=>$no,
 				'tanggal'=>date('d/m/Y',strtotime($r['created_date'])),
@@ -78,7 +78,7 @@ class Laporanrinciansetoran extends CI_Controller {
 				'pcs_kirim'=>$pcs_kirim['total'],
 				'pcs_setor'=>$r['jml_setor_qty'],
 				'pcs_bagus'=>($r['jumlah_piece_diterima']-$r['bangke_qty']-$r['barang_cacad_qty']),
-				'size'=>$this->GlobalModel->GetData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$r['id_kelolapo_rincian_setor_cmt'],'kode_po'=>$r['kode_po'])),
+				'size'=>$this->GlobalModel->GetData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$r['id_kelolapo_rincian_setor_cmt'],'idpo'=>$r['idpo'])),
 				'bangke'=>$r['bangke_qty'],
 				'bs'=>$r['barang_cacad_qty'],
 				'cabang'=>!empty($lokasi)?$lokasi['lokasi']:'',
