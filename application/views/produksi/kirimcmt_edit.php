@@ -65,7 +65,10 @@
 											<input type="hidden" name="prods[<?php echo $no?>][kategori_cmt]" value="JAHIT">
 											<input type="hidden" name="prods[<?php echo $no?>][kode_po]" value="<?php echo $k['id_produksi_po']?>">
 										</td>
-										<td><input type="text" name="prods[<?php echo $no?>][rincian_po]" value="<?php echo $k['rincian_po']?>" class=""></td>
+										<td>
+											<!-- <input type="text" name="prods[<?php echo $no?>][rincian_po]" value="<?php echo $k['rincian_po']?>" class=""> -->
+											<textarea name="prods[<?php echo $no?>][rincian_po]" id=""><?php echo $k['rincian_po']?></textarea>
+										</td>
 										<td class="no-print">
 											<select name="prods[<?php echo $no?>][job]" class="form-control select2bs4" data-live-search="true" style="width:100%">
 											<?php foreach($listjob as $l){?>
