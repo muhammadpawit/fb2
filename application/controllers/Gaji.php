@@ -935,8 +935,8 @@ class Gaji extends CI_Controller {
 					'insentif'=>isset($p['insentif'])?1:0,
 					'claim'=>$p['claim'],
 					'pinjaman'=>$p['pinjaman'],
-					// 'saving'=>isset($p['saving'])? $p['saving']:0,
-					'saving'=>$saving,
+					'saving'=>isset($p['saving'])? $p['saving']:0,
+					// 'saving'=>$saving,
 					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
 					'tanggal_saving' => date('Y-m-d'),
 				);

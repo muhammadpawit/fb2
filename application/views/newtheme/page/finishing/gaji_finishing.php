@@ -134,10 +134,10 @@
 							<td>Insentif</td>
 							<td align="right"><?php echo number_format($h['gaji'])?></td>
 						</tr>
-						<tr style="display: none;">
-							<td><input type="checkbox" name="products[<?php echo $i?>][saving]" value="175000"></td>
+						<tr>
+							<td><input type="checkbox" name="products[<?php echo $i?>][saving]" value="300000"></td>
 							<td>Saving</td>
-							<td align="right"><?php echo number_format(175000)?></td>
+							<td align="right"><?php echo number_format(300000)?></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][keluarkansaving]" value="0"></td>
