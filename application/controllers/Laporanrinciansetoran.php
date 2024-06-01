@@ -68,7 +68,7 @@ class Laporanrinciansetoran extends CI_Controller {
 				$lokasi=$this->GlobalModel->GetDataRow('lokasi_cmt',array('id'=>$cabang['lokasi']));
 			}
 			$potong=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('hapus'=>0,'idpo'=>$r['idpo']));
-			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_tot_pcs) as total FROM kelolapo_kirim_setor WHERE idpo='".$r['idpo']."' AND lower(nama_cmt)='".strtolower($r['nama_cmt'])."' AND hapus=0 AND kategori_cmt='JAHIT' AND progress='KIRIM' ");
+			$pcs_kirim=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_tot_pcs) as total, create_date FROM kelolapo_kirim_setor WHERE idpo='".$r['idpo']."' AND lower(nama_cmt)='".strtolower($r['nama_cmt'])."' AND hapus=0 AND kategori_cmt='JAHIT' AND progress='KIRIM' ");
 			$data['prods'][]=array(
 				'no'=>$no,
 				'tanggal'=>date('d/m/Y',strtotime($r['created_date'])),
