@@ -279,7 +279,7 @@ class kirimsetorModel extends CI_Model {
 
 	public function rekapjumlah($jenis,$cmt,$proses,$bulan,$tahun){
 		$hasil=null;
-		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpoo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
+		$sql="SELECT count(kbp.kode_po) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0";
 		if(!empty($bulan)){
 			$sql.=" AND MONTH(kbp.create_date) ='".$bulan."' ";
 		}
