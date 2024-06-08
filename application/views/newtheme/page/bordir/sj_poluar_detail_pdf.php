@@ -80,7 +80,7 @@
                     <td><?php echo $k['keterangan'] ?></td>
                 </tr>
                 <?php $totalkirim += $k['qty']; ?>
-                <?php if (($index + 1) % 10 == 0) { ?>
+                <?php if (($index + 1) % 20 == 0) { ?>
                     </tbody>
                     </table>
                     <div class="break"></div>
@@ -132,9 +132,6 @@
 	<!-- <div class="break"></div> -->
 <?php } ?>	
 
-<?php if(count($kirims)>13){?>
-	<!-- <div class="break"></div> -->
-<?php } ?>	
 
 		<table style="width:100%">
 			<tr>
