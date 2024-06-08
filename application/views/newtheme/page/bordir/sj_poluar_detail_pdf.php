@@ -60,7 +60,7 @@
             <th>NAMA PO</th>
             <th>GAMBAR</th>
             <th class="no-print">POSISI</th>
-            <th align="right">STICH (pcs)</th>
+            <th align="center">STICH (pcs)</th>
             <th>JML Barang</th>
             <th>Keterangan</th>
         </tr>
@@ -91,7 +91,7 @@
                             <th>NAMA PO</th>
                             <th>GAMBAR</th>
                             <th class="no-print">POSISI</th>
-                            <th align="right">STICH (pcs)</th>
+                            <th align="center">STICH (pcs)</th>
                             <th>JML Barang</th>
                             <th>Keterangan</th>
                         </tr>
