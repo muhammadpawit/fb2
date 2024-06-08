@@ -1850,4 +1850,31 @@ class Bordir extends CI_Controller {
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
 		redirect(BASEURL.'Bordir/suratjalanpoluar');
 	}
+
+	public function caripoluar(){
+		$get = $this->input->get();
+		$sql="SELECT a.* FROM master_po_luar a JOIN kelola_mesin_bordir b ON b.kode_po=a.id ";
+		if(isset($get['po'])){
+			$sql.=" AND a.nama LIKE '%".$get['po']."%'";
+		}
+		$sql.=" GROUP BY a.nama ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$json=[];
+		foreach($results as $r){
+			$json[] = array(
+				'id' => round($r['id']),
+				'text' =>$r['nama'],
+			);
+		}
+		echo json_encode($json);
+	}
+
+	public function detailinputanharian()
+	{
+		$post = $this->input->get();
+		$sql ="SELECT * FROM kelola_mesin_bordir WHERE kode_po='".$post['kodepo']."'  ";
+		
+		$data = $this->GlobalModel->QueryManualROw($sql);
+		echo json_encode($data);
+	}
 }
