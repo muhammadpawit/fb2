@@ -3192,4 +3192,151 @@ class Gudang extends CI_Controller {
 		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
 	}
 
+	public function ajuanmingguan_celana(){
+		$data=array();
+		$data['title']='Ajuan Alat-alat Kirim PO Kaos ';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+
+		if(isset($get['spv'])){
+			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
+			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
+			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
+			if(isset($get['tanggal1'])){
+				$tanggal1=$get['tanggal1'];
+			}else{
+				//$tanggal1=date('Y-m-d',strtotime("Monday of this week"));
+			}
+			if(isset($get['tanggal2'])){
+				$tanggal2=$get['tanggal2'];
+			}else{
+				//$tanggal2=date('Y-m-d');
+			}
+		}
+		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
+		//pre($data['acc_ajuan_mingguan']);
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['cat']=$cat;
+		$data['products']=array();
+		$data['n']=1;
+		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		if(!empty($cat)){
+			$sql.=" AND jenis='".$cat."' ";
+		}
+		$sql.=" ORDER BY id DESC ";
+		
+		$results=$this->GlobalModel->queryManual($sql);
+		foreach($results as $result){
+			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
+			$data['products'][]=array(
+				'id'=>$result['id'],
+				'tanggal'=>$result['tanggal'],
+				'kebutuhan'=>''.$result['kebutuhan'],
+				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
+				'jml_ajuan'=>$result['jml_ajuan'],
+				'jml_acc'=>$result['jml_acc'],
+				'keterangan'=>$result['keterangan'],
+				'keterangan2'=>$result['keterangan2'],
+				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
+				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
+				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatal/'.$result['id'],
+				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbataladmin/'.$result['id'],
+				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
+				'stok'=>$result['stok'],
+				'acc_satuan' => $result['acc_satuan'],
+				'accsatuan'	 => $satuan['accsatuan'],
+				'metodebayar'	=> $result['metodebayar'],
+			);
+		}
+		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah_celana';
+		if(isset($get['spv'])){
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv';
+		}else{
+			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		}
+		//pre($data['products']);
+		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguan_excel_all';
+		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function ajuanmingguantambah_celana(){
+		$data=array();
+		$data['title']='Form Ajuan Alat-alat Kirim PO Celana';
+		$data['typeajuan']	='alat-alat';
+		$data['action']=BASEURL.'Gudang/ajuanmingguansave_celana';
+		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_celana';
+		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
+		$data['page']=$this->page.'gudang/pengajuan/mingguan_form';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function ajuanmingguansave_celana(){
+		$data=$this->input->post();
+		//pre($data);
+		if(isset($data['products'])){
+			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
+			$am=array(
+				'tanggal'=>$data['tanggal'],
+				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
+				'kebutuhan'=>$item['nama'],
+				'product_id' => $item['product_id'],
+				// 'ajuan_kebutuhan'=>$data['ajuan_kebutuhan'],
+				'ajuan_kebutuhan'=>0,
+				'stok'=>$data['stok'],
+				//'jml_ajuan'=>$data['jml_ajuan'],
+				'jml_ajuan'=>0,
+				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
+				'keterangan2'=>$data['keterangan2'],
+				'supplier_id'=>$data['supplier_id'],
+				'metodebayar'=>isset($data['metodebayar']) ? $data['metodebayar'] : null,
+				'typeajuan' => 'celana',
+				//'keterangan'=>$data['keterangan'],
+			);
+			$this->db->insert('ajuan_mingguan',$am);
+			$id=$this->db->insert_id();
+			$totalajuan=0;
+			foreach($data['products'] as $p){
+				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
+				$insert=array(
+					'idajuan'=>$id,
+					'tanggal'=>$data['tanggal'],
+					'tanggal2'=>$data['tanggal'],
+					'kode_po'=>$p['kode_po'],
+					'jumlah_po'=>$p['jumlah_po'],
+					'rincian_po'=>$p['rincian_po'],
+					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
+					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
+					'jml_pcs'=>$p['jml_pcs'],
+					'jml_dz'=>$p['jml_dz'],
+					'keterangan'=>$p['keterangan'],
+					'hapus'=>0,
+				);
+				$this->db->insert('ajuan_mingguan_detail',$insert);
+			}
+			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+		}
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Gudang/ajuanmingguan_celana');
+	}
+
 }
