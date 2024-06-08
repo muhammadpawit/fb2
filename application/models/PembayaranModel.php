@@ -51,4 +51,15 @@ class PembayaranModel extends CI_Model {
         return $this->db->query($sql)->result_array();
     }
 
+    function saving($id,$tgl1,$tgl2){
+		$hasil=0;
+		$sql="SELECT COALESCE(SUM(saving)) as saving FROM gaji_finishing_detail WHERE idkaryawan='$id' AND hapus=0 ";
+		$sql .=" AND DATE(tanggal_saving) BETWEEN '".$tgl1."' AND '".$tgl2."' ";
+		$data = $this->GlobalModel->QueryManualRow($sql);
+		if(isset($data['saving'])){
+			$hasil = $data['saving'];
+		}
+		return $hasil;
+	}
+
 }

@@ -11,6 +11,7 @@ class Gaji extends CI_Controller {
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
+		$this->load->model('PembayaranModel');
 	}
 
 	public function Gudang(){
@@ -872,7 +873,7 @@ class Gaji extends CI_Controller {
 				'gaji'=>$r['gaji'],
 				'bagian'=>$r['bagian'],
 				'lembur'=>!empty($lembur)?$lembur['total']:0,
-				'saving'	=> $this->saving($r['id'],$tanggal1,$tanggal2),
+				'saving'	=> $this->PembayaranModel->saving($r['id'],$tanggal1,$tanggal2),
 			);
 		}
 		//pre($data['harian']);
@@ -881,16 +882,7 @@ class Gaji extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
-	function saving($id,$tgl1,$tgl2){
-		$hasil=0;
-		$sql="SELECT COALESCE(SUM(saving)) as saving FROM gaji_finishing_detail WHERE idkaryawan='$id' AND hapus=0 ";
-		$sql .=" AND DATE(tanggal_saving) BETWEEN '".$tgl1."' AND '".$tgl2."' ";
-		$data = $this->GlobalModel->QueryManualRow($sql);
-		if(isset($data['saving'])){
-			$hasil = $data['saving'];
-		}
-		return $hasil;
-	}
+	
 
 	public function gajiklosave(){
 		$data=$this->input->post();

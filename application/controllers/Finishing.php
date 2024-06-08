@@ -10,6 +10,7 @@ class Finishing extends CI_Controller {
 		$this->db2 = $this->load->database('second', TRUE);
 		$this->page='newtheme/page/';
 		$this->load->model('KirimsetorModel');
+		$this->load->model('PembayaranModel');
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
@@ -294,7 +295,18 @@ class Finishing extends CI_Controller {
 		$data['title']='Gaji Finishing';
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 		//$data['harian']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0,'tipe'=>1));
-		$data['harian']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE '%FINISHING%' OR lower(bagian) LIKE '%bpo%' ");
+		$results =$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE '%FINISHING%' OR lower(bagian) LIKE '%bpo%' ");
+		foreach($results as $r){
+			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['harian'][]=array(
+				'id'=>$r['id'],
+				'nama'=>$r['nama'],
+				'gaji'=>$r['gaji'],
+				'bagian'=>$r['bagian'],
+				'lembur'=>!empty($lembur)?$lembur['total']:0,
+				'saving'	=> $this->PembayaranModel->saving($r['id'],$tanggal1,$tanggal2),
+			);
+		}
 		$data['action']=BASEURL.'Finishing/gajifinishingsave';
 		$data['page']=$this->page.'finishing/gaji_finishing';
 		$this->load->view($this->page.'main',$data);
