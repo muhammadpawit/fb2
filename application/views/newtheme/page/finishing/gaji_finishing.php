@@ -135,9 +135,9 @@
 							<td align="right"><?php echo number_format($h['gaji'])?></td>
 						</tr>
 						<tr>
-							<td><input type="checkbox" name="products[<?php echo $i?>][saving]" value="300000"></td>
+							<td><input type="checkbox" name="products[<?php echo $i?>][savings]" value="200000"></td>
 							<td>Saving</td>
-							<td align="right"><?php echo number_format(300000)?></td>
+							<td align="right"><input style="text-align: right;" type="number" name="products[<?php echo $i?>][saving]" value="200000" class="form-control"></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="products[<?php echo $i?>][keluarkansaving]" value="0"></td>
