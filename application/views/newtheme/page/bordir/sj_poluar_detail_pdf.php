@@ -114,7 +114,7 @@
 	<!-- <div class="break"></div> -->
 <?php } ?>	
 
-<?php if(count($kirims)==10){?>
+<?php if(count($kirims)>13){?>
 	<div class="break"></div>
 <?php } ?>	
 
