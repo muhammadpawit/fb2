@@ -86,7 +86,7 @@
 								<tfoot>
 									<tr>
 										<td colspan="5" align="center"><b>Total</b>&nbsp;</td>
-										<td align="right"><b><?php echo $totalkirim?></b></td>
+										<td align="center"><b><?php echo $totalkirim?></b></td>
 										<td class="no-print">&nbsp;</td>
 									</tr>
 								</tfoot>
@@ -112,6 +112,10 @@
 
 <?php if(count($kirims)==8){?>
 	<!-- <div class="break"></div> -->
+<?php } ?>	
+
+<?php if(count($kirims)==10){?>
+	<div class="break"></div>
 <?php } ?>	
 
 		<table style="width:100%">
