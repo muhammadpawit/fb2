@@ -1433,31 +1433,56 @@ class Masterdata extends CI_Controller {
 		$users = $this->GlobalModel->queryManual("SELECT * FROM user WHERE id_user<>11");
 		foreach($users as $u){
 			$action=array();
-			$action[] = array(
-				'class'=>'warning',
-				'text' => 'Edit Detail',
-				'href' => BASEURL.'Masterdata/useredit/'.$u['id_user'],
-			);
-			$action[] = array(
-				'class'=>'primary',
-				'text' => 'Akses CMT',
-				'href' => BASEURL.'Masterdata/akses_cmt/'.$u['id_user'],
-			);
-			$action[] = array(
-				'class'=>'success',
-				'text' => 'Akses Data',
-				'href' => BASEURL.'Masterdata/userakses/'.$u['id_user'],
-			);
-			$action[] = array(
-				'class'=>'info',
-				'text' => 'Akses Menu',
-				'href' => BASEURL.'user/menu/'.$u['id_user'],
-			);
-			$action[] = array(
-				'class'=>'danger',
-				'text' => 'Hapus',
-				'href' => BASEURL.'Masterdata/userhapus/'.$u['id_user'],
-			);
+			if($u['status_user']==1){
+				$action[] = array(
+					'class'=>'warning',
+					'text' => 'Edit Detail',
+					'href' => BASEURL.'Masterdata/useredit/'.$u['id_user'],
+				);
+				$action[] = array(
+					'class'=>'primary',
+					'text' => 'Akses CMT',
+					'href' => BASEURL.'Masterdata/akses_cmt/'.$u['id_user'],
+				);
+				$action[] = array(
+					'class'=>'success',
+					'text' => 'Akses Data',
+					'href' => BASEURL.'Masterdata/userakses/'.$u['id_user'],
+				);
+				$action[] = array(
+					'class'=>'info',
+					'text' => 'Akses Menu',
+					'href' => BASEURL.'user/menu/'.$u['id_user'],
+				);
+			}else{
+				$action[] = array(
+					'class'=>'warning',
+					'text' => '',
+					'href' =>null,
+				);
+				$action[] = array(
+					'class'=>'primary',
+					'text' => '',
+					'href' =>null,
+				);
+				$action[] = array(
+					'class'=>'success',
+					'text' => '',
+					'href' =>null,
+				);
+				$action[] = array(
+					'class'=>'info',
+					'text' => '',
+					'href' =>null,
+				);
+				$action[] = array(
+					'class'=>'danger',
+					'text' => 'Hapus',
+					'href' => BASEURL.'Masterdata/userhapus/'.$u['id_user'],
+				);
+			}
+			
+			
 			$viewData['user'][]=array(
 				'id_user'=>$u['id_user'],
 				'nama_user'=>$u['nama_user'],

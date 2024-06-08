@@ -40,7 +40,9 @@
                                 <td><?php echo $us['status_user']==1?'Aktif':'Non-aktif'; ?></td>
                                 <?php foreach ($us['action'] as $action) { ?>
                                   <td width="100">
-                                   <a href="<?php echo $action['href']; ?>" class="btn btn-<?php echo $action['class']; ?> btn-xs text-white waves-light waves-effect"><?php echo $action['text']; ?></a>
+                                   
+                                    <a href="<?php echo $action['href']; ?>" class="btn btn-<?php echo $action['class']; ?> btn-xs text-white waves-light waves-effect" <?php if($us['status_user']!=1){?> onclick="return confirm('Apakah yakin akan menghapus data ini ?')" <?php } ?>><?php echo $action['text']; ?></a>
+                                
                                   </td>
                           <?php } ?>
                             </tr>
