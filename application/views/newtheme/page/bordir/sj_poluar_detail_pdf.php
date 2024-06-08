@@ -55,43 +55,61 @@
 </table>
 <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
     <thead>
-										<tr>
-											<th class="center">#</th>
-											<th>NAMA PO</th>
-											<th>GAMBAR</th>
-											<th class="no-print">POSISI</th>
-											<th align="right">STICH (pcs)</th>
-											<th>JML Barang</th>
-											<th>Keterangan</th>
-										</tr>
+        <tr>
+            <th class="center">#</th>
+            <th>NAMA PO</th>
+            <th>GAMBAR</th>
+            <th class="no-print">POSISI</th>
+            <th align="right">STICH (pcs)</th>
+            <th>JML Barang</th>
+            <th>Keterangan</th>
+        </tr>
     </thead>
-    						<tbody>
-                                    <?php $totalkirim=0;$no=1;?>
-									<?php if(isset($kirims)){?>
-										<?php foreach($kirims as $k){?>
-											<?php $po = $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$k['idpo']));?>
-											<tr style="text-align:center">
-												<td><?php echo $no++?></td>
-												<td><?php echo $po['nama']?></td>
-												<td><?php echo $k['gambar']?></td>
-												<td class="no-print"><?php echo $k['posisi']?></td>
-												<td><?php echo $k['stich']?></td>
-												<td><?php echo $k['qty']?></td>
-												<td><?php echo $k['keterangan']?></td>
-											</tr>
-											<?php $totalkirim+=($k['qty']);?>
-										<?php } ?>
-									<?php } ?>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="5" align="center"><b>Total</b>&nbsp;</td>
-										<td align="center"><b><?php echo $totalkirim?></b></td>
-										<td class="no-print">&nbsp;</td>
-									</tr>
-								</tfoot>
-								
+    <tbody>
+        <?php $totalkirim = 0; $no = 1; ?>
+        <?php if (isset($kirims)) { ?>
+            <?php foreach ($kirims as $index => $k) { ?>
+                <?php $po = $this->GlobalModel->GetDataRow('master_po_luar', ['id' => $k['idpo']]); ?>
+                <tr style="text-align:center">
+                    <td><?php echo $no++ ?></td>
+                    <td><?php echo $po['nama'] ?></td>
+                    <td><?php echo $k['gambar'] ?></td>
+                    <td class="no-print"><?php echo $k['posisi'] ?></td>
+                    <td><?php echo $k['stich'] ?></td>
+                    <td><?php echo $k['qty'] ?></td>
+                    <td><?php echo $k['keterangan'] ?></td>
+                </tr>
+                <?php $totalkirim += $k['qty']; ?>
+                <?php if (($index + 1) % 10 == 0) { ?>
+                    </tbody>
+                    </table>
+                    <div class="page-break"></div>
+                    <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
+                    <thead>
+                        <tr>
+                            <th class="center">#</th>
+                            <th>NAMA PO</th>
+                            <th>GAMBAR</th>
+                            <th class="no-print">POSISI</th>
+                            <th align="right">STICH (pcs)</th>
+                            <th>JML Barang</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <?php } ?>
+            <?php } ?>
+        <?php } ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" align="center"><b>Total</b>&nbsp;</td>
+            <td align="center"><b><?php echo $totalkirim ?></b></td>
+            <td class="no-print">&nbsp;</td>
+        </tr>
+    </tfoot>
 </table>
+
 
 
 <?php if(count($kirims) < 3){?>
@@ -115,7 +133,7 @@
 <?php } ?>	
 
 <?php if(count($kirims)>13){?>
-	<div class="break"></div> tes
+	<!-- <div class="break"></div> -->
 <?php } ?>	
 
 		<table style="width:100%">
@@ -145,9 +163,14 @@
 					</table>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="2" align="right">
+				<i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
+				</td>
+			</tr>
 		</table>
 
 
 		 <footer>
-            <i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
+            
         </footer>
