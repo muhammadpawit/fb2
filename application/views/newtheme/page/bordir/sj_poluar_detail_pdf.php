@@ -83,7 +83,7 @@
                 <?php if (($index + 1) % 10 == 0) { ?>
                     </tbody>
                     </table>
-                    <div class="page-break"></div>
+                    <div class="break"></div>
                     <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
                     <thead>
                         <tr>
