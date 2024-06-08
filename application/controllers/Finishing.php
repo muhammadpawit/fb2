@@ -338,7 +338,7 @@ class Finishing extends CI_Controller {
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
-					'saving'=>$saving,
+					'saving'=>isset($p['savings'])?$p['savings']:0,
 					'tanggal_saving' => date('Y-m-d'),
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
