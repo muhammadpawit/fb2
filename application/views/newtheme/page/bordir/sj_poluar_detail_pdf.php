@@ -70,7 +70,7 @@
 									<?php if(isset($kirims)){?>
 										<?php foreach($kirims as $k){?>
 											<?php $po = $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$k['idpo']));?>
-											<tr>
+											<tr style="text-align:center">
 												<td><?php echo $no++?></td>
 												<td><?php echo $po['nama']?></td>
 												<td><?php echo $k['gambar']?></td>
