@@ -115,7 +115,7 @@
 <?php } ?>	
 
 <?php if(count($kirims)>13){?>
-	<div class="break"></div>
+	<div class="break"></div> tes
 <?php } ?>	
 
 		<table style="width:100%">
