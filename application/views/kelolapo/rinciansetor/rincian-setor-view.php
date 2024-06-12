@@ -26,7 +26,7 @@
                                     <?php if(!empty($sat['rincianSetor'])){ ?>
                                     <a href="<?php echo BASEURL.'finishing/editsetoran_susulan/'.$sat['idpo'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil">Susulan</i></a>
                                     <?php }else{ ?>
-                                        <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['idpo'].'/'.$sat['idpo'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
+                                        <a href="<?php echo BASEURL.'finishing/produksikaoscmt/'.$sat['idpo'].'/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil">Proses</i></a>
                                     <?php } ?>
                                     <?php if(aksesedit()==1){?>
                                         <a href="<?php echo BASEURL.'finishing/editsetoran/'.$sat['idpo'] ?>" class="btn btn-info btn-sm"><i class="fa fa-pencil">Edit</i></a>

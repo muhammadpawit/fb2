@@ -1,4 +1,5 @@
 <form action="<?php echo BASEURL.'finishing/produksikaoscmtAct' ?>" method="POST">
+    <input type="hidden" name="id_master_cmt" value="<?php echo $poProd['id_master_cmt']?>">
 <div class="row">
     <div class="col-md-3">
         <div class="form-group text-center">

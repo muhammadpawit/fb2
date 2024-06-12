@@ -1045,9 +1045,10 @@ class Finishing extends CI_Controller {
 	{
 		$tanggal1=date('Y-m-d',strtotime("-1 month"));
 		$tanggal2=date('Y-m-d',strtotime("last day of this month"));
-		$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='FINISHING' AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' ");
+		$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt ");
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
 		foreach ($rincian as $key => $rinci) {
+			$viewData['rincian'][$key]['id_kelolapo_kirim_setor']=$rinci['id_kelolapo_kirim_setor'];
 			$viewData['rincian'][$key]['idpo']=$rinci['id_produksi_po'];
 			$viewData['rincian'][$key]['id_cmt'] =$rinci['id_master_cmt'];
 			$viewData['rincian'][$key]['kode_po'] = $rinci['kode_po'];
@@ -1130,10 +1131,10 @@ class Finishing extends CI_Controller {
 		redirect(BASEURL.'Finishing/rinciansetorkaoscmt');
 	}
 
-	public function produksikaoscmt($idpo,$kodepo='')
+	public function produksikaoscmt($idpo,$kodepo='',$idklo)
 	{
-		$viewData['idpo']=$idpo;
-		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo LIKE "'.$idpo.'%"');
+		$viewData['idpo']=$idpo;		
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE kks.id_kelolapo_kirim_setor='.$idklo.'');
 		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$viewData['atas'] =[];
 		$viewData['bawah'] =[];
@@ -1163,7 +1164,8 @@ class Finishing extends CI_Controller {
 	{
 		$post = $this->input->post();
 		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
-		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo']));
+		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo'],'id_master_cmt'=>$post['id_master_cmt']));
+		// pre($sj);
 		$pcs = 0;
 		$jml = 0;
 		$bangke = 0;
