@@ -1751,7 +1751,7 @@ class Bordir extends CI_Controller {
 	{
 		$data=[];
 		$data['title']='Surat Jalan Bordir PO Luar';
-		$data['products']=$this->GlobalModel->GetData('sj_bordir_luar',array('hapus'=>0));
+		$data['products']=$this->GlobalModel->QueryManualRow("SELECT * FROM sj_bordir_luar WHERE hapus=0 ORDER BY id DESC");
 		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
 		$data['cancel']=BASEURL.'Bordir/pengeluaran';
 		$data['page']=$this->page.'bordir/sj_poluar_list';
