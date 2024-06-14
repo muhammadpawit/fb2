@@ -95,8 +95,8 @@
 									</tr>
 									<tr>
 										<td align="center" height="100" valign="bottom">(..................)</td>
-										<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
-										<td align="center" height="100" valign="bottom">(DINDA)</td>
+										<td align="center" height="100" valign="bottom">(..................)</td>
+										<td align="center" height="100" valign="bottom">(MIA)</td>
 									</tr>
 								</table>
 							</div>
