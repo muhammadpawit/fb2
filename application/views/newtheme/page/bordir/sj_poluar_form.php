@@ -105,7 +105,7 @@
                           <td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td>
                         </tr>`;
                   });
-                  $("#list").html(rows);
+                  $("#list").append(rows);
                 } else {
                   console.error("Data received is not valid:", data);
                 }
