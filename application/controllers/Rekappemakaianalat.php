@@ -126,7 +126,7 @@ class Rekappemakaianalat extends CI_Controller {
 
 		foreach($results as $row){
 
-			$po=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE status=1 ORDER BY nama_jenis_po ");
+			$po=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE status=1 AND tampil=1  ORDER BY nama_jenis_po ");
 
 			$data['alat'][]=array(
 
