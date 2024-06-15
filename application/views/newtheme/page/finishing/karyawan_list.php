@@ -1,19 +1,3 @@
-                    <p class="text-muted font-14 m-b-30">
-                      <?php if ($this->session->flashdata('msg')) { ?>
-
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
-                                <span aria-hidden="true">×</span>
-
-                            </button>
-                               <?php echo $this->session->flashdata('msg'); ?> 
-
-                        </div>
-
-                       <?php } ?>
-                    </p>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -54,18 +38,16 @@
     </div>
 
   </div>
-</div>                  
-      <!-- Default box -->
-      <div class="card card-info">
-        <div class="card-header">
-          <h3 class="card-title"><?php echo $title ?></h3>
-          <div class="card-tools">
-            <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered">
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="form-group">
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Tambah</button>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="table-responsive">
+            <table class="table table-bordered yessearch">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -112,12 +94,6 @@
                 <?php } ?>
               </tbody>
             </table>
-          </div>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          
-        </div>
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
+    </div>
+  </div>
+</div>
