@@ -1871,9 +1871,11 @@ class Bordir extends CI_Controller {
 	public function detailinputanharian()
 	{
 		$post = $this->input->get();
-		$sql ="SELECT a.*, b.nama as namapo FROM kelola_mesin_bordir a JOIN master_po_luar b ON 
+		$sql ="SELECT a.idpo,a.bagian_bordir,a.stich, COALESCE(SUM(jumlah_naik_mesin)) as jumlah_naik_mesin ,b.nama as namapo FROM kelola_mesin_bordir a JOIN master_po_luar b ON 
 			a.idpo=b.id		
-		 WHERE a.kode_po='".$post['kodepo']."'  ";
+		 WHERE a.kode_po='".$post['kodepo']."'  
+		  GROUP BY a.bagian_bordir
+		 ";
 		
 		$data = $this->GlobalModel->QueryManual($sql);
 		header('Content-Type: application/json');
