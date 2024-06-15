@@ -100,7 +100,7 @@ class Laporanpengirimanalatpo extends CI_Controller {
 				'jumlah'=>count($d),
 			);
 		}
-		//pre($data['results']);
+		// pre($data['results']);
 		$data['update']=date('d F Y',strtotime($update['created_date']));
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'bulanan_excel',$data);

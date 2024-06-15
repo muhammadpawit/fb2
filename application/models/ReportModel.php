@@ -3043,19 +3043,21 @@ class ReportModel extends CI_Model {
 
 	public function getrekapalatbulan($penerima,$tanggal1,$tanggal2){
 		$hasil=[];
-		$sql="SELECT * FROM gudang_item_keluar WHERE hapus=0 AND LOWER(nama_penerima)='".strtolower($penerima)."' ";
+		$sql="SELECT a.*, b.kode_po as kodepo FROM gudang_item_keluar a INNER JOIN produksi_po b ON b.id_produksi_po=a.idpo 
+		
+			WHERE a.hapus=0 AND LOWER(nama_penerima)='".strtolower($penerima)."' ";
 		if(!empty($tanggal1)){
-			$sql.=" AND MONTH(created_date) = '".$tanggal1."' ";
+			$sql.=" AND MONTH(a.created_date) = '".$tanggal1."' ";
 		}
 
 		if(!empty($tanggal1)){
-			$sql.=" AND YEAR(created_date) = '".$tanggal2."' ";
+			$sql.=" AND YEAR(a.created_date) = '".$tanggal2."' ";
 		}
 		$sql.=" GROUP BY idpo ";
 		$d=$this->GlobalModel->QueryManual($sql);
 		if(!empty($d)){
 			foreach($d as $dat){
-				$hasil[]=$dat['kode_po'];
+				$hasil[]=$dat['kodepo'];
 			}
 		}
 		return $hasil;
