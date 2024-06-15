@@ -3051,7 +3051,7 @@ class ReportModel extends CI_Model {
 		if(!empty($tanggal1)){
 			$sql.=" AND YEAR(created_date) = '".$tanggal2."' ";
 		}
-		$sql.=" GROUP BY kode_po ";
+		$sql.=" GROUP BY idpo ";
 		$d=$this->GlobalModel->QueryManual($sql);
 		if(!empty($d)){
 			foreach($d as $dat){
