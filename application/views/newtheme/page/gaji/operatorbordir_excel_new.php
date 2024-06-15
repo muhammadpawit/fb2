@@ -417,7 +417,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <b class="besar"r>
 
-                                                ( Muchlas)
+                                                (............)
 
                                             </td>
                                             <td height="100" align="center" rowspan="6">

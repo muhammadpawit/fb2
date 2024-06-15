@@ -88,18 +88,31 @@
             id=$(this).val();
             var dai = $(this).closest('tr');
             console.log("pilihan : ",id);
-            $.get( "<?php echo BASEURL.'Bordir/detailinputanharian' ?>", { kodepo: id } )
-              .done(function( data ) {
-                var obj = JSON.parse(data);
-                if(obj!==null){
-                    dai.find(".posisi").val(obj.bagian_bordir);
-                    dai.find(".stich").val(obj.stich);
-                    dai.find(".qty").val(obj.jumlah_naik_mesin);
-                }else{
-                    //alert("Kode Po belum disetor");
-                    //dai.remove();
+            $.get("<?php echo BASEURL.'Bordir/detailinputanharian' ?>", { kodepo: id })
+              .done(function(data) {
+                console.log("Detail data received from server:", data);
+                
+                if (Array.isArray(data)) {
+                  var rows = "";
+                  $.each(data, function(index, v) {
+                    rows += `<tr>
+                          <td><input type="hidden" name="products[${index}][idpo]" value="${v.idpo}"> <input type="text" name="products[${index}][namapo]" value="${v.namapo}"></td>
+                          <td><input type="text" name="products[${index}][gambar]" value="-" style="width: 50px;"></td>
+                          <td><input type="text" class="posisi" name="products[${index}][posisi]" value="${v.bagian_bordir}"></td>
+                          <td><input type="text" class="stich" name="products[${index}][stich]" value="${v.stich}"></td>
+                          <td><input type="text" class="qty" name="products[${index}][qty]" value="${v.jumlah_naik_mesin}"></td>
+                          <td><input type="text" name="products[${index}][keterangan]" value="${v.keterangan || ''}"></td>
+                          <td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td>
+                        </tr>`;
+                  });
+                  $("#list").html(rows);
+                } else {
+                  console.error("Data received is not valid:", data);
                 }
+              })
+              .fail(function(jqXHR, textStatus, errorThrown) {
+                console.error("Request failed:", textStatus, errorThrown);
+              });
             });
-        });
   }
 </script>

@@ -1751,7 +1751,7 @@ class Bordir extends CI_Controller {
 	{
 		$data=[];
 		$data['title']='Surat Jalan Bordir PO Luar';
-		$data['products']=$this->GlobalModel->QueryManualRow("SELECT * FROM sj_bordir_luar WHERE hapus=0 ORDER BY id DESC");
+		$data['products']=$this->GlobalModel->QueryManual("SELECT * FROM sj_bordir_luar WHERE hapus=0 ORDER BY id DESC");
 		$data['tambah']=BASEURL.'Bordir/suratjalanpoluar_add';
 		$data['cancel']=BASEURL.'Bordir/pengeluaran';
 		$data['page']=$this->page.'bordir/sj_poluar_list';
@@ -1818,7 +1818,6 @@ class Bordir extends CI_Controller {
 	public function suratjalanpoluar_save()
 	{
 		$data=$this->input->post();
-		// pre($data);
 		$total=0;
 		$insert=array(
 			'tanggal'	=>$data['tanggal'],
@@ -1872,9 +1871,12 @@ class Bordir extends CI_Controller {
 	public function detailinputanharian()
 	{
 		$post = $this->input->get();
-		$sql ="SELECT * FROM kelola_mesin_bordir WHERE kode_po='".$post['kodepo']."'  ";
+		$sql ="SELECT a.*, b.nama as namapo FROM kelola_mesin_bordir a JOIN master_po_luar b ON 
+			a.idpo=b.id		
+		 WHERE a.kode_po='".$post['kodepo']."'  ";
 		
-		$data = $this->GlobalModel->QueryManualROw($sql);
+		$data = $this->GlobalModel->QueryManual($sql);
+		header('Content-Type: application/json');
 		echo json_encode($data);
 	}
 }
