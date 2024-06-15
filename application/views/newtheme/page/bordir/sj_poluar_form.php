@@ -94,16 +94,18 @@
                 
                 if (Array.isArray(data)) {
                   var rows = "";
+                  var i = 0;
                   $.each(data, function(index, v) {
-                    rows += `<tr>
-                          <td><input type="hidden" name="products[${index}][idpo]" value="${v.idpo}"> <input type="text" name="products[${index}][namapo]" value="${v.namapo}"></td>
-                          <td><input type="text" name="products[${index}][gambar]" value="-" style="width: 50px;"></td>
-                          <td><input type="text" class="posisi" name="products[${index}][posisi]" value="${v.bagian_bordir}"></td>
-                          <td><input type="text" class="stich" name="products[${index}][stich]" value="${v.stich}"></td>
-                          <td><input type="text" class="qty" name="products[${index}][qty]" value="${v.jumlah_naik_mesin}"></td>
-                          <td><input type="text" name="products[${index}][keterangan]" value="${v.keterangan || ''}"></td>
+                      rows += `<tr>
+                          <td><input type="hidden" name="products[${v.id}][idpo]" value="${v.idpo}"> <input type="text" name="products[${v.id}][namapo]" value="${v.namapo}"></td>
+                          <td><input type="text" name="products[${v.id}][gambar]" value="-" style="width: 50px;"></td>
+                          <td><input type="text" class="posisi" name="products[${v.id}][posisi]" value="${v.bagian_bordir}"></td>
+                          <td><input type="text" class="stich" name="products[${v.id}][stich]" value="${v.stich}"></td>
+                          <td><input type="text" class="qty" name="products[${v.id}][qty]" value="${v.jumlah_naik_mesin}"></td>
+                          <td><input type="text" name="products[${v.id}][keterangan]" value="${v.keterangan || ''}"></td>
                           <td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td>
-                        </tr>`;
+                      </tr>`;
+                      i++;
                   });
                   $("#list").append(rows);
                 } else {
