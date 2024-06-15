@@ -94,7 +94,7 @@ class Rekappemakaianalat extends CI_Controller {
 
 
 
-		$sql="SELECT * FROM master_jenis_po WHERE status=1 ";
+		$sql="SELECT * FROM master_jenis_po WHERE status=1 AND tampil=1 ";
 
 		$sql.=" ORDER BY nama_jenis_po ";
 
