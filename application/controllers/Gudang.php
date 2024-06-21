@@ -2239,13 +2239,35 @@ class Gudang extends CI_Controller {
 		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('hapus'=>0,'idpo' => $id));
 		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po' => $id));
 		$viewData['excel']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&excel=true';
-		$viewData['cetak']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&cetak=true';
+		$viewData['cetak']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&cetak=true&pdf=true';
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view('gudang/outbound/item-keluar-detail_excel',$viewData);
 		}else if(isset($get['cetak'])){
 			$viewData['page']='gudang/outbound/item-keluar-detail-cetak';
 			$this->load->view('newtheme/page/main',$viewData);	
+		}else if(isset($get['pdf'])){
+			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			
+			$html =  $this->load->view('produksi/item-keluar-detail-cetak-pdf',$viewData,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Surat_Jalan_Pengeluaran_Alat_'.time();
+	        // setting paper
+	        //$paper = 'A4';
+	        $paper = array(0,0,800,850);
+	        //orientasi paper potrait / landscape
+	        $orientation = "landscape";
+	        
+			$this->load->view('laporan_pdf',$this->data, true);	    
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
 			$viewData['page']='gudang/outbound/item-keluar-detail';
 			$this->load->view('newtheme/page/main',$viewData);	
