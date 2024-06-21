@@ -86,6 +86,7 @@
 		$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']+$k['keluarkansaving']-$k['saving']);
 
 	?>
+	<?php $totalpembulatan += pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']); ?>
 	<?php } ?>
 </div>
 <div class="row">
@@ -95,7 +96,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<h3>Total Pembulatan Rp. <?php echo number_format(pembulatangaji(ceil($total)))?></h3>
+		<h3>Total Pembulatan Rp. <?php echo number_format($totalpembulatan)?></h3>
 	</div>
 </div>
 <div class="row">

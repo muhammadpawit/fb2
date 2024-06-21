@@ -121,7 +121,7 @@
 						<tr>
 							<td align="center">Security</td>
 							<td align="center">CMT</td>
-							<td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td>
+							<td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> Dicek Oleh <?php } ?></td>
 							<td align="center"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin Gudang <?php } ?></td>
 						</tr>
 						<tr>
