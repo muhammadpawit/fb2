@@ -70,26 +70,28 @@
 
             <tr>
 
-                <td><?php echo $no; ?></td>
-
-                <td>
-
-                    <b><?php echo $item['nama_item_keluar'] ?></b> 
-
+                <td align="center">
+                    <b><?php echo $no; ?></b>
                 </td>
 
                 <td>
+
+                    &nbsp;<b><?php echo $item['nama_item_keluar'] ?></b> 
+
+                </td>
+
+                <td align="center">
 
                     <b><?php echo $item['ukuran_item_keluar'] ?> </b> 
 
                 </td>
 
-                <td>
+                <td align="center">
                     <?php echo $item['jumlah_item_keluar'] ?>
 
                 </td>
 
-                <td><?php echo $item['satuan_jumlah_keluar'] ?></td>
+                <td align="center"><?php echo $item['satuan_jumlah_keluar'] ?></td>
 
 
             </tr>
