@@ -2249,7 +2249,7 @@ class Gudang extends CI_Controller {
 		}else if(isset($get['pdf'])){
 			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
 			
-			$html =  $this->load->view('produksi/item-keluar-detail-cetak-pdf',$viewData,true);
+			$html =  $this->load->view('gudang/outbound/item-keluar-detail-cetak-pdf',$viewData,true);
 
 			$this->load->library('pdfgenerator');
 	        
