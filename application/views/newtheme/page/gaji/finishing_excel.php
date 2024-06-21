@@ -240,11 +240,12 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 		$totals=0;
 		foreach($karyawans as $k){
 			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
+			$totalpembulatan += pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
 		}
 	?>
 
 	<h3>Total Keseluruhan Rp. <?php echo (ceil($totals))?></h3>
-	<h3>Total Pembulatan Rp. <?php echo (pembulatangaji(ceil($totals)))?></h3>
+	<h3>Total Pembulatan Rp. <?php echo number_format($totalpembulatan)?></h3>
 </div>
 <br><br>
             <table>
