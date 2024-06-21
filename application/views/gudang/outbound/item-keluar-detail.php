@@ -164,7 +164,7 @@
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            <a href="<?php echo $cetak ?>" style="width: 100% !important;" class="btn btn-primary waves-effect waves-light"></i> Cetak</a>
+            <a href="<?php echo $cetak ?>" target="_blank" style="width: 100% !important;" class="btn btn-primary waves-effect waves-light"></i> Cetak</a>
         </div>
     </div>
     <div class="col-md-4">
