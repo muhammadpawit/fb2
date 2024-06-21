@@ -46,7 +46,8 @@
 
                                     <thead>
 
-                                    <tr><th>#</th>
+                                    <tr>
+                                        <th>#</th>
 
                                         <th>Nama Barang</th>
                                         <th>Ukuran</th>
