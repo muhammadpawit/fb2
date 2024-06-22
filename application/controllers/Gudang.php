@@ -1189,7 +1189,7 @@ class Gudang extends CI_Controller {
 		}
 		$this->db->update('pengajuan_harian_new',array('status'=>1),array('id'=>$id));
 		$this->db->update('pengajuan_harian_new_detail',array('komentar'=>null),array('idpengajuan'=>$id));
-		//kirim_email('dwimaryanti286@gmail.com','Sdr ibu Dwi, Pak '.callSessUser('nama_user').' telah menyetujui pengajuan harian yang telah dibuat, silahkan segera diprint / cetak ');
+		user_activity(callSessUser('id_user'),1,' menyetujui pengajuan dengan id ajuan '.$id);
 		$this->session->set_flashdata('msg','Data berhasil disetujui');
 		redirect(BASEURL.'Gudang/pengajuan'.$url);
 	}
@@ -1208,6 +1208,7 @@ class Gudang extends CI_Controller {
 			$tanggal2=date('Y-m-d');
 		}
 		$this->db->update('pengajuan_harian_new',array('hapus'=>1),array('id'=>$id));
+		user_activity(callSessUser('id_user'),1,' menghapus pengajuan dengan id ajuan '.$id);
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Gudang/pengajuan'.$url);
 	}
@@ -1278,7 +1279,7 @@ class Gudang extends CI_Controller {
 			$this->db->insert('notifikasi',$notify);
 			$msg=callSessUser('nama_user').' telah membuat ajuan harian';
 			push($msg);
-			kirim_email('muchlasmuchtar25@gmail.com',callSessUser('nama_user').' telah meminta pengajuan harian '.$peng);
+			
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
 
 			if($data['kategoriPengajuan']==4){
@@ -1728,6 +1729,7 @@ class Gudang extends CI_Controller {
 					
 				}
 				$this->session->set_flashdata('msg','Data berhasil disimpan');
+				user_activity(callSessUser('id_user'),1,' penerimaan item dengan id '.$id);
 				redirect(BASEURL.'gudang/penerimaanitem');
 			}
 		}
@@ -1868,7 +1870,7 @@ class Gudang extends CI_Controller {
 		$this->db->query("UPDATE product set ukuran_item =ukuran_item-'".$p['ukuran']."', quantity = quantity-'".$p['jumlah']."' WHERE product_id='".$p['id_persediaan']."' ");
 			$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'".$p['ukuran']."', jumlah_item = jumlah_item-'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
 		$this->db->update('penerimaan_item_detail',array('hapus'=>1),array('id'=>$id));
-
+		user_activity(callSessUser('id_user'),1,' menghapus penerimaan dengan id '.$id);
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
 		redirect($this->url);
 	}
