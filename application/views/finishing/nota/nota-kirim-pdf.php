@@ -162,8 +162,10 @@
                                                     <td width="100px"><b>PIC Gudang</b></td>
                                                     <td width="100px"><b>Adm Finishing</b></td>
                                                     <td width="100px"><b>Driver</b></td>
+                                                    <td width="100px"><b>Security</b></td>
                                                 </tr>
                                                 <tr>
+                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
                                                     <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
                                                     <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
                                                     <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
