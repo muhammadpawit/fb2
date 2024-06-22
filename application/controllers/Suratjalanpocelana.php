@@ -159,7 +159,7 @@ class Suratjalanpocelana extends CI_Controller {
    				$detail=array(
    					'idkirim'=>$id,
    					'kode_po'=>$p['kode_po'],
-   					'cmtjob'=>$p['cmtjob'],
+   					'cmtjob'=>999999,
    					'rincian_po'=>$p['rincian_po'],
    					'jumlah_pcs'=>$p['jumlah_pcs'],
    					'keterangan'=>$p['keterangan'],

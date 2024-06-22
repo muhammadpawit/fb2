@@ -91,7 +91,7 @@
         var html = '';
         html += '<tr>';
         html += '<td width="50px"><select type="text" class="form-control kirimautopo" name="products['+i+'][kode_po]" style="width:200px" required></select></td>';
-        html += '<td><select type="text" style="width:80%" class="selectpicker" name="products['+i+'][cmtjob]" data-size="4" data-live-search="true" data-title="Pilih item" required><?php foreach ($pekerjaan as $key => $po) { ?><option value="<?php echo $po['id'] ?>" data-item="<?php echo $po['id'] ?>"><?php echo $po['nama_job']; ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" style="width:80%" class="selectpicker" name="products['+i+'][cmtjob]" data-size="4" data-live-search="true" data-title="Pilih item"><option></option><?php foreach ($pekerjaan as $key => $po) { ?><option value="<?php echo $po['id'] ?>" data-item="<?php echo $po['id'] ?>"><?php echo $po['nama_job']; ?></option><?php } ?></select></td>';
         html += '<td><input type="text" name="products['+i+'][rincian_po]"  required ></td>';
         html += '<td><input type="number" class="jumlah_pcs"  name="products['+i+'][jumlah_pcs]" required readonly></td>';
         html += '<td><input type="text" value="1 plastik" name="products['+i+'][jml_barang]" required ></td>';
