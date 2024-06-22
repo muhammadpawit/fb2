@@ -329,7 +329,7 @@
           $config['crlf'] = "\r\n";
           $CI->load->library('email', $config);
           $CI->email->from('no-reply@forboysproduction.com', $subject);
-          $CI->email->to($email); // muchlasmuchtar25@gmail.com
+          $CI->email->to($email); 
           //$CI->email->cc('kandangwebhosting@gmail.com');
           $CI->email->subject($subject);
           $CI->email->message($message);

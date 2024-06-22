@@ -129,7 +129,7 @@ class User extends CI_Controller {
 					'hapus'=>0,
 				);
 				$this->db->insert('user_request',$insert);
-				kirim_email('muchlasmuchtar25@gmail.com',$data['nama'].' meminta request otorisasi '.$data['keterangan'].' ');
+				kirim_email('muhammad.pawit93@gmail.com',$data['nama'].' meminta request otorisasi '.$data['keterangan'].' ');
 				$this->session->set_flashdata('msg','Data Berhasil Di Simpan.');
 				redirect(BASEURL.'User/request');
 			}
@@ -143,7 +143,7 @@ class User extends CI_Controller {
 					'hapus'=>0,
 				);
 				$this->db->insert('user_request',$insert);
-				kirim_email('muchlasmuchtar25@gmail.com',$data['nama'].' meminta request otorisasi '.$data['keterangan'].' ');
+				kirim_email('muhammad.pawit93@gmail.com',$data['nama'].' meminta request otorisasi '.$data['keterangan'].' ');
 				$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
 				redirect(BASEURL.'User/request');
 		}
