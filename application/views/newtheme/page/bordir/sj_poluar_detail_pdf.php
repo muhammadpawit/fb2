@@ -149,10 +149,12 @@
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
 							<td align="center">Penerima</td>
+							<td align="center">Security</td>
 							<!-- <td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td> -->
 							<td align="center">Admin Bordir</td>
 						</tr>
 						<tr>
+						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<!-- <td align="center" height="100" valign="bottom"> <?php if(!empty($alat)){ ?> (TONI) <?php }else{ ?> (MUCHLAS) <?php } ?></td> -->
 						<td align="center" height="100" valign="bottom">(MIA)</td>
