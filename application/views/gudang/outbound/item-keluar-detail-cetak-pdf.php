@@ -58,7 +58,6 @@
                                         <th>#</th>
 
                                         <th>Nama Barang</th>
-                                        <th>Ukuran</th>
 
                                         <th>Jumlah </th>
                                         <th>Satuan</th>
@@ -80,12 +79,7 @@
 
                 </td>
 
-                <td align="center">
-
-                    <b><?php echo $item['ukuran_item_keluar'] ?> </b> 
-
-                </td>
-
+               
                 <td align="center">
                     <?php echo $item['jumlah_item_keluar'] ?>
 
