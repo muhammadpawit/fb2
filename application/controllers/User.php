@@ -59,6 +59,7 @@ class User extends CI_Controller {
 			'password_user'	=>	password_hash($post['password'], PASSWORD_DEFAULT), 
 		);
         $this->db->update('user',$update,array('id_user'=>$post['id_user']));
+		user_activity(callSessUser('id_user'),1,' mengubah password menjadi '.$post['password']);
         $this->session->set_flashdata('msg','Data Berhasil Di Simpan');
         redirect($this->url.'myprofile');
 	}
