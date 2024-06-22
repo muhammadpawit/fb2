@@ -159,7 +159,7 @@
 
 		<table style="width:100%">
 			<tr>
-				<td style="width:50%">
+				<td style="width:40%">
 					<p>Catatan :</p>
 								<ol>
 									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
@@ -168,7 +168,7 @@
 									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
 								</ol>
 				</td>
-				<td style="width:50%" valign="top">
+				<td style="width:60%" valign="top">
 					<br>
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
