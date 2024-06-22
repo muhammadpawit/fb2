@@ -82,7 +82,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php $pengeluarantotal=0;?>
+					<?php $pengeluarantotal=0;$total_tukang_borongan=0;?>
 					<?php foreach($pengeluaran as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
@@ -266,7 +266,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( Muchlas )
+                                                (  )
 
                                             </td>
                                              <td height="100" align="center">
