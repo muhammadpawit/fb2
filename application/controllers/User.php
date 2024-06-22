@@ -20,6 +20,7 @@ class User extends CI_Controller {
 		$data['title']='Pengaturan Profil Saya';
 		$data['page']=$this->page.'user/myprofile';
 		$data['save']=$this->url.'update_myprofile';
+		$data['save_password']=$this->url.'save_password';
 		$data['p']=$this->GlobalModel->getDataRow('user',array('id_user'=>callSessUser('id_user')));
 		$data['activity']=[];
 		$data['activity']=activity();
@@ -34,6 +35,30 @@ class User extends CI_Controller {
         $this->upload->do_upload('foto');
         $fileName = 'uploads/'.$this->upload->data('file_name');
         $this->db->update('user',array('foto'=>$fileName),array('id_user'=>$post['id_user']));
+        $this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+        redirect($this->url.'myprofile');
+	}
+
+	public function save_password(){
+		$post = $this->input->post();
+
+		// Ambil nilai saat ini dari database
+		$this->db->select('ubah_password');
+		$this->db->from('user');
+		$this->db->where('id_user', $post['id_user']);
+		$query = $this->db->get();
+		$current_value = $query->row()->ubah_password;
+
+		// Tambahkan 1 ke nilai saat ini
+		$new_value = $current_value + 1;
+
+
+		$update = array(
+			'ubah_password' => $new_value,
+			'ubah_at'		=> date('Y-m-d H:i:s'),
+			'password_user'	=>	password_hash($post['password'], PASSWORD_DEFAULT), 
+		);
+        $this->db->update('user',$update,array('id_user'=>$post['id_user']));
         $this->session->set_flashdata('msg','Data Berhasil Di Simpan');
         redirect($this->url.'myprofile');
 	}

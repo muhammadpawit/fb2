@@ -62,6 +62,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#settings" data-toggle="tab">Settings</a></li>
+              <li class=""><a href="#passwords" data-toggle="tab">Password</a></li>
               <!-- <li><a href="#activity" data-toggle="tab">Activity</a></li> -->
               <li><a href="#timeline" data-toggle="tab">Logs</a></li>
             </ul>
@@ -131,6 +132,26 @@
                       <input type="file" class="form-control" name="foto" id="inputName" placeholder="Name">
                     </div>
                   </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane" id="passwords">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $save_password?>">
+                  <input type="hidden" class="form-control" name="id_user" value="<?php echo callSessUser('id_user') ?>" id="nama_user" placeholder="Name">
+                  <div class="form-group">
+                    <label for="nama_user" class="col-sm-2 control-label">Password Baru</label>
+
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" name="password" value="" id="password" placeholder="Password">
+                      <i class="text-danger"><small>anda telah merubah password sebanyak <?php echo $p['ubah_password']?> kali.</small></i>
+                    </div>
+                  </div>
+                  
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                       <button type="submit" class="btn btn-success">Simpan</button>

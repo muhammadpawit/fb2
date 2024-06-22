@@ -22,7 +22,7 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<button id="klik" class="btn btn-info btn-sm text-white">Kalkulasi</button>
-			<a href="<?php echo base_url()?>Pembayaran/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
+			<a href="<?php echo BASEURL?>Pembayaran/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
 			<!-- <button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button> -->
 			<button id="klikexcel" class="btn btn-info btn-sm text-white">Excel</button>
 		</div>
@@ -173,26 +173,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!-- <?php $b=0;?>
-					<?php //foreach(array_unique($pekerjaan) as $p =>$val){?>
-					<tr>
-						<td>
-							<?php
-								//$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
-								//echo !empty($name)?$name['nama_job']:'';
-							?>
-						</td>
-						<td><?php //$b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
-						<td><?php //echo number_format(3000)?></td>
-						<td><?php //echo number_format(3000*array_sum($dzs[$val]))?></td>
-						<td><?php //echo count($dzs[$val]);?> PO </td>
-					</tr>
-					<?php 
-						// $tdz+=array_sum($dzs[$val]);
-						// $tjml+=3000*array_sum($dzs[$val]);
-						// $tpo+=count($dzs[$val]);
-					?>
+					
 					<?php } ?> -->
+					<?php $tdz=0;$tjml=0;$tpo=0;?>
 					<?php foreach($rekap as $r){?>
 						<tr>	
 							<td><?php echo $r['jenis']?></td>

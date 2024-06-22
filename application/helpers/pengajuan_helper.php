@@ -23,6 +23,13 @@
 		$row=$CI->GlobalModel->queryManualRow($sql);
 		return $row['foto'];
 	}
+
+	function ubah_password($id){
+		$CI =& get_instance();
+		$sql="SELECT * FROM user WHERE id_user='$id' ";
+		$row=$CI->GlobalModel->queryManualRow($sql);
+		return $row['ubah_password'];
+	}
     
     function GetDetailPo($kodepo){
 		$CI =& get_instance();
@@ -42,7 +49,7 @@
 		$CI =& get_instance();
 		$sql="SELECT * FROM $table WHERE hapus=0 and id='$id' ";
 		$row=$CI->GlobalModel->queryManualRow($sql);
-		return $row['nama'];
+		return isset($row['nama']) ? $row['nama'] : '';
 	}
 
 	function PeriodeProduksi(){
