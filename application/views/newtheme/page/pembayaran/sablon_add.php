@@ -216,17 +216,32 @@
 					<td><b><?php echo number_format($tjml)?></b></td>
 					<td><b><?php echo $tpo?></b></td>
 					</tr>
-
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					<tr>
 						<td><b>Total Keseluruhan Diterima </b></td>
 						<td>Total Upah Tukang Harian & Borongan</td>
 						<td></td>
 						<td><b><?php echo number_format($total_tukang_borongan)?></b></td>
 						<td><b><?php echo $tpo?></b></td>
-						<td></td>
+						
+					</tr>
+
+					<tr>
+					<td></td>
 						<td>Total Diterima Komisi</td>
 						<td></td>
 						<td><b><?php echo number_format($tjml)?></b></td>
+						<td><b><?php echo $tpo?></b></td>
+					</tr>
+					<tr>
+					<td></td>
+						<td>Total Diterima Keseluruhan</td>
+						<td></td>
+						<td><b><?php echo number_format($tjml+$total_tukang_borongan)?></b></td>
 						<td><b><?php echo $tpo?></b></td>
 					</tr>
 				</tfoot>
