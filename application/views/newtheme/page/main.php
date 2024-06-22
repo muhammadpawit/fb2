@@ -170,6 +170,13 @@
         <ul class="nav navbar-nav">
           
           <!-- User Account: style can be found in dropdown.less -->
+
+        <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs"><div id="clock"></div></span>
+            </a>
+            
+          </li>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="user-image" alt="User Image">
@@ -855,7 +862,27 @@
         'autoWidth'   : false,
         responsive: true
       });
+
+      updateClock();
   });
+
+  function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        
+        // Format waktu agar selalu dua digit (mis. 09:05:01)
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        
+        var time = hours + ':' + minutes + ':' + seconds;
+        
+        document.getElementById('clock').innerHTML = time;
+        
+        setTimeout(updateClock, 1000); // Pembaruan setiap 1 detik
+    }
 </script>
 <?php //$this->load->view('newtheme/page/script');?>
 </body>
