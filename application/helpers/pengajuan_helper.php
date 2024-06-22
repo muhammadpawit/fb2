@@ -131,7 +131,7 @@
 
 	function activity(){
 		$CI =& get_instance();
-		$query="SELECT * FROM user_activity WHERE userid='".callSessUser('id_user')."' GROUP BY MONTH(waktu) ORDER BY id DESC ";
+		$query="SELECT * FROM user_activity WHERE userid='".callSessUser('id_user')."' GROUP BY MONTH(waktu), YEAR(waktu) ORDER BY id DESC ";
 		$data = $CI->GlobalModel->queryManual($query);
 		$hasil=[];
 		if(!empty($data)){
