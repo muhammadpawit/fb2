@@ -186,7 +186,7 @@ class Suratjalanpocelana extends CI_Controller {
 		$data=array();
 		$rincian=array();
 		$data['no']=1;
-		$data['kembali']=BASEURL.'Suratjalanpocelana/pengirimancmt';
+		$data['kembali']=BASEURL.'Suratjalanpocelana';
 		$data['cetak']=BASEURL.'Suratjalanpocelana/kirimcmtcetak/'.$id.'/1';
 		$data['excel']=BASEURL.'Suratjalanpocelana/kirimcmtcetak/'.$id.'/2';
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmt_celana',array('id'=>$id));
