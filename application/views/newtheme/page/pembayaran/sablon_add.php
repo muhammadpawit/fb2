@@ -97,7 +97,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $pengeluarantotal=0;?>
+					<?php $pengeluarantotal=0;$total_tukang_borongan=0;?>
 					<?php foreach($pengeluaran as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
@@ -108,7 +108,10 @@
 							<td><?php echo number_format($p['tokenlistrik'])?></td>
 							<td><?php echo number_format($p['total'])?></td>
 						</tr>
-						<?php $pengeluarantotal+=($p['total']);?>
+						<?php 
+							$pengeluarantotal+=($p['total']);
+							$total_tukang_borongan+=($p['upahtukang_harian']+$p['upahtukang_borongan']);
+						?>
 					<?php } ?>
 				</tbody>
 			</table>
@@ -206,11 +209,26 @@
 					<?php } ?>
 				</tbody>
 				<tfoot>
+					<tr>
 					<td><b>Total Diterima</b></td>
 					<td><b><?php echo number_format($tdz,2)?></b></td>
 					<td></td>
 					<td><b><?php echo number_format($tjml)?></b></td>
 					<td><b><?php echo $tpo?></b></td>
+					</tr>
+
+					<tr>
+						<td><b>Total Keseluruhan Diterima </b></td>
+						<td>Total Upah Tukang Harian & Borongan</td>
+						<td></td>
+						<td><b><?php echo number_format($total_tukang_borongan)?></b></td>
+						<td><b><?php echo $tpo?></b></td>
+						<td></td>
+						<td>Total Diterima Komisi</td>
+						<td></td>
+						<td><b><?php echo number_format($tjml)?></b></td>
+						<td><b><?php echo $tpo?></b></td>
+					</tr>
 				</tfoot>
 			</table>
 			<?php //} ?>

@@ -99,7 +99,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" align="center"><b>Total</b>&nbsp;</td>
+            <td colspan="2" align="center"><b>Total</b>&nbsp;</td>
             <td align="center"><b><?php echo number_format($kirim['totalkirim'],0,",",".");?></b></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
