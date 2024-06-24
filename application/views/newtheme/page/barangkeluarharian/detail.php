@@ -152,14 +152,17 @@
 					<br>
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
-							<td align="center">Security</td>
+							
+              <td align="center">Security</td>
 							<td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> Mandor Finishing <?php } ?></td>
 							<td align="center"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin Gudang <?php } ?></td>
+              <td align="center">Diterima Oleh </td>
 						</tr>
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(Dewi)</td>
 						<td align="center" height="100" valign="bottom">(IFAH)</td>
+            <td align="center" height="100" valign="bottom">(..................)</td>
 						</tr>
 					</table>
 				</td>
