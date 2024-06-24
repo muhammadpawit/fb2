@@ -91,8 +91,10 @@
   NOTA KIRIM GUDANG <br>FORBOYS
 </div>
 <div class="nofaktur">No. Faktur : <strong><?php echo $gudangfb[0]['nofaktur'] ?></strong></div>
-<?php if($gudangfb[0]['susulan']==1){?>
-<div class="susulan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Po Susulan <!-- : <input type="checkbox" name="ya" style="text-align: right;">Ya <input type="checkbox" name="ya" style="text-align: right;">Bukan  --></div>
+<?php if(isset($gudangfb[0]['susulan'])){ ?>
+  <?php if($gudangfb[0]['susulan']==1){?>
+  <div class="susulan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Po Susulan <!-- : <input type="checkbox" name="ya" style="text-align: right;">Ya <input type="checkbox" name="ya" style="text-align: right;">Bukan  --></div>
+  <?php } ?>
 <?php } ?>
 <div class="clear"></div>
                           <table class="table mt-4 table-bordered" border="1" cellpadding="5">

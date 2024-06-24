@@ -1131,7 +1131,7 @@ class Finishing extends CI_Controller {
 		redirect(BASEURL.'Finishing/rinciansetorkaoscmt');
 	}
 
-	public function produksikaoscmt($idpo,$kodepo='',$idklo)
+	public function produksikaoscmt($idpo,$kodepo,$idklo)
 	{
 		$viewData['idpo']=$idpo;		
 		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE kks.id_kelolapo_kirim_setor='.$idklo.'');

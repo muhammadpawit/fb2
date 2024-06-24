@@ -1,57 +1,96 @@
 <style type="text/css">
-	 body{text-transform:capitalize;font-size: 20px;}
-	 .hs { font-size: 22px;font-weight: bold; }
-	 .break{ page-break-after: always; }
-	 @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
-	  .registered {
-	    font-family: 'Baskervville', serif;
-	  }
-	 footer {
-	 	font-family: 'Baskervville', serif;
-                position: fixed; 
-                bottom: 0cm; 
-                left: 0cm; 
-                right: 0cm;
-                height: 2cm;
+  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
+  table{
+    font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;
+    border: 1px solid black;border-collapse: collapse;
+  }
+  .clear{
+    clear: both;
+  }
+  .print{ display:none !important}
+  .kiri{
+    display: block;
+    width: 50%;
+    /*border: 1px solid black;*/
+    margin-bottom: 40px;
+    float: left;
+  }
+  .logo{
+    font-size: 65px;
+    float: left;
+    display:block;
+    font-style: italic;
+    
+  }
+  .slogan{
+    font-size: 20px;
+    font-style: italic;
+    position: relative;
+    margin-left: 25%;
+    margin-top: 2px;
+  }
+  .kanan{
+    padding: 5px;
+    width: 35%;
+    border: 1px solid black;
+    margin-bottom: 30px;
+    float: right;
+    margin-top: 10px;
+  }
+  .yth{
+    text-align: center;
+    font-weight: bold;
+    padding: 20px;
+  }
+  .judul{
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    font-size: 22px;
+  }
+  .nofaktur{
+    font-size: 15px;
+    width: 50%;
+    float: left;
+  }
+  .susulan{
+    font-size: 15px;
+    width: 50%;
+    float: right;
+    /*text-align: right;*/
+  }
+  .susulan input{
+    text-align: right;
+    font-size: 18px;
+    width: 30%;
+  }
 
-                /** Extra personal styles **/
-                /*background-color: #03a9f4;*/
-                /*color: blue;*/
-                text-align: right;
-                line-height: 1.5cm;
-            }
+  .ttd{
+    width: 60%;
+    text-align: center;
+    text-transform:lowercase !important;
+  }
+
 </style>
-<div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
-	<div class="logo" style="border:0px solid yellow;background-image: url('https://forboysproduction.com/assets/images/0001.jpg');height: 200px;width: 220px;background-position: top;background-size: contain;background-repeat: no-repeat;float: left;display: block;">
-		<!-- <img src="" height="170px" style="float:left"> -->
-	</div>
-	<div style="border:0px solid black;width:100%;margin-top: 50px;float: right">
-			<p style="font-size:23px;font-weight: bold;position: absolute;left:200px;display: inline-block;">
-				Jl.Z No.1 Kampung Baru,<br>Sukabumi Selatan<br>
-				Kebon Jeruk,Jakarta Barat, Indonesia<br>
-				HP : 081380401330
-			</p>	
-	</div>
+<div class="kiri">
+  <div class="logo">FB</div>
+  <div class="slogan">TRUE<br>FORBOYS PRODUCTION</div>
+  <div class="clear"></div>
+  <div class="alamat">Jl.Z1 No.1 Kampung Baru, Sukabumi Selatan,<br>Kebon Jeruk, Jakarta. HP : 081380401330</div>
 </div>
-<div class="kiri" style="width: 500px;border:0px solid green;right:0px;position: absolute;padding-top: 50px">
-	<?php $hari=date('l',strtotime($d['tanggal']));?>
-	<div style="border:1px solid black; border-collapse: collapse;display: inline-block;width:70%;float:right;padding:5px;">
-		<div class="hs">Kepada Yth&nbsp;&nbsp;: <?php echo $d['pengambil']; ?></div>
-		<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php //echo ucfirst($barang[0]['tujuan_item'])?></div>
-		<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </div>
-		<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($d['tanggal']))?></div>
-	</div>
+<div class="kanan">
+  <div class="kota">
+    Jakarta, <?php echo date('d/m/Y') //echo date('d/m/Y',strtotime($gudangfb[0]['tanggal_kirim'] ))?>
+  </div>
+  <div class="yth">
+    Kepada Yth : <?php echo $d['pengambil'] ?>
+  </div>
 </div>
-<br><br>
-<div style="clear: both;"></div>
-<table style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
-	<thead>
-		<tr>
-			<th width="150" align="left">No.SJ : <?php echo $d['id'] ?></th>
-			<th colspan="4" align="left"><h3 style="margin-left: 200px;text-decoration: underline;">Surat Jalan Barang Keluar</h3></th>
-		</tr>
-	</thead>
-</table>
+<div class="clear"></div>
+<div class="judul">
+  SURAT JALAN BARANG KELUAR <br>FORBOYS
+</div>
+<div class="nofaktur">No. Faktur : <strong><?php echo $d['id'] ?></strong></div>
 <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
     <thead>
                                     <tr>
