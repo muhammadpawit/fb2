@@ -88,7 +88,7 @@
 </div>
 <div class="clear"></div>
 <div class="judul">
-  SURAT JALAN BARANG KELUAR <br>FORBOYS
+  SURAT JALAN BARANG KELUAR
 </div>
 <div class="nofaktur">No. Faktur : <strong><?php echo $d['id'] ?></strong></div>
 <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
