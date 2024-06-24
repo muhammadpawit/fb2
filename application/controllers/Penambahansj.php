@@ -54,7 +54,9 @@ class Penambahansj extends CI_Controller {
 				'hapus'=>0,
 		);
 		$results=array();
-		$sql="SELECT k.*,kd.kode_po,kd.jumlah_pcs FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) WHERE kd.hapus=0 ";
+		$sql="SELECT k.*,kd.kode_po,kd.jumlah_pcs FROM kirimcmt k JOIN kirimcmt_detail kd ON(kd.idkirim=k.id) 
+		JOIN produksi_po p ON p.id_produksi_po=kd.kode_po
+		WHERE kd.hapus=0 ";
 
 		if(!empty($cmt)){
 			$sql.=" AND k.idcmt='$cmt' ";
@@ -83,12 +85,13 @@ class Penambahansj extends CI_Controller {
 			);
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			$masterpo = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$result['kode_po']));
 			
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
-				'kode_po'=>$result['kode_po'],
+				'kode_po'=>isset($masterpo['kode_po']) ? $masterpo['kode_po'] : '',
 				'quantity'=>$result['jumlah_pcs'],
 				'namacmt'=>$namacmt['cmt_name'],
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
