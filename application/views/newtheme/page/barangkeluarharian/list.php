@@ -71,7 +71,7 @@
                         <td><?php echo $d['jumlah']?> <?php echo $d['satuan']?></td>
                         <td><?php echo $d['keterangan']?></td>
                         <td>
-                        	<!-- <a href="<?php echo $p['detail']?>" class="btn btn-primary btn-sm text-white">Detail</a> -->
+                        	<a href="<?php echo $p['detail']?>" class="btn btn-primary btn-sm text-white">Detail</a>
                         	<?php if(akseshapus()==1){?>
                         		<a href="<?php echo BASEURL.'Barangkeluar/hapus/'.$d['id']?>" class="btn btn-danger btn-sm text-white">Hapus</a>
                         	<?php } ?>
