@@ -517,7 +517,7 @@ class Json extends CI_Controller {
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){
 			$hasil[]=array(
-				'id'=>$row['kode_po'],
+				'id'=>$row['idpo'],
 				'label'=>$row['kode_po'].' '.$row['serian'],
 				'text'=>$row['kode_po'],
 			);
