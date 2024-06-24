@@ -176,7 +176,7 @@ class Barangkeluar extends CI_Controller {
 		$data = [];
 		$data['title']='Rincian Barang Keluar Harian';
 		$data['d']=$this->GlobalModel->getDataRow('barangkeluarharian',array('id'=>$id));
-		$data['dets']=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$id));
+		$data['barang']=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$id));
 		$data['page']=$this->page.'detail';
 		$data['cancel']=$this->url;
 		$this->load->view($this->layout,$data);
