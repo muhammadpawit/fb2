@@ -142,7 +142,7 @@ class Penambahansj extends CI_Controller {
    					'hapus'=>0,
    				);
    				$this->db->insert('kirimcmt_detail',$detail);
-   				$masterpo=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$p['kode_po']));
+   				$masterpo=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
    				$insertkks=array(
    					'kode_po'=>$p['kode_po'],
    					'create_date'=>$cmt['tanggal'],
@@ -170,45 +170,45 @@ class Penambahansj extends CI_Controller {
    				);
    				//pre($totalkirim);
    				$this->db->insert('kelolapo_kirim_setor',$insertkks);
-   				$iks = $this->db->insert_id();
-   				$atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
-   				if(!empty($atas)){
-	   				foreach($atas as $a){
-	   					$ia=array(
-	   						'id_kelolapo_kirim_setor'=>$iks,
-	   						'kode_po'=>$a['kode_po'],
-	   						'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
-	   						'warna_potongan_atas'=>$a['warna_potongan_atas'],
-	   						'jumlah_potongan'=>$a['jumlah_potongan'],
-	   						'keterangan_potongan'=>$a['keterangan_potongan'],
-	   						'created_date'=>$post['tanggal'],
-	   						'qty_bangke_atas'=>0,
-	   						'qty_reject_atas'=>0,
-	   						'qty_hilang_atas'=>0,
-	   						'qty_claim_atas'=>0,
-	   					);
-	   					$this->db->insert('kelolapo_kirim_setor_atas',$ia);
-	   				}
-	   			}
-	   			$bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
-	   			if(!empty($bawah)){
-	   				foreach($bawah as $b){
-	   					$ib=array(
-	   						'id_kelolapo_kirim_setor'=>$iks,
-	   						'kode_po'=>$b['kode_po'],
-	   						'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
-	   						'warna_potongan_atas'=>$b['warna_potongan_bawah'],
-	   						'jumlah_potongan'=>$b['jumlah_potongan'],
-	   						'keterangan_potongan'=>$a['keterangan_potongan'],
-	   						'created_date'=>$post['tanggal'],
-	   						'qty_bangke_atas'=>0,
-	   						'qty_reject_atas'=>0,
-	   						'qty_hilang_atas'=>0,
-	   						'qty_claim_atas'=>0,
-	   					);
-	   					$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
-	   				}
-	   			}
+   				// $iks = $this->db->insert_id();
+   				// $atas = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_atas',array('kode_po'=>$p['kode_po']));
+   				// if(!empty($atas)){
+	   			// 	foreach($atas as $a){
+	   			// 		$ia=array(
+	   			// 			'id_kelolapo_kirim_setor'=>$iks,
+	   			// 			'kode_po'=>$a['kode_po'],
+	   			// 			'bagian_potongan_atas'=>$a['bagian_potongan_atas'],
+	   			// 			'warna_potongan_atas'=>$a['warna_potongan_atas'],
+	   			// 			'jumlah_potongan'=>$a['jumlah_potongan'],
+	   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+	   			// 			'created_date'=>$post['tanggal'],
+	   			// 			'qty_bangke_atas'=>0,
+	   			// 			'qty_reject_atas'=>0,
+	   			// 			'qty_hilang_atas'=>0,
+	   			// 			'qty_claim_atas'=>0,
+	   			// 		);
+	   			// 		$this->db->insert('kelolapo_kirim_setor_atas',$ia);
+	   			// 	}
+	   			// }
+	   			// $bawah = $this->GlobalModel->getData('kelolapo_pengecekan_potongan_bawah',array('kode_po'=>$p['kode_po']));
+	   			// if(!empty($bawah)){
+	   			// 	foreach($bawah as $b){
+	   			// 		$ib=array(
+	   			// 			'id_kelolapo_kirim_setor'=>$iks,
+	   			// 			'kode_po'=>$b['kode_po'],
+	   			// 			'bagian_potongan_atas'=>$b['bagian_potongan_bawah'],
+	   			// 			'warna_potongan_atas'=>$b['warna_potongan_bawah'],
+	   			// 			'jumlah_potongan'=>$b['jumlah_potongan'],
+	   			// 			'keterangan_potongan'=>$a['keterangan_potongan'],
+	   			// 			'created_date'=>$post['tanggal'],
+	   			// 			'qty_bangke_atas'=>0,
+	   			// 			'qty_reject_atas'=>0,
+	   			// 			'qty_hilang_atas'=>0,
+	   			// 			'qty_claim_atas'=>0,
+	   			// 		);
+	   			// 		$this->db->insert('kelolapo_kirim_setor_bawah',$ib);
+	   			// 	}
+	   			// }
    			}
 	   		//$this->db->update('kirimcmt',array('totalkirim'=>$totalkirim),array('id'=>$id));
 	   		$this->db->query("UPDATE kirimcmt SET totalkirim=totalkirim+'".$totalkirim."' WHERE id='".$id."' ");
