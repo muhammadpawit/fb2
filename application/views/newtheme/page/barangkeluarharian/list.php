@@ -56,6 +56,7 @@
                   <th>Jumlah/Satuan</th>
                   <th>Keterangan</th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -71,9 +72,12 @@
                         <td><?php echo $d['jumlah']?> <?php echo $d['satuan']?></td>
                         <td><?php echo $d['keterangan']?></td>
                         <td>
-                        	<a href="<?php echo $p['detail']?>" target="_blank" class="btn btn-primary btn-sm text-white">Detail</a>
+                        <a href="<?php echo $p['detail']?>" target="_blank" class="btn btn-primary btn-xs text-white">Cetak</a>
+                        </td>
+                        <td>
+                        	
                         	<?php if(akseshapus()==1){?>
-                        		<a href="<?php echo BASEURL.'Barangkeluar/hapus/'.$d['id']?>" class="btn btn-danger btn-sm text-white">Hapus</a>
+                        		<a href="<?php echo BASEURL.'Barangkeluar/hapus/'.$d['id']?>" class="btn btn-danger btn-xs text-white">Hapus</a>
                         	<?php } ?>
                         </td>
                       </tr>
