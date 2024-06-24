@@ -1996,7 +1996,7 @@ class Kelolapo extends CI_Controller {
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
-				'kode_po'=>$po['kode_po'],
+				'kode_po'=>isset($po['kode_po']) ? $po['kode_po'] : '',
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>$namacmt['cmt_name'],
 				'keterangan'=>$result['keterangan'],
