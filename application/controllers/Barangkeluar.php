@@ -178,8 +178,27 @@ class Barangkeluar extends CI_Controller {
 		$data['d']=$this->GlobalModel->getDataRow('barangkeluarharian',array('id'=>$id));
 		$data['barang']=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$id));
 		$data['page']=$this->page.'detail';
-		$data['cancel']=$this->url;
-		$this->load->view($this->layout,$data);
+		// $data['cancel']=$this->url;
+		// $this->load->view($this->layout,$data);
+
+			$html =  $this->load->view($this->page.'detail',$data,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Laporan Penjualan Toko Kita';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Slip_';
+	        // setting paper
+	        $paper = 'A4';
+	        //orientasi paper potrait / landscape
+	        $orientation = "potrait";
+	        
+			$this->load->view('laporan_pdf',$this->data, true);	    
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 	}
 
 	public function hapus($id){
