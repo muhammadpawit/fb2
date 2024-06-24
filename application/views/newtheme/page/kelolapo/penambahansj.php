@@ -77,7 +77,7 @@
                           <td><?php echo $p['quantity']?></td>
                           <td><?php echo $p['status']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect" onclick="return confirm('Apakah Yakin? ')"><?php echo $action['text']; ?></a><br>
                           <?php } ?></td>
                         </tr>
                         <?php } ?>
