@@ -167,10 +167,10 @@
                                                     <td width="100px"><b>Security</b></td>
                                                 </tr>
                                                 <tr>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
+                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
                                                 </tr>
                                             </table>
                                             </div>                                                
