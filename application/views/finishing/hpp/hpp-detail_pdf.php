@@ -1,7 +1,7 @@
 <style type="text/css">
     table {
         width: 100%;
-        font-size: 18.5px !important;
+        font-size: 17px !important;
         text-transform: uppercase;
         font-family: Arial, sans-serif;
     }
@@ -39,7 +39,7 @@
 
                                 <tr>
 
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="3" class="text-center">
 
                                         <center>
                                             <h1>
@@ -56,9 +56,9 @@
                                     <td width="20%" rowspan="8" valign="middle" align="center">
                                         <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
                                     </td>
-                                    <td width="20%" rowspan="8" valign="middle" align="center">
+                                    <!-- <td width="20%" rowspan="8" valign="middle" align="center">
                                         <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 <tr>
                                     <td>&nbsp;ARTIKEL</td>
