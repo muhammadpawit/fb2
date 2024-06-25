@@ -1365,6 +1365,7 @@ class Finishing extends CI_Controller {
 
 	public function hppproduksidetail($kodepo='')
 	{
+		$get = $this->input->get();
 		$kirim=[];
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$viewData['po']=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
@@ -1528,25 +1529,31 @@ class Finishing extends CI_Controller {
 		$viewData['bawahansablon']=$bawahansablon;
 		$viewData['namabahan']=$this->GlobalModel->QueryManualRow("SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0 AND idpo='$kodepo' AND bahan_kategori='UTAMA' ORDER BY id_item_keluar ASC LIMIT 1 ");
 		$viewData['page']='finishing/hpp/hpp-detail';
-			// $html =  $this->load->view('finishing/hpp/hpp-detail',$viewData,true);
+		$viewData['pdf']=BASEURL.'Finishing/hppproduksidetail/'.$kodepo.'?&pdf=true';
+		
+		$get = $this->input->get();
+		if(isset($get['pdf'])){
+			$get = $this->input->get();
+			$html =  $this->load->view('finishing/hpp/hpp-detail_pdf',$viewData,true);
 
-			// $this->load->library('pdfgenerator');
+			$this->load->library('pdfgenerator');
 	        
-	        // // title dari pdf
-	        // $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
 	        
-	        // // filename dari pdf ketika didownload
-	        // $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
-	        // // setting paper
-	        // //$paper = 'A4';
-	        // $paper = array(0,0,800,850);
-	        // //orientasi paper potrait / landscape
-	        // $orientation = "landscape";
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+	        // setting paper
+	        // $paper = 'A4';
+	        $paper = array(0,0,900,1250);
+	        //orientasi paper potrait / landscape
+	        $orientation = "potrait";
 	        
-			// $this->load->view('finishing/hpp/hpp-detail',$this->data, true);	    
+
 	        
-	        // // run dompdf
-	        // $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}
 			
 		$viewData['back']=BASEURL.'Finishing/hppproduksi?&kode_po='.$kodepo;
 		$this->load->view('newtheme/page/main',$viewData);
