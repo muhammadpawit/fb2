@@ -66,7 +66,7 @@
     <tbody>
         <?php foreach($kirims as $k){?>
             <?php 
-				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['idpo']));
+				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 				
 				if(empty($po)){
 					$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
@@ -81,7 +81,7 @@
                 <td align="center" width="10%"><?php echo $k['keterangan']?></td>
             </tr>
             <?php $no++; ?>
-            <?php if ($no == 8) { ?>
+            <?php if ($no == 11) { ?>
                 </tbody>
                 </table>
                 <div class="break"></div> <!-- Tambahkan class "break" untuk page break -->
