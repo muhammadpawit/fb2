@@ -42,10 +42,13 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <a href="<?php echo $kembali;?>" class="btn btn-danger text-white full">Kembali</a>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-4">
+    <a href="<?php echo $pdf;?>" target="_blank" class="btn btn-primary text-white full">Print Nota Kasbon</a>
+  </div>
+  <div class="col-md-4">
     <a href="<?php echo $excel;?>" class="btn btn-success text-white full">Excel</a>
   </div>
 </div>

@@ -885,17 +885,43 @@ class Keuangan extends CI_Controller {
 				'nominal'=>$result['nominal_request'],
 				'nominal_acc'=>$result['nominal_acc'],
 				'status'=>$result['status'],
+				'terbilang' => terbilang($result['nominal_request'])
 			);
 		}
 		$data['total']=($total);
 		$data['ajuan']=($ajuan);
 		$get=$this->input->get();
 		$data['excel']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&excel=true';
+		$data['pdf']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&pdf=true';
 		if(isset($get['excel'])){
 			$this->load->view('newtheme/page/keuangan/kasbondetail_excel',$data);
 		}else{
-			$data['page']='newtheme/page/keuangan/kasbondetail';
-			$this->load->view('newtheme/page/main',$data);
+			if(isset($get['pdf'])){
+				$get = $this->input->get();
+				$html =  $this->load->view('newtheme/page/keuangan/kasbondetail_pdf',$data,true);
+	
+				$this->load->library('pdfgenerator');
+				
+				// title dari pdf
+				$this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
+				
+				// filename dari pdf ketika didownload
+				$file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+				// setting paper
+				$paper = 'A4';
+				// $paper = array(0,0,900,1250);
+				//orientasi paper potrait / landscape
+				$orientation = "potrait";
+				
+	
+				
+				// run dompdf
+				$this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+			}else{
+				$data['page']='newtheme/page/keuangan/kasbondetail';
+				$this->load->view('newtheme/page/main',$data);
+			}
+			
 		}
 	}
 
