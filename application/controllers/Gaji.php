@@ -345,6 +345,7 @@ class Gaji extends CI_Controller {
 
 	public function slip($id){
 		$data=[];
+		$get = $this->input->get();
 		$data['title']='Slip Gaji Karyawan';
 		$data['slip']=$this->GlobalModel->getDataRow('gaji_bulanan',array('id'=>$id));
 		$nama=$this->GlobalModel->getDataRow('karyawan',array('id'=>$data['slip']['idkaryawan']));
@@ -355,8 +356,34 @@ class Gaji extends CI_Controller {
 		$divisi=$this->GlobalModel->getDataRow('divisi',array('id'=>$nama['divisi']));
 		$data['divisi']=$divisi['nama'];
 		$data['batal']=BASEURL.'Gaji/bulanan';
-		$data['page']=$this->page.'gaji/slip';
+		$data['cetak']=BASEURL.'Gaji/slip/'.$id.'?&pdf=true';
+		if(isset($get['pdf'])){
+			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			
+			$html =  $this->load->view($this->page.'gaji/slip_pdf',$data,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Slip Gaji ';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'SLIP_Gaji_'.time();
+	        // setting paper
+	        //$paper = 'A4';
+	        $paper = array(0,0,550,700);
+	        //orientasi paper potrait / landscape
+	        $orientation = "potrait";
+	        
+			$this->load->view('laporan_pdf',$this->data, true);	    
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}else{
+			$data['page']=$this->page.'gaji/slip';
 		$this->load->view($this->page.'main',$data);
+		}
+		
 	}
 
 	public function bulanan(){
@@ -462,13 +489,14 @@ class Gaji extends CI_Controller {
 
 	public function slipsave(){
 		$data=$this->input->post();
+		// pre($data);
 		if(isset($data['idpinjaman'])){
 			$cek=$this->GlobalModel->getDataRow('pinjaman_karyawan',array('id'=>$data['idpinjaman']));
 			if($cek['totalpinjaman']==$cek['totalpotongan']){
 				$status=3;
 			}else{
 				$insertpotongan=array(
-					'tanggal'=>$data['tanggal'],
+					'tanggal'=>isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
 					'idkaryawan'=>$data['idkaryawan'],
 					'idpinjaman'=>$data['idpinjaman'],
 					'totalpotongan'=>$data['potongan_pinjaman'],
@@ -488,7 +516,7 @@ class Gaji extends CI_Controller {
 		}
 		//pre($data);
 		$insert=array(
-			'tanggal'=>$data['tanggal'],
+			'tanggal'=>isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
 			'periode'=>date('Y-m-d',strtotime("first day of last month")).''.date('Y-m-d',strtotime("last day of this month")),
 			'idkaryawan'=>$data['idkaryawan'],
 			'gajipokok'=>$data['gajipokok'],
@@ -519,19 +547,21 @@ class Gaji extends CI_Controller {
 
 	public function getkasbon(){
 		$get=$this->input->get();
+		$year = date('Y');
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
 			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
+		if(isset($get['bulan'])){
+			$tanggal2=$get['bulan'];
 		}else{
-			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+			$tanggal2=date('m',strtotime("last day of this month"));
 		}
 		$sql="SELECT * FROM kasbon WHERE idkaryawan='".$get['idkaryawan']."'  ";
 		//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		$sql.=" AND MONTH(tanggal) ='".date('m',strtotime($tanggal2))."' ";
+		$sql.=" AND MONTH(tanggal) ='".$tanggal2."' ";
+		$sql.=" AND YEAR(tanggal) ='".$year."' ";
 		$sql.=" ORDER BY id ASC ";
 		$kasbon=$this->GlobalModel->QueryManual($sql);
 		$no=1;

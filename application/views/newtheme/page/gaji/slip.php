@@ -50,7 +50,7 @@
 				<tr>
 					<th height="80" valign="bottom">
 						<a href="<?php echo $batal?>" class="btn btn-danger btn-sm text-white">Kembali</a>
-						<button class="btn btn-info btn-sm text-white" onclick="cetak()">Cetak</button>
+						<a href="<?php echo $cetak?>" target="_blank" class="btn btn-default btn-sm text-white">Cetak Slip</a>
 					</th>
 					<th height="80" valign="bottom"></th>
 				</tr>

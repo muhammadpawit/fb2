@@ -2,8 +2,14 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group">
-				<label>Tanggal</label>
-				<input type="text" name="tanggal" class="form-control" value="<?php echo $tanggal2?>" readonly>
+				<label>Bulan Tahun</label>
+				<!-- <input type="text" name="tanggal" class="form-control" value="<?php echo $tanggal2?>" readonly> -->
+				 <select name="bulan" class="form-control select2bs4" id="bulan">
+					<option value="">Pilih</option>
+					<?php foreach(bulan() as $val=>$key) {  ?>
+						<option value="<?php echo $val ?>"><?php echo $key ?></option>
+					<?php } ?>
+				 </select>
 			</div>
 			<div class="form-group">
 				<label>Nama Karyawan</label>
@@ -106,6 +112,10 @@
 	</div>
 </form>
 <script type="text/javascript">
+	function reset(){
+		var e = document.getElementById("Bulan");
+		console.log(e);
+	}
 	$("#yk").change(function() {
 	    var yksbn =$("#yksbn").val();
 	    if(this.checked) {
@@ -121,11 +131,12 @@
 		var potongan_kasbon=$("#potongan_kasbon").val(0);
 		var potongan_pinjaman=$("#potongan_pinjaman").val(0);
 		var potongan_claim=$("#potongan_claim").val(0);
+		var bulan = $("#bulan").val();
   	  $('#kasbon').empty();
   	  $('#potpinjaman').empty();
 	  val = $(this).val();
 	  // kasbon
-	  $.get("<?php echo BASEURL.'Gaji/getkasbon' ?>?&idkaryawan="+val, 
+	  $.get("<?php echo BASEURL.'Gaji/getkasbon' ?>?&idkaryawan="+val+"&bulan="+bulan, 
 	    function(data){   
 	    //console.log(data);
 	    $('#kasbon').append(data);
@@ -138,6 +149,7 @@
 	    //$('#yksbn').val(data);
 		$("#potongan_kasbon").val(data);
 		$("#potongan_kasbon").attr('readonly',true);
+		updatetotal();
 	  });
 
 	  // potongan pinjaman jika ada
