@@ -98,9 +98,9 @@
 				</td>
             </tr>
             <tr>
-                <td>Jabatan</td>
+                <td>Jabatan / Divisi </td>
                 <td>
-					<b><?php echo strtoupper($bagian) ?></b>
+					<b><?php echo strtoupper($bagian) ?> / <?php echo strtoupper($divisi) ?></b>
 				</td>
             </tr>
             <tr>
@@ -130,25 +130,25 @@
 				<tr>
 					<td>Pot.Pinjaman</td>
 					<td>
-						<b><?php echo number_format(($slip['potongan_pinjaman']))?></b>
+						<b>Rp <?php echo number_format(($slip['potongan_pinjaman']))?>,-</b>
 					</td>
 				</tr>
 				<tr>
 					<td>Pot.Klaim</td>
 					<td>
-						<b><?php echo number_format(($slip['potongan_claim']))?></b>
+						<b>Rp <?php echo number_format(($slip['potongan_claim']))?>,-</b>
 					</td>
 				</tr>
 				<tr>
 					<td>Pot.Absensi</td>
 					<td>
-						<b><?php echo number_format(($slip['potongan_absensi']))?></b>
+						<b>Rp <?php echo number_format(($slip['potongan_absensi']))?>,-</b>
 					</td>
 				</tr>
 				<tr>
 					<td>Pot.Terlambat</td>
 					<td>
-						<b><?php echo number_format(($slip['potongan_terlambat']))?></b>
+						<b>Rp <?php echo number_format(($slip['potongan_terlambat']))?>,-</b>
 					</td>
 				</tr>
             <tr class="total">
@@ -164,7 +164,7 @@
             <div>
                 <p>Admin Keuangan,</p>
                 <div class="signature-line"></div>
-                <p>Nama Penyetujui</p>
+                <p>Nama Admin</p>
             </div>
             <div>
                 <p>Diterima Oleh,</p>

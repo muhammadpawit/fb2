@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <label>Pilih Bank / Kas</label>
-            <select name="bank_id" class="form-control select2bs4" required="required">
+            <select name="bank_id" class="form-control select2bs4" required="required" style="width: 100%;">
                 <?php foreach($products as $p){?>
                   <option value="<?php echo $p['id']?>"><?php echo strtoupper($p['nama'])?></option>
                 <?php } ?>
@@ -27,7 +27,7 @@
           </div>
           <div class="form-group">
             <label>Jenis Transaksi</label>
-            <select name="jenis" class="form-control select2bs4" required="required" readonly>
+            <select name="jenis" class="form-control select2bs4" required="required" readonly style="width: 100%;">
               <!-- <option value="">Mohon dipilih</option> -->
               <option value="1">Uang Masuk</option>
               <!-- <option value="2">Uang Keluar</option> -->
@@ -35,7 +35,7 @@
           </div>
           <div class="form-group">
             <label>Bagian</label>
-            <select name="bagian" class="form-control select2bs4" required="required">
+            <select name="bagian" class="form-control select2bs4" required="required" style="width: 100%;">
               <option value="">Mohon dipilih</option>
               <option value="1">Konveksi</option>
               <option value="2">Bordir</option>
@@ -45,7 +45,7 @@
           </div>
           <div class="form-group">
             <label>Pengalokasian</label>
-            <select name="pengalokasian" class="form-control select2bs4" required="required">
+            <select name="pengalokasian" class="form-control select2bs4" required="required" style="width: 100%;">
               <option value="">Pilih</option>
               <?php foreach($alokasi as $a){?>
                 <option value="<?php echo $a['id'] ?>"><?php echo $a['nama'] ?></option>

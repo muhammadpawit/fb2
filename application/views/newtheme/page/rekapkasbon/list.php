@@ -37,6 +37,7 @@
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filterbln()">Filter</button>
+			<a href="<?php echo $pdf ?>" class="btn btn-sm btn-primary" target="_blank">Print</a>
 		</div>
 	</div>
 </div>

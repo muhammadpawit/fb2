@@ -70,7 +70,13 @@
                         <?php $no=1; ?>
                         <?php foreach($products as $p){?>
                           <?php foreach($p['dets'] as $d){?>
-                            <?php $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$d['kode_po'])); ?>
+                            <?php 
+                              if(isset($sablon)){
+                                $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$d['idpo']));
+                              } else {
+                                $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$d['kode_po']));
+                              } 
+                            ?>
                           <tr>
                             <td><?php echo $no++?></td>
                             <td><?php echo $p['nosj']?></td>

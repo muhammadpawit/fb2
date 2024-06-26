@@ -202,7 +202,7 @@ class Keuangan extends CI_Controller {
 				'rincian'=>BASEURL.'Keuangan/rincianpinjaman/'.$p['id'],
 			);
 		}
-		$data['karyawan']=$this->GlobalModel->getData('karyawan',array('hapus'=>0));
+		$data['karyawan']=karyawan();
 		$data['page']=$this->page.'keuangan/potongan_list';
 		$this->load->view($this->page.'main',$data);
 	}
@@ -264,6 +264,8 @@ class Keuangan extends CI_Controller {
 				'no'=>$no++,
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 				'periode'=>$r['periode'],
+				'tempat'=>$r['tempat'] == 3 ? 'Cipadu':'Rumah & Finishing',
+				'total' => $this->sumKeuSecurity($r['id']),
 				'detail'=>BASEURL.'Keuangan/uangmakansecuritydetail/'.$r['id'],
 				'excel'=>BASEURL.'Keuangan/uangmakansecuritydetailexcel/'.$r['tanggal'],
 				'edit'=>BASEURL.'Keuangan/uangmakansecurity_edit/'.$r['id'],
@@ -425,6 +427,20 @@ class Keuangan extends CI_Controller {
 		
 	}
 
+	function sumKeuSecurity($id){
+		$hasil = 0;
+		$data = $this->GlobalModel->QueryManualRow("
+			SELECT COALESCE(SUM(nominal),0) as nominal FROM um_security_detail 
+			WHERE idum='$id'
+		");
+
+		if(isset($data['nominal'])){
+			return $data['nominal'];
+		}else{
+			return $hasil;
+		}
+	}
+
 	public function lemburkaryawan(){
 		$data=[];
 		$data['title']='Lembur karyawan harian';
@@ -579,7 +595,7 @@ class Keuangan extends CI_Controller {
 				'rincian'=>BASEURL.'Keuangan/rincianpinjaman/'.$p['id'],
 			);
 		}
-		$data['karyawan']=$this->GlobalModel->getData('karyawan',array('hapus'=>0));
+		$data['karyawan']=karyawan();
 		$data['page']=$this->page.'keuangan/pinjaman_list';
 		$this->load->view($this->page.'main',$data);
 	}
@@ -824,7 +840,7 @@ class Keuangan extends CI_Controller {
 		$data['title']='Form Kasbon karyawan';
 		$data['action']=BASEURL.'Keuangan/kasbonsave';
 		$data['batal']=BASEURL.'Keuangan/kasbonkaryawan';
-		$data['karyawan']=$this->GlobalModel->getData('karyawan',array('hapus'=>0));
+		$data['karyawan']=karyawan();
 		$data['page']='newtheme/page/keuangan/kasbonadd';
 		$this->load->view('newtheme/page/main',$data);
 	}

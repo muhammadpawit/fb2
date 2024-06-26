@@ -37,8 +37,10 @@
 			<thead>
 				<tr>
 					<th>No</th>
+					<th>Tempat</th>
 					<th>Tanggal</th>
 					<th>Periode</th>
+					<th>Total (Rp)</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -46,8 +48,10 @@
 				<?php foreach($products as $p){?>
 					<tr>
 						<td><?php echo $p['no']?></td>
+						<td><?php echo $p['tempat']?></td>
 						<td><?php echo $p['tanggal']?></td>
 						<td><?php echo $p['periode']?></td>
+						<td><?php echo number_format($p['total'])?></td>
 						<td>
 							<a href="<?php echo $p['detail']?>" class="btn btn-sm btn-primary">Detail</a>
 							<a href="<?php echo $p['excel']?>" class="btn btn-sm btn-success">Excel</a>

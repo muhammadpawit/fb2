@@ -20,13 +20,16 @@ class Rekapkasbon extends CI_Controller {
 		$data=[];
 		$data['title']='Rekap Kasbon Bulanan';
 		$get=$this->input->get();
+		$url='';
 		if(isset($get['bulan'])){
 			$bulan=$get['bulan'];
+			$url .= '&bulan='.$bulan;
 		}else{
 			$bulan=date('n');
 		}
 		if(isset($get['tahun'])){
 			$tahun=$get['tahun'];
+			$url .= '&tahun='.$tahun;
 		}else{
 			$tahun=date('Y');
 		}
@@ -34,7 +37,7 @@ class Rekapkasbon extends CI_Controller {
 		$data['bulans']=$bulan;
 		$data['tahun']=$tahun;
 		$data['bulan']=nama_bulan();
-		$results=$this->GlobalModel->GetData('karyawan',array('hapus'=>0));
+		$results=karyawan();
 		$no=1;
 		$kasbon=[];
 		$tgl=0;
@@ -61,9 +64,34 @@ class Rekapkasbon extends CI_Controller {
 		}
 		$tgl=$this->KasbonModel->tgl($bulan,$tahun);
 		$data['tgl']=$tgl;
-		//pre($data['kar']);
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		$data['pdf']=BASEURL.'Rekapkasbon/?pdf=true'.$url;
+		if(isset($get['pdf'])){
+			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			
+			$html =  $this->load->view($this->page.'/list_pdf',$data,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->data['title_pdf'] = 'Rekap Kasbon ';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Rekap_Kasbon_'.time();
+	        // setting paper
+	        //$paper = 'A4';
+	        $paper = array(0,0,800,700);
+	        //orientasi paper potrait / landscape
+	        $orientation = "potrait";
+	        
+			$this->load->view('laporan_pdf',$this->data, true);	    
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}else{
+			
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}
 	}
 
 }

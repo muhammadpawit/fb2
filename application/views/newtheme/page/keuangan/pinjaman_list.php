@@ -11,11 +11,11 @@
         <form method="post" action="<?php echo $action?>">
           <div class="form-group">
             <label>Tanggal</label>
-            <input type="date" name="tanggal" class="form-control" required="required">
+            <input type="text" name="tanggal" class="form-control datepicker" required>
           </div>
           <div class="form-group">
             <label>Nama Karyawan</label>
-            <select name="idkaryawan" class="form-control select2bs4" required="required" data-live-search="true">
+            <select name="idkaryawan" class="form-control select2bs4" required="required" data-live-search="true" style="width: 100%;">
                 <option value="">Pilih</option>
                 <?php foreach($karyawan as $p){?>
                   <option value="<?php echo $p['id']?>"><?php echo strtoupper($p['nama'])?></option>

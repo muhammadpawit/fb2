@@ -480,7 +480,7 @@ class Gaji extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['karyawans']=$this->GlobalModel->getData('karyawan',array('hapus'=>0));
+		$data['karyawans']=karyawan();
 		$data['page']=$this->page.'gaji/slipform';
 		$data['action']=BASEURL.'Gaji/slipsave';
 		$data['batal']=BASEURL.'Gaji/bulanan';

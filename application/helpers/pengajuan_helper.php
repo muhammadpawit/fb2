@@ -1202,6 +1202,12 @@
 			return "Angka terlalu besar";
 		}
 	}
+
+	function karyawan(){
+		$CI =& get_instance();
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 ORDER BY nama ASC ');
+		return $menu;
+	}
 	
 	
 

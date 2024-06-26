@@ -64,12 +64,12 @@
 											<?php //echo $k['kode_po']?>
 											<select name="prods[<?php echo $no?>][kode_po]" class="form-control select2bs4" data-live-search="true" style="width: 100%">
 											<?php foreach($listpo as $l){?>
-												<option value="<?php echo $l['kode_po']?>" <?php echo $k['kode_po']==$l['kode_po']?'selected':'';?>><?php echo $l['kode_po']?></option>
+												<option value="<?php echo $l['id_produksi_po']?>" <?php echo $k['kode_po']==$l['kode_po']?'selected':'';?>><?php echo $l['kode_po']?></option>
 											<?php } ?>
 											</select>
 											<input type="hidden" name="prods[<?php echo $no?>][progress]" value="KIRIM">
 											<input type="hidden" name="prods[<?php echo $no?>][kategori_cmt]" value="SABLON">
-											<input type="hidden" name="prods[<?php echo $no?>][kode_po_lama]" value="<?php echo $k['kode_po']?>">
+											<input type="hidden" name="prods[<?php echo $no?>][kode_po_lama]" value="<?php echo $k['idpo']?>">
 										</td>
 										<td><input type="text" name="prods[<?php echo $no?>][rincian_po]" value="<?php echo $k['rincian_po']?>" class=""></td>
 										<td class="no-print">
