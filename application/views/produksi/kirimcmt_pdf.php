@@ -71,6 +71,12 @@
 				if(empty($po)){
 					$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 				}
+
+				if(isset($nota)){
+					if($nota=='Sablon'){
+						$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['idpo']));
+					}
+				}
 			?>
             <tr>
                 <td align="center" width="2%"><?php echo $no?></td>
