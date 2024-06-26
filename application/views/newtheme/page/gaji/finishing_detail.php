@@ -7,6 +7,7 @@
 	</div>
 </div>
 <div class="row">
+	<?php $totalpembulatan=0;?>
 	<?php foreach($karyawans as $k){?>
 	<div class="col-md-4">
 		<div class="table-responsive">
