@@ -106,6 +106,14 @@
 				<td align="center"><b></b></td>
 			</tr>
 			</tbody>
+			<tfoot>
+			
+			<tr>
+				<td><b>Grand Total</b></td>
+				<td colspan="2" align="center"><b><?php echo number_format($transfer+$kas) ?></b></td>
+				<td align="center"><b><?php echo number_format($bahanbaku+$ops+$gaji+$alokasitransfer+$sisa) ?></b></td>
+			</tr>
+			</tfoot>
 			</table>
 	</div>
 </div>

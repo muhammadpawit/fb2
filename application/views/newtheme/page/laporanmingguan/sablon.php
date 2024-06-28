@@ -80,6 +80,7 @@
 
 					$bahanbaku+=$a['pengalokasian']==12?$a['nominal']:0;
 					$inventaris+=$a['pengalokasian']==13?$a['nominal']:0;
+					$ops+=$a['pengalokasian']==14?$a['nominal']:0;
 				
 
 					?>
@@ -107,6 +108,13 @@
 				<td></td>
 			</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td align="center"><b>Grand Total</b></td>
+					<td align="center" colspan="2"><b><?php echo number_format($transfer+$kas)?></b></td>
+					<td align="center"><b><?php echo number_format($bahanbaku+$inventaris+$ops+$gaji+$sisa)?></b></td>
+				</tr>
+			</tfoot>
 			</table>
 	</div>
 </div>
