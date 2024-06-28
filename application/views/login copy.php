@@ -40,18 +40,6 @@
               /*text-align: center;*/
              }
         </style>
-
-<style>
-  .spinner {
-    font-size: 24px;
-    animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
     </head>
 
 
@@ -74,7 +62,7 @@
                                 </a><br>
                                 <img src="https://forboysproduction.com/assets/images/0001.jpg" height="180px">
                             </h2>
-                            <form class="form-login" action="<?php echo BASEURL.'login/auth' ?>" method="POST">
+                            <form class="" action="<?php echo BASEURL.'login/auth' ?>" method="POST">
                                 <div class="row">
                                   <div class="col-md-12">
                                     <?php if ($this->session->flashdata('gagal')) { ?>
@@ -103,7 +91,7 @@
 
                                 <div class="form-group row text-center m-t-10">
                                     <div class="col-12">
-                                        <button class="btn btn-block btn-custom waves-effect waves-light" type="button" id="btn-login" onclick="login()">Sign In </button>
+                                        <button class="btn btn-block btn-custom waves-effect waves-light" type="submit">Sign In</button>
                                     </div>
                                 </div>
 
@@ -134,29 +122,6 @@
         <!-- App js -->
         <script src="<?php echo ASSETS; ?>js/jquery.core.js"></script>
         <script src="<?php echo ASSETS; ?>js/jquery.app.js"></script>
-        
 
-        <script>
-            function login(){
-                var email = $("#emailaddress").val();
-                if(email==''){
-                    alert("user harus diisi");
-                    return false;
-                }   
-
-                var pass = $("#password").val();
-                if(pass==''){
-                    alert("pass harus diisi");
-                    return false;
-                }   
-
-                $("#btn-login").html('<i class="i fa fa-spinner"></i>');
-                $(".i").addClass("spinner");
-
-                setTimeout(function() {
-                    $(".form-login").submit();
-                }, 3000); // 3000 milliseconds = 3 seconds
-            }
-        </script>
     </body>
 </html>
