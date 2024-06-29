@@ -323,6 +323,7 @@ class Pembayaran extends CI_Controller {
 				'nominal'=>number_format($r['nominal']),
 				'keterangan'=>strtolower($r['keterangan']),
 				'detail'=>BASEURL.'Pembayaran/timpotongdetail/'.$r['id'],
+				'batalkan'=>BASEURL.'Pembayaran/timpotongbatalkan/'.$r['id'],
 			);
 			$no++;
 		}
@@ -393,8 +394,8 @@ class Pembayaran extends CI_Controller {
 		foreach($results as $r){
 				$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$r['kode_po']));
 				$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
-				$bukupotongan=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('kode_po'=>$r['kode_po']));
-				$jenis=$this->GlobalModel->QueryManualRow("SELECT idjenis FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE kode_po='".$r['kode_po']."' ");
+				$bukupotongan=$this->GlobalModel->getDataRow('konveksi_buku_potongan',array('idpo'=>$r['kode_po']));
+				$jenis=$this->GlobalModel->QueryManualRow("SELECT idjenis FROM master_jenis_po mjp JOIN produksi_po p ON(p.nama_po=mjp.nama_jenis_po) WHERE id_produksi_po='".$r['kode_po']."' ");
 				$data['products'][]=array(
 					'no'=>$no,
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
@@ -482,6 +483,9 @@ class Pembayaran extends CI_Controller {
 		$nominal=0;
 		//pre(substr("KM01_Simulasi", 0,3));
 		$angka=0;
+		// pre($results);
+		$prod1=[];
+		$prod2=[];
 		foreach($results as $r){
 			//$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
 			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$r['nama_po']));
@@ -492,7 +496,7 @@ class Pembayaran extends CI_Controller {
 			$totaldz+=($r['hasil_lusinan_potongan']);
 			$totalpcs+=($r['hasil_pieces_potongan']);
 			if(!empty($tim)){
-				$data['products'][]=array(
+				$prod1[]=array(
 					'no'=>$no,
 					'idpo'=>$r['idpo'],
 					'tanggal'=>date('d-m-Y',strtotime($r['created_date'])),
@@ -522,34 +526,41 @@ class Pembayaran extends CI_Controller {
 		$sisa=[];
 		$res=[];
 		//$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 AND gtd.hapus=0 AND gtd.full_payment_id=0 ");
-		$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 ");
+		$res=$this->GlobalModel->QueryManual("SELECT p.kode_po as kodepo, gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) 
+		JOIN produksi_po p ON p.id_produksi_po=gtd.kode_po
+		WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 
+		ORDER BY p.kode_po
+		");
+		// pre($res);
 		foreach($res as $r){
-			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($r['kode_po'], 0,3)));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$r['kode_po']));
+			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($po['kode_po'], 0,3)));
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['timpotong']));
 			$totaldz+=($r['jml_dz']);
 			$totalpcs+=($r['jml_pcs']);
 			if(!empty($tim)){
-				$data['products'][]=array(
+				$prod2[]=array(
 					'no'=>$no,
 					'idpo'=>$r['kode_po'],
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-					'kodepo'=>$r['kode_po'].'',
+					'kodepo'=>$po['kode_po'].'',
 					'timpotong'=>$timpotong==null?$r['timpotong']:$timpotong['nama'],
 					'lusin'=>$r['jml_dz'],
 					'pcs'=>$r['jml_pcs'],
-					'harga'=>!empty($r['harga_potongan']) ? number_format($harga['harga_potongan']) : 0,
-					'total'=>!empty($r['harga_potongan']) ? number_format($harga['harga_potongan']*$r['jml_pcs']) : 0,
-					'price'=>!empty($harga['harga_potongan']) ? $harga['harga_potongan'] : 0,
-					'totals'=>!empty($r['harga_potongan']) ? $harga['harga_potongan']*$r['jml_pcs'] : 0,
+					'harga'=>!empty($r['harga']) ? number_format($harga['harga_potongan']) : 0,
+					'total'=>!empty($r['harga']) ? number_format($harga['harga_potongan']*$r['jml_pcs']) : 0,
+					'price'=>!empty($harga['harga']) ? $harga['harga_potongan'] : 0,
+					'totals'=>!empty($r['harga']) ? $harga['harga_potongan']*$r['jml_pcs'] : 0,
 					'full'=>$r['full'],
 				);
-				if(!empty($r['harga_potongan'])){
+				if(!empty($r['harga'])){
 					$total+=($harga['harga_potongan']*$r['jml_pcs']);
 				}
 			}
 			$no++;
 		}
-		//pre($res);
+		$data['products'] = array_merge($prod1,$prod2);
+		// pre($data['products']);
 		$saving=0.05*$total;
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);
@@ -639,6 +650,13 @@ class Pembayaran extends CI_Controller {
 			$this->session->set_flashdata('msg','Data gagal ditambah');
 			redirect(BASEURL.'Pembayaran/timpotongadd');
 		}
+	}
+
+	function timpotongbatalkan($id){
+		$this->db->update('gaji_timpotong',array('hapus'=>1),array('id'=>$id));
+		$this->db->update('gaji_timpotong_detail',array('hapus'=>1),array('idgaji'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
+		redirect(BASEURL.'Pembayaran/timpotong');
 	}
 
 	public function cmtjahit_allpo(){

@@ -55,7 +55,10 @@
 						<td><?php echo $p['saving']?></td>
             <td><?php echo $p['claim']?></td>
 						<td><?php echo $p['nominal']?></td>
-						<td><a href="<?php echo $p['detail']?>">Detail</a></td>
+						<td>
+              <a href="<?php echo $p['detail']?>" class="btn btn-sm btn-info">Detail</a>
+              <a href="<?php echo $p['batalkan']?>" onclick="return confirm('Apakah yakin ?')" class="btn btn-sm btn-danger">Batalkan</a>
+            </td>
 					</tr>
 				<?php } ?>
 			</tbody>

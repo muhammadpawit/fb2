@@ -1623,8 +1623,8 @@ class ReportModel extends CI_Model {
 		$sql.=" JOIN produksi_po p ON p.id_produksi_po=kbp.idpo ";
 		$sql.=" JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po ";
 		$sql.=" WHERE kbp.hapus=0 ";
-		$sql.=" AND kbp.kode_po NOT LIKE 'BJF%' ";
-		$sql.=" AND kbp.kode_po NOT LIKE 'BJK%' ";
+		$sql.=" AND mjp.nama_jenis_po NOT LIKE 'BJF%' ";
+		$sql.=" AND mjp.nama_jenis_po NOT LIKE 'BJK%' ";
 
 		if(!empty($data['tim'])){
 			$sql.=" AND tim_potong_potongan ='".$data['tim']."' ";
