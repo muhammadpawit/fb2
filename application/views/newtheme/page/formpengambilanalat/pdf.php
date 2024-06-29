@@ -101,7 +101,7 @@
  
 
 
-                    <table style="width:100%">
+<table style="width:100%;margin-right:50px">
 			<tr>
 				<td style="width:50%">
 					<p></p>
