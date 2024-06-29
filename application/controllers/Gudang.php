@@ -844,16 +844,18 @@ class Gudang extends CI_Controller {
 
 	public function barangkeluartambah($jenis){
 		$title='sadasd';
+		$data=array();
 		if($jenis==1){
 			$title="Bordir";
+			$data['fromajuanbordir']=true;
 		}else if($jenis==2){
 			$title="Konveksi";
 		}else{
 			$title='Bahan Keluar Harian';
 		}
-		$data=array();
 		$data['jenis']=$jenis;
 		$data['title']=$title;
+		$data['forms']=[];
 		//pre($data);
 		$data['action']=BASEURL.'Gudang/barangkeluarsave/'.$jenis;
 		$data['cancel']=BASEURL.'Gudang/barangkeluar/'.$jenis;
@@ -864,13 +866,14 @@ class Gudang extends CI_Controller {
 		$data['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
 		$data['bagian']=$this->GlobalModel->getData('bagian_pengambilan',array());
+		$data['forms'] = $this->GlobalModel->getData('formpengambilanalat',array('hapus'=>0,'status'=>2));
 		$data['page']=$this->page.'barangkeluar/barangkeluar_form';
 		$this->load->view($this->page.'main',$data);
 	}
 
 	public function barangkeluarsave(){
 		$data=$this->input->post();
-		//pre($data);
+		// pre($data);
 		if(isset($data['products'])){
 			$insert=array(
 				'tanggal'=>$data['tanggal'],
@@ -920,6 +923,11 @@ class Gudang extends CI_Controller {
 				$this->db->insert('barangkeluar_harian_detail',$detail);
 			}
 			user_activity(callSessUser('id_user'),1,' Input barang / bahan keluar harian dengan id '.$id);
+
+			if(isset($data['id_form'])){
+				$this->db->update('formpengambilanalat',array('status'=>1),array('id'=>$data['id_form']));
+				user_activity(callSessUser('id_user'),1,' memvalidasi ajuan formpengambilanalat dengan  id '.$data['id_form']);
+			}
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect(BASEURL.'Gudang/barangkeluar/'.$data['jenis']);	
 		}
