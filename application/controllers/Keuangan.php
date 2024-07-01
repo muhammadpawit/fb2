@@ -885,7 +885,10 @@ class Keuangan extends CI_Controller {
 		$data['detail']=array();
 		$data['acc']=null;
 		$data['acc']=$this->GlobalModel->getDataRow('kasbon_acc',array('tanggal'=>$id,'hapus'=>0));
-		$results=$this->GlobalModel->getData('kasbon',array('tanggal'=>$id,'hapus'=>0));
+		// $results=$this->GlobalModel->getData('kasbon',array('tanggal'=>$id,'hapus'=>0));
+		$results = $this->GlobalModel->QueryManual(
+			"SELECT a.* FROM kasbon a JOIN karyawan b ON b.id=a.idkaryawan WHERE tanggal='".$id."' AND a.hapus=0 ORDER BY b.nama ASC "
+		);
 		$total=0;
 		$ajuan=0;
 		foreach($results as $result){
