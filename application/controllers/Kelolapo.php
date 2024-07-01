@@ -2329,7 +2329,7 @@ class Kelolapo extends CI_Controller {
 	        $paper = 'A4';
 	        // $paper = array(0,0,800,850);
 	        //orientasi paper potrait / landscape
-	        $orientation = "potrait";
+	        $orientation = "landscape";
 	        
 			$this->load->view('laporan_pdf',$this->data, true);	    
 	        
