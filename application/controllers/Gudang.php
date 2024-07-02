@@ -850,6 +850,7 @@ class Gudang extends CI_Controller {
 			$data['fromajuanbordir']=true;
 		}else if($jenis==2){
 			$title="Konveksi";
+			$data['fromajuanbordir']=true;
 		}else{
 			$title='Bahan Keluar Harian';
 		}
