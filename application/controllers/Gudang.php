@@ -2271,7 +2271,7 @@ class Gudang extends CI_Controller {
 	        $file_pdf = 'Surat_Jalan_Pengeluaran_Alat_'.time();
 	        // setting paper
 	        //$paper = 'A4';
-	        $paper = array(0,0,800,850);
+	        $paper = array(0,0,800,705);
 	        //orientasi paper potrait / landscape
 	        $orientation = "landscape";
 	        
