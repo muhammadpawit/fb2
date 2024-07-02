@@ -30,7 +30,7 @@ class Formpengambilanalat extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
 		}
-		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0 ";
+		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0  and bagian=1";
 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$sql.=" ORDER BY id DESC";
 		$results=$this->GlobalModel->QueryManual($sql);
@@ -148,6 +148,50 @@ class Formpengambilanalat extends CI_Controller {
 		}else{
 			$this->session->set_flashdata('gagal','Data Gagal Di Simpan. Coba beberapa saat lagi.');
 			redirect($this->url);
+		}
+	}
+
+	public function konveksi(){
+		$data=[];
+		$data['title']='Form Pengambilan Alat';
+		$data['products']=[];
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime('first day of this month'));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
+		}
+		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0 and bagian=2 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" ORDER BY id DESC";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		foreach($results as $r){
+			$data['products'][]=array(
+				'no'=>$no,
+				'id'=>$r['id'],
+				'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+				'mandor'=>$r['mandor'],
+				'shift'=>$r['shift'],
+				'status'=>$r['status'] == 2 ? '<span class="badge alert-warning"><i class="fa fa-refresh"></i> menunggu validasi</span>':'<span class="badge alert-success"><i class="fa fa-check"></i> tervalidasi</span>',
+				'detail'=>$this->url.'detail/'.$r['id'],
+				'excel'=>null,
+			);
+			$no++;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['tambah']=$this->url.'add';
+		if(isset($get['pdf'])){
+			$this->load->view($this->page.'finishing_excel',$data);
+		}else{
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
 		}
 	}
 }
