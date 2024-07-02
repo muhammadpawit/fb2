@@ -62,10 +62,11 @@ class Formpengambilanalat extends CI_Controller {
 	function detail($id){
 		$data=[];
 		$get=$this->input->get();
-		$data['title'] = 'Form Ajuan Pengambilan Alat-alat bordir';
+		
 		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['d'] = $this->GlobalModel->getDataRow('formpengambilanalat',array('id'=>$id,'hapus'=>0));
+		$data['title'] = 'Form Ajuan Pengambilan Alat-alat '.$data['d']['bagian']==1?'Bordir':'Konveksi';
 		$data['dt'] = $this->GlobalModel->getData('formpengambilanalat_detail',array('idform'=>$id,'hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['action']=$this->url.'save';
