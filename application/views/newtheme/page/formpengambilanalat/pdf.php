@@ -20,7 +20,7 @@
                 position: fixed; 
                 bottom: 0cm; 
                 left: 0cm; 
-                right: 0cm;
+                right: 1.1cm;
                 height: 2cm;
 
                 /** Extra personal styles **/
@@ -101,8 +101,9 @@
  
 
 
-<table style="width:100%;margin-right:50px">
-			<tr>
+<table style="width:100%;">
+			<tbody>
+      <tr>
 				<td style="width:50%">
 					<p></p>
 				</td>
@@ -124,9 +125,11 @@
 					</table>
 				</td>
 			</tr>
+      </tbody>
+      <footer>
+            <i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
+        </footer>
 		</table>
 
 
-		 <footer>
-            <i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
-        </footer>
+		 
