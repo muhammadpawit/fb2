@@ -76,7 +76,7 @@
                                              <select class="form-control select2bs4" name="user_menu[3][nilai]">
                                                 <option value="0">Belum disetting</option>
                                                 <option value="1" <?php echo $setujui['nilai']==1?'selected':''?>>Ya</option>
-                                                <option value="2" <?php echo $setujui['nilai']==2?'selected':'selected'?>>Tidak</option>
+                                                <option value="2" <?php echo $setujui['nilai']==2?'selected':''?>>Tidak</option>
                                             </select>
                                         </td>
                                     </tr>
