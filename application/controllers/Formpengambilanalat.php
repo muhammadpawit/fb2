@@ -70,7 +70,13 @@ class Formpengambilanalat extends CI_Controller {
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['action']=$this->url.'save';
 		$data['print']=$this->url.'detail/'.$id.'?&pdf=true';
-		$data['batal']=$this->url.'';
+		$bagian = $data['d']['bagian'];
+		if($bagian==1){
+			$data['batal']=$this->url.'';
+		}else{
+			$data['batal']=$this->url.'konveksi';
+		}
+		
 		if(isset($get['pdf'])){
 			
 			$html =  $this->load->view($this->page.'pdf',$data,true);
