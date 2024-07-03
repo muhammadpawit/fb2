@@ -423,13 +423,13 @@
 
 	function MenuSub2($parent_id){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY urutan ASC');
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY nama ASC');
 		return $menu;
 	}
 
 	function MenuSub3($parent_id){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY urutan ASC');
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM menu WHERE parent_id='.$parent_id.' AND hapus=0 AND id IN(SELECT menuid FROM usermenu WHERE userid='.callSessUser('id_user').') ORDER BY nama ASC');
 		return $menu;
 	}
 	
