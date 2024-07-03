@@ -178,8 +178,8 @@ class Masterdata extends CI_Controller {
 
 	public function menugetsub(){
 		$data=$this->input->get();
-		$results=$this->GlobalModel->getData('menu',array('hapus'=>0,'parent_id'=>$data['parent_id']));
-		
+		// $results=$this->GlobalModel->getData('menu',array('hapus'=>0,'parent_id'=>$data['parent_id']));
+		$results = $this->GlobalModel->QueryManual("SELECT * FROM menu WHERE hapus=0 AND parent_id='".$data['parent_id']."' ORDER BY nama ");
 		echo "<option value='1'>Sub menu baru</option>";
 		foreach($results as $r){
 			echo "<option value='".$r['id']."'>".$r['nama']."</option>";
