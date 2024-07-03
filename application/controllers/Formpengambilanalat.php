@@ -126,6 +126,7 @@ class Formpengambilanalat extends CI_Controller {
 
 	function save(){
 		$post = $this->input->post();
+		$get  = $this->input->get();
 		// pre($post);
 		if(isset($post['products'])){
 			$insert = array(
@@ -134,6 +135,7 @@ class Formpengambilanalat extends CI_Controller {
 				'shift' => $post['shift'],
 				'hapus' => 0,
 				'status' => 2, // status 2 belum di validasi, status 1 sudah divalidasi
+				'bagian' => isset($get['konveksi']) ? 2:1,
 			);
 			$this->db->insert('formpengambilanalat',$insert);
 			$id=$this->db->insert_id();
@@ -150,10 +152,18 @@ class Formpengambilanalat extends CI_Controller {
 				$this->db->insert('formpengambilanalat_detail',$detail);
 			}
 			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-			redirect($this->url);
+			if(isset($get['konveksi'])){
+				redirect($this->url.'konveksi');
+			}else{
+				redirect($this->url);
+			}
 		}else{
 			$this->session->set_flashdata('gagal','Data Gagal Di Simpan. Coba beberapa saat lagi.');
-			redirect($this->url);
+			if(isset($get['konveksi'])){
+				redirect($this->url.'konveksi');
+			}else{
+				redirect($this->url);
+			}
 		}
 	}
 
@@ -192,7 +202,7 @@ class Formpengambilanalat extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['tambah']=$this->url.'add';
+		$data['tambah']=$this->url.'add?&konveksi=true';
 		if(isset($get['pdf'])){
 			$this->load->view($this->page.'finishing_excel',$data);
 		}else{
