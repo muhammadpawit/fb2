@@ -120,10 +120,11 @@ class Formpengambilanalat extends CI_Controller {
 		$url='?';
 		if(isset($get['konveksi'])){
 			$url.='&konveksi=true';
+			$data['konveksi']=true;
 		}
 		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$data['action']=$this->url.'save';
+		$data['action']=$this->url.'save'.$url;
 		$data['batal']=$this->url.$url;
 		$data['page']=$this->page.'form';
 		$this->load->view($this->layout,$data);
