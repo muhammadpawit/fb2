@@ -88,7 +88,7 @@
 			  	<?php }else{ ?>
 			  		<td align="center">-</td>
 			  	<?php } ?>
-			    <td>0</td> <!-- sisa pinjaman -->
+				<td><?php echo number_format($k['sisapinjaman'])?></td> <!-- sisa pinjaman -->
 			    <td><?php echo number_format($k['pinjaman'])?></td> <!-- pinjaman baru -->
 			    <td><?php echo number_format($k['gaji']-$k['kasbon'])?></td>
 			    <td>ket</td>
