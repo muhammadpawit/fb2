@@ -1205,7 +1205,12 @@
 
 	function karyawan(){
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 ORDER BY nama ASC ');
+		$get = $CI->input->get();
+		$where = '';
+		if(isset($get['divisi'])){
+			$where .=" AND divisi='".$get['divisi']."' ";
+		}
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 '.$where.'  ORDER BY nama ASC ');
 		return $menu;
 	}
 	

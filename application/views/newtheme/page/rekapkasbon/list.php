@@ -11,7 +11,7 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-5">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Pilih Bulan</label>
 			<select name="bulan" class="form-control select2bs4" data-live-search="true">
@@ -22,13 +22,24 @@
 			</select>
 		</div>
 	</div>
-	<div class="col-md-5">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tahun</label>
 			<select name="tahun" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
 				<?php for($i=2021;$i<2030;$i++) {?>
 					<option value="<?php echo $i?>" <?php echo $i==$tahun?'selected':'';?> ><?php echo $i?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Pilih Divisi</label>
+			<select name="divsi" class="form-control select2bs4" data-live-search="true">
+				<option value="*">Pilih</option>
+				<?php foreach($divsis as $b){?>
+					<option value="<?php echo $b['id']?>" <?php echo $b['id']==$divsi?'selected':'';?>><?php echo $b['nama']?></option>
 				<?php } ?>
 			</select>
 		</div>
@@ -104,6 +115,11 @@
 	    var tahun = $('select[name=\'tahun\']').val();
 	    if (tahun != '*') {
 	      url += '&tahun=' + encodeURIComponent(tahun);
+	    }
+
+		var divisi = $('select[name=\'divisi\']').val();
+	    if (divisi != '*') {
+	      url += '&divisi=' + encodeURIComponent(divisi);
 	    }
 	    
 	    location =url;

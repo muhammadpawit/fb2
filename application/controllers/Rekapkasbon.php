@@ -33,9 +33,18 @@ class Rekapkasbon extends CI_Controller {
 		}else{
 			$tahun=date('Y');
 		}
+
+		if(isset($get['divisi'])){
+			$divisi=$get['divisi'];
+			$url .= '&divisi='.$divisi;
+		}else{
+			$divisi=null;
+		}
 		
 		$data['bulans']=$bulan;
 		$data['tahun']=$tahun;
+		$data['divisi']=$divisi;
+		$data['divisis']=table('divisi');
 		$data['bulan']=nama_bulan();
 		$results=karyawan();
 		$no=1;
