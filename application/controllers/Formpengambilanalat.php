@@ -117,8 +117,9 @@ class Formpengambilanalat extends CI_Controller {
 		$data=[];
 		$data['title'] = 'Form Ajuan Pengambilan Alat-alat bordir';
 		$get  = $this->input->get();
-		$url='?';
+		$url='';
 		if(isset($get['konveksi'])){
+			$url='konveksi?';
 			$url.='&konveksi=true';
 			$data['konveksi']=true;
 		}
