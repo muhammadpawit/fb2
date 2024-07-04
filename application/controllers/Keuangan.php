@@ -559,13 +559,16 @@ class Keuangan extends CI_Controller {
 		$data=array();
 		$data['title']='List Pinjaman';
 		$get=$this->input->get();
+		$url='';
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
+			$url.='&tanggal1='.$tanggal1;
 		}else{
 			$tanggal1=date('Y-m-d',strtotime("-7 days"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
+			$url.='&tanggal2='.$tanggal2;
 		}else{
 			$tanggal2=date('Y-m-d');
 		}
@@ -577,7 +580,9 @@ class Keuangan extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['n']=1;
-		$data['action']=BASEURL.'Keuangan/pinjamansave';;
+		$data['action']=BASEURL.'Keuangan/pinjamansave';
+		$data['print']=BASEURL.'Keuangan/pinjamankaryawan?pdf=true'.$url;
+		$data['excel']=BASEURL.'Keuangan/pinjamankaryawan?excel=true'.$url;
 		$data['products']=array();
 		$products=$this->GlobalModel->getData('pinjaman_karyawan',array('hapus'=>0));
 		foreach($products as $p){
@@ -596,8 +601,12 @@ class Keuangan extends CI_Controller {
 			);
 		}
 		$data['karyawan']=karyawan();
-		$data['page']=$this->page.'keuangan/pinjaman_list';
-		$this->load->view($this->page.'main',$data);
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'keuangan/pinjaman_list_excel',$data);
+		}else{
+			$data['page']=$this->page.'keuangan/pinjaman_list';
+			$this->load->view($this->page.'main',$data);
+		}
 	}
 
 	public function pinjamansave(){

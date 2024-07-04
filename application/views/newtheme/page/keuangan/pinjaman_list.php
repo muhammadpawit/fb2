@@ -99,7 +99,10 @@
 
       <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
 
-      <span><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
+      <span><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Tambah</button></span>
+
+      <a href="<?php echo $print ?>" class="btn btn-sm btn-info">Print</a>
+      <a href="<?php echo $excel ?>" class="btn btn-sm btn-info">Excel</a>
 
     </div>
 
