@@ -36,10 +36,10 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Pilih Divisi</label>
-			<select name="divsi" class="form-control select2bs4" data-live-search="true">
+			<select name="divisi" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
-				<?php foreach($divsis as $b){?>
-					<option value="<?php echo $b['id']?>" <?php echo $b['id']==$divsi?'selected':'';?>><?php echo $b['nama']?></option>
+				<?php foreach($divisis as $b){?>
+					<option value="<?php echo $b['id']?>" <?php echo $b['id']==$divisi?'selected':'';?>><?php echo $b['nama']?></option>
 				<?php } ?>
 			</select>
 		</div>

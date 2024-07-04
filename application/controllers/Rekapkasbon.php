@@ -51,6 +51,7 @@ class Rekapkasbon extends CI_Controller {
 		$kasbon=[];
 		$tgl=0;
 		$pinjaman=null;
+		$data['kar']=[];
 		foreach($results as $k){
 			$divisi=$this->GlobalModel->GetDataRow('divisi',array('hapus'=>0,'id'=>$k['divisi']));
 			$kasbon=$this->KasbonModel->kasbon($bulan,$tahun,$k['id']);
