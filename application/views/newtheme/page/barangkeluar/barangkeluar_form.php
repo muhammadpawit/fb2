@@ -107,6 +107,7 @@
             </form>
       <!-- /.card -->
 <script type="text/javascript">
+  <?php if(isset($fromajuanbordir)){ ?>
         document.getElementById('dariAjuanCheckbox').addEventListener('change', function() {
             var ajuanSelectContainer = document.getElementById('ajuanSelectContainer');
             if (this.checked) {
@@ -117,6 +118,8 @@
               tableBody.empty(); // Clear existing rows
             }
         });
+
+  <?php } ?>
 
         function ajuanSelects() {
           var selectedValue = $('#ajuanSelect').val();
