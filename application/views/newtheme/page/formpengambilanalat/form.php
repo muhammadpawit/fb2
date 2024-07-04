@@ -1,4 +1,7 @@
             <form class="form-group" method="post" action="<?php echo $action?>">
+              <?php if(isset($konveksi)){ ?>
+                <input type="hidden" name="konveksi" value="2">
+              <?php } ?>
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">

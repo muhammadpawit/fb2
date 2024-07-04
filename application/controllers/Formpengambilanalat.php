@@ -135,7 +135,7 @@ class Formpengambilanalat extends CI_Controller {
 				'shift' => $post['shift'],
 				'hapus' => 0,
 				'status' => 2, // status 2 belum di validasi, status 1 sudah divalidasi
-				'bagian' => isset($get['konveksi']) ? 2:1,
+				'bagian' => isset($post['konveksi']) ? 2:1,
 			);
 			$this->db->insert('formpengambilanalat',$insert);
 			$id=$this->db->insert_id();
@@ -195,7 +195,7 @@ class Formpengambilanalat extends CI_Controller {
 				'mandor'=>$r['mandor'],
 				'shift'=>$r['shift'],
 				'status'=>$r['status'] == 2 ? '<span class="badge alert-warning"><i class="fa fa-refresh"></i> menunggu validasi</span>':'<span class="badge alert-success"><i class="fa fa-check"></i> tervalidasi</span>',
-				'detail'=>$this->url.'detail/'.$r['id'],
+				'detail'=>$this->url.'detail/'.$r['id'].'?&konveksi=true',
 				'excel'=>null,
 			);
 			$no++;
