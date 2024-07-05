@@ -112,7 +112,7 @@
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
 							<td align="center">Admin Gudang</td>
-							<td align="center">Pengawas Bordir</td>
+							<td align="center">Pengawas</td>
 							<td align="center">Mandor</td>
 							<td align="center">Admin</td>
 						</tr>
