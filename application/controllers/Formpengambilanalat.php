@@ -125,7 +125,7 @@ class Formpengambilanalat extends CI_Controller {
 		}
 		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$data['action']=$this->url.'save'.$url;
+		$data['action']=$this->url.'save';
 		$data['batal']=$this->url.$url;
 		$data['page']=$this->page.'form';
 		$this->load->view($this->layout,$data);
@@ -159,14 +159,14 @@ class Formpengambilanalat extends CI_Controller {
 				$this->db->insert('formpengambilanalat_detail',$detail);
 			}
 			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-			if(isset($get['konveksi'])){
+			if(isset($post['konveksi'])){
 				redirect($this->url.'konveksi');
 			}else{
 				redirect($this->url);
 			}
 		}else{
 			$this->session->set_flashdata('gagal','Data Gagal Di Simpan. Coba beberapa saat lagi.');
-			if(isset($get['konveksi'])){
+			if(isset($post['konveksi'])){
 				redirect($this->url.'konveksi');
 			}else{
 				redirect($this->url);
