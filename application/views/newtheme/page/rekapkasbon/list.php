@@ -13,24 +13,26 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
-			<label>Pilih Bulan</label>
-			<select name="bulan" class="form-control select2bs4" data-live-search="true">
+			<label>Tanggal Awal</label>
+			<!-- <select name="bulan" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
 				<?php foreach($bulan as $b){?>
 					<option value="<?php echo $b['bulan']?>" <?php echo $b['bulan']==$bulans?'selected':'';?>><?php echo $b['nama']?></option>
 				<?php } ?>
-			</select>
+			</select> -->
+			<input type="text" id="bulan" name="bulan" class="form-control datepicker" value="<?php echo $bulans ?>">
 		</div>
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
-			<label>Tahun</label>
-			<select name="tahun" class="form-control select2bs4" data-live-search="true">
+			<label>Tanggal Akhir</label>
+			<!-- <select name="tahun" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih</option>
 				<?php for($i=2021;$i<2030;$i++) {?>
 					<option value="<?php echo $i?>" <?php echo $i==$tahun?'selected':'';?> ><?php echo $i?></option>
 				<?php } ?>
-			</select>
+			</select> -->
+			<input type="text" id="tahun" name="tahun" class="form-control datepicker" value="<?php echo $tahun ?>">
 		</div>
 	</div>
 	<div class="col-md-4">
@@ -93,7 +95,7 @@
 			  	<?php }else{ ?>
 			  		<td align="center">-</td>
 			  	<?php } ?>
-				<td><?php echo number_format($k['sisapinjaman'])?></td> <!-- sisa pinjaman -->
+				<td><?php echo !empty($k['sisapinjaman']) ? number_format($k['sisapinjaman']) : 0 ?></td> <!-- sisa pinjaman -->
 			    <td><?php echo number_format($k['pinjaman'])?></td> <!-- pinjaman baru -->
 			    <td><?php echo number_format($k['gaji']-$k['kasbon'])?></td>
 			    <td>ket</td>
@@ -107,12 +109,14 @@
 <script type="text/javascript">
 	function filterbln(){
 	    var url='?';
-	    var bulan = $('select[name=\'bulan\']').val();	    
+	    // var bulan = $('select[name=\'bulan\']').val();	 
+		var bulan = $('#bulan').val();	    
 	    if (bulan != '*') {
 	      url += '&bulan=' + encodeURIComponent(bulan);
 	    }
 
-	    var tahun = $('select[name=\'tahun\']').val();
+	    // var tahun = $('select[name=\'tahun\']').val();
+		var tahun = $('#tahun').val();	    
 	    if (tahun != '*') {
 	      url += '&tahun=' + encodeURIComponent(tahun);
 	    }

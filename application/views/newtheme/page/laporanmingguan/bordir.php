@@ -56,12 +56,16 @@
 
 					$transfer+=($r['transfer']);
 					$kas+=($r['kas']);
+					$ops+=($r['ops']);
+					$gaji+=($r['gaji']);
+					$alokasitransfer+=($r['alokasitransfer']);
+					$sisa+=($r['sisa']);
 					
 
 				?>
 			  <tr>
 			    <td ><?php echo $r['hari']?>, <?php echo $r['tanggal']?></td>
-			    <td ><?php echo number_format($r['transfer'])?></td>
+			    <td ><?php echo !empty($r['transfer']) ? number_format($r['transfer']) : 0;?></td>
 			    <td ><?php echo number_format($r['kas'])?></td>
 			    <td ><?php echo number_format($r['bahanbaku'])?></td>
 			    <td ><?php echo number_format($r['ops'])?></td>
@@ -99,7 +103,7 @@
 				<td align="center"><b><?php echo number_format($transfer) ?></b></td>
 				<td align="center"><b><?php echo number_format($kas) ?></b></td>
 				<td align="center"><b><?php echo number_format($bahanbaku) ?></b></td>
-				<td align="center"><b><?php echo number_format($ops) ?></b></td>
+				<td align="center"><b><?php echo number_format($ops) ?>dd</b></td>
 				<td align="center"><b><?php echo number_format($gaji) ?></b></td>
 				<td align="center"><b><?php echo number_format($alokasitransfer) ?></b></td>
 				<td align="center"><b><?php echo number_format($sisa) ?></b></td>

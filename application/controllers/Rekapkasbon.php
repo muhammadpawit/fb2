@@ -25,13 +25,13 @@ class Rekapkasbon extends CI_Controller {
 			$bulan=$get['bulan'];
 			$url .= '&bulan='.$bulan;
 		}else{
-			$bulan=date('n');
+			$bulan=date('Y-m-d');
 		}
 		if(isset($get['tahun'])){
 			$tahun=$get['tahun'];
 			$url .= '&tahun='.$tahun;
 		}else{
-			$tahun=date('Y');
+			$tahun=date('Y-m-d');
 		}
 
 		if(isset($get['divisi'])){

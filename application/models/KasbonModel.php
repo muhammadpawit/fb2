@@ -29,8 +29,10 @@ class KasbonModel extends CI_Model {
     public function tgl($bulan,$tahun){
         $hasil=[];
         $sql="SELECT DISTINCT tanggal FROM kasbon WHERE hapus=0 ";
-        $sql.=" AND MONTH(tanggal)='".$bulan."' ";
-        $sql.=" AND YEAR(tanggal)='".$tahun."' ";
+         // $sql.=" AND MONTH(tanggal)='".$bulan."' ";
+        // $sql.=" AND YEAR(tanggal)='".$tahun."' ";
+        $sql.=" AND DATE(tanggal) BETWEEN '".$bulan."' ";
+        $sql.=" AND '".$tahun."' ";
         $sql.=" ORDER BY tanggal ASC ";
         $data=$this->GlobalModel->QueryManual($sql);
         $sql2=[];
@@ -58,8 +60,10 @@ class KasbonModel extends CI_Model {
     public function getsumkasbon($id,$bulan,$tahun){
         $hasil=0;
         $sql="SELECT nominal_request as nominal FROM kasbon WHERE hapus=0 ";
-        $sql.=" AND MONTH(tanggal)='".$bulan."' ";
-        $sql.=" AND YEAR(tanggal)='".$tahun."' ";
+        // $sql.=" AND MONTH(tanggal)='".$bulan."' ";
+        // $sql.=" AND YEAR(tanggal)='".$tahun."' ";
+        $sql.=" AND DATE(tanggal) BETWEEN '".$bulan."' ";
+        $sql.=" AND '".$tahun."' ";
         $sql.=" AND idkaryawan='".$id."' ";
         $data=$this->GlobalModel->QueryManualRow($sql);
         $sql2=[];
