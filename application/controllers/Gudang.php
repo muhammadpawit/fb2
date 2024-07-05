@@ -66,7 +66,7 @@ class Gudang extends CI_Controller {
 
 	public function editbahankeluarsave(){
 		$data=$this->input->post();
-		$po=$this->GlobalModel->getData('produksi_po',array('hapus'=>0,'id_produksi_po'=>$data['kode_po']));
+		$po=$this->GlobalModel->getDataRow('produksi_po',array('hapus'=>0,'id_produksi_po'=>$data['kode_po']));
 		$update=array(
 			'idpo'=>$po['id_produksi_po'],
 			'kode_po'=>$po['kode_po'],
