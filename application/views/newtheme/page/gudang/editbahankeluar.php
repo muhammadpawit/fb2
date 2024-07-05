@@ -20,7 +20,7 @@
 						<th>
 							<select name="kode_po" class="form-control select2bs4" data-live-search="true">
 								<?php foreach($po as $p){?>
-									<option value="<?php echo $p['kode_po']?>" <?php echo $p['kode_po']==$details['kode_po']?'selected':''; ?>> <?php echo $p['kode_po']?></option>
+									<option value="<?php echo $p['id_produksi_po']?>" <?php echo $p['id_produksi_po']==$details['idpo']?'selected':''; ?>> <?php echo $p['kode_po']?></option>
 								<?php } ?>
 							</select>
 						</th>
