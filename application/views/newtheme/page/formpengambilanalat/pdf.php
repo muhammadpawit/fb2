@@ -40,7 +40,7 @@
     Tanggal : <?php echo $d['tanggal'] ?>
   </p>
   <p>
-    Mandor : <?php echo $d['mandor'] ?>
+  <?php echo $d['bagian']==1 ? 'Mandor':'Pengambil';?> : <?php echo $d['mandor'] ?>
   </p>
   <p>
     Shift : <?php echo $d['shift'] ?>
@@ -111,7 +111,8 @@
 					<br>
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
-							<td align="center">Admin Gudang</td>
+              <td align="center">Secutiry</td>
+              <td align="center">Admin Gudang</td>
 							<td align="center">Pengawas</td>
 							<td align="center">Mandor</td>
 							<td align="center">Admin</td>
@@ -121,6 +122,7 @@
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(..................)</td>
+            <td align="center" height="100" valign="bottom">(..................)</td>
 						</tr>
 					</table>
 				</td>
