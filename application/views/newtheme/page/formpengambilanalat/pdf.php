@@ -114,7 +114,7 @@
               <td align="center">Security</td>
               <td align="center">Admin Gudang</td>
 							<td align="center">Pengawas</td>
-							<td align="center">Mandor</td>
+							<td align="center"><?php echo $d['bagian']==1 ? 'Mandor':'Mengajukan';?></td>
 							<td align="center">Admin</td>
 						</tr>
 						<tr>
