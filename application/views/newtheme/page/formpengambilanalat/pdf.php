@@ -40,7 +40,7 @@
     Tanggal : <?php echo $d['tanggal'] ?>
   </p>
   <p>
-  <?php echo $d['bagian']==1 ? 'Mandor':'Pengambil';?> : <?php echo $d['mandor'] ?>
+  <?php echo $d['bagian']==1 ? 'Mandor':'Mengajukan';?> : <?php echo $d['mandor'] ?>
   </p>
   <p>
     Shift : <?php echo $d['shift'] ?>
