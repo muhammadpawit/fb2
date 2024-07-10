@@ -72,7 +72,7 @@
         ?>
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $barang['nama_item']; ?></td>
+                <td><?php echo strtoupper($barang['nama_item']); ?></td>
                 <td align="center"><?php echo $b['ajuan']; ?></td>
                 <td align="center"><?php echo $b['stock']; ?></td>                            
                 <td align="center"><?php echo $b['kebutuhan']; ?></td>
