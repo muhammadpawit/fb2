@@ -56,6 +56,7 @@
 
 					$transfer+=($r['transfer']);
 					$kas+=($r['kas']);
+					$bahanbaku+=($r['bahanbaku']);
 					$ops+=($r['ops']);
 					$gaji+=($r['gaji']);
 					$alokasitransfer+=($r['alokasitransfer']);
