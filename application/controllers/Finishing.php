@@ -1447,7 +1447,7 @@ class Finishing extends CI_Controller {
 			}
 		}else{
 			// $viewData['cmt'] =	$this->GlobalModel->getData('kelolapo_kirim_setor',array('idpo'=>$kodepo,'progress'=>'KIRIM','hapus'=>0,'id_master_cmt','!=85'));
-			$viewData['cmt'] =	$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='KIRIM' AND id_master_cmt NOT IN(85) ");
+			$viewData['cmt'] =	$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='KIRIM' AND id_master_cmt NOT IN(85) AND idpo='$kodepo' ");
 			$viewData['bordirer'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir WHERE idpo = "'.$kodepo.'" AND hapus=0 ');
 			$viewData['perincian'] = $this->GlobalModel->getData('gudang_item_keluar',array('idpo'=>$kodepo,'hapus'=>0));
 			
