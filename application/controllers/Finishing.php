@@ -1380,7 +1380,9 @@ class Finishing extends CI_Controller {
 		$cmt=[];
 		foreach($kirim as $k){
 			$c= $this->GlobalModel->GetDataRow('master_cmt',array('cmt_job_desk'=>'JAHIT','id_cmt'=>$k['id_master_cmt']));
-			$cmt[]= $c['cmt_name'];
+			if($c['id_cmt']!=85){
+				$cmt[]= $c['cmt_name'];
+			}
 		}
 		$namacmts = array_unique($cmt);
 		$namacmt = implode(",",$namacmts);
