@@ -73,6 +73,8 @@ class Formpengambilanalat extends CI_Controller {
 		$bagian = $data['d']['bagian'];
 		if($bagian==1){
 			$data['batal']=$this->url.'';
+		}if($bagian==3){
+			$data['batal']=$this->url.'finishing';
 		}else{
 			$data['batal']=$this->url.'konveksi';
 		}
@@ -123,6 +125,14 @@ class Formpengambilanalat extends CI_Controller {
 			$url.='&konveksi=true';
 			$data['konveksi']=true;
 		}
+
+		if(isset($get['finishing'])){
+			$url='finishing?';
+			$url.='&finishing=true';
+			$data['finishing']=true;
+		}
+
+
 		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$data['action']=$this->url.'save';
@@ -142,7 +152,7 @@ class Formpengambilanalat extends CI_Controller {
 				'shift' => $post['shift'],
 				'hapus' => 0,
 				'status' => 2, // status 2 belum di validasi, status 1 sudah divalidasi
-				'bagian' => isset($post['konveksi']) ? 2:1,
+				'bagian' => isset($post['konveksi']) ? $post['konveksi']:1,
 			);
 			$this->db->insert('formpengambilanalat',$insert);
 			$id=$this->db->insert_id();
@@ -161,6 +171,8 @@ class Formpengambilanalat extends CI_Controller {
 			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
 			if(isset($post['konveksi'])){
 				redirect($this->url.'konveksi');
+			}else if(isset($post['finishing'])){
+				redirect($this->url.'finishing');
 			}else{
 				redirect($this->url);
 			}
@@ -210,6 +222,50 @@ class Formpengambilanalat extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['tambah']=$this->url.'add?&konveksi=true';
+		if(isset($get['pdf'])){
+			$this->load->view($this->page.'finishing_excel',$data);
+		}else{
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}
+	}
+
+	public function finishing(){
+		$data=[];
+		$data['title']='Form Pengambilan Alat';
+		$data['products']=[];
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime('first day of this month'));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
+		}
+		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0 and bagian=3 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" ORDER BY id DESC";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		foreach($results as $r){
+			$data['products'][]=array(
+				'no'=>$no,
+				'id'=>$r['id'],
+				'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+				'mandor'=>$r['mandor'],
+				'shift'=>$r['shift'],
+				'status'=>$r['status'] == 2 ? '<span class="badge alert-warning"><i class="fa fa-refresh"></i> menunggu validasi</span>':'<span class="badge alert-success"><i class="fa fa-check"></i> tervalidasi</span>',
+				'detail'=>$this->url.'detail/'.$r['id'].'?&finishing=true',
+				'excel'=>null,
+			);
+			$no++;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['tambah']=$this->url.'add?&finishing=true';
 		if(isset($get['pdf'])){
 			$this->load->view($this->page.'finishing_excel',$data);
 		}else{

@@ -31,7 +31,7 @@
             }
 </style>
 <h1>
-  FORM PENGAMBILAN ALAT-ALAT <?php echo $d['bagian']==1 ? 'BORDIR':'KONVEKSI';?><br>
+  FORM PENGAMBILAN ALAT-ALAT <?php echo $d['bagian']==1 ? 'BORDIR':($d['bagian']==3 ? 'FINISHING' :'KONVEKSI');?><br>
   GUDANG PUSAT<br>
   PERIODE TANGGAL : <?php echo date('d F Y',strtotime($d['tanggal']))?>
 </h1>

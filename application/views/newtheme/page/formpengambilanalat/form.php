@@ -2,6 +2,9 @@
               <?php if(isset($konveksi)){ ?>
                 <input type="hidden" name="konveksi" value="2">
               <?php } ?>
+              <?php if(isset($finishing)){ ?>
+                <input type="hidden" name="konveksi" value="3">
+              <?php } ?>
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
