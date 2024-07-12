@@ -1557,7 +1557,7 @@ class ReportModel extends CI_Model {
 		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
 		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
 		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
-		    	$sql="SELECT SUM(jumlah_piece_diterima/12) as dz,mjp.nama_jenis_po as nama FROM `finishing_kirim_gudang` kbp JOIN produksi_po po ON (po.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(po.nama_po=mjp.nama_jenis_po) WHERE po.hapus=0 and mjp.nama_jenis_po='".$p['nama_jenis_po']."' and MONTH(kbp.tanggal_kirim) ='".$bulan."' AND YEAR(kbp.tanggal_kirim)='".$tahun."' ";
+		    	$sql="SELECT SUM(jumlah_piece_diterima/12) as dz,mjp.nama_jenis_po as nama FROM `finishing_kirim_gudang` kbp JOIN produksi_po po ON (po.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(po.nama_po=mjp.nama_jenis_po) WHERE po.hapus=0 and mjp.nama_jenis_po='".$p['nama_jenis_po']."' and MONTH(kbp.tanggal_kirim) ='".$bulan."' AND YEAR(kbp.tanggal_kirim)='".$tahun."' ";
 		    	$d=$this->db->query($sql)->row_array();
 		    	$lusin[$p['nama_jenis_po']][]=$d['dz']==null?0:$d['dz'];
 			}
