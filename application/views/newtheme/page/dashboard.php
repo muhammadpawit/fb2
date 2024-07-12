@@ -114,7 +114,7 @@
                     <td><b><?php echo number_format($pcs)?></b></td>
                 </tr>
                 <tr>
-                    <td colspan="5"><b>Note : PO Potong Kaos Pertama Tanggal (9 Juni 2023) </b></td>
+                    <td colspan="5"><b>Note : PO Potong Kaos Pertama Tanggal () </b></td>
                 </tr>
             </tbody>
         </table>
@@ -221,7 +221,7 @@
                     <td><b><?php echo number_format($total)?></b></td>
                 </tr>
                 <tr>
-                    <td colspan="6"><b>Note : PO Kirim Gudang Pertama (26 Juni - 1 Juli 2023) </b></td>
+                    <td colspan="6"><b>Note : PO Kirim Gudang Pertama () </b></td>
                     
                 </tr>
             </tbody>
