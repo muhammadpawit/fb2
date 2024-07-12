@@ -1258,6 +1258,7 @@ class ReportModel extends CI_Model {
 		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil IN (1,2) AND kbp.id_master_cmt NOT IN(63) ";
 		if(!empty($bulan)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+			$sql.=" AND kbp.qty_tot_pcs > 50 ";
 		}
 		$sql.=" GROUP BY mjp.nama_jenis_po ";
 		$row=$this->db->query($sql)->result_array();
