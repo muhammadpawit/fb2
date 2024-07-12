@@ -246,7 +246,8 @@ class Kelolapo extends CI_Controller {
 	public function kirimsetoredit($kode_po,$idKelola){
 		$data=[];
 		$data['title']='Kirim Setor Edit';
-		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE kks.idpo="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
+		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECTs * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE kks.idpo="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
+		pre($data);
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt' => $data['poProd']['id_master_cmt']));
 		$data['masterCmt'] = $this->GlobalModel->getDataRow('master_cmt_job',array('id_master_cmt_job' => $data['poProd']['id_master_cmt_job']));
 		$data['progress'] = $this->GlobalModel->getData('master_progress',null);

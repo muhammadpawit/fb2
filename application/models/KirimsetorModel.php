@@ -671,7 +671,7 @@ class kirimsetorModel extends CI_Model {
 		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-			$sql.=" AND kbp.qty_tot_pcs > 50 ";
+			// $sql.=" AND kbp.qty_tot_pcs > 50 ";
 		}
 		if(!empty($jenis)){
 			$sql.=" AND mjp.id_jenis_po='$jenis' ";
