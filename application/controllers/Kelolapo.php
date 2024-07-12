@@ -246,8 +246,7 @@ class Kelolapo extends CI_Controller {
 	public function kirimsetoredit($kode_po,$idKelola){
 		$data=[];
 		$data['title']='Kirim Setor Edit';
-		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECTs * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE kks.idpo="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
-		pre($data);
+		$data['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.idpo=pp.id_produksi_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE kks.idpo="'.$kode_po.'" AND kks.id_kelolapo_kirim_setor='.$idKelola.'');
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt' => $data['poProd']['id_master_cmt']));
 		$data['masterCmt'] = $this->GlobalModel->getDataRow('master_cmt_job',array('id_master_cmt_job' => $data['poProd']['id_master_cmt_job']));
 		$data['progress'] = $this->GlobalModel->getData('master_progress',null);
@@ -323,7 +322,7 @@ class Kelolapo extends CI_Controller {
 		$post = $this->input->post();
 		$cmt=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['cmt']));
 		$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$post['job']));
-		//pre($job);
+		// pre($post);
 		$update=array(
 			'create_date'=>$post['create_date'],
 			'nama_cmt'=>$cmt['cmt_name'],
@@ -333,6 +332,8 @@ class Kelolapo extends CI_Controller {
 		);
 		//pre($update);
 		$this->db->update('kelolapo_kirim_setor',$update,array('id_kelolapo_kirim_setor'=>$post['kodeSetoran']));
+		$data = json_encode($update);
+		user_activity(callSessUser('id_user'),1,' edit '.$data.' setoran id '.$post['kodeSetoran']);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Kelolapo/kirimsetorcmt?&kode_po='.$post['kode_po']);
 	}

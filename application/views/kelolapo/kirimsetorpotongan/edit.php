@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card-box">
                     <form action="<?php echo $action ?>" method="POST" enctype="multipart/form-data">
-                    	<input type="hidden" name="kode_po" value="<?php echo $poProd['kode_po']?>">
+                    	<input type="hidden" name="kode_po" value="<?php echo $poProd['idpo']?>">
                     <div class="row">
                         <div class="col-12">
                             <table class="table table-bordered">
