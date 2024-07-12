@@ -319,7 +319,7 @@ Highcharts.chart('potongan', {
         text: 'Grafik Potongan Per Bulan'
     },
     subtitle: {
-        text: '<a href="<?php echo base_url()?>Monitoring">klik disini untuk melihat per-minggu</a>'
+        text: '<a href="<?php echo BASEURL?>Monitoring">klik disini untuk melihat per-minggu</a>'
     },
     xAxis: {
         categories: <?php echo $bulan?>,

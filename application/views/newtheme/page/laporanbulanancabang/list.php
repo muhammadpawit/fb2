@@ -51,7 +51,7 @@
 						<td align="center"><?php echo number_format($p['kirimpcs'])?></td>
 						<td align="center"><?php echo number_format($p['setorjmlpo'])?></td>
 						<td align="center"><?php echo number_format($p['setordz'],2)?></td>
-						<td align="center"><?php echo number_format($p['setorpcs'])?></td>
+						<td align="center"><?php echo isset($p['setorpcs']) ? number_format($p['setorpcs']) : number_format(0,2);?></td>
 						<td></td>
 					</tr>
 						

@@ -339,8 +339,10 @@ class ReportModel extends CI_Model {
 		if(!empty($d)){
 			if($type==1){
 				$hasil=$d['total'];
-				if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
-					$hasil=round($d['total']*$d['perkalian']);
+				if(isset($d['nama_jenis_po'])){
+					if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
+						$hasil=round($d['total']*$d['perkalian']);
+					}
 				}
 				return $hasil;
 			}else{
@@ -1778,7 +1780,7 @@ class ReportModel extends CI_Model {
 		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
 		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
 		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
-		    	$sql="SELECT SUM(hasil_lusinan_potongan) as dz,mjp.nama_jenis_po as nama FROM `konveksi_buku_potongan` kbp JOIN produksi_po po ON (po.kode_po=kbp.kode_po) LEFT JOIN master_jenis_po mjp ON(po.nama_po=mjp.nama_jenis_po) WHERE po.hapus=0 and mjp.idjenis='".$p['idjenis']."' and MONTH(kbp.created_date) ='".$bulan."' AND YEAR(kbp.created_date)='".$tahun."' ";
+		    	$sql="SELECT SUM(hasil_lusinan_potongan) as dz,mjp.nama_jenis_po as nama FROM `konveksi_buku_potongan` kbp JOIN produksi_po po ON (po.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(po.nama_po=mjp.nama_jenis_po) WHERE po.hapus=0 and mjp.idjenis='".$p['idjenis']."' and MONTH(kbp.created_date) ='".$bulan."' AND YEAR(kbp.created_date)='".$tahun."' ";
 		    	$d=$this->db->query($sql)->row_array();
 		    	$lusin[$p['nama_jenis_po']][]=$d['dz']==null?0:number_format($d['dz'],2,'.','');
 			}
