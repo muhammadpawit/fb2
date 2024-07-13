@@ -116,6 +116,14 @@
 				</tbody>
 			</table>
 			<br>
+					<?php $tdz=0;$tjml=0;$tpo=0;?>
+					<?php foreach($rekap as $r){?>
+						
+						<?php 
+							$tdz+=($r['dz']);
+							$tjml+=($r['jumlah']);
+						?>
+					<?php } ?>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -127,9 +135,9 @@
 				</thead>
 				<tbody>
 					<td><?php echo number_format($total)?></td>
-					<td><?php echo number_format($pengeluarantotal)?></td>
+					<td><?php echo number_format($pengeluarantotal+$tjml)?></td>
 					<td><?php echo number_format($sewa)?></td>
-					<td><?php echo number_format($total-$sewa-$pengeluarantotal)?></td>
+					<td><?php echo number_format($total-$sewa-($pengeluarantotal+$tjml))?></td>
 				</tbody>
 			</table>
 			<br>
@@ -155,9 +163,6 @@
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Komisi</caption>
 			<?php 
-				//print_r(array_count_values($pekerjaan));
-				//echo json_encode($pendapatan);
-
 			$tdz=0;
 			$tjml=0;
 			$tpo=0;
@@ -174,7 +179,7 @@
 				</thead>
 				<tbody>
 					
-					<?php } ?> -->
+					<?php } ?>
 					<?php $tdz=0;$tjml=0;$tpo=0;?>
 					<?php foreach($rekap as $r){?>
 						<tr>	

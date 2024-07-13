@@ -100,6 +100,14 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 			</table>
 			<br>
+			<?php $tdz=0;$tjml=0;$tpo=0;?>
+					<?php foreach($rekap as $r){?>
+						
+						<?php 
+							$tdz+=($r['dz']);
+							$tjml+=($r['jumlah']);
+						?>
+					<?php } ?>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
@@ -111,9 +119,9 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</thead>
 				<tbody>
 					<td><?php echo ($total)?></td>
-					<td><?php echo ($pengeluarantotal)?></td>
+					<td><?php echo ($pengeluarantotal+$tjml)?></td>
 					<td><?php echo ($sewa)?></td>
-					<td><?php echo ($total-$sewa-$pengeluarantotal)?></td>
+					<td><?php echo ($total-$sewa-($pengeluarantotal+$tjml))?></td>
 				</tbody>
 			</table>
 			<br>
