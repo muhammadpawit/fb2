@@ -455,12 +455,14 @@ class ReportModel extends CI_Model {
 			WHERE kks.hapus = 0 
 			AND kks.kategori_cmt = '$kat'
 			AND kks.progress = '$progress'
+			AND kks.id_master_cmt != 85  
 			GROUP BY kks.kode_po
 			) po_counts ON po_counts.kode_po = kks.kode_po
 			WHERE kks.hapus = 0 
 			AND kks.kode_po = '$kodepo'
 			AND kks.kategori_cmt = '$kat'
 			AND kks.progress = '$progress'
+			AND kks.id_master_cmt != 85
 
 		
 		";
