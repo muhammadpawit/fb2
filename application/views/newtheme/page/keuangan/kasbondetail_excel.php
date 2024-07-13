@@ -17,6 +17,7 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                   <th>Bagian</th>
                   <th>Jumlah Kasbon (Rp)</th>
                   <th>Jumlah Di ACC (Rp)</th>
+                  <th>Keterangan</th>
                 </tr>
               </thead>
               <tbody>
@@ -27,6 +28,7 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                     <td><?php echo $d['divisi'];?></td>
                     <td align="right">&nbsp;<?php echo ($d['nominal']);?></td>
                     <td align="right">&nbsp;<?php echo ($d['nominal_acc']);?></td>
+                    <td align="right">&nbsp;<?php echo ($d['keterangan']);?></td>
                   </tr>
                   <?php $i++?>
                 <?php } ?>
@@ -34,6 +36,7 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                   <td colspan="3" align="center"><label>Total</label></td>
                   <td align="right">&nbsp;<?php echo $ajuan?></td>
                   <td align="right">&nbsp;<?php echo $total?></td>
+                  <td></td>
                 </tr>
                 <tr>
             <td colspan="5"></td>

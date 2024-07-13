@@ -12,7 +12,7 @@
         .kas-bon {
             width: 100%;
             border: 1px solid #000;
-            padding: 20px;
+            padding: 10px;
             box-sizing: border-box;
         }
         .kas-bon h1 {
@@ -68,6 +68,9 @@
             margin-bottom: 10px;
         }
         .break{ page-break-after: always; }
+        .ket {
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +96,9 @@ foreach($detail as $d) {
           </div>
         </div>
         <div style="clear: both;"></div>
+        <div class="ket">
+            <fieldset>Keterangan : <?php echo $d['keterangan']?></fieldset>
+        </div>
        <div class="row">
         <div style="width:45%;text-align:center;margin-left:400px">
           Yang Menerima,<?php for($i=1;$i<=5;$i++){ echo "<br>"; }?>(........................)

@@ -876,6 +876,7 @@ class Keuangan extends CI_Controller {
 					'nominal_acc'=>$p['jumlah'],
 					'status'=>1,
 					'hapus'=>0,
+					'keterangan' => $p['keterangan'],
 				);
 				$this->db->insert('kasbon',$insert);
 			}
@@ -913,7 +914,8 @@ class Keuangan extends CI_Controller {
 				'nominal'=>$result['nominal_request'],
 				'nominal_acc'=>$result['nominal_acc'],
 				'status'=>$result['status'],
-				'terbilang' => terbilang($result['nominal_request'])
+				'terbilang' => terbilang($result['nominal_request']),
+				'keterangan' => $result['keterangan'],
 			);
 		}
 		$data['total']=($total);
