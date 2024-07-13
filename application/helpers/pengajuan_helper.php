@@ -218,8 +218,8 @@
 		
 		$total_harga=0;
 		$totalharga =$value;
-		$bulat=substr($totalharga,-3);
-		$totalharga=ceil($totalharga);
+		$bulat=!empty($totalharga) ? substr($totalharga,-3) : 0;
+		$totalharga=!empty($totalharga) ? ceil($totalharga) : 0;
 		
 		if ($bulat==000){
 			$total_harga=round($totalharga,-3);

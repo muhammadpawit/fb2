@@ -166,7 +166,7 @@
 					<tr>
 						<td>Gaji</td>
 						<?php foreach($boronganmesin as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 						<?php if($bm==1){?>
 							<!-- <td></td>
@@ -174,23 +174,23 @@
 						<?php } ?>
 						<?php if(!empty($cucian)){?>
 						<?php foreach($cucian as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 						<?php }else{ ?>
 							<td></td>
 						<?php } ?>
 
 						<?php foreach($bb as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 						<?php foreach($pk as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 					</tr>
 					<tr>
 						<td>Total</td>
 						<?php foreach($boronganmesin as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 						<?php if($bm==1){?>
 							<!-- <td></td>
@@ -198,17 +198,17 @@
 						<?php } ?>
 						<?php if(!empty($cucian)){?>
 						<?php foreach($cucian as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 						<?php }else{ ?>
 							<!-- <td></td> -->
 						<?php } ?>
 
 						<?php foreach($bb as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 						<?php foreach($pk as $p){?>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo isset($p['total']) ? number_format($p['total'],0):0?></td>
 						<?php } ?>
 					</tr>
 					<tr>

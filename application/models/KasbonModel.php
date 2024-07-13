@@ -73,5 +73,21 @@ class KasbonModel extends CI_Model {
 
         return $hasil;
     }
+    public function getsumkasbonPerdivisi($id,$bulan,$tahun){
+        $hasil=0;
+        $sql="SELECT COALESCE(SUM(nominal_request),0) as nominal FROM kasbon WHERE hapus=0 ";
+        // $sql.=" AND MONTH(tanggal)='".$bulan."' ";
+        // $sql.=" AND YEAR(tanggal)='".$tahun."' ";
+        $sql.=" AND DATE(tanggal) BETWEEN '".$bulan."' ";
+        $sql.=" AND '".$tahun."' ";
+        $sql.=" AND bagian='".$id."' ";
+        $data=$this->GlobalModel->QueryManualRow($sql);
+        $sql2=[];
+        if(!empty($data)){
+            $hasil=$data['nominal'];
+        }
+
+        return $hasil;
+    }
 
 }
