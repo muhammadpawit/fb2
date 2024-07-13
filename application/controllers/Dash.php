@@ -1869,4 +1869,9 @@ class Dash extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+	function jam(){
+		$data['page']='newtheme/page/jam';
+		$this->load->view($this->layout,$data);
+	}
+
 }

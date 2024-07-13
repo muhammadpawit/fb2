@@ -172,7 +172,7 @@
           <!-- User Account: style can be found in dropdown.less -->
 
         <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="<?php echo BASEURL?>dash/jam">
               <span class="hidden-xs"><div id="clock"></div></span>
             </a>
             
@@ -880,6 +880,7 @@
         var time = hours + ':' + minutes + ':' + seconds;
         
         document.getElementById('clock').innerHTML = time;
+        document.getElementById('jam').innerHTML = time;
         
         setTimeout(updateClock, 1000); // Pembaruan setiap 1 detik
     }
