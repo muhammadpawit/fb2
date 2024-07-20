@@ -86,8 +86,10 @@
                             <td><?php echo $po['kode_po']?></td>
                             <td><?php echo $p['status']?></td>
                             <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
-                            <?php } ?></td>
+                            <a href="<?php echo $action['href']; ?>" class="btn btn-xs btn-warning"><?php echo $action['text']; ?></a><br>
+                            <?php } ?>
+                              <a href="<?php echo BASEURL?>Suratjalanbukupotong/hapus/<?php echo $d['id']?>/<?php echo $d['jumlah_pcs']?>/<?php echo $p['idsj']?>" class="btn btn-xs btn-danger" onclick="return confirm('Apakah Yakin akan menghapus data ini ?')">Hapus</a>
+                            </td>
                           </tr>
                           <?php } ?>
                         <?php } ?>

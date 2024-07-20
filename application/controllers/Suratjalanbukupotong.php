@@ -83,10 +83,10 @@ class Suratjalanbukupotong extends CI_Controller {
 			);
 
 			//if(aksesedit()==1){
-				$action[] = array(
-					'text' => 'Edit',
-					'href' => $this->url.'kirimcmtedit/'.$result['id'],
-				);
+				// $action[] = array(
+				// 	'text' => 'Hapus',
+				// 	'href' => $this->url.'hapus/'.$result['id'],
+				// );
 			//}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
@@ -94,6 +94,7 @@ class Suratjalanbukupotong extends CI_Controller {
 			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$result['kode_po']));
 			$data['products'][]=array(
 				'no'=>$no++,
+				'idsj' => $result['id'],
 				'nosj'=>$result['nosj'],
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
 				'kode_po'=>isset($po['kode_po']) ? $po['kode_po'] : '',
@@ -262,5 +263,16 @@ class Suratjalanbukupotong extends CI_Controller {
 		
 		
 	}	
+
+	public function hapus($id,$pcs,$idsj)
+	{
+		// $this->GlobalModel->deleteData('user',array('id_user'=>$id));
+		$this->db->update('kirimbupot_detail',array('hapus'=>1),array('id'=>$id));
+		$this->db->query("UPDATE kirimbupot SET totalkirim=totalkirim-$pcs WHERE id=$idsj ");
+		user_activity(callSessUser('id_user'),1,' menghapus Surat Jalan Buku Potongan dengan id id '.$id);
+		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
+		redirect($this->url);
+		
+	}
 		
 }

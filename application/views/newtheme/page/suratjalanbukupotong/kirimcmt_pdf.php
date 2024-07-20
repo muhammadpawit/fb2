@@ -181,7 +181,7 @@
 							<td align="center">Security</td>
 							<td align="center">Tim Potong</td>
 							<td align="center">Adm Gudang</td>
-							<td align="center">Adm KLO</td>
+							<td align="center">KLO</td>
 						</tr>
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
