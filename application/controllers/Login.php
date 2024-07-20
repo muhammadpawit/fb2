@@ -16,7 +16,7 @@ class Login extends CI_Controller {
 	public function auth()
 	{
 		$post = $this->input->post();
-		$dataUser = $this->GlobalModel->getDataRow('user',array('status_user'=>1,'email_user' => trim($post['email'])));
+		$dataUser = $this->GlobalModel->getDataRow('user',array('hapus'=>0,'status_user'=>1,'email_user' => trim($post['email'])));
 		 //pre(PASSWORD_DEFAULT);
 		 //pre(password_hash($post['password'], PASSWORD_DEFAULT));
 		if (isset($dataUser['password_user'])) {

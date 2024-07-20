@@ -1430,7 +1430,7 @@ class Masterdata extends CI_Controller {
 	public function user()
 	{
 		$users=array();
-		$users = $this->GlobalModel->queryManual("SELECT * FROM user WHERE id_user<>11 order by status_user DESC ");
+		$users = $this->GlobalModel->queryManual("SELECT * FROM user WHERE hapus=0 AND id_user<>11 order by status_user DESC ");
 		foreach($users as $u){
 			$action=array();
 			if($u['status_user']==1){
@@ -1589,7 +1589,8 @@ class Masterdata extends CI_Controller {
 
 	public function userhapus($id='')
 	{
-		$this->GlobalModel->deleteData('user',array('id_user'=>$id));
+		// $this->GlobalModel->deleteData('user',array('id_user'=>$id));
+		$this->db->update('user',array('hapus'=>1),array('id_user'=>$id));
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
 		redirect(BASEURL.'masterdata/user');
 		
