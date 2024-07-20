@@ -1470,11 +1470,7 @@ class Masterdata extends CI_Controller {
 					'text' => '',
 					'href' =>null,
 				);
-				$action[] = array(
-					'class'=>'info',
-					'text' => '',
-					'href' =>null,
-				);
+				
 				$action[] = array(
 					'class'=>'danger',
 					'text' => 'Hapus',
