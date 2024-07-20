@@ -3246,5 +3246,17 @@ class Kelolapo extends CI_Controller {
 		$data = $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('hapus'=>0,'idpo'=>$getId));
 		echo json_encode($data);
 	}
+
+	function cekharga(){
+		$getId = $this->input->post('kodepo');
+		$data = $this->GlobalModel->getDataRow('produksi_po',array('hapus'=>0,'id_produksi_po'=>$getId));
+		if(isset($data['nama_po'])){
+			$harga =$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$data['nama_po']));
+			echo $harga['harga_potongan'];
+		}else{
+			echo '0';
+		}
+		
+	}
 		
 }

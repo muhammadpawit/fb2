@@ -247,6 +247,14 @@ $(document).on('change', '#poSelect', function(){
        }
     });
 
+    $.post( "<?php echo BASEURL.'Kelolapo/cekharga' ?>",{kodepo: poid }).done(function( json ) {
+       console.log('cek harga '+json);
+       if(json=='0'){
+        alert("Harga potongan untuk PO ini belum disetting");
+        location.reload();
+       }
+    });
+
 });
 
 
