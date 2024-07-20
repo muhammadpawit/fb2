@@ -1430,7 +1430,7 @@ class Masterdata extends CI_Controller {
 	public function user()
 	{
 		$users=array();
-		$users = $this->GlobalModel->queryManual("SELECT * FROM user WHERE id_user<>11");
+		$users = $this->GlobalModel->queryManual("SELECT * FROM user WHERE id_user<>11 order by status_user DESC ");
 		foreach($users as $u){
 			$action=array();
 			if($u['status_user']==1){
