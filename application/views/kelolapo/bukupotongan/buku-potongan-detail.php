@@ -22,11 +22,11 @@
 <div class="content">
     <div class="container-fluid">
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12 text-right">
                 <button onclick="window.print()" class="btn btn-default no-print">Print</button>
             </div>
-        </div>
+        </div> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card-box">
@@ -232,7 +232,7 @@
 
                     <div class="hidden-print mt-4 mb-4 no-print">
                         <div class="text-right">
-                            <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a>
+                            <!-- <a href="<?php echo $pdf; ?>" target="_blank"  class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a> -->
                             <a href="<?php echo $kembali; ?>" class="btn btn-info waves-effect waves-light">Kembali</a>
                         </div>
                     </div>

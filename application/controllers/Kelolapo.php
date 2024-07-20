@@ -1261,9 +1261,11 @@ class Kelolapo extends CI_Controller {
 
 	public function bukupotonganDetail($kode='')
 	{
+		$get = $this->input->get();
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kode));
 		$kode=$po['kode_po'];
 		$viewData['kembali']=BASEURL.'kelolapo/bukupotongan';
+		
 		$kodePOArr = array(
 			'kode_po' => $kode,
 		);
@@ -1272,8 +1274,33 @@ class Kelolapo extends CI_Controller {
 		$viewData['potonganUtama'] = $this->GlobalModel->getData('konveksi_buku_potongan_utama',array('idpo'=>$po['id_produksi_po']));
 		// $viewData['potonganVariasi'] = $this->GlobalModel->getData('konveksi_buku_potongan_variasi',array('idpo'=>$po['id_produksi_po']));
 		$viewData['potonganVariasi'] = $this->GlobalModel->QueryManual("SELECT * FROM konveksi_buku_potongan_variasi WHERE idpo=".$po['id_produksi_po']." GROUP BY warna_potongan, kode_bahan_potongan " );
-		$viewData['page']='kelolapo/bukupotongan/buku-potongan-detail';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['pdf']=BASEURL.'kelolapo/bukupotonganDetail/'.$viewData['potonganHead']['tim_potong_potongan'].'?pdf=true';
+		if(isset($get['pdf'])){
+			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			
+			$html =  $this->load->view('kelolapo/bukupotongan/buku-potongan-detailpdf',$viewData,true);
+
+			$this->load->library('pdfgenerator');
+	        
+	        // title dari pdf
+	        $this->viewData['title_pdf'] = 'Surat Jalan Buku potong';
+	        
+	        // filename dari pdf ketika didownload
+	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+	        // setting paper
+	        //$paper = 'A4';
+	        $paper = array(0,0,800,850);
+	        //orientasi paper potrait / landscape
+	        $orientation = "potrait";
+	        
+	        
+	        // run dompdf
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}else{
+			$viewData['page']='kelolapo/bukupotongan/buku-potongan-detail';
+			$this->load->view('newtheme/page/main',$viewData);
+		}
+		
 	}
 
 	public function detailPotonganToPDF($kode='')
