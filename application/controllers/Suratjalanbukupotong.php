@@ -48,7 +48,7 @@ class Suratjalanbukupotong extends CI_Controller {
 		$data['cmt']=$cmt;
 		$data['sj']=$sj;
 		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="JAHIT" ORDER BY cmt_name ASC ');
-		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM kirimcmt WHERE hapus=0');
+		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM kirimbupot WHERE hapus=0');
 		$filter=array(
 				'hapus'=>0,
 		);

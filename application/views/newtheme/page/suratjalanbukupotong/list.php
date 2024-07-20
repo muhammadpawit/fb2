@@ -34,7 +34,7 @@
       </select>
     </div>
   </div>
-  <div class="col-md-3">
+  <!-- <div class="col-md-3">
     <div class="form-group">
       <label>Nama CMT</label>
       <select name="cmt" class="form-control select2bs4" data-live-search="true">
@@ -44,7 +44,7 @@
         <?php } ?>
       </select>
     </div>
-  </div>
+  </div> -->
   <div class="col-md-2">
     <label>Aksi</label><br>
     <button class="btn btn-info btn-sm" onclick="filterwithcmt()">Filter</button>
