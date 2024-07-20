@@ -1591,6 +1591,7 @@ class Masterdata extends CI_Controller {
 	{
 		// $this->GlobalModel->deleteData('user',array('id_user'=>$id));
 		$this->db->update('user',array('hapus'=>1),array('id_user'=>$id));
+		user_activity(callSessUser('id_user'),1,' menghapus user dengan id '.$id);
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
 		redirect(BASEURL.'masterdata/user');
 		
