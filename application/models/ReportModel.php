@@ -2397,8 +2397,15 @@ class ReportModel extends CI_Model {
 		if(!empty($s2)){
 			$hasil2=$s2['total'];
 		}
+		$hasil3=0;
+		$sql3="SELECT SUM(jumlah) as total FROM barangkeluar_harian_detail WHERE hapus=0 AND id_persediaan='$id' ";
+		$sql3.=" AND DATE(tanggal) BETWEEN '".$tgl."' AND '".$tgl2."' ";
+		$s3=$this->GlobalModel->QueryManualRow($sql3);
+		if(!empty($s3)){
+			$hasil3=$s3['total'];
+		}
 		$total=0;
-		$total=$hasil+$hasil2;
+		$total=$hasil+$hasil2+$hasil3;
 		return $total;
 	}
 
