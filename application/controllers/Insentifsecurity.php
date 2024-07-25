@@ -17,7 +17,7 @@ class Insentifsecurity extends CI_Controller {
 
 	function index(){
 		$data    = [];
-		$data['title'] = 'Surat Jalan Buku Potongan ';
+		$data['title'] = 'Insentif Security ';
 		$data['products']=array();
 		$data['url']=$this->url;
 		$data['i']=1;
@@ -100,7 +100,7 @@ class Insentifsecurity extends CI_Controller {
 
 	public function kirimcmtadd(){
 		$data=array();
-		$data['title']='Pengiriman Buku Potong';
+		$data['title']='Form Insentif Security';
 		$data['url']=$this->url;
 		$data['cancel']=$this->url;
 		$data['action']=$this->url.'kirimcmtsave';
