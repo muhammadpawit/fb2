@@ -63,11 +63,11 @@ class Insentifsecurity extends CI_Controller {
 			$sql.=" AND karyawan_id='$sj' ";
 		}
 
-		if(empty($cmt) OR empty($sj)){
+		if(!empty($sj)){
 			if(!empty($tanggal1)){
 				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
-			$sql.=' ORDER BY tanggal DESC ';
+			$sql.=' ORDER BY tanggal ASC ';
 			$sql.=" LIMIT 6 ";
 		}else{
 			$sql.=' ORDER BY id DESC ';
