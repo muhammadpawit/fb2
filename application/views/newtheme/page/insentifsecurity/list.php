@@ -29,7 +29,7 @@
       <select name="sj" class="form-control select2bs4" data-live-search="true">
         <option value="*">Semua</option>
         <?php foreach($nosj as $c){?>
-          <option value="<?php echo $c['nama']?>"  <?php echo $c['nama']==$sj?'selected':'';?>><?php echo strtoupper($c['nama'])?></option>
+          <option value="<?php echo $c['id']?>"  <?php echo $c['id']==$sj?'selected':'';?>><?php echo strtoupper($c['nama'])?></option>
         <?php } ?>
       </select>
     </div>

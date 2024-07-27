@@ -56,11 +56,11 @@ class Insentifsecurity extends CI_Controller {
 		$sql="SELECT * FROM insentifsecurity WHERE hapus=0";
 
 		if(!empty($cmt)){
-			$sql.=" AND idcmt='$cmt' ";
+			// $sql.=" AND idcmt='$cmt' ";
 		}
 
 		if(!empty($sj)){
-			$sql.=" AND id='$sj' ";
+			$sql.=" AND karyawan_id='$sj' ";
 		}
 
 		if(empty($cmt) OR empty($sj)){
