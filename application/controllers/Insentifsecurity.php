@@ -67,7 +67,7 @@ class Insentifsecurity extends CI_Controller {
 			if(!empty($tanggal1)){
 				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 			}
-			$sql.=' ORDER BY tanggal ASC ';
+			$sql.=' ORDER BY tanggal DESC ';
 			$sql.=" LIMIT 6 ";
 		}else{
 			$sql.=' ORDER BY id DESC ';
