@@ -57,9 +57,13 @@
                       <thead>
                         <tr>
                           <th>No</th>
-                          <th>Tanggal</th>
-                          <th>Nama</th>
-                          <th>Shift</th>
+                          <th>Hari / Tanggal</th>
+                          <th>Kedisiplinan</th>
+                          <th>Kebersihan</th>
+                          <th>Kontrol Video Call</th>
+                          <th>Foto Per 2 Jam</th>
+                          <th>Ketentuan</th>
+                          <th>Potongan</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -67,10 +71,14 @@
                         <?php $no=1; ?>
                         <?php foreach($products as $p){?>
                           <tr>
-                            <td><?php echo $no++?></td>
+                            <td><?php echo $p['no']?></td>
                             <td><?php echo $p['tanggal']?></td>
-                            <td><?php echo $p['nama']?></td>
-                            <td><?php echo $p['shift']?></td>
+                            <td><?php echo $p['kedisiplinan']?></td>
+                            <td><?php echo $p['kebersihan']?></td>
+                            <td><?php echo $p['kontrol_vc']?></td>
+                            <td><?php echo $p['foto']?></td>
+                            <td><?php echo $p['ketentuan']?></td>
+                            <td><?php echo $p['totalpotongan']?></td>
                             <td></td>
                           </tr>
                         <?php } ?>

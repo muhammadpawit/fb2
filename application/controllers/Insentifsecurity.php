@@ -53,7 +53,7 @@ class Insentifsecurity extends CI_Controller {
 				'hapus'=>0,
 		);
 		$results=array();
-		$sql="SELECT * FROM insentifsecurity WHERE hapus=0";
+		$sql="SELECT GROUP_CONCAT(id ORDER BY id ASC) as id FROM insentifsecurity WHERE hapus=0";
 
 		if(!empty($cmt)){
 			// $sql.=" AND idcmt='$cmt' ";
@@ -75,11 +75,22 @@ class Insentifsecurity extends CI_Controller {
 		}
 
 		
-		$results= $this->GlobalModel->queryManual($sql);
+		$results= $this->GlobalModel->queryManualRow($sql);
+		// pre($results);
+
+		$idint = isset($results['id']) ? $results['id'] : 0;
 		$namacmt=null;
 		$no=1;
 		$dets=[];
-		foreach($results as $result){
+		$dets = $this->GlobalModel->QueryManual(
+			"
+				SELECT a.*, b.karyawan_id, b.shift, b.totalpotongan FROM insentifsecurity_detail a LEFT JOIN insentifsecurity b ON b.id=a.idint
+
+				WHERE idint IN($idint)
+			"
+		);
+		// pre($dets);
+		foreach($dets as $result){
 			$action=array();
 			$action[] = array(
 				'text' => 'Detail',
@@ -88,13 +99,31 @@ class Insentifsecurity extends CI_Controller {
 
 			$namacmt = $this->GlobalModel->getDataRow('karyawan',array('id'=>$result['karyawan_id']));
 			$hari = date('l',strtotime($result['tanggal']));
+			if(!empty($sj)){
+				$data['products'][]=array(
+					'no'=>$no++,
+					'id' => $result['id'],
+					'tanggal'=>hari($hari).','.date('d-m-Y',strtotime($result['tanggal'])),
+					'kedisiplinan'=>$result['kedisiplinan'],
+					'kebersihan'=>$result['kebersihan'],
+					'kontrol_vc'=>$result['kontrol_vc'],
+					'foto'=>$result['foto'],
+					'ketentuan'=>$result['ketentuan'],
+					'totalpotongan'=> $result['totalpotongan'],
+					'action'=>$action,
+					// 'dets'=>$dets,
+				);
+			}
+		}
+
+		if(empty($sj)){
 			$data['products'][]=array(
-				'no'=>$no++,
-				'id' => $result['id'],
-				'tanggal'=>hari($hari).','.date('d-m-Y',strtotime($result['tanggal'])),
-				'nama'=>$namacmt['nama'],
-				'shift'=>$result['shift'],
-				'action'=>$action,
+				'no'=>'Mohon pilih karyawan',
+				'id' => null,
+				'tanggal'=>null,
+				'nama'=>null,
+				'shift'=>null,
+				'action'=>null,
 				// 'dets'=>$dets,
 			);
 		}
