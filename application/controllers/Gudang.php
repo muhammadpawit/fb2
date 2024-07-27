@@ -2826,7 +2826,7 @@ class Gudang extends CI_Controller {
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
 		$eid=$this->GlobalModel->getDataRow('gudang_bahan_keluar',array('idpo' => $po['id_produksi_po'],'hapus'=>0));
 		$id=$eid['faktur_no'];
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_bahan_keluar',array('faktur_no' => $id,'hapus'=>0));
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_bahan_keluar',array('idpo' => $po['id_produksi_po'],'hapus'=>0));
 		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('kode_po' => $viewData['barang'][0]['kode_po']));
 		$viewData['title']='Detail ';
 		$viewData['page']='gudang/outbahan/item-keluar-detail';
