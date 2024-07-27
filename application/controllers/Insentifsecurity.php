@@ -87,11 +87,11 @@ class Insentifsecurity extends CI_Controller {
 			);
 
 			$namacmt = $this->GlobalModel->getDataRow('karyawan',array('id'=>$result['karyawan_id']));
-
+			$hari = date('l',strtotime($result['tanggal']));
 			$data['products'][]=array(
 				'no'=>$no++,
 				'id' => $result['id'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'tanggal'=>hari($hari).','.date('d-m-Y',strtotime($result['tanggal'])),
 				'nama'=>$namacmt['nama'],
 				'shift'=>$result['shift'],
 				'action'=>$action,
