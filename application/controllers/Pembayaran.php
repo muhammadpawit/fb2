@@ -1264,7 +1264,7 @@ class Pembayaran extends CI_Controller {
 	public function cmtjahitsave(){
 		$data=$this->input->post();
 		$transport=isset($data['pot_transport'])?explode('-',$data['pot_transport']):0;
-		//pre($data);
+		// pre($data);
 		if($data['pot_pinjaman']==1){
 			if($data['potongan_lainnya'] < 0){
 				$this->session->set_flashdata('msg','Nilai Potongan harus lebih besar dari 0');
@@ -1436,6 +1436,12 @@ class Pembayaran extends CI_Controller {
 						);
 						$totalalat+=($p['qty']*$p['harga']);
 						$this->db->insert('potongan_alat',$alat);
+						if(isset($p['id_distribusi'])){
+							$updatedis = array(
+								'idpembayaran' => $id
+							);
+							$this->db->update('distribusi_alat_sukabumi',$updatedis,array('id'=> $p['id_distribusi']));
+						}
 					}
 				}
 				if(isset($data['mesin'])){
