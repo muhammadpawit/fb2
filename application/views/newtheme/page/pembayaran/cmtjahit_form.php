@@ -323,7 +323,7 @@
                     html += '<td><input type="hidden" class="form-control" name="alat['+l+'][id_distribusi]" value="'+item.id+'" required><input type="text" class="form-control" name="alat['+l+'][rincian]" value="'+item.nama_item+'" required></td>';
                     html +='<td><input type="text" class="form-control" name="alat['+l+'][qty]" value="'+item.jumlah+'"  required></td>';
                     html +='<td><input type="text" class="form-control" name="alat['+l+'][harga]" value="'+item.harga_item+'" required ></td>';
-                    html +='<td><input type="text" class="form-control" name="alat['+l+'][keterangan]" value="'+item.nomorsj+'" required ></td>';
+                    html +='<td><input type="text" class="form-control" name="alat['+l+'][keterangan]" value="'+item.keterangan+'" required ></td>';
                     html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
                     html +='</tr><tbody>';
                     l++;
