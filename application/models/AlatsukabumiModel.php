@@ -118,6 +118,7 @@ class AlatsukabumiModel extends CI_Model {
 					'satuan'=>$r['satuan'],
 					'keterangan'=>strtolower($r['keterangan']),
 					'validasi'=>$r['validasi'],
+					'nomorsj'=>$r['nomorsj'],
 				);
 			}
 		}

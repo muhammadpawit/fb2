@@ -299,6 +299,47 @@
                   }
                   
               });
+
+              /*
+                var html='<tbody data-parent="0" id="product-row' + l + '" data="'+l+'"><tr>';
+                html += '<td><input type="text" class="form-control" name="alat['+l+'][rincian]" required</td>';
+                html +='<td><input type="text" class="form-control" name="alat['+l+'][qty]" required></td>';
+                html +='<td><input type="text" class="form-control" name="alat['+l+'][harga]" required ></td>';
+                html +='<td><input type="text" class="form-control" name="alat['+l+'][keterangan]" value="-" required ></td>';
+                html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
+                html +='</tr><tbody>';
+                $("#alat tfoot").before(html);
+                //$('.select2bs4').selectpicker('refresh');
+                $('.select2bs4').select2();
+                l++;
+              */
+              var l=0;
+              $.get(uri+'cekpotonganalat?&cmt='+cmts, 
+                function(data){   
+                  console.log("Potongan Alat ",data);    
+                  var obj = JSON.parse(data);  
+                  $.each(obj, function(index, item) {
+                    var html='<tbody data-parent="0" id="product-row' + l + '" data="'+l+'"><tr>';
+                    html += '<td><input type="text" class="form-control" name="alat['+l+'][rincian]" value="'+item.nama_item+'" required</td>';
+                    html +='<td><input type="text" class="form-control" name="alat['+l+'][qty]" value="'+item.jumlah+'"  required></td>';
+                    html +='<td><input type="text" class="form-control" name="alat['+l+'][harga]" value="'+item.harga_item+'" required ></td>';
+                    html +='<td><input type="text" class="form-control" name="alat['+l+'][keterangan]" value="'+item.nomorsj+'" required ></td>';
+                    html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
+                    html +='</tr><tbody>';
+                    $("#alat tfoot").before(html);
+                    console.log("ID: " + item.id);
+                    console.log("ID CMT: " + item.idcmt);
+                    console.log("ID Persediaan: " + item.id_persediaan);
+                    console.log("Jumlah: " + item.jumlah);
+                    console.log("Tanggal: " + item.tanggal);
+                    console.log("Keterangan: " + item.keterangan);
+                    console.log("Hapus: " + item.hapus);
+                    console.log("Validasi: " + item.validasi);
+                    console.log("Nomor SJ: " + item.nomorsj);
+                    console.log("ID Pembayaran: " + item.idpembayaran);
+                    console.log("--------------------");
+                });            
+              });
         }
     
 

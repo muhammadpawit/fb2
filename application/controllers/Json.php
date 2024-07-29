@@ -575,6 +575,18 @@ class Json extends CI_Controller {
 	}
 
 
+	public function cekpotonganalat(){
+		$data=$this->input->get();
+		$hasil=[];
+		$cek=$this->GlobalModel->QueryManual("SELECT a.*, b.nama_item, b.harga_item FROM distribusi_alat_sukabumi a
+			LEFT JOIN gudang_persediaan_item b ON b.id_persediaan=a.id_persediaan
+		 WHERE idcmt='".$data['cmt']."' AND validasi=1 AND a.hapus=0 ");
+		if(!empty($cek)){
+			$hasil=$cek;
+		}
+		echo json_encode($hasil);
+	}
+
 
 
 }
