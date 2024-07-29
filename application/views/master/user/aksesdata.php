@@ -86,16 +86,16 @@
                                         <td>
                                             <select name="waktu" class="form-control select2bs4" required="required">
                                                 <option value="">Pilih waktu</option>
-                                                <option value="5" <?php echo $aksesedit['waktu']==5?'selected':''?>>5 Menit</option>
+                                                <!-- <option value="5" <?php echo $aksesedit['waktu']==5?'selected':''?>>5 Menit</option>
                                                 <option value="15" <?php echo $aksesedit['waktu']==15?'selected':''?>>15 Menit</option>
                                                 <option value="30" <?php echo $aksesedit['waktu']==30?'selected':''?>>30 Menit</option>
                                                 <option value="45" <?php echo $aksesedit['waktu']==45?'selected':''?>>45 Menit</option>
                                                 <option value="60" <?php echo $aksesedit['waktu']==60?'selected':''?>>1 Jam</option>
                                                 <option value="120" <?php echo $aksesedit['waktu']==120?'selected':''?>>2 Jam</option>
-                                                <option value="180" <?php echo $aksesedit['waktu']==180?'selected':''?>>3 Jam</option>
+                                                <option value="180" <?php echo $aksesedit['waktu']==180?'selected':''?>>3 Jam</option> -->
                                                 <option value="1440" <?php echo $aksesedit['waktu']==1440?'selected':''?>>24 Jam</option>
-                                                <option value="8640" <?php echo $aksesedit['waktu']==8640?'selected':''?>>1 Minggu</option>
-                                                <option value="17280" <?php echo $aksesedit['waktu']==17280?'selected':''?>>2 Minggu</option>
+                                                <!-- <option value="8640" <?php echo $aksesedit['waktu']==8640?'selected':''?>>1 Minggu</option>
+                                                <option value="17280" <?php echo $aksesedit['waktu']==17280?'selected':''?>>2 Minggu</option> -->
                                                 <option value="34560" <?php echo $aksesedit['waktu']==34560?'selected':''?>>1 Bulan</option>
                                             </select>
                                         </td>
