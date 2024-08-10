@@ -312,11 +312,11 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                     <tr>
 
-                                        <td><?php echo ($parent['cash']) ?></td>
+                                        <td><?php echo ($parent['diterima_cash']) ?></td>
 
-                                        <td><?php echo ($parent['transfer']) ?></td>
+                                        <td><?php echo ($parent['diterima_tf']) ?></td>
 
-                                        <td><?php echo ($parent['cash']+$parent['transfer']) ?></td>
+                                        <td><?php echo ($parent['diterima_cash']+$parent['diterima_tf']) ?></td>
 
                                         <td>
                                             <br><br><br>
@@ -340,7 +340,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                         <tr>
 
-                            <td><br><br><br></td>
+                            <td><br><br><br><?php echo ($parent['cash']-$parent['diterima_cash']) ?></td>
 
                             <td>Sisa Ajuan</td>
 

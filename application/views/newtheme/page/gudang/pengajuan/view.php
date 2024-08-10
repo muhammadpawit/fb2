@@ -167,6 +167,10 @@
                                   <?php if($setujui==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success  text-white">Setujui</a>
                                     <?php } ?>
+
+                                    <?php if($setujui==1){?>
+                                      <a href="#" class="btn btn-primary text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
+                                    <?php } ?>
                                 </td>
                                 <td>
                                   <?php if($setujui==1 && $us['status']==0){?>
@@ -192,6 +196,52 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Data akan di-load di sini -->
+                 <form action="">
+                  <input type="text" id="idajuan">
+                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('.modals').on('click', function() {
+        var id = $(this).data('id'); // Ambil ID dari atribut data-id
+        $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+
+        // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+        // Contoh logika AJAX untuk mengambil data:
+        $.ajax({
+            url: '<?php echo BASEURL; ?>Gudang/getRealisasiDetail', // Sesuaikan URL untuk mengambil data
+            method: 'GET',
+            data: { id: id },
+            success: function(response) {
+                // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                $('#detailModal .modal-body').html(response);
+            },
+            error: function() {
+                $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+            }
+        });
+    });
+});
+
+</script>
 <script type="text/javascript">
   
   function filter(){

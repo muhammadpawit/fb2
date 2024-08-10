@@ -464,7 +464,44 @@
                         </div>
 
                     </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th colspan="4">Diterima :</th>
+                                </tr>
+                                <tr>
+                                    <th>Cash (Rp)</th>
+                                    <th>Transfer (Rp)</th>
+                                    <th>Total (Rp)</th>
+                                    <th>Paraf Bu Haji</th>
+                                </tr>
+                                <tr>
+                                    <td><?php echo $parent['diterima_cash']?></td>
+                                    <td><?php echo $parent['diterima_tf']?></td>
+                                    <td><?php echo $parent['diterima_cash']+$parent['diterima_tf']?></td>
+                                    <td></td>
+                                </tr>
+                            </table>
 
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th colspan="3">Resume :</th>
+                                </tr>
+                                <tr>
+                                    <th>Saldo Cash (Rp)</th>
+                                    <th>Keterangan</th>
+                                    <th>Paraf SPV</th>
+                                </tr>
+                                <tr>
+                                    <td><?php echo $parent['cash']-$parent['diterima_cash']?></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
 
                     <div class="hidden-print mt-4 mb-4 no-print">

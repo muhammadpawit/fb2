@@ -3375,4 +3375,86 @@ class Gudang extends CI_Controller {
 		redirect(BASEURL.'Gudang/ajuanmingguan_celana');
 	}
 
+	function getRealisasiDetail(){
+		$id = $this->input->get('id');
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		echo '
+			<div class="row">
+
+			<div class="col-lg-6 col-xs-6">
+				<div class="small-box bg-aqua">
+				<div class="inner">
+				<h3>Rp. '.number_format($ajuan['cash']).'</h3>
+				<p>Cash</p>
+				</div>
+				<div class="icon">
+				<i class="ion ion-bag"></i>
+				</div>
+				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+
+
+			<div class="col-lg-6 col-xs-6">
+				<div class="small-box bg-yellow">
+				<div class="inner">
+				<h3>Rp. '.number_format($ajuan['transfer']).'</h3>
+				<p>Transfer</p>
+				</div>
+				<div class="icon">
+				<i class="ion ion-bag"></i>
+				</div>
+				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			
+			
+			</div>
+		';
+		echo '<hr>';
+		echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		echo '<div claass="card-header">
+			<h2>
+				Detail Realisasi Penerimaan 
+			</h2>
+		</div>';
+		echo '<input type="hidden" name="id" value="'.$id.'">	';
+		echo '<div class="row">';
+		echo '<div class="col-md-4">';
+		echo 'Cash : <br>';
+		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'" required>';
+		echo '</div>';
+		echo '<div class="col-md-4">';
+		echo 'Transfer : <br>';
+		echo '<input type="number" class="form-control" name="diterima_tf" value="'.$ajuan['diterima_tf'].'"  required>';
+		echo '</div>';
+		echo '<div class="col-md-4">';
+		echo 'Sisa Cash : <br>';
+		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  required>';
+		echo '</div><br><br>';
+		echo '<div class="row">
+		<div class="col-md-4">		
+		<div class="col-md-4"><br><br>
+				<div class="form-group"><button class="btn btn-success btn-lg" type="submit">Simpan</button></div>
+				</div>
+		</div>';
+		echo '</div>';
+		echo '</form>';
+	}
+
+	function realisasi_save(){
+		$post = $this->input->post();
+		$update = array(
+			'diterima_cash' => $post['diterima_cash'],
+			'diterima_tf' => $post['diterima_tf'],
+			'sisa_cash' => $post['sisa_cash'],
+		);
+		$where = array(
+			'id'=> $post['id']
+		);
+		$this->db->update('pengajuan_harian_new',$update,$where);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Gudang/pengajuan');
+	}
+
 }
