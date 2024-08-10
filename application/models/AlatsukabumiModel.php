@@ -177,6 +177,17 @@ class AlatsukabumiModel extends CI_Model {
 			)
 		);
 
+		$cmt = $this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$transaksi['idcmt']));
+		$insert_stok = array(
+			'id_persediaan' => $transaksi['id_persediaan'],
+			'tanggal' => isset($transaksi['tanggal']) ? $transaksi['tanggal'] : date('Y-m-d'),
+			'keterangan' => $transaksi['keterangan'] . ' '.$cmt['cmt_name'],
+			'stokawal'	=>0,
+			'masuk'		=>$transaksi['jumlah'],
+			'keluar'	=>0,
+			
+		);
+
 		user_activity(callSessUser('id_user'),1,' validasi distribusi alat-alat dengan id '.$id);
 		
 		$this->session->set_flashdata('msg','Data berhasil divalidasi');

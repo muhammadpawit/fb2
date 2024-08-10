@@ -68,7 +68,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php $no=1; ?>
+                        <?php $no=1;$total=0; ?>
                         <?php foreach($products as $p){?>
                           <tr>
                             <td><?php echo $p['no']?></td>
@@ -81,8 +81,18 @@
                             <td><?php echo $p['totalpotongan']?></td>
                             <td></td>
                           </tr>
+                          <?php 
+                             $total+=($p['totalpotongan']);
+
+                          ?>
                         <?php } ?>
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="7"><b>Total</b></td>
+                          <td><?php echo $total ?></td>
+                        </tr>
+                      </tfoot>
                    </table>
   </div>
 </div>
