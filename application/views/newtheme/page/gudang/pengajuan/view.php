@@ -218,18 +218,18 @@
         </div>
     </div>
 </div>
-<!-- <div class="row">
-  <div class="col-md-3">
+<div class="row">
+  <div class="col-md-6">
     <div id="signature"></div>
  
   </div>
 
-  <div class="col-md-8">
+  <div class="col-md-6">
   <button id="undo_signature">Undo</button>
   <button id="clear_signature">Clear</button>
   <button id="save_signature">Save Signature</button>
   </div>
-</div> -->
+</div>
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
   $(document).ready(function() {
