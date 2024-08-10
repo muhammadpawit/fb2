@@ -218,8 +218,38 @@
         </div>
     </div>
 </div>
+<!-- <div class="row">
+  <div class="col-md-3">
+    <div id="signature"></div>
+ 
+  </div>
+
+  <div class="col-md-8">
+  <button id="undo_signature">Undo</button>
+  <button id="clear_signature">Clear</button>
+  <button id="save_signature">Save Signature</button>
+  </div>
+</div> -->
+<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
   $(document).ready(function() {
+    $("#signature").jSignature();
+
+      $('#clear_signature').click(function() {
+           $("#signature").jSignature("reset");
+       });
+       $('#save_signature').click(function() {
+           var datapair = $("#signature").jSignature("getData", "image");
+           var imgData = datapair[1];
+           $.ajax({
+               url: "<?= BASEURL ?>Gudang/ttdsave",
+               type: "POST",
+               data: {image_data: imgData},
+               success: function(response) {
+                   alert('Signature saved successfully!');
+               }
+           });
+        });
     $('.modals').on('click', function() {
         var id = $(this).data('id'); // Ambil ID dari atribut data-id
         $('#idajuan').val(id); // Masukkan ID ke input dalam modal

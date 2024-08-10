@@ -409,7 +409,10 @@
 
                                                 <br>
 
-                                                (.........)
+                                                <div id="signature"></div>
+
+                                                <button id="clear_signature">Clear</button>
+                                                <button id="save_signature">Save Signature</button>
 
                                             </td>
 
@@ -551,4 +554,28 @@
             return false;
         }
     });
+</script>
+
+<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#signature").jSignature();
+
+      $('#clear_signature').click(function() {
+           $("#signature").jSignature("reset");
+       });
+       $('#save_signature').click(function() {
+           var datapair = $("#signature").jSignature("getData", "image");
+           var imgData = datapair[1];
+           $.ajax({
+               url: "<?= BASEURL ?>Gudang/ttdsave",
+               type: "POST",
+               data: {image_data: imgData},
+               success: function(response) {
+                   alert('Signature saved successfully!');
+               }
+           });
+        });
+
+});
 </script>

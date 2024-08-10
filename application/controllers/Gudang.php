@@ -3457,4 +3457,20 @@ class Gudang extends CI_Controller {
 		redirect(BASEURL.'Gudang/pengajuan');
 	}
 
+
+	public function ttdsave() {
+        $image_data = $this->input->post('image_data');
+
+        // Mengonversi data base64 menjadi file gambar
+        $image_data = base64_decode($image_data);
+        $file_name = uniqid() . '.png';
+        $file_path = FCPATH . 'uploads/signatures/' . $file_name;
+
+        if (file_put_contents($file_path, $image_data)) {
+            echo 'Signature saved successfully!';
+        } else {
+            echo 'Failed to save signature.';
+        }
+    }
+
 }
