@@ -496,7 +496,7 @@
                                 </tr>
                                 <tr>
                                     <td><?php echo $parent['diterima_cash']-$parent['cash']?></td>
-                                    <td></td>
+                                    <td>Sisa Ajuan</td>
                                     <td></td>
                                 </tr>
                             </table>
