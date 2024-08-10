@@ -27,7 +27,7 @@ index.php
 /nbproject/
 .idea/*
 uploads/*
-
+uploads/signatures/*
 ## Sublime Text cache files
 *.tmlanguage.cache
 *.tmPreferences.cache

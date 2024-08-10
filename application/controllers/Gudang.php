@@ -3495,39 +3495,40 @@ class Gudang extends CI_Controller {
 			</div>
 		';
 		echo '<hr>';
-		echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		// echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
 		echo '<div claass="card-header">
 			 <div id="signature"></div>
 		</div>';
 		
 		echo '</div><br><br>';
-		echo '<div class="row">
-		<div class="col-md-4">		
-		<div class="col-md-4"><br><br>
-				<div class="form-group"><button class="btn btn-success btn-lg" type="submit">Simpan</button></div>
-				</div>
-		</div>';
-		echo '</div>';
-		echo '</form>';
-		echo '
-			<script src="'.BASEURL.'jSignature/src/jSignature.js"></script>
-			<script>
-				$(document).ready(function() {
-					$("#signature").jSignature();
-				});
-			</script>
-		';
+		// echo '<div class="row">
+		// <div class="col-md-4">		
+		// <div class="col-md-4"><br><br>
+		// 		<div class="form-group"><button class="btn btn-success btn-lg" type="submit">Simpan</button></div>
+		// 		</div>
+		// </div>';
+		// echo '</div>';
+		// echo '</form>';
 	}
 
 	public function ttdsave() {
+		$post = $this->input->post();
         $image_data = $this->input->post('image_data');
-
+		// pre($post);
         // Mengonversi data base64 menjadi file gambar
         $image_data = base64_decode($image_data);
         $file_name = uniqid() . '.png';
         $file_path = FCPATH . 'uploads/signatures/' . $file_name;
 
         if (file_put_contents($file_path, $image_data)) {
+			$update = array(
+				'paraf' => $file_name,
+			);
+			$where = array(
+				'id' => $post['id'],
+			);
+			$this->db->update('pengajuan_harian_new',$update,$where);
             echo 'Signature saved successfully!';
         } else {
             echo 'Failed to save signature.';

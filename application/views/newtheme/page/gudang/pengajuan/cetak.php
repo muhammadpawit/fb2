@@ -399,17 +399,7 @@
 
                                             <td>
 
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                (.........)
+                                            <img src="<?php echo BASEURL ?>uploads/signatures/<?php echo $parent['paraf']?>" height="100" width="200">
 
                                             </td>
 

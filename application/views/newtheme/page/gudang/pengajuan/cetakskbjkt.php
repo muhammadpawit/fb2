@@ -370,11 +370,11 @@
 
                                         <tr>
 
-                                            <th><center>Di Setujui oleh:</center></th>
+                                            <th width="150px"><center>Di Setujui oleh:</center></th>
 
-                                            <th><center>Di Periksa oleh:</center></th>
+                                            <th width="150px"><center>Di Periksa oleh:</center></th>
 
-                                            <th><center>Di Buat oleh:</center></th>
+                                            <th width="150px"><center>Di Buat oleh:</center></th>
 
                                         </tr>
 
@@ -403,17 +403,8 @@
 
                                             <td>
 
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                ( Muchlas)
+                                               
+                                                <img src="<?php echo BASEURL ?>uploads/signatures/<?php echo $parent['paraf']?>" height="100" width="200">
 
                                             </td>
 

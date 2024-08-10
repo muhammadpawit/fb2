@@ -318,10 +318,11 @@
        $('#save_signature').click(function() {
            var datapair = $("#signature").jSignature("getData", "image");
            var imgData = datapair[1];
+           var idajuan = $("#idajuan").val();
            $.ajax({
                url: "<?= BASEURL ?>Gudang/ttdsave",
                type: "POST",
-               data: {image_data: imgData},
+               data: {image_data: imgData, id:idajuan},
                success: function(response) {
                    alert('Signature saved successfully!');
                }
@@ -360,7 +361,7 @@
               data: { id: id },
               success: function(response) {
                   // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
-                  // $('#detailModalTtd .modal-body').append(response);
+                  $('#signatureModal').html(response);
               },
               error: function() {
                   $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
