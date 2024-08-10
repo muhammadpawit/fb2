@@ -261,6 +261,11 @@
   <button id="save_signature">Save Signature</button>
   </div>
 </div>
+<style>
+  canvas {
+    margin: 10vh 5px !important;
+  }
+</style>
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
   $(document).ready(function() {
