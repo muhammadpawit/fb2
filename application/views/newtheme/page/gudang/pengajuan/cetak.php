@@ -409,10 +409,7 @@
 
                                                 <br>
 
-                                                <div id="signature"></div>
-
-                                                <button id="clear_signature">Clear</button>
-                                                <button id="save_signature">Save Signature</button>
+                                                (.........)
 
                                             </td>
 
@@ -498,7 +495,7 @@
                                     <th>Paraf SPV</th>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $parent['cash']-$parent['diterima_cash']?></td>
+                                    <td><?php echo $parent['diterima_cash']-$parent['cash']?></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -554,28 +551,4 @@
             return false;
         }
     });
-</script>
-
-<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#signature").jSignature();
-
-      $('#clear_signature').click(function() {
-           $("#signature").jSignature("reset");
-       });
-       $('#save_signature').click(function() {
-           var datapair = $("#signature").jSignature("getData", "image");
-           var imgData = datapair[1];
-           $.ajax({
-               url: "<?= BASEURL ?>Gudang/ttdsave",
-               type: "POST",
-               data: {image_data: imgData},
-               success: function(response) {
-                   alert('Signature saved successfully!');
-               }
-           });
-        });
-
-});
 </script>

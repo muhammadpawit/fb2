@@ -145,6 +145,10 @@
                                     <?php }else{ ?>
                                       <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info  text-white">Lihat</a>
                                     <?php } ?>
+
+                                    <?php if($setujui==1){?>
+                                      <!-- <a href="#" class="btn btn-primary text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Ttd Digital</a> -->
+                                    <?php } ?>
                                 </td>
                                 <td>
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
@@ -218,7 +222,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<!-- <div class="row">
   <div class="col-md-6">
     <div id="signature"></div>
  
@@ -229,7 +233,7 @@
   <button id="clear_signature">Clear</button>
   <button id="save_signature">Save Signature</button>
   </div>
-</div>
+</div> -->
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
   $(document).ready(function() {

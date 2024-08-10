@@ -340,7 +340,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                         <tr>
 
-                            <td><br><br><br><?php echo ($parent['cash']-$parent['diterima_cash']) ?></td>
+                            <td><br><br><br><?php echo ($parent['diterima_cash']-$parent['cash']) ?></td>
 
                             <td>Sisa Ajuan</td>
 
