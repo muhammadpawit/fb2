@@ -264,7 +264,43 @@
 <style>
   canvas {
     margin: 10vh 5px !important;
+    height: 250px !important;
   }
+
+  #signature {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #000;
+        background-color: #fff;
+    }
+
+    .modal-footer button {
+        margin: 5px;
+    }
+
+    #clear_signature, #save_signature {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #clear_signature:hover, #save_signature:hover {
+        background-color: #0056b3;
+    }
+
+    .modal-body {
+        padding: 20px;
+        overflow: hidden;
+    }
+
+    #signature {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
 </style>
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
