@@ -237,7 +237,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="signatureModal">
             <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000;"></div>
             </div>
             <div class="modal-footer">
@@ -264,7 +264,12 @@
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
   $(document).ready(function() {
-    $("#signature").jSignature();
+
+    $('#detailModalTtd').on('shown.bs.modal', function () {
+        $("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
+    });
+
+    // $("#signature").jSignature();
 
       $('#clear_signature').click(function() {
            $("#signature").jSignature("reset");
