@@ -3458,6 +3458,67 @@ class Gudang extends CI_Controller {
 	}
 
 
+	function getRealisasiDetailTtd(){
+		$id = $this->input->get('id');
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		echo '
+			<div class="row">
+
+			<div class="col-lg-6 col-xs-6">
+				<div class="small-box bg-aqua">
+				<div class="inner">
+				<h3>Rp. '.number_format($ajuan['cash']).'</h3>
+				<p>Cash</p>
+				</div>
+				<div class="icon">
+				<i class="ion ion-bag"></i>
+				</div>
+				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+
+
+			<div class="col-lg-6 col-xs-6">
+				<div class="small-box bg-yellow">
+				<div class="inner">
+				<h3>Rp. '.number_format($ajuan['transfer']).'</h3>
+				<p>Transfer</p>
+				</div>
+				<div class="icon">
+				<i class="ion ion-bag"></i>
+				</div>
+				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			
+			
+			</div>
+		';
+		echo '<hr>';
+		echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		echo '<div claass="card-header">
+			 <div id="signature"></div>
+		</div>';
+		
+		echo '</div><br><br>';
+		echo '<div class="row">
+		<div class="col-md-4">		
+		<div class="col-md-4"><br><br>
+				<div class="form-group"><button class="btn btn-success btn-lg" type="submit">Simpan</button></div>
+				</div>
+		</div>';
+		echo '</div>';
+		echo '</form>';
+		echo '
+			<script src="'.BASEURL.'jSignature/src/jSignature.js"></script>
+			<script>
+				$(document).ready(function() {
+					$("#signature").jSignature();
+				});
+			</script>
+		';
+	}
+
 	public function ttdsave() {
         $image_data = $this->input->post('image_data');
 

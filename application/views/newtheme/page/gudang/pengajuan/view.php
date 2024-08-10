@@ -71,7 +71,7 @@
                             <th>Total</th>
                             <th>Keterangan</th>
                             <th>Status</th>
-
+                            <th>Ttd</th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -137,6 +137,11 @@
                                 ?>        
 
                                 </td>
+                                <td>
+                                  <?php if($setujui==1){?>
+                                      <a href="#" class="btn btn-primary text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                    <?php } ?>
+                                </td>
 
                                 <td>
                                     <?php if($us['kategori']==4){ ?>
@@ -150,6 +155,7 @@
                                       <!-- <a href="#" class="btn btn-primary text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Ttd Digital</a> -->
                                     <?php } ?>
                                 </td>
+                                
                                 <td>
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
                                     <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a>
@@ -222,9 +228,30 @@
         </div>
     </div>
 </div>
-<!-- <div class="row">
+<div class="modal fade" id="detailModalTtd" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Persetujuan Digital</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000;"></div>
+            </div>
+            <div class="modal-footer">
+            
+            <button id="clear_signature">Clear</button>
+            <button id="save_signature">Save Signature</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" hidden>
   <div class="col-md-6">
-    <div id="signature"></div>
+    <div id="signatures"></div>
  
   </div>
 
@@ -233,7 +260,7 @@
   <button id="clear_signature">Clear</button>
   <button id="save_signature">Save Signature</button>
   </div>
-</div> -->
+</div>
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
   $(document).ready(function() {
@@ -254,25 +281,46 @@
                }
            });
         });
-    $('.modals').on('click', function() {
-        var id = $(this).data('id'); // Ambil ID dari atribut data-id
-        $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+      
+        $('.modals').on('click', function() {
+          var id = $(this).data('id'); // Ambil ID dari atribut data-id
+          $('#idajuan').val(id); // Masukkan ID ke input dalam modal
 
-        // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
-        // Contoh logika AJAX untuk mengambil data:
-        $.ajax({
-            url: '<?php echo BASEURL; ?>Gudang/getRealisasiDetail', // Sesuaikan URL untuk mengambil data
-            method: 'GET',
-            data: { id: id },
-            success: function(response) {
-                // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
-                $('#detailModal .modal-body').html(response);
-            },
-            error: function() {
-                $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
-            }
+          // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+          // Contoh logika AJAX untuk mengambil data:
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getRealisasiDetail', // Sesuaikan URL untuk mengambil data
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                  $('#detailModal .modal-body').html(response);
+              },
+              error: function() {
+                  $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
         });
-    });
+
+        $('.ttdDigital').on('click', function() {
+          var id = $(this).data('id'); // Ambil ID dari atribut data-id
+          $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+
+          // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+          // Contoh logika AJAX untuk mengambil data:
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getRealisasiDetailTtd', // Sesuaikan URL untuk mengambil data
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                  // $('#detailModalTtd .modal-body').append(response);
+              },
+              error: function() {
+                  $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
 });
 
 </script>
