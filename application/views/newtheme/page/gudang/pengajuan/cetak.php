@@ -443,7 +443,15 @@
                                     <td><?php echo $parent['diterima_cash']?></td>
                                     <td><?php echo $parent['diterima_tf']?></td>
                                     <td><?php echo $parent['diterima_cash']+$parent['diterima_tf']?></td>
-                                    <td></td>
+                                    <td>
+                                    <?php if(!empty($parent['ttdBuHj'])){?>
+                                        <img src="<?php echo BASEURL?>uploads/signatures/<?php echo $parent['ttdBuHj']?>" height="150">
+                                    <?php } else { ?>
+                                        <div id="signature"></div>
+                                    <button id="clear_signature">Clear</button>
+                                    <button id="save_signature">Save Signature</button>
+                                    <?php } ?>
+                                    </td>
                                 </tr>
                             </table>
 
@@ -462,8 +470,11 @@
                                     <td></td>
                                 </tr>
                             </table>
+
+                            <img src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" style="width:100%">
                         </div>
                     </div>
+
 
 
                     <div class="hidden-print mt-4 mb-4 no-print">
@@ -502,7 +513,49 @@
 
 
 </div> <!-- content -->
+<style>
+    
+  canvas {
+    margin: 10vh 5px !important;
+    height: 250px !important;
+  }
+
+  #signature {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #000;
+        background-color: #fff;
+    }
+
+</style>
+<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script type="text/javascript">
+
+$(document).ready(function() {
+    $("#signature").jSignature();
+});
+
+$('#clear_signature').click(function() {
+           $("#signature").jSignature("reset");
+       });
+
+
+        $('#save_signature').click(function() {
+           var datapair = $("#signature").jSignature("getData", "image");
+           var imgData = datapair[1];
+           var idajuan = '<?php echo $parent['id']?>';
+           $.ajax({
+               url: "<?= BASEURL ?>Gudang/ttdsaveBuhj",
+               type: "POST",
+               data: {image_data: imgData, id:idajuan},
+               success: function(response) {
+                   alert('Signature saved successfully!');
+                   location.reload();
+               }
+           });
+        });
+
+
     function excel(){
         location ='?excel=true';
     }

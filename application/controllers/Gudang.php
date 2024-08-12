@@ -3523,6 +3523,29 @@ class Gudang extends CI_Controller {
 		// echo '</form>';
 	}
 
+	function ttdsaveBuhj(){
+		$post = $this->input->post();
+        $image_data = $this->input->post('image_data');
+		// pre($post);
+        // Mengonversi data base64 menjadi file gambar
+        $image_data = base64_decode($image_data);
+        $file_name = uniqid() . '.png';
+        $file_path = FCPATH . 'uploads/signatures/' . $file_name;
+
+        if (file_put_contents($file_path, $image_data)) {
+			$update = array(
+				'ttdBuHj' => $file_name,
+			);
+			$where = array(
+				'id' => $post['id'],
+			);
+			$this->db->update('pengajuan_harian_new',$update,$where);
+            echo 'Signature saved successfully!';
+        } else {
+            echo 'Failed to save signature.';
+        }
+	}
+
 	public function ttdsave() {
 		$post = $this->input->post();
         $image_data = $this->input->post('image_data');
@@ -3562,7 +3585,7 @@ class Gudang extends CI_Controller {
 		if(!empty($_FILES['nota']['name'])){
 			$this->load->library('upload', $config);
 	        $this->upload->do_upload('nota');
-	        $imageGambar = 'document/image/'.$this->upload->data('file_name');
+	        $imageGambar = $this->upload->data('file_name');
 	        $up=array(
 	        	'dokumenNota'=>$imageGambar,
 	        );
