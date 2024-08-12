@@ -405,13 +405,13 @@
 
                                             <td>
 
-                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminkeu.jpeg" height="100" width="200">
+                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminkeu-removebg-preview.png" height="100" width="200">
 
                                             </td>
 
                                             <td>
 
-                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminGd.jpeg" height="100" width="200">
+                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminGd-removebg-preview.png" height="100" width="200">
 
                                             </td>
 
