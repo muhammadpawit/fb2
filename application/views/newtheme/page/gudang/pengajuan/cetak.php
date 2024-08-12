@@ -445,7 +445,7 @@
                                     <td><?php echo $parent['diterima_cash']+$parent['diterima_tf']?></td>
                                     <td>
                                     <?php if(!empty($parent['ttdBuHj'])){?>
-                                        <img src="<?php echo BASEURL?>uploads/signatures/<?php echo $parent['ttdBuHj']?>" height="150">
+                                        <img src="<?php echo BASEURL?>uploads/signatures/<?php echo $parent['ttdBuHj']?>" height="130">
                                     <?php } else { ?>
                                         <div id="signature"></div>
                                     <button id="clear_signature">Clear</button>
