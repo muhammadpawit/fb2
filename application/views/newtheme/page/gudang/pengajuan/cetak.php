@@ -405,41 +405,13 @@
 
                                             <td>
 
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                ( Dinda )
+                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminkeu.jpeg" height="100" width="200">
 
                                             </td>
 
                                             <td>
 
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <br>
-
-                                                <?php 
-
-                                                    if($parent['kategori']==4){
-                                                        echo '( '.ucfirst($adminskb).' )';
-                                                    }else{
-                                                        echo "(Ifah)";
-                                                    }
-
-                                                ?>
+                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminGd.jpeg" height="100" width="200">
 
                                             </td>
 
