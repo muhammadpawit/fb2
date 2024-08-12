@@ -360,6 +360,7 @@
                data: {image_data: imgData, id:idajuan},
                success: function(response) {
                    alert('Signature saved successfully!');
+                   location.reload();
                }
            });
         });
