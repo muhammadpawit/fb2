@@ -3432,6 +3432,17 @@ class Gudang extends CI_Controller {
 		echo 'Sisa Cash : <br>';
 		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  required>';
 		echo '</div><br><br>';
+		// echo '
+		// 		<div class="row">
+		// 			<div class="col-md-12">
+		// 				<div class="signatuers"></div>
+		// 			</div>
+		// 			<div class="col-md-12">
+		// 				<button type="button" id="clear_signature">Clear</button>
+		// 				<button type="button id="save_signature">Save Signature</button>
+		// 			</div>
+		// 		</div>
+		// ';
 		echo '<div class="row">
 		<div class="col-md-4">		
 		<div class="col-md-4"><br><br>
@@ -3534,5 +3545,37 @@ class Gudang extends CI_Controller {
             echo 'Failed to save signature.';
         }
     }
+
+	function getiD(){
+		$id = $this->input->get('id');
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		echo $ajuan['id'];
+		// echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
+		
+	}
+
+	function uploadnota(){
+		$data=$this->input->post();
+		$config['upload_path']          = './uploads/nota/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		// pre($data);
+		if(!empty($_FILES['nota']['name'])){
+			$this->load->library('upload', $config);
+	        $this->upload->do_upload('nota');
+	        $imageGambar = 'document/image/'.$this->upload->data('file_name');
+	        $up=array(
+	        	'dokumenNota'=>$imageGambar,
+	        );
+	        $this->db->update('pengajuan_harian_new',$up,array('id'=>$data['idnota']));
+			user_activity(callSessUser('id_user'),1,' upload nota belanja ajuan dengan id '.$data['idnota']);
+			$this->session->set_flashdata('msg','Data berhasil disimpan');
+			redirect(BASEURL.'Gudang/pengajuan');
+		}else{
+			
+			$this->session->set_flashdata('gagal','Data gagal disimpan');
+			redirect(BASEURL.'Gudang/pengajuan');
+		}
+		
+	}
 
 }

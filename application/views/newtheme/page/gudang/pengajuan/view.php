@@ -78,6 +78,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th></th>
                             <th>Waktu dibuat</th>
 
                         </tr>
@@ -178,19 +179,23 @@
                                       <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success  text-white">Setujui</a>
                                     <?php } ?>
 
-                                    <?php if($setujui==1){?>
-                                      <a href="#" class="btn btn-primary text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
-                                    <?php } ?>
+                                    
                                 </td>
                                 <td>
-                                  <?php if($setujui==1 && $us['status']==0){?>
+                                <a href="#" class="btn btn-primary text-white nota" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalNota">Upload Nota</a>
+                                  <!-- <?php //if($setujui==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/pengajuandetail/'.$us['id']; ?>" class="btn btn-success  text-white">Komentar</a>
-                                    <?php } ?>
+                                    <?php //} ?> -->
                                 </td>
                                 <td>
                                   <?php if(akseshapus()==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger  text-white">Hapus</a>
                                   <?php } ?>
+                                </td>
+                                <td>
+                                  <?php if($setujui==1){?>
+                                      <a href="#" class="btn btn-primary text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
+                                    <?php } ?>
                                 </td>
                                 <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td>
 
@@ -223,6 +228,7 @@
                  </form>
             </div>
             <div class="modal-footer">
+                
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -242,8 +248,32 @@
             </div>
             <div class="modal-footer">
             
-            <button id="clear_signature">Clear</button>
-            <button id="save_signature">Save Signature</button>
+                <button id="clear_signature">Clear</button>
+                <button id="save_signature">Save Signature</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detailModalNota" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Data akan di-load di sini -->
+                 <form method="POST" action="<?php echo BASEURL?>Gudang/uploadnota" enctype="multipart/form-data">
+                  <input type="hidden" name="idnota" id="idnota">
+                  <input type="file" name="nota" class="form-control" accept=".png,.jpeg,.jpg,.pdf">
+                  <input type="submit" class="btn btn-success" value="Upload">
+                 </form>
+            </div>
+            <div class="modal-footer">
+                
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -308,6 +338,11 @@
 
     $('#detailModalTtd').on('shown.bs.modal', function () {
         $("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
+        $("#signatures").jSignature();
+    });
+
+    $('#detailModal').on('shown.bs.modal', function () {
+        $(".signatuers").jSignature();
     });
 
     // $("#signature").jSignature();
@@ -365,6 +400,26 @@
               },
               error: function() {
                   $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
+
+        $('.nota').on('click', function() {
+          var id = $(this).data('id'); // Ambil ID dari atribut data-id
+          $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+
+          // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+          // Contoh logika AJAX untuk mengambil data:
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getiD', // Sesuaikan URL untuk mengambil data
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                  $('#idnota').val(response);
+              },
+              error: function() {
+                  $('#detailModalNota .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
               }
           });
         });
