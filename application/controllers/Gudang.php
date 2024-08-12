@@ -3558,6 +3558,7 @@ class Gudang extends CI_Controller {
         if (file_put_contents($file_path, $image_data)) {
 			$update = array(
 				'paraf' => $file_name,
+				'status' => 1,
 			);
 			$where = array(
 				'id' => $post['id'],
