@@ -3581,7 +3581,7 @@ class Gudang extends CI_Controller {
 	function uploadnota(){
 		$data=$this->input->post();
 		$config['upload_path']          = './uploads/nota/';
-        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
 		// pre($data);
 		if(!empty($_FILES['nota']['name'])){
 			$this->load->library('upload', $config);
