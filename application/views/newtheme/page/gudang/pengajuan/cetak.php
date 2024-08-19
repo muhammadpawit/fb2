@@ -471,7 +471,8 @@
                                 </tr>
                             </table>
 
-                            <img src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" style="width:100%">
+                            <!-- <img src="" style="width:100%"> -->
+                             <iframe src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" frameborder="0" height="500"></iframe>
                         </div>
                     </div>
 
