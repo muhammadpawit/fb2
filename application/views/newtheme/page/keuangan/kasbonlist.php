@@ -62,8 +62,9 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="5"><b>Total</b></td>
+                  <td colspan="4"><b>Total</b></td>
                   <td><?php echo number_format($totalkasbon)?></td>
+                  <td></td>
                 </tr>
               </tfoot>
             </table>
