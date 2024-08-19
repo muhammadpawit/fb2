@@ -472,10 +472,14 @@
                             </table>
 
                             <!-- <img src="" style="width:100%"> -->
-                             <iframe src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" frameborder="0" height="500"></iframe>
+                             
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-6">
+                        <iframe src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" frameborder="0" height="500" style="width:100%"></iframe>
+                        </div>
+                    </div>
 
 
                     <div class="hidden-print mt-4 mb-4 no-print">
