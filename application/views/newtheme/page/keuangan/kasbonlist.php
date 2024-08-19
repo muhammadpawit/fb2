@@ -60,6 +60,12 @@
                   </tr>
                 <?php }?>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5"><b>Total</b></td>
+                  <td><?php echo number_format($totalkasbon)?></td>
+                </tr>
+              </tfoot>
             </table>
   </div>
 </div>

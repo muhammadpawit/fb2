@@ -829,6 +829,7 @@ class Keuangan extends CI_Controller {
 		foreach($results as $result){
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
+			$total+=($result['nominal_acc']);
 			$data['products'][]=array(
 				'tanggal'=>date('d/m/Y',strtotime($result['tanggal'])),
 				'nama'=>$karyawan['nama'],
@@ -839,6 +840,7 @@ class Keuangan extends CI_Controller {
 				'detail'=>BASEURL.'Keuangan/kasbondetail/'.$result['tanggal'],
 			);
 		}
+		$data['totalkasbon']=$total;
 		$data['page']='newtheme/page/keuangan/kasbonlist';
 		$this->load->view('newtheme/page/main',$data);
 	}
