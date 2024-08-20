@@ -27,7 +27,7 @@
             <select name="id_persediaan" style="width:100%" class="form-control select2bs4 alat" required="required">
                 <option value="">Pilih</option>
                 <?php foreach($alat as $p){?>
-                  <option value="<?php echo $p['id_persediaan']?>" data-item="<?php echo $p['id_persediaan']?>"><?php echo strtoupper($p['nama'])?></option>
+                  <option value="<?php echo $p['product_id']?>" data-item="<?php echo $p['product_id']?>"><?php echo strtoupper($p['nama'])?></option>
                 <?php } ?>
             </select>
           </div>
