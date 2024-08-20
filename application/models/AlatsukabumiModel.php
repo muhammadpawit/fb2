@@ -79,7 +79,7 @@ class AlatsukabumiModel extends CI_Model {
 
 	public function stock($data){
 		$hasil=[];
-		$sql="SELECT a.*, p.nama as namaalat FROM stok_barang_skb a LEFT JOIN product p ON(p.product_id=als.id_persediaan) WHERE a.hapus=0 ";
+		$sql="SELECT a.*, p.nama as namaalat FROM stok_barang_skb a LEFT JOIN product p ON(p.product_id=a.id_persediaan) WHERE a.hapus=0 ";
 		$sql.=" ORDER BY p.nama ASC ";
 		$result=$this->GlobalModel->QueryManual($sql);
 		if(!empty($result)){
