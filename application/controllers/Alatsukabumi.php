@@ -137,7 +137,7 @@ class Alatsukabumi extends CI_Controller {
 		$data['prods']=$this->AlatsukabumiModel->distribusi($filter);
 		$data['action']=$this->url.'distribusi_save';
 		$data['cmt']	= $this->GlobalModel->GetData('master_cmt',array('hapus'=>0,'lokasi'=>3));
-		$data['alat']	= $this->GlobalModel->GetData('stok_barang_skb',array('hapus'=>0));
+		$data['alat']	= $this->GlobalModel->GetData('product',array('hapus'=>0));
 		$data['sj'] = $this->GlobalModel->QueryManual("
 		SELECT a.nosj from kirimcmt a LEFT JOIN master_cmt b ON b.id_cmt=a.idcmt WHERE b.lokasi IN(3) AND nosj IS NOT NULL
 		");
