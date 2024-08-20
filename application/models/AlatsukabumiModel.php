@@ -9,7 +9,7 @@ class AlatsukabumiModel extends CI_Model {
 
 	public function show($data){
 		$hasil=[];
-		$sql="SELECT als.*, p.nama FROM alat_sukabumi als JOIN product p ON(p.product_id=als.id_persediaan) WHERE als.hapus=0 ";
+		$sql="SELECT als.*, p.namaalat FROM alat_sukabumi als JOIN product p ON(p.product_id=als.id_persediaan) WHERE als.hapus=0 ";
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
@@ -21,7 +21,7 @@ class AlatsukabumiModel extends CI_Model {
 				$hasil[]=array(
 					'id'=>$r['id'],
 					'tanggal'=>date("d-m-Y",strtotime($r['tanggal'])),
-					'nama'=>$r['nama'],
+					'nama'=>$r['namaalat'],
 					'jumlah'=>$r['jumlah_terima'],
 					'satuan'=>$r['satuan'],
 					'keterangan'=>$r['keterangan'],
