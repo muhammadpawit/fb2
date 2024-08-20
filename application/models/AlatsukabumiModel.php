@@ -9,7 +9,7 @@ class AlatsukabumiModel extends CI_Model {
 
 	public function show($data){
 		$hasil=[];
-		$sql="SELECT als.*, p.namaalat FROM alat_sukabumi als JOIN product p ON(p.product_id=als.id_persediaan) WHERE als.hapus=0 ";
+		$sql="SELECT als.*, p.nama as namaalat FROM alat_sukabumi als JOIN product p ON(p.product_id=als.id_persediaan) WHERE als.hapus=0 ";
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND DATE(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
@@ -79,14 +79,14 @@ class AlatsukabumiModel extends CI_Model {
 
 	public function stock($data){
 		$hasil=[];
-		$sql="SELECT * FROM stok_barang_skb WHERE hapus=0 ";
-		$sql.=" ORDER BY nama ASC ";
+		$sql="SELECT a.*, p.nama as namaalat FROM stok_barang_skb a LEFT JOIN product p ON(p.product_id=als.id_persediaan) WHERE a.hapus=0 ";
+		$sql.=" ORDER BY p.nama ASC ";
 		$result=$this->GlobalModel->QueryManual($sql);
 		if(!empty($result)){
 			foreach($result as $r){
 				$hasil[]=array(
 					'id'=>$r['id_persediaan'],
-					'nama'=>$r['nama'],
+					'nama'=>$r['namaalat'],
 					'jumlah'=>$r['stock'],
 					'satuan'=>$r['satuan'],
 				);
