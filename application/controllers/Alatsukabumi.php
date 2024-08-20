@@ -156,7 +156,7 @@ class Alatsukabumi extends CI_Controller {
 		$getId = $this->input->get('id');
 		// $data = $this->GlobalModel->getDataRow('stok_barang_skb',array('id_persediaan'=>$getId));
 		$data = $this->GlobalModel->QueryManualRow(
-			"SELECT COALESCE(SUM()) as stock FROM stok_barang_skb WHERE id_persediaan='".$getId."' "
+			"SELECT COALESCE(SUM(stock)) as stock FROM stok_barang_skb WHERE id_persediaan='".$getId."' "
 		);
 		echo json_encode($data);
 	}
