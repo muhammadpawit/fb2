@@ -97,9 +97,10 @@ class AlatsukabumiModel extends CI_Model {
 
 	public function distribusi($data){
 		$hasil=[];
-		$sql="SELECT d.*, mc.cmt_name, s.nama, s.satuan FROM distribusi_alat_sukabumi d ";
+		$sql="SELECT d.*, mc.cmt_name, s.nama, s.satuan,p.nama as namaalat FROM distribusi_alat_sukabumi d ";
 		$sql.=" LEFT JOIN master_cmt mc ON mc.id_cmt=d.idcmt ";
 		$sql.=" LEFT JOIN stok_barang_skb s ON s.id_persediaan=d.id_persediaan ";
+		$sql.=" JOIN product p ON(p.product_id=d.id_persediaan) ";
 		$sql.=" WHERE d.hapus=0 ";
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND DATE(d.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
@@ -113,7 +114,7 @@ class AlatsukabumiModel extends CI_Model {
 					'id'=>$r['id'],
 					'tanggal'=>date("d-m-Y",strtotime($r['tanggal'])),
 					'nama'=>strtolower($r['cmt_name']),
-					'alat'=>strtolower($r['nama']),
+					'alat'=>strtolower($r['namaalat']),
 					'jumlah'=>$r['jumlah'],
 					'satuan'=>$r['satuan'],
 					'keterangan'=>strtolower($r['keterangan']),
