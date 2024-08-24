@@ -73,13 +73,13 @@
                             <th>Status</th>
                             
                             <th></th>
+                            <th hidden></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th>Waktu dibuat</th>
+                            <!-- <th>Waktu dibuat</th> -->
 
                         </tr>
 
@@ -157,7 +157,7 @@
                                     <?php } ?>
                                 </td>
                                 
-                                <td>
+                                <td hidden>
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
                                       <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a> -->
                                     <?php }?>
@@ -197,7 +197,7 @@
                                       <a href="#" class="btn btn-primary btn-xs text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
                                     <?php } ?>
                                 </td>
-                                <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td>
+                                <!-- <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td> -->
 
                             </tr>
 
