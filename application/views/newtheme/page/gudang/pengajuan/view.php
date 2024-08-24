@@ -74,7 +74,7 @@
                             
                             <th></th>
                             <th></th>
-                            <th></th>
+                            <th hidden></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -124,7 +124,7 @@
                                 <td><?php echo number_format($us['transfer'])?></td>
                                 <td><?php echo number_format($us['cash']+$us['transfer'])?></td>
                                 <td>
-                                  <?php echo strtolower($us['keterangan'])?>
+                                  <?php echo isset($us['keterangan']) ? strtolower($us['keterangan']):''?>
                                 </td>
                                 <td>
 
@@ -170,7 +170,7 @@
                                     <?php } ?>
                                     <?php }?>
                                 </td>
-                                <td>
+                                <td hidden>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-warning btn-xs text-white">Edit</a>
                                     <?php } ?>
@@ -189,15 +189,16 @@
                                     <?php //} ?> -->
                                 </td>
                                 <td>
-                                  <?php //if(akseshapus()==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
-                                  <?php //} ?>
-                                </td>
-                                <td>
                                   <?php if($setujui==1){?>
                                       <a href="#" class="btn btn-primary btn-xs text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
                                     <?php } ?>
                                 </td>
+                                <td>
+                                  <?php //if(akseshapus()==1 && $us['status']==0){?>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
+                                  <?php //} ?>
+                                </td>
+                                
                                 <!-- <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td> -->
 
                             </tr>
