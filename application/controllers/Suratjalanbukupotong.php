@@ -368,7 +368,7 @@ class Suratjalanbukupotong extends CI_Controller {
 	public function validasi($id)
 	{
 
-		$this->db->query("UPDATE kirimbupot SET validasi=1 WHERE id=$id ");
+		$this->db->query("UPDATE kirimbupot_detail SET validasi=1 WHERE id=$id ");
 		user_activity(callSessUser('id_user'),1,' validasi Surat Jalan Buku Potongan dengan id id '.$id);
 		$this->session->set_flashdata('msg','Data Berhasil Di Divalidasi');
 		redirect($this->url.'validasi_list');
