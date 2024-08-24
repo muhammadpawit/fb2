@@ -146,10 +146,10 @@
 
                                 <td>
                                     <?php if($us['kategori']==4){ ?>
-                                      <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>?&sukabumiforjkt=true" class="btn btn-info  text-white">Lihat</a>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true?&sukabumiforjkt=true" class="btn btn-warning  text-white">Edit</a>
+                                      <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>?&sukabumiforjkt=true" class="btn btn-info btn-xs  text-white">Lihat</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true?&sukabumiforjkt=true" class="btn btn-warning btn-xs  text-white">Edit</a>
                                     <?php }else{ ?>
-                                      <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info  text-white">Lihat</a>
+                                      <a href="<?php echo BASEURL.'Gudang/pengajuancetak/'.$us['id']; ?>" class="btn btn-info btn-xs text-white">Lihat</a>
                                     <?php } ?>
 
                                     <?php if($setujui==1){?>
@@ -159,42 +159,42 @@
                                 
                                 <td>
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
-                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a>
+                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a>
                                     <?php }?>
 
                                     <?php if($us['status']==1){?>
                                     <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning  text-white">Edit</a> -->
                                     <?php if(akseshapus()==1){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger  text-white">Batalkan</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Batalkan</a>
                                     <?php } ?>
                                     <?php }?>
                                 </td>
                                 <td>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-warning  text-white">Edit</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-warning btn-xs text-white">Edit</a>
                                     <?php } ?>
                                 </td>                                
                                 <td>
                                   <?php if($setujui==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success  text-white">Setujui</a>
+                                      <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success btn-xs text-white">Setujui</a>
                                     <?php } ?>
 
                                     
                                 </td>
                                 <td>
-                                <a href="#" class="btn btn-primary text-white nota" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalNota">Upload Nota</a>
+                                <a href="#" class="btn btn-primary btn-xs text-white nota" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalNota">Upload Nota</a>
                                   <!-- <?php //if($setujui==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/pengajuandetail/'.$us['id']; ?>" class="btn btn-success  text-white">Komentar</a>
                                     <?php //} ?> -->
                                 </td>
                                 <td>
                                   <?php if(akseshapus()==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger  text-white">Hapus</a>
+                                      <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
                                   <?php } ?>
                                 </td>
                                 <td>
                                   <?php if($setujui==1){?>
-                                      <a href="#" class="btn btn-primary text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
+                                      <a href="#" class="btn btn-primary btn-xs text-white modals" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModal">Realisasi Penerimaan</a>
                                     <?php } ?>
                                 </td>
                                 <td><?php echo $us['dibuat']==null?'':date('d/m/Y H:i:s',strtotime($us['dibuat'])) ?></td>
