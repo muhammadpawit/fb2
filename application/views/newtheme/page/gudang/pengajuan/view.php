@@ -92,7 +92,7 @@
                             <tr>
 
                             <td>
-                                  <?php if($us['status']==01){?>
+                                  <?php if($us['status']==0){?>
                                       <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
                                     <?php } ?>
                                 </td>
