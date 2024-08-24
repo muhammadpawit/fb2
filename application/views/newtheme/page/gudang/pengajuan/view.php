@@ -94,7 +94,9 @@
                             <td>
                                   <?php if($us['status']==0){?>
                                       <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
-                                    <?php } ?>
+                                    <?php }else{ ?>
+                                      <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
+                                      <?php } ?>
                                 </td>
                                 <td><?php echo date('d F Y',strtotime($us['tanggal'])) ?></td>
 
