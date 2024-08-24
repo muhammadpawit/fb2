@@ -399,9 +399,10 @@ class Pembayaran extends CI_Controller {
 				$data['products'][]=array(
 					'no'=>$no,
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-					'kode_po'=>$po['kode_po'],
-					'jenis'=>($jenis['idjenis']==1)?'Kemeja':($jenis['idjenis']==2?'Kaos':'Celana'),
-					'size'=>$bukupotongan['size_potongan'],
+					'kode_po'=>isset($po['kode_po']) ? $po['kode_po'] : '',
+					// 'jenis'=>($jenis['idjenis']==1)?'Kemeja':($jenis['idjenis']==2?'Kaos':'Celana'),
+					'jenis'=>'Kaos',
+					'size'=>isset($bukupotongan['size_potongan']) ? $bukupotongan['size_potongan'] : 0,
 					'timpotong'=>$timpotong==null?'':$timpotong['nama'],
 					'lusin'=>$r['jml_dz'],
 					'pcs'=>$r['jml_pcs'],

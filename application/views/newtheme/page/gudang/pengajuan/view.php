@@ -93,7 +93,7 @@
 
                             <td>
                                   <?php if($setujui==1){?>
-                                      <a href="#" class="btn btn-primary text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                      <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
                                     <?php } ?>
                                 </td>
                                 <td><?php echo date('d F Y',strtotime($us['tanggal'])) ?></td>
