@@ -73,7 +73,7 @@
                             <th>Status</th>
                             
                             <th></th>
-                            <th hidden></th>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -157,7 +157,8 @@
                                     <?php } ?>
                                 </td>
                                 
-                                <td hidden>
+                                <td>
+                                    <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a>
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
                                       <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a> -->
                                     <?php }?>
@@ -188,9 +189,9 @@
                                     <?php //} ?> -->
                                 </td>
                                 <td>
-                                  <?php if(akseshapus()==1 && $us['status']==0){?>
+                                  <?php //if(akseshapus()==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
-                                  <?php } ?>
+                                  <?php //} ?>
                                 </td>
                                 <td>
                                   <?php if($setujui==1){?>
