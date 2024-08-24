@@ -59,7 +59,7 @@
 
                         <tr>
 
-
+                            <th>Ttd</th>
                             <th>Tanggal</th>
 
                             <th>Divisi / Cabang</th>
@@ -71,7 +71,7 @@
                             <th>Total</th>
                             <th>Keterangan</th>
                             <th>Status</th>
-                            <th>Ttd</th>
+                            
                             <th></th>
                             <th></th>
                             <th></th>
@@ -91,7 +91,11 @@
 
                             <tr>
 
-
+                            <td>
+                                  <?php if($setujui==1){?>
+                                      <a href="#" class="btn btn-primary text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                    <?php } ?>
+                                </td>
                                 <td><?php echo date('d F Y',strtotime($us['tanggal'])) ?></td>
 
                                 <td>
@@ -138,11 +142,7 @@
                                 ?>        
 
                                 </td>
-                                <td>
-                                  <?php if($setujui==1){?>
-                                      <a href="#" class="btn btn-primary text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
-                                    <?php } ?>
-                                </td>
+                                
 
                                 <td>
                                     <?php if($us['kategori']==4){ ?>
