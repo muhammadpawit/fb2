@@ -27,10 +27,11 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 				</tr>
 			</thead>
 			<tbody>
+				<?php $no=1;?>
 				<?php foreach($products as $p){?>
 					<?php if($p['total'] > 0){ ?>
 					<tr>
-						<td><?php echo $p['no']?></td>
+						<td><?php echo $no++?></td>
 						<td><?php echo $p['tanggal']?></td>
 						<td><?php echo $p['kode_po']?></td>
 						<td><?php echo $p['jenis']?></td>
