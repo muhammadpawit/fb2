@@ -274,5 +274,104 @@ class Suratjalanbukupotong extends CI_Controller {
 		redirect($this->url);
 		
 	}
+
+	function validasi_list(){
+		$data    = [];
+		$data['title'] = 'Validasi Surat Jalan Buku Potongan ';
+		$data['products']=array();
+		$data['url']=$this->url;
+		$data['i']=1;
+		$data['tambah']=null;
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=null;
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=null;
+		}
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+		if(isset($get['sj'])){
+			$sj=$get['sj'];
+		}else{
+			$sj=null;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['cmt']=$cmt;
+		$data['sj']=$sj;
+		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="JAHIT" ORDER BY cmt_name ASC ');
+		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM kirimbupot WHERE hapus=0');
+		$filter=array(
+				'hapus'=>0,
+		);
+		$results=array();
+		$sql="SELECT * FROM kirimbupot WHERE hapus=0";
+
+		if(!empty($cmt)){
+			$sql.=" AND idcmt='$cmt' ";
+		}
+
+		if(!empty($sj)){
+			$sql.=" AND id='$sj' ";
+		}
+
+		if(empty($cmt) OR empty($sj)){
+			if(!empty($tanggal1)){
+				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
+		}
+
+		$sql.=' ORDER BY id DESC ';
+		$sql.=" LIMIT 20 ";
+		$results= $this->GlobalModel->queryManual($sql);
+		$namacmt=null;
+		$no=1;
+		$dets=[];
+		foreach($results as $result){
+			$action=array();
+			$action[] = array(
+				'text' => 'Detail',
+				'href' => $this->url.'kirimcmtview/'.$result['id'],
+			);
+
+			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			$dets = $this->GlobalModel->GetData('kirimbupot_detail',array('hapus'=>0,'idkirim'=>$result['id']));
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$result['kode_po']));
+			$data['products'][]=array(
+				'no'=>$no++,
+				'idsj' => $result['id'],
+				'nosj'=>$result['nosj'],
+				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'kode_po'=>isset($po['kode_po']) ? $po['kode_po'] : '',
+				'quantity'=>$result['totalkirim'],
+				'namacmt'=>$result['idcmt'],
+				'keterangan'=>$result['keterangan'],
+				'status'=>$result['status']==1?'Disetor':'Dikirim',
+				'action'=>$action,
+				'dets'=>$dets,
+				'validasi'=>$this->url.'validasi/'.$result['id'],
+			);
+		}
+		$data['page']=$this->page.'validasi';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function validasi($id)
+	{
+
+		$this->db->query("UPDATE kirimbupot SET validasi=1 WHERE id=$id ");
+		user_activity(callSessUser('id_user'),1,' validasi Surat Jalan Buku Potongan dengan id id '.$id);
+		$this->session->set_flashdata('msg','Data Berhasil Di Divalidasi');
+		redirect($this->url.'validasi_list');
+		
+	}
 		
 }
