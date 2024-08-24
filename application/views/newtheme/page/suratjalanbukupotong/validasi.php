@@ -86,7 +86,11 @@
                             <td><?php echo $po['kode_po']?></td>
                             <td><?php echo $p['status']?></td>
                             <td>
-                            <a href="<?php echo $p['validasi']; ?>" class="btn btn-xs btn-warning">Validasi</a><br>
+                              <?php if($p['stat_validasi']==1){ ?>
+                                  <span class="btn btn-xs btn-success">tervalidasi</span>
+                                <?php }else{ ?>
+                                  <a href="<?php echo $p['validasi']; ?>" class="btn btn-xs btn-warning">Validasi</a><br>
+                                <?php } ?>
                             </td>
                           </tr>
                           <?php } ?>

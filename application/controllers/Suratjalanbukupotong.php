@@ -357,6 +357,7 @@ class Suratjalanbukupotong extends CI_Controller {
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
 				'action'=>$action,
 				'dets'=>$dets,
+				'stat_validasi' => $result['validasi'],
 				'validasi'=>$this->url.'validasi/'.$result['id'],
 			);
 		}
