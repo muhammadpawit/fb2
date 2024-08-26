@@ -5,6 +5,9 @@
 				<tr>
 					<th>No</th>
 					<th>Nama Alat</th>
+					<th>Awal</th>
+					<th>Masuk</th>
+					<th>Keluar</th>
 					<th>Jumlah</th>
 					<th>Satuan</th>
 				</tr>
@@ -14,7 +17,10 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $no++ ?></td>
-						<td><?php echo $p['nama']?></td>
+						<td><?php echo $p['namaalat']?></td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
 						<td><?php echo $p['jumlah']?></td>
 						<td><?php echo $p['satuan']?></td>
 					</tr>
