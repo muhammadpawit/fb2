@@ -17,7 +17,7 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $no++ ?></td>
-						<td><?php echo $p['namaalat']?></td>
+						<td><?php echo $p['nama']?></td>
 						<td>0</td>
 						<td>0</td>
 						<td>0</td>
