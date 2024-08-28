@@ -99,8 +99,9 @@
                       </td>
                       <td>
                         <?php if(akseshapus()==1){?>
-                          <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-sm">Hapus</a>
+                          <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-xs">Hapus</a>
                         <?php } ?>
+                        <a href="<?php echo BASEURL?>Gudang/validasi/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin ?')" class="btn btn-warning btn-xs">Validasi</a>
                       </td>
                     </tr>
                   <?php } ?>

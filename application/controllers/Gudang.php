@@ -1606,6 +1606,19 @@ class Gudang extends CI_Controller {
 
 	}
 
+	function validasi($id){
+				$update = array(
+					'validasi' =>1,
+				);
+				$where = array(
+					'id' => $id,
+				);
+				$this->db->update('penerimaan_item_detail',$update,$where);
+				$this->session->set_flashdata('msg','Data berhasil disimpan');
+				user_activity(callSessUser('id_user'),1,' validasi penerimaan item detail dengan id '.$id);
+				redirect(BASEURL.'gudang/penerimaanitem');
+	}
+
 	public function penerimaanitemadd()
 
 	{
