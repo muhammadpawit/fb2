@@ -102,7 +102,7 @@
                           <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-xs">Hapus</a>
                         <?php } ?>
                         
-                        <?php if($p['validasi']==1 && $setujui==1){ ?>
+                        <?php if($p['validasi']==0 && $setujui==1){ ?>
                           <a href="<?php echo BASEURL?>Gudang/validasi/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin ?')" class="btn btn-warning btn-xs">Validasi</a>
                           <?php }else{ ?>
                               <span class="btn btn-success btn-xs">Sudah divalidasi</span>
