@@ -48,6 +48,7 @@
       <label>Aksi</label><br>
       <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
       <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+      <a target="_blank" onclick="downloadexcel()" class="btn btn-info btn-sm text-white">Excel</a>
     </div>
   </div>
 </div>
@@ -125,5 +126,20 @@
     }
     location =url;
   }
+
+
+  function downloadexcel(){
+    var url='?&excel=1';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+
 
 </script>

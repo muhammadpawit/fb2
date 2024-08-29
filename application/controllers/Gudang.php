@@ -840,8 +840,15 @@ class Gudang extends CI_Controller {
 				'othapus'=>akseshapus(),
 			);
 		}
-		$data['page']=$this->page.'barangkeluar/barangkeluar_list';
-		$this->load->view($this->page.'main',$data);
+		
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'barangkeluar/barangkeluar_excel',$data);
+		}else{
+
+			$data['page']=$this->page.'barangkeluar/barangkeluar_list';
+			$this->load->view($this->page.'main',$data);
+		
+		}
 	}
 
 	public function barangkeluartambah($jenis){
