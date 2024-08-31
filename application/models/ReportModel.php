@@ -1993,6 +1993,8 @@ class ReportModel extends CI_Model {
 		$sql="
 		SELECT 
     CASE
+        WHEN c.id = 4 AND a.stich = 4000 THEN 
+            a.jumlah_naik_mesin * 700
         WHEN 
             SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
             THEN 
@@ -2038,14 +2040,16 @@ class ReportModel extends CI_Model {
 		//$total=['total'=>0,'0.2'=>0,'0.3'=>0];
 		$sql="
 			SELECT 
-			CASE
-				WHEN 
-					SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
-					THEN 
-						CEILING(SUM(a.total_stich * a.laporan_perkalian_tarif))
-				ELSE 
-					FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif))
-			END AS total
+    CASE
+        WHEN c.id = 4 AND a.stich = 4000 THEN 
+            a.jumlah_naik_mesin * 700
+        WHEN 
+            SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
+            THEN 
+                CEILING(SUM(a.total_stich * a.laporan_perkalian_tarif))
+        ELSE 
+            FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif))
+    END AS total
 		FROM 
 			kelola_mesin_bordir a
 			LEFT JOIN master_po_luar b ON b.id = a.kode_po
