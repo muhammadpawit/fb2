@@ -128,6 +128,7 @@
                   <th>Gaji Pokok</th>
                   <th>Tanggal Masuk</th>
                   <th>Masa Kerja</th>
+                  <th>No.Rek</th>
                   <th>Status</th>
                   <th></th>
                 </tr>
@@ -159,6 +160,7 @@
                         ?>
                           
                       </td>
+                      <td><?php echo ($p['no_rek'])?></td>
                       <td>
                         <?php if($p['status_resign']==2){ ?>
                           <span class="badge bg-black">Non-aktif / Resign</span><br>
