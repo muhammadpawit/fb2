@@ -1018,6 +1018,9 @@ class Masterdata extends CI_Controller {
 				'masakerja'=>$perbedaan,
 				'status_resign'=>$p['status_resign'],
 				'tglkeluar'=>!empty($p['tglkeluar']) ? date('d F Y',strtotime($p['tglkeluar'])) : '',
+				'bank' 		=> $p['bank'],
+				'no_rek'	=> $p['no_rek'],
+				'atas_nama' => $p['atas_nama'],
 			);
 		}
 		$data['jabatan']=$this->GlobalModel->getData('jabatan',array('hapus'=>0));
@@ -1039,6 +1042,9 @@ class Masterdata extends CI_Controller {
 			'divisi'=>$post['divisi'],
 			'jabatan'=>$post['jabatan'],
 			'gajipokok'=>$post['gajipokok'],
+			'bank' 		=> $post['bank'],
+			'no_rek'	=> $post['no_rek'],
+			'atas_nama' => $post['atas_nama'],
 			'hapus'=>0
 		);
 		$this->db->insert('karyawan',$insert);
@@ -1077,6 +1083,9 @@ class Masterdata extends CI_Controller {
 			'gajipokok'=>$post['gajipokok'],
 			'status_resign'=>$post['status_resign'],
 			'tglkeluar'=>$tglkeluar,
+			'bank' 		=> $post['bank'],
+			'no_rek'	=> $post['no_rek'],
+			'atas_nama' => $post['atas_nama'],
 			'hapus'=>0
 		);
 		$this->db->update('karyawan',$insert,array('id'=>$post['id']));

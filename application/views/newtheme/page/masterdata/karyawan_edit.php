@@ -50,6 +50,40 @@
               <option value="2" <?php echo $products['status_resign']==2?'selected':'';?>>Non-aktif / Resign</option>
             </select>
           </div>
+          <div class="form-group">
+            <label>Bank</label>
+              <select name="bank" class="form-control select2bs4" style="width:100%" required="required">
+                <option value="">Pilih</option>
+                <option value="bca" <?php echo $products['bank']=='bca'?'selected':'';?>>Bank Central Asia (BCA)</option>
+                <option value="bri" <?php echo $products['bank']=='bri'?'selected':'';?>>Bank Rakyat Indonesia (BRI)</option>
+                <option value="bni" <?php echo $products['bank']=='bni'?'selected':'';?>>Bank Negara Indonesia (BNI)</option>
+                <option value="mandiri" <?php echo $products['bank']=='mandiri'?'selected':'';?>>Bank Mandiri</option>
+                <option value="btn" <?php echo $products['bank']=='btn'?'selected':'';?>>Bank Tabungan Negara (BTN)</option>
+                <option value="cimb" <?php echo $products['bank']=='cimb'?'selected':'';?>>CIMB Niaga</option>
+                <option value="danamon" <?php echo $products['bank']=='danamon'?'selected':'';?>>Bank Danamon</option>
+                <option value="panin" <?php echo $products['bank']=='panin'?'selected':'';?>>Panin Bank</option>
+                <option value="permata" <?php echo $products['bank']=='permata'?'selected':'';?>>Bank Permata</option>
+                <option value="ocbc" <?php echo $products['bank']=='ocbc'?'selected':'';?>>OCBC NISP</option>
+                <option value="bukopin" <?php echo $products['bank']=='bukopin'?'selected':'';?>>Bank Bukopin</option>
+                <option value="maybank" <?php echo $products['bank']=='maybank'?'selected':'';?>>Maybank Indonesia</option>
+                <option value="mega" <?php echo $products['bank']=='mega'?'selected':'';?>>Bank Mega</option>
+                <option value="sinarmas" <?php echo $products['bank']=='sinarmas'?'selected':'';?>>Bank Sinarmas</option>
+                <option value="bjb" <?php echo $products['bank']=='bjb'?'selected':'';?>>Bank BJB</option>
+                <option value="jatim" <?php echo $products['bank']=='jatim'?'selected':'';?>>Bank Jatim</option>
+                <option value="jateng" <?php echo $products['bank']=='jateng'?'selected':'';?>>Bank Jateng</option>
+                <option value="muamalat" <?php echo $products['bank']=='muamalat'?'selected':'';?>>Bank Muamalat</option>
+                <option value="syariahmandiri" <?php echo $products['bank']=='syariahmandiri'?'selected':'';?>>Bank Syariah Mandiri</option>
+                <option value="bri_syariah" <?php echo $products['bank']=='bri_syariah'?'selected':'';?>>BRI Syariah</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Atas Nama</label>
+            <input type="text" name="atas_nama" value="<?php echo $products['atas_nama']?>" class="form-control" required="required">
+          </div>
+          <div class="form-group">
+            <label>No.Rek</label>
+            <input type="text" name="no_rek" class="form-control" value="<?php echo $products['no_rek']?>" required="required">
+          </div>
           <?php if($products['status_resign']==2){?>
           <div class="form-group" id="tglkeluar">
           <?php }else{ ?>

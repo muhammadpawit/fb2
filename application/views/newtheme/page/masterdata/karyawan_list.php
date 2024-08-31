@@ -18,7 +18,7 @@
             <input type="text" name="nik" class="form-control" value="<?php echo $nik ?>" required="required">
           </div>
           <div class="form-group">
-            <label>Nama Karyawan</label>
+            <label>Nama Karyawan (Sesuai KTP)</label>
             <input type="text" name="nama" class="form-control" required="required">
           </div>
           <div class="form-group">
@@ -50,6 +50,40 @@
           <div class="form-group">
             <label>Gaji Pokok</label>
             <input type="number" name="gajipokok" class="form-control" required="required">
+          </div>
+          <div class="form-group">
+            <label>Bank</label>
+              <select name="bank" class="form-control select2bs4" style="width:100%" required="required">
+                <option value="">Pilih</option>
+                <option value="bca">Bank Central Asia (BCA)</option>
+                <option value="bri">Bank Rakyat Indonesia (BRI)</option>
+                <option value="bni">Bank Negara Indonesia (BNI)</option>
+                <option value="mandiri">Bank Mandiri</option>
+                <option value="btn">Bank Tabungan Negara (BTN)</option>
+                <option value="cimb">CIMB Niaga</option>
+                <option value="danamon">Bank Danamon</option>
+                <option value="panin">Panin Bank</option>
+                <option value="permata">Bank Permata</option>
+                <option value="ocbc">OCBC NISP</option>
+                <option value="bukopin">Bank Bukopin</option>
+                <option value="maybank">Maybank Indonesia</option>
+                <option value="mega">Bank Mega</option>
+                <option value="sinarmas">Bank Sinarmas</option>
+                <option value="bjb">Bank BJB</option>
+                <option value="jatim">Bank Jatim</option>
+                <option value="jateng">Bank Jateng</option>
+                <option value="muamalat">Bank Muamalat</option>
+                <option value="syariahmandiri">Bank Syariah Mandiri</option>
+                <option value="bri_syariah">BRI Syariah</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Atas Nama</label>
+            <input type="text" name="atas_nama" class="form-control" required="required">
+          </div>
+          <div class="form-group">
+            <label>No.Rek</label>
+            <input type="text" name="no_rek" class="form-control" required="required">
           </div>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" data-dismiss="modal">Batal</a>
