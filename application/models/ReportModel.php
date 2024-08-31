@@ -1953,12 +1953,24 @@ class ReportModel extends CI_Model {
 	public function total02($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
 		$sql="
-		SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total 
-		FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
+		SELECT 
+    CASE
+        WHEN c.id = 4 AND a.stich = 4000 THEN 
+            COALESCE(SUM(a.jumlah_naik_mesin * 700), 0)
+        ELSE 
+            COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0)
+    END AS total
+FROM kelola_mesin_bordir a
+LEFT JOIN master_po_luar b ON b.id = a.kode_po
+LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+WHERE a.hapus = 0 
+AND a.jenis = 2
+";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+		
 		$row=$this->GlobalModel->QueryManualRow($sql);
 		//pre($sql);
 		if(!empty($row)){
@@ -1994,7 +2006,8 @@ class ReportModel extends CI_Model {
 		SELECT 
     CASE
         WHEN c.id = 4 AND a.stich = 4000 THEN 
-            a.jumlah_naik_mesin * 700
+			SUM(a.jumlah_naik_mesin * 700)
+            
         WHEN 
             SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
             THEN 
@@ -2042,7 +2055,7 @@ class ReportModel extends CI_Model {
 			SELECT 
     CASE
         WHEN c.id = 4 AND a.stich = 4000 THEN 
-            a.jumlah_naik_mesin * 700
+            SUM(a.jumlah_naik_mesin * 700)
         WHEN 
             SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
             THEN 
