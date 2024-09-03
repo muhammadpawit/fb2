@@ -87,7 +87,7 @@
                 <td align="center" width="10%"><?php echo $k['keterangan']?></td>
             </tr>
             <?php $no++; ?>
-            <?php if ($no == 10) { ?>
+            <?php if ($no == 15) { ?>
                 </tbody>
                 </table>
                 <div class="break"></div> <!-- Tambahkan class "break" untuk page break -->
