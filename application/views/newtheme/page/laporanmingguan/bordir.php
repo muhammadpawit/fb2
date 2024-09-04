@@ -104,7 +104,7 @@
 				<td align="center"><b><?php echo number_format($transfer) ?></b></td>
 				<td align="center"><b><?php echo number_format($kas) ?></b></td>
 				<td align="center"><b><?php echo number_format($bahanbaku) ?></b></td>
-				<td align="center"><b><?php echo number_format($ops) ?>dd</b></td>
+				<td align="center"><b><?php echo number_format($ops) ?></b></td>
 				<td align="center"><b><?php echo number_format($gaji) ?></b></td>
 				<td align="center"><b><?php echo number_format($alokasitransfer) ?></b></td>
 				<td align="center"><b><?php echo number_format($sisa) ?></b></td>

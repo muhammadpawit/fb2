@@ -1482,7 +1482,7 @@ class Finishing extends CI_Controller {
 		}
 
 		
-		
+		$kodepo=$po['kode_po'];
 		$viewData['boronganmesin']= $this->GlobalModel->getData('boronganmesin',array('nama_po'=>$kodepo,'hapus'=>0));
 		
 		$viewData['buangbenang']=[];
