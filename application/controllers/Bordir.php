@@ -659,7 +659,7 @@ class Bordir extends CI_Controller {
 		SELECT a.mesin_bordir, a.laporan_perkalian_tarif as perkalian, c.id as idpemilik, c.nama FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
-		WHERE jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  
+		WHERE a.hapus=0 AND jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  
 		AND laporan_perkalian_tarif IS NOT NULL 
 		GROUP BY a.laporan_perkalian_tarif, b.idpemilik order by laporan_perkalian_tarif DESC
 		");
