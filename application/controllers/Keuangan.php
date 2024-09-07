@@ -1051,4 +1051,98 @@ class Keuangan extends CI_Controller {
 
 	}
 
+	public function piutang()
+	{
+		// jenis 1 bahan, 2 alat-alat
+		$data=array();
+		$data['title']='Penerimaan Item';
+		$data['url']=BASEURL.'Gudang/penerimaanitem';
+		$data['tambah']=BASEURL.'Gudang/penerimaanitemadd';
+		$data['items']=array();
+		$setujui=0;
+		if(isset($user['id_user'])){
+			$data['setujui']=akses($user['id_user'],3);
+		}
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+		if(isset($get['supplier'])){
+			$sups=$get['supplier'];
+		}else{
+			$sups=null;
+		}
+		$sql='SELECT * FROM penerimaan_item WHERE hapus=0 ';
+
+		if(!empty($tanggal1)){
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		if(!empty($cat)){
+			$sql.=" AND jenis='".$cat."' ";
+		}
+
+		if(!empty($sups)){
+			$sql.=" AND supplier='".$sups."' ";
+		}
+
+		if(!empty($cat) OR empty(!$sups)){
+			
+		}else{
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$sql.=" ORDER BY id DESC";
+		$resutls = $this->GlobalModel->queryManual($sql);
+		$data['supplier']=$this->GlobalModel->getData('master_supplier',array('hapus'=>0));
+		$data['n']=1;
+		foreach($resutls as $result){
+			$action=array();
+			$action[]=array(
+				'text'=>'Detail',
+				'href'=>BASEURL.'Gudang/penerimaanitemdetail/'.$result['id'],
+			);
+
+			$action[]=array(
+				'text'=>'Ajukan Perubahan harga',
+				'href'=>BASEURL.'Gudang/penerimaanitemdetail_ubahharga/'.$result['id'],
+			);
+
+
+			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
+			$products=$this->GlobalModel->getData('penerimaan_item_detail',array('hapus'=>0,'validasi'=>1,'penerimaan_item_id'=>$result['id']));
+			$data['items'][]=array(
+				'id'=>$result['id'],
+				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'nosj'=>$result['nosj'],
+				'keterangan'=>$result['keterangan'],
+				'supplier'=>empty($supplier)?'':$supplier['nama'],
+				'jenis'=>$result['jenis'],
+				'action'=>$action,
+				'prods'=>$products,
+			);
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['cat']=$cat;
+		$data['suppliers_id']=$sups;
+		if(isset($get['excel'])){
+			$this->load->view('gudang/penerimaanitem/excel',$data);
+		}else{
+			$data['page']='gudang/penerimaanitem/list';
+			$this->load->view('newtheme/page/main',$data);
+		}
+
+	}
+
 }
