@@ -1486,7 +1486,10 @@ class Finishing extends CI_Controller {
 		$viewData['boronganmesin']= $this->GlobalModel->getData('boronganmesin',array('nama_po'=>$kodepo,'hapus'=>0));
 		
 		$viewData['buangbenang']=[];
-		$viewData['buangbenang']= $this->GlobalModel->getData('buang_benang_finishing',array('kode_po'=>$kodepo,'hapus'=>0));
+		// $viewData['buangbenang']= $this->GlobalModel->getData('buang_benang_finishing',array('kode_po'=>$kodepo,'hapus'=>0));
+		$viewData['buangbenang']= $this->GlobalModel->QueryManual(
+			"SELECT * FROM buang_benang_finishing WHERE hapus=0 AND kode_po='$kodepo' GROUP BY kode_po "
+		);
 		$viewData['packing']=[];
 		$namapo=$viewData['po']['nama_po'];
 		if(strtolower($namapo)=="kfb" OR strtolower($namapo)=="kkf"){
