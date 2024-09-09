@@ -2357,7 +2357,7 @@ class Kelolapo extends CI_Controller {
 	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
 	        // setting paper
 	        //$paper = 'A4';
-	        $paper = array(0,0,800,900);
+	        $paper = array(0,0,800,1200);
 	        //orientasi paper potrait / landscape
 	        $orientation = "potrait";
 	        
