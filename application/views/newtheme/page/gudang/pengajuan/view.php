@@ -179,7 +179,7 @@
                                 </td>                                
                                 <td>
                                   <?php if($setujui==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success btn-xs text-white">Setujui</a>
+                                      <!-- <a href="<?php echo BASEURL.'Gudang/setujuiajuan/'.$us['id']; ?>" class="btn btn-success btn-xs text-white">Setujui</a> -->
                                     <?php } ?>
 
                                     
