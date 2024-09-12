@@ -163,15 +163,11 @@
                                     
                                   <?php if($us['status']==1 && !empty($us['from_mingguan']) OR $us['from_alat']){?>
                                       <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a> -->
-                                    <?php }?>
-
-                                    <?php if($us['status']==1){?>
+                                  <?php }?>
                                     
-                                    <?php if(akseshapus()==1){?>
+                                    <?php if(aksesedit()==1){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a>
-                                      <!-- <a href="<?php echo BASEURL.'Gudang/ajuanhapus/'.$us['id']; ?>" onclick="return confirm('Apakah yakin akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Batalkan</a> -->
                                     <?php } ?>
-                                    <?php }?>
                                 </td>
                                 <td hidden>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
