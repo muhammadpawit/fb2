@@ -80,8 +80,8 @@
                             <td><?php echo $p['ketentuan']?></td>
                             <td><?php echo $p['totalpotongan']?></td>
                             <td>
-                              <?php foreach($p['action'] as $a){ ?>
-                                <a href="<?php echo $a['href']?>" onclick="return confirm('Apakah yakin?')" class="<?php echo $a['class']?>"><?php echo $a['text']?></a>
+                              <?php if(akseshapus()==1){ ?>
+                                <a href="<?php echo $a['hapus']?>" onclick="return confirm('Apakah yakin?')" class="btn btn-xs btn-danger">Hapus</a>
                               <?php } ?>
                             </td>
                           </tr>

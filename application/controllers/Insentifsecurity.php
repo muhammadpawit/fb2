@@ -112,7 +112,7 @@ class Insentifsecurity extends CI_Controller {
 					'foto'=>$result['foto'],
 					'ketentuan'=>$result['ketentuan'],
 					'totalpotongan'=> $result['totalpotongan'],
-					'action'=>$action,
+					'hapus'=>$this->url.'InsentifsecurityHapus/'.$result['id'],
 					// 'dets'=>$dets,
 				);
 			}
