@@ -90,8 +90,9 @@ class Insentifsecurity extends CI_Controller {
 			"
 		);
 		// pre($dets);
+		$action=array();
 		foreach($dets as $result){
-			$action=array();
+			
 			$action[] = array(
 				'text' => 'Hapus',
 				'href' => $this->url.'InsentifsecurityHapus/'.$result['id'],
