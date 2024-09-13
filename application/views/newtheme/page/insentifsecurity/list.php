@@ -81,7 +81,7 @@
                             <td><?php echo $p['totalpotongan']?></td>
                             <td>
                               <?php foreach($p['action'] as $a){ ?>
-                                <a href="<?php echo $a['href']?>" onclick="return confirm('Apakah yakin?')"><?php echo $a['teks']?></a>
+                                <a href="<?php echo $a['href']?>" onclick="return confirm('Apakah yakin?')" class="<?php echo $a['class']?>"><?php echo $a['text']?></a>
                               <?php } ?>
                             </td>
                           </tr>

@@ -86,7 +86,7 @@ class Insentifsecurity extends CI_Controller {
 			"
 				SELECT a.*, b.karyawan_id, b.shift, b.totalpotongan FROM insentifsecurity_detail a LEFT JOIN insentifsecurity b ON b.id=a.idint
 
-				WHERE idint IN($idint)
+				WHERE idint IN($idint) AND a.hapus=0
 			"
 		);
 		// pre($dets);
@@ -95,6 +95,7 @@ class Insentifsecurity extends CI_Controller {
 			
 			$action[] = array(
 				'text' => 'Hapus',
+				'class' => 'btn btn-xs btn-danger',
 				'href' => $this->url.'InsentifsecurityHapus/'.$result['id'],
 			);
 
@@ -124,7 +125,7 @@ class Insentifsecurity extends CI_Controller {
 				'tanggal'=>null,
 				'nama'=>null,
 				'shift'=>null,
-				'action'=>null,
+				'action'=>$action,
 				// 'dets'=>$dets,
 			);
 		}
