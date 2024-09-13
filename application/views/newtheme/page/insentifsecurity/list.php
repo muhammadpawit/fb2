@@ -81,7 +81,7 @@
                             <td><?php echo $p['totalpotongan']?></td>
                             <td>
                               <?php if(akseshapus()==1){ ?>
-                                <a href="<?php echo $a['hapus']?>" onclick="return confirm('Apakah yakin?')" class="btn btn-xs btn-danger">Hapus</a>
+                                <a href="<?php echo $p['hapus']?>" onclick="return confirm('Apakah yakin?')" class="btn btn-xs btn-danger">Hapus</a>
                               <?php } ?>
                             </td>
                           </tr>
