@@ -1600,6 +1600,7 @@ class Gudang extends CI_Controller {
 				'keterangan'=>$result['keterangan'],
 				'supplier'=>empty($supplier)?'':$supplier['nama'],
 				'jenis'=>$result['jenis'],
+				'tipepembayaran'=>$result['tipepembayaran'],
 				'action'=>$action,
 				'prods'=>$products,
 			);
@@ -1660,6 +1661,7 @@ class Gudang extends CI_Controller {
 					'nosj'=>$data['nosj'],
 					'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
 					'jenis'=>$data['jenis'],
+					'tipepembayaran'=>$data['tipepembayaran'],
 					'hapus'=>0
 				);
 				$this->db->insert('penerimaan_item',$it);

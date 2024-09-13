@@ -58,6 +58,7 @@
                 <tr>
                   <th>#</th>
                   <th>Bagian</th>
+                  <th>Tipe Pembayaran</th>
                   <th>Tanggal</th>
                   <th>Nama Supplier</th>
                   <th>Nama Item</th>
@@ -87,6 +88,7 @@
                           }
                         ?>
                       </td>
+                      <td><?php echo $i['tipepembayaran']?></td>
                       <td><?php echo $i['tanggal']?></td>
                       <td><?php echo strtolower($i['supplier']) ?></td>
                       <td><?php echo strtolower($p['nama']) ?></td>

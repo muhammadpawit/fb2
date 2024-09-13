@@ -54,7 +54,21 @@
                         <input type="text" id="nosj" name="nosj" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tipe Pembayaran</label>
+                        <select name="tipepembayaran" id="tipepembayaran" class="form-control select2bs4" data-live-search="true"  required="required">
+                            <option value="">Pilih</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Transfer">Transfer</option>
+                            <option value="Tempo">Tempo</option>
+                            <!-- <option value="4">Sablon</option>
+                            <option value="5">Penyesuaian Stok Awal</option>
+                            <option value="6">Penyesuaian Stok</option> -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Upload Foto Surat Jalan / Dokumen Pendukung Lainnya</label>
                         <input type="file" name="lampiran" class="form-control" accept=".jpg,.jpeg,.png">
