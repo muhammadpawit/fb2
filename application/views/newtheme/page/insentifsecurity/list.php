@@ -63,7 +63,7 @@
                           <th>Kontrol Video Call</th>
                           <th>Foto Per 2 Jam</th>
                           <th>Ketentuan</th>
-                          <th>Potongan</th>
+                          <th>Potongan.</th>
                           <th></th>
                         </tr>
                       </thead>
