@@ -79,7 +79,11 @@
                             <td><?php echo $p['foto']?></td>
                             <td><?php echo $p['ketentuan']?></td>
                             <td><?php echo $p['totalpotongan']?></td>
-                            <td></td>
+                            <td>
+                              <?php foreach($p['action'] as $a){ ?>
+                                <a href="<?php echo $a['link']?>" onclick="return confirm('Apakah yakin?')"><?php echo $a['Teks']?></a>
+                              <?php } ?>
+                            </td>
                           </tr>
                           <?php 
                              $total+=($p['totalpotongan']);

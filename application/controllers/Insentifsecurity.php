@@ -93,8 +93,8 @@ class Insentifsecurity extends CI_Controller {
 		foreach($dets as $result){
 			$action=array();
 			$action[] = array(
-				'text' => 'Detail',
-				'href' => $this->url.'kirimcmtview/'.$result['id'],
+				'text' => 'Hapus',
+				'href' => $this->url.'InsentifsecurityHapus/'.$result['id'],
 			);
 
 			$namacmt = $this->GlobalModel->getDataRow('karyawan',array('id'=>$result['karyawan_id']));
@@ -274,12 +274,11 @@ class Insentifsecurity extends CI_Controller {
 		
 	}	
 
-	public function hapus($id,$pcs,$idsj)
+	public function InsentifsecurityHapus($id)
 	{
 		// $this->GlobalModel->deleteData('user',array('id_user'=>$id));
-		$this->db->update('kirimbupot_detail',array('hapus'=>1),array('id'=>$id));
-		$this->db->query("UPDATE kirimbupot SET totalkirim=totalkirim-$pcs WHERE id=$idsj ");
-		user_activity(callSessUser('id_user'),1,' menghapus Surat Jalan Buku Potongan dengan id id '.$id);
+		$this->db->update('insentifsecurity_detail',array('hapus'=>1),array('id'=>$id));
+		user_activity(callSessUser('id_user'),1,' menghapus insentif dengan id '.$id);
 		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
 		redirect($this->url);
 		
