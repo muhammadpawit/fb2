@@ -97,7 +97,8 @@
                   <td>
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
-                    <button type="submit" class="btn btn-success btn-sm full">Disetujui</button>
+                    <!-- <button type="submit" class="btn btn-success btn-sm full">Disetujui</button> -->
+					<a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
                     </form>
                   </td>
                   <td>
@@ -111,7 +112,28 @@
 		</table>
 	</div>
 </div>
-<div id="signatures"></div>
+
+<div class="modal fade" id="detailModalTtd" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Persetujuan Digital</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="signatureModal">
+            <div id="signatures" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
+            </div>
+            <div class="modal-footer">
+            
+                <button id="clear_signature">Clear</button>
+                <button id="save_signature">Save Signature</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
 	 $(document).ready(function() {
