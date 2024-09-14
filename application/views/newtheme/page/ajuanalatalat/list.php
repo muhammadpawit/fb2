@@ -52,7 +52,7 @@
 						<td><?php echo $p['ajuan'] ?></td>
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
-						<form method="POST" action="<?php echo $acc ?>">
+						<form method="POST" action="<?php echo $acc ?>" id="setujuiAll">
 							<input type="hidden" name="bagian" value="<?php echo $type ?>">
 							<input type="hidden" hidden name="tanggal" value="<?php echo date('Y-m-d',strtotime($p['tanggal'])) ?>">
 						<?php if(!empty($spv)) { ?>
@@ -98,7 +98,7 @@
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
                     <!-- <button type="submit" class="btn btn-success btn-sm full">Disetujui</button> -->
-					<a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd">Setujui</a>
+					<a href="#" class="btn btn-primary full text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd">Setujui</a>
                     </form>
                   </td>
                   <td>
@@ -141,6 +141,20 @@
 		$('#detailModalTtd').on('shown.bs.modal', function () {
 			$("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
 			$("#signatures").jSignature();
+		});
+
+		$('#clear_signature').click(function() {
+           $("#signature").jSignature("reset");
+       	});
+
+		$('#save_signature').click(function() {
+			var c= confirm('Apakah data sudah benar ?');
+			if(c==true){
+				$("#setujuiAll").submit();
+			}else{
+				return false;
+			}
+			
 		});
 	 });
 </script>
