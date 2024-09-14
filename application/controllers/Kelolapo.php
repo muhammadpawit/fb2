@@ -1705,7 +1705,7 @@ class Kelolapo extends CI_Controller {
 		$data['no']=1;
 		$data['nota']='Sablon';
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
-		$data['kirims']=$this->GlobalModel->getData('kirimcmtsablon_detail',array('idkirim'=>$id));
+		$data['kirims']=$this->GlobalModel->getData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$id));
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
 		if($type==2){
 			$pdf=false;
