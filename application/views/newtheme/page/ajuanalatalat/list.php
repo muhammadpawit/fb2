@@ -98,7 +98,7 @@
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
                     <!-- <button type="submit" class="btn btn-success btn-sm full">Disetujui</button> -->
-					<a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+					<a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd">Setujui</a>
                     </form>
                   </td>
                   <td>
@@ -137,6 +137,10 @@
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
 	 $(document).ready(function() {
-		$("#signatures").jSignature();
+		// $("#signatures").jSignature();
+		$('#detailModalTtd').on('shown.bs.modal', function () {
+			$("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
+			$("#signatures").jSignature();
+		});
 	 });
 </script>
