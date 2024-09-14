@@ -25,18 +25,18 @@ class Report extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=null;
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+			$tanggal2=null;
 		}
 
 		if(isset($get['bulan'])){
 			$bulan=$get['bulan'];
 		}else{
-			$bulan=date('n');
+			$bulan=null;
 		}
 		if(isset($get['tahun'])){
 			$tahun=$get['tahun'];
@@ -47,6 +47,8 @@ class Report extends CI_Controller {
 		$filter=array(
 			'bulan'=>$bulan,
 			'tahun'=>$tahun,
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
 		);
 
 		$results=$this->KirimsetorModel->kirimgudang($filter);

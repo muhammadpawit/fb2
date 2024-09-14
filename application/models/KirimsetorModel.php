@@ -392,7 +392,11 @@ class kirimsetorModel extends CI_Model {
 		$hasil=[];
 		$results=[];
 		$sql="SELECT kg.tanggal_kirim,count(kg.kode_po) as jml,mjp.nama_jenis_po,mjp.perkalian,SUM(kg.jumlah_harga_piece) as nilai FROM finishing_kirim_gudang kg JOIN produksi_po p ON(p.id_produksi_po=kg.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE ";
-		$sql.=" p.hapus=0 and MONTH(tanggal_kirim) ='".$data['bulan']."' AND YEAR(tanggal_kirim) ='".$data['tahun']."' ";
+		if(!empty($data['bulan'])){
+			$sql.=" p.hapus=0 and MONTH(tanggal_kirim) ='".$data['bulan']."' AND YEAR(tanggal_kirim) ='".$data['tahun']."' ";
+		}else{
+			$sql.=" p.hapus=0 and DATE(tanggal_kirim) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		}
 		$sql.="GROUP BY mjp.nama_jenis_po,kg.tanggal_kirim ORDER BY kg.tanggal_kirim";
 		$results=$this->GlobalModel->QueryManual($sql);
 		foreach($results as $row){

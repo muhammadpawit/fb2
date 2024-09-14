@@ -1,4 +1,16 @@
 <div class="row">
+<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal Awal</label>
+			<input type="text" name="tanggal1" id="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1?>">
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Tanggal Akhir</label>
+			<input type="text" name="tanggal2" id="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2?>">
+		</div>
+	</div>
 	<div class="col-md-4">
 		<div class="form-group">
 			<!-- <label>Tanggal Awal</label>
@@ -28,14 +40,14 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button onclick="filterbulan()" class="btn btn-info btn-sm">Filter</button>
+			<button onclick="filterbulanR()" class="btn btn-info btn-sm">Filter</button>
 			<a href="<?php echo $excel?>" class="btn btn-info btn-sm text-white">Excel</a>
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered table-hover nosearch">
+		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<th>Hari</th>
@@ -81,3 +93,28 @@
 		</table>
 	</div>
 </div>
+<script>
+	function filterbulanR(){
+    var url='?';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+	var bulan =$("#bulan").val();
+    var tahun =$("#tahun").val();
+    
+	if(bulan){
+      url+='&bulan='+bulan;
+    }
+    if(tahun){
+      url+='&tahun='+tahun;
+    }
+
+    location =url;
+  }
+</script>
