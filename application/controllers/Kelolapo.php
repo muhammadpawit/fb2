@@ -1664,7 +1664,7 @@ class Kelolapo extends CI_Controller {
 		$data['cetak']=BASEURL.'Kelolapo/kirimcmtsabloncetak/'.$id.'/1';
 		$data['excel']=BASEURL.'Kelolapo/kirimcmtsabloncetak/'.$id.'/2';
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
-		$kirims=$this->GlobalModel->getData('kirimcmtsablon_detail',array('idkirim'=>$id));
+		$kirims=$this->GlobalModel->getData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$id));
 		$job=null;
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
