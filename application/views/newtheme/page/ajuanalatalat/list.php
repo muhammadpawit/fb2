@@ -111,3 +111,10 @@
 		</table>
 	</div>
 </div>
+<div id="signatures"></div>
+<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
+<script>
+	 $(document).ready(function() {
+		$("#signatures").jSignature();
+	 });
+</script>
