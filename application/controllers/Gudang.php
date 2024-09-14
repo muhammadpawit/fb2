@@ -1161,6 +1161,78 @@ class Gudang extends CI_Controller {
 		}
 	}
 
+	public function pengajuanmanajer(){
+		$data=array();
+		
+		$data['products']=array();
+		$data['n']=1;
+		
+		$user=user();
+		$setujui=0;
+		if(isset($user['id_user'])){
+			$data['setujui']=akses($user['id_user'],3);
+		}
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+		$last=$this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE hapus=0 ORDER BY tanggal DESC limit 1 ");
+		$sql="SELECT * FROM pengajuan_harian_new WHERE hapus=0 ";
+		$tgl2= empty($tanggal2)?date('Y-m-d'):$tanggal2;
+		if(!empty($tanggal1)){
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tgl2."' ";
+		}else{
+			$sql.=" AND date(tanggal)='".$last['tanggal']."' ";
+		}
+		if(!empty($cat)){
+			$sql.=" AND kategori='".$cat."' ";
+		}else{
+			if(isset($get['list_skb'])){
+				$sql.=" AND kategori IN (4) ";
+			}else{
+				
+			}
+		}
+		$sql.=" ORDER BY id DESC ";
+		if( isset($get['tanggal1']) OR isset($get['cat']) ){
+
+		}else{
+			$sql.="LIMIT 10";
+		}
+		$data['harian'] =$this->db->query($sql)->result_array();
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['cat']=$cat;
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gudang/pengajuan/view_excel',$data);
+		}else{
+			if(!isset($get['list_skb'])){
+				$data['title']='Pengajuan';
+				$data['tambah']=BASEURL.'Gudang/pengajuanadd';
+				$data['page']=$this->page.'gudang/pengajuan/manajer';		
+				$this->load->view($this->page.'main',$data);
+			}else{
+				$data['title']='Pengajuan Sukabumi (Non-pembelian)';
+				$data['page']=$this->page.'gudang/pengajuan/list_ajuan_skb';
+				$data['tambah']=BASEURL.'Gudang/pengajuanadd?&sukabumi=true';
+				$this->load->view($this->page.'main',$data);
+			}
+			
+		}
+	}
+
 	public function pengajuanadd()
 	{
 		$get = $this->input->get();
@@ -3448,7 +3520,7 @@ class Gudang extends CI_Controller {
 		echo '<div class="row">';
 		echo '<div class="col-md-4">';
 		echo 'Cash : <br>';
-		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'" required>';
+		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'" readonly>';
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Transfer : <br>';
@@ -3457,6 +3529,84 @@ class Gudang extends CI_Controller {
 		echo '<div class="col-md-4">';
 		echo 'Sisa Cash : <br>';
 		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  required>';
+		echo '</div><br><br>';
+		// echo '
+		// 		<div class="row">
+		// 			<div class="col-md-12">
+		// 				<div class="signatuers"></div>
+		// 			</div>
+		// 			<div class="col-md-12">
+		// 				<button type="button" id="clear_signature">Clear</button>
+		// 				<button type="button id="save_signature">Save Signature</button>
+		// 			</div>
+		// 		</div>
+		// ';
+		echo '<div class="row">
+		<div class="col-md-4">		
+		<div class="col-md-4"><br><br>
+				<div class="form-group"><button class="btn btn-success btn-lg" type="submit">Simpan</button></div>
+				</div>
+		</div>';
+		echo '</div>';
+		echo '</form>';
+	}
+
+	function getRealisasiDetailmanajer(){
+		$id = $this->input->get('id');
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		echo '
+			<div class="row">
+
+			<div class="col-lg-6 col-xs-6">
+				<div class="small-box bg-aqua">
+				<div class="inner">
+				<h3>Rp. '.number_format($ajuan['cash']).'</h3>
+				<p>Cash</p>
+				</div>
+				<div class="icon">
+				<i class="ion ion-bag"></i>
+				</div>
+				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+
+
+			<div class="col-lg-6 col-xs-6">
+				<div class="small-box bg-yellow">
+				<div class="inner">
+				<h3>Rp. '.number_format($ajuan['transfer']).'</h3>
+				<p>Transfer</p>
+				</div>
+				<div class="icon">
+				<i class="ion ion-bag"></i>
+				</div>
+				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+				</div>
+			</div>
+			
+			
+			</div>
+		';
+		echo '<hr>';
+		echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		echo '<div claass="card-header">
+			<h2>
+				Detail Realisasi Penerimaan 
+			</h2>
+		</div>';
+		echo '<input type="hidden" name="id" value="'.$id.'">	';
+		echo '<div class="row">';
+		echo '<div class="col-md-4">';
+		echo 'Cash : <br>';
+		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'" required>';
+		echo '</div>';
+		echo '<div class="col-md-4">';
+		echo 'Transfer : <br>';
+		echo '<input type="number" class="form-control" name="diterima_tf" value="'.$ajuan['diterima_tf'].'"  readonly>';
+		echo '</div>';
+		echo '<div class="col-md-4">';
+		echo 'Sisa Cash : <br>';
+		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  readonly>';
 		echo '</div><br><br>';
 		// echo '
 		// 		<div class="row">
