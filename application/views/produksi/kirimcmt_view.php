@@ -75,6 +75,9 @@
 								<a href="<?php echo $kembali; ?>" class="btn btn-danger">Kembali</a>
 								<a href="<?php echo $cetak; ?>" class="btn btn-primary" target="_blank">Cetak</a>
 								<a href="<?php echo $excel; ?>" class="btn btn-info" target="_blank">Excel</a>
+								<?php if(isset($generatehistory)){?>
+								<a href="<?php echo $generatehistory; ?>" onclick="return confirm('Apakah yakin ?')" class="btn btn-default">Generate History</a>
+								<?php } ?>
 							</div>
 							</div>
 						</div>

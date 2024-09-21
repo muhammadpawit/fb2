@@ -1663,6 +1663,7 @@ class Kelolapo extends CI_Controller {
 		$data['kembali']=BASEURL.'Kelolapo/pengirimansablon';
 		$data['cetak']=BASEURL.'Kelolapo/kirimcmtsabloncetak/'.$id.'/1';
 		$data['excel']=BASEURL.'Kelolapo/kirimcmtsabloncetak/'.$id.'/2';
+		$data['generatehistory']=BASEURL.'Kelolapo/generatehistory_sablon/'.$id;
 		$data['kirim']=$this->GlobalModel->getDataRow('kirimcmtsablon',array('id'=>$id));
 		$kirims=$this->GlobalModel->getData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$id));
 		$job=null;
@@ -1681,6 +1682,59 @@ class Kelolapo extends CI_Controller {
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
 		$data['page']='produksi/kirimcmt_view';
 		$this->load->view('newtheme/page/main',$data);
+	}
+
+	function generatehistory_sablon($id){
+		$kirim=$this->GlobalModel->getDataRow('kirimcmtsablon',array('hapus'=>0,'id'=>$id));
+		$cmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$kirim['idcmt']));
+		$kirims=$this->GlobalModel->getData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$id));
+		
+		foreach($kirims as $p){
+			
+			$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
+			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['idpo']));
+			$cek = $this->GlobalModel->QueryManualRow("
+				SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='KIRIM'
+				AND kategori_cmt='SABLON' AND idpo='".$p['idpo']."'
+			");
+			$insertkks=array(
+				'kode_po'=>$po['kode_po'],
+				'create_date'=>$kirim['tanggal'],
+				'kode_nota_cmt'=>$id,
+				'progress'=>'KIRIM',
+				'kategori_cmt'=>'SABLON',
+				'id_master_cmt'=>$cmt['id_cmt'],
+				'id_master_cmt_job'=>$p['cmtjob'],
+				'cmt_job_price'=>$jobprice['harga'],
+				'nama_cmt'=>$cmt['cmt_name'],
+				'qty_tot_pcs'=>$p['jumlah_pcs'],
+				'qty_tot_atas'=>0,
+				'qty_tot_bawah'=>0,
+				'keterangan'=>'-',
+				'status'=>0,
+				'jml_barang'=>$p['jml_barang'],
+				'qty_bangke'=>0,
+				'qty_reject'=>0,
+				'qty_hilang'=>0,
+				'qty_claim'=>0,
+				'status_keu'=>0,
+				'tglinput'=>date('Y-m-d'),
+				'idpo'=>!empty($po)?$po['id_produksi_po']:0,
+			);
+			
+			if(isset($cek['idpo'])){
+				$where = array(
+					'id_kelolapo_kirim_setor' => $cek['id_kelolapo_kirim_setor'],
+				);
+				$this->db->update('kelolapo_kirim_setor',$insertkks,$where);
+			}else{
+				$this->db->insert('kelolapo_kirim_setor',$insertkks);
+			}
+		}
+		// pre($kirims);
+		user_activity(callSessUser('id_user'),1,' generate surat jalan sablon id '.$id);
+		$this->session->set_flashdata('msg','Data berhasil digenerate');
+		redirect(BASEURL.'Kelolapo/kirimcmtsablonview/'.$id);
 	}
 
 	/*public function kirimcmtsabloncetak($id='',$type=''){
