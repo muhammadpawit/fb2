@@ -550,7 +550,7 @@ class Pembayaran extends CI_Controller {
 					'pcs'=>$r['jml_pcs'],
 					'harga'=>!empty($r['harga']) ? number_format($harga['harga_potongan']) : 0,
 					'total'=>!empty($r['harga']) ? number_format($harga['harga_potongan']*$r['jml_pcs']) : 0,
-					'price'=>!empty($harga['harga']) ? $harga['harga_potongan'] : 0,
+					'price'=>!empty($r['harga']) ? $harga['harga_potongan'] : 0,
 					'totals'=>!empty($r['harga']) ? $harga['harga_potongan']*$r['jml_pcs'] : 0,
 					'full'=>$r['full'],
 				);
