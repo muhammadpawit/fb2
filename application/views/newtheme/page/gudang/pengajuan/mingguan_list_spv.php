@@ -63,7 +63,7 @@
                 <?php $i=0;?>
                 <?php if($products){?>
                   <?php foreach($products as $p){?>
-                    <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_all">
+                    <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_all" id="setujuiAll">
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="prods[<?php echo $i ?>][id]" value="<?php echo $p['id']?>">
                     <input type="hidden" hidden name="prods[<?php echo $i ?>][tanggal]" value="<?php echo $p['tanggal']?>">
@@ -97,11 +97,12 @@
                   <td>
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
-                    <button type="submit" class="btn btn-success btn-sm full">Disetujui</button>
+                    <!-- <button type="submit" class="btn btn-success btn-sm full">Disetujui</button> -->
+                    
                     </form>
                   </td>
                   <td>
-                  <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_batal">
+                  <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_batal" hidden>
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
                     <button type="submit" class="btn btn-danger btn-sm full">Dibatalkan</button>
                     </form>
@@ -112,33 +113,67 @@
             </table>
   </div>
 </div>
-<!-- <div class="row">
-  <div class="col-md-6">
-    <form method="POST" action="<?php echo BASEURL?>Gudang/setujualat_all">
-        <div class="form-group">
-          <label>Persetujuan</label>
-          <input type="number" class="form-control">
-        </div>
-    </form>
+<div class="row">
+  <div class="col-md-4 ">
+    <div id="signature" ></div>
+ 
   </div>
-</div> -->
-<div id="dataModal" class="modal fade">  
-    <div class="modal-dialog">  
-         <div class="modal-content">  
-              <div class="modal-header">  
-                   <h4 class="modal-title">Detail User</h4>  
-              </div>  
-              <div class="modal-body" id="detail_user">  
-              </div>  
-              <div class="modal-footer">  
-                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-              </div>  
-         </div>  
-    </div>  
-</div> 
-<script type="text/javascript">
+  <div class="col-md-12">
+    <!-- <button id="undo_signature">Undo</button>
+    <button id="clear_signature">Clear</button> -->
+    <button id="save_signature" class="btn btn-primary">Save Signature</button>
+  </div>
+</div>
+<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
+<script>
   
+  $('#save_signature').click(function() {
+			var c= confirm('Apakah data sudah benar ?');
+			if(c==true){
+				   
+        var datapair = $("#signature").jSignature("getData", "image");
+        var imgData = datapair[1];
+        var idajuan = $("#idajuan").val();
+        var form = $("#setujuiAll")[0]; // Mengambil elemen form
+
+        // Membuat FormData dari form yang ada
+        var formData = new FormData(form);
+
+        // Menambahkan data tambahan ke FormData
+        formData.append('image_data', imgData);
+        formData.append('id', idajuan);
+
+        $.ajax({
+            url: "<?= BASEURL ?>Gudang/acc_ajuan_mingguan_all",
+            type: "POST",
+            data: formData,
+            contentType: false, // Jangan set tipe konten secara otomatis
+            processData: false, // Jangan proses data, biarkan FormData yang menangani
+            success: function(response) {
+                // alert('Signature saved successfully!');
+                // Bisa reload atau tindakan lain sesuai kebutuhan
+                console.log(response);
+                window.location.href = "<?= BASEURL ?>Gudang/pengajuancetak/" + response;
+            }
+        });
+
+			}else{
+				return false;
+			}
+			
+		});
+
   $(document).ready(function(){
+
+    $("#signature").jSignature();
+
+		$('#clear_signature').click(function() {
+           $("#signature").jSignature("reset");
+       	});
+
+		
+
+
     $('.view_data').click(function(){
       var data_id = $(this).data("id");
       //alert(data_id);

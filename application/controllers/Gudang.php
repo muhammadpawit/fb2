@@ -3190,6 +3190,25 @@ class Gudang extends CI_Controller {
 				$this->db->insert('pengajuan_harian_new_detail',$rip);
 			}
 			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
+			$image_data = $this->input->post('image_data');
+			// pre($post);
+			// Mengonversi data base64 menjadi file gambar
+			$image_data = base64_decode($image_data);
+			$file_name = uniqid() . '.png';
+			$file_path = FCPATH . 'uploads/signatures/' . $file_name;
+
+			if (file_put_contents($file_path, $image_data)) {
+				$update = array(
+					'paraf' => $file_name,
+				);
+				$where = array(
+					'id' => $id,
+				);
+				$this->db->update('pengajuan_harian_new',$update,$where);
+				
+			} else {
+				echo 'Failed to save signature.';
+			}
 		}else{
 			// $id=$cekajuan_harian['id'];
 			
@@ -3224,8 +3243,10 @@ class Gudang extends CI_Controller {
 			$this->session->set_flashdata('gagal','Data gagal di tersimpan ke ajuan harian.');
 			redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
 		}
-		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+		// $this->session->set_flashdata('msg','Data berhasil di acc');
+		// redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+		// redirect(BASEURL.'Gudang/pengajuancetak/'.$id);
+		echo $id;
 	}
 
 	function acc_ajuan_mingguan_allkemeja(){
