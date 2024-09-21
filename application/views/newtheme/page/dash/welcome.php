@@ -1,3 +1,20 @@
+<div class="row">
+    <div class="col-md-12">
+       <div class="alert" style="background-color: #3D6AA2 !important;color: white">
+           PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
+       </div>
+        <table class="table table-bordered nosearch">
+            <?php $no=1;?>
+            <?php foreach($pendingkirimsudahpotong as $req){?>
+            <tr>
+                <td><?php echo $no++?></td>    
+                <td><?php echo $req['kode_po']?></td>    
+                <td><?php echo date('d F Y',strtotime($req['created_date']))?></td>
+            </tr>
+            <?php } ?>
+        </table>
+    </div>
+</div>
 <?php if(!empty($reqharga)){?>
 <div class="row">
     <div class="col-md-12">

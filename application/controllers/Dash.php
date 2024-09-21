@@ -571,6 +571,30 @@ class Dash extends CI_Controller {
 				'satuan'		=> $m['satuan'],
 			);
 		}
+
+		// po pending 1 bulan dari potongan
+		$data['pendingkirimsudahpotong']=[];
+		$data['pendingkirimsudahpotong']=$this->GlobalModel->QueryManual("
+
+		SELECT kp.idpo, kp.kode_po, kp.created_date
+			FROM konveksi_buku_potongan kp
+			LEFT JOIN finishing_kirim_gudang fk ON kp.idpo = fk.idpo
+			WHERE fk.idpo IS NULL 
+			AND kp.kode_po NOT LIKE 'BJK%' 
+			AND kp.kode_po NOT LIKE 'TEST%' 
+			AND kp.kode_po NOT LIKE 'BJF%' 
+			AND kp.kode_po NOT LIKE 'AQO%' 
+			AND kp.kode_po NOT LIKE 'AQS%' 
+			AND kp.kode_po NOT LIKE 'PSL%'
+			AND kp.kode_po NOT LIKE 'PUS%'
+			AND kp.kode_po NOT LIKE 'POB%'
+			AND kp.kode_po NOT LIKE 'BKK%'
+			AND kp.created_date < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+			AND kp.created_date >= '2024-05-01'
+			ORDER BY kp.kode_po, kp.created_date ASC
+		");
+		// pre($data['pendingkirimsudahpotong']);
+		
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
 		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
 		$data['page']=$this->page.'/dash/welcome';
