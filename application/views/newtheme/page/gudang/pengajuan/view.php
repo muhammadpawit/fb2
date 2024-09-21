@@ -93,7 +93,9 @@
 
                             <td>
                                   <?php if($us['status']==0){?>
-                                      <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                      <?php if($id_user==7 || $id_user==11){ ?>
+                                        <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                        <?php } ?>
                                     <?php }else{ ?>
                                       <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
                                       <?php } ?>
@@ -165,7 +167,7 @@
                                       <!-- <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a> -->
                                   <?php }?>
                                     
-                                    <?php if(aksesedit()==1){?>
+                                    <?php if(aksesedit()==1 && $us['status']==0){?>
                                       <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a>
                                     <?php } ?>
                                 </td>

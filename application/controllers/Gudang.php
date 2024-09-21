@@ -1100,6 +1100,7 @@ class Gudang extends CI_Controller {
 		if(isset($user['id_user'])){
 			$data['setujui']=akses($user['id_user'],3);
 		}
+		$data['id_user']=$user['id_user'];
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
