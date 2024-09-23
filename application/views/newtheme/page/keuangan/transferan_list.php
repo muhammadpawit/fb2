@@ -85,7 +85,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered nosearch">
+    <table class="table table-bordered yessearch">
               <thead>
                 <tr>
                   <th>No</th>
@@ -120,6 +120,10 @@
                       <td>
                         <?php if(aksesedit()==1){?>
                           <a href="<?php echo BASEURL?>Keuangan/edit_transferan/<?php echo $p['id']?>" class="btn btn-success btn-sm">Edit</a>
+                        <?php } ?>
+
+                        <?php if(akseshapus()==1){?>
+                          <a href="<?php echo BASEURL?>Keuangan/hapus_transferan/<?php echo $p['id']?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah yakin?')">Hapus</a>
                         <?php } ?>
                       </td>
                     </tr>

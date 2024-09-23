@@ -706,6 +706,17 @@ class Keuangan extends CI_Controller {
 		redirect(BASEURL.'Keuangan/transferan');
 	}
 
+	public function hapus_transferan($id){
+		$data=$this->input->post();
+		$insert=array(
+			'hapus'=>1,
+		);
+		$this->db->update('transferan',$insert,array('id'=>$id));
+		user_activity(callSessUser('id_user'),1,' menghapus transferan dengan id '.$id);
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect(BASEURL.'Keuangan/transferan');
+	}
+
 	public function bank(){
 		$data=array();
 		$data['title']='Operasional';
