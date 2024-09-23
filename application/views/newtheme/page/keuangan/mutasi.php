@@ -36,6 +36,7 @@
                   <th>Saldomasuk</th>
                   <th>Saldokeluar</th>
                   <th>Sisa</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -61,12 +62,38 @@
                     <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldomasuk'])?></p></td>
                     <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldokeluar'])?></p></td>
                     <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldo'])?></p></td>
+                    <td>
+                      <?php if(aksesedit()==1){?>
+                        <a href="javascript:void(0)" class="btn btn-xs btn-warning btn-edit" data-id="<?php echo $m['id']?>">Edit</a>
+                      <?php } ?>
+                    </td>
                   </tr>
                 <?php } ?>
               </tbody>
             </table>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Detail Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Konten rincian data akan dimasukkan di sini -->
+        <p id="modalContent">Loading...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript"> 
   function filter(){
     var url='?';
@@ -108,5 +135,32 @@
     location=url;
   }
 
+
+  $(document).ready(function() {
+    // Ketika tombol Edit diklik
+    $('.btn-edit').on('click', function() {
+      var id = $(this).data('id');
+      
+      // Mengubah konten modal saat tombol diklik
+      $('#modalContent').html('Loading data for ID: ' + id);
+
+      // Memanggil AJAX untuk mendapatkan detail data (gunakan URL API Anda)
+      $.ajax({
+        url: '<?php echo BASEURL?>Keuangan/getmutasi', // Ganti dengan URL untuk mengambil detail data
+        type: 'GET',
+        data: { id: id },
+        success: function(response) {
+          // Tampilkan data yang diterima ke modal
+          $('#modalContent').html(response);
+        },
+        error: function() {
+          $('#modalContent').html('Failed to load data.');
+        }
+      });
+
+      // Menampilkan modal
+      $('#detailModal').modal('show');
+    });
+  });
 
 </script>  

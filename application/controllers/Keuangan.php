@@ -1156,4 +1156,109 @@ class Keuangan extends CI_Controller {
 
 	}
 
+	public function getmutasi() {
+        $id = $this->input->get('id'); // Ambil ID dari request GET
+        $data = $this->GlobalModel->GetDataRow('aruskas',array('id'=>$id)); // Panggil model untuk ambil data
+
+        if (!empty($data)) {
+            // Jika data ditemukan, kembalikan dalam format HTML
+			echo '<form id="editForm" method="POST" action="'.BASEURL.'Keuangan/mutasieditsave">';
+            echo '<input type="hidden" name="id" value="' . $data['id'] . '">';
+            echo '<div class="form-group">';
+            // echo '<label for="tanggal">Tanggal:</label>';
+            // echo '<input type="date" name="tanggal" class="form-control" value="' . $data['tanggal'] . '">';
+            // echo '</div>';
+
+            // echo '<div class="form-group">';
+            // echo '<label for="tgltransaksi">Tanggal Transaksi:</label>';
+            // echo '<input type="date" name="tgltransaksi" class="form-control" value="' . $data['tgltransaksi'] . '">';
+            // echo '</div>';
+
+            // echo '<div class="form-group">';
+            // echo '<label for="bank_id">Bank ID:</label>';
+            echo '<input type="hidden" name="bank" class="form-control" value="' . $data['bank_id'] . '">';
+            // echo '</div>';
+
+            echo '<div class="form-group">';
+            echo '<label for="saldoawal">Saldo Awal:</label>';
+            echo '<input type="number" name="saldoawal" class="form-control" value="' . $data['saldoawal'] . '">';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+            echo '<label for="saldomasuk">Saldo Masuk:</label>';
+            echo '<input type="number" name="saldomasuk" class="form-control" value="' . $data['saldomasuk'] . '">';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+            echo '<label for="saldokeluar">Saldo Keluar:</label>';
+            echo '<input type="number" name="saldokeluar" class="form-control" value="' . $data['saldokeluar'] . '">';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+            echo '<label for="saldo">Saldo:</label>';
+            echo '<input type="number" name="saldo" class="form-control" value="' . $data['saldo'] . '">';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+            echo '<label for="keterangan">Keterangan:</label>';
+            echo '<textarea name="keterangan" class="form-control">' . $data['keterangan'] . '</textarea>';
+            echo '</div>';
+
+            // echo '<div class="form-group">';
+            // echo '<label for="referensi">Referensi:</label>';
+            // echo '<input type="text" name="referensi" class="form-control" value="' . $data['referensi'] . '">';
+            // echo '</div>';
+
+            // echo '<div class="form-group">';
+            // echo '<label for="bagian">Bagian:</label>';
+            // echo '<input type="text" name="bagian" class="form-control" value="' . $data['bagian'] . '">';
+            // echo '</div>';
+
+            // echo '<div class="form-group">';
+            // echo '<label for="hapus">Hapus:</label>';
+            // echo '<input type="checkbox" name="hapus" ' . ($data['hapus'] ? 'checked' : '') . '>';
+            // echo '</div>';
+
+            // echo '<div class="form-group">';
+            // echo '<label for="pengalokasian">Pengalokasian:</label>';
+            // echo '<input type="text" name="pengalokasian" class="form-control" value="' . $data['pengalokasian'] . '">';
+            // echo '</div>';
+
+            echo '<button type="submit" class="btn btn-primary">Simpan</button>';
+            echo '</form>';
+        } else {
+            echo "Data tidak ditemukan.";
+        }
+    }
+
+	function mutasieditsave(){
+		$post = $this->input->post();
+		// pre($post);
+		$this->db->update(
+			'aruskas',
+			array(
+				'saldoawal' => $post['saldoawal'],
+				'saldomasuk' => $post['saldomasuk'],
+				'saldokeluar' => $post['saldokeluar'],
+				'saldo' => $post['saldo'],
+				'keterangan' => $post['keterangan'],
+			),
+			array('id'=>$post['id'])
+		);
+
+		$this->db->update(
+			'bank',
+			array(
+				'saldo' => $post['saldo']
+			),
+			array(
+				'id' => $post['bank']
+			)
+		);
+
+		user_activity(callSessUser('id_user'),1,' mengedit aruskas dengan id '.$post['id']);
+		$this->session->set_flashdata('msg','Data berhasil diubah');
+		redirect(BASEURL.'Keuangan/mutasibank/'.$post['bank']);
+	}
+
 }
