@@ -851,8 +851,8 @@ class Kelolapo extends CI_Controller {
 				'kode_po'=>$po['kode_po'],
 				'nama_po'=>$po['nama_po'],
 				'refpo'=>$result['refpo'],
-				'dz'=>number_format($result['hasil_lusinan_potongan'],2),
-				'pcs'=>$result['hasil_pieces_potongan'],
+				'dz'=>$result['hasil_lusinan_potongan'] > 0 ? number_format($result['hasil_lusinan_potongan'],2) : $result['dz_variasi'],
+				'pcs'=>$result['hasil_pieces_potongan'] > 0 ? $result['hasil_pieces_potongan'] : ($result['dz_variasi']*12),
 				'tim_potong_potongan'=>$timpotong['nama']==null?$result['tim_potong_potongan']:$timpotong['nama'],
 				'tanggalProd'=>date('d-m-Y',strtotime($result['tanggalProd'])),
 				'status'=>$status,
@@ -1226,6 +1226,7 @@ class Kelolapo extends CI_Controller {
 				// 'hasil_pieces_potongan'				=> (($jumlahPiecePot *$post['jumlahGambar'] )/ 12) * 12,
 				'hasil_lusinan_potongan'			=> (($jumBl*$post['jumlahGambar'])/12),
 				'hasil_pieces_potongan'				=> (($jumBl*$post['jumlahGambar'])/12) * 12,
+				'dz_variasi'						=> (($jumBls*$post['jumlahGambar'])/12),
 			);
 			$this->GlobalModel->updateData('konveksi_buku_potongan',array('kode_po'=>$explode[1]),$dataInsert);
 				if($explode[0]=="PFK" OR $explode[0]=="BJK" OR $explode[0]=="BJH" OR $explode[0]=="BJF" OR $explode[0]=="PFJ"){

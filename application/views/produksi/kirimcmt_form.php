@@ -140,7 +140,8 @@ $(document).ready(function(){
                 var obj = JSON.parse(data);
                 console.log(obj);
                 if(obj != null){
-                  dai.find(".jumlah_pcs").val(obj.hasil_pieces_potongan);
+                  var pcs=obj.hasil_pieces_potongan > 0 ? obj.hasil_pieces_potongan : Number(obj.dz_variasi*12);
+                  dai.find(".jumlah_pcs").val(pcs);
                 }else{
                   alert("Kode PO "+dataItem+" belum diinput pada buku potongan");
                   dai.closest('tr').remove();
