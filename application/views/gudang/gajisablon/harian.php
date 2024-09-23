@@ -1,0 +1,49 @@
+<div class="row no-print">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Nama Karyawan</label>
+			<select name="id_karyawan_harian" id="id_karyawan_harian" class="select2bs4">
+				<option value="*">Semua</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Aksi</label><br>
+			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button onclick="window.print()" class="btn btn-info btn-sm">Print</button>
+			<!-- <button onclick="excelwithtgl()" class="btn btn-info btn-sm">Excel</button> -->
+			 <a class="btn btn-info btn-sm" href="<?php echo $tambah ?>">Tambah</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<table class="table table-bordered nosearch">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Periode</th>
+						<th>Nama</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $no=1;?>
+					<?php foreach($prods as $k){?>
+						<tr>
+							<td><?php echo $no++?></td>
+							<td><?php echo $k['periode'] ?></td>
+							<td><?php echo $k['nama'] ?></td>
+							<td>
+								<a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a>
+							</td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>		
+		</div>
+	</div>
+</div>
