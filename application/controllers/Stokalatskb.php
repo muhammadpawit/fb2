@@ -25,13 +25,13 @@ class Stokalatskb extends CI_Controller {
 			$tanggal1=$get['tanggal1'];
 			$url.='&tanggal1='.$tanggal1;
 		}else{
-			$tanggal1=null;
+			$tanggal1=date('Y-m-d',strtotime("-7 days"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 			$url.='&tanggal2='.$tanggal2;
 		}else{
-			$tanggal2=null;
+			$tanggal2=date('Y-m-d');
 		}		
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
