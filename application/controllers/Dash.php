@@ -610,7 +610,7 @@ class Dash extends CI_Controller {
 	}
 
 	function posisi($idpo){
-		$posisi='Dikirim CMT';
+		$posisi='Dikirim Ke CMT';
 		// kirim gudang
 		$where = array(
 			'idpo' => $idpo,
