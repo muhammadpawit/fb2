@@ -30,6 +30,7 @@
 					<th>Keluar</th>
 					<th>Jumlah</th>
 					<th>Satuan</th>
+					<th>Harga</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,6 +44,7 @@
 						<td><?php echo $p['keluar']?></td>
 						<td><?php echo $p['jumlah']?></td>
 						<td><?php echo $p['satuan']?></td>
+						<td><?php echo number_format($p['harga']) ?></td>
 					</tr>
 				<?php } ?>
 			</tbody>

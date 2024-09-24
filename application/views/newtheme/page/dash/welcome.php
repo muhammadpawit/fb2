@@ -1,17 +1,53 @@
+
+<?php if(!empty($request)){?>
 <div class="row">
     <div class="col-md-12">
        <div class="alert" style="background-color: #3D6AA2 !important;color: white">
-           PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
+           Form Request Otorisasi User
        </div>
         <table class="table table-bordered nosearch">
-            <?php $no=1;?>
-            <?php foreach($pendingkirimsudahpotong as $req){?>
+            <?php foreach($request as $req){?>
             <tr>
-                <td><?php echo $no++?></td>    
-                <td><?php echo $req['kode_po']?></td>    
-                <td><?php echo date('d F Y',strtotime($req['created_date']))?></td>
+                <td><?php echo $req['no']?></td>    
+                <td><?php echo $req['tanggal']?></td>    
+                <td><?php echo $req['nama']?></td>
+                <td><?php echo $req['keterangan']?></td>
+                <td>
+                    <?php if(callSessUser('id_user')=='10' OR callSessUser('id_user')=='11'){?>
+                    <a href="<?php echo $req['setujui']?>" class="btn btn-success btn-xs text-white">Proses</a>
+                    <?php }?>
+                </td>    
             </tr>
             <?php } ?>
+        </table>
+    </div>
+</div>
+<?php } ?>
+<div class="row">
+    <div class="col-md-12">
+       <div class="alert" style="background-color:darkcyan !important;color: white">
+           PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
+       </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode PO</th>
+                    <th>Tanggal Potong</th>
+                    <th>Posisi PO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no=1;?>
+                <?php foreach($pendingkirimsudahpotong as $req){?>
+                <tr>
+                    <td><?php echo $no++?></td>    
+                    <td><?php echo $req['kode_po']?></td>    
+                    <td><?php echo date('d F Y',strtotime($req['created_date']))?></td>
+                    <td><?php echo $req['posisi']?></td>    
+                </tr>
+                <?php } ?>
+            </tbody>
         </table>
     </div>
 </div>
@@ -39,30 +75,6 @@
 </div>
 <?php } ?>
 
-<?php if(!empty($request)){?>
-<div class="row">
-    <div class="col-md-12">
-       <div class="alert" style="background-color: #3D6AA2 !important;color: white">
-           Form Request Otorisasi User
-       </div>
-        <table class="table table-bordered nosearch">
-            <?php foreach($request as $req){?>
-            <tr>
-                <td><?php echo $req['no']?></td>    
-                <td><?php echo $req['tanggal']?></td>    
-                <td><?php echo $req['nama']?></td>
-                <td><?php echo $req['keterangan']?></td>
-                <td>
-                    <?php if(callSessUser('id_user')=='10' OR callSessUser('id_user')=='11'){?>
-                    <a href="<?php echo $req['setujui']?>" class="btn btn-success btn-xs text-white">Proses</a>
-                    <?php }?>
-                </td>    
-            </tr>
-            <?php } ?>
-        </table>
-    </div>
-</div>
-<?php } ?>
 
 <?php //if(!empty($request) & callSessUser('id_user')=='10' OR callSessUser('id_user')=='11'){?>
 <div class="row">

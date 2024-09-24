@@ -41,6 +41,7 @@ class Alokasitransfersablon extends CI_Controller {
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 				'keterangan'=>$r['keterangan'],
 				'nominal'=>$r['nominal'],
+				'hapus' => $this->url.'/hapus/'.$r['id'],
 			);
 		}
 		$data['action']=$this->url.'save';
@@ -62,6 +63,16 @@ class Alokasitransfersablon extends CI_Controller {
 		);
 		$this->db->insert('alokasi_transferan',$insert);
 		$this->session->set_flashdata('msg','Berhasil Di Simpan');
+		redirect($this->url);
+	}
+
+	public function hapus($id){
+		$insert=array(
+			'hapus'=>1,
+		);
+		$this->db->update('alokasi_transferan',$insert,array('id'=>$id));
+		user_activity(callSessUser('id_user'),1,' menghapus alokasi transfer sablon dengan id '.$id);
+		$this->session->set_flashdata('msg','Berhasil Di Hapus');
 		redirect($this->url);
 	}
 }

@@ -84,6 +84,7 @@ class AlatsukabumiModel extends CI_Model {
 		$result=$this->GlobalModel->QueryManual($sql);
 		if(!empty($result)){
 			foreach($result as $r){
+				$p=$this->GlobalModel->GetDataRow('product',array('product_id'=>$r['id_persediaan']));
 				$hasil[]=array(
 					'id'=>$r['id_persediaan'],
 					'nama'=>$r['namaalat'],
@@ -91,6 +92,7 @@ class AlatsukabumiModel extends CI_Model {
 					'satuan'=>$r['satuan'],
 					'masuk'=>$this->masuk($r['id_persediaan'],$data['tanggal1'],$data['tanggal2']),
 					'keluar'=>$this->keluar($r['id_persediaan'],$data['tanggal1'],$data['tanggal2']),
+					'harga'=>isset($p['harga_skb']) ? $p['harga_skb'] : 0,
 				);
 			}
 		}

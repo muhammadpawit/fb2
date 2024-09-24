@@ -573,8 +573,8 @@ class Dash extends CI_Controller {
 		}
 
 		// po pending 1 bulan dari potongan
-		$data['pendingkirimsudahpotong']=[];
-		$data['pendingkirimsudahpotong']=$this->GlobalModel->QueryManual("
+		$pendingkirimsudahpotong=[];
+		$pendingkirimsudahpotong=$this->GlobalModel->QueryManual("
 
 		SELECT kp.idpo, kp.kode_po, kp.created_date
 			FROM konveksi_buku_potongan kp
@@ -593,12 +593,59 @@ class Dash extends CI_Controller {
 			AND kp.created_date >= '2024-05-01'
 			ORDER BY kp.kode_po, kp.created_date ASC
 		");
+
+		foreach($pendingkirimsudahpotong as $p){
+			$data['pendingkirimsudahpotong'][] = array(
+				'kode_po' 		=> $p['kode_po'],
+				'created_date'	=> $p['created_date'],
+				'posisi'		=> $this->posisi($p['idpo']),
+			);
+		}
 		// pre($data['pendingkirimsudahpotong']);
 		
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
 		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
+	}
+
+	function posisi($idpo){
+		$posisi='Dikirim CMT';
+		// kirim gudang
+		$where = array(
+			'idpo' => $idpo,
+		);
+		
+		$kg = $this->GlobalModel->getDataRow('finishing_kirim_gudang',$where);
+		if(isset($kg['idpo'])){
+			$posisi='Kirim Gudang';
+		}
+
+		$whereinsetor = array(
+			'idpo' => $idpo,
+			'hapus' =>0,
+			'progress' => 'SETOR',
+			'kategori_cmt' => 'JAHIT'
+		);
+		$st = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',$whereinsetor);
+		if(isset($st['idpo'])){
+			$posisi='Disetor CMT';
+		}
+
+		// $whereinkirim = array(
+		// 	'idpo' => $idpo,
+		// 	'hapus' =>0,
+		// 	'progress' => 'Kirim',
+		// 	'kategori_cmt' => 'JAHIT'
+		// );
+		// $kr = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',$whereinkirim);
+		// if(isset($kr['idpo'])){
+		// 	$posisi='Kirim CMT';
+		// }
+
+		return $posisi;
+
+
 	}
 
 	function last_masuk($id){

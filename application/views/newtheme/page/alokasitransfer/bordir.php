@@ -83,6 +83,7 @@
 					<th>Tanggal</th>
 					<th>Keterangan</th>
 					<th>Nominal</th>
+          <th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -91,6 +92,13 @@
 						<td><?php echo $p['tanggal']?></td>
 						<td><?php echo $p['keterangan']?></td>
 						<td><?php echo number_format($p['nominal'])?></td>
+            <td>
+              <?php if(isset($p['hapus'])){ ?>
+                <?php if(akseshapus()==1){ ?>
+                  <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah anda yakin?')"><i class="fa fa-trash"></i></a>
+                <?php } ?>
+              <?php } ?>
+            </td>
 					</tr>
 				<?php } ?>
 			</tbody>
