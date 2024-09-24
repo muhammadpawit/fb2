@@ -39,8 +39,8 @@
 						<td><?php echo $no++ ?></td>
 						<td><?php echo $p['nama']?></td>
 						<td>0</td>
-						<td>0</td>
-						<td>0</td>
+						<td><?php echo $p['masuk']?></td>
+						<td><?php echo $p['keluar']?></td>
 						<td><?php echo $p['jumlah']?></td>
 						<td><?php echo $p['satuan']?></td>
 					</tr>

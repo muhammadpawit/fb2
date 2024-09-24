@@ -89,10 +89,26 @@ class AlatsukabumiModel extends CI_Model {
 					'nama'=>$r['namaalat'],
 					'jumlah'=>$r['stock'],
 					'satuan'=>$r['satuan'],
+					'masuk'=>$this->masuk($r['id_persediaan'],$data['tanggal1'],$data['tanggal2']),
+					'keluar'=>$this->keluar($r['id_persediaan'],$data['tanggal1'],$data['tanggal2']),
 				);
 			}
 		}
 		return $hasil;
+	}
+
+	function masuk($id,$tanggal1,$tanggal2){
+		$data = $this->GlobalModel->QueryManualRow(
+			" SELECT COALESCE(SUM(jumlah_terima),0) as total FROM alat_sukabumi WHERE hapus=0 AND id_persediaan='".$id."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' "
+		);
+		return isset($data['total']) ? $data['total']:0; 
+	}
+
+	function keluar($id,$tanggal1,$tanggal2){
+		$data = $this->GlobalModel->QueryManualRow(
+			" SELECT COALESCE(SUM(jumlah_terima),0) as total FROM distribusi_alat_sukabumi WHERE hapus=0 AND id_persediaan='".$id."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' "
+		);
+		return isset($data['total']) ? $data['total']:0; 
 	}
 
 	public function distribusi($data){
