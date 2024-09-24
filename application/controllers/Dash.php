@@ -591,7 +591,7 @@ class Dash extends CI_Controller {
 			AND kp.kode_po NOT LIKE 'BKK%'
 			AND kp.created_date < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
 			AND kp.created_date >= '2024-05-01'
-			ORDER BY kp.kode_po, kp.created_date ASC
+			ORDER BY kp.created_date ASC,kp.kode_po
 		");
 
 		foreach($pendingkirimsudahpotong as $p){
