@@ -106,7 +106,7 @@ class AlatsukabumiModel extends CI_Model {
 
 	function keluar($id,$tanggal1,$tanggal2){
 		$data = $this->GlobalModel->QueryManualRow(
-			" SELECT COALESCE(SUM(jumlah_terima),0) as total FROM distribusi_alat_sukabumi WHERE hapus=0 AND id_persediaan='".$id."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' "
+			" SELECT COALESCE(SUM(jumlah),0) as total FROM distribusi_alat_sukabumi WHERE hapus=0 AND id_persediaan='".$id."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' "
 		);
 		return isset($data['total']) ? $data['total']:0; 
 	}
