@@ -31,6 +31,7 @@
 					<th>Jumlah</th>
 					<th>Satuan</th>
 					<th>Harga</th>
+					<th>Jumlah</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -45,6 +46,7 @@
 						<td><?php echo $p['jumlah']?></td>
 						<td><?php echo $p['satuan']?></td>
 						<td><?php echo number_format($p['harga']) ?></td>
+						<td><?php echo number_format($p['harga']*$p['jumlah']) ?></td>
 					</tr>
 				<?php } ?>
 			</tbody>
