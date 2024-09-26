@@ -26,7 +26,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                         </tr>
                         </thead>
                         <tbody>
-                        	<?php $pcs=0;$total=0;?>
+                        	<?php $pcs=0;$total=0;$dz=0;?>
                             <?php foreach ($notarincian as $key => $sat): ?>
                             <tr>
                                 <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
@@ -40,13 +40,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                             <?php 
                             	$total+=($sat['harga_satuan']*$sat['jumlah_piece_diterima']);
                             	$pcs+=($sat['jumlah_piece_diterima']);
+                              $pcs+=($sat['jumlah_piece_diterima']/12);
                             ?>	
                             <?php endforeach ?>
                         </tbody>
 						<tfoot>
 							<tr>
-								<td colspan="3"><b>Total</b></td>
+								<td colspan="2"><b>Total</b></td>
 								<td><b><?php echo $pcs?></b></td>
+                <td><b><?php echo $dz?></b></td>
 								<td></td>
 								<td><b><?php echo $total?></b></td>
 							</tr>
