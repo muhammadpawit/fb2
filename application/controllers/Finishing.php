@@ -1043,11 +1043,31 @@ class Finishing extends CI_Controller {
 	
 	public function rinciansetorkaoscmt($idkode='')
 	{
+		$viewData['title']='Setoran Kaos';
 		$tanggal1=date('Y-m-d',strtotime("-1 month"));
 		$tanggal2=date('Y-m-d',strtotime("last day of this month"));
-		$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt ");
+		$get = $this->input->get();
+		if(isset($get['kode_po'])){
+			$kode_po=$get['kode_po'];
+		}else{
+			$kode_po=null;
+		}
+		if(isset($get['cmt'])){
+			$cmt=$get['cmt'];
+		}else{
+			$cmt=null;
+		}
+		
+		$viewData['rincian']=[];
+		$rincian=[];
+		if(isset($get['kode_po'])){
+			$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.id_produksi_po='".$kode_po."' AND pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt ");
+		}
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
 		foreach ($rincian as $key => $rinci) {
+			$pcs=$this->GlobalModel->QueryManualRow("
+				SELECT * FROM kelolapo_kirim_setor WHERE idpo='".$rinci['id_produksi_po']."' AND (progress='SELESAI' OR progress='FINISHING')
+			");
 			$viewData['rincian'][$key]['id_kelolapo_kirim_setor']=$rinci['id_kelolapo_kirim_setor'];
 			$viewData['rincian'][$key]['idpo']=$rinci['id_produksi_po'];
 			$viewData['rincian'][$key]['id_cmt'] =$rinci['id_master_cmt'];
@@ -1055,7 +1075,8 @@ class Finishing extends CI_Controller {
 			$viewData['rincian'][$key]['nama_cmt'] =$rinci['nama_cmt'];
 			$viewData['rincian'][$key]['kategori_cmt'] =$rinci['kategori_cmt'];
 			$viewData['rincian'][$key]['progress']=$rinci['progress'];
-			$viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
+			// $viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
+			$viewData['rincian'][$key]['qty_tot_pcs']=isset($pcs['qty_tot_pcs']) ? $pcs['qty_tot_pcs'] : 0;
 			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
 			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$rinci['id_produksi_po']));
 		}
@@ -1258,13 +1279,14 @@ class Finishing extends CI_Controller {
 
 	public function editsetoran($kodepo='')
 	{
-		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.kode_po="'.$kodepo.'"');
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT kks.* FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo="'.$kodepo.'"');
+		$viewData['title']  = 'Edit Setoran '.$viewData['poProd']['kode_po'];
 		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
 		$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
 		// pre($viewData);
 		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
-		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po'=>$kodepo));
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$kodepo));
 		$viewData['setorcmtjahititem'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$viewData['setorcmtjahit']['id_kelolapo_rincian_setor_cmt']));
 		// pre($viewData);
 		//$this->load->view('global/header');
@@ -1288,30 +1310,29 @@ class Finishing extends CI_Controller {
 			$barangHilang += $post['hilangBarang'][$key];
 			$barangClaim += $post['claimBarang'][$key];
 		}
-		//pre($post);
+		
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
-		if ($jmlYangDisetor == $post['jumlahditerima']) {
-			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('kode_po' => $post['kode_po'],));
+		// if ($jmlYangDisetor == $post['jumlahditerima']) {
+			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo' => $post['kode_po'],));
 			$insertData = array(
-				'kode_po'			=>	$post['kode_po'],
+				// 'kode_po'			=>	$post['kode_po'],
 				'pcs_setor_qty'		=>	$pcs,
 				'jml_setor_qty'		=>	$jmlYangDisetor,
 				'bangke_qty'		=>	$bangke,
 				'barang_cacad_qty'	=>	$barangccd,
-				'nama_cmt'			=>	$post['nama_cmt'],
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
 				'created_date'		=>	$post['tanggal_terima'],
-				'jumlah_piece_diterima'	=> $post['jumlahditerima']
+				'jumlah_piece_diterima'	=> $jmlYangDisetor
 			);
 
 			$this->db->update('kelolapo_rincian_setor_cmt',$insertData,array('id_kelolapo_rincian_setor_cmt'=>$dataInput['id_kelolapo_rincian_setor_cmt']));
 			
-
+			$this->db->delete('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$dataInput['id_kelolapo_rincian_setor_cmt']));
 			foreach ($post['rinciansize'] as $key => $rin) {
+				
 				$insertRincinan = array(
-					'id_kelolapo_rincian_setor_cmt_finish'=>$post['idr'][$key],
 					'id_kelolapo_rincian_setor_cmt'	=>$dataInput['id_kelolapo_rincian_setor_cmt'],
 					'kode_po'	=> $post['kode_po'],
 					'rincian_size'	=> $rin,
@@ -1324,17 +1345,17 @@ class Finishing extends CI_Controller {
 					'rincian_hilang'	=>	$post['hilangBarang'][$key],
 					'created_date'	=> date('Y-m-d')
 				);
-				
-				$this->db->update('kelolapo_rincian_setor_cmt_finish',$insertRincinan,array('id_kelolapo_rincian_setor_cmt_finish'=>$post['idr'][$key]));
+				$this->db->insert('kelolapo_rincian_setor_cmt_finish',$insertRincinan);
+
 			}
 			//pre($insertRincinan);
-			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$post['kode_po'],'create_date'	=>	$post['tanggal_terima']),array('progress'=>'FINISHING'));
-			$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
-		} else {
-			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
-			redirect(BASEURL.'finishing/editsetoran/'.$post['kode_po']);
-		}
-
+			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$post['id_kelolapo_kirim_setor']),array('progress'=>'SELESAI','idpo'=>$post['kode_po'],'create_date'=>$post['tanggal_terima'],'qty_tot_pcs'=>$jmlYangDisetor));
+			$this->GlobalModel->updateData('produksi_po',array('id_produksi_po'=>$post['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+		// } else {
+		// 	$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
+		// 	redirect(BASEURL.'finishing/editsetoran/'.$post['kode_po']);
+		// }
+		$this->session->set_flashdata('msg','Data Berhasil diubah');
 		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
 	}
 

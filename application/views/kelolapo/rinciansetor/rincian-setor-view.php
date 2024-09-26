@@ -1,4 +1,20 @@
 <div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="">Cari PO</label>
+            <select name="kode_po" id="kode_po" class="form-control autopoid" data-live-search="true">
+                <option value="*">Pilih</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Aksi</label><br>
+            <button class="btn btn-primary btn-sm" onclick="filter()">Cari</button>
+        </div>
+    </div>
+</div>
+<div class="row">
      <div class="col-md-12">
          <table class="table table-bordered yessearch">
                         <thead>
@@ -47,3 +63,30 @@
                     </table>
      </div>
 </div>
+<script type="text/javascript">
+  function filter(){
+    var url='?';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    var nomesin=$("#kode_po").val();
+     var cmt=$("#cmt").val();
+
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    if(nomesin!="*"){
+      url+='&kode_po='+nomesin;
+    }
+
+    if(cmt!="*"){
+      url+='&cmt='+cmt;
+    }
+
+    location=url;
+  }
+</script>
