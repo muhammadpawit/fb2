@@ -20,6 +20,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                             <th>Kode Artikel</th>
                             <th>Nama PO</th>
                             <th>Kuantitas Kirim (pcs)</th>
+                            <th>Kuantitas Kirim (dz)</th>
                             <th>Harga</th>
                             <th>Total</th>
                         </tr>
@@ -32,6 +33,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                 <td><?php echo strtoupper($sat['kode_artikel']) ?></td>
                                 <td><?php echo strtoupper($sat['kodepo']) ?></td>
                                 <td><?php echo $sat['jumlah_piece_diterima']?></td>
+                                <td><?php echo ($sat['jumlah_piece_diterima']/12)?></td>
                                 <td><?php echo ($sat['harga_satuan']) ?></td>
                                 <td><?php echo ($sat['harga_satuan']*$sat['jumlah_piece_diterima']) ?></td>
                             </tr>
@@ -43,7 +45,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                         </tbody>
 						<tfoot>
 							<tr>
-								<td colspan="2"><b>Total</b></td>
+								<td colspan="3"><b>Total</b></td>
 								<td><b><?php echo $pcs?></b></td>
 								<td></td>
 								<td><b><?php echo $total?></b></td>

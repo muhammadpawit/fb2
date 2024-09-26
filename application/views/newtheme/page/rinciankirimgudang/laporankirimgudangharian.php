@@ -35,6 +35,7 @@
                             <th>Kode Artikel</th>
                             <th>Nama PO</th>
                             <th>Kuantitas Kirim (pcs)</th>
+                            <th>Kuantitas Kirim (dz)</th>
                             <th>Harga</th>
                             <th>Total</th>
                         </tr>
@@ -46,6 +47,7 @@
                                 <td><?php echo strtoupper($sat['kode_artikel']) ?></td>
                                 <td><?php echo strtoupper($sat['kodepo']) ?></td>
                                 <td><?php echo $sat['jumlah_piece_diterima']?></td>
+                                <td><?php echo ($sat['jumlah_piece_diterima']/12)?></td>
                                 <td><?php echo number_format($sat['harga_satuan']) ?></td>
                                 <td><?php echo number_format($sat['harga_satuan']*$sat['jumlah_piece_diterima']) ?></td>
                             </tr>
