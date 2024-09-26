@@ -1062,6 +1062,8 @@ class Finishing extends CI_Controller {
 		$rincian=[];
 		if(isset($get['kode_po'])){
 			$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.id_produksi_po='".$kode_po."' AND pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt ");
+		}else{
+			$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt LIMIT 30 ");
 		}
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
 		foreach ($rincian as $key => $rinci) {
