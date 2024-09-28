@@ -10,6 +10,9 @@ class Ajuankemejabaru extends CI_Controller {
 		$this->url=BASEURL.'Ajuankemejabaru/';
         // Memuat model
         $this->load->model('AjuanKemejaModel');
+		$this->login 		= BASEURL.'login';
+		$this->auth 	= $this->session->userdata('id_user');
+		if(empty($this->auth)) {redirect($this->login);}
     }
 
     // Fungsi untuk menampilkan semua data
