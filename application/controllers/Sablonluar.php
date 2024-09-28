@@ -205,6 +205,7 @@ class Sablonluar extends CI_Controller {
 		}else{
 			$sj=null;
 		}
+		$data['sablonluar']=true;
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cmt']=$cmt;
@@ -249,7 +250,7 @@ class Sablonluar extends CI_Controller {
 			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
-			
+			$dets = $this->GlobalModel->GetData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$result['id']));
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
@@ -259,9 +260,11 @@ class Sablonluar extends CI_Controller {
 				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,
 				'status'=>$result['status']==1?'Disetor':'Dikirim',
 				'keterangan'=>$result['keterangan'],
+				'dets' => $dets,
 				'action'=>$action,
 			);
 		}
+		// pre($data['products']);
 		$data['page']='produksi/kirimcmt_list';
 		$this->load->view('newtheme/page/main',$data);
 	}
@@ -348,9 +351,10 @@ class Sablonluar extends CI_Controller {
 		$kirims=$this->GlobalModel->getData('kirimcmtsablon_detail',array('idkirim'=>$id));
 		$job=null;
 		foreach($kirims as $k){
+			$po = $this->GlobalModel->QueryManualRow("SELECT nama as kode_po FROM master_po_luar WHERE id='".$k['kode_po']."' ");
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
 			$data['kirims'][]=array(
-				'kode_po'=>$k['kode_po'],
+				'kode_po'=>$po['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
 				'job'=>$job['nama_job'],
 				'jumlah_pcs'=>$k['jumlah_pcs'],

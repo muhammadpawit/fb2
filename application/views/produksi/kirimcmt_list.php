@@ -73,6 +73,8 @@
                             <?php 
                               if(isset($sablon)){
                                 $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$d['idpo']));
+                              } else if(isset($sablonluar)){
+                                $po = $this->GlobalModel->QueryManualRow("SELECT nama as kode_po FROM master_po_luar WHERE id='".$d['kode_po']."' ");
                               } else {
                                 $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$d['kode_po']));
                               } 
