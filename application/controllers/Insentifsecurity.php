@@ -11,6 +11,7 @@ class Insentifsecurity extends CI_Controller {
 		$this->page='newtheme/page/insentifsecurity/';
 		$this->login 		= BASEURL.'login';
 		$this->url 			= BASEURL.'Insentifsecurity/';
+		$this->load->model('InsentifModel');
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
 	}
@@ -26,12 +27,12 @@ class Insentifsecurity extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=null;
+			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=null;
+			$tanggal2=date('Y-m-d');
 		}
 		if(isset($get['cmt'])){
 			$cmt=$get['cmt'];
@@ -49,74 +50,20 @@ class Insentifsecurity extends CI_Controller {
 		$data['sj']=$sj;
 		$data['listcmt']= $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="JAHIT" ORDER BY cmt_name ASC ');
 		$data['nosj']= $this->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 AND jabatan IN (10,46) ORDER BY nama ASC ');
+		
+		$data['karyawan']=[];
+		$action=[];
+		foreach($data['nosj'] as $n){
+			$data['karyawan'][] = array(
+				'id'	=> $n['id'],
+				'nama'	=> $n['nama'],
+				'products' => $this->InsentifModel->get($n['id'],$tanggal1,$tanggal2),
+			);
+		}
+		// pre($data['karyawan']);
 		$filter=array(
 				'hapus'=>0,
 		);
-		$results=array();
-		$sql="SELECT GROUP_CONCAT(id ORDER BY id ASC) as id FROM insentifsecurity WHERE hapus=0";
-
-		if(!empty($cmt)){
-			// $sql.=" AND idcmt='$cmt' ";
-		}
-
-		if(!empty($sj)){
-			$sql.=" AND karyawan_id='$sj' ";
-		}
-
-		if(!empty($sj)){
-			if(!empty($tanggal1)){
-				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-			}
-			$sql.=' ORDER BY tanggal ASC ';
-			$sql.=" LIMIT 7 ";
-		}else{
-			$sql.=' ORDER BY id DESC ';
-			$sql.=" LIMIT 20 ";
-		}
-
-		
-		$results= $this->GlobalModel->queryManualRow($sql);
-		// pre($results);
-
-		$idint = isset($results['id']) ? $results['id'] : 0;
-		$namacmt=null;
-		$no=1;
-		$dets=[];
-		$dets = $this->GlobalModel->QueryManual(
-			"
-				SELECT a.*, b.karyawan_id, b.shift, b.totalpotongan FROM insentifsecurity_detail a LEFT JOIN insentifsecurity b ON b.id=a.idint
-
-				WHERE idint IN($idint) AND a.hapus=0
-			"
-		);
-		// pre($dets);
-		$action=array();
-		foreach($dets as $result){
-			
-			$action[] = array(
-				'text' => 'Hapus',
-				'class' => 'btn btn-xs btn-danger',
-				'href' => $this->url.'InsentifsecurityHapus/'.$result['id'],
-			);
-
-			$namacmt = $this->GlobalModel->getDataRow('karyawan',array('id'=>$result['karyawan_id']));
-			$hari = date('l',strtotime($result['tanggal']));
-			if(!empty($sj)){
-				$data['products'][]=array(
-					'no'=>$no++,
-					'id' => $result['id'],
-					'tanggal'=>hari($hari).','.date('d-m-Y',strtotime($result['tanggal'])),
-					'kedisiplinan'=>$result['kedisiplinan'],
-					'kebersihan'=>$result['kebersihan'],
-					'kontrol_vc'=>$result['kontrol_vc'],
-					'foto'=>$result['foto'],
-					'ketentuan'=>$result['ketentuan'],
-					'totalpotongan'=> $result['totalpotongan'],
-					'hapus'=>$this->url.'InsentifsecurityHapus/'.$result['id'],
-					// 'dets'=>$dets,
-				);
-			}
-		}
 
 		if(empty($sj)){
 			$data['products'][]=array(
@@ -129,8 +76,13 @@ class Insentifsecurity extends CI_Controller {
 				// 'dets'=>$dets,
 			);
 		}
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'list_excel',$data);
+		}else{
+			$data['page']=$this->page.'list';
+			$this->load->view($this->layout,$data);
+		}
 	}
 
 	public function kirimcmtadd(){
