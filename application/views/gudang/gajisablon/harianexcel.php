@@ -3,6 +3,7 @@ $namafile='GajiHarianSablon_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
+<h1><?php echo $title ?></h1>
 <table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>

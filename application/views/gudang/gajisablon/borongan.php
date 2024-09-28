@@ -63,7 +63,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="10"><b>Total</b></td>
+						<td colspan="9"><b>Total</b></td>
 						<td>
 							<b><?php echo number_format($total) ?></b>
 						</td>

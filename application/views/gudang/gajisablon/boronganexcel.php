@@ -3,6 +3,7 @@ $namafile='GajiBoronganSablon_'.time();
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
+<h2><?php echo $title?></h2>
 <table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
@@ -42,16 +43,16 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="10"><b>Total</b></td>
+						<td colspan="9"><b>Total</b></td>
 						<td>
 							<b><?php echo number_format($total) ?></b>
 						</td>
 					</tr>
 					<tr>
-                         <td colspan="10"></td>
+                         <td colspan="9"></td>
                     </tr>
                     <tr>
-                    	<td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+                    	<td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
                     </tr>
 				</tfoot>
 			</table>	
