@@ -625,9 +625,13 @@ class Dash extends CI_Controller {
 			'idpo' => $idpo,
 			'hapus' =>0,
 			'progress' => 'SETOR',
-			'kategori_cmt' => 'JAHIT'
+			'kategori_cmt' => 'JAHIT',
 		);
-		$st = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',$whereinsetor);
+		// $st = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',$whereinsetor);
+		$st = $this->GlobalModel->QueryManualRow("
+			SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='SETOR'
+			AND kategori_cmt='JAHIT' AND idpo='".$idpo."' AND id_master_cmt_job NOT IN(138)
+		");
 		if(isset($st['idpo'])){
 			$posisi='Disetor CMT';
 		}
