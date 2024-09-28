@@ -38,7 +38,7 @@
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <a href="<?php echo BASEURL?>Finishing/rinciansetorkaoscmt" class="btn btn-danger btn-sm full">Kembali</a>
+            <a href="<?php echo $cancel ?>" class="btn btn-danger btn-sm full">Kembali</a>
         </div>
     </div>
 </div>
