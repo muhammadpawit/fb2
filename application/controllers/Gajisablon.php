@@ -44,6 +44,7 @@ class Gajisablon extends CI_Controller {
 		$sql		  .=" JOIN gaji_sablon_harian c ON c.id";
 		$sql 		  .= " LEFT JOIN gaji_sablon_harian_detail d ON d.idgaji=a.id ";
 		$sql 		  .=" WHERE a.hapus=0 AND b.hapus=0 ";
+		$sql 		  .=" GROUP BY id_karyawan_harian, periode ";
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
 		// pre($data['prods']);
 		if(isset($get['excel'])){
@@ -180,7 +181,7 @@ class Gajisablon extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['kar']=$this->GlobalModel->GetData('karyawan_harian',array('hapus'=>0,'bagian'=>'Tukang Cetak Sablon Forboys'));
+		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		$data['kartustok']=[];
 		$data['tambah']=$this->url.'addborongan';
 		$data['prods']=[];
@@ -223,7 +224,7 @@ class Gajisablon extends CI_Controller {
 		$data['action']=$this->url.'save_borongan';
 		$data['cancel']=$this->url.'brongan';
 		$data['po']	= $this->GlobalModel->GetData('produksi_po',array('hapus'=>0));
-		$data['kar']=$this->GlobalModel->GetData('karyawan_harian',array('hapus'=>0,'bagian'=>'Tukang Cetak Sablon Forboys'));
+		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		if(isset($get['excel'])){
 			$this->load->view('gudang/persediaan/kartustok_excel',$data);
 		}else{

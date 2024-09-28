@@ -41,7 +41,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $no=1;?>
+					<?php $no=1;$total=0;?>
 					<?php foreach($prods as $k){?>
 						<tr>
 							<td><?php echo $no++?></td>
@@ -53,13 +53,24 @@
 							<td><?php echo ($k['kamis']*$k['gajiperhari']) ?></td>
 							<td><?php echo ($k['jumat']*$k['gajiperhari']) ?></td>
 							<td><?php echo ($k['sabtu']*$k['gajiperhari']) ?></td>
-							<td><?php echo ($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari'])?></td>
+							<td><?php echo number_format(($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari']))?></td>
 							<td>
 								<!-- <a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a> -->
 							</td>
 						</tr>
+						<?php 
+							$total+=(($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari']));
+						?>
 					<?php } ?>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="9"><b>Total</b></td>
+						<td>
+							<b><?php echo number_format($total) ?></b>
+						</td>
+					</tr>
+				</tfoot>
 			</table>		
 		</div>
 	</div>
