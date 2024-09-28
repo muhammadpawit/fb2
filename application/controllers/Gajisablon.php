@@ -159,4 +159,100 @@ class Gajisablon extends CI_Controller {
 		redirect($this->url.'harian');
 	}
 
+	public function brongan(){
+		$data=[];
+		$data['title'] = 'Gaji Sablon Borongan ';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['kar']=$this->GlobalModel->GetData('karyawan_harian',array('hapus'=>0,'bagian'=>'Tukang Cetak Sablon Forboys'));
+		$data['kartustok']=[];
+		$data['tambah']=$this->url.'addborongan';
+		$data['prods']=[];
+		$sql		  =" SELECT a.*, p.kode_po, k.nama as namakar FROM gaji_sablon_borongan a LEFT JOIN produksi_po p ON p.id_produksi_po = a.idpo ";
+		$sql 		  .=" LEFT JOIN karyawan_harian k ON k.id=a.namatim ";
+		$sql 		  .=" WHERE a.hapus=0 ";
+		$data['prods']=$this->GlobalModel->QueryManual($sql);
+		// pre($data['prods']);
+		if(isset($get['excel'])){
+			$this->load->view('gudang/persediaan/kartustok_excel',$data);
+		}else{
+			$data['page']='gudang/gajisablon/borongan';
+		$this->load->view('newtheme/page/main',$data);
+		}
+	}
+
+	public function addborongan(){
+		$data=[];
+		$data['title'] = 'Form Gaji Sablon Borongan ';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['cat'])){
+			$cat=$get['cat'];
+		}else{
+			$cat=null;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		
+		$data['prods']=[];
+		$data['action']=$this->url.'save_borongan';
+		$data['cancel']=$this->url.'brongan';
+		$data['po']	= $this->GlobalModel->GetData('produksi_po',array('hapus'=>0));
+		$data['kar']=$this->GlobalModel->GetData('karyawan_harian',array('hapus'=>0,'bagian'=>'Tukang Cetak Sablon Forboys'));
+		if(isset($get['excel'])){
+			$this->load->view('gudang/persediaan/kartustok_excel',$data);
+		}else{
+			$data['page']='gudang/gajisablon/borongan_form';
+		$this->load->view('newtheme/page/main',$data);
+		}
+	}
+
+	function save_borongan(){
+		$post = $this->input->post();
+		// pre($post);
+		foreach($post['prods'] as $p){
+			$insert = array(
+				'tanggal' 	=> $post['tanggal'],
+				'namatim' 	=> $post['id_karyawan_harian'],
+				'idpo' 		=> $p['kodepo'],
+				'gambar' 	=> $p['gambar'],
+				'model' 	=> $p['model'],
+				'dz' 		=> $p['lusin'],
+				'putaran' 	=> $p['putaran'],
+				'harga' 	=> $p['harga'],
+				'total' 	=> ($p['lusin']*$p['putaran']*$p['harga']),
+				'hapus'		=> 0,
+			);
+			$this->db->insert('gaji_sablon_borongan',$insert);
+		}
+		
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url.'brongan');
+	}
+
 }
