@@ -255,4 +255,15 @@ class Gajisablon extends CI_Controller {
 		redirect($this->url.'brongan');
 	}
 
+	function hapusborongan($id){
+		$post = $this->input->post();
+		$insert = array(
+			'hapus'		=> 1,
+		);
+		$this->db->update('gaji_sablon_borongan',$insert,array('id'=>$id));
+		
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.'brongan');
+	}
+
 }

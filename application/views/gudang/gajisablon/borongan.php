@@ -55,7 +55,7 @@
 							<td><?php echo $k['harga'] ?></td>
 							<td><?php echo $k['total'] ?></td>
 							<td>
-								<!-- <a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a> -->
+								<a href="<?php echo BASEURL?>Gajisablon/hapusborongan/<?php echo $k['id']?>" onclick="return confirm('Apakah yakin?')" class="btn btn-xs btn-danger btn-xs"><i class="fa fa-trash"></i></a>
 							</td>
 						</tr>
 					<?php } ?>
