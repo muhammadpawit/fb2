@@ -28,7 +28,7 @@
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
-				<label>Tampilkan Di Laporan Penjualan ?</label>
+				<label>PO Online ?</label>
 				<select name="online" class="form-control">
 					<option value="ya" <?php echo $p['online']=='ya'?'selected':''; ?>>Ya</option>
 					<option value="tidak" <?php echo $p['online']=='tidak'?'selected':''; ?>>Tidak</option>
