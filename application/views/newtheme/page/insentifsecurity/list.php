@@ -82,6 +82,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <?php $tp=0;?>
                             <?php foreach($p['products'] as $p){?>
                               <tr>
@@ -109,6 +110,7 @@
                           <tr>
                             <td colspan="8" align="right"><b>Total</b></td>
                             <td><?php echo number_format($tp) ?></td>
+                            <td></td>
                           </tr>
                           <?php $no++; ?>
                         <?php } ?>
@@ -117,6 +119,7 @@
                         <tr>
                           <td colspan="8" align="right"><b>Total Keseluruhan</b></td>
                           <td><?php echo number_format($total) ?></td>
+                          <td></td>
                         </tr>
                       </tfoot>
                    </table>

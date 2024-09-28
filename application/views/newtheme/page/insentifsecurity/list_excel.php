@@ -69,5 +69,8 @@ header("Content-Disposition: attachment; filename=InsentifSecurity_".date('d F Y
                           <td colspan="8"><b>Total</b></td>
                           <td><?php echo ($total) ?></td>
                         </tr>
+                        <tr>
+                          <td colspan="10" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+                        </tr>
                       </tfoot>
                    </table>
