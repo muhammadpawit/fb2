@@ -36,14 +36,16 @@ class Gajisablon extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		
+		$data['kar']=$this->GlobalModel->GetData('karyawan_harian',array('hapus'=>0,'bagian'=>'Sablon Harian'));
 		$data['kartustok']=[];
 		$data['tambah']=$this->url.'add';
 		$data['prods']=[];
-		$sql		  =" SELECT a.*, b.nama  FROM gaji_sablon_harian a LEFT JOIN karyawan_harian b ON b.id=a.id_karyawan_harian ";
+		$sql		  =" SELECT a.*, b.nama, d.*  FROM gaji_sablon_harian a LEFT JOIN karyawan_harian b ON b.id=a.id_karyawan_harian ";
+		$sql		  .=" JOIN gaji_sablon_harian c ON c.id";
+		$sql 		  .= " LEFT JOIN gaji_sablon_harian_detail d ON d.idgaji=a.id ";
 		$sql 		  .=" WHERE a.hapus=0 AND b.hapus=0 ";
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
-
+		// pre($data['prods']);
 		if(isset($get['excel'])){
 			$this->load->view('gudang/persediaan/kartustok_excel',$data);
 		}else{
@@ -78,7 +80,6 @@ class Gajisablon extends CI_Controller {
 		$data['tambah']=$this->url.'add';
 		$data['prods']=[];
 		$sql		  =" SELECT a.*, b.nama  FROM gaji_sablon_harian a LEFT JOIN karyawan_harian b ON b.id=a.id_karyawan_harian ";
-		$sql 		  .= " LEFT JOIN gaji_sablon_harian_detail c ON c.id";
 		$sql 		  .=" WHERE a.hapus=0 AND b.hapus=0 ";
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
 
@@ -114,7 +115,7 @@ class Gajisablon extends CI_Controller {
 		
 		$data['prods']=[];
 		$data['action']=$this->url.'save';
-		$data['cancel']=$this->url.'';
+		$data['cancel']=$this->url.'harian';
 		$data['kar']=$this->GlobalModel->GetData('karyawan_harian',array('hapus'=>0,'bagian'=>'Sablon Harian'));
 		if(isset($get['excel'])){
 			$this->load->view('gudang/persediaan/kartustok_excel',$data);
@@ -145,7 +146,7 @@ class Gajisablon extends CI_Controller {
 		$this->db->insert('gaji_sablon_harian',$insert);
 		$id=$this->db->insert_id();
 		$insert_detail = array(
-			'id'		=> $id,
+			'idgaji'	=> $id,
 			'senin'		=> $post['senin'],
 			'selasa'	=> $post['selasa'],
 			'rabu'		=> $post['rabu'],

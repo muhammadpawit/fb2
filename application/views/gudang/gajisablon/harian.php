@@ -2,8 +2,11 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Nama Karyawan</label>
-			<select name="id_karyawan_harian" id="id_karyawan_harian" class="select2bs4">
-				<option value="*">Semua</option>
+			<select name="id_karyawan_harian" class="select2bs4 kar" required>
+				<option value="*"></option>
+				<?php foreach($kar as $k){ ?>
+					<option value="<?php echo $k['id']?>" data-item="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
+				<?php } ?>
 			</select>
 		</div>
 	</div>
@@ -27,6 +30,13 @@
 						<th>No</th>
 						<th>Periode</th>
 						<th>Nama</th>
+						<th>Senin</th>
+						<th>Selasa</th>
+						<th>Rabu</th>
+						<th>Kamis</th>
+						<th>Jumát</th>
+						<th>Sabtu</th>
+						<th>Total</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -37,8 +47,15 @@
 							<td><?php echo $no++?></td>
 							<td><?php echo $k['periode'] ?></td>
 							<td><?php echo $k['nama'] ?></td>
+							<td><?php echo ($k['senin']*$k['gajiperhari']) ?></td>
+							<td><?php echo ($k['selasa']*$k['gajiperhari']) ?></td>
+							<td><?php echo ($k['rabu']*$k['gajiperhari']) ?></td>
+							<td><?php echo ($k['kamis']*$k['gajiperhari']) ?></td>
+							<td><?php echo ($k['jumat']*$k['gajiperhari']) ?></td>
+							<td><?php echo ($k['sabtu']*$k['gajiperhari']) ?></td>
+							<td><?php echo ($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari'])?></td>
 							<td>
-								<a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a>
+								<!-- <a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a> -->
 							</td>
 						</tr>
 					<?php } ?>
