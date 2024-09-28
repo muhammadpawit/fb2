@@ -1,30 +1,9 @@
-<div class="row no-print">
-	<div class="col-md-4">
-		<div class="form-group">
-			<label>Nama Karyawan</label>
-			<select name="id_karyawan_harian" class="select2bs4 kar" required>
-				<option value="*"></option>
-				<?php foreach($kar as $k){ ?>
-					<option value="<?php echo $k['id']?>" data-item="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
-				<?php } ?>
-			</select>
-		</div>
-	</div>
-	
-	<div class="col-md-4">
-		<div class="form-group">
-			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
-			<button onclick="window.print()" class="btn btn-info btn-sm">Print</button>
-			<button onclick="excelwithtgl()" class="btn btn-info btn-sm">Excel</button>
-			 <a class="btn btn-info btn-sm" href="<?php echo $tambah ?>">Tambah</a>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group">
-			<table class="table table-bordered nosearch">
+<?php
+$namafile='GajiHarianSablon_'.time();
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=".$namafile.".xls");
+?>
+<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
 						<th>No</th>
@@ -53,7 +32,7 @@
 							<td><?php echo ($k['kamis']*$k['gajiperhari']) ?></td>
 							<td><?php echo ($k['jumat']*$k['gajiperhari']) ?></td>
 							<td><?php echo ($k['sabtu']*$k['gajiperhari']) ?></td>
-							<td><?php echo number_format(($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari']))?></td>
+							<td><?php echo (($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari']))?></td>
 							<td>
 								<!-- <a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a> -->
 							</td>
@@ -67,11 +46,14 @@
 					<tr>
 						<td colspan="9"><b>Total</b></td>
 						<td>
-							<b><?php echo number_format($total) ?></b>
+							<b><?php echo ($total) ?></b>
 						</td>
 					</tr>
+					<tr>
+                         <td colspan="9"></td>
+                    </tr>
+                    <tr>
+                    	<td colspan="9" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
+                    </tr>
 				</tfoot>
 			</table>		
-		</div>
-	</div>
-</div>
