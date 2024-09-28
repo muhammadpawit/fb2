@@ -48,7 +48,7 @@ class Gajisablon extends CI_Controller {
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
 		// pre($data['prods']);
 		if(isset($get['excel'])){
-			$this->load->view('gudang/gajisablon/hariaexcel',$data);
+			$this->load->view('gudang/gajisablon/harianexcel',$data);
 		}else{
 			$data['page']='gudang/gajisablon/harian';
 		$this->load->view('newtheme/page/main',$data);
@@ -85,7 +85,7 @@ class Gajisablon extends CI_Controller {
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
 
 		if(isset($get['excel'])){
-			$this->load->view('gudang/persediaan/kartustok_excel',$data);
+			$this->load->view('newtheme/page/main/gudang/persediaan/kartustok_excel',$data);
 		}else{
 			$data['page']='gudang/gajisablon/hariandetail';
 		$this->load->view('newtheme/page/main',$data);
