@@ -54,8 +54,8 @@
                   <th>Jumlah Lapisan</th>
                   <!-- <th>Jumlah Dz </th>
                   <th>Jumlah Per Baju </th>
-                  <th>Jumlah Per Cons</th>
-                  <th>Rincian</th> -->
+                  <th>Jumlah Per Cons</th> -->
+                  <th>Rincian</th>
                   <th>Kebutuhan</th>
                   <th>Stok</th>
                   <th>Ajuan</th>
@@ -78,7 +78,7 @@
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo strtolower($p['stok'])?></td>
                       <td><?php echo strtolower($p['ajuan'])?></td>
-                      <!-- <td><?php echo strtolower($p['rincian_ajuan'])?></td> -->
+                      <td><?php echo strtolower($p['rincian_ajuan'])?></td>
                       <td>
                         <a href="<?php echo BASEURL?>Ajuankemejabaru/delete/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin?')"><i class="fa fa-trash text-red"></i></a>
                       </td>
