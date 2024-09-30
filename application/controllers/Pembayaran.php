@@ -527,7 +527,7 @@ class Pembayaran extends CI_Controller {
 		$sisa=[];
 		$res=[];
 		//$res=$this->GlobalModel->QueryManual("SELECT gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 AND gtd.hapus=0 AND gtd.full_payment_id=0 ");
-		$res=$this->GlobalModel->QueryManual("SELECT p.kode_po as kodepo, gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) 
+		$res=$this->GlobalModel->QueryManual("SELECT p.kode_po as kodepo,p.nama_po, gt.timpotong,gtd.* FROM gaji_timpotong_detail gtd JOIN gaji_timpotong gt ON(gt.id=gtd.idgaji) 
 		JOIN produksi_po p ON p.id_produksi_po=gtd.kode_po
 		WHERE gt.hapus=0 AND gt.timpotong='".$tim."' AND gtd.full=2 
 		ORDER BY p.kode_po
@@ -535,7 +535,8 @@ class Pembayaran extends CI_Controller {
 		// pre($res);
 		foreach($res as $r){
 			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$r['kode_po']));
-			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($po['kode_po'], 0,3)));
+			// $harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>substr($po['kode_po'], 0,3)));
+			$harga=$this->GlobalModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$r['nama_po']));
 			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['timpotong']));
 			$totaldz+=($r['jml_dz']);
 			$totalpcs+=($r['jml_pcs']);
@@ -561,7 +562,7 @@ class Pembayaran extends CI_Controller {
 			$no++;
 		}
 		$data['products'] = array_merge($prod1,$prod2);
-		// pre($data['products']);
+		// pre($prod2);
 		$saving=0.05*$total;
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);
