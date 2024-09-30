@@ -61,6 +61,7 @@
                   <th>Ajuan</th>
                   <!-- <th>Rincian</th> -->
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -79,6 +80,9 @@
                       <td><?php echo strtolower($p['stok'])?></td>
                       <td><?php echo strtolower($p['ajuan'])?></td>
                       <td><?php echo strtolower($p['rincian_ajuan'])?></td>
+                      <td>
+                      <a href="javascript:void(0)" data-id="<?php echo $p['id']; ?>" class="btn-edit"><i class="fa fa-edit text-warning"></i></a>
+                      </td>
                       <td>
                         <a href="<?php echo BASEURL?>Ajuankemejabaru/delete/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin?')"><i class="fa fa-trash text-red"></i></a>
                       </td>
@@ -105,7 +109,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Tanggal</label>
-                <input type="text" class="form-control datepicker" value="<?php echo date('Y-m-d')?>" name="tanggal" required>
+                <input type="text" class="form-control datepicker" id="tanggal" value="<?php echo date('Y-m-d')?>" name="tanggal" required>
               </div>
             </div>
             <div class="col-md-6">
@@ -147,7 +151,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label>Rincian</label>
-                <textarea class="form-control" name="rincian" required></textarea>
+                <textarea class="form-control" name="rincian" id="rincian" required></textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -159,19 +163,19 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Stok</label>
-                <input type="number" class="form-control stok" name="stok" required>
+                <input type="number" class="form-control stok" name="stok" id="stok" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Ajuan</label>
-                <input type="number" class="form-control" name="ajuan" required>
+                <input type="number" class="form-control" name="ajuan" id="ajuan" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Rincian Ajuan</label>
-                <textarea class="form-control" name="rincian_ajuan" required></textarea>
+                <textarea class="form-control" name="rincian_ajuan" id="rincian_ajuan" required></textarea>
               </div>
             </div>
             <!-- <div class="col-md-6">
@@ -265,4 +269,41 @@
 
     location =url;
   }
+
+  $('.btn-edit').on('click', function() {
+      var id = $(this).data('id');
+      
+      // Mengubah konten modal saat tombol diklik
+      $('#modalContent').html('Loading data for ID: ' + id);
+
+      // Memanggil AJAX untuk mendapatkan detail data (gunakan URL API Anda)
+      $.ajax({
+        url: '<?php echo BASEURL?>Ajuankemejabaru/getDetail/'+id, // Ganti dengan URL untuk mengambil detail data
+        type: 'GET',
+        data: { id: id },
+        success: function(response) {
+          // Tampilkan data yang diterima ke modal
+          var obj = JSON.parse(response);
+          console.log(response);
+          $('#tanggal').val(obj.tanggal);
+          $('#nama_barang').val(obj.nama_barang).trigger('change');
+          $('#jumlah_lapisan').val(obj.jumlah_lapisan);
+          $('#jumlah_dz').val(obj.jumlah_dz);
+          $('#jumlah_per_baju').val(obj.jumlah_per_baju);
+          $('#jumlah_per_cons').val(obj.jumlah_per_cons);
+          $('#rincian').val(obj.rincian);
+          $('#kebutuhan').val(obj.kebutuhan);
+          $('#stok').val(obj.stok);
+          $('#ajuan').val(obj.ajuan);
+          $('#rincian_ajuan').val(obj.rincian_ajuan);
+          $('#tambahForm').append('<input type="hidden" name="idajuan" value="'+obj.id+'">');
+        },
+        error: function() {
+          $('#modalContent').html('Failed to load data.');
+        }
+      });
+
+      // Menampilkan modal
+      $('#tambahModal').modal('show');
+    });
 </script>

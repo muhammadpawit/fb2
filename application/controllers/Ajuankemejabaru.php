@@ -73,6 +73,7 @@ class Ajuankemejabaru extends CI_Controller {
 
     // Fungsi untuk menyimpan data baru
     public function store() {
+		// pre($this->input->post());
         // Mengambil data dari form
         $data = [
             'tanggal' => $this->input->post('tanggal'),
@@ -89,7 +90,13 @@ class Ajuankemejabaru extends CI_Controller {
         ];
 
         // Memasukkan data ke database
-        $this->AjuanKemejaModel->insert($data);
+		$post = $this->input->post();
+		if(isset($post['idajuan'])){
+			$this->db->update('ajuan_kemeja_baru',$data,array('id'=>$post['idajuan']));
+		}else{
+			$this->AjuanKemejaModel->insert($data);
+		}
+        
 
         // Redirect setelah berhasil menambah data
         $this->session->set_flashdata('msg','Data berhasil disimpan');
@@ -217,5 +224,10 @@ class Ajuankemejabaru extends CI_Controller {
 		}
 
 		echo $id;
+	}
+
+	function getDetail($id){
+		$detail = $this->GlobalModel->GetdataRow('ajuan_kemeja_baru',array('id'=>$id));
+		echo json_encode($detail);
 	}
 }
