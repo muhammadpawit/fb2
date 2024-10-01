@@ -119,7 +119,7 @@
 						</tr>
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom">(Dewi)</td>
+						<td align="center" height="100" valign="bottom">(Kandar)</td>
 						<td align="center" height="100" valign="bottom">(IFAH)</td>
 						</tr>
 					</table>
