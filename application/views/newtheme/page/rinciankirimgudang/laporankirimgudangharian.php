@@ -48,7 +48,7 @@
                                 <td><?php echo strtoupper($sat['kode_artikel']) ?></td>
                                 <td><?php echo strtoupper($sat['kodepo']) ?></td>
                                 <td><?php echo $sat['jumlah_piece_diterima']?></td>
-                                <td><?php echo ($sat['jumlah_piece_diterima']/12)?></td>
+                                <td><?php echo number_format(($sat['jumlah_piece_diterima']/12),2)?></td>
                                 <td><?php echo number_format($sat['harga_satuan']) ?></td>
                                 <td><?php echo number_format($sat['harga_satuan']*$sat['jumlah_piece_diterima']) ?></td>
                             </tr>
@@ -63,7 +63,7 @@
                                 <b><?php echo number_format($total) ?></b>
                             </td>
                             <td>
-                            <b><?php echo number_format($totaldz) ?></b>
+                            <b><?php echo number_format($totaldz,2) ?></b>
                             </td>
                             <td></td>
                             <td>
