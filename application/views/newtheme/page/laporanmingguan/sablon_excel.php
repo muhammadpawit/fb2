@@ -63,6 +63,8 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
 					$bahanbaku+=$a['pengalokasian']==12?$a['nominal']:0;
 					$inventaris+=$a['pengalokasian']==13?$a['nominal']:0;
+					$ops+=$a['pengalokasian']==14?$a['nominal']:0;
+					$gaji+=$a['pengalokasian']==15?$a['nominal']:0;
 				
 
 					?>
