@@ -41,7 +41,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <?php $total=0;$totaldz=0;?>
+                            <?php $total=0;$totaldz=0;$totalharga=0;?>
                             <?php foreach ($notarincian as $key => $sat): ?>
                             <tr>
                                 <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
@@ -54,6 +54,7 @@
                             </tr>
                             <?php $total+=($sat['jumlah_piece_diterima']);?>
                             <?php $totaldz+=($sat['jumlah_piece_diterima']/12);?>
+                            <?php $totalharga+=($sat['harga_satuan']*$sat['jumlah_piece_diterima']) ?>
                             <?php endforeach ?>
                         </tbody>
                         <tr>
@@ -65,7 +66,9 @@
                             <b><?php echo number_format($totaldz) ?></b>
                             </td>
                             <td></td>
-                            <td></td>
+                            <td>
+                            <b><?php echo number_format($totalharga) ?></b>
+                            </td>
                         </tr>
                     </table>
                 </div>
