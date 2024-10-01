@@ -120,7 +120,7 @@
 						<tr>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(Kandar)</td>
-						<td align="center" height="100" valign="bottom">(IFAH)</td>
+						<td align="center" height="100" valign="bottom">(Ifah)</td>
 						</tr>
 					</table>
 				</td>
