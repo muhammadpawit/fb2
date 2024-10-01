@@ -28,7 +28,7 @@
                     <!-- <div class="card-tools">
                         
                     </div> -->
-                    <table id="datatable" class="table table-bordered">
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -41,6 +41,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                            <?php $total=0;$totaldz=0;?>
                             <?php foreach ($notarincian as $key => $sat): ?>
                             <tr>
                                 <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
@@ -51,8 +52,21 @@
                                 <td><?php echo number_format($sat['harga_satuan']) ?></td>
                                 <td><?php echo number_format($sat['harga_satuan']*$sat['jumlah_piece_diterima']) ?></td>
                             </tr>
+                            <?php $total+=($sat['jumlah_piece_diterima']);?>
+                            <?php $totaldz+=($sat['jumlah_piece_diterima']/12);?>
                             <?php endforeach ?>
                         </tbody>
+                        <tr>
+                            <td colspan="3"><b>Total</b></td>
+                            <td>
+                                <b><?php echo number_format($total) ?></b>
+                            </td>
+                            <td>
+                            <b><?php echo number_format($totaldz) ?></b>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </table>
                 </div>
             </div>
