@@ -17,7 +17,7 @@
   </div>
   <div class="col-md-3">
     <label>Tanggal Akhir</label>
-    <input type="text" value="<?php echo $tanggal2?>" name="tanggal1" class="form-control datepicker">
+    <input type="text" value="<?php echo $tanggal2?>" name="tanggal2" class="form-control datepicker">
   </div>
   <div class="col-md-3">
     <label>Action</label><br>
