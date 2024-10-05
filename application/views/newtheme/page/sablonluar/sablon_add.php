@@ -121,6 +121,15 @@
 				</tbody>
 			</table>
 			<br>
+			<?php $komisi=0;$tdzz=0;?>
+			<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
+								<?php
+								$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
+							?>
+						<?php 
+							$komisi+=$name['price_group']*array_sum($dzs[$val]);	
+						?>
+			<?php } ?>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -134,7 +143,7 @@
 					<td><?php echo number_format($total)?></td>
 					<td><?php echo number_format($pengeluarantotal)?></td>
 					<td><?php echo number_format($sewa)?></td>
-					<td><?php echo number_format($total-$sewa-$pengeluarantotal)?></td>
+					<td><?php echo number_format($total-$sewa-$pengeluarantotal-$komisi)?></td>
 				</tbody>
 			</table>
 			<br>
