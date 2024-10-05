@@ -129,9 +129,6 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Komisi</caption>
 			<?php 
-				//print_r(array_count_values($pekerjaan));
-				//echo json_encode($pendapatan);
-
 			$tdz=0;
 			$tjml=0;
 			$tpo=0;
@@ -147,6 +144,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
+					<?php //echo json_encode($pekerjaan) ?>
 					<?php $b=0;?>
 					<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
 					<tr>
@@ -156,24 +154,33 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 								echo !empty($name)?$name['nama_job']:'';
 							?>
 						</td>
-						<td><?php $b=array_sum($dzs[$val]);echo number_format($b,2) ;?></td>
-						<td><?php echo number_format(3000)?></td>
-						<td><?php echo number_format(3000*array_sum($dzs[$val]))?></td>
+						<td><?php $b=array_sum($dzs[$val]); echo ($b) ;?></td>
+						<td><?php echo ($name['price_group'])?></td>
+						<td><?php echo ($name['price_group']*array_sum($dzs[$val]))?></td>
 						<td><?php echo count($dzs[$val]);?> PO </td>
 					</tr>
 					<?php 
 						$tdz+=array_sum($dzs[$val]);
-						$tjml+=3000*array_sum($dzs[$val]);
+						$tjml+=$name['price_group']*array_sum($dzs[$val]);
 						$tpo+=count($dzs[$val]);
 					?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
-					<td><b>Total Diterima</b></td>
-					<td><b><?php echo number_format($tdz,2)?></b></td>
-					<td></td>
-					<td><b><?php echo number_format($komisi)?></b></td>
-					<td><b><?php echo $tpo?></b></td>
+					<tr>
+						<td><b>Potongan <?php echo $pot_ket ?></b></td>
+						<td><b></b></td>
+						<td></td>
+						<td><b><?php echo ($pot)?></b></td>
+						<td><b><?php echo $pot_ket?></b></td>
+					</tr>
+					<tr>
+						<td><b>Total Diterima</b></td>
+						<td><b><?php echo ($tdz)?></b></td>
+						<td></td>
+						<td><b><?php echo ($tjml-$pot)?></b></td>
+						<td><b><?php echo $tpo?> PO</b></td>
+					</tr>
 				</tfoot>
 			</table>
 			<?php } ?>
@@ -211,7 +218,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( Muchlas )
+                                                (  )
 
                                             </td>
                                              <td height="100" align="center">
@@ -226,7 +233,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( Dinda )
+                                                (  )
 
                                             </td>
                                            
