@@ -277,16 +277,52 @@ class Sablon extends CI_Controller {
 	public function pengeluarantambah(){
 		$data=[];
 		$data['title']='Tambah pengeluaran sablon';
+		$data['gajisablonharian']=$this->GlobalModel->QueryManual("SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND dibayarkan=0 GROUP BY periode");
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['action']=BASEURL.'Sablon/pengeluaran_save';
 		$data['page']=$this->page.'sablon/pengeluaran_add';
 		$this->load->view($this->page.'main',$data);
 	}
 
+	function sumgajiharian(){
+		$post = $this->input->post();
+		$sql = $this->GlobalModel->QueryManual(
+			"SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND LOWER(periode)='".strtolower($post['periode'])."' "
+		);
+		$gaji=[];
+		$total=0;
+		foreach($sql as $s){
+			$total=$this->totalsumharian($s['id'],$s['gajiperhari']);
+			$gaji[] = array(
+				'id' => $s['id'],
+				'total' => $total,
+			);
+		}
+		echo json_encode($gaji);
+	}
+
+	function totalsumharian($id,$gajiperhari){
+		$total=0;
+		$data = $this->GlobalModel->Getdata('gaji_sablon_harian_detail',array('idgaji'=>$id));
+		foreach($data as $d){
+			$total+=( ($gajiperhari*$d['senin']) + ($gajiperhari*$d['selasa']) + ($gajiperhari*$d['rabu']) + ($gajiperhari*$d['kamis']) + ($gajiperhari*$d['jumat']) + ($gajiperhari*$d['sabtu']) );
+		}
+		return $total;
+	}
+
+	function sumgajiborongan(){
+		$post = $this->input->post();
+		$sql = $this->GlobalModel->QueryManualRow(
+			"SELECT COALESCE(SUM(total),0) as total FROM gaji_sablon_borongan WHERE hapus=0 AND DATE(tanggal) BETWEEN '".($post['tanggal1'])."' AND '".($post['tanggal2'])."'  "
+		);
+		
+		echo json_encode($sql);
+	}
+
 	public function pengeluaran_save(){
 		$data=$this->input->post();
 		$insert=array(
-			'tanggal'=>$data['tanggal'],
+			'tanggal'=>$data['tanggal2'],
 			'idcmt'=>$data['idcmt'],
 			'belanjacat'=>$data['belanjacat'],
 			'upahtukang_harian'=>$data['upahtukang_harian'],
@@ -297,6 +333,11 @@ class Sablon extends CI_Controller {
 			'hapus'=>0,
 		);
 		$this->db->insert('pengeluaran_sablon',$insert);
+		if(isset($data['idgajiharian'])){
+			foreach($data['idgajiharian'] as $d){
+				$this->db->update('gaji_sablon_harian',array('dibayarkan'=>1),array('id'=>$d['id']));
+			}
+		}
 		$this->session->set_flashdata('msg','data berhasil disimpan');
 		redirect($this->url.'pengeluaran');
 	}
