@@ -290,8 +290,10 @@ class Sablon extends CI_Controller {
 			"SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND LOWER(periode)='".strtolower($post['periode'])."' ";
 		if($post['cmt']==87){
 			$query .=" AND id_karyawan_harian IN (193,194) ";
+		}else if($post['cmt']==19){
+			$query .=" AND id_karyawan_harian IN (195,196) ";
 		}else{
-			$query .=" AND id_karyawan_harian NOT IN (193,194) ";
+			$query .=" AND id_karyawan_harian NOT IN (193,194,195,196) ";
 		}
 		$sql = $this->GlobalModel->QueryManual($query);
 		$gaji=[];
