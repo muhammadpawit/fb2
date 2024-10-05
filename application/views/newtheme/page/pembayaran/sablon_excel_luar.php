@@ -98,6 +98,15 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 			</table>
 			<br>
+			<?php $komisi=0;$tdzz=0;?>
+			<?php foreach(array_unique($pekerjaan) as $p =>$val){?>
+								<?php
+								$name=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$val));
+							?>
+						<?php 
+							$komisi+=$name['price_group']*array_sum($dzs[$val]);	
+						?>
+			<?php } ?>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
 				<thead>
 					<tr>
@@ -111,7 +120,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td><?php echo ($total)?></td>
 					<td><?php echo ($pengeluarantotal)?></td>
 					<td><?php echo ($sewa)?></td>
-					<td><?php echo ($total-$sewa-$pengeluarantotal)?></td>
+					<td><?php echo ($total-$sewa-$pengeluarantotal-$komisi)?></td>
 				</tbody>
 			</table>
 			<br>
