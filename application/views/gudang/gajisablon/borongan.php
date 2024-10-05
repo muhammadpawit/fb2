@@ -1,4 +1,16 @@
 <div class="row no-print">
+	<div class="col-md-2">
+		<div class="form-group">
+			<label for="">Tanggal Awal</label>
+			<input type="text" name="tanggal1" class="form-control datepicker" value="<?php echo $tanggal1 ?>">
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="form-group">
+			<label for="">Tanggal Akhir</label>
+			<input type="text" name="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2 ?>">
+		</div>
+	</div>
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Nama Karyawan</label>
@@ -14,7 +26,7 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
 			<button onclick="window.print()" class="btn btn-info btn-sm">Print</button>
 			<button onclick="excelwithtgl()" class="btn btn-info btn-sm">Excel</button>
 			 <a class="btn btn-info btn-sm" href="<?php echo $tambah ?>">Tambah</a>
@@ -37,7 +49,7 @@
 						<th>Putaran</th>
 						<th>Harga</th>
 						<th>Total</th>
-						<th></th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,9 +79,34 @@
 						<td>
 							<b><?php echo number_format($total) ?></b>
 						</td>
+						<td></td>
 					</tr>
 				</tfoot>
 			</table>		
 		</div>
 	</div>
 </div>
+<script>
+	function filter(){
+		url='?';
+		
+		var filter_date_start = $('input[name=\'tanggal1\']').val();
+
+		if (filter_date_start) {
+		url += '&tanggal1=' + encodeURIComponent(filter_date_start);
+		}
+
+		var filter_date_end = $('input[name=\'tanggal2\']').val();
+
+		if (filter_date_end) {
+		url += '&tanggal2=' + encodeURIComponent(filter_date_end);
+		}
+
+		var namatim = $('select[name=\'id_karyawan_harian\']').val();
+
+		if (namatim != '*') {
+		url += '&namatim=' + encodeURIComponent(namatim);
+		}
+		location =url;
+	}
+</script>

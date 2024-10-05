@@ -11,6 +11,7 @@ class Gajisablon extends CI_Controller {
 		$this->page='newtheme/page/';
 		$this->url=BASEURL.'Gajisablon/';
 		$this->login 		= BASEURL.'login';
+		$this->load->model('GajiSablonModel');
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
 	}
@@ -174,21 +175,22 @@ class Gajisablon extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
+		if(isset($get['namatim'])){
+			$namatim=$get['namatim'];
 		}else{
-			$cat=null;
+			$namatim=null;
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		$data['kartustok']=[];
 		$data['tambah']=$this->url.'addborongan';
-		$data['prods']=[];
-		$sql		  =" SELECT a.*, p.kode_po, k.nama as namakar FROM gaji_sablon_borongan a LEFT JOIN produksi_po p ON p.id_produksi_po = a.idpo ";
-		$sql 		  .=" LEFT JOIN karyawan_harian k ON k.id=a.namatim ";
-		$sql 		  .=" WHERE a.hapus=0 ";
-		$data['prods']=$this->GlobalModel->QueryManual($sql);
+		$filter = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'namatim' => $namatim,
+		);
+		$data['prods'] = $this->GajiSablonModel->get($filter);
 		// pre($data['prods']);
 		if(isset($get['excel'])){
 			$this->load->view('gudang/gajisablon/boronganexcel',$data);
@@ -223,7 +225,11 @@ class Gajisablon extends CI_Controller {
 		$data['prods']=[];
 		$data['action']=$this->url.'save_borongan';
 		$data['cancel']=$this->url.'brongan';
-		$data['po']	= $this->GlobalModel->GetData('produksi_po',array('hapus'=>0));
+		$po	= $this->GlobalModel->QueryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ');
+		$poluar	= $this->GlobalModel->QueryManual('SELECT id as id_produksi_po, nama as kode_po FROM master_po_luar WHERE hapus=0 ');
+		$data['po']=array_merge($po,$poluar);
+		// pre($data['po']);
+		$data['poluar'] = 
 		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		if(isset($get['excel'])){
 			$this->load->view('gudang/persediaan/kartustok_excel',$data);
