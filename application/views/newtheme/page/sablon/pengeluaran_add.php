@@ -78,7 +78,7 @@
         url: '<?php echo BASEURL?>Sablon/sumgajiharian', // Ganti dengan URL yang sesuai
         type: 'POST',
 		dataType: 'json',
-        data: { periode: selectedValue },
+        data: { periode: selectedValue,cmt:cmt  },
         success: function(response) {
             console.log('Response:', response); // Debugging line
 			if (Array.isArray(response)) {

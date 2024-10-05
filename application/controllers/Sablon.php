@@ -286,9 +286,14 @@ class Sablon extends CI_Controller {
 
 	function sumgajiharian(){
 		$post = $this->input->post();
-		$sql = $this->GlobalModel->QueryManual(
-			"SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND LOWER(periode)='".strtolower($post['periode'])."' "
-		);
+		$query=
+			"SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND LOWER(periode)='".strtolower($post['periode'])."' ";
+		if($post['cmt']==87){
+			$query .=" AND id_karyawan_harian IN (193,194) ";
+		}else{
+			$query .=" AND id_karyawan_harian NOT IN (193,194) ";
+		}
+		$sql = $this->GlobalModel->QueryManual($query);
 		$gaji=[];
 		$total=0;
 		foreach($sql as $s){
