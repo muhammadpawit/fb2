@@ -1,7 +1,7 @@
 <?php
 $namafile='Laporan_Pembayaran_Sablon_'.time();
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=".$namafile.".xls");
+// header("Content-type: application/vnd-ms-excel");
+// header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
 <style type="text/css">
 	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -118,7 +118,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</thead>
 				<tbody>
 					<td><?php echo ($total)?></td>
-					<td><?php echo ($pengeluarantotal)?></td>
+					<td><?php echo ($pengeluarantotal+$komisi)?></td>
 					<td><?php echo ($sewa)?></td>
 					<td><?php echo ($total-$sewa-$pengeluarantotal-$komisi)?></td>
 				</tbody>

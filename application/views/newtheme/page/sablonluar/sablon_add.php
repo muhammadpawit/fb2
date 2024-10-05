@@ -141,7 +141,7 @@
 				</thead>
 				<tbody>
 					<td><?php echo number_format($total)?></td>
-					<td><?php echo number_format($pengeluarantotal)?></td>
+					<td><?php echo number_format($pengeluarantotal+$komisi)?></td>
 					<td><?php echo number_format($sewa)?></td>
 					<td><?php echo number_format($total-$sewa-$pengeluarantotal-$komisi)?></td>
 				</tbody>
