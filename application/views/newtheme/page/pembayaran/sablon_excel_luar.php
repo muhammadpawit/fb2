@@ -172,7 +172,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td><b>Total Diterima</b></td>
 					<td><b><?php echo number_format($tdz,2)?></b></td>
 					<td></td>
-					<td><b><?php echo number_format($tjml)?></b></td>
+					<td><b><?php echo number_format($komisi)?></b></td>
 					<td><b><?php echo $tpo?></b></td>
 				</tfoot>
 			</table>
