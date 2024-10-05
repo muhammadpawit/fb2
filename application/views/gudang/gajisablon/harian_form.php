@@ -58,12 +58,12 @@
 							<td>Sabtu</td>
 						</tr>
 						<tr>
-							<td><input type="number" class="form-control" name="senin" value="0" onblur="updatetotal()"></td>
-							<td><input type="number" class="form-control" name="selasa" value="0" onblur="updatetotal()"></td>
-							<td><input type="number" class="form-control" name="rabu" value="0" onblur="updatetotal()"></td>
-							<td><input type="number" class="form-control" name="kamis" value="0" onblur="updatetotal()"></td>
-							<td><input type="number" class="form-control" name="jumat" value="0" onblur="updatetotal()"></td>
-							<td><input type="number" class="form-control" name="sabtu" value="0" onblur="updatetotal()"></td>
+							<td><input type="number" class="form-control" step="0.1" name="senin" value="0" onblur="updatetotal()"></td>
+							<td><input type="number" class="form-control" step="0.1" name="selasa" value="0" onblur="updatetotal()"></td>
+							<td><input type="number" class="form-control" step="0.1" name="rabu" value="0" onblur="updatetotal()"></td>
+							<td><input type="number" class="form-control" step="0.1" name="kamis" value="0" onblur="updatetotal()"></td>
+							<td><input type="number" class="form-control" step="0.1" name="jumat" value="0" onblur="updatetotal()"></td>
+							<td><input type="number" class="form-control" step="0.1" name="sabtu" value="0" onblur="updatetotal()"></td>
 						</tr>
 					</table>
 				</div>
