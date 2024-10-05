@@ -288,6 +288,7 @@ class Sablon extends CI_Controller {
 		$post = $this->input->post();
 		$query=
 			"SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND LOWER(periode)='".strtolower($post['periode'])."' ";
+			// cek tim berdasarkan cmt
 		if($post['cmt']==87){
 			$query .=" AND id_karyawan_harian IN (193,194) ";
 		}else if($post['cmt']==19){
