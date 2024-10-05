@@ -17,7 +17,7 @@
 			<select name="id_karyawan_harian" class="select2bs4 kar" required>
 				<option value="*"></option>
 				<?php foreach($kar as $k){ ?>
-					<option value="<?php echo $k['id']?>" data-item="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
+					<option value="<?php echo $k['id']?>" data-item="<?php echo $k['id']?>" <?php echo $k['id']==$namatim ? 'selected':'' ?>><?php echo $k['nama']?></option>
 				<?php } ?>
 			</select>
 		</div>

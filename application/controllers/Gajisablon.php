@@ -182,6 +182,7 @@ class Gajisablon extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['namatim']=$namatim;
 		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		$data['kartustok']=[];
 		$data['tambah']=$this->url.'addborongan';
