@@ -313,7 +313,7 @@ class Sablon extends CI_Controller {
 	function sumgajiborongan(){
 		$post = $this->input->post();
 		$sql = $this->GlobalModel->QueryManualRow(
-			"SELECT COALESCE(SUM(total),0) as total FROM gaji_sablon_borongan WHERE hapus=0 AND DATE(tanggal) BETWEEN '".($post['tanggal1'])."' AND '".($post['tanggal2'])."'  "
+			"SELECT COALESCE(SUM(total),0) as total FROM gaji_sablon_borongan WHERE hapus=0 AND DATE(tanggal) BETWEEN '".($post['tanggal1'])."' AND '".($post['tanggal2'])."' AND idcmt='".$post['cmt']."'  "
 		);
 		
 		echo json_encode($sql);

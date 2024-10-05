@@ -17,7 +17,7 @@
 			</div>
 			<div class="form-group">
 				<label>CMT</label>
-				<select name="idcmt" class="form-control select2bs4" data-live-search="true">
+				<select name="idcmt" id="idcmt" class="form-control select2bs4" data-live-search="true">
 					<option value="*">Pilih CMT</option>
 					<?php foreach($cmt as $c){?>
 						<option value="<?php echo $c['id_cmt']?>"><?php echo $c['cmt_name']?></option>
@@ -70,6 +70,7 @@
     var selectedValue = $('#gajiharian').val();
     var tanggal1 = $('#tanggal').val();
 	var tanggal2 = $('#tanggal2').val();
+	var cmt = $('#idcmt').val();
 	
     // Jika ingin melakukan AJAX request berdasarkan pilihan
     
@@ -105,7 +106,7 @@
         url: '<?php echo BASEURL?>Sablon/sumgajiborongan', // Ganti dengan URL yang sesuai
         type: 'POST',
 		dataType: 'json',
-        data: { tanggal1: tanggal1, tanggal2:tanggal2 },
+        data: { tanggal1: tanggal1, tanggal2:tanggal2, cmt:cmt },
         success: function(response) {
             console.log('Response:', response); // Debugging line
 			$("#upahtukang_borongan").attr("readonly",true);

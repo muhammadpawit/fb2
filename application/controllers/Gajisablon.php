@@ -227,6 +227,7 @@ class Gajisablon extends CI_Controller {
 		$data['action']=$this->url.'save_borongan';
 		$data['cancel']=$this->url.'brongan';
 		$po	= $this->GlobalModel->QueryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ');
+		$data['cmt']	= $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
 		$poluar	= $this->GlobalModel->QueryManual('SELECT id as id_produksi_po, nama as kode_po FROM master_po_luar WHERE hapus=0 ');
 		$data['po']=array_merge($po,$poluar);
 		// pre($data['po']);
@@ -246,6 +247,7 @@ class Gajisablon extends CI_Controller {
 		foreach($post['prods'] as $p){
 			$insert = array(
 				'tanggal' 	=> $post['tanggal'],
+				'idcmt' 	=> $post['idcmt'],
 				'namatim' 	=> $post['id_karyawan_harian'],
 				'idpo' 		=> $p['kodepo'],
 				'gambar' 	=> $p['gambar'],

@@ -1,12 +1,23 @@
 <form action="<?php echo $action ?>" method="POST">
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-2">
         <div class="form-group">
             <label for="">Tanggal</label>
             <input type="text" name="tanggal" class="form-control datepicker" value="<?php echo date('Y-m-d')?>">
         </div>
     </div>
-	<div class="col-md-6">
+    <div class="col-md-5">
+        <div class="form-group">
+            <label for="">Pilih CMT</label>
+            <select name="idcmt" class="select2bs4" required>
+						<option value="">Pilih CMT</option>
+						<?php foreach($cmt as $k){ ?>
+							<option value="<?php echo $k['id_cmt']?>" data-item="<?php echo $k['id_cmt']?>"><?php echo $k['cmt_name']?></option>
+						<?php } ?>
+			</select>
+        </div>
+    </div>
+	<div class="col-md-5">
         <div class="form-group">
             <label for="">Pilih Karyawan</label>
             <select name="id_karyawan_harian" class="select2bs4 kar" required>
