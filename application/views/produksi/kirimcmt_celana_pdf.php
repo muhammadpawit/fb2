@@ -181,7 +181,7 @@
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(..................)</td>
 						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom"><?php if(!empty($alat)){ ?> (VINA) <?php }else{ ?> (Dewi) <?php } ?></td>
+						<td align="center" height="100" valign="bottom"><?php if(!empty($alat)){ ?> (VINA) <?php }else{ ?> (Kandar) <?php } ?></td>
 						</tr>
 					</table>
 				</td>
