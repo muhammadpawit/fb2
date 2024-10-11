@@ -190,7 +190,7 @@ class Gudang extends CI_Controller {
 		}
 
 		if(isset($get['spv'])){
-			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
+			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan <> 'celana' ORDER BY id DESC LIMIT 1 ");
 			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
 			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
 			if(isset($get['tanggal1'])){
