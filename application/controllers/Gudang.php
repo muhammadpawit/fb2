@@ -211,7 +211,7 @@ class Gudang extends CI_Controller {
 		$data['cat']=$cat;
 		$data['products']=array();
 		$data['n']=1;
-		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0";
+		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan != 'celana' ";
 		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
 		if(!empty($cat)){
 			$sql.=" AND jenis='".$cat."' ";
