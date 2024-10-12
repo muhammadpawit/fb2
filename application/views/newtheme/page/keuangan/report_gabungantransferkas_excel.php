@@ -1,6 +1,6 @@
 <?php
-header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
+// header("Content-type: application/vnd-ms-excel");
+// header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
 ?>
 <style type="text/css">
   @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -124,7 +124,7 @@ header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
 
                                                 <br>
 
-                                                ( Muchlas)
+                                                ( )
 
                                             </td>
                                              <td height="100" align="center">
@@ -139,7 +139,7 @@ header("Content-Disposition: attachment; filename=Laporan_Kas_Transfer.xls");
 
                                                 <br>
 
-                                                ( Dinda )
+                                                (  )
 
                                             </td>
 

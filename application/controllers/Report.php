@@ -122,7 +122,7 @@ class Report extends CI_Controller {
 		}else{
 			$sql.=" AND bagian IN(1,2,3) ";
 		}
-		$sql.=" GROUP BY tanggal ORDER BY tanggal ASC ";
+		$sql.=" GROUP BY bagian,tanggal ORDER BY tanggal ASC ";
 		$products=$this->GlobalModel->QueryManual($sql);
 		$tf=[];
 		if(!empty($products)){
@@ -140,7 +140,7 @@ class Report extends CI_Controller {
 		$sql2="SELECT bagian,tanggal FROM aruskas WHERE hapus=0 ";
 		$sql2.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		$sql2.=" AND bagian IN (1,2,3) ";
-		$sql2.=" GROUP BY tanggal ORDER BY tanggal ASC ";
+		$sql2.=" GROUP BY bagian,tanggal ORDER BY tanggal ASC ";
 		$products2=$this->GlobalModel->QueryManual($sql2);
 		$ket=[];
 		if(!empty($products2)){

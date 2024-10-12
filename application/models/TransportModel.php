@@ -71,22 +71,47 @@ class TransportModel extends CI_Model {
 			$hasil[]=array(
 				'id'=>$d['id'],
 				'tanggal'=>$d['tanggal'],
+				'cash' => $d['cash'], // Cash
+				'pengisian_etol' => $d['pengisian_etol'], // E-Toll Pengisian
+				'saldo_awal_etol' => $d['saldo_awal_etol'], // E-Toll Saldo Awal
+				'pemakaian_etol' => $d['pemakaian_etol'], // E-Toll Pemakaian
+				'sisa_etol' => $d['sisa_etol'], // E-Toll Sisa
+				'solar' => $d['solar'], // Solar
+				'uang_makan' => $d['uangmakan'], // Uang Makan
+				'biaya_lain' => $d['biayalain'], // Biaya Lain-Lain
 				'namacmt'=>$d['namadriver'],
 				'nominal'=>$d['nominal'],
+				'sisa_cash' => $d['sisa_cash'], // Sisa Cash
+				'km' => $d['km'], // KM
+				'tujuan' => $d['tujuan'], // Tujuan
 				'keterangan'=>$d['keterangan'],
+				'keterangan2'=>$d['keterangan2'],
 			);
 		}
 		return $hasil;
 	}
 
 	public function insert_driver($data){
+		// pre($data);
 		if(isset($data['products'])){
-			foreach($data['products'] as $p){
+			foreach($data['products'] as $d){
 				$insert=array(
-					'tanggal'=>$p['tanggal'],
-					'namadriver'=>$p['namadriver'],
-					'nominal'=>$p['nominal'],
-					'keterangan'=>$p['keterangan'],
+					'tanggal'=>$d['tanggal'],
+					'cash' => $d['cash'], // Cash
+					'pengisian_etol' => $d['pengisian_etoll'], // E-Toll Pengisian
+					'saldo_awal_etol' => $d['saldo_awal_etoll'], // E-Toll Saldo Awal
+					'pemakaian_etol' => $d['pemakaian_etoll'], // E-Toll Pemakaian
+					'sisa_etol' => $d['sisa_etoll'], // E-Toll Sisa
+					'solar' => $d['solar'], // Solar
+					'uangmakan' => $d['uang_makan'], // Uang Makan
+					'biayalain' => $d['biaya_lain'], // Biaya Lain-Lain
+					'namadriver'=>$d['namadriver'],
+					'nominal'=>$d['nominal'],
+					'sisa_cash' => $d['sisa_cash'], // Sisa Cash
+					'km' => $d['km'], // KM
+					'tujuan' => $d['tujuan'], // Tujuan
+					'keterangan'=>$d['keterangan'],
+					'keterangan2'=>$d['keterangan2'],
 					'hapus'=>0
 				);
 				$this->db->insert('transport_driver',$insert);

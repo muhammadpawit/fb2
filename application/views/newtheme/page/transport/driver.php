@@ -37,12 +37,26 @@
 			<table class="table table-bordered nosearch">
 				<thead>
 					<tr>
-						<th>No</th>
-						<th>Tanggal</th>
-						<th>CMT</th>
-						<th>Nominal</th>
-						<th>Keterangan</th>
-						<th>Action</th>
+						<th rowspan="2" valign="top">No</th>
+						<th rowspan="2" valign="top">Hari / Tanggal</th>
+						<th rowspan="2" valign="top">Cash</th>
+						<th colspan="4" valign="top">E-Toll</th>
+						<th rowspan="2" valign="top">Solar</th>
+						<th rowspan="2" valign="top">Uang Makan</th>
+						<th rowspan="2" valign="top">Biaya Lain-Lain</th>
+						<th rowspan="2" valign="top">Total Pengeluaran</th>
+						<th rowspan="2" valign="top">Sisa Cash</th>
+						<th rowspan="2" valign="top">KM</th>
+						<th rowspan="2" valign="top">Tujuan</th>
+						<th rowspan="2" valign="top">Driver</th>
+						<th rowspan="2" valign="top">KET</th>
+						<th rowspan="2" valign="top">Action</th>
+					</tr>
+					<tr>
+						<th>Pengisian</th>
+						<th>Saldo Awal</th>
+						<th>Pemakaian</th>
+						<th>Sisa E-Toll</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,8 +65,19 @@
 						<tr>
 							<td><?php echo $no++;?></td>
 							<td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
-							<td><?php echo $p['namacmt']?></td>
+							<td><?php echo number_format($p['cash'])?></td>
+							<td><?php echo number_format($p['pengisian_etol'])?></td>
+							<td><?php echo number_format($p['saldo_awal_etol'])?></td>
+							<td><?php echo number_format($p['pemakaian_etol'])?></td>
+							<td><?php echo number_format($p['sisa_etol'])?></td>
+							<td><?php echo number_format($p['solar'])?></td>
+							<td><?php echo number_format($p['uang_makan'])?></td>
+							<td><?php echo number_format($p['biaya_lain'])?></td>
 							<td><?php echo number_format($p['nominal'])?></td>
+							<td><?php echo number_format($p['sisa_cash'])?></td>
+							<td><?php echo $p['km']?></td>
+							<td><?php echo $p['tujuan']?></td>
+							<td><?php echo $p['namacmt']?></td>
 							<td><?php echo $p['keterangan']?></td>
 							<td>
 								<a href="<?php echo $url?>hapus_driver/<?php echo $p['id']?>" classbtn="btn btn-danger"><i class="fa fa-trash"></i></a>

@@ -227,22 +227,46 @@
                 <?php echo number_format($total_trf+$total_kasmasuk,0) ?>
               </b>
             </td>
-            <td colspan="3" align="center">
+            <td colspan="2" align="center">
               <b>
-                <?php echo number_format($total_trf_konveksi-$total_cash_konveksi,0) ?>
+                <?php echo number_format($total_trf_konveksi+$total_cash_konveksi,0) ?>
               </b>
             </td>
-            <td colspan="3" align="center">
+            <td align="center">
+                  <b>
+                  <?php echo number_format($total_sisa_konveksi)?>
+                  </b>
+            </td>
+            <td colspan="2" align="center">
               <b>
                 <?php echo number_format($total_trf_bordir-$total_cash_bordir,0) ?>
               </b>
             </td>
-            <td colspan="3" align="center">
+            <td align="center">
+                  <b>
+                  <?php echo number_format($total_sisa_bordir)?>
+                  </b>
+            </td>
+            <td colspan="2" align="center">
               <b>
                 <?php echo number_format($total_trf_sablon-$total_cash_sablon,0) ?>
               </b>
             </td>
+            <td align="center">
+                  <b>
+                  <?php echo number_format($total_sisa_sablon)?>
+                  </b>
+            </td>
           </tr>
+          <!-- <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><?php echo number_format($total_sisa_konveksi)?></td>
+          </tr> -->
           <tr>
             <td colspan="2" align="center">
               <b>
@@ -256,7 +280,7 @@
             </td>
             <td colspan="3" align="center">
               <b>
-                <?php echo number_format( ($total_trf_konveksi-$total_cash_konveksi) + ($total_trf_bordir-$total_cash_bordir) + ($total_trf_sablon-$total_cash_sablon) ,0) ?>
+                <?php echo number_format( ($total_trf_konveksi+$total_cash_konveksi) + ($total_trf_bordir+$total_cash_bordir) + ($total_trf_sablon+$total_cash_sablon) ,0) ?>
               </b>
             </td>
           </tr>
