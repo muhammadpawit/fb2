@@ -237,5 +237,99 @@ class Insentifsecurity extends CI_Controller {
 		redirect($this->url);
 		
 	}
+
+	function rekap(){
+		$post = $this->input->post();
+		$no=1;
+		$insentif=200000;
+		$total=0;
+		$kar= $this->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 AND jabatan IN (10,46) ORDER BY nama ASC ');
+		echo '<form method="post" action="'.$this->url.'rekap_save">';
+		echo '<table class="table table-bordered">';
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th>No</th>";
+		echo "<th>Nama</th>";
+		echo "<th>Insentif</th>";
+		echo "<th>Potongan</th>";
+		echo "<th>Uang Tambahan</th>";
+		echo "<th>Total Yang Diterima</th>";
+		echo "<th>Ket</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		$no = 1;
+		echo '<input type="hidden" name="tanggal1" class="form-control" value="'.$post['tanggal1'].'" readonly>';
+		echo '<input type="hidden" name="tanggal2" class="form-control" value="'.$post['tanggal2'].'" readonly>';
+		foreach($kar as $k){
+			echo '<tr>';
+			echo '<td>'.$no.' <input type="hidden" name="products['.$k['id'].'][karyawan_id]" class="form-control" value="'.$k['id'].'" readonly> </td>';
+			echo '<td>'.$k['nama'].'</td>';
+			echo '<td><input type="text" name="products['.$k['id'].'][insentif]" class="form-control" value="'.$insentif.'" readonly></td>';
+			$potongan = $this->InsentifModel->totalpotongan($k['id'],$post['tanggal1'],$post['tanggal2']);
+			echo '<td><input type="text" name="products['.$k['id'].'][potongan]" class="form-control" value="'.$potongan.'" readonly></td>';
+			$uang_tambahan = $this->tambahan($potongan);
+			echo '<td><input type="text" name="products['.$k['id'].'][uang_tambahan]" class="form-control" value="'.$uang_tambahan.'" readonly></td>';
+			$total_diterima = $insentif - $potongan + $uang_tambahan;
+			echo '<td><input type="text" name="products['.$k['id'].'][total_diterima]" class="form-control" value="'.$total_diterima.'" readonly></td>';
+			echo '<td><input type="text" name="products['.$k['id'].'][keterangan]" class="form-control"></td>';
+			echo '</tr>';
+			$no++;
+			$total += $total_diterima;
+		}
+		echo "</tbody>";
+		echo "<tfoot>";
+		echo "<tr>";
+		echo "<td colspan='5' align='center'><b>Total</b></td>";
+		echo '<td><b><input type="text" name="total" class="form-control" value="'.$total.'" readonly></b></td>';
+		echo "<td></td>";
+		echo "</tr>";
+		echo "</tfoot>";
+		echo '</table>';
+		echo '<button type="submit" class="btn btn-primary">Simpan</button>';
+		echo '</table>';
+		echo '</form>';
+	}
+
+	function tambahan($total){
+		$tambahan=0;
+		if($total==0){
+			$tambahan=100000;
+		}
+		return $tambahan;
+	}
+
+	function rekap_save(){
+		$post=$this->input->post();
 		
+		$where = array(
+			'tanggal1' => $post['tanggal1'],
+			'tanggal2' => $post['tanggal2']
+		);
+		$this->db->delete('rekapinsentif_security',$where);
+		foreach($post['products'] as $p){
+			$insert = array(
+				'tanggal1' 		=> $post['tanggal1'],
+				'tanggal2' 		=> $post['tanggal2'],
+				'karyawan_id' 	=> $p['karyawan_id'],
+				'insentif' 		=> $p['insentif'],
+				'potongan' 		=> $p['potongan'],
+				'uang_tambahan' => $p['uang_tambahan'],
+				'total_diterima'=> $p['total_diterima'],
+			);
+			$save =$this->db->insert('rekapinsentif_security',$insert);
+		}
+
+		
+		if($save==true){
+			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+		}else{
+			$this->session->set_flashdata('gagal','Data Gagal Disimpan');
+		}
+
+		$url='';
+		$url.="?&tanggal1=".$post['tanggal1']."&tanggal2=".$post['tanggal2']." ";
+
+		redirect($this->url.$url);
+	}
 }

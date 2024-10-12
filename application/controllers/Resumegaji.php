@@ -42,7 +42,7 @@ class Resumegaji extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=periodeproduksi()['tahun'].'-'.periodeproduksi()['bulan'].'-01';
+			$tanggal1=date('Y-m-d');
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -51,6 +51,21 @@ class Resumegaji extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+
+		if(isset($get['tanggal11'])){
+			$tanggal11=$get['tanggal11'];
+		}else{
+			$tanggal11=date('Y-m-d');
+		}
+		if(isset($get['tanggal22'])){
+			$tanggal22=$get['tanggal22'];
+		}else{
+			$tanggal22=date('Y-m-d');
+		}
+		$data['tanggal11']=$tanggal11;
+		$data['tanggal22']=$tanggal22;
+
+
 		$data['prods']=[];
 		$rincian = array(
 			array(

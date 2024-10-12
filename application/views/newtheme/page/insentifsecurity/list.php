@@ -1,3 +1,24 @@
+<!-- Modal Structure -->
+<div class="modal fade" id="rekapModal" tabindex="-1" role="dialog" aria-labelledby="rekapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rekapModalLabel">Rekap Insentif</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Rekap Data will be inserted here dynamically -->
+                <div id="rekap-content"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
   <div class="col-md-12">
       <?php if ($this->session->flashdata('msg')) { ?>
@@ -50,6 +71,7 @@
     <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
     <button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
     <a href="<?php echo $tambah ?>" class="btn btn-info btn-sm">Tambah</a>
+    <button class="btn btn-info btn-sm" onclick="rekap()">Rekap</button>
   </div>
 </div>
 <div class="row">
@@ -125,3 +147,33 @@
                    </table>
   </div>
 </div>
+<script>
+  function rekap() {
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+
+    $.ajax({
+        url: '<?php echo BASEURL?>Insentifsecurity/rekap', // Ganti dengan URL yang sesuai
+        type: 'POST', // atau POST, tergantung endpoint Anda
+        data:{
+          tanggal1:tanggal1,
+          tanggal2:tanggal2
+        },
+        // dataType: 'json',
+        success: function(response) {
+            // Asumsikan response adalah objek JSON yang berisi data rekap.
+            
+            // Sisipkan data ke dalam modal
+            $('#rekap-content').html(response);
+
+            // Tampilkan modal
+            $('#rekapModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+            // Tangani jika terjadi error
+            alert('Terjadi kesalahan saat mengambil data: ' + error);
+        }
+    });
+}
+
+</script>

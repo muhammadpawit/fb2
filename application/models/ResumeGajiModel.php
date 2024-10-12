@@ -4,10 +4,25 @@ class ResumeGajiModel extends CI_Model {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('InsentifModel');
     }
 
 
     function get($id,$tanggal1,$tanggal2){
+
+        $get=$this->input->get();
+        if(isset($get['tanggal11'])){
+            $tanggal11=$get['tanggal11'];
+        }else{
+            $tanggal11=periodeproduksi()['tahun'].'-'.periodeproduksi()['bulan'].'-01';
+        }
+        if(isset($get['tanggal22'])){
+            $tanggal22=$get['tanggal22'];
+        }else{
+            $tanggal22=date('Y-m-d');
+        }
+
+        
         if($id==1){
             // kasbon karyawan konveksi . 15 sebagai id divisi konveksi
             $this->load->model('KasbonModel');
@@ -21,6 +36,10 @@ class ResumeGajiModel extends CI_Model {
         }else if($id==3){
             // Uang Makan Security
             $result = $this->UmSecurity($tanggal1,$tanggal2);
+            return $result;
+        }else if($id==4){
+            // Uang Makan Security
+            $result = $this->InsentifModel->rekap($tanggal11,$tanggal22);
             return $result;
         }else if($id==6){
             // Gaji KLO
