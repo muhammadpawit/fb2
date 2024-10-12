@@ -52,15 +52,12 @@
                   <th>No</th>
                   <th>Nama Barang</th>
                   <th>Jumlah Lapisan</th>
-                  <!-- <th>Jumlah Dz </th>
-                  <th>Jumlah Per Baju </th>
-                  <th>Jumlah Per Cons</th> -->
                   <th>Rincian</th>
                   <th>Kebutuhan</th>
                   <th>Stok</th>
                   <th>Ajuan</th>
                   <!-- <th>Rincian</th> -->
-                  <th></th>
+                  <th>Ket</th>
                   <th></th>
                 </tr>
               </thead>
@@ -72,10 +69,7 @@
                       <td><?php echo $n++?></td>
                       <td><?php echo strtolower($p['nama_produk'])?></td>
                       <td><?php echo strtolower($p['jumlah_lapisan'])?></td>
-                      <!-- <td><?php echo ($p['jumlah_dz'])?></td>
-                      <td><?php echo $p['jumlah_per_baju']?></td>
-                      <td><?php echo $p['jumlah_per_cons']?></td>
-                      <td><?php echo $p['rincian']?></td> -->
+                      <td><?php echo $p['rincian']?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo strtolower($p['stok'])?></td>
                       <td><?php echo strtolower($p['ajuan'])?></td>

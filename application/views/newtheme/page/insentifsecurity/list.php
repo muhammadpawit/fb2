@@ -66,7 +66,7 @@
       </select>
     </div>
   </div> -->
-  <div class="col-md-2">
+  <div class="col-md-4">
     <label>Aksi</label><br>
     <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
     <button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>

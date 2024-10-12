@@ -46,6 +46,7 @@ class Ajuankemejabaru extends CI_Controller {
         $data['tambah_action']=$this->url.'store';
         $data['item'] = $this->GlobalModel->GetData('product',array('hapus'=>0));
         $data['products'] = $this->AjuanKemejaModel->get_all($filter);
+		// pre($data['products']);
         // Memuat view dan mengirimkan data
         if(isset($get['spv'])){
 			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_baru_spv';

@@ -286,7 +286,8 @@ class Insentifsecurity extends CI_Controller {
 		echo "</tr>";
 		echo "</tfoot>";
 		echo '</table>';
-		echo '<button type="submit" class="btn btn-primary">Simpan</button>';
+		echo '<button type="submit" class="btn btn-primary">Simpan</button>&nbsp;';
+		echo '<a href="'.$this->url.'pdf/'.$post['tanggal1'].'/'.$post['tanggal2'].'" target="_blank" class="btn btn-warning">Print</a>';
 		echo '</table>';
 		echo '</form>';
 	}
@@ -332,4 +333,91 @@ class Insentifsecurity extends CI_Controller {
 
 		redirect($this->url.$url);
 	}
+
+	public function pdf($tanggal1,$tanggal2) {
+		$this->load->library('pdfgenerator');
+	
+		// Sample data retrieval
+		$no = 1;
+		$insentif = 200000;
+		$total = 0;
+
+		
+		// Sample database query to retrieve employees
+		$kar = $this->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 AND jabatan IN (10,46) ORDER BY nama ASC');
+	
+		// Start building the HTML content
+		$html = '<center><h2>Rekap Penilaian Insentif Security</h2></center>';
+		$html .= '<table border="1" style="width:100%; border-collapse:collapse;padding:5px">';
+		$html .= "<thead>";
+		$html .= "<tr>";
+		$html .= "<th>No</th>";
+		$html .= "<th>Nama</th>";
+		$html .= "<th>Insentif</th>";
+		$html .= "<th>Potongan</th>";
+		$html .= "<th>Uang Tambahan</th>";
+		$html .= "<th>Total Yang Diterima</th>";
+		$html .= "<th>Ket</th>";
+		$html .= "</tr>";
+		$html .= "</thead>";
+		$html .= "<tbody>";
+	
+		foreach ($kar as $k) {
+			$potongan = $this->InsentifModel->totalpotongan($k['id'], $tanggal1, $tanggal2);
+			$uang_tambahan = $this->tambahan($potongan);
+			$total_diterima = $insentif - $potongan + $uang_tambahan;
+	
+			$html .= '<tr>';
+			$html .= '<td align="center">' . $no . '</td>';
+			$html .= '<td>&nbsp;' . $k['nama'] . '</td>';
+			$html .= '<td align="center">' . number_format($insentif) . '</td>';
+			$html .= '<td align="center">' . number_format($potongan) . '</td>';
+			$html .= '<td align="center">' . number_format($uang_tambahan) . '</td>';
+			$html .= '<td align="center">' . number_format($total_diterima) . '</td>';
+			$html .= '<td></td>';
+			$html .= '</tr>';
+			$no++;
+			$total += $total_diterima;
+		}
+	
+		$html .= "</tbody>";
+		$html .= "<tfoot>";
+		$html .= "<tr>";
+		$html .= "<td colspan='5' align='center'><b>Total</b></td>";
+		$html .= '<td align="center"><b>' . number_format($total) . '</b></td>';
+		$html .= "<td></td>";
+		$html .= "</tr>";
+		$html .= "</tfoot>";
+		$html .= '</table>';
+
+		// Additional content below the table
+		$html .= '<div style="margin-top: 20px; text-align: left; padding-left: 850px;">'; // Changed to left alignment with padding
+		$html .= 'Jakarta, ' . date('d F Y', strtotime($tanggal2 . ' +1 day')) . ' <br>';
+		$html .= '</div>';
+		$html .= '<div style="margin-top: 20px; text-align: left; padding-left: 500px;">';
+		$html .= '<div style="margin-top: 20px;">'; // Add some margin to the top
+		$html .= '<table style="width: 100%; border: none;">'; // No border for this table
+		$html .= '<tr>';
+		$html .= '<td style="text-align: center;">Disetujui Oleh:<br>SPV</td>'; // Left side
+		$html .= '<td style="text-align: center;">Dibuat Oleh:<br>Adm Keu</td>'; // Right side
+		$html .= '</tr>';
+		$html .= '<tr>';
+		$html .= '<td style="text-align: center;"><br><br><br>(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>';
+		$html .= '<td style="text-align: center;"><br><br><br>(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
+		$html .= '</div>';
+
+
+		
+		// pre($html);
+		// Prepare PDF parameters
+		$file_pdf = 'rekap_insentif_karyawan_' . date('YmdHis') . '.pdf'; // PDF file name
+		$paper = 'A4'; // Paper size
+		$orientation = 'landscape'; // Orientation
+	
+		// Run the pdf generator
+		$this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+	}
+	
 }
