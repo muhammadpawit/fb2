@@ -56,6 +56,7 @@
                   <th>Kebutuhan</th>
                   <th>Stok</th>
                   <th>Ajuan</th>
+                  <th>Acc Ajuan</th>
                   <!-- <th>Rincian</th> -->
                   <th>Ket</th>
                   <th></th>
@@ -73,6 +74,7 @@
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo strtolower($p['stok'])?></td>
                       <td><?php echo strtolower($p['ajuan'])?></td>
+                      <td><?php echo strtolower($p['acc'])?></td>
                       <td><?php echo strtolower($p['rincian_ajuan'])?></td>
                       <td>
                       <a href="javascript:void(0)" data-id="<?php echo $p['id']; ?>" class="btn-edit"><i class="fa fa-edit text-warning"></i></a>

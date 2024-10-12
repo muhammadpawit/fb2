@@ -186,7 +186,7 @@ class Ajuankemejabaru extends CI_Controller {
 				$rip=array(
 						'idpengajuan'=>$id,
 						'nama_item'=>$item['nama'],
-						'jumlah'=>$pr['jml_acc'],
+						'jumlah'=>$pr['acc'],
 						'satuan'=>$item['satuan'],
 						'harga'=>$item['harga_beli'],
 						'pembayaran'=> isset($pr['metodebayar']) && $pr['metodebayar'] == 'Cash'  ? 1:2, // 1 Cash, 2 Transfer

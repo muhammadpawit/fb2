@@ -33,6 +33,7 @@
                   <th>Kebutuhan</th>
                   <th>Stok</th>
                   <th>Ajuan</th>
+                  <th>Acc Ajuan</th>
                   <th>Rincian</th>
                 </tr>
               </thead>
@@ -44,7 +45,7 @@
                       <input type="hidden" name="prods[<?php echo $n ?>][id]" value="<?php echo $p['id']?>">
                       <input type="hidden" name="prods[<?php echo $n ?>][product_id]" value="<?php echo $p['nama_barang']?>">
                       <input type="hidden" name="prods[<?php echo $n ?>][keterangan2]" value="<?php echo $p['rincian'].' '.$p['rincian_ajuan']?>">
-                      <input type="hidden" name="prods[<?php echo $n ?>][jml_acc]" value="<?php echo $p['ajuan']?>">
+                      <!-- <input type="hidden" name="prods[<?php echo $n ?>][jml_acc]" value="<?php echo $p['ajuan']?>"> -->
                       <tr>
                         <td><?php echo $n?></td>
                         <td><?php echo strtolower($p['nama_produk'])?></td>
@@ -56,6 +57,7 @@
                         <td><?php echo strtolower($p['kebutuhan'])?></td>
                         <td><?php echo strtolower($p['stok'])?></td>
                         <td><?php echo strtolower($p['ajuan'])?></td>
+                        <td><input type="number" name="prods[<?php echo $n ?>][acc]" value="<?php echo $p['ajuan']?>"></td>
                         <td><?php echo strtolower($p['rincian_ajuan'])?></td>
                       </tr>
                       <?php $n++;?>

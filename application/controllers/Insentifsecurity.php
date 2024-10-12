@@ -407,6 +407,10 @@ class Insentifsecurity extends CI_Controller {
 		$html .= '</tr>';
 		$html .= '</table>';
 		$html .= '</div>';
+		// Footer
+		$html .= '<div style="position: absolute; bottom: 0; width: 100%; text-align: left;font-size:13px;">';
+		$html .= '<i class="registered">Registered by Forboys Production System ' . date('d-m-Y H:i:s') . '</i>';
+		$html .= '</div>';
 
 
 		
