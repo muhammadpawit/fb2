@@ -391,10 +391,10 @@ class Insentifsecurity extends CI_Controller {
 		$html .= '</table>';
 
 		// Additional content below the table
-		$html .= '<div style="margin-top: 20px; text-align: left; padding-left: 850px;">'; // Changed to left alignment with padding
+		$html .= '<div style="margin-top: 20px; text-align: left; padding-left:500px;">'; // Changed to left alignment with padding
 		$html .= 'Jakarta, ' . date('d F Y', strtotime($tanggal2 . ' +1 day')) . ' <br>';
 		$html .= '</div>';
-		$html .= '<div style="margin-top: 20px; text-align: left; padding-left: 500px;">';
+		$html .= '<div style="margin-top: 20px; text-align: left; padding-left: 300px;">';
 		$html .= '<div style="margin-top: 20px;">'; // Add some margin to the top
 		$html .= '<table style="width: 100%; border: none;">'; // No border for this table
 		$html .= '<tr>';
@@ -414,7 +414,7 @@ class Insentifsecurity extends CI_Controller {
 		// Prepare PDF parameters
 		$file_pdf = 'rekap_insentif_karyawan_' . date('YmdHis') . '.pdf'; // PDF file name
 		$paper = 'A4'; // Paper size
-		$orientation = 'landscape'; // Orientation
+		$orientation = 'portrait'; // Orientation
 	
 		// Run the pdf generator
 		$this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
