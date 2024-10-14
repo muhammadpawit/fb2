@@ -86,7 +86,7 @@ class Ajuankemejabaru extends CI_Controller {
             'rincian' => $this->input->post('rincian'),
             'kebutuhan' => $this->input->post('kebutuhan'),
             'stok' => $this->input->post('stok'),
-            'ajuan' => $this->input->post('ajuan'),
+            'ajuan' => ($this->input->post('stok') - $this->input->post('kebutuhan') ),
             'rincian_ajuan' => $this->input->post('rincian_ajuan')
         ];
 
