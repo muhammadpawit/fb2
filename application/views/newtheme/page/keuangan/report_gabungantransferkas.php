@@ -239,7 +239,7 @@
             </td>
             <td colspan="2" align="center">
               <b>
-                <?php echo number_format($total_trf_bordir-$total_cash_bordir,0) ?>
+                <?php echo number_format($total_trf_bordir+$total_cash_bordir,0) ?>
               </b>
             </td>
             <td align="center">
@@ -249,7 +249,7 @@
             </td>
             <td colspan="2" align="center">
               <b>
-                <?php echo number_format($total_trf_sablon-$total_cash_sablon,0) ?>
+                <?php echo number_format($total_trf_sablon+$total_cash_sablon,0) ?>
               </b>
             </td>
             <td align="center">
