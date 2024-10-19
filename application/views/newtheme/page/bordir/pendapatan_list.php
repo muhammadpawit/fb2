@@ -35,69 +35,78 @@
   <div class="col-md-12">
     <div class="form-group">
     <table class="table table-bordered table-striped">
-  <thead>
-    <tr style="background-color:yellow">
-      <th>No.Mesin</th>
-      <th>Shift</th>
-      <th>Stich</th>
-      <th>0.15</th>
-      <th>0.18</th>
-      <?php foreach($luar as $l){ ?>
-        <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
-      <?php } ?>
-      <th>Jml Per Mesin (Rp)</th>
-      <th>Pendapatan Per Mesin (Rp)</th>
-      <th>Keterangan</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php 
-    $total_permesin = 0;
-    $total_pendapatan = 0;
-    ?>
-
-    <?php foreach($products as $p){ ?>
-      <tr>
-        <td>Mesin <?php echo $p['nomesin']?></td>
-        <td><?php echo $p['shift']?></td>
-        <td align="right"><?php echo number_format($p['stich'])?></td>
-        <td align="right"><?php echo number_format($p['0.15']); ?></td>
-        <td align="right"><?php echo number_format($p['0.18'])?></td>
-
+    <thead>
+        <tr style="background-color:yellow">
+            <th>NO MESIN</th>
+            <th>SHIFT</th>
+            <th>TOTAL STICH</th>
+            <th>PENDAPATAN MESIN (0.15)</th>
+            <th>PO DALAM (0.18)</th>
+            <th>PO LUAR HOMIE (0.25)</th>
+            <th>PO LUAR PAK JAJANG (0.18)</th>
+            <th>PO LUAR DEDI (0.18)</th>
+            <th>PO LUAR YALDI (0.18)</th>
+            <th>PO LUAR YALDI (0.19)</th>
+            <th>PO LUAR YALDI (0.22)</th>
+            <th>PER SHIFT (Rp)</th>
+            <th>PER MESIN (Rp)</th>
+            <th>KET</th>
+        </tr>
+    </thead>
+    <tbody>
         <?php 
-        $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
-        foreach($luar as $b) {
-          // Ambil nilai kolom dinamis
-          $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
-          $data = json_decode($hasil);
+        $total_per_mesin = [];
+        $grand_total = 0; // Total keseluruhan pendapatan per mesin
+        
+        // Step 1: Hitung total per mesin untuk setiap shift
+        foreach ($products as $p) {
+            if (!isset($total_per_mesin[$p['nomesin']])) {
+                $total_per_mesin[$p['nomesin']] = 0;
+            }
 
-          $nilaiData = isset($data->data) ? $data->data : 0;
-          $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
-          ?>
-          <td align="right"><?php echo number_format($nilaiData); ?></td>
-        <?php } ?>
-
-        <!-- Tampilkan jumlah per mesin -->
-        <td align="right"><?php echo number_format($jumlah_permesin); ?></td>
-
-        <!-- Pendapatan Per Mesin -->
-        <td align="right"><?php 
-          $pendapatan = isset($p['pendapatan']) ? $p['pendapatan'] : 0;
-          echo number_format($pendapatan); 
-          $total_pendapatan += $pendapatan; // Tambahkan ke total pendapatan
-        ?></td>
-        <td><?php // Keterangan ?></td>
-      </tr>
-    <?php } ?>
-
-    <!-- Tampilkan total -->
-    <tr>
-      <td colspan="6"><b>Total</b></td>
-      <td align="right"><b><?php echo number_format($total_permesin); ?></b></td>
-      <td align="right"><b><?php echo number_format($total_pendapatan); ?></b></td>
-      <td></td>
-    </tr>
-  </tbody>
+            // Tambahkan pendapatan shift ke total mesin
+            $total_per_mesin[$p['nomesin']] += $p['pendapatan'];
+        }
+        
+        foreach ($products as $p): 
+        ?>
+            <tr>
+                <td><?php echo $p['nomesin']; ?></td>
+                <td><?php echo $p['shift']; ?></td>
+                <td align="right"><?php echo number_format($p['stich']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_0_15']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_dalam_0_18']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_luar_homie_0_25']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_luar_pak_jajang_0_18']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_luar_dedi_0_18']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_luar_yaldi_0_18']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_luar_yaldi_0_19']); ?></td>
+                <td align="right"><?php echo number_format($p['pendapatan_luar_yaldi_0_22']); ?></td>
+                
+                <td align="right"><?php echo number_format($p['pendapatan']); ?></td>
+                
+                <td align="right">
+                    <?php 
+                    // Tampilkan total pendapatan per mesin di shift malam
+                    if ($p['shift'] == 'MALAM' && isset($total_per_mesin[$p['nomesin']])) {
+                        echo number_format($total_per_mesin[$p['nomesin']]);
+                        $grand_total += $total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
+                    } else {
+                        echo 0;
+                    }
+                    ?>
+                </td>
+                <td></td>
+            </tr>
+        <?php endforeach; ?>
+        
+        <!-- Step 2: Tampilkan total keseluruhan di baris paling bawah -->
+        <tr>
+            <td colspan="12" align="right"><b>Total</b></td>
+            <td align="right"><?php echo number_format($grand_total); ?></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
 
     </div>
