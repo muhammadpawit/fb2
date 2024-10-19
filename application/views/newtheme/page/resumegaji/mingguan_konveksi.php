@@ -62,6 +62,14 @@
                             <td><?php echo number_format($p['jumlah'])?></td>
                             <td><?php echo $p['ket']?></td>
                         </tr>
+                        <?php foreach($p['timpotong'] as $t){ ?>
+                        <tr>
+                            <td align="center"><?php echo $p['id']?></td>
+                            <td><?php echo $t['nama']?></td>
+                            <td><?php echo number_format($t['nominal'])?></td>
+                            <td><?php echo $t['keterangan']?></td>
+                        </tr>
+                        <?php } ?>
                     <?php } ?>
                 </tbody>
             </table>

@@ -128,11 +128,15 @@ class ResumeGajiModel extends CI_Model {
     }
 
     function GajiTimPotong($tanggal1,$tanggal2){
-        $hasil = 0;
-        $data = $this->GlobalModel->QueryManualRow("
-            SELECT COALESCE(SUM(nominal),0) as total FROM gaji_timpotong WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+        $data = [];
+        // $data = $this->GlobalModel->QueryManualRow("
+        //     SELECT COALESCE(SUM(nominal),0) as total FROM gaji_timpotong WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+        // ");
+        $data = $this->GlobalModel->QueryManual("
+            SELECT t.nama , a.* FROM gaji_timpotong a LEFT JOIN timpotong t ON t.id=a.timpotong WHERE a.hapus=0 AND DATE(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
         ");
-        return $data['total'];
+        
+        return $data;
     }
 
     public function GajiFinishing($tanggal1,$tanggal2){

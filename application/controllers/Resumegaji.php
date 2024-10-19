@@ -92,16 +92,17 @@ class Resumegaji extends CI_Controller {
 				'id' 	=> 6,
 				'rincian'	=> 'Gaji Karyawan KLO',
 			),
-			array(
-				'id' 	=> 7,
-				'rincian'	=> 'Upah Tim Potong',
-			),
+			// array(
+			// 	'id' 	=> 7,
+			// 	'rincian'	=> 'Upah Tim Potong',
+			// ),
 		);
 		foreach($rincian as $r){
 			$data['prods'][] = array(
 				'id' 	=> $r['id'],
 				'rincian'	=> $r['rincian'],
 				'jumlah'	=> $this->ResumeGajiModel->get($r['id'],$tanggal1,$tanggal2),
+				'timpotong'	=> $this->ResumeGajiModel->get(7,$tanggal1,$tanggal2),
 				'ket'		=>null,
 			);
 		}
