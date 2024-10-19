@@ -107,7 +107,7 @@ class Resumegaji extends CI_Controller {
 			);
 		}
 		$data['timpotong']=[];
-		$data['timpotong']=$this->ResumeGajiModel->get(7,$tanggal1,$tanggal2);
+		$data['timpotong']=$this->ResumeGajiModel->get(8,$tanggal1,$tanggal2);
 		$data['page']=$this->page.'mingguan_konveksi';
 		$this->load->view($this->layout,$data);
 	}

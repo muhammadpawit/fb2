@@ -54,6 +54,10 @@ class ResumeGajiModel extends CI_Model {
             // Gaji Gudang
             $result = $this->GajiGudang($tanggal1,$tanggal2);
             return $result;
+        }else if($id==8){
+            // Gaji Timpotong
+            $result = $this->GajiTimPotong($tanggal1,$tanggal2);
+            return $result;
         }else{
             return 0;
         }
