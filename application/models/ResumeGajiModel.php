@@ -51,8 +51,8 @@ class ResumeGajiModel extends CI_Model {
             return $result;
         }
         else if($id==7){
-            // Gaji Tim Potong
-            $result = $this->GajiTimPotong($tanggal1,$tanggal2);
+            // Gaji Gudang
+            $result = $this->GajiGudang($tanggal1,$tanggal2);
             return $result;
         }else{
             return 0;
@@ -170,5 +170,49 @@ class ResumeGajiModel extends CI_Model {
 
         return pembulatangaji($totgaji);
 	}
+
+    function GajiGudang($tanggal1,$tanggal2){
+        $totalpembulatan=0;
+        $data['gaji']=$this->GlobalModel->QueryManual("
+            SELECT * FROM gaji_finishing WHERE hapus=0 
+            AND bagian LIKE '%Gudang%'
+            AND DATE(tanggal1) BETWEEN '".$tanggal1."'  AND  '".$tanggal2."' 
+        ");
+		
+		if(!empty($data['gaji'])){
+			foreach($data['gaji'] as $g){
+                $details=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$g['id']));
+                $gaji=0;
+                foreach($details as $d){
+                    $gaji=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$d['idkaryawan']));
+                    $data['karyawans'][]=array(
+                        'idkaryawan'=>$d['idkaryawan'],
+                        'nama'=>strtolower($d['nama']),
+                        'senin'=>round($gaji['gaji']/12*$d['senin']),
+                        'selasa'=>round($gaji['gaji']/12*$d['selasa']),
+                        'rabu'=>round($gaji['gaji']/12*$d['rabu']),
+                        'kamis'=>round($gaji['gaji']/12*$d['kamis']),
+                        'jumat'=>round($gaji['gaji']/12*$d['jumat']),
+                        'sabtu'=>round($gaji['gaji']/12*$d['sabtu']),
+                        'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
+                        'lembur'=>$d['lembur']>0?$d['lembur']:0,
+                        'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+                        'claim'=>$d['claim'],
+                        'pinjaman'=>$d['pinjaman'],
+                        'saving'=>$d['saving'],
+                        'keluarkansaving'=>$d['keluarkansaving'],
+                    );
+                }
+            }
+
+            
+            foreach($data['karyawans'] as $k){
+                $totalpembulatan += pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
+            }
+            
+		}
+        return $totalpembulatan;
+    }
+
 
 }

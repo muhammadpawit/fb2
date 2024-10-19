@@ -92,10 +92,10 @@ class Resumegaji extends CI_Controller {
 				'id' 	=> 6,
 				'rincian'	=> 'Gaji Karyawan KLO',
 			),
-			// array(
-			// 	'id' 	=> 7,
-			// 	'rincian'	=> 'Upah Tim Potong',
-			// ),
+			array(
+				'id' 	=> 7,
+				'rincian'	=> 'Gaji Gudang',
+			),
 		);
 		foreach($rincian as $r){
 			$data['prods'][] = array(
