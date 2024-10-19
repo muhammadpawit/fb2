@@ -35,132 +35,83 @@
   <div class="col-md-12">
     <div class="form-group">
     <table class="table table-bordered table-striped">
-              <thead>
-                <tr style="background-color:yellow">
-                  <!-- <th>Tanggal</th> -->
-                  <th>No.Mesin</th>
-                  <th>Shift</th>
-                  <th>Stich</th>
-                  <th>0.15</th>
-                  <th>0.18</th>
-                  <?php foreach($luar as $l){?>
-                    <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
-                  <?php } ?>
-                  <!--
-                  <th>0.2</th>
-                  <th>0.3</th>
-                  <th>0.18 YN</th> -->
-                  <th>Jml Per Mesin (Rp)</th>
-                  <th>Pendapatan Per Mesin (Rp)</th>
-                  <th>Keterangan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                $rowspan=0;
-                $total_g02 = 0; // Initialize total variable
-                $permesin=[];
-                ?>
-                <?php foreach($products as $p){?>
-                    <?php 
-                      $mesin[]=$p['nomesin'];
-                      $d[]=$p['0.2'];
-                    ?>
-                  <?php } ?>
-                <?php if($products){?>
-                  <?php $j=0;?>
-                  <?php foreach($products as $p){?>
-                    <tr>
-                      <!-- <td><?php echo $p['tanggal']?></td> -->
-                      <td>Mesin <?php echo $p['nomesin']?></td>
-                      <td><?php echo $p['shift']?></td>
-                      <td align="right"><?php echo number_format($p['stich'])?></td>
-                      <td align="right"><?php echo number_format($p['0.15']); ?></td>
-                      <td align="right"><?php echo number_format($p['0.18'])?></td>
-                      <?php foreach($luar as $b){?>
-                      <td align="right">
-                        <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php 
-                            $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'],$p['shift'],$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
-                            $data = json_decode($hasil);
-                            ?>
-                          <?php 
-                            if (isset($data->data)) {
-                              $nilaiData = $data->data;
-                              echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
-                              $total_g02 += $nilaiData;
-                            } else {
-                               // echo "Tidak ada data yang ditemukan.";
-                            }
-                          //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
-                        <?php //} ?>
-                      </td>
-                      <?php } ?>
-                      <?php $permesin[]=$p['pendapatan'];$jadi=0;?>
-                        <td align="right"><?php echo number_format($p['pendapatan'])?></td>
-                        <td align="right">
-                          <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
-                          <?php if($j%2==1){?>
-                          <?php echo number_format($p['jumlah']); ?>
-                          <?php } ?>
-                        </td>
-                        <td><?php //echo ?></td>
-                      </tr>
-                      <?php $j++;?> 
-                    <?php }?>
-                    <tr>
-                      <td colspan="2"><b>Total</b></td>
-                      <td align="right"><?php echo number_format($t)?></td>
-                      <td align="right"><?php echo number_format($g015)?></td>
-                      <td align="right"><?php echo number_format($g018)?></td>
-                      <!-- <td align="center" colspan="<?php echo count($luar)?>">
-                          <?php //echo number_format($g02)?> 
-                      </td> -->
-                      <?php foreach($luar as $b){?>
-                      <td align="right">
-                          <?php 
-                            $hasil = json_encode($this->ReportModel->total02_arrayD(null,null,$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
-                            // $data = json_decode($hasil);
-                            echo number_format($hasil);
-                            ?>
-                          <?php 
-                            // if (isset($data->data)) {
-                            //   $nilaiData = $data->data;
-                            //   echo number_format($nilaiData); // Ini akan mencetak "321753.61278533936"
-                            //   // echo $nilaiData;
-                            // } else {
-                            //    // echo "Tidak ada data yang ditemukan.";
-                            // }
-                          //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
-                      </td>
-                    <?php } ?>
-                      <!-- <td></td> -->
-                      <td align="right">
-                        <?php 
-                          foreach ($permesin as $key => $value) {
-                            $decimal = $value - floor($value); // Mendapatkan nilai desimal
-                            if ($decimal >= 0.5) {
-                              $permesin[$key] = ceil($value);
-                            } else {
-                              $permesin[$key] = intval($value);
-                            }
-                            
-                          }
-                          // json_encode($permesin);
-                          // echo number_format($gpendapatan)
-                          foreach($permesin as $per=>$val){
-                              $jadi+=($val);
-                          }
+    <thead>
+        <tr style="background-color:yellow">
+            <th>No. Mesin</th>
+            <th>Shift</th>
+            <th>Stich</th>
+            <th>0.15</th>
+            <th>0.18</th>
+            <?php foreach($luar as $l){ ?>
+                <th><?php echo $l['perkalian'] . ' ' . $l['nama'] ?></th>
+            <?php } ?>
+            <th>Jml Per Mesin (Rp)</th>
+            <th>Pendapatan Per Mesin (Rp)</th>
+            <th>Keterangan</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        $total_g02 = 0; 
+        $permesin = [];
+        $grand_total = 0; // Total pendapatan semua mesin
+        ?>
+        <?php foreach($products as $p){ ?>
+            <?php 
+            // Akumulasi pendapatan per mesin berdasarkan nomor mesin
+            if (!isset($permesin[$p['nomesin']])) {
+                $permesin[$p['nomesin']] = 0;
+            }
+            $permesin[$p['nomesin']] += $p['pendapatan']; // Akumulasi per mesin
+            ?>
+        <?php } ?>
 
-                          echo number_format($jadi);
-                        ?>
-                      </td>
-                      <td align="right"><?php echo number_format($jadi); //echo number_format($gpendapatan)?></td>
-                      <td></td>
-                    </tr>
-                <?php }?>
-              </tbody>
+        <?php $j = 0; ?>
+        <?php foreach($products as $p){ ?>
+            <tr>
+                <td>Mesin <?php echo $p['nomesin'] ?></td>
+                <td><?php echo $p['shift'] ?></td>
+                <td align="right"><?php echo number_format($p['stich']) ?></td>
+                <td align="right"><?php echo number_format($p['0.15']); ?></td>
+                <td align="right"><?php echo number_format($p['0.18']) ?></td>
+
+                <!-- Pendapatan PO luar -->
+                <?php foreach($luar as $b){ ?>
+                <td align="right">
+                    <?php 
+                    $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'],$p['shift'],$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
+                    $data = json_decode($hasil);
+                    if (isset($data->data)) {
+                        echo number_format($data->data); 
+                        $total_g02 += $data->data;
+                    }
+                    ?>
+                </td>
+                <?php } ?>
+
+                <td align="right"><?php echo number_format($p['pendapatan']) ?></td>
+
+                <!-- Tampilkan jumlah pendapatan per mesin untuk semua shift -->
+                <td align="right">
+                    <?php echo number_format($permesin[$p['nomesin']]); ?>
+                    <?php $grand_total += $permesin[$p['nomesin']]; // Akumulasi grand total ?>
+                </td>
+                
+                <td></td>
+            </tr>
+            <?php $j++; ?> 
+        <?php } ?>
+
+        <!-- Baris total pendapatan -->
+        <tr>
+            <td colspan="6"><b>Total</b></td>
+            <td align="right"><?php echo number_format($total_g02) ?></td>
+            <td align="right"><?php echo number_format($grand_total) ?></td>
+            <td></td>
+        </tr>
+    </tbody>
 </table>
+
     </div>
   </div>
 </div>
