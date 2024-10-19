@@ -41,6 +41,10 @@ class ResumeGajiModel extends CI_Model {
             // Uang Makan Security
             $result = $this->InsentifModel->rekap($tanggal11,$tanggal22);
             return $result;
+        }else if($id==5){
+            // Gaji Karyawan Finishing
+            $result = $this->GajiFinishing($tanggal1,$tanggal2);
+            return $result;
         }else if($id==6){
             // Gaji KLO
             $result = $this->GajiKlo($tanggal1,$tanggal2);
@@ -129,5 +133,37 @@ class ResumeGajiModel extends CI_Model {
         ");
         return $data['total'];
     }
+
+    public function GajiFinishing($tanggal1,$tanggal2){
+		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 AND bagian LIKE '%Finishing%' ";
+		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$results=$this->GlobalModel->QueryManualRow($sql);
+		$details=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$results['id']));
+        $gaji=0;
+        $karyawans=[];
+			foreach($details as $d){
+				$gaji=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$d['idkaryawan']));
+				$karyawans[]=array(
+					'idkaryawan'=>$d['idkaryawan'],
+					'nama'=>strtolower($d['nama']),
+					'senin'=>$d['senin']==1?$gaji['gaji']:0,
+					'selasa'=>$d['selasa']==1?$gaji['gaji']:0,
+					'rabu'=>$d['rabu']==1?$gaji['gaji']:0,
+					'kamis'=>$d['kamis']==1?$gaji['gaji']:0,
+					'jumat'=>$d['jumat']==1?$gaji['gaji']:0,
+					'sabtu'=>$d['sabtu']==1?$gaji['gaji']:0,
+					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
+					'lembur'=>$d['lembur']>0?$d['lembur']:0,
+					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+				);
+			}
+
+            $totgaji=0;
+            foreach($karyawans as $k){
+                $totgaji+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
+            }
+
+        return $totgaji;
+	}
 
 }
