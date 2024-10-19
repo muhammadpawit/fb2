@@ -218,5 +218,22 @@ class ResumeGajiModel extends CI_Model {
         return $totalpembulatan;
     }
 
+    function GajiSukabumi($tanggal1,$tanggal2){
+        $results=array();
+		$sql='SELECT * FROM gajisukabumi WHERE hapus=0 ';
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}		
+		$sql.=" ORDER BY id DESC ";
+		$results= $this->GlobalModel->queryManualRow($sql);
+        $hasil=0;
+        $anggarantotal=0;        
+        if(isset($results[''])){
+            $anggaran = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$results['tanggal']."' ");
+            $hasil=$results['total'] + $anggaran['total'];
+        }
+        return $hasil;
+    }
+
 
 }

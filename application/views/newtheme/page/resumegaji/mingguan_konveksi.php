@@ -68,7 +68,7 @@
                     <?php foreach($timpotong as $t){ ?>
                         <tr>
                             <td align="center"><?php echo $no?></td>
-                            <td><?php echo $t['nama']?></td>
+                            <td>Upah Potong <?php echo $t['nama']?></td>
                             <td><?php echo number_format($t['nominal'])?></td>
                             <td><?php echo $t['keterangan']?></td>
                         </tr>
