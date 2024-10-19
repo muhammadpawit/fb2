@@ -163,7 +163,7 @@ class ResumeGajiModel extends CI_Model {
                 $totgaji+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
             }
 
-        return $totgaji;
+        return pembulatangaji($totgaji);
 	}
 
 }
