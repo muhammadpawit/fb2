@@ -63,6 +63,10 @@ class ResumeGajiModel extends CI_Model {
             // Gaji Timpotong
             $result = $this->GajiSukabumi($tanggal1,$tanggal2);
             return $result;
+        }else if($id==10){
+            // Gaji Timpotong
+            $result = $this->AjuanHarian($tanggal1,$tanggal2);
+            return $result;
         }else{
             return 0;
         }
@@ -242,7 +246,7 @@ class ResumeGajiModel extends CI_Model {
 
     function AjuanHarian($tanggal1,$tanggal2){
         $results=array();
-		$sql='SELECT * FROM pengajuan_harian_new WHERE hapus=0 and status=1 ';
+		$sql='SELECT COALESCE(SUM(cash),0) as total FROM pengajuan_harian_new WHERE hapus=0 and status=1 ';
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}		
@@ -250,9 +254,8 @@ class ResumeGajiModel extends CI_Model {
 		$results= $this->GlobalModel->queryManualRow($sql);
         $hasil=0;
         $anggarantotal=0;        
-        if(isset($results[''])){
-            $anggaran = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$results['tanggal']."' ");
-            $hasil=$results['total'] + $anggaran['total'];
+        if(isset($results['total'])){
+            $hasil=$results['total'];
         }
         return $hasil;
     }
