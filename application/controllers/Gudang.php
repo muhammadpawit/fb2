@@ -3201,6 +3201,7 @@ class Gudang extends CI_Controller {
 			if (file_put_contents($file_path, $image_data)) {
 				$update = array(
 					'paraf' => $file_name,
+					'tanggal_setujui' => date('Y-m-d H:i:s'),
 				);
 				$where = array(
 					'id' => $id,
@@ -3757,6 +3758,7 @@ class Gudang extends CI_Controller {
 			$update = array(
 				'paraf' => $file_name,
 				'status' => 1,
+				'tanggal_setujui' => date('Y-m-d H:i:s'),
 			);
 			$where = array(
 				'id' => $post['id'],
