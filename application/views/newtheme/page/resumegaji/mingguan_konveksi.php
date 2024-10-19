@@ -55,22 +55,25 @@
                         <td>Jumlah</td>
                         <td>Keterangan</td>
                     </tr>
+                    <?php $no=1;?>
                     <?php foreach($prods as $p){ ?>
                         <tr>
-                            <td align="center"><?php echo $p['id']?></td>
+                            <td align="center"><?php echo $no?></td>
                             <td><?php echo $p['rincian']?></td>
                             <td><?php echo number_format($p['jumlah'])?></td>
                             <td><?php echo $p['ket']?></td>
                         </tr>
-                        <?php foreach($p['timpotong'] as $t){ ?>
+                        <?php $no++;?>
+                    <?php } ?>
+                    <?php foreach($timpotong as $t){ ?>
                         <tr>
-                            <td align="center"><?php echo $p['id']?></td>
+                            <td align="center"><?php echo $no++?></td>
                             <td><?php echo $t['nama']?></td>
                             <td><?php echo number_format($t['nominal'])?></td>
                             <td><?php echo $t['keterangan']?></td>
                         </tr>
+                        <?php $no++;?>
                         <?php } ?>
-                    <?php } ?>
                 </tbody>
             </table>
         </div>

@@ -102,10 +102,12 @@ class Resumegaji extends CI_Controller {
 				'id' 	=> $r['id'],
 				'rincian'	=> $r['rincian'],
 				'jumlah'	=> $this->ResumeGajiModel->get($r['id'],$tanggal1,$tanggal2),
-				'timpotong'	=> $this->ResumeGajiModel->get(7,$tanggal1,$tanggal2),
+				// 'timpotong'	=> $this->ResumeGajiModel->get(7,$tanggal1,$tanggal2),
 				'ket'		=>null,
 			);
 		}
+		$data['timpotong']=[];
+		$data['timpotong']=$this->ResumeGajiModel->get(7,$tanggal1,$tanggal2);
 		$data['page']=$this->page.'mingguan_konveksi';
 		$this->load->view($this->layout,$data);
 	}
