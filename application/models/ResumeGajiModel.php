@@ -173,6 +173,8 @@ class ResumeGajiModel extends CI_Model {
 					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+                    'claim'=>$d['claim'],
+                    'pinjaman'=>$d['pinjaman']
 				);
 			}
 
@@ -248,7 +250,9 @@ class ResumeGajiModel extends CI_Model {
         $results=array();
 		$sql='SELECT COALESCE(SUM(cash),0) as total FROM pengajuan_harian_new WHERE hapus=0 and status=1 ';
 		if(!empty($tanggal1)){
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			// $sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+            $sql .= " AND DATE(tanggal) = '".date('Y-m-d', strtotime($tanggal2 . " +0 days"))."' ";
+
 		}		
 		$sql.=" ORDER BY id DESC ";
 		$results= $this->GlobalModel->queryManualRow($sql);
