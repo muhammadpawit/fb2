@@ -114,7 +114,7 @@
         <tr>
           <td colspan="6"><b>Total</b></td>
           <td align="right"><b><?php echo number_format($total_permesin); ?></b></td>
-          <td align="right"><b><?php echo number_format($total_pendapatan); ?></b></td>
+          <td align="right"><b><?php echo number_format($grand_total); ?></b></td>
           <td></td>
         </tr>
       </tbody>
