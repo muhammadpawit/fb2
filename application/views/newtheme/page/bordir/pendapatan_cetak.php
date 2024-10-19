@@ -28,96 +28,90 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
     <td colspan="9">Periode <?php echo date('d F Y',strtotime($tanggal1))?> - <?php echo date('d F Y',strtotime($tanggal2))?></td>
   </tr>
 </table>
-<?php foreach($products as $p){?>
-                    <?php 
-                      $mesin[]=$p['nomesin'];
-                      $d[]=$p['0.2'];
-                    ?>
-                  <?php } ?>
 <table border="1" style="border-collapse: collapse;width: 100%;">
-              <thead>
-                <tr>
-                <th class="tg-0pky" rowspan="2">NO MESIN</th>
-                <th class="tg-0pky" rowspan="2">SHIFT</th>
-                <th class="tg-0pky" rowspan="2">TOTAL STICH</th>
-                <th class="tg-0pky" rowspan="2">PENDAPATAN MESIN (0,15)</th>
-                <?php $col=count($luar) ?>
-                
-                <th class="bgyellow" colspan="<?php echo count($luar)+3 ?>">PENDAPATAN BORDIR </th>
-                <th class="tg-0pky" rowspan="2">KETERANGAN</th>
-              </tr>
-              <tr style="background-color: yellow !important;font-size: 16.5px;font-weight: bold;">
-                <th class="bgyellow">PO DALAM (0,18)</th>
-                <?php foreach($luar as $l){?>
-                  <th class="bgyellow">PO LUAR <?php echo $l['perkalian'] .' '.$l['nama']?></th>
-                  <?php } ?>
-                <!-- <th class="bgyellow">PO LUAR (0,25)</th>
-                <th class="bgyellow">PO LUAR (0,18)</th> -->
-                <th class="bgyellow">PER SHIF (Rp)</th>
-                <th class="bgyellow">PER MESIN</th>
-              </tr>
-              <tbody>
-                <?php $rowspan=0;?>
-                <?php foreach($products as $p){?>
-                    <?php 
-                      $mesin[]=$p['nomesin'];
-                      $d[]=$p['0.2'];
-                    ?>
-                  <?php } ?>
-                <?php if($products){?>
-                  <?php $j=0;?>
-                  <?php foreach($products as $p){?>
-                    <tr>
-                      <!-- <td><?php echo $p['tanggal']?></td> -->
-                      <td align="center">Mesin <?php echo $p['nomesin']?></td>
-                      <td align="center"><?php echo $p['shift']?></td>
-                      <td align="center"><?php echo round($p['stich'])?></td>
-                      <td align="center"><?php echo round($p['0.15']); ?></td>
-                      <td align="center"><?php echo round($p['0.18'])?></td>
-                      <?php foreach($luar as $b){?>
-                        <td align="right">
-                        <?php //if($b['perkalian']==$p['dets'][$b['perkalian']]){?>
-                          <?php 
-                            $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'],$p['shift'],$p['tanggal1'],$p['tanggal2'],$b['idpemilik']));
-                            $data = json_decode($hasil);
-                            ?>
-                          <?php 
-                            if (isset($data->data)) {
-                              $nilaiData = $data->data;
-                              echo ($nilaiData); // Ini akan mencetak "321753.61278533936"
-                            } else {
-                               // echo "Tidak ada data yang ditemukan.";
-                            }
-                          //echo !empty($hasil) ? $hasil->data : 0;//echo json_encode($p['dets']) ?> 
-                        <?php //} ?>
-                      </td>
-                    <?php } ?>
-                      <td align="center"><?php echo round($p['pendapatan'])?></td>
-                      <td align="center">
-                        <?php //echo $p['nomesin']==current($mesin)?number_format($p['jumlah']):''; ?>
-                        <?php if($j%2==1){?>
-                        <?php echo round($p['jumlah']); ?>
-                        <?php } ?>
-                      </td>
-                      <td><?php //echo ?></td>
-                    </tr>
-                    <?php $j++;?>
-                  <?php }?>
-                    <tr style="background-color: yellow;font-size: 16.5px;font-weight: bold;">
-                      <td align="center" colspan="2"><b>Total</b></td>
-                      <td align="center"><?php echo round($t)?></td>
-                      <td align="center"><?php echo round($g015)?></td>
-                      <td align="center"><?php echo round($g018)?></td>
-                      <td align="center" colspan="<?php echo count($luar)?>">
-                          <?php echo round($g02)?> 
-                      </td>
-                      <!-- <td></td> -->
-                      <td align="center"><?php echo round($gpendapatan)?></td>
-                      <td align="center"><?php echo round($gpendapatan)?></td>
-                      <td></td>
-                    </tr>
-                <?php }?>
-                <tr>
+<thead>
+        <tr style="background-color:yellow">
+          <th>No.Mesin</th>
+          <th>Shift</th>
+          <th>Stich</th>
+          <th>0.15</th>
+          <th>0.18</th>
+          <?php foreach($luar as $l){ ?>
+            <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
+          <?php } ?>
+          <th>Jml Per Mesin (Rp)</th>
+          <th>Pendapatan Per Mesin (Rp)</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php 
+        // $total_permesin = 0;
+        $total_per_mesin = [];
+        $total_pendapatan = 0;
+
+        // Step 1: Hitung total per mesin untuk setiap shift pagi dan malam
+        foreach ($products as $p) {
+          if (!isset($total_per_mesin[$p['nomesin']])) {
+              $total_per_mesin[$p['nomesin']] = 0;
+          }
+
+          // Tambahkan pendapatan shift ke total mesin
+          $total_per_mesin[$p['nomesin']] += $p['pendapatan'];
+      }
+      
+      $j = 0;
+
+        ?>
+
+        <?php foreach($products as $p){ ?>
+          <tr>
+            <td>Mesin <?php echo $p['nomesin']?></td>
+            <td><?php echo $p['shift']?></td>
+            <td align="right"><?php echo number_format($p['stich'])?></td>
+            <td align="right"><?php echo number_format($p['0.15']); ?></td>
+            <td align="right"><?php echo number_format($p['0.18'])?></td>
+
+            <?php 
+            $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
+            foreach($luar as $b) {
+              // Ambil nilai kolom dinamis
+              $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
+              $data = json_decode($hasil);
+
+              $nilaiData = isset($data->data) ? $data->data : 0;
+              $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
+              ?>
+              <td align="right"><?php echo number_format($nilaiData); ?></td>
+            <?php } ?>
+
+            <!-- Tampilkan jumlah per mesin -->
+            <td align="right"><?php echo number_format($jumlah_permesin); ?></td>
+
+            <!-- Pendapatan Per Mesin -->
+            <td align="right">
+            <?php 
+                    // Step 3: Hanya tampilkan total pendapatan per mesin di shift malam
+                    if ($p['shift'] == 'MALAM' && isset($total_per_mesin[$p['nomesin']])) {
+                        echo number_format($total_per_mesin[$p['nomesin']]);
+                        $grand_total += $total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
+                    } else {
+                        echo 0;
+                    }
+            ?>
+            </td>
+            <td><?php // Keterangan ?></td>
+          </tr>
+        <?php } ?>
+
+        <!-- Tampilkan total -->
+        <tr>
+          <td colspan="6"><b>Total</b></td>
+          <td align="right"><b><?php echo number_format($total_permesin); ?></b></td>
+          <td align="right"><b><?php echo number_format($total_pendapatan); ?></b></td>
+          <td></td>
+        </tr>
+        <tr>
                   <td colspan="2"></td>
                   <td colspan="8">
                    
@@ -152,5 +146,5 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
                     <i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
                   </td>
                 </tr>
-              </tbody>
+      </tbody>
             </table>
