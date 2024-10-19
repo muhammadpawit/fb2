@@ -234,6 +234,23 @@ class ResumeGajiModel extends CI_Model {
         $hasil=0;
         $anggarantotal=0;        
         if(isset($results[''])){
+            $anggaran = $this->GlobalModel->QueryManualRow("sSELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$results['tanggal']."' ");
+            $hasil=$results['total'] + $anggaran['total'];
+        }
+        return $hasil;
+    }
+
+    function AjuanHarian($tanggal1,$tanggal2){
+        $results=array();
+		$sql='SELECT * FROM pengajuan_harian_new WHERE hapus=0 and status=1 ';
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}		
+		$sql.=" ORDER BY id DESC ";
+		$results= $this->GlobalModel->queryManualRow($sql);
+        $hasil=0;
+        $anggarantotal=0;        
+        if(isset($results[''])){
             $anggaran = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$results['tanggal']."' ");
             $hasil=$results['total'] + $anggaran['total'];
         }
