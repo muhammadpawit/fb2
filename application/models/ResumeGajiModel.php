@@ -88,6 +88,7 @@ class ResumeGajiModel extends CI_Model {
         $totalpembulatan=0;
         $data['gaji']=$this->GlobalModel->QueryManual("
             SELECT * FROM gaji_finishing WHERE hapus=0 
+            AND bagian LIKE '%KLO%'
             AND DATE(tanggal1) BETWEEN '".$tanggal1."'  AND  '".$tanggal2."' 
         ");
 		
