@@ -770,7 +770,7 @@ class Gaji extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d',strtotime("Sunday this week"));
 		}
-		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 ";
+		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 AND bagian LIKE '%Finishing%' ";
 		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
