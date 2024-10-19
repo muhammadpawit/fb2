@@ -233,8 +233,8 @@ class ResumeGajiModel extends CI_Model {
 		$results= $this->GlobalModel->queryManualRow($sql);
         $hasil=0;
         $anggarantotal=0;        
-        if(isset($results[''])){
-            $anggaran = $this->GlobalModel->QueryManualRow("sSELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$results['tanggal']."' ");
+        if(isset($results['total'])){
+            $anggaran = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(total),0) as total from anggaran_operasional_sukabumi WHERE hapus=0 AND DATE(tanggal)='".$results['tanggal']."' ");
             $hasil=$results['total'] + $anggaran['total'];
         }
         return $hasil;
