@@ -42,7 +42,7 @@
       <th>Stich</th>
       <th>0.15</th>
       <th>0.18</th>
-      <?php foreach($luar as $l){?>
+      <?php foreach($luar as $l){ ?>
         <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
       <?php } ?>
       <th>Jml Per Mesin (Rp)</th>
@@ -65,7 +65,7 @@
         <td align="right"><?php echo number_format($p['0.18'])?></td>
 
         <?php 
-        $jumlah_permesin = $p['0.15'] + $p['0.18']; // Inisialisasi nilai jumlah per mesin
+        $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
         foreach($luar as $b) {
           // Ambil nilai kolom dinamis
           $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
