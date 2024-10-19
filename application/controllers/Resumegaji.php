@@ -96,6 +96,10 @@ class Resumegaji extends CI_Controller {
 				'id' 	=> 7,
 				'rincian'	=> 'Gaji Gudang',
 			),
+			array(
+				'id' 	=> 9,
+				'rincian'	=> 'Gaji Sukabumi',
+			),
 		);
 		foreach($rincian as $r){
 			$data['prods'][] = array(
