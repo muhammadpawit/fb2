@@ -35,70 +35,90 @@
   <div class="col-md-12">
     <div class="form-group">
     <table class="table table-bordered table-striped">
-  <thead>
-    <tr style="background-color:yellow">
-      <th>No.Mesin</th>
-      <th>Shift</th>
-      <th>Stich</th>
-      <th>0.15</th>
-      <th>0.18</th>
-      <?php foreach($luar as $l){ ?>
-        <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
-      <?php } ?>
-      <th>Jml Per Mesin (Rp)</th>
-      <th>Pendapatan Per Mesin (Rp)</th>
-      <th>Keterangan</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php 
-    $total_permesin = 0;
-    $total_pendapatan = 0;
-    ?>
-
-    <?php foreach($products as $p){ ?>
-      <tr>
-        <td>Mesin <?php echo $p['nomesin']?></td>
-        <td><?php echo $p['shift']?></td>
-        <td align="right"><?php echo number_format($p['stich'])?></td>
-        <td align="right"><?php echo number_format($p['0.15']); ?></td>
-        <td align="right"><?php echo number_format($p['0.18'])?></td>
-
+      <thead>
+        <tr style="background-color:yellow">
+          <th>No.Mesin</th>
+          <th>Shift</th>
+          <th>Stich</th>
+          <th>0.15</th>
+          <th>0.18</th>
+          <?php foreach($luar as $l){ ?>
+            <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
+          <?php } ?>
+          <th>Jml Per Mesin (Rp)</th>
+          <th>Pendapatan Per Mesin (Rp)</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody>
         <?php 
-        $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
-        foreach($luar as $b) {
-          // Ambil nilai kolom dinamis
-          $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
-          $data = json_decode($hasil);
+        // $total_permesin = 0;
+        $total_per_mesin = [];
+        $total_pendapatan = 0;
 
-          $nilaiData = isset($data->data) ? $data->data : 0;
-          $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
-          ?>
-          <td align="right"><?php echo number_format($nilaiData); ?></td>
+        // Step 1: Hitung total per mesin untuk setiap shift pagi dan malam
+        foreach ($products as $p) {
+          if (!isset($total_per_mesin[$p['nomesin']])) {
+              $total_per_mesin[$p['nomesin']] = 0;
+          }
+
+          // Tambahkan pendapatan shift ke total mesin
+          $total_per_mesin[$p['nomesin']] += $p['pendapatan'];
+      }
+      
+      $j = 0;
+
+        ?>
+
+        <?php foreach($products as $p){ ?>
+          <tr>
+            <td>Mesin <?php echo $p['nomesin']?></td>
+            <td><?php echo $p['shift']?></td>
+            <td align="right"><?php echo number_format($p['stich'])?></td>
+            <td align="right"><?php echo number_format($p['0.15']); ?></td>
+            <td align="right"><?php echo number_format($p['0.18'])?></td>
+
+            <?php 
+            $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
+            foreach($luar as $b) {
+              // Ambil nilai kolom dinamis
+              $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
+              $data = json_decode($hasil);
+
+              $nilaiData = isset($data->data) ? $data->data : 0;
+              $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
+              ?>
+              <td align="right"><?php echo number_format($nilaiData); ?></td>
+            <?php } ?>
+
+            <!-- Tampilkan jumlah per mesin -->
+            <td align="right"><?php echo number_format($jumlah_permesin); ?></td>
+
+            <!-- Pendapatan Per Mesin -->
+            <td align="right">
+            <?php 
+                    // Step 3: Hanya tampilkan total pendapatan per mesin di shift malam
+                    if ($p['shift'] == 'MALAM' && isset($total_per_mesin[$p['nomesin']])) {
+                        echo number_format($total_per_mesin[$p['nomesin']]);
+                        $grand_total += $total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
+                    } else {
+                        echo 0;
+                    }
+            ?>
+            </td>
+            <td><?php // Keterangan ?></td>
+          </tr>
         <?php } ?>
 
-        <!-- Tampilkan jumlah per mesin -->
-        <td align="right"><?php echo number_format($jumlah_permesin); ?></td>
-
-        <!-- Pendapatan Per Mesin -->
-        <td align="right"><?php 
-          $pendapatan = isset($p['pendapatan']) ? $p['pendapatan'] : 0;
-          echo number_format($pendapatan); 
-          $total_pendapatan += $pendapatan; // Tambahkan ke total pendapatan
-        ?></td>
-        <td><?php // Keterangan ?></td>
-      </tr>
-    <?php } ?>
-
-    <!-- Tampilkan total -->
-    <tr>
-      <td colspan="6"><b>Total</b></td>
-      <td align="right"><b><?php echo number_format($total_permesin); ?></b></td>
-      <td align="right"><b><?php echo number_format($total_pendapatan); ?></b></td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+        <!-- Tampilkan total -->
+        <tr>
+          <td colspan="6"><b>Total</b></td>
+          <td align="right"><b><?php echo number_format($total_permesin); ?></b></td>
+          <td align="right"><b><?php echo number_format($total_pendapatan); ?></b></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
 
 
     </div>
