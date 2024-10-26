@@ -968,6 +968,32 @@
 
                                 <?php } ?>
 
+                                <?php if($biayaperpo){?>
+
+                                    <?php foreach($biayaperpo as $b){?>
+
+                                        <tr>
+
+                                            <td><center><?php echo $no+=1?></center></td>
+
+                                            <td><?php echo $b['nama_biaya'] ?></td>
+
+                                            <td class="text-center">12<?php //echo $mesin['jumlah_pcs'] ?></td>
+
+                                            <td align="center"><?php echo number_format($b['nominal']) ?></td>
+
+                                            <td align="right"><?php echo number_format($b['nominal']) ?></td>
+
+                                        </tr>
+
+                                    <?php
+                                        $total+=($b['nominal']);
+                                    ?>
+
+                                    <?php } ?>
+
+                                    <?php } ?>
+
 
                                 <tr>
 

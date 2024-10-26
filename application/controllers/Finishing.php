@@ -1371,11 +1371,11 @@ class Finishing extends CI_Controller {
 			$kode_po=null;
 		}
 		$viewData['kode_po']=$kode_po;
-		$sql='SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.id_produksi_po = kbp.idpo JOIN kelolapo_kirim_setor krsc ON pp.id_produksi_po = krsc.idpo WHERE id_produksi_po >0 ';
+		$sql='SELECT DISTINCT pp.id_produksi_po, pp.kode_po, pp.nama_po, pp.jenis_po, pp.created_date, pp.harga_satuan FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.id_produksi_po = kbp.idpo JOIN kelolapo_kirim_setor krsc ON pp.id_produksi_po = krsc.idpo WHERE id_produksi_po >0 ';
 		if(!empty($kode_po)){
 			$sql.=" AND pp.id_produksi_po ='$kode_po' ";
 		}
-		$sql.=" GROUP BY pp.id_produksi_po ";
+		// $sql.=" GROUP BY pp.id_produksi_po, pp.kode_po, pp.nama_po ";
 		$sql.=" ORDER BY pp.id_produksi_po DESC LIMIT 20";
 		$viewData['produk'] = $this->GlobalModel->queryManual($sql);		
  		// $this->load->view('global/header');
@@ -1511,7 +1511,7 @@ class Finishing extends CI_Controller {
 		$viewData['buangbenang']=[];
 		// $viewData['buangbenang']= $this->GlobalModel->getData('buang_benang_finishing',array('kode_po'=>$kodepo,'hapus'=>0));
 		$viewData['buangbenang']= $this->GlobalModel->QueryManual(
-			"SELECT * FROM buang_benang_finishing WHERE hapus=0 AND kode_po='$kodepo' GROUP BY kode_po "
+			"SELECT DISTINCT kode_po, buang_benang_finishing.* FROM buang_benang_finishing WHERE hapus=0 AND kode_po='$kodepo' "
 		);
 		$viewData['packing']=[];
 		$namapo=$viewData['po']['nama_po'];
@@ -1566,6 +1566,11 @@ class Finishing extends CI_Controller {
 		$viewData['namabahan']=$this->GlobalModel->QueryManualRow("SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0 AND idpo='$kodepo' AND bahan_kategori='UTAMA' ORDER BY id_item_keluar ASC LIMIT 1 ");
 		$viewData['page']='finishing/hpp/hpp-detail';
 		$viewData['pdf']=BASEURL.'Finishing/hppproduksidetail/'.$kodepo.'?&pdf=true';
+		
+		$this->load->model('BiayaHppPerpoModel');
+		$viewData['biayaperpo']=[];
+		$viewData['biayaperpo']=$this->BiayaHppPerpoModel->getDataPO($viewData['po']['id_produksi_po']);
+		// pre($viewData['biayaperpo']);
 		
 		$get = $this->input->get();
 		if(isset($get['pdf'])){
