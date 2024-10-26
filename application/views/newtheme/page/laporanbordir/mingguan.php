@@ -60,7 +60,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total Pendapatan</b></td>
-						<td align="right"><b><?php echo number_format($totalpen)?></b></td>
+						<td align="right"><b><?php echo ($pend)?></b></td>
 					</tr>
 				</tfoot>
 			</table>

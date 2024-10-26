@@ -101,7 +101,11 @@ class Lababordir extends CI_Controller {
 		$data['service']=$this->LababordirModel->operasional($tanggal1,$tanggal2,4);
 		// pre($data['belanjabordir']);
 		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
-
+		$data['pendapatan']=0;
+		$data['pendapatan']=$this->LababordirModel->pendapatan($tanggal1,$tanggal2,null);
+		// pre($data['pendapatan']);
+		$data['pend']=$data['pendapatan']['total'][7];
+		// pre($data['pend']);
 		$url='';
 		if(!empty($tanggal1)){
 			$url.="&tanggal1=".$tanggal1;
