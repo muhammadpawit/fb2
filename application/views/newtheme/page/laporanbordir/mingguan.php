@@ -22,7 +22,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12 text-center">
-		<h3>Laporan Pendapatan dan Pengeluaran Bordir Forboys</h3><br>
+		<h3>Laporan Laba - Rugi Bordir Forboys</h3><br>
 		<p>Update per-tanggal <?php echo date('d-F-Y',strtotime($tanggal1)); ?> s.d <?php echo date('d-F-Y',strtotime($tanggal2)); ?></p>
 	</div>
 </div>
