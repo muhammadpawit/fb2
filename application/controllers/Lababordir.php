@@ -10,6 +10,7 @@ class Lababordir extends CI_Controller {
 		$this->load->model('ReportModel');
 		$this->load->model('KirimsetorModel');
 		$this->load->model('LababordirModel');
+		$this->load->model('LaporanmingguanModel');
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
 		$this->url=BASEURL.'Laporanbordir/';
@@ -89,11 +90,12 @@ class Lababordir extends CI_Controller {
 		
 		// Belanja Bordir = Pembelian Bahan Baku ambil dari alokasi_transfer
 		$data['belanjabordir']=0;
-		$data['belanjabordir']=$this->LababordirModel->belanjabordir($tanggal1,$tanggal2,1);
+		$data['belanjabordir']=$this->LababordirModel->operasional($tanggal1,$tanggal2,1);
 		$data['operasional']=0;
 		$data['operasional']=$this->LababordirModel->operasional($tanggal1,$tanggal2,2);
 		$data['gajibordir']=0;
-		$data['gajibordir']=$this->LababordirModel->belanjabordir($tanggal1,$tanggal2,3);
+		$gaji=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,3);
+		$data['gajibordir']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji);
 		// pre($data['belanjabordir']);
 		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
 

@@ -45,16 +45,6 @@ class LababordirModel extends CI_Model {
 		return $hasil;
 	}
 
-	public function belanjabordir($tanggal1,$tanggal2,$pengalokasian){
-		$hasil=0;
-		$sql="SELECT COALESCE(SUM(nominal),0) as total FROM alokasi_transferan WHERE hapus=0 AND bagian='2' AND pengalokasian =$pengalokasian ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".date('Y-m-d',strtotime($tanggal1))."' AND '".date('Y-m-d',strtotime($tanggal2))."' ";
-		$data=$this->GlobalModel->QueryManualRow($sql);
-		if(!empty($data['total'])){
-			$hasil=$data['total'];
-		}
-		return $hasil;
-	}
 
 	public function operasional($tanggal1,$tanggal2,$pengalokasian){
 		$hasil=0;
