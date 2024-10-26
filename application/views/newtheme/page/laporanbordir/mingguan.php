@@ -60,7 +60,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="2"><b>Total Pendapatan</b></td>
-						<td align="right"><b><?php echo ($pend)?></b></td>
+						<td align="right"><b><?php echo number_format($pend)?></b></td>
 					</tr>
 				</tfoot>
 			</table>
@@ -105,7 +105,7 @@
 					</tr>
 					<tr>
 						<td colspan="2"><b>Laba Produksi</b></td>
-						<td align="right"><b><?php echo number_format($pend)?></b></td>
+						<td align="right"><b><?php echo number_format($pend-$totalpengeluaran)?></b></td>
 					</tr>
 				</tfoot>
 			</table>

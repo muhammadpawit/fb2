@@ -203,7 +203,7 @@ class LababordirModel extends CI_Model {
 		foreach($total_jumlah_luar as $total_luar) {
 			$total_footer[] = number_format($total_luar);
 		}
-		$total_footer[] = number_format($total_jumlah_per_mesin);
+		$total_footer[] = ($total_jumlah_per_mesin);
 		$total_footer[] = number_format($grand_total);
 		// $total_footer[] = '';
 
