@@ -76,16 +76,19 @@
 				</thead>
 				<tbody>
 					<?php $totalpengeluaran=0; ?>
-					<?php foreach($pengeluarans as $p){?>
-						<?php foreach($p['detail'] as $pd){?>
-							<tr>
-								<td colspan="2" width="155"><?php echo $pd['keterangan']?></td>
-								<!-- <td>:</td> -->
-								<td align="right"><?php echo number_format($pd['total'])?></td>
-							</tr>
-							<?php $totalpengeluaran+=($pd['total']); ?>
-						<?php } ?>
-					<?php } ?>
+					<tr>
+						<td colspan="2">Belanja Bordir </td>
+						<td align="right">Rp. <?php echo number_format($belanjabordir) ?></td>
+					</tr>
+					<tr>
+						<td colspan="2">Gaji Karyawan Bordir (Bulanan & Borongan) </td>
+						<td align="right">Rp. <?php echo $gajibordir > 0 ? number_format($gajibordir):0 ?></td>
+					</tr>
+					<tr>
+						<td colspan="2">Operasional (BBM,Service,Fotokopi) </td>
+						<td align="right">Rp. <?php echo $operasional > 0 ? number_format($operasional):0 ?></td>
+					</tr>
+					
 				</tbody>
 				<tfoot>
 					<tr>

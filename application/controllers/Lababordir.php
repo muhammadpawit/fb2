@@ -9,6 +9,7 @@ class Lababordir extends CI_Controller {
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->load->model('ReportModel');
 		$this->load->model('KirimsetorModel');
+		$this->load->model('LababordirModel');
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
 		$this->url=BASEURL.'Laporanbordir/';
@@ -73,19 +74,27 @@ class Lababordir extends CI_Controller {
 		$data['pengeluarans']=[];
 		$details=[];
 		$totalpengeluaran=0;
-		foreach($results as $r){
-			$details=$this->GlobalModel->Getdata('pengeluaran_bordir_detail',array('hapus'=>0,'idpengeluaran'=>$r['id']));
-			$data['pengeluarans'][]=array(
-				'no'=>$nom++,
-				'id'=>$r['id'],
-				'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
-				'total'=>$r['total'],
-				'keterangan'=>$r['keterangan'],
-				'detail'=>$details,
-			);
-			$totalpengeluaran+=($r['total']);
-		}
-
+		// foreach($results as $r){
+		// 	$details=$this->GlobalModel->Getdata('pengeluaran_bordir_detail',array('hapus'=>0,'idpengeluaran'=>$r['id']));
+		// 	$data['pengeluarans'][]=array(
+		// 		'no'=>$nom++,
+		// 		'id'=>$r['id'],
+		// 		'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+		// 		'total'=>$r['total'],
+		// 		'keterangan'=>$r['keterangan'],
+		// 		'detail'=>$details,
+		// 	);
+		// 	$totalpengeluaran+=($r['total']);
+		// }
+		
+		// Belanja Bordir = Pembelian Bahan Baku ambil dari alokasi_transfer
+		$data['belanjabordir']=0;
+		$data['belanjabordir']=$this->LababordirModel->belanjabordir($tanggal1,$tanggal2,1);
+		$data['operasional']=0;
+		$data['operasional']=$this->LababordirModel->operasional($tanggal1,$tanggal2,2);
+		$data['gajibordir']=0;
+		$data['gajibordir']=$this->LababordirModel->belanjabordir($tanggal1,$tanggal2,3);
+		// pre($data['belanjabordir']);
 		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
 
 		$url='';

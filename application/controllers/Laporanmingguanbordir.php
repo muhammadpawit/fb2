@@ -38,6 +38,7 @@ class Laporanmingguanbordir extends CI_Controller {
 		$alokasi=0;
 		$keterangan=null;
 		$bagian=2;
+		$data['results']=[];
 		foreach (looping_tanggal($tanggal1,$tanggal2) as $dt) {
 			$masuk_kas=$this->LaporanmingguanModel->kas_masuk_bordir($dt['tanggal'],$bagian);
 			$masuk_transfer=$this->LaporanmingguanModel->transferan_bordir($dt['tanggal'],$bagian);
