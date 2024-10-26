@@ -92,10 +92,13 @@ class Lababordir extends CI_Controller {
 		$data['belanjabordir']=0;
 		$data['belanjabordir']=$this->LababordirModel->operasional($tanggal1,$tanggal2,1);
 		$data['operasional']=0;
-		$data['operasional']=$this->LababordirModel->operasional($tanggal1,$tanggal2,2);
+		$ops=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,2);
+		$data['operasional']=($this->LababordirModel->operasional($tanggal1,$tanggal2,2)+$ops);
 		$data['gajibordir']=0;
 		$gaji=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,3);
 		$data['gajibordir']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji);
+		$data['service']=0;
+		$data['service']=$this->LababordirModel->operasional($tanggal1,$tanggal2,4);
 		// pre($data['belanjabordir']);
 		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
 

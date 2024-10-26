@@ -88,7 +88,11 @@
 						<td colspan="2">Operasional (BBM,Service,Fotokopi) </td>
 						<td align="right">Rp. <?php echo $operasional > 0 ? number_format($operasional):0 ?></td>
 					</tr>
-					
+					<tr>
+						<td colspan="2">Service (Mesin Bordir) </td>
+						<td align="right">Rp. <?php echo $service > 0 ? number_format($service):0 ?></td>
+					</tr>
+					<?php $totalpengeluaran=($belanjabordir+$gajibordir+$operasional+$service); ?>
 				</tbody>
 				<tfoot>
 					<tr>
