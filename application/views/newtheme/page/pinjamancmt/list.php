@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <label>Nama CMT</label>
-            <select name="idcmt" class="form-control select2bs4" required="required" data-live-search="true">
+            <select name="idcmt" class="form-control select2bs4" style="width: 100%;" required="required" data-live-search="true">
                 <option value="">Pilih</option>
                 <?php foreach($cmt as $p){?>
                   <option value="<?php echo $p['id_cmt']?>"><?php echo strtoupper($p['cmt_name'])?></option>
@@ -99,7 +99,7 @@
 
       <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
 
-      <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Tambah</button>
 
     </div>
 
