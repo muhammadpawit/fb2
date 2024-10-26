@@ -105,7 +105,7 @@
 					</tr>
 					<tr>
 						<td colspan="2"><b>Laba Produksi</b></td>
-						<td align="right"><b><?php echo number_format($pend-$totalpengeluaran)?></b></td>
+						<td align="right"><b><?php echo number_format($pend)?></b></td>
 					</tr>
 				</tfoot>
 			</table>
