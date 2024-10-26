@@ -196,15 +196,15 @@ class LababordirModel extends CI_Model {
 		$total_footer = [];
 		// $total_footer[] = 'Total';
 		// $total_footer[] = '';
-		$total_footer[] = number_format($total_stich);
-		$total_footer[] = number_format($total_0_15);
-		$total_footer[] = number_format($total_0_18);
+		$total_footer[] = ($total_stich);
+		$total_footer[] = ($total_0_15);
+		$total_footer[] = ($total_0_18);
 
 		foreach($total_jumlah_luar as $total_luar) {
-			$total_footer[] = number_format($total_luar);
+			$total_footer[] = ($total_luar);
 		}
 		$total_footer[] = ($total_jumlah_per_mesin);
-		$total_footer[] = number_format($grand_total);
+		$total_footer[] = ($grand_total);
 		// $total_footer[] = '';
 
 		// Data yang disimpan
