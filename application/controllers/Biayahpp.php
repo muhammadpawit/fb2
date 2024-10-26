@@ -31,7 +31,7 @@ class Biayahpp extends CI_Controller {
 		$data=[];
 		$data['title']='Biaya HPP Per PO';
 		$data['po'] = $this->GlobalModel->GetData('produksi_po',array('hapus'=>0));
-		$data['batal']=$this->url.'add';
+		$data['batal']=$this->url.'';
 		$data['action']=$this->url.'save';
 		$data['page']=$this->page.'form';
 		$this->load->view($this->layout,$data);
