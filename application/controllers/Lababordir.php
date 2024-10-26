@@ -7,10 +7,11 @@ class Lababordir extends CI_Controller {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
+		$this->load->model('ReportModel');
+		$this->load->model('KirimsetorModel');
+		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
-		$this->page='newtheme/page/lababordir/';
-		$this->url=BASEURL.'Lababordir/';
-		$this->load->model('LababordirModel');
+		$this->url=BASEURL.'Laporanbordir/';
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
@@ -18,9 +19,10 @@ class Lababordir extends CI_Controller {
 
 	public function index(){
 		$data=[];
-		$data['title']='Laba Bordir';
-		$data['prods']=[];
+		$data['title']='Laporan Pendapatan dan Pengeluaran Bordir ';
 		$get=$this->input->get();
+		$data['jenis']=[];
+		$results=array();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
@@ -45,21 +47,47 @@ class Lababordir extends CI_Controller {
 		foreach($products as $p){
 			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
 		}
-		$data['podalam']=($totalpendapatan);
-		$luar=$this->ReportModel->pendapatanbordir($filter,2);
-		$totalpoluar=0;
-		foreach($luar as $p){
-			$totalpoluar+=(((($p['total_stich']*0.2))+(0)));
+		$data['totalpendapatan']=($totalpendapatan);
+				$totalpoluar=0;
+		$totalpoluar=$this->ReportModel->getSumPendapatanpoluar($filter,2);
+		$p15=0;
+		$pe15=[];
+		$pe15=$this->ReportModel->pendapatanbordirdalam15($filter,1);
+		if(!empty($pe15)){
+			foreach($pe15 as $p){
+				$p15+=(((($p['total_stich']*0.15))+(0)));
+			}
 		}
-		$data['poluar']=($totalpoluar);
-
-		$data['totalpen']=($totalpendapatan+$totalpoluar);
+		$data['p15']=($p15);
+		$data['totalpoluar']=round($totalpoluar);
+		$data['totalpen']=round($totalpendapatan+$totalpoluar+$p15);
 		// end
 
-		// pengeluaran 
-		$keluar=0;
-		$keluar=$this->LababordirModel->Getkeluar($filter);
-		$data['keluar']=$keluar;
+		// pengeluaran bordir
+		$sql="SELECT * FROM pengeluaran_bordir WHERE hapus=0 ";
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" ORDER BY id desc ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		//pre($sql);
+		$nom=1;
+		$data['pengeluarans']=[];
+		$details=[];
+		$totalpengeluaran=0;
+		foreach($results as $r){
+			$details=$this->GlobalModel->Getdata('pengeluaran_bordir_detail',array('hapus'=>0,'idpengeluaran'=>$r['id']));
+			$data['pengeluarans'][]=array(
+				'no'=>$nom++,
+				'id'=>$r['id'],
+				'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+				'total'=>$r['total'],
+				'keterangan'=>$r['keterangan'],
+				'detail'=>$details,
+			);
+			$totalpengeluaran+=($r['total']);
+		}
+
+		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
+
 		$url='';
 		if(!empty($tanggal1)){
 			$url.="&tanggal1=".$tanggal1;
@@ -67,13 +95,13 @@ class Lababordir extends CI_Controller {
 		if(!empty($tanggal2)){
 			$url.="&tanggal2=".$tanggal2;
 		}
-		$data['excel']=$this->url.'?&excel=true'.$url;
+		$data['excel']=$this->url.'mingguan?&excel=true'.$url;
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;		
 		if(isset($get['excel'])){
-			$this->load->view($this->page.'/list_excel',$data);	
+			$this->load->view($this->page.'laporanbordir/mingguan_excel',$data);	
 		}else{
-			$data['page']=$this->page.'list';
+			$data['page']=$this->page.'laporanbordir/mingguan';
 			$this->load->view($this->layout,$data);	
 		}
 
