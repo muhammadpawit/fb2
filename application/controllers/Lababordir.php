@@ -104,7 +104,7 @@ class Lababordir extends CI_Controller {
 		$data['pendapatan']=0;
 		$data['pendapatan']=$this->LababordirModel->pendapatan($tanggal1,$tanggal2,null);
 		// pre($data['pendapatan']);
-		$data['pend']=$data['pendapatan']['total'][7];
+		$data['pend']=$data['pendapatan']['total']['total_jumlah_per_mesin'];
 		// pre($data['pend']);
 		$url='';
 		if(!empty($tanggal1)){
