@@ -1511,7 +1511,7 @@ class Finishing extends CI_Controller {
 		$viewData['buangbenang']=[];
 		// $viewData['buangbenang']= $this->GlobalModel->getData('buang_benang_finishing',array('kode_po'=>$kodepo,'hapus'=>0));
 		$viewData['buangbenang']= $this->GlobalModel->QueryManual(
-			"SELECT DISTINCT kode_po, buang_benang_finishing.* FROM buang_benang_finishing WHERE hapus=0 AND kode_po='$kodepo' "
+			"SELECT DISTINCT kode_po,jumlah_pcs, harga FROM buang_benang_finishing WHERE hapus=0 AND kode_po='$kodepo' "
 		);
 		$viewData['packing']=[];
 		$namapo=$viewData['po']['nama_po'];
