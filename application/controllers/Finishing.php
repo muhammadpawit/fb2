@@ -1544,6 +1544,13 @@ class Finishing extends CI_Controller {
 					'keterangan'=>'Packing',
 				),
 			);
+		}else if(strtolower($namapo)=="fshj"){
+			$viewData['packing']=array(
+				array(
+					'harga_dz'=>30000, // perubahan ke 30000 tgl 2 februari 2024
+					'keterangan'=>'Packing',
+				),
+			);
 		}else{
 			$viewData['packing']= $this->GlobalModel->getData('packing',array('nama_po'=>$kodepo,'hapus'=>0));
 		}
