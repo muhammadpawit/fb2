@@ -45,6 +45,7 @@
 						<th>Biaya Lain-lain</th>
 						<th>Token Listrik</th>
 						<th>Total</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,6 +59,9 @@
 							<td><?php echo number_format($p['biayalain'])?></td>
 							<td><?php echo number_format($p['tokenlistrik'])?></td>
 							<td><?php echo number_format($p['total'])?></td>
+							<td>
+								<a href="<?php echo BASEURL?>Sablon/pengeluaran_hapus/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin?')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+							</td>
 						</tr>
 					<?php }?>
 				</tbody>

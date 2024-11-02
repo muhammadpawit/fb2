@@ -846,4 +846,17 @@ class Sablon extends CI_Controller {
 		redirect($this->url.'claimpo/'.$post['type'].'/'.$post['idclaim']);
 	}
 
+	public function pengeluaran_hapus($id){
+		$insert=array(
+			'hapus'=>1,
+		);
+		$where = array(
+			'id' => $id
+		);
+		$this->db->update('pengeluaran_sablon',$insert,$where);
+
+		$this->session->set_flashdata('msg','data berhasil dihapus');
+		redirect($this->url.'pengeluaran');
+	}
+
 }
