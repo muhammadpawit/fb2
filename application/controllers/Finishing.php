@@ -1523,7 +1523,7 @@ class Finishing extends CI_Controller {
 					'keterangan'=>'Packing',
 				),
 			);
-		}else if(strtolower($namapo)=="skf"){
+		}else if(strtolower($namapo)=="skf" OR strtolower($namapo)=="fahk"){
 			$viewData['packing']=array(
 				array(
 					'harga_dz'=>24000,
