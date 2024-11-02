@@ -176,7 +176,7 @@ class Gudang extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+			$tanggal1=date('Y-m-d',strtotime("-14 days"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -213,7 +213,7 @@ class Gudang extends CI_Controller {
 		$data['n']=1;
 		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan != 'celana' ";
 		if(isset($get['spv'])){
-			$sql.=" AND jml_acc=0 ";
+			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}else{
 			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
 		}
