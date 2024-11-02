@@ -76,7 +76,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
             <br>
             <br>
             <br>
-            (DINDA)
+            (Mia)
           </td>
           <td align="center" colspan="2">
             Di cek oleh,<br>

@@ -577,7 +577,7 @@ Periode : <?php echo $detail['keterangan'] ?>
 
                                                 <br>
 
-                                                ( Dinda )
+                                                ( Mia )
 
                                             </td>
                                         </tr>

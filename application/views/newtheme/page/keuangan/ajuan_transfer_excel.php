@@ -101,7 +101,7 @@ header("Content-Disposition: attachment; filename=Ajuan_transfer_".time().".xls"
 
                                                 <br>
 
-                                                ( Dinda )
+                                                ( Mia )
 
                                             </td>
 

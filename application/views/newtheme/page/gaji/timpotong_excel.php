@@ -119,7 +119,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 
                                                 <br>
 
-                                                ( Dinda )
+                                                ( Mia )
 
                                             </td>
                                         </tr>

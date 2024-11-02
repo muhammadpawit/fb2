@@ -395,7 +395,7 @@ $filename='Pengajuan_Harian_'.date('d-m-Y',strtotime($parent['tanggal']));
 
                                                 <br>
 
-                                                ( Dinda )
+                                                ( Mia )
 
                                             </td>
                                             <td height="100" align="center">

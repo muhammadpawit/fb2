@@ -260,7 +260,7 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
                     <br>
                     <br>
                     <br>
-                    Dinda
+                    Mia
                   </th>
                   <th></th>
                   <th></th>
@@ -272,7 +272,7 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
                       <br>
                       <br>
                       <br>
-                      Dewi
+                      Kandar
                   </th>
                 </tr>
                 <tr>

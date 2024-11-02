@@ -82,10 +82,10 @@
 			</tr>
 			<!-- <tr>
 				<th colspan="10" align="center"></th>
-				<th><br><br><br>Dinda</th>
+				<th><br><br><br>Mia</th>
 				<th></th>
 				<th></th>
-				<th><br><br><br>Dewi</th>
+				<th><br><br><br>Kandar</th>
 			</tr> -->
 		</table>
 		<br>
