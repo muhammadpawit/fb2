@@ -292,7 +292,7 @@ class Sablon extends CI_Controller {
 		if($post['cmt']==87){
 			$query .=" AND id_karyawan_harian IN (193,194) ";
 		}else if($post['cmt']==19){
-			$query .=" AND id_karyawan_harian IN (195,196) ";
+			$query .=" AND id_karyawan_harian IN (195,196,208) ";
 		}else{
 			$query .=" AND id_karyawan_harian NOT IN (193,194,195,196) ";
 		}

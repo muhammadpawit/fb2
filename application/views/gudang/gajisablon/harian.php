@@ -81,7 +81,7 @@ function filtergaji(){
     var url='?';
     var id_karyawan_harian =$("#id_karyawan_harian").val();
     var tanggal2 =$("#tanggal2").val();
-    if(tanggal1){
+    if(id_karyawan_harian){
       url+='&id_karyawan_harian='+id_karyawan_harian;
     }
     if(tanggal2){
