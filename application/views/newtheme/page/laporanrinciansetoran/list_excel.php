@@ -70,14 +70,14 @@
 				<th>
 					Di Cek Oleh,
 					<br><br><br><br>
-					(Dinda)
+					(Mia)
 				</th>
 				<th></th>
 				<th></th>
 				<th>
 					Dibuat Oleh,
 					<br><br><br><br>
-					(Dewi)
+					(Kandar)
 				</th>
 			</tr>
 			<!-- <tr>
