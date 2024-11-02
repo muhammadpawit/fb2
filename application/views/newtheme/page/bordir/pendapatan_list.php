@@ -34,7 +34,7 @@
 <div class="row table-responsive">
   <div class="col-md-12">
     <div class="form-group">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr style="background-color:yellow">
             <th>No.Mesin</th>
@@ -55,8 +55,9 @@
         $total_per_mesin = [];
         $grand_total = 0; // Total pendapatan keseluruhan
         $total_jumlah_per_mesin = 0; // Total jumlah per mesin keseluruhan
+        $pendapatan_total_per_mesin = []; // Total pendapatan pagi + malam untuk setiap mesin
 
-        // Hitung total per mesin untuk setiap shift pagi dan malam
+        // Hitung total pendapatan per mesin untuk setiap shift pagi dan malam
         foreach ($products as $p) {
             if (!isset($total_per_mesin[$p['nomesin']])) {
                 $total_per_mesin[$p['nomesin']] = 0;
@@ -96,13 +97,25 @@
             echo '<td align="right">' . number_format($jumlah_permesin) . '</td>';
             $total_jumlah_per_mesin += $jumlah_permesin; // Hitung total jumlah per mesin
 
-            // Pendapatan Per Mesin
+            // Pendapatan Per Mesin, tampilkan hanya di shift "MALAM" setelah menjumlahkan PAGI dan MALAM
             echo '<td align="right">';
-            if ($p['shift'] == 'MALAM' && isset($total_per_mesin[$p['nomesin']])) {
-                echo number_format($total_per_mesin[$p['nomesin']]);
-                $grand_total += $total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
+            if (!isset($pendapatan_total_per_mesin[$p['nomesin']])) {
+                // Inisialisasi pendapatan total per mesin
+                $pendapatan_total_per_mesin[$p['nomesin']] = 0;
+            }
+
+            // Tambahkan pendapatan dari setiap shift
+            $pendapatan_total_per_mesin[$p['nomesin']] += $p['pendapatan'];
+
+            if ($p['shift'] == 'MALAM') {
+                // Tampilkan total pendapatan pagi + malam pada baris shift malam
+                // echo $p['nomesin'];
+                echo number_format($this->ReportModel->totalpermesin($p['nomesin'],$tanggal1,$tanggal2));
+                // echo number_format($pendapatan_total_per_mesin[$p['nomesin']]);
+                $grand_total += $pendapatan_total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
             } else {
-                echo 0;
+                // Kosongkan kolom untuk shift "PAGI"
+                echo '';
             }
             echo '</td>';
             echo '<td></td>'; // Keterangan
@@ -127,13 +140,11 @@
             }
             ?>
             <td align="right"><b><?php echo number_format($total_jumlah_per_mesin); ?></b></td>
-            <td align="right"><b><?php echo number_format($grand_total); ?></b></td>
+            <td align="right"><b><?php echo number_format($this->ReportModel->totalpermesin(null,$tanggal1,$tanggal2)); ?></b></td>
             <td></td>
         </tr>
     </tbody>
 </table>
-
-
 
     </div>
   </div>

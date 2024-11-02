@@ -1954,12 +1954,12 @@ class ReportModel extends CI_Model {
 		$total=0;
 		$sql="
 		SELECT 
-    CASE
-        WHEN c.id = 4 AND a.stich = 4000 THEN 
-            COALESCE(SUM(a.jumlah_naik_mesin * 700), 0)
-        ELSE 
-            COALESCE(SUM(a.total_stich * a.laporan_perkalian_tarif), 0)
-    END AS total
+    COALESCE(SUM(
+        CASE
+            WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
+            ELSE a.total_stich * a.laporan_perkalian_tarif
+        END
+    ), 0) AS total
 FROM kelola_mesin_bordir a
 LEFT JOIN master_po_luar b ON b.id = a.kode_po
 LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
@@ -3608,5 +3608,73 @@ AND a.jenis = 2
 		$data = $this->GlobalModel->QueryManual($sql);
 		return $data;
 	}
+
+	function totalpermesin($mesin, $tanggal, $tanggal2){
+		$hasil = 0;
+		if(empty($mesin)){
+			$sql = "
+			SELECT 
+				(SELECT COALESCE(SUM(total_stich * 0.18), 0) 
+				 FROM kelola_mesin_bordir 
+				 WHERE hapus = 0 
+				   AND jenis = 1 
+				   AND mesin_bordir <> 11 
+				   AND shift IN ('PAGI', 'MALAM') 
+				   AND DATE(created_date) BETWEEN '$tanggal' AND '$tanggal2') 
+				+
+				(SELECT 
+					COALESCE(SUM(
+						CASE
+							WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
+							ELSE a.total_stich * a.laporan_perkalian_tarif
+						END
+					), 0)
+				 FROM kelola_mesin_bordir a
+				 LEFT JOIN master_po_luar b ON b.id = a.kode_po
+				 LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+				 WHERE a.hapus = 0 
+				   AND a.jenis = 2 
+				   
+				   AND shift IN ('PAGI', 'MALAM')
+				   AND DATE(created_date) BETWEEN '$tanggal' AND '$tanggal2'
+				) AS total;
+		";
+		}else{
+			$sql = "
+			SELECT 
+				(SELECT COALESCE(SUM(total_stich * 0.18), 0) 
+				 FROM kelola_mesin_bordir 
+				 WHERE hapus = 0 
+				   AND jenis = 1 
+				   AND mesin_bordir = '$mesin' 
+				   AND mesin_bordir <> 11 
+				   AND shift IN ('PAGI', 'MALAM') 
+				   AND DATE(created_date) BETWEEN '$tanggal' AND '$tanggal2') 
+				+
+				(SELECT 
+					COALESCE(SUM(
+						CASE
+							WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
+							ELSE a.total_stich * a.laporan_perkalian_tarif
+						END
+					), 0)
+				 FROM kelola_mesin_bordir a
+				 LEFT JOIN master_po_luar b ON b.id = a.kode_po
+				 LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+				 WHERE a.hapus = 0 
+				   AND a.jenis = 2 
+				   AND mesin_bordir = '$mesin' 
+				   AND shift IN ('PAGI', 'MALAM')
+				   AND DATE(created_date) BETWEEN '$tanggal' AND '$tanggal2'
+				) AS total;
+		";
+		}
+		$data = $this->GlobalModel->QueryManualRow($sql);
+		if(isset($data['total'])){
+			$hasil=floor($data['total']);
+		}
+		return $hasil;
+	}
+	
 
 }
