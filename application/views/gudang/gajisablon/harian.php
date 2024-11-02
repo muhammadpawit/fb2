@@ -2,7 +2,7 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Nama Karyawan</label>
-			<select name="id_karyawan_harian" class="select2bs4 kar" required>
+			<select name="id_karyawan_harian" id="id_karyawan_harian" class="select2bs4 kar" required>
 				<option value="*"></option>
 				<?php foreach($kar as $k){ ?>
 					<option value="<?php echo $k['id']?>" data-item="<?php echo $k['id']?>"><?php echo $k['nama']?></option>
@@ -14,7 +14,7 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filtergaji()">Filter</button>
 			<button onclick="window.print()" class="btn btn-info btn-sm">Print</button>
 			<button onclick="excelwithtgl()" class="btn btn-info btn-sm">Excel</button>
 			 <a class="btn btn-info btn-sm" href="<?php echo $tambah ?>">Tambah</a>
@@ -75,3 +75,19 @@
 		</div>
 	</div>
 </div>
+<script>
+
+function filtergaji(){
+    var url='?';
+    var id_karyawan_harian =$("#id_karyawan_harian").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&id_karyawan_harian='+id_karyawan_harian;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+
+</script>

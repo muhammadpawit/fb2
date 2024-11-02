@@ -30,10 +30,10 @@ class Gajisablon extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
+		if(isset($get['id_karyawan_harian'])){
+			$id_karyawan_harian=$get['id_karyawan_harian'];
 		}else{
-			$cat=null;
+			$id_karyawan_harian=null;
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
@@ -45,6 +45,9 @@ class Gajisablon extends CI_Controller {
 		$sql		  .=" JOIN gaji_sablon_harian c ON c.id";
 		$sql 		  .= " LEFT JOIN gaji_sablon_harian_detail d ON d.idgaji=a.id ";
 		$sql 		  .=" WHERE a.hapus=0 AND b.hapus=0 ";
+		if(!empty($id_karyawan_harian)){
+			$sql.=" AND a.id_karyawan_harian='".$id_karyawan_harian."' ";
+		}
 		$sql 		  .=" GROUP BY id_karyawan_harian, periode ";
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
 		// pre($data['prods']);
