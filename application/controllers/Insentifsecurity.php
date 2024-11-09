@@ -275,7 +275,9 @@ class Insentifsecurity extends CI_Controller {
 			echo '<td><input type="text" name="products['.$k['id'].'][keterangan]" class="form-control"></td>';
 			echo '</tr>';
 			$no++;
-			$total += $total_diterima;
+			if($total_diterima > 0){
+				$total += $total_diterima;
+			}
 		}
 		echo "</tbody>";
 		echo "<tfoot>";
