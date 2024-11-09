@@ -138,7 +138,7 @@ class Monitoring extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this week"));
+			$tanggal1=date('Y-m-d',strtotime("monday this week"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];

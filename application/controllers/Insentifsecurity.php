@@ -377,7 +377,9 @@ class Insentifsecurity extends CI_Controller {
 			$html .= '<td></td>';
 			$html .= '</tr>';
 			$no++;
-			$total += $total_diterima;
+			if($total_diterima > 0){
+				$total += $total_diterima;
+			}
 		}
 	
 		$html .= "</tbody>";
