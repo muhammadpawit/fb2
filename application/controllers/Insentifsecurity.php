@@ -375,8 +375,8 @@ class Insentifsecurity extends CI_Controller {
 			$html .= '<td align="center">' . number_format($insentif) . '</td>';
 			$html .= '<td align="center">' . number_format($potongan) . '</td>';
 			$html .= '<td align="center">' . number_format($uang_tambahan) . '</td>';
-			$html .= '<td align="center">' . number_format($total_diterima) . '</td>';
-			$html .= '<td></td>';
+			$html .= '<td align="center">' . ( ($total_diterima > 0 ) ? number_format($total_diterima) : null ) . '</td>';
+			$html .= '<td>' . ( ($total_diterima < 0 ) ? number_format($total_diterima) : null ) . '</td>';
 			$html .= '</tr>';
 			$no++;
 			if($total_diterima > 0){
