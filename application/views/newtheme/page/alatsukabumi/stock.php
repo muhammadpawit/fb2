@@ -32,6 +32,7 @@
 					<th>Satuan</th>
 					<th>Harga</th>
 					<th>Jumlah</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -47,6 +48,9 @@
 						<td><?php echo $p['satuan']?></td>
 						<td><?php echo number_format($p['harga']) ?></td>
 						<td><?php echo number_format($p['harga']*$p['jumlah']) ?></td>
+						<td>
+							<a href="<?php echo $p['kartustok']?>" target="_blank" class="btn btn-xs btn-info">Kartustok</a>
+						</td>
 					</tr>
 				<?php } ?>
 			</tbody>

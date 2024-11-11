@@ -2409,7 +2409,7 @@ class Kelolapo extends CI_Controller {
 	        $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
 	        
 	        // filename dari pdf ketika didownload
-	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+	        $file_pdf = 'Kartustok'.time();
 	        // setting paper
 	        //$paper = 'A4';
 	        $paper = array(0,0,800,1000);

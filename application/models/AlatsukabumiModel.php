@@ -93,6 +93,7 @@ class AlatsukabumiModel extends CI_Model {
 					'masuk'=>$this->masuk($r['id_persediaan'],$data['tanggal1'],$data['tanggal2']),
 					'keluar'=>$this->keluar($r['id_persediaan'],$data['tanggal1'],$data['tanggal2']),
 					'harga'=>isset($p['harga_skb']) ? $p['harga_skb'] : 0,
+					'kartustok' => BASEURL.'Stokalatskb/kartu/'.$r['id_persediaan'],
 				);
 			}
 		}

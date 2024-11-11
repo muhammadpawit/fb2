@@ -45,6 +45,38 @@ class Stokalatskb extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+	function kartu($id) {
+		$data = [];
+		$sql = "SELECT a.*, c.cmt_name, p.nama as namaalat FROM distribusi_alat_sukabumi a 
+				LEFT JOIN master_cmt c ON c.id_cmt = a.idcmt
+				LEFT JOIN product p ON(p.product_id=a.id_persediaan)
+				WHERE a.hapus = 0  AND a.id_persediaan = '$id'
+				ORDER BY a.tanggal asc
+				";
+		$results = $this->GlobalModel->queryManual($sql);
+		
+		// Berikan hasil query ke view
+		$this->data['title_pdf'] = 'Kartu Stok ';
+		$this->data['results'] = $results; // Menyimpan data hasil query ke variabel data view
+	
+		// Load library PDF generator
+		$this->load->library('pdfgenerator');
+	
+		// Filename untuk PDF
+		$file_pdf = 'Surat_Jalan_Kirim_Jahit_' . time();
+		
+		// Paper size dan orientasi
+		$paper = array(0, 0, 800, 1000);
+		$orientation = "potrait";
+	
+		// Mengambil output dari view 'laporan_pdf' sebagai HTML
+		$html = $this->load->view('laporan_pdf', $this->data, true);	    
+	
+		// Generate PDF
+		$this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+	}
+	
+
 	public function tambah(){
 		$data=[];
 		$data['title']='Terima Alat-alat Di Sukabumi';
