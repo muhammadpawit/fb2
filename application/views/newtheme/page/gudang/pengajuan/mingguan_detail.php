@@ -13,7 +13,7 @@
         <tr>
           <?php 
             $supplier=null;
-            $cek = $this->GlobalModel->GetDataRow('master_supplier',array('id' => $k['supplier_id']));
+            $supplier = $this->GlobalModel->GetDataRow('master_supplier',array('id' => $k['supplier_id']));
           ?>
           <td colspan="11">Supplier : <?php echo isset($supplier['nama']) ? $supplier['nama'] : '' ?></td>
         </tr>
