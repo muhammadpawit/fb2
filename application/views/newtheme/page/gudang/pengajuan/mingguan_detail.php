@@ -11,6 +11,13 @@
           <td colspan="11">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
         </tr>
         <tr>
+          <?php 
+            $supplier=null;
+            $cek = $this->GlobalModel->GetDataRow('master_supplier',array('id' => $k['supplier_id']));
+          ?>
+          <td colspan="11">Supplier : <?php echo isset($supplier['nama']) ? $supplier['nama'] : '' ?></td>
+        </tr>
+        <tr>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>No</b></td>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Nama PO</b></td>
           <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>Jumlah PO</b></td>
