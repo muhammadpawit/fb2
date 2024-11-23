@@ -206,11 +206,17 @@ class AjuanalatModel extends CI_Model {
 					'keterangan'=>$r['keterangan'],
 					'acc_ajuan'	=> $r['acc_ajuan'],
 					'supplier_id'=>$r['supplier_id'],
+					'supplier_nama'=>$this->namasupplier($r['supplier_id']),
 					'pembayaran'=>$r['pembayaran'],
 				);
 			}
 		}
 		return $hasil;
+	}
+
+	function namasupplier($id){
+		$data = $this->GlobalModel->Getdatarow('master_cmt',array('id_cmt'=>$id));
+		return isset($data['cmt_name']) ? $data['cmt_name'] : '';
 	}
 
 	public function getshowId($id){

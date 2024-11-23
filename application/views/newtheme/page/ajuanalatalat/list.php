@@ -26,6 +26,7 @@
 			<thead>
 				<tr>
 					<th>NO</th>
+					<th>SUPPLIER</th>
 					<th>TANGGAL AJUAN</th>
 					<th>NAMA BARANG</th>
 					<th>SATUAN</th>
@@ -44,6 +45,7 @@
 					<?php //if(!empty($spv)) { ?>
 					<tr>
 						<td><?php echo $p['no'] ?></td>
+						<td><?php echo $p['supplier_nama'] ?></td>
 						<td><?php echo $p['tgl'] ?></td>
 						<td><?php echo $p['nama'] ?></td>
 						<td><?php echo $p['satuan'] ?></td>
