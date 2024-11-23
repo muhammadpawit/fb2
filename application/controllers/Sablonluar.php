@@ -119,7 +119,7 @@ class Sablonluar extends CI_Controller {
 		$data['pendapatan']=[];
 		$sql="SELECT ksd.*,ks.idcmt, mpo.nama as kode_po FROM kirimcmtsablon_detail ksd JOIN kirimcmtsablon ks ON(ks.id=ksd.idkirim) JOIN master_po_luar mpo ON mpo.id=ksd.kode_po  WHERE ks.hapus=0 and ksd.hapus=0";
 		$sql.=" ";
-		//$sql.=" AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$sql.=" AND ks.idcmt='".$cmt."' ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($results);
