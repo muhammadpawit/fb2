@@ -215,8 +215,8 @@ class AjuanalatModel extends CI_Model {
 	}
 
 	function namasupplier($id){
-		$data = $this->GlobalModel->Getdatarow('master_cmt',array('id_cmt'=>$id));
-		return isset($data['cmt_name']) ? $data['cmt_name'] : '';
+		$data = $this->GlobalModel->Getdatarow('master_supplier',array('id'=>$id));
+		return isset($data['nama']) ? $data['nama'] : '';
 	}
 
 	public function getshowId($id){
