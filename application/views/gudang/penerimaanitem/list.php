@@ -63,9 +63,10 @@
                   <th>Nama Supplier</th>
                   <th>Nama Item</th>
                   <th style="text-align: center !important;">Jumlah</th>
+                  <th style="text-align: center !important;">Yard</th>
                   <th>Harga</th>
                   <th>Total</th>
-                  <th>Keterangan</th>
+                  <!-- <th>Keterangan</th> -->
                   <th></th>
                   <th></th>
                 </tr>
@@ -94,14 +95,15 @@
                       <td><?php echo $i['tanggal']?></td>
                       <td><?php echo strtolower($i['supplier']) ?></td>
                       <td><?php echo strtolower($p['nama']) ?></td>
-                      <td align="center"><?php echo $p['jumlah']?></td>
+                      <td align="center"><?php echo $p['jumlah']?> <?php echo $p['satuanJml']?></td>
+                      <td><?php echo $p['ukuran']?> <?php echo $p['satuanukuran']?></td>
                       <td><?php echo $p['harga']?></td>
                       <?php if($i['jenis']==1){?>
                       <td><?php echo number_format($p['harga']*$p['ukuran'])?></td>
                       <?php }else{ ?>
                         <td><?php echo number_format($p['harga']*$p['jumlah'])?></td>
                       <?php } ?>
-                      <td><?php echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td>
+                      <!-- <td><?php // echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td> -->
                       <td class="right">
                         <?php foreach ($i['action'] as $action) { ?>
                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect" style="margin-bottom: 3%"><?php echo $action['text']; ?></a>
