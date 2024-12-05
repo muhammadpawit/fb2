@@ -62,8 +62,8 @@
                   <th>Tanggal</th>
                   <th>Nama Supplier</th>
                   <th>Nama Item</th>
-                  <th style="text-align: center !important;">Jumlah</th>
-                  <th style="text-align: center !important;">Yard</th>
+                  <th colspan="2"><center>Jumlah</center></th>
+                  <th>Yard</th>
                   <th>Harga</th>
                   <th>Total</th>
                   <!-- <th>Keterangan</th> -->
