@@ -1679,6 +1679,7 @@ class Gudang extends CI_Controller {
 				'supplier'=>empty($supplier)?'':$supplier['nama'],
 				'jenis'=>$result['jenis'],
 				'tipepembayaran'=>$result['tipepembayaran'],
+				'total'	=> $this->total($result['id']),
 				'action'=>$action,
 				'prods'=>$products,
 			);
@@ -1694,6 +1695,13 @@ class Gudang extends CI_Controller {
 			$this->load->view('newtheme/page/main',$data);
 		}
 
+	}
+
+	function total($id){
+		$hasil =0;
+
+
+		return $hasil;
 	}
 
 	function validasi($id){
