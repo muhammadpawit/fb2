@@ -71,6 +71,7 @@
                 </tr>
               </thead>
               <tbody>
+                <?php $total=0;?>
                 <?php foreach($items as $i){?>
                   <?php foreach($i['prods'] as $p){?>
                     <tr>
@@ -98,8 +99,10 @@
                       <td><?php echo $p['ukuran']?> <?php echo $p['satuanukuran']?></td>
                       <td><?php echo $p['harga']?></td>
                       <?php if($i['jenis']==1){?>
+                        <?php $total+=($p['harga']*$p['ukuran'])?>
                       <td><?php echo number_format($p['harga']*$p['ukuran'])?></td>
                       <?php }else{ ?>
+                        <?php $total+=($p['harga']*$p['ukuran'])?>
                         <td><?php echo number_format($p['harga']*$p['jumlah'])?></td>
                       <?php } ?>
                       <!-- <td><?php // echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td> -->
@@ -124,6 +127,18 @@
                   <?php } ?>
                 <?php } ?>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="9">
+                    <center><b>Total</b></center>
+                  </td>
+                  <td>
+                    <center><b><?php echo number_format($total) ?></b></center>
+                  </td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tfoot>
             </table>
   </div>
 </div>
