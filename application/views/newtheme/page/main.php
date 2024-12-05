@@ -615,6 +615,7 @@
 
 <script>
   $(document).ready(function () {
+      var perpage=100;
       info =window.location.origin;
 
       
@@ -830,6 +831,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+        pageLength: perpage,
         responsive: true
       });
 
@@ -840,6 +842,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+         pageLength: perpage,
         responsive: true
       });
 
@@ -850,6 +853,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+        pageLength: perpage,
         responsive: true
       });
 
@@ -860,6 +864,7 @@
         'ordering'    : false,
         'info'        : false,
         'autoWidth'   : false,
+        pageLength: perpage,
         responsive: true
       });
 
