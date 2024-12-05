@@ -96,8 +96,10 @@
                       <td><?php echo strtolower($p['nama']) ?></td>
                       <td align="center"><?php echo $p['jumlah']?></td>
                       <td><?php echo $p['harga']?></td>
-                      <?php if($results['jenis']==1){?>
-                      <td><?php echo ($p['harga']*$p['ukuran'])?></td>
+                      <?php if($i['jenis']==1){?>
+                      <td><?php echo number_format($p['harga']*$p['ukuran'])?></td>
+                      <?php }else{ ?>
+                        <td><?php echo number_format($p['harga']*$p['jumlah'])?></td>
                       <?php } ?>
                       <td><?php echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td>
                       <td class="right">
