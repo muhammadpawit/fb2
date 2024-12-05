@@ -63,7 +63,6 @@
                   <th>Nama Supplier</th>
                   <th>Nama Item</th>
                   <th colspan="2"><center>Jumlah</center></th>
-                  <th>Yard</th>
                   <th>Harga</th>
                   <th>Total</th>
                   <!-- <th>Keterangan</th> -->
