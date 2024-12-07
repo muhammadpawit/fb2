@@ -71,7 +71,7 @@
         $total_0_15 = 0;
         $total_0_18 = 0;
         $total_jumlah_luar = array_fill(0, count($luar), 0); // Total untuk kolom luar
-
+        $nilai_terhitung=[];
         foreach($products as $p) {
             echo '<tr>';
             echo '<td>Mesin ' . $p['nomesin'] . '</td>';
@@ -81,18 +81,23 @@
             echo '<td align="right">' . number_format($p['0.18']) . '</td>';
 
             $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18
-            foreach($luar as $index => $b) {
-                // Ambil nilai kolom dinamis
-                $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
-                $data = json_decode($hasil);
-                $nilaiData = isset($data->data) ? $data->data : 0;
-                $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
-                echo '<td align="right">' . number_format($nilaiData) . '</td>';
-
-                // Tambahkan nilai ke total kolom luar
-                $total_jumlah_luar[$index] += $nilaiData; 
-            }
-
+            foreach ($luar as $index => $b) {
+              // Ambil nilai kolom dinamis
+              $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
+              $data = json_decode($hasil);
+              $nilaiData = isset($data->data) ? $data->data : 0;
+          
+              // Cek apakah nilai sudah dihitung sebelumnya
+              $key = $p['nomesin'] . '|' . $p['shift'] . '|' . $p['tanggal1'] . '|' . $p['tanggal2'] . '|' . $b['idpemilik'];
+              if (!isset($nilai_terhitung[$key])) {
+                  $nilai_terhitung[$key] = $nilaiData; // Tandai sebagai sudah dihitung
+                  $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
+                  $total_jumlah_luar[$index] += $nilaiData; // Tambahkan nilai ke total kolom luar
+              }
+          
+              // Tampilkan nilai di kolom tabel
+              echo '<td align="right">' . number_format($nilaiData) . '</td>';
+          }
             // Tampilkan jumlah per mesin
             echo '<td align="right">' . number_format($jumlah_permesin) . '</td>';
             $total_jumlah_per_mesin += $jumlah_permesin; // Hitung total jumlah per mesin
