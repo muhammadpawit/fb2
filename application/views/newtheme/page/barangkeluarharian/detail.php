@@ -100,9 +100,10 @@
 
                                         <th>Satuan </th>
                                         <th>Jumlah</th>
+                                        <?php if($d['bagian']==10){ ?>
                                         <th>Harga</th>
                                         <th>Total</th>
-
+                                        <?php } ?>
                                     </tr>
     </thead>
     <tbody>
@@ -126,7 +127,7 @@
 
                 </td>
 
-                
+                <?php if($d['bagian']==10){ ?>
 
                 <td align="center">
                     <?php echo number_format($item['harga_skb']) ?>
@@ -137,6 +138,8 @@
                     <?php echo number_format($item['harga_skb']*$item['jumlah']) ?>
 
                 </td>
+
+                <?php } ?>
 
 
             </tr>
