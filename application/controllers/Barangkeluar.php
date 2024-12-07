@@ -176,7 +176,14 @@ class Barangkeluar extends CI_Controller {
 		$data = [];
 		$data['title']='Rincian Barang Keluar Harian';
 		$data['d']=$this->GlobalModel->getDataRow('barangkeluarharian',array('id'=>$id));
-		$data['barang']=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$id));
+		// $data['barang']=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$id));
+		$data['barang'] = $this->GlobalModel->QueryManual(
+			"
+			SELECT a.*, p.harga_skb FROM barangkeluarharian_detail a LEFT JOIN product p on p.product_id=a.idpersediaan
+
+			WHERE a.idbarangkeluarharian='".$id."'
+			"
+		);
 		$data['page']=$this->page.'detail';
 		// $data['cancel']=$this->url;
 		// $this->load->view($this->layout,$data);

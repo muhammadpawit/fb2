@@ -98,8 +98,10 @@
 
                                         <th>Nama Barang</th>
 
-                                        <th>Jumlah </th>
-                                        <th>Satuan</th>
+                                        <th>Satuan </th>
+                                        <th>Jumlah</th>
+                                        <th>Harga</th>
+                                        <th>Total</th>
 
                                     </tr>
     </thead>
@@ -118,13 +120,23 @@
 
                 </td>
 
-               
+                <td align="center"><?php echo $item['satuan'] ?></td>
                 <td align="center">
                     <?php echo $item['jumlah'] ?>
 
                 </td>
 
-                <td align="center"><?php echo $item['satuan'] ?></td>
+                
+
+                <td align="center">
+                    <?php echo number_format($item['harga_skb']) ?>
+
+                </td>
+
+                <td align="center">
+                    <?php echo number_format($item['harga_skb']*$item['jumlah']) ?>
+
+                </td>
 
 
             </tr>
