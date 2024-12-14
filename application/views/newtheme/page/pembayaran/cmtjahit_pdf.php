@@ -390,7 +390,7 @@
                                         <th>Nama PO</th>
                                         <th>Harga Lama/Dz</th>
                                         <th>Harga Baru/Dz</th>
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -401,7 +401,7 @@
                                             <td><?php echo $r['namapo']?></td>
                                             <td><?php echo ($r['hargalama'])?></td>
                                             <td><?php echo ($r['hargabaru'])?></td>
-                                            <td><small><?php echo $r['keterangan']?></small></td>
+                                            <!-- <td><small><?php echo $r['keterangan']?></small></td> -->
                                         </tr>
                                     <?php } ?>
 
@@ -411,7 +411,7 @@
                                             <td><?php echo $r['namapo']?></td>
                                             <td><?php echo ($r['hargalama'])?></td>
                                             <td><?php echo ($r['hargabaru'])?></td>
-                                            <td><small><?php echo $r['keterangan']?></small></td>
+                                            <!-- <td><small><?php echo $r['keterangan']?></small></td> -->
                                         </tr>
                                     <?php } ?>
                                 </tbody>
