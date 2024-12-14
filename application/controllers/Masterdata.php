@@ -1514,6 +1514,7 @@ class Masterdata extends CI_Controller {
 		$data['kembali']=BASEURL.'masterdata/user';
 		$data['action']=BASEURL.'masterdata/useredit_save';
 		$data['page']=$this->page.'masterdata/userdetail';
+		$data['jabatan']= $this->GlobalModel->GetData('jabatan',array('hapus'=>0));
 		$this->load->view($this->page.'main',$data);
 	}
 

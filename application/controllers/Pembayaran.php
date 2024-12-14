@@ -918,7 +918,9 @@ class Pembayaran extends CI_Controller {
 		$data['namacmt']=$cmt['cmt_name'];
 		$data['rek']	=$cmt;
 		$data['lokasi']=$cmt['lokasi'];
-		// pre($data['lokasi']);
+		$ttd		 = $this->GlobalModel->GetDataRow('user',array('bagian_user'=>1));
+		$data['ttd'] = $ttd['ttd'];
+		// pre($data['ttd']);
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_excel',$data);

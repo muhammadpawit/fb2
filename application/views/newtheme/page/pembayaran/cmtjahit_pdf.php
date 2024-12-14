@@ -153,9 +153,9 @@
                         <td><?php echo strtoupper($p['kode_po'])?></td>
                         <td align="center"><?php echo number_format(($p['potongan']/12),2)?></td>
                         <td align="center"><?php echo $p['potongan']?></td>
-                        <td align="center"><?php echo $p['jumlah_po_dz']?></td>
+                        <td align="center"><?php echo number_format($p['jumlah_po_dz'],2)?></td>
                         <td align="center"><?php echo $p['jumlah_po_pcs']?></td>
-                        <td align="center"><?php echo $p['jumlah_dz']?></td>
+                        <td align="center"><?php echo number_format($p['jumlah_dz'],2)?></td>
                         <td align="center"><?php echo $p['jumlah_pcs']?></td>
                         <td align="center"><?php echo number_format($p['harga'])?></td>
                         <td align="center"><?php echo number_format($p['total']-$p['potpertama'])?></td>
@@ -320,8 +320,12 @@
                         (__________________)
                     </td>
                     <td colspan="2">
+                        <?php if(!empty($ttd)){ ?>
+                            <img src="<?php echo BASEURL ?>/uploads/ttd/<?php echo $ttd ?>" height="150" alt="">
+                        <?php }else { ?>
                         <br><br><br><br><br><br>
                         (__________________)
+                        <?php } ?>
                     </td>
                 </tr>
             </table>

@@ -40,6 +40,18 @@
 							</select>
 						</th>
 					</tr>
+					<tr>
+						<th>Jabatan</th>
+						<th>:</th>
+						<th>
+							<select name="jabatan_user" id="" class="form-control select2bs4">
+								<option value=""></option>
+								<?php foreach($jabatan as $j){ ?>
+									<option value="<?php echo $j['id']?>" <?php echo $j['id']==$users['jabatan_user'] ? 'selected':''?>><?php echo $j['nama']?></option>
+								<?php } ?>
+							</select>
+						</th>
+					</tr>
 				</thead>
 			</table>
 		</div>
