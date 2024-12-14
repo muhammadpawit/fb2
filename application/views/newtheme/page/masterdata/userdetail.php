@@ -52,6 +52,18 @@
 							</select>
 						</th>
 					</tr>
+					<tr>
+						<th>Bagian</th>
+						<th>:</th>
+						<th>
+							<select name="bagian_user" id="" class="form-control select2bs4">
+								<option value=""></option>
+								<?php foreach($bagian_user as $j){ ?>
+									<option value="<?php echo $j['id']?>" <?php echo $j['id']==$users['bagian_user'] ? 'selected':''?>><?php echo $j['nama_bagian']?></option>
+								<?php } ?>
+							</select>
+						</th>
+					</tr>
 				</thead>
 			</table>
 		</div>
