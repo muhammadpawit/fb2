@@ -2401,7 +2401,7 @@ class Kelolapo extends CI_Controller {
 		if($pdf==true){
 			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
 			
-			$html =  $this->load->view('produksi/kirimcmt_pdf',$data,true);
+			
 
 			$this->load->library('pdfgenerator');
 	        
@@ -2415,11 +2415,13 @@ class Kelolapo extends CI_Controller {
 	        $paper = array(0,0,800,1000);
 	        //orientasi paper potrait / landscape
 	        $orientation = "potrait";
-	        
-			$this->load->view('laporan_pdf',$this->data, true);	    
-	        
-	        // run dompdf
-	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+	        $data['header']=true;
+			$html =  $this->load->view('produksi/kirimcmt_pdf',$data,true);
+			$headerContent = $this->load->view('newtheme/page/pdf/header', $data, true);
+			$footerContent =null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
+
 		}else{
 			if($type==1){
 				//$this->load->view('produksi/kirimcmt_cetak',$data);

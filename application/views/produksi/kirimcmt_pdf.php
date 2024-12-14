@@ -21,37 +21,78 @@
                 line-height: 1.5cm;
             }
 </style>
-<div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
-	<div class="logo" style="border:0px solid yellow;background-image: url('https://forboysproduction.com/assets/images/0001.jpg');height: 200px;width: 220px;background-position: top;background-size: contain;background-repeat: no-repeat;float: left;display: block;">
-		<!-- <img src="" height="170px" style="float:left"> -->
+<?php $hari=date('l',strtotime($kirim['tanggal']));?>
+<?php if(!isset($header)){?>
+	<div class="kiri" style="width: 500px;border:0px solid red;left:0px;position: absolute;">
+		<div class="logo" style="border:0px solid yellow;background-image: url('https://forboysproduction.com/assets/images/0001.jpg');height: 200px;width: 220px;background-position: top;background-size: contain;background-repeat: no-repeat;float: left;display: block;">
+			<!-- <img src="" height="170px" style="float:left"> -->
+		</div>
+		<div style="border:0px solid black;width:100%;margin-top: 50px;float: right">
+				<p style="font-size:23px;font-weight: bold;position: absolute;left:200px;display: inline-block;">
+					Jl.Z No.1 Kampung Baru,<br>Sukabumi Selatan<br>
+					Kebon Jeruk,Jakarta Barat, Indonesia<br>
+					HP : 081380401330
+				</p>	
+		</div>
 	</div>
-	<div style="border:0px solid black;width:100%;margin-top: 50px;float: right">
-			<p style="font-size:23px;font-weight: bold;position: absolute;left:200px;display: inline-block;">
-				Jl.Z No.1 Kampung Baru,<br>Sukabumi Selatan<br>
-				Kebon Jeruk,Jakarta Barat, Indonesia<br>
-				HP : 081380401330
-			</p>	
+	<div class="kiri" style="width: 500px;border:0px solid green;right:0px;position: absolute;padding-top: 50px">
+		<div style="border:1px solid black; border-collapse: collapse;display: inline-block;width:70%;float:right;padding:5px;">
+			<div class="hs">Kepada Yth&nbsp;&nbsp;: <?php echo strtoupper($cmt['cmt_name'])?></div>
+			<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo ucfirst($cmt['alamat'])?></div>
+			<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $cmt['telephone']?></div>
+			<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($kirim['tanggal']))?></div>
+		</div>
 	</div>
-</div>
-<div class="kiri" style="width: 500px;border:0px solid green;right:0px;position: absolute;padding-top: 50px">
-	<?php $hari=date('l',strtotime($kirim['tanggal']));?>
-	<div style="border:1px solid black; border-collapse: collapse;display: inline-block;width:70%;float:right;padding:5px;">
-		<div class="hs">Kepada Yth&nbsp;&nbsp;: <?php echo strtoupper($cmt['cmt_name'])?></div>
-		<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo ucfirst($cmt['alamat'])?></div>
-		<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $cmt['telephone']?></div>
-		<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($kirim['tanggal']))?></div>
-	</div>
-</div>
-<br><br>
-<div style="clear: both;"></div>
-<table style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
-	<thead>
-		<tr>
-			<th width="150" align="left">No.SJ : <?php echo $kirim['id'] ?>/<?php echo date('m',strtotime($kirim['tanggal']))?>/<?php echo date('Y',strtotime($kirim['tanggal']))?></th>
-			<th colspan="4" align="left"><h3 style="margin-left: 200px;text-decoration: underline;">Surat Jalan Kirim PO CMT</h3></th>
-		</tr>
-	</thead>
-</table>
+	
+	<br><br>
+	<div style="clear: both;"></div>
+	<table style="border-collapse:collapse; width: 100%;border-color:1px solid #dee2e6 !important;">
+		<thead>
+			<tr>
+				<th width="150" align="left">No.SJ : <?php echo $kirim['id'] ?>/<?php echo date('m',strtotime($kirim['tanggal']))?>/<?php echo date('Y',strtotime($kirim['tanggal']))?></th>
+				<th colspan="4" align="left"><h3 style="margin-left: 200px;text-decoration: underline;">Surat Jalan Kirim PO CMT</h3></th>
+			</tr>
+		</thead>
+	</table>
+<?php }else{ ?>
+	<div class="title">
+        <center>
+            <h3>Surat Jalan Kirim PO CMT<br>
+            Nomor : <?php echo $kirim['id'] ?>/<?php echo date('m',strtotime($kirim['tanggal']))?>/<?php echo date('Y',strtotime($kirim['tanggal']))?>
+            </h3>
+        </center>
+    </div>
+	<div class="subtitle" style="font-size:11pt !important;">
+        <table style="width: 50%;">
+			<tr>
+				<td>Kepada Yth,</td>
+			</tr>
+            <tr>
+                <td>Bapak/Ibu</td>
+                <td>:</td>
+                <td><?php echo ucwords(strtolower($cmt['cmt_name']))?></td>
+            </tr>
+            <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td><?php echo strtolower(ucfirst($cmt['alamat'])) ?></td>
+            </tr>
+			<tr>
+                <td>Phone</td>
+                <td>:</td>
+                <td><?php echo strtolower(ucfirst($cmt['telephone'])) ?></td>
+            </tr>
+			<tr>
+                <td>Hari / Tgl</td>
+                <td>:</td>
+                <td><?php echo hari($hari) ?>, <?php echo format_tanggal($kirim['tanggal'])?></td>
+            </tr>
+        </table>
+    </div>
+
+<?php } ?>
+
+<div class="body">
 <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
     <thead>
         <tr>
@@ -115,6 +156,7 @@
         </tr>
     </tfoot>
 </table>
+</div>
 <?php if(!empty($alat)){ ?>
 	<br><br>
 	<div style="clear: both;"></div>
@@ -196,8 +238,6 @@
 				</td>
 			</tr>
 		</table>
-
-
-		 <footer>
-            <i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
-        </footer>
+		<div class="registered">
+        <i>Registered by Forboys Production System <?php echo format_tanggal_jam(date('d-m-Y H:i:s')); ?></i>
+    </div>

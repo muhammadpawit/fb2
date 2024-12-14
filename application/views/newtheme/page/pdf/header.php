@@ -14,6 +14,96 @@
         color:red !important;
       }
 
+      body{
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+            .header {
+                text-align: center; font-family: Arial, sans-serif; font-size: 12pt; margin-bottom: 20px;
+            }
+
+            .break {
+                page-break-after: always;
+            }
+
+            .subtitle table {
+                width: 35%;
+            }
+
+
+
+      .body {
+                margin-top:12pt;
+            }
+
+            div.body table, 
+            div.body thead th, 
+            div.body td {
+                font-size: 10pt !important;
+                padding:3pt;
+            }
+
+
+            
+            
+
+            div.lampiran{
+                font-size: inherit;
+            }
+
+            .ttd {
+                margin-top:10pt;
+                float: right;
+            }
+
+            div.ttd table {
+                text-align: right;
+            }
+
+            .label {
+                font-weight: bold;
+                margin-bottom: 5pt;
+            }
+
+
+           /* Membungkus kedua kolom dalam container */
+            .content-wrapper {
+                width: 100%;
+                display: block; /* Memastikan container mengisi seluruh lebar */
+                margin: 15pt 0px 0px 0px;
+            }
+
+            /* Menyusun content kiri dan kanan secara berdampingan */
+            .content-kiri, .content-kanan {
+                display: inline-block;
+                vertical-align: top;
+                width: 48%; /* Kolom kiri dan kanan */
+                margin-right: 1%; /* Memberikan jarak antara kedua kolom */
+            }
+
+            .content-kiri table, .content-kanan table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .content-kiri td, .content-kanan td, .content-kiri th, .content-kanan th {
+                font-size: 10pt;
+                padding: 3pt;
+                border: 1px solid black;
+            }
+
+            .form-group{
+                margin-bottom: 20pt;
+            }
+
+            .rekening-info {
+                margin-top:10pt;
+                float:left;
+                margin-left: 5pt;
+                padding: 20pt;
+            }
+
+
+
 </style>
 <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333;height:100pt;">
         <!-- Logo -->

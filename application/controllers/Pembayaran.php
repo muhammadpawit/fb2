@@ -936,19 +936,8 @@ class Pembayaran extends CI_Controller {
 
 			// HTML Header (optional)
 			$headerContent = $this->load->view($this->page.'pdf/header', $data, true);
-
-			// HTML Footer yang berisi nomor halaman
-			// $footerContent = '
-			// <div style="text-align: center; font-size: 10pt; color: #555;">
-			// 	<hr style="border: 1px solid #333; margin: 10px 0;">
-			// 	<i>Registered by Forboys Production System '.format_tanggal_jam(date('Y-m-d H:i:s')).' </i>
-			// </div>';
 			$footerContent =null;
-
-			// Gabungkan HTML header dan body
 			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
-
-			// Membuat PDF dengan footer yang diulang di setiap halaman
 			$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
 
 
