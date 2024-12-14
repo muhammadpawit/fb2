@@ -322,7 +322,7 @@
                     <td colspan="2">
                         <?php if(!empty($ttd)){ ?>
                             <img src="<?php echo BASEURL ?>/uploads/ttd/<?php echo $ttd ?>" height="100" alt="">
-                            ( <b style="padding:0px 25pt 0px 25pt;">Mia</b> )
+                            ( <b style="padding:0px 25pt 0px 25pt;font-weight:0 !important">Mia</b> )
                         <?php }else { ?>
                         <br><br><br><br><br><br>
                         (__________________)
