@@ -448,7 +448,7 @@
                         <?php } ?>
                         <?php
                             $jumlahProduk = count($alat);
-                            $barisKosongalat = max(10 - $jumlahProduk, 0);
+                            $barisKosongalat = max(5 - $jumlahProduk, 0);
                         ?>
                         <?php for ($j = 0; $j < $barisKosongalat; $j++) { ?>
                             <tr>
@@ -468,6 +468,56 @@
                     </tbody>
                 </table>
             </div>
+            <?php if(!empty($vermak)){?>
+            <div class="form-group">
+                <div class="label">Potongan Vermak</div>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Rincian</th>
+                            <th>Jumlah</th>
+                            <th>Potongan</th>
+                            <th>Total</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $nomor=1;$av=0;?>
+                        <?php foreach($vermak as $b){?>
+                            <tr>
+                                <td><?php echo $nomor++?></td>
+                                <td><?php echo strtoupper($b['rincian'])?></td>
+                                <td><?php echo $b['qty']?></td>
+                                <td><?php echo number_format($b['harga'])?></td>
+                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                <td><?php echo strtolower($b['keterangan'])?></td>
+                            </tr>
+                            <?php $av+=($b['qty']*$b['harga']);?>
+                        <?php } ?>
+                        <?php
+                            $jumlahProduk = count($vermak);
+                            $barisKosongvermak = max(5 - $jumlahProduk, 0);
+                        ?>
+                        <?php for ($j = 0; $j < $barisKosongvermak; $j++) { ?>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+                        <tr>
+                            <td colspan="4" align="center">Total</td>
+                            <td><b><?php echo number_format($av)?></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
             <?php if(!empty($saldo_bangke)){?>
             <div class="form-group">
                 <div class="label">Potongan Bangke Yang Belum Dikembalikan</div>
@@ -495,7 +545,11 @@
                             </tr>
                             <?php $kb+=($b['qty']*$b['harga']);?>
                         <?php } ?>
-                        <?php for($j=1;$j<=5;$j++){?>
+                        <?php
+                            $jumlahProduk = count($saldo_bangke);
+                            $barisKosongbangke = max(5 - $jumlahProduk, 0);
+                        ?>
+                        <?php for ($j = 0; $j < $barisKosongbangke; $j++) { ?>
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td></td>
