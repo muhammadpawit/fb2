@@ -59,8 +59,8 @@
             .content-kiri, .content-kanan {
                 display: inline-block;
                 vertical-align: top;
-                width: 40%; /* Kolom kiri dan kanan */
-                margin-right: 2%; /* Memberikan jarak antara kedua kolom */
+                width: 48%; /* Kolom kiri dan kanan */
+                margin-right: 1%; /* Memberikan jarak antara kedua kolom */
             }
 
             .content-kiri table, .content-kanan table {
