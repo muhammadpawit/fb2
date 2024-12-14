@@ -540,9 +540,14 @@
             <button class="btn btn-success btn-sm full">Update</button>
         </div>
     </div>
-    <div class="col-md-4">
+    <!-- <div class="col-md-4">
         <div class="form-group">
             <a href="<?php echo BASEURL.'Pembayaran/cmtjahitdetail/'.$detail['id'].'?&excel=1&id='.$detail['id'];?>" class="btn btn-info btn-sm full">Excel</a>
+        </div>
+    </div> -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <a href="<?php echo BASEURL.'Pembayaran/cmtjahitdetail/'.$detail['id'].'?&pdf=1&id='.$detail['id'];?>" target="_blank" class="btn btn-info btn-sm full">Pdf</a>
         </div>
     </div>
 </div>

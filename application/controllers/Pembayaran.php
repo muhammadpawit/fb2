@@ -921,6 +921,34 @@ class Pembayaran extends CI_Controller {
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/cmtjahit_excel',$data);
+		}else if(isset($get['pdf'])){
+			
+			$html = $this->load->view($this->page.'pembayaran/cmtjahit_pdf', $data, true);
+			$this->load->library('pdfgenerator');
+			$this->data['title_pdf'] = 'Pembayaran CMT '.ucwords($cmt['cmt_name']).' Periode '.format_tanggal($data['detail']['tanggal']);
+
+			// Menentukan ukuran kertas dan orientasi
+			$paper = array(0, 0, 800, 1000);  // Ukuran kertas kustom (sesuaikan jika perlu)
+			$orientation = "portrait";  // Orientasi halaman
+
+			// HTML Header (optional)
+			$headerContent = $this->load->view($this->page.'pdf/header', $data, true);
+
+			// HTML Footer yang berisi nomor halaman
+			// $footerContent = '
+			// <div style="text-align: center; font-size: 10pt; color: #555;">
+			// 	<hr style="border: 1px solid #333; margin: 10px 0;">
+			// 	<i>Registered by Forboys Production System '.format_tanggal_jam(date('Y-m-d H:i:s')).' </i>
+			// </div>';
+			$footerContent =null;
+
+			// Gabungkan HTML header dan body
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+
+			// Membuat PDF dengan footer yang diulang di setiap halaman
+			$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
+
+
 		}else{
 			$data['page']=$this->page.'pembayaran/cmtjahit_detail';
 			$this->load->view($this->page.'main',$data);
