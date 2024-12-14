@@ -417,6 +417,56 @@
                                 </tbody>
                             </table>
             </div>
+            <?php if(!empty($saldo_bangke)){?>
+            <div class="form-group">
+                <div class="label">Potongan Bangke Yang Belum Dikembalikan</div>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama PO</th>
+                            <th>Qty</th>
+                            <th>Harga/Pcs</th>
+                            <th>Jumlah</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $nomor2=1;$kb=0;?>
+                        <?php foreach($saldo_bangke as $b){?>
+                            <tr>
+                                <td><?php echo $nomor2++?></td>
+                                <td><?php echo strtoupper($b['kode_po'])?></td>
+                                <td align="center"><?php echo $b['qty']?></td>
+                                <td><?php echo number_format($b['harga'])?></td>
+                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                <td><?php echo strtolower($b['keterangan'])?></td>
+                            </tr>
+                            <?php $kb+=($b['qty']*$b['harga']);?>
+                        <?php } ?>
+                        <?php
+                            $jumlahProduk = count($saldo_bangke);
+                            $barisKosongbangke = max(5 - $jumlahProduk, 0);
+                        ?>
+                        <?php for ($j = 0; $j < $barisKosongbangke; $j++) { ?>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+                        <tr>
+                            <td colspan="4" align="center">Total</td>
+                            <td><b><?php echo number_format($kb)?></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
         </div>
 
         <div class="content-kanan">
@@ -471,7 +521,7 @@
             <?php if(!empty($bangke)){?>
             <div class="form-group">
                 <div class="label red">Potongan Bangke</div>
-                <table border="1" style="border-collapse: collapse;width: 100%">
+                <table border="1" style="border-collapse: collapse;">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -562,56 +612,6 @@
                         <tr>
                             <td colspan="4" align="center">Total</td>
                             <td><b class="red"><?php echo number_format($av)?></b></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <?php } ?>
-            <?php if(!empty($saldo_bangke)){?>
-            <div class="form-group">
-                <div class="label">Potongan Bangke Yang Belum Dikembalikan</div>
-                <table border="1" style="border-collapse: collapse;width: 100%">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama PO</th>
-                            <th>Qty</th>
-                            <th>Harga/Pcs</th>
-                            <th>Jumlah</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $nomor2=1;$kb=0;?>
-                        <?php foreach($saldo_bangke as $b){?>
-                            <tr>
-                                <td><?php echo $nomor2++?></td>
-                                <td><?php echo strtoupper($b['kode_po'])?></td>
-                                <td align="center"><?php echo $b['qty']?></td>
-                                <td><?php echo number_format($b['harga'])?></td>
-                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
-                                <td><?php echo strtolower($b['keterangan'])?></td>
-                            </tr>
-                            <?php $kb+=($b['qty']*$b['harga']);?>
-                        <?php } ?>
-                        <?php
-                            $jumlahProduk = count($saldo_bangke);
-                            $barisKosongbangke = max(5 - $jumlahProduk, 0);
-                        ?>
-                        <?php for ($j = 0; $j < $barisKosongbangke; $j++) { ?>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            <?php } ?>
-                        <tr>
-                            <td colspan="4" align="center">Total</td>
-                            <td><b><?php echo number_format($kb)?></b></td>
                             <td></td>
                         </tr>
                     </tbody>
