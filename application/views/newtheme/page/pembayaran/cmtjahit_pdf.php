@@ -529,7 +529,7 @@
                             <th>Jumlah Potongan/Bangke</th>
                             <th>Harga/Pcs</th>
                             <th>Jumlah</th>
-                            <th>Keterangan</th>
+                            <!-- <th>Keterangan</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -541,7 +541,7 @@
                                 <td><?php echo $b['qty']?></td>
                                 <td><?php echo number_format($b['harga'])?></td>
                                 <td><?php echo number_format($b['qty']*$b['harga'])?></td>
-                                <td><?php echo strtolower($b['keterangan'])?></td>
+                                <!-- <td><?php echo strtolower($b['keterangan'])?></td> -->
                             </tr>
                             <?php $bang+=($b['qty']*$b['harga']);?>
                         <?php } ?>
@@ -556,13 +556,13 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                 </tr>
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
                             <td><b class="red"><?php echo number_format($bang)?></b></td>
-                            <td></td>
+                            <!-- <td></td> -->
                         </tr>
                     </tbody>
                 </table>
