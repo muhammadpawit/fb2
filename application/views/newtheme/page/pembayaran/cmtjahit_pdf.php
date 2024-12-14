@@ -401,7 +401,7 @@
                                             <td><?php echo $r['namapo']?></td>
                                             <td><?php echo ($r['hargalama'])?></td>
                                             <td><?php echo ($r['hargabaru'])?></td>
-                                            <td><?php echo $r['keterangan']?></td>
+                                            <td><small><?php echo $r['keterangan']?></small></td>
                                         </tr>
                                     <?php } ?>
 
@@ -411,7 +411,7 @@
                                             <td><?php echo $r['namapo']?></td>
                                             <td><?php echo ($r['hargalama'])?></td>
                                             <td><?php echo ($r['hargabaru'])?></td>
-                                            <td><?php echo $r['keterangan']?></td>
+                                            <td><small><?php echo $r['keterangan']?></small></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
