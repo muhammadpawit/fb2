@@ -428,7 +428,7 @@
                             <th>Qty</th>
                             <th>Harga/Pcs</th>
                             <th>Jumlah</th>
-                            <th>Keterangan</th>
+                            <!-- <th>Keterangan</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -440,7 +440,7 @@
                                 <td align="center"><?php echo $b['qty']?></td>
                                 <td><?php echo number_format($b['harga'])?></td>
                                 <td><?php echo number_format($b['qty']*$b['harga'])?></td>
-                                <td><?php echo strtolower($b['keterangan'])?></td>
+                                <!-- <td><?php echo strtolower($b['keterangan'])?></td> -->
                             </tr>
                             <?php $kb+=($b['qty']*$b['harga']);?>
                         <?php } ?>
@@ -455,13 +455,13 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                 </tr>
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
                             <td><b><?php echo number_format($kb)?></b></td>
-                            <td></td>
+                            <!-- <td></td> -->
                         </tr>
                     </tbody>
                 </table>
