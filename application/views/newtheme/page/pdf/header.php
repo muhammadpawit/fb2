@@ -4,7 +4,7 @@
 	    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         position: fixed; bottom: 0px; right: 0px; font-size: 9pt;
         /* margin-left: 420pt; */
-        border-top: 1px solid grey;
+        border-top: 3pt solid grey;
         text-align: right;
         width: 100%;
         display: block;
