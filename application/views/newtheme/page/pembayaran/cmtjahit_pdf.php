@@ -353,7 +353,7 @@
                         <?php foreach(table('harga_transport') as $h){?>
                             <tr>
                                 <td><?php echo $h['keterangan']?></td>
-                                <td align="right"><?php echo $h['harga']?></td>
+                                <td align="right"><?php echo number_format($h['harga'])?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
