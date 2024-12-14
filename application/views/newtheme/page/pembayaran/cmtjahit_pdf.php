@@ -381,7 +381,7 @@
             </div>
             <div class="form-group">
                     <div class="label">
-                        Daftar Harga <?php echo $namacmt?>
+                        Daftar Harga <?php echo ucwords(strtolower($namacmt))?>
                     </div>
                     <table style="width: 100%;border:1px solid black" cellpadding="5">
                             <thead>
@@ -409,8 +409,8 @@
                                         <tr>
                                             <td><?php echo $number++?></td>
                                             <td><?php echo $r['namapo']?></td>
-                                            <td><?php echo ($r['hargalama'])?></td>
-                                            <td><?php echo ($r['hargabaru'])?></td>
+                                            <td><?php echo number_format($r['hargalama'])?></td>
+                                            <td><?php echo number_format($r['hargabaru'])?></td>
                                             <!-- <td><small><?php echo $r['keterangan']?></small></td> -->
                                         </tr>
                                     <?php } ?>
@@ -489,8 +489,8 @@
                                 <td><?php echo $nomor2++?></td>
                                 <td><?php echo strtoupper($b['kode_po'])?></td>
                                 <td align="center"><?php echo $b['qty']?></td>
-                                <td><?php echo ($b['harga'])?></td>
-                                <td><?php echo ($b['qty']*$b['harga'])?></td>
+                                <td><?php echo number_format($b['harga'])?></td>
+                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
                                 <td><?php echo strtolower($b['keterangan'])?></td>
                             </tr>
                             <?php $kb+=($b['qty']*$b['harga']);?>
@@ -507,7 +507,7 @@
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
-                            <td><b><?php echo ($kb)?></b></td>
+                            <td><b><?php echo number_format($kb)?></b></td>
                             <td></td>
                         </tr>
                     </tbody>
