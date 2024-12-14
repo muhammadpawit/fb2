@@ -462,15 +462,65 @@
                         <?php } ?>
                         <tr>
                             <td colspan="4" align="center"><b>Total</b></td>
-                            <td><b><?php echo number_format($al)?></b></td>
+                            <td><b style="color:red"><?php echo number_format($al)?></b></td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <?php if(!empty($bangke)){?>
+            <div class="form-group">
+                <div class="label red">Potongan Bangke</div>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama PO</th>
+                            <th>Jumlah Potongan/Bangke</th>
+                            <th>Harga/Pcs</th>
+                            <th>Jumlah</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $nomor=1;$bang=0;?>
+                        <?php foreach($bangke as $b){?>
+                            <tr>
+                                <td><?php echo $nomor++?></td>
+                                <td><?php echo strtoupper($b['kode_po'])?></td>
+                                <td><?php echo $b['qty']?></td>
+                                <td><?php echo number_format($b['harga'])?></td>
+                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                <td><?php echo strtolower($b['keterangan'])?></td>
+                            </tr>
+                            <?php $bang+=($b['qty']*$b['harga']);?>
+                        <?php } ?>
+                        <?php
+                            $jumlahProduk = count($bangke);
+                            $barisKosongbangke = max(5 - $jumlahProduk, 0);
+                        ?>
+                        <?php for ($j = 0; $j < $barisKosongbangke; $j++) { ?>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+                        <tr>
+                            <td colspan="4" align="center">Total</td>
+                            <td><b class="red"><?php echo number_format($bang)?></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
             <?php if(!empty($vermak)){?>
             <div class="form-group">
-                <div class="label">Potongan Vermak</div>
+                <div class="label red">Potongan Permak</div>
                 <table border="1" style="border-collapse: collapse;width: 100%">
                     <thead>
                         <tr>
@@ -511,7 +561,7 @@
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
-                            <td><b><?php echo number_format($av)?></b></td>
+                            <td><b class="red"><?php echo number_format($av)?></b></td>
                             <td></td>
                         </tr>
                     </tbody>
