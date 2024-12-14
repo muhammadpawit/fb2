@@ -311,8 +311,8 @@
                     <td colspan="4">Jakarta, <?php echo format_tanggal($detail['tanggal']) ?> </td>
                 </tr>
                 <tr align="center">
-                    <td colspan="2">Mengetahui :<br> Supervisor</td>
-                    <td colspan="2">Dibuat oleh :<br>Admin Keuangan</td>
+                    <td colspan="2">Mengetahui,<br> Supervisor</td>
+                    <td colspan="2">Dibuat oleh,<br>Admin Keuangan</td>
                 </tr>
                 <tr align="center">
                     <td colspan="2">
