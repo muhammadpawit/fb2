@@ -59,7 +59,7 @@
             .content-kiri, .content-kanan {
                 display: inline-block;
                 vertical-align: top;
-                width: 48%; /* Kolom kiri dan kanan */
+                width: 40%; /* Kolom kiri dan kanan */
                 margin-right: 2%; /* Memberikan jarak antara kedua kolom */
             }
 
