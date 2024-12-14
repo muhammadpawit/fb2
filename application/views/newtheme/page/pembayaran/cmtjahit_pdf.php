@@ -78,6 +78,13 @@
                 margin-bottom: 20pt;
             }
 
+            .rekening-info {
+                margin-top:10pt;
+                float:left;
+                margin-left: 5pt;
+                padding: 20pt;
+            }
+
 
         </style>
     </head>
@@ -258,6 +265,46 @@
                 </tr>
             </tfoot>
         </table>
+        <?php if(isset($rek['cmt_name'])){ ?>
+        <div class="rekening-info">
+            <div class="form-group">
+                <div class="rekening-info-label">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td colspan="3">Pembayaran Dilakukan Melalui Rekening</td>
+                        </tr>
+                        <tr>
+                            <td width="35">
+                                Bank
+                            </td>
+                            <td width="2">:</td>
+                            <td width="300">
+                                <?php echo !empty($rek['bank']) ? $rek['bank'] : 'belum diisi'?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Atas Nama 
+                            </td>
+                            <td>:</td>
+                            <td>
+                                <?php echo !empty($rek['an']) ? $rek['an'] : 'belum diisi'?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Nomor Rekening
+                            </td>
+                            <td>:</td>
+                            <td>
+                                <?php echo !empty($rek['norek']) ? $rek['norek'] : 'belum diisi'?>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
         <div class="ttd">
             <table>
                 <tr>
