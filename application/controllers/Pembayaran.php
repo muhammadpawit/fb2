@@ -955,7 +955,16 @@ class Pembayaran extends CI_Controller {
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
 		//$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
 		$data['kodepo']=$this->GlobalModel->QueryManual('SELECT * FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
+		$data['product']=$this->GlobalModel->QueryManual('SELECT * FROM product WHERE hapus=0 ORDER BY nama ASC');
 		$this->load->view($this->page.'main',$data);
+	}
+
+	function product_harga(){
+		$post = $this->input->get();
+		$id = $post['product_id'];
+		$hasil=array('harga_skb'=>0);
+		$data = $this->GlobalModel->QueryManualRow("SELECT * FROM product where product_id=$id ");
+		echo isset($data['harga_skb']) ? json_encode($data):$hasil;
 	}
 
 	public function cmtjahittambah_skb(){

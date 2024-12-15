@@ -378,10 +378,17 @@
 
     var l=0;
     function tambahalat(){
+        var cmts = $('select[name=\'cmt\']').val();
+        if(cmts=="*"){
+            alert("Mohon cmt dipilih terlebih dahulu");
+            //$(this).closest('tr').remove();
+            return false;
+        }
         var html='<tbody data-parent="0" id="product-row' + l + '" data="'+l+'"><tr>';
-        html += '<td><input type="text" class="form-control" name="alat['+l+'][rincian]" required</td>';
+        // html += '<td><input type="text" class="form-control" name="alat['+l+'][rincian]" required</td>';
+        html += '<td><select type="text" class="form-control select2bs4 alat" name="alat['+l+'][rincian]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($product as $key => $po) { ?><option value="<?php echo $po['nama'] ?>" data-item="<?php echo $po['product_id'] ?>"><?php echo $po['nama'] ?></option><?php } ?></select></td>';
         html +='<td><input type="text" class="form-control" name="alat['+l+'][qty]" required></td>';
-        html +='<td><input type="text" class="form-control" name="alat['+l+'][harga]" required ></td>';
+        html +='<td><input type="text" class="form-control hargaalat" name="alat['+l+'][harga]" required ></td>';
         html +='<td><input type="text" class="form-control" name="alat['+l+'][keterangan]" value="-" required ></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
         html +='</tr><tbody>';
@@ -527,6 +534,24 @@
                 dai.find(".total").val(total);
             }else{
                 dai.find(".kirimpcs").val(0);
+            }
+        });
+    });
+
+
+    $(document).on('change', '.alat', function(e){
+        var cmts = $('select[name=\'cmt\']').val();
+        var dataItem = $(this).find(':selected').data('item');
+        var dai = $(this).closest('tr');
+        var jumlahItem = $('#piecesPo').val();
+        $.get( "<?php echo BASEURL.'Pembayaran/product_harga' ?>", { product_id: dataItem, cmt:cmts } )
+          .done(function( data ) {
+            var obj = JSON.parse(data);
+            if(obj!==null){
+                dai.find(".hargaalat").val(obj.harga_skb);
+            }else{
+                //alert("Kode Po belum disetor");
+                //dai.remove();
             }
         });
     });
