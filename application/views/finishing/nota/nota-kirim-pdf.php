@@ -1,176 +1,110 @@
-<style type="text/css">
-  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
-  table{
-    font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;
-    border: 1px solid black;border-collapse: collapse;
-  }
-  .clear{
-    clear: both;
-  }
-  .print{ display:none !important}
-  .kiri{
-    display: block;
-    width: 50%;
-    /*border: 1px solid black;*/
-    margin-bottom: 40px;
-    float: left;
-  }
-  .logo{
-    font-size: 65px;
-    float: left;
-    display:block;
-    font-style: italic;
-    
-  }
-  .slogan{
-    font-size: 20px;
-    font-style: italic;
-    position: relative;
-    margin-left: 25%;
-    margin-top: 2px;
-  }
-  .kanan{
-    padding: 5px;
-    width: 35%;
-    border: 1px solid black;
-    margin-bottom: 30px;
-    float: right;
-    margin-top: 10px;
-  }
-  .yth{
-    text-align: center;
-    font-weight: bold;
-    padding: 20px;
-  }
-  .judul{
-    text-align: center;
-    width: 100%;
-    font-weight: bold;
-    font-size: 22px;
-  }
-  .nofaktur{
-    font-size: 15px;
-    width: 50%;
-    float: left;
-  }
-  .susulan{
-    font-size: 15px;
-    width: 50%;
-    float: right;
-    /*text-align: right;*/
-  }
-  .susulan input{
-    text-align: right;
-    font-size: 18px;
-    width: 30%;
-  }
+<html>
+  <head>
 
-  .ttd{
-    width: 60%;
-    text-align: center;
-    text-transform:lowercase !important;
-  }
-
-</style>
-<div class="kiri">
-  <div class="logo">FB</div>
-  <div class="slogan">TRUE<br>FORBOYS PRODUCTION</div>
-  <div class="clear"></div>
-  <div class="alamat">Jl.Z1 No.1 Kampung Baru, Sukabumi Selatan,<br>Kebon Jeruk, Jakarta. HP : 081380401330</div>
-</div>
-<div class="kanan">
-  <div class="kota">
-    Jakarta, <?php echo date('d/m/Y') //echo date('d/m/Y',strtotime($gudangfb[0]['tanggal_kirim'] ))?>
-  </div>
-  <div class="yth">
-    Kepada Yth : Gudang FORBOYS<br>H Soleh
-  </div>
-</div>
-<div class="clear"></div>
-<div class="judul">
-  NOTA KIRIM GUDANG <br>FORBOYS
-</div>
-<div class="nofaktur">No. Faktur : <strong><?php echo $gudangfb[0]['nofaktur'] ?></strong></div>
-<?php if(isset($gudangfb[0]['susulan'])){ ?>
-  <?php if($gudangfb[0]['susulan']==1){?>
-  <div class="susulan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Po Susulan <!-- : <input type="checkbox" name="ya" style="text-align: right;">Ya <input type="checkbox" name="ya" style="text-align: right;">Bukan  --></div>
-  <?php } ?>
-<?php } ?>
-<div class="clear"></div>
-                          <table class="table mt-4 table-bordered" border="1" cellpadding="5">
-                                                    <thead>
-                                                    <tr><th>No</th>
-                                                        <th>ARTIKEL</th>
-                                                        <th>NAMA PO</th>
-                                                        <th>RINCIAN PO</th>
-                                                        <th>HARGA SATUAN</th>
-                                                        <th>JUMLAH</th>
-                                                        <th>TOTAL</th>
-                                                        <th>KETERANGAN</th>
-                                                    </tr></thead>
-                                                    <tbody>
-                                                        <?php $jumlah = 0;$total=0; ?> 
-                                                        <?php foreach ($gudangfb as $key => $gudang): ?>
-                                                          <?php $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=> $gudang['kode_po'])); ?>
-                                                            <?php
-                                                            //$po=$this->GlobalModel->getdataRow('produksi_po','kode_po'=>$gudang['kode_po']);
-                                                            ?>
-                                                        <tr>
-                                                            <td><?php echo $no++?></td>
-                                                            <td><?php echo $gudang['artikel_po'] ?></td>
-                                                            <td><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
-                                                            <td>
-                                                                <?php foreach ($dataRinci as $key => $rinci): ?>
-                                                                    <?php if ($key == $gudang['kode_po']): ?>
-                                                                        <?php foreach ($rinci as $key => $detail): ?>
-                                                                        <p><?php echo $detail['rincian_size'] ?> : <?php echo $detail['rincian_lusin'] ?> DZ - <?php echo $detail['rincian_piece'] ?> PC</p>
-                                                                        <?php endforeach ?>
-                                                                    <?php endif ?>
-                                                                <?php endforeach ?>
-                                                                
+  </head>
+  <body>
+    <div class="title">
+        <center>
+            <h3><?php echo $title ?><br>
+            No. Faktur  : <?php echo $gudangfb[0]['nofaktur'] ?>
+            </h3>
+        </center>
+    </div>
+    <div class="subtitle">
+        <table style="width: 50%;">
+            <tr>
+                <td>Kepada Yth</td>
+                <td>:</td>
+                <td><?php echo ucwords(strtolower('Gudang FORBOYS H Soleh'))?></td>
+            </tr>
+        </table>
+    </div>
+    <div class="body">
+      <table border="1" style="border-collapse: collapse; width: 100%; border-color: #dee2e6 !important; font-size: 12pt !important;">
+        <thead>
+          <tr>
+            <th rowspan="3">No</th>
+            <th rowspan="3">Artikel / Nama PO</th>
+            <th colspan="<?php echo count($sizes) * 2 ?>">Qty Per Size</th>
+            <th rowspan="3">Harga</th>
+            <th rowspan="3">Jumlah Qty</th>
+            <th rowspan="3">Total</th>
+            <th rowspan="3">Keterangan</th>
+          </tr>
+          <tr>
+            <?php foreach($sizes as $key => $val) { ?>
+              <td align="center" colspan="2"><strong><?php echo $val ?></strong></td>
+            <?php } ?>
+          </tr>
+          <tr>
+            <?php foreach($sizes as $size) { ?>
+              <td align="center">Dz</td>
+              <td align="center">Pcs</td>
+            <?php } ?>
+          </tr>
+        </thead>
+        <tbody>
+          <?php $no = 1;$total=0; ?>
+          <?php foreach($prods as $p) { ?>
+            <tr>
+              <td align="center"><?php echo $no; ?></td>
+              <td><?php echo $p['artikel_po'].' / '.$p['po']; ?></td>
+              
+              <?php foreach($sizes as $size) { 
+                  $lusinValue = '-'; // Default kosong untuk Dz
+                  $pcsValue = '-';   // Default kosong untuk Pcs
+                  foreach($p['details'] as $d) {
+                      if($d['rincian_size'] == $size) { 
+                          $lusinValue = $d['rincian_lusin']; // Nilai Dz
+                          $pcsValue = $d['rincian_piece'];     // Nilai Pcs
+                          break;
+                      }
+                  } 
+              ?>
+                <td align="center"><?php echo $lusinValue ; ?></td>
+                <td align="center"><?php echo $pcsValue==0 ? '-':$pcsValue; ?></td>
+              <?php } ?>
+              
+              <td align="right"><?php echo number_format($p['harga_satuan']) ?></td>
+              <td align="center"><?php echo $p['jumlah_piece_diterima'] ?></td>
+              <td align="right"><?php echo number_format($p['harga_satuan'] * $p['jumlah_piece_diterima']) ?></td>
+              <td><?php echo $p['keterangan']?></td>
+            </tr>
+            <?php $no++; ?>
+            <?php $total += $p['harga_satuan'] * $p['jumlah_piece_diterima']; ?>
+          <?php } ?>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td align="center" colspan="<?php echo (count($sizes) * 2)+4 ?>"><b>Grand Total </b></td>
+            <td align="right"><strong><?php echo number_format($total) ?></strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="ttd">
+        <table class="table table-bordered" border="0" style="border-collapse: collapse;">
+          <tr>
+            <td colspan="4">Jakarta, <?php echo format_tanggal($gudangfb[0]['tanggal_kirim']) ?> </td>
+          </tr>
+          <tr style="text-align: center;">
+            <td width="100px"><b>PIC Gudang</b></td>
+            <td width="100px"><b>Adm Finishing</b></td>
+            <td width="100px"><b>Driver</b></td>
+            <td width="100px"><b>Security</b></td>
+          </tr>
+          <tr>
+            <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+            <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+            <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+            <td valign="bottom" align="center" style="height: 100px">(....................)</td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
 
-                                                            </td>
-                                                            <td>Rp. <?php echo number_format($gudang['harga_satuan']) ?></td>
-                                                            <?php  $jumlah += $gudang['jumlah_piece_diterima'];?>
-                                                            <td><?php echo $gudang['jumlah_piece_diterima'] ?></td>
-                                                            <td><?php $total += $gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']; echo number_format($gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']) ?></td>
-                                                            <td>
-                                <?php echo $gudang['keterangan'] ?>
-                                                                <?php foreach ($dataRinci as $key => $rinci): ?>
-                                                                    <?php if ($key == $gudang['kode_po']): ?>
-                                                                        <?php foreach ($rinci as $key => $detail): ?>
 
-                                                                        <p><?php echo $detail['katerangan_gudang_rincian'] ?></p>
-                                                                        
-                                                                        <?php endforeach ?>
-                                                                    <?php endif ?>
-                                                                <?php endforeach ?>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach ?>
-                                                        <tr>
-                                                            <td colspan="6">G.TOTAL</td>
-                                                            <td><?php echo number_format($total) ?></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-
-
-                                            <div class="ttd">
-                                              <table class="table table-bordered" border="1">
-                                                <tr style="text-align: center;">
-                                                    <td width="100px"><b>PIC Gudang</b></td>
-                                                    <td width="100px"><b>Adm Finishing</b></td>
-                                                    <td width="100px"><b>Driver</b></td>
-                                                    <td width="100px"><b>Security</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">(....................)</td>
-                                                </tr>
-                                            </table>
-                                            </div>                                                
+                                                
+  </body>
+</html>

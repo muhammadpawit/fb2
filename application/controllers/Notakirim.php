@@ -173,14 +173,12 @@ class Notakirim extends CI_Controller {
 		}else{
 			$hgs=null;
 		}
-		//$sql='SELECT fkg.susulan,fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.kode_po=pp.kode_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
-		// $tahunsebelum = $this->db->query("SELECT tahunpo FROM finishing_kirim_gudang WHERE nofaktur='".$noFaktur."' ")->row();
 		$tahunsebelum=[];
 		if(!empty($tahunsebelum->tahunpo)){
-			$sql="SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
+			$sql="SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.kode_po as po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
 			$sql.=" JOIN produksi_po_".getTahunProduksiBefore()." pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur='".$noFaktur."' ";
 		}else{
-			$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg 
+			$sql='SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.kode_po as po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg 
 			JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur="'.$noFaktur.'" ';
 		}
 		if(!empty($hgs)){
@@ -190,38 +188,66 @@ class Notakirim extends CI_Controller {
 		}
 		//pre($sql);
 		$viewData['gudangfb'] = $this->GlobalModel->queryManual($sql);
-			$data = array();
+		$viewData['prods']=[];
+		foreach($viewData['gudangfb'] as $f){
+			$viewData['prods'][] = array(
+				'id_finishing_kirim_gudang' => $f['id_finishing_kirim_gudang'],
+				'nofaktur' => $f['nofaktur'],
+				'artikel_po' => $f['artikel_po'],
+				'harga_satuan' => $f['harga_satuan'],
+				'jumlah_harga_piece' => $f['jumlah_harga_piece'],
+				'keterangan' => $f['keterangan'],
+				'nama_penerima' => $f['nama_penerima'],
+				'tujuan' => $f['tujuan'],
+				'kode_po' => $f['kode_po'],
+				'po' => $f['po'],
+				'nama_po' => $f['nama_po'],
+				'created_date' => $f['created_date'],
+				'jumlah_piece_diterima' => $f['jumlah_piece_diterima'],
+				'tanggal_kirim' => $f['tanggal_kirim'],
+				'details' => $this->GlobalModel->GetData('finishing_kirim_gudang_rincian',array('id_finishing_kirim_gudang'=>$f['id_finishing_kirim_gudang'])),
+			);
+		}
+		
+		$data = array();
 		
 		foreach ($viewData['gudangfb'] as $key => $idkirim) {
 			$data[$idkirim['kode_po']] = $this->GlobalModel->getData('finishing_kirim_gudang_rincian',array('id_finishing_kirim_gudang'=>$idkirim['id_finishing_kirim_gudang']));
 		}
 		
 		$viewData['dataRinci'] = $data;
+		// pre($viewData['prods']);
+		$groupedData = [];
+
+		foreach ($viewData['dataRinci'] as $items) {
+			foreach ($items as $item) {
+				$groupedData[] = $item['rincian_size'];
+			}
+		}
+		
+
+		// Hasilnya akan ditampung di $newData
+		$uniqueData = array_unique($groupedData);
+		$viewData['sizes']=$uniqueData;
+		// pre($viewData['sizes']);
 		$viewData['cancel']=$this->link;
 		$viewData['excel']=$this->link.'Detail/'.$noFaktur.'?&excel=1'.$url;
 		$viewData['no']=1;
+		$viewData['title']='Surat Jalan Kirim Gudang';
 		$get=$this->input->get();
 		
 		$pdf=true;
 		if($pdf==true){
 			$html =  $this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
-
 			$this->load->library('pdfgenerator');
-	        
-	        // title dari pdf
-	        $this->data['title_pdf'] = 'Laporan Penjualan Toko Kita';
-	        
-	        // filename dari pdf ketika didownload
-	        $file_pdf = 'Slip_';
-	        // setting paper
-	        $paper = 'A4';
-	        //orientasi paper potrait / landscape
-	        $orientation = "potrait";
-	        
-			$this->load->view('laporan_pdf',$this->data, true);	    
-	        
-	        // run dompdf
-	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+	        $file_pdf = $viewData['title'];
+	        // $paper = 'A4';
+			$paper = array(0,0,800,1000);
+	        $orientation = "potrait";	        
+			$headerContent = $this->load->view('newtheme/page/pdf/header', $viewData, true);
+			$footerContent =null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			generate_pdf($this, $htmlWithHeaderFooter, $data, $file_pdf, $paper , $orientation);
 		}else{
 			if(!isset($get['excel'])){
 	 			$viewData['page']='finishing/nota/nota-kirim-print';

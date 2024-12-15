@@ -107,6 +107,10 @@
                 padding:none !important;
             }
 
+            .page-break {
+                page-break-after: always;
+            }
+
 
 
 </style>
