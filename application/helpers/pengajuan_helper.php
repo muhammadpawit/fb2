@@ -1285,6 +1285,21 @@
 			return trim($temp);
 		}
 	}
+
+	if (!function_exists('generate_pdf')) {	
+		function generate_pdf($CI, $viewBody, $data, $title = 'Document', $paper = 'A4', $orientation = 'portrait')
+		{
+			// Load header and footer if available
+			$headerContent = isset($data['header_view']) ? $CI->load->view($data['header_view'], $data, true) : '';
+			$footerContent = isset($data['footer_view']) ? $CI->load->view($data['footer_view'], $data, true) : '';
+
+			// Combine header, body, and footer
+			$htmlWithHeaderFooter = $headerContent . $viewBody . $footerContent;
+
+			// Generate PDF
+			$CI->pdfgenerator->generate($htmlWithHeaderFooter, $title, $paper, $orientation);
+		}
+	}
 	
 	
 

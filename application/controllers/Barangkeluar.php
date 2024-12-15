@@ -174,9 +174,8 @@ class Barangkeluar extends CI_Controller {
 
 	public function detail($id){
 		$data = [];
-		$data['title']='Rincian Barang Keluar Harian';
+		$data['title']='Surat Jalan barang Keluar ';
 		$data['d']=$this->GlobalModel->getDataRow('barangkeluarharian',array('id'=>$id));
-		// $data['barang']=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$id));
 		$data['barang'] = $this->GlobalModel->QueryManual(
 			"
 			SELECT a.*, p.harga_skb FROM barangkeluarharian_detail a LEFT JOIN product p on p.product_id=a.idpersediaan
@@ -184,28 +183,17 @@ class Barangkeluar extends CI_Controller {
 			WHERE a.idbarangkeluarharian='".$id."'
 			"
 		);
-		$data['page']=$this->page.'detail';
-		// $data['cancel']=$this->url;
-		// $this->load->view($this->layout,$data);
-
-			$html =  $this->load->view($this->page.'detail',$data,true);
-
+			$data['page']=$this->page.'detail';
+			
+			$html =  $this->load->view($this->page.'detail',$data,true);			
 			$this->load->library('pdfgenerator');
-	        
-	        // title dari pdf
-	        $this->data['title_pdf'] = 'Laporan Penjualan Toko Kita';
-	        
-	        // filename dari pdf ketika didownload
-	        $file_pdf = 'Slip_';
-	        // setting paper
+	        $file_pdf = $data['title'];
 	        $paper = 'A4';
-	        //orientasi paper potrait / landscape
-	        $orientation = "potrait";
-	        
-			$this->load->view('laporan_pdf',$this->data, true);	    
-	        
-	        // run dompdf
-	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+	        $orientation = "potrait";	        
+			$headerContent = $this->load->view('newtheme/page/pdf/header', $data, true);
+			$footerContent =null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			generate_pdf($this, $htmlWithHeaderFooter, $data, $file_pdf, $paper , $orientation);
 	}
 
 	public function hapus($id){

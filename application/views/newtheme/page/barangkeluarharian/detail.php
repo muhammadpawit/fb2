@@ -1,190 +1,162 @@
-<style type="text/css">
-  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;}
-  table{
-    font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;
-    border: 1px solid black;border-collapse: collapse;
-  }
-  .clear{
-    clear: both;
-  }
-  .print{ display:none !important}
-  .kiri{
-    display: block;
-    width: 50%;
-    /*border: 1px solid black;*/
-    margin-bottom: 40px;
-    float: left;
-  }
-  .logo{
-    font-size: 65px;
-    float: left;
-    display:block;
-    font-style: italic;
-    
-  }
-  .slogan{
-    font-size: 20px;
-    font-style: italic;
-    position: relative;
-    margin-left: 25%;
-    margin-top: 2px;
-  }
-  .kanan{
-    padding: 5px;
-    width: 35%;
-    border: 1px solid black;
-    margin-bottom: 30px;
-    float: right;
-    margin-top: 10px;
-  }
-  .yth{
-    text-align: center;
-    font-weight: bold;
-    padding: 20px;
-  }
-  .judul{
-    text-align: center;
-    width: 100%;
-    font-weight: bold;
-    font-size: 22px;
-  }
-  .nofaktur{
-    font-size: 15px;
-    width: 50%;
-    float: left;
-  }
-  .susulan{
-    font-size: 15px;
-    width: 50%;
-    float: right;
-    /*text-align: right;*/
-  }
-  .susulan input{
-    text-align: right;
-    font-size: 18px;
-    width: 30%;
-  }
+<html>
+  <head>
 
-  .ttd{
-    width: 60%;
-    text-align: center;
-    text-transform:lowercase !important;
-  }
-
-</style>
-<div class="kiri">
-  <div class="logo">FB</div>
-  <div class="slogan">TRUE<br>FORBOYS PRODUCTION</div>
-  <div class="clear"></div>
-  <div class="alamat">Jl.Z1 No.1 Kampung Baru, Sukabumi Selatan,<br>Kebon Jeruk, Jakarta. HP : 081380401330</div>
-</div>
-<div class="kanan">
-  <div class="kota">
-    Jakarta, <?php echo date('d/m/Y') //echo date('d/m/Y',strtotime($gudangfb[0]['tanggal_kirim'] ))?>
-  </div>
-  <div class="yth">
-    Kepada Yth : <?php echo $d['pengambil'] ?>
-  </div>
-</div>
-<div class="clear"></div>
-<div class="judul">
-  SURAT JALAN BARANG KELUAR
-</div>
-<div class="nofaktur">No. Faktur : <strong><?php echo $d['id'] ?></strong></div>
-<table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
-    <thead>
-                                    <tr>
-                                        <th>#</th>
-
-                                        <th>Nama Barang</th>
-
-                                        <th>Satuan </th>
-                                        <th>Jumlah</th>
-                                        <?php if($d['bagian']==10){ ?>
-                                        <th>Harga</th>
-                                        <th>Total</th>
-                                        <?php } ?>
-                                    </tr>
-    </thead>
-    <tbody>
-    <?php $no=1; foreach ($barang as $key => $item): ?>
-
+  </head>
+  <body>
+    <div class="title">
+        <center>
+            <h3><?php echo $title ?><br>
+            No. Faktur  : <?php echo $d['id'] ?>
+            </h3>
+        </center>
+    </div>
+    <div class="subtitle">
+        <table>
             <tr>
-
-                <td align="center">
-                    <b><?php echo $no; ?></b>
-                </td>
-
-                <td>
-
-                    &nbsp;<b><?php echo $item['nama'] ?></b> 
-
-                </td>
-
-                <td align="center"><?php echo $item['satuan'] ?></td>
-                <td align="center">
-                    <?php echo $item['jumlah'] ?>
-
-                </td>
-
-                <?php if($d['bagian']==10){ ?>
-
-                <td align="center">
-                    <?php echo number_format($item['harga_skb']) ?>
-
-                </td>
-
-                <td align="center">
-                    <?php echo number_format($item['harga_skb']*$item['jumlah']) ?>
-
-                </td>
-
-                <?php } ?>
-
-
+                <td>Kepada Yth</td>
+                <td>:</td>
+                <td><?php echo ucwords(strtolower($d['pengambil']))?></td>
             </tr>
-            <?php $no++;?>
-            <?php endforeach ?>
-    </tbody>
-    <tfoot>
-        
-    </tfoot>
-</table>
+        </table>
+    </div>
+    <div class="body">
+        <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
+            <thead>
+                                            <tr>
+                                                <th>No</th>
+
+                                                <th>Nama Barang</th>
+
+                                                <th>Satuan </th>
+                                                <th>Jumlah</th>
+                                                <?php if($d['bagian']==10){ ?>
+                                                <th>Harga</th>
+                                                <th>Total</th>
+                                                <?php } ?>
+                                            </tr>
+            </thead>
+            <tbody>
+              <?php 
+                  $totalqty=0;
+                  $totalharga=0;
+              ?>
+            <?php $no=1; foreach ($barang as $key => $item): ?>
+
+                    <tr>
+
+                        <td align="center">
+                          <?php echo $no; ?>
+                        </td>
+
+                        <td>
+
+                        <?php echo $item['nama'] ?>
+
+                        </td>
+
+                        <td align="center"><?php echo $item['satuan'] ?></td>
+                        <td align="center">
+                            <?php echo number_format($item['jumlah']) ?>
+
+                        </td>
+
+                        <?php if($d['bagian']==10){ ?>
+
+                        <td align="right">
+                            <?php echo !empty($item['harga_skb']) ? number_format($item['harga_skb']) : 0; ?>
+
+                        </td>
+
+                        <td align="right">
+                            <?php echo !empty($item['harga_skb']) ? number_format(($item['harga_skb']*$item['jumlah'])) : 0; ?>
+
+                        </td>
+
+                        <?php } ?>
 
 
-		<table style="width:100%">
-			<tr>
-				<td style="width:50%">
-					<p>Catatan :</p>
-								<ol>
-									<!-- <li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
-									<li>Apabila ada kekurangan, harap segera konfirmasi <?php if(!empty($alat)){ ?> Kantor Cab. Sukabumi <?php }else{ ?> bagian QC <?php } ?> </li>
-									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
-									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li> -->
-								</ol>
-				</td>
-				<td style="width:50%" valign="top">
-					<br>
-					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
-						<tr>
-							
-              <td align="center">Security</td>
-							<td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> Mandor Finishing <?php } ?></td>
-							<td align="center"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin Gudang <?php } ?></td>
-              <td align="center">Diterima Oleh </td>
-						</tr>
-						<tr>
-						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom">(Kandar)</td>
-						<td align="center" height="100" valign="bottom">(Ifah)</td>
-            <td align="center" height="100" valign="bottom">(..................)</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-
-
-		 <footer>
-            <i>Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i>
-        </footer>
+                    </tr>
+                    <?php 
+                        $totalqty+=($item['jumlah'] );
+                        $totalharga+=($item['harga_skb']*$item['jumlah']) ;
+                    ?>
+                    <?php $no++;?>
+                    <?php endforeach ?>
+                    <?php
+                            // Hitung jumlah baris kosong yang perlu ditambahkan
+                            $jumlahProduk = count($barang);
+                            $barisKosong = max(10 - $jumlahProduk, 0); // Pastikan jumlah baris kosong tidak negatif
+                        ?>
+                        <?php for ($j = 0; $j < $barisKosong; $j++) { ?>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                  <td colspan="3" align="center"><b>Total</b></td>
+                  <td align="center">
+                    <b><?php echo number_format($totalqty) ?></b>
+                  </td>
+                  <td></td>
+                  <td align="right">
+                    <b><?php echo number_format($totalharga) ?></b>
+                  </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="rekening-info ml-0pt">
+            <div class="form-group">
+                <div class="rekening-info-label">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td colspan="3">Catatan : </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="ttd">
+            <table>
+                <tr>
+                    <td colspan="4">Jakarta, <?php echo format_tanggal($d['tanggal']) ?> </td>
+                </tr>
+                <tr align="center">
+                    <td>Security,</td>
+                    <td>Mandor Finishing,</td>
+                    <td>Admin Gudang,</td>
+                    <td>Diterima oleh,</td>
+                </tr>
+                <tr align="center">
+                    <td>
+                        <br><br><br><br><br>
+                        (________)
+                    </td>
+                    <td>
+                        <br><br><br><br><br>
+                        (<b style="padding:0px 5pt 0px 5pt;font-weight:0 !important">Kandar</b>)
+                    </td>
+                    <td>
+                        <br><br><br><br><br>
+                        (<b style="padding:0px 15pt 0px 15pt;font-weight:0 !important">Ifah</b>)
+                    </td>
+                    <td>
+                        <br><br><br><br><br>
+                        (________)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+      
+        <div class="registered">
+            <i>Registered by Forboys Production System <?php echo format_tanggal_jam(date('d-m-Y H:i:s')); ?></i>
+        </div>
+  </body>
+</html>
