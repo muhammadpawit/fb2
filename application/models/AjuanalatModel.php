@@ -294,7 +294,7 @@ class AjuanalatModel extends CI_Model {
 				$sql.=" AND gpi.id_persediaan IN(0) ";
 			}
 		}
-		$sql.=" GROUP BY p.nama ASC , p.kategori ASC ";
+		$sql.=" GROUP BY p.nama ORDER BY p.kategori ASC ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
 		$stokawal=0;
