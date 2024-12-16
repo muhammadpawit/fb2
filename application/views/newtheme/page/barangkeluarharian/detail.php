@@ -93,8 +93,10 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <?php if($d['bagian']==10){ ?>
                                     <td></td>
                                     <td></td>
+                                    <?php } ?>
                                 </tr>
                             <?php } ?>
             </tbody>
@@ -104,10 +106,12 @@
                   <td align="center">
                     <b><?php echo number_format($totalqty) ?></b>
                   </td>
+                  <?php if($d['bagian']==10){ ?>
                   <td></td>
                   <td align="right">
                     <b><?php echo number_format($totalharga) ?></b>
                   </td>
+                  <?php } ?>
                 </tr>
             </tfoot>
         </table>
