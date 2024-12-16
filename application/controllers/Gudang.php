@@ -2366,7 +2366,7 @@ class Gudang extends CI_Controller {
 			"
 			SELECT a.*, p.harga_skb FROM gudang_item_keluar a LEFT JOIN product p on p.product_id=a.id_persediaan
 
-			WHERE a.idpo='".$id."'
+			WHERE a.idpo='".$id."' AND a.hapus=0
 			"
 		);
 		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po' => $id));
