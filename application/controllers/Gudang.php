@@ -2380,27 +2380,16 @@ class Gudang extends CI_Controller {
 			$viewData['page']='gudang/outbound/item-keluar-detail-cetak';
 			$this->load->view('newtheme/page/main',$viewData);	
 		}else if(isset($get['pdf'])){
-			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
 			
 			$html =  $this->load->view('gudang/outbound/item-keluar-detail-cetak-pdf',$viewData,true);
-
 			$this->load->library('pdfgenerator');
-	        
-	        // title dari pdf
-	        $this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
-	        
-	        // filename dari pdf ketika didownload
-	        $file_pdf = 'Surat_Jalan_Pengeluaran_Alat_'.time();
-	        // setting paper
-	        //$paper = 'A4';
-	        $paper = array(0,0,800,705);
-	        //orientasi paper potrait / landscape
-	        $orientation = "landscape";
-	        
-			$this->load->view('laporan_pdf',$this->data, true);	    
-	        
-	        // run dompdf
-	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+	        $file_pdf = isset($data['title']) ? $data['title'] : $viewData['title'];
+	        $paper = 'A4';
+	        $orientation = "potrait";	        
+			$headerContent = $this->load->view('newtheme/page/pdf/header', isset($data) ? $data : $viewData, true);
+			$footerContent =null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			generate_pdf($this, $htmlWithHeaderFooter, isset($data) ? $data : $viewData, $file_pdf, $paper , $orientation);
 		}else{
 			$viewData['page']='gudang/outbound/item-keluar-detail';
 			$this->load->view('newtheme/page/main',$viewData);	
