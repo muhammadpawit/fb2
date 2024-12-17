@@ -41,7 +41,7 @@
 							<td align="center"><?php echo $no++;?></td>
 							<td><?php echo $item['nama_item_keluar'] ?></td>
 							<td align="center"><?php echo $item['jumlah_item_keluar'] ?></td>
-							<td align="center"><?php echo $item['satuan_item_keluar'] ?></td>
+							<td align="center"><?php echo $item['satuan_jumlah_keluar'] ?></td>
 						</tr>
 						<?php $total+=($item['jumlah_item_keluar']); ?>
 					<?php } ?>
