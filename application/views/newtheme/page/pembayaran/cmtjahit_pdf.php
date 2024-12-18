@@ -107,11 +107,11 @@
                 <tr style="background-color: #ffb0f3">
                     <td colspan="2" align="center"><b>Total</b></td>
                     <td align="center"><b><?php echo number_format(($potongan/12),2)?></b></td>
-                    <td align="center"><b><?php echo $potongan?></b></td>
+                    <td align="center"><b><?php echo number_format($potongan)?></b></td>
                     <td align="center"><b><?php echo number_format($jmlpodz,2)?></b></td>
-                    <td align="center"><b><?php echo $jmlpopcs?></b></td>
+                    <td align="center"><b><?php echo number_format($jmlpopcs)?></b></td>
                     <td align="center"><b><?php echo number_format($jmldz,2)?></b></td>
-                    <td align="center"><b><?php echo $jmlpcs?></b></td>
+                    <td align="center"><b><?php echo number_format($jmlpcs)?></b></td>
                     <td></td>
                     <td align="center"><b><?php echo number_format($total,2)?></b></td>
                     <td></td>
