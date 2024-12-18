@@ -110,7 +110,7 @@
                     <td align="center"><b><?php echo $potongan?></b></td>
                     <td align="center"><b><?php echo number_format($jmlpodz,2)?></b></td>
                     <td align="center"><b><?php echo $jmlpopcs?></b></td>
-                    <td align="center"><b><?php echo $jmldz?></b></td>
+                    <td align="center"><b><?php echo number_format($jmldz,2)?></b></td>
                     <td align="center"><b><?php echo $jmlpcs?></b></td>
                     <td></td>
                     <td align="center"><b><?php echo number_format($total)?></b></td>
