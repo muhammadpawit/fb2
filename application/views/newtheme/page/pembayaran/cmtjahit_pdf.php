@@ -113,7 +113,7 @@
                     <td align="center"><b><?php echo number_format($jmldz,2)?></b></td>
                     <td align="center"><b><?php echo $jmlpcs?></b></td>
                     <td></td>
-                    <td align="center"><b><?php echo number_format($total)?></b></td>
+                    <td align="center"><b><?php echo number_format($total,2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
