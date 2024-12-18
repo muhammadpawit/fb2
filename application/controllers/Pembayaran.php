@@ -931,7 +931,7 @@ class Pembayaran extends CI_Controller {
 			$this->data['title_pdf'] = 'Pembayaran CMT '.ucwords($cmt['cmt_name']).' Periode '.format_tanggal($data['detail']['tanggal']);
 
 			// Menentukan ukuran kertas dan orientasi
-			$paper = array(0, 0, 800, 1000);  // Ukuran kertas kustom (sesuaikan jika perlu)
+			$paper = array(0, 0, 800, 1200);  // Ukuran kertas kustom (sesuaikan jika perlu)
 			$orientation = "portrait";  // Orientasi halaman
 
 			// HTML Header (optional)
