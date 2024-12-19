@@ -71,6 +71,7 @@
                             <th>Total</th>
                             <th>Keterangan</th>
                             <th>Status</th>
+                            <th>Revisi</th>
                             
                             <th></th>
                             <th></th>
@@ -145,6 +146,9 @@
 
                                 ?>        
 
+                                </td>
+                                <td>
+                                <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-info btn-xs  text-white">revisi</a>
                                 </td>
                                 
 
