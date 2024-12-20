@@ -102,6 +102,9 @@
         </table>
       </div>
     </div>
+    <div class="registered">
+        <i>Registered by Forboys Production System <?php echo format_tanggal_jam(date('d-m-Y H:i:s')); ?></i>
+    </div>
 
 
 
