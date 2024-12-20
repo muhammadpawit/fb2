@@ -242,7 +242,7 @@ class Notakirim extends CI_Controller {
 			$this->load->library('pdfgenerator');
 	        $file_pdf = $viewData['title'];
 	        // $paper = 'A4';
-			$paper = array(0,0,800,1000);
+			$paper = array(0,0,800,1200);
 	        $orientation = "potrait";	        
 			$headerContent = $this->load->view('newtheme/page/pdf/header', $viewData, true);
 			$footerContent =null;
