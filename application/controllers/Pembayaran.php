@@ -385,7 +385,7 @@ class Pembayaran extends CI_Controller {
 		$saving=0;
 		$nominal=0;
 		$data['prods']=$this->GlobalModel->getDataRow('gaji_timpotong',array('id'=>$id));
-		$data['claims']=$this->GlobalModel->getDataRow('claim_timpotong',array('id_pembayaran'=>$id));
+		$data['claims']=$this->GlobalModel->getDataRow('claim_timpotong',array('id_pembayaran'=>$id,'hapus'=>0));
 		$data['claim']=!empty($data['claims'])?$data['claims']['nominal']:0;
 		$data['timnya']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$data['prods']['timpotong']));
 		$results=$this->GlobalModel->QueryManual("SELECT * FROM gaji_timpotong_detail WHERE hapus=0 AND idgaji='".$id."' order by kode_po ASC ");
