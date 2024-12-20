@@ -133,7 +133,7 @@
             <h1 style="font-size: 15em; min-height:480px">
                 <div id="jam" style="color: white;"></div>
                 <small>
-                <?php $hari=date('l'); echo hari($hari); ?>, <?php echo date('d F Y') ?>
+                <?php $hari=date('l'); echo hari($hari); ?>, <?php echo format_tanggal(date('Y-m-d')) ?>
                 </small>
             </h1>
         </div>
