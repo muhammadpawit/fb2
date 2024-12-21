@@ -1,24 +1,13 @@
-<style type="text/css">
-  body{text-transform:capitalize;font-size: 12px;font-family: 'Roboto';-webkit-print-color-adjust: exact !important;color:blue !important; }
-  table{
-    font-family: 'Roboto';font-size: 13px !important;width: 100% !important;margin-top: 15px !important;
-    border: 1px #8b948d black;border-collapse: collapse;
-  }
-  .clear{
-    clear: both;
-  }
-  .print{ display:none !important}
-  h1{
-    text-align: center;
-  }
-
-  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
-  .registered {
-    font-family: 'Baskervville', serif;
-  }
-</style>
-          <h1>Laporan Persediaan </h1>
-            <table cellpadding="3" border="1">
+<html>
+  <head></head>
+  <body>
+    <div class="title">
+      <center>
+            <h3>Laporan Persediaan</h3>
+      </center>
+    </div>
+    <div class="body">
+            <table border="1" style="border-collapse: collapse;width: 100%">
               <thead>
                 <tr>
                   <th>No</th>
@@ -51,9 +40,10 @@
                         <?php } ?>
                 <?php }?>
               </tbody>
-              <tfoot>
-                <tr>
-                      <td colspan="8" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
-                    </tr>
-              </tfoot>
             </table>
+    </div>
+    <div class="registered">
+        <i>Registered by Forboys Production System <?php echo format_tanggal_jam(date('d-m-Y H:i:s')); ?></i>
+    </div>
+  </body>
+</html>

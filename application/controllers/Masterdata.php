@@ -1212,18 +1212,15 @@ class Masterdata extends CI_Controller {
 		$data['supplier'] = $this->GlobalModel->queryManual('SELECT * FROM master_supplier WHERE hapus=0  ORDER BY nama ASC');
 		if(isset($get['pdf'])){
 			$html =  $this->load->view('newtheme/page/masterdata/persediaan_pdf',$data,true);
-			$this->load->library('pdfgenerator');	        
-	        // title dari pdf
-	        $this->data['title_pdf'] = 'Laporan Persediaan';
-	        // filename dari pdf ketika didownload
-	        $file_pdf = 'Laporan_Persediaan';
-	        // setting paper
-	        $paper = 'A4';
-	        //orientasi paper potrait / landscape
-	        $orientation = "potrait";
-			$this->load->view('laporan_pdf',$this->data, true);	    
-	        // run dompdf
-	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+			$this->load->library('pdfgenerator');
+			$this->data['title_pdf'] = 'Persediaan';
+			$paper = array(0, 0, 800, 1200);  // Ukuran kertas kustom (sesuaikan jika perlu)
+			$orientation = "portrait";  // Orientasi halaman
+			// HTML Header (optional)
+			$headerContent = $this->load->view($this->page.'pdf/header', $data, true);
+			$footerContent =null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
 		}else{
 			$data['page']='newtheme/page/masterdata/persediaan';
 			$this->load->view('newtheme/page/main',$data);
