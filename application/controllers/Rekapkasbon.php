@@ -78,27 +78,22 @@ class Rekapkasbon extends CI_Controller {
 		$data['tgl']=$tgl;
 		$data['pdf']=BASEURL.'Rekapkasbon/?pdf=true'.$url;
 		if(isset($get['pdf'])){
-			//$this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			$ttd		 = $this->GlobalModel->GetDataRow('user',array('bagian_user'=>1));
+			$data['ttd'] = $ttd['ttd'];
 			
 			$html =  $this->load->view($this->page.'/list_pdf',$data,true);
-
 			$this->load->library('pdfgenerator');
-	        
-	        // title dari pdf
-	        $this->data['title_pdf'] = 'Rekap Kasbon ';
-	        
-	        // filename dari pdf ketika didownload
-	        $file_pdf = 'Rekap_Kasbon_'.time();
-	        // setting paper
-	        //$paper = 'A4';
-	        $paper = array(0,0,800,700);
-	        //orientasi paper potrait / landscape
-	        $orientation = "potrait";
-	        
-			$this->load->view('laporan_pdf',$this->data, true);	    
-	        
-	        // run dompdf
-	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+			$this->data['title_pdf'] = 'Rekap Kasbon';
+
+			// Menentukan ukuran kertas dan orientasi
+			$paper = array(0, 0, 800, 1200);  // Ukuran kertas kustom (sesuaikan jika perlu)
+			$orientation = "portrait";  // Orientasi halaman
+
+			// HTML Header (optional)
+			$headerContent = $this->load->view('newtheme/page/pdf/header', $data, true);
+			$footerContent =null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
 		}else{
 			
 			$data['page']=$this->page.'list';

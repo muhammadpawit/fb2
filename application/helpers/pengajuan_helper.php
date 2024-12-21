@@ -1210,6 +1210,8 @@
 		if(isset($get['divisi'])){
 			$where .=" AND divisi='".$get['divisi']."' ";
 		}
+
+		$where .=" AND status_resign NOT IN(2) ";
 		$menu=$CI->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 '.$where.'  ORDER BY nama ASC ');
 		return $menu;
 	}
