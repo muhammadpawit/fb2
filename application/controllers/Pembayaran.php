@@ -563,6 +563,7 @@ class Pembayaran extends CI_Controller {
 			}
 			$no++;
 		}
+		$prod2=[];
 		$data['products'] = array_merge($prod1,$prod2);
 		// pre($prod2);
 		$saving=0.05*$total;
