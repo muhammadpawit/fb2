@@ -29,7 +29,7 @@
 
                                                 <th>Satuan </th>
                                                 <th>Jumlah</th>
-                                                <?php if($d['bagian']==10){ ?>
+                                                <?php if($d['bagian']==10 || $d['bagian']==6){ ?>
                                                 <th>Harga</th>
                                                 <th>Total</th>
                                                 <?php } ?>
@@ -60,7 +60,7 @@
 
                         </td>
 
-                        <?php if($d['bagian']==10){ ?>
+                        <?php if($d['bagian']==10 || $d['bagian']==6){ ?>
 
                         <td align="right">
                             <?php echo !empty($item['harga_skb']) ? number_format($item['harga_skb']) : 0; ?>
@@ -93,7 +93,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <?php if($d['bagian']==10){ ?>
+                                    <?php if($d['bagian']==10 || $d['bagian']==6){ ?>
                                     <td></td>
                                     <td></td>
                                     <?php } ?>
@@ -106,7 +106,7 @@
                   <td align="center">
                     <b><?php echo number_format($totalqty) ?></b>
                   </td>
-                  <?php if($d['bagian']==10){ ?>
+                  <?php if($d['bagian']==10 || $d['bagian']==6){ ?>
                   <td></td>
                   <td align="right">
                     <b><?php echo number_format($totalharga) ?></b>
