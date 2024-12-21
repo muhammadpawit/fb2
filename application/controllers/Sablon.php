@@ -292,7 +292,7 @@ class Sablon extends CI_Controller {
 			LEFT JOIN karyawan_harian b ON b.id=a.id_karyawan_harian
 			WHERE a.hapus=0 AND LOWER(a.periode)='".strtolower($post['periode'])."' 
 			AND b.cmt_id='".strtolower($post['cmt'])."' 
-			ORDER BY a.id DESC LIMIT 1
+			
 			";
 			// cek tim berdasarkan cmt
 		// if($post['cmt']==87){
