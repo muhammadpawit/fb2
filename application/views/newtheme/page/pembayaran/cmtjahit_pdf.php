@@ -543,7 +543,60 @@
             <?php } ?>
         </div>
     </div>
+    <div class="break"></div>
 
+    <div class="title">
+        <center>
+            <h3><span style="border-bottom: 3px solid black;">REKAP LAPORAN TRANSFER CMT</span></h3>
+        </center>
+    </div>
+
+    <div class="subtitle">
+        <table>
+            <tr>
+                <td>Periode</td>
+                <td>:</td>
+                <td><?php echo format_tanggal($detail['tanggal']) ?></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="body">
+        <table border="1" style="border-collapse: collapse;">
+            <thead style="background-color: #ffe3bf !important;">
+                <tr>
+                    <th>Nama CMT</th>
+                    <th>Atas Nama</th>
+                    <th>Nomor Rekening</th>
+                    <th>Nama Bank</th>
+                    <th>Jumlah Kirim Kaos / Kemeja</th>
+                    <th>Jumlah Setor Kaos</th>
+                    <th>Jumlah Setor Kemeja</th>
+                    <th>Jumlah Transferan (Rp)</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo ucwords(strtolower($namacmt))?></td>
+                    <td><?php echo !empty($rek['an']) ? $rek['an'] : 'belum diisi'?></td>
+                    <td><?php echo !empty($rek['norek']) ? $rek['norek'] : 'belum diisi'?></td>
+                    <td><?php echo !empty($rek['bank']) ? $rek['bank'] : 'belum diisi'?></td>
+                    <td align="center"><?php echo number_format($jmlpopcs)?></td>
+                    <td align="center"><?php echo number_format($jmlpopcs)?></td>
+                    <td></td>
+                    <td align="center">
+                            <?php if($detail['potongan_transport']==0){?>
+                                <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
+                            <?php }else{ ?>
+                                <?php echo number_format($detail['total']) ?>
+                            <?php } ?>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
             
     </body>
