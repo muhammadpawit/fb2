@@ -164,6 +164,16 @@ class Gajisablon extends CI_Controller {
 		redirect($this->url.'harian');
 	}
 
+	function hapusharian($id){
+		$post = $this->input->post();
+		$insert = array(
+			'hapus'					=> 1,
+		);
+		$this->db->update('gaji_sablon_harian',$insert,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.'harian');
+	}
+
 	public function brongan(){
 		$data=[];
 		$data['title'] = 'Gaji Sablon Borongan ';

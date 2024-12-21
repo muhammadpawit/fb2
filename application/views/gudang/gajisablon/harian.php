@@ -37,7 +37,7 @@
 						<th>Jumát</th>
 						<th>Sabtu</th>
 						<th>Total</th>
-						<th></th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,7 +55,7 @@
 							<td><?php echo ($k['sabtu']*$k['gajiperhari']) ?></td>
 							<td><?php echo number_format(($k['senin']*$k['gajiperhari']) + ($k['selasa']*$k['gajiperhari']) + ($k['rabu']*$k['gajiperhari']) + ($k['kamis']*$k['gajiperhari']) + ($k['jumat']*$k['gajiperhari']) + ($k['sabtu']*$k['gajiperhari']))?></td>
 							<td>
-								<!-- <a href="<?php echo BASEURL?>Gajisablon/hariandetail/<?php echo $k['id']?>" class="btn btn-xs btn-warning">Detail</a> -->
+								<a href="<?php echo BASEURL?>Gajisablon/hapusharian/<?php echo $k['id']?>" class="btn btn-xs btn-danger" onclick="return confirm('Apakah yakin akn menghapus data ini ?')"><i class="fa fa-trash"></i></a>
 							</td>
 						</tr>
 						<?php 
