@@ -584,7 +584,7 @@
                     <td><?php echo !empty($rek['bank']) ? $rek['bank'] : 'belum diisi'?></td>
                     <td align="center"><?php echo number_format($jmlpopcs)?></td>
                     <td align="center"><?php echo number_format($jmlpopcs)?></td>
-                    <td></td>
+                    <td>0</td>
                     <td align="center">
                             <?php if($detail['potongan_transport']==0){?>
                                 <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
@@ -595,6 +595,22 @@
                     <td></td>
                 </tr>
             </tbody>
+            <tfoot style="font-weight: bold;background-color: #ffe3bf !important;">
+                <tr>
+                    <td colspan="4" align="center">Total</td>
+                    <td align="center"><?php echo number_format($jmlpopcs)?></td>
+                    <td align="center"><?php echo number_format($jmlpopcs)?></td>
+                    <td align="center">0</td>
+                    <td align="center">
+                            <?php if($detail['potongan_transport']==0){?>
+                                <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
+                            <?php }else{ ?>
+                                <?php echo number_format($detail['total']) ?>
+                            <?php } ?>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
