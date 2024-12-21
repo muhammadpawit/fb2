@@ -55,6 +55,19 @@
                         </select>
                       </td>
                     </tr>
+                    <tr>
+                      <td>Dari CMT</td>
+                      <td>:</td>
+                      <td>
+                      <div class="form-group">
+                          <select name="cmt_id" class="form-control select2bs4" style="width:100%">
+                            <option value="">Pilih</option>
+                            <?php foreach($cmt as $c) { ?>
+                              <option value="<?php echo $c['id_cmt']?>" <?php echo $p['cmt_id']==$c['id_cmt']? 'selected':'' ?>><?php echo $c['cmt_name']?></option>
+                            <?php } ?>
+                          </select>
+                      </td>
+                    </tr>
                   <?php } ?>
                 <?php } ?>
               </tbody>

@@ -964,6 +964,7 @@ class Finishing extends CI_Controller {
 				'borongan'=>$borongan,
 			);
 		}
+		$data['cmt']= $this->GlobalModel->GetData('master_cmt',array('hapus'=>0));
 		$data['page']=$this->page.'finishing/karyawan_list';
 		$this->load->view($this->page.'main',$data);
 	}
@@ -986,6 +987,7 @@ class Finishing extends CI_Controller {
 			'gaji'=>($data['perminggu']/6),	
 			'perminggu'=>($data['perminggu']),
 			'status_gaji'=>isset($data['status_gaji'])?$data['status_gaji']:1,
+			'cmt_id' => $data['cmt_id'],
 			'hapus'=>0,
 		);
 		$this->db->insert('karyawan_harian',$insert);
@@ -998,6 +1000,7 @@ class Finishing extends CI_Controller {
 		$data['n']=1;
 		$data['action']=BASEURL.'Finishing/karyawaneditsave';
 		$data['update']=BASEURL.'Finishing/karyawaneditsave';
+		$data['cmt']= $this->GlobalModel->GetData('master_cmt',array('hapus'=>0));
 		$data['products']=array();
 		$user=user();
 		$edit=0;
@@ -1021,6 +1024,7 @@ class Finishing extends CI_Controller {
 			'gaji'=>($data['perminggu']/6),
 			'perminggu'=>$data['perminggu'],
 			'tipe'=>$data['tipe'],
+			'cmt_id' => $data['cmt_id'],
 		);
 		$this->db->update('karyawan_harian',$insert,array('id'=>$data['id']));
 		if(isset($data['gajiborongan'])){

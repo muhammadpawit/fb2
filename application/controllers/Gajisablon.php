@@ -48,7 +48,7 @@ class Gajisablon extends CI_Controller {
 		if(!empty($id_karyawan_harian)){
 			$sql.=" AND a.id_karyawan_harian='".$id_karyawan_harian."' ";
 		}
-		$sql 		  .=" GROUP BY id_karyawan_harian, periode ";
+		// $sql 		  .=" GROUP BY id_karyawan_harian, periode ";
 		$data['prods']=$this->GlobalModel->QueryManual($sql);
 		// pre($data['prods']);
 		if(isset($get['excel'])){

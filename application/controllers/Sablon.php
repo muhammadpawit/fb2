@@ -287,17 +287,23 @@ class Sablon extends CI_Controller {
 	function sumgajiharian(){
 		$post = $this->input->post();
 		$query=
-			"SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND LOWER(periode)='".strtolower($post['periode'])."' ";
+			"
+			SELECT a.* FROM gaji_sablon_harian a
+			LEFT JOIN karyawan_harian b ON b.id=a.id_karyawan_harian
+			WHERE a.hapus=0 AND LOWER(a.periode)='".strtolower($post['periode'])."' 
+			AND b.cmt_id='".strtolower($post['cmt'])."' 
+			ORDER BY a.id DESC LIMIT 1
+			";
 			// cek tim berdasarkan cmt
-		if($post['cmt']==87){
-			$query .=" AND id_karyawan_harian IN (193,194,211,212) ";
-		}else if($post['cmt']==31){
-			$query .=" AND id_karyawan_harian IN (213) ";
-		}else if($post['cmt']==19){
-			$query .=" AND id_karyawan_harian IN (195,196,205) ";
-		}else{
-			$query .=" AND id_karyawan_harian NOT IN (193,194,195,196) ";
-		}
+		// if($post['cmt']==87){
+		// 	$query .=" AND id_karyawan_harian IN (193,194,211,212) ";
+		// }else if($post['cmt']==31){
+		// 	$query .=" AND id_karyawan_harian IN (213) ";
+		// }else if($post['cmt']==19){
+		// 	$query .=" AND id_karyawan_harian IN (195,196,205) ";
+		// }else{
+		// 	$query .=" AND id_karyawan_harian NOT IN (193,194,195,196) ";
+		// }
 		$sql = $this->GlobalModel->QueryManual($query);
 		$gaji=[];
 		$total=0;
@@ -308,6 +314,7 @@ class Sablon extends CI_Controller {
 				'total' => $total,
 			);
 		}
+		// pre($gaji);
 		echo json_encode($gaji);
 	}
 

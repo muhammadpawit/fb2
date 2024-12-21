@@ -21,6 +21,15 @@
             </select>
           </div>
           <div class="form-group">
+            <label>Dari CMT</label>
+            <select name="cmt_id" class="form-control select2bs4" style="width:100%">
+              <option value="">Pilih</option>
+              <?php foreach($cmt as $c) { ?>
+                <option value="<?php echo $c['id_cmt']?>"><?php echo $c['cmt_name']?></option>
+              <?php } ?>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Gaji Perminggu </label>
             <input type="text" name="perminggu" class="form-control" required="required">
           </div>
