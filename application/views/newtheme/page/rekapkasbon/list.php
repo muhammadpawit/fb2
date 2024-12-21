@@ -82,6 +82,7 @@
 			</thead>
 			<tbody>
 			<?php foreach($kar as $k){?>
+				<?php $kasbon=0; ?>
 			  <tr>
 			    <td><?php echo $k['no']?></td>
 			    <td><?php echo strtoupper($k['nama'])?></td>
@@ -91,13 +92,14 @@
 			    <?php if(!empty($tgl)){?>
 			  		<?php foreach($tgl as $t){?>
 			  			<td align="center"><?php echo number_format($this->KasbonModel->getkasbon($k['id'],$t['tanggal'])); ?></td>
+						  <?php $kasbon+=($this->KasbonModel->getkasbon($k['id'],$t['tanggal'])); ?>
 			  		<?php } ?>
 			  	<?php }else{ ?>
 			  		<td align="center">-</td>
 			  	<?php } ?>
 				<td><?php echo !empty($k['sisapinjaman']) ? number_format($k['sisapinjaman']) : 0 ?></td> <!-- sisa pinjaman -->
 			    <td><?php echo number_format($k['pinjaman'])?></td> <!-- pinjaman baru -->
-			    <td><?php echo number_format($k['gaji']-$k['kasbon'])?></td>
+			    <td><?php echo number_format($k['gaji']-$kasbon)?></td>
 			    <td>ket</td>
 			  </tr>
 			 <?php } ?>
