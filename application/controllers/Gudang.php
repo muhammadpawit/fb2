@@ -1402,6 +1402,8 @@ class Gudang extends CI_Controller {
 		$viewData['adminskb']=!empty($adminskb) ? strtolower($adminskb['nama_user']):'';
 		$viewData['action']=BASEURL.'Gudang/pengajuan';
 		$viewData['menyetujui']=0;
+		$ttd		 = $this->GlobalModel->GetDataRow('user',array('bagian_user'=>1));
+		$viewData['ttd'] = $ttd['ttd'];
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			if(isset($get['sukabumiforjkt'])){
@@ -1414,7 +1416,23 @@ class Gudang extends CI_Controller {
 			if(isset($get['sukabumiforjkt'])){
 				$viewData['page']='newtheme/page/gudang/pengajuan/cetakskbjkt';
 			}else{
-				$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+				if(isset($get['pdf'])){
+					$html = $this->load->view('newtheme/page/gudang/pengajuan/cetak_pdf', $viewData, true);
+					$this->load->library('pdfgenerator');
+					$this->data['title_pdf'] = 'Pengajuan Harian ';
+
+					// Menentukan ukuran kertas dan orientasi
+					$paper = array(0, 0, 1000, 1200);  // Ukuran kertas kustom (sesuaikan jika perlu)
+					$orientation = "potrait";  // Orientasi halaman
+
+					// HTML Header (optional)
+					$headerContent = $this->load->view('newtheme/page/pdf/header', $viewData, true);
+					$footerContent =null;
+					$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+					$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
+				}else{
+					$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+				}
 			}
 			
 			$this->load->view('newtheme/page/main',$viewData);

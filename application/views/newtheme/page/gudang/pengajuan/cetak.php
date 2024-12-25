@@ -487,7 +487,7 @@
                         <div class="text-right">
                             <?php if($parent['status']==1){?>
                             <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a>
-                            <a onclick="excel()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-excel m-r-5"></i> Excel</a>
+                            <a onclick="excel()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-excel m-r-5"></i> PDF</a>
                             <?php }?>
 
                             <?php if($parent['kategori']==4){ ?>
@@ -562,7 +562,7 @@ $('#clear_signature').click(function() {
 
 
     function excel(){
-        location ='?excel=true';
+        location ='?pdf=true';
     }
 
     jQuery(document).bind("keyup keydown", function(e){
