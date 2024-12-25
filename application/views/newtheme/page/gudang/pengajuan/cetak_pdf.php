@@ -50,9 +50,6 @@
                     <th>NAMA SUPPLIER</th>
                     <?php } ?>
                     <th>KETERANGAN</th>
-                    <?php if($parent['status']!=1){?>
-                    <th width="200">SPV</th>
-                    <?php }?>
                 </tr>
 
             </thead>
@@ -69,11 +66,8 @@
                         "); 
                     }    
                 ?>
-                <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id']?>">
                 <tr>
-
                     <td align="center"><?php echo $no++; ?></td>
-
                     <td><?php echo $tem['nama_item'] ?></td>
 
                     <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
@@ -81,6 +75,7 @@
                     <td align="center"><?php echo $tem['jumlah'] ?></td>
 
                     <td><?php echo $tem['satuan'] ?></td>
+                    
                     <?php if( $parent['kategori']<4){ ?>
                     <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
 
@@ -101,9 +96,6 @@
                     <td><?php echo $tem['supplier']; ?></td>
                     <?php } ?>
                     <td><?php echo $tem['keterangan']; ?></td>
-                    <?php if($parent['status']!=1){?>
-                    <td><span class="no-print"><?php echo $tem['komentar']?></span></td>
-                    <?php } ?>
                 </tr>
                 <?php $i++?>
             <?php endforeach ?>
@@ -222,7 +214,25 @@
                 
                 <?php $i++?>
                 <?php endforeach ?>
-                        
+                <?php
+                    // Hitung jumlah baris kosong yang perlu ditambahkan
+                    $jumlahProduk = count($item_tf);
+                    $barisKosong = max(20 - $jumlahProduk, 0); // Pastikan jumlah baris kosong tidak negatif
+                ?>
+                <?php for ($j = 0; $j < $barisKosong; $j++) { ?>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <?php } ?>
             </tbody>
             <tfoot>
                 <?php if( $parent['kategori']<4){ ?>
