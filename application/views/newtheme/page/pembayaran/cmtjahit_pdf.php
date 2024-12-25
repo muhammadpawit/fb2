@@ -322,8 +322,8 @@
                                         <tr>
                                             <td><?php echo $number++?></td>
                                             <td><?php echo $r['namapo']?></td>
-                                            <td><?php echo ($r['hargalama'])?></td>
-                                            <td><?php echo ($r['hargabaru'])?></td>
+                                            <td align="right"><?php echo ($r['hargalama'])?></td>
+                                            <td align="right"><?php echo ($r['hargabaru'])?></td>
                                             <!-- <td><small><?php echo $r['keterangan']?></small></td> -->
                                         </tr>
                                     <?php } ?>
@@ -332,14 +332,55 @@
                                         <tr>
                                             <td><?php echo $number++?></td>
                                             <td><?php echo $r['namapo']?></td>
-                                            <td><?php echo number_format($r['hargalama'])?></td>
-                                            <td><?php echo number_format($r['hargabaru'])?></td>
+                                            <td align="right"><?php echo number_format($r['hargalama'])?></td>
+                                            <td align="right"><?php echo number_format($r['hargabaru'])?></td>
                                             <!-- <td><small><?php echo $r['keterangan']?></small></td> -->
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
             </div>
+            <?php if(!empty($tlainnya)){?>
+            <div class="form-group">
+                <div class="label">Tambahan Lainnya</div>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nominal (Rp)</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $nomor21=1;$kb=0;?>
+                        <?php foreach($tlainnya as $b){?>
+                            <tr>
+                                <td align="center"><?php echo $nomor21++?></td>
+                                <td align="right"><?php echo number_format($b['nominal'])?></td>
+                                <td><?php echo strtolower($b['keterangan'])?></td>
+                            </tr>
+                            <?php $kb+=($b['nominal']);?>
+                        <?php } ?>
+                        <?php
+                            $jumlahProduk = count($tlainnya);
+                            $barisKosongbangke = max(5 - $jumlahProduk, 0);
+                        ?>
+                        <?php for ($j = 0; $j < $barisKosongbangke; $j++) { ?>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
+                        <tr>
+                            <td colspan="1" align="center">Total</td>
+                            <td align="right"><b><?php echo number_format($kb)?></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
             <?php if(!empty($saldo_bangke)){?>
             <div class="form-group">
                 <div class="label">Potongan Bangke Yang Belum Dikembalikan</div>
@@ -361,8 +402,8 @@
                                 <td><?php echo $nomor2++?></td>
                                 <td><?php echo strtoupper($b['kode_po'])?></td>
                                 <td align="center"><?php echo $b['qty']?></td>
-                                <td><?php echo number_format($b['harga'])?></td>
-                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                <td align="right"><?php echo number_format($b['harga'])?></td>
+                                <td align="right"><?php echo number_format($b['qty']*$b['harga'])?></td>
                                 <!-- <td><?php echo strtolower($b['keterangan'])?></td> -->
                             </tr>
                             <?php $kb+=($b['qty']*$b['harga']);?>
@@ -383,7 +424,7 @@
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
-                            <td><b><?php echo number_format($kb)?></b></td>
+                            <td align="right"><b><?php echo number_format($kb)?></b></td>
                             <!-- <td></td> -->
                         </tr>
                     </tbody>
@@ -393,54 +434,56 @@
         </div>
 
         <div class="content-kanan">
-            <div class="form-group">
-                <div class="label" style="color:red">Potongan Alat</div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Rincian</th>
-                            <th>Jumlah</th>
-                            <th>Harga/Pcs</th>
-                            <th>Total</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $nomor=1;$al=0;?>
-                        <?php foreach($alat as $b){?>
+            <?php if(isset($alat)){ ?>
+                <div class="form-group">
+                    <div class="label" style="color:red">Potongan Alat</div>
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?php echo $nomor++?></td>
-                                <td><?php echo ucfirst($b['rincian'])?></td>
-                                <td><?php echo $b['qty']?></td>
-                                <td><?php echo number_format($b['harga'])?></td>
-                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
-                                <td><?php echo strtolower($b['keterangan'])?></td>
+                                <th>No</th>
+                                <th>Rincian</th>
+                                <th>Jumlah</th>
+                                <th>Harga/Pcs</th>
+                                <th>Total</th>
+                                <th>Keterangan</th>
                             </tr>
-                            <?php $al+=($b['qty']*$b['harga']);?>
-                        <?php } ?>
-                        <?php
-                            $jumlahProduk = count($alat);
-                            $barisKosongalat = max(5 - $jumlahProduk, 0);
-                        ?>
-                        <?php for ($j = 0; $j < $barisKosongalat; $j++) { ?>
+                        </thead>
+                        <tbody>
+                            <?php $nomor=1;$al=0;?>
+                            <?php foreach($alat as $b){?>
+                                <tr>
+                                    <td><?php echo $nomor++?></td>
+                                    <td><?php echo ucfirst($b['rincian'])?></td>
+                                    <td align="center"><?php echo $b['qty']?></td>
+                                    <td align="right"><?php echo number_format($b['harga'])?></td>
+                                    <td align="right"><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                    <td><?php echo strtolower($b['keterangan'])?></td>
+                                </tr>
+                                <?php $al+=($b['qty']*$b['harga']);?>
+                            <?php } ?>
+                            <?php
+                                $jumlahProduk = count($alat);
+                                $barisKosongalat = max(5 - $jumlahProduk, 0);
+                            ?>
+                            <?php for ($j = 0; $j < $barisKosongalat; $j++) { ?>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } ?>
                             <tr>
-                                <td>&nbsp;</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="4" align="center"><b>Total</b></td>
+                                <td align="right"><b style="color:red"><?php echo number_format($al)?></b></td>
                                 <td></td>
                             </tr>
-                        <?php } ?>
-                        <tr>
-                            <td colspan="4" align="center"><b>Total</b></td>
-                            <td><b style="color:red"><?php echo number_format($al)?></b></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } ?>
             <?php if(!empty($bangke)){?>
             <div class="form-group">
                 <div class="label red">Potongan Bangke</div>
@@ -461,9 +504,9 @@
                             <tr>
                                 <td><?php echo $nomor++?></td>
                                 <td><?php echo strtoupper($b['kode_po'])?></td>
-                                <td><?php echo $b['qty']?></td>
-                                <td><?php echo number_format($b['harga'])?></td>
-                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                <td align="center"><?php echo $b['qty']?></td>
+                                <td align="right"><?php echo number_format($b['harga'])?></td>
+                                <td align="right"><?php echo number_format($b['qty']*$b['harga'])?></td>
                                 <!-- <td><?php echo strtolower($b['keterangan'])?></td> -->
                             </tr>
                             <?php $bang+=($b['qty']*$b['harga']);?>
@@ -484,7 +527,7 @@
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
-                            <td><b class="red"><?php echo number_format($bang)?></b></td>
+                            <td align="right"><b class="red"><?php echo number_format($bang)?></b></td>
                             <!-- <td></td> -->
                         </tr>
                     </tbody>
@@ -511,9 +554,9 @@
                             <tr>
                                 <td><?php echo $nomor++?></td>
                                 <td><?php echo strtoupper($b['rincian'])?></td>
-                                <td><?php echo $b['qty']?></td>
-                                <td><?php echo number_format($b['harga'])?></td>
-                                <td><?php echo number_format($b['qty']*$b['harga'])?></td>
+                                <td align="center"><?php echo $b['qty']?></td>
+                                <td align="right"><?php echo number_format($b['harga'])?></td>
+                                <td align="right"><?php echo number_format($b['qty']*$b['harga'])?></td>
                                 <td><?php echo strtolower($b['keterangan'])?></td>
                             </tr>
                             <?php $av+=($b['qty']*$b['harga']);?>
@@ -534,7 +577,7 @@
                             <?php } ?>
                         <tr>
                             <td colspan="4" align="center">Total</td>
-                            <td><b class="red"><?php echo number_format($av)?></b></td>
+                            <td align="right"><b class="red"><?php echo number_format($av)?></b></td>
                             <td></td>
                         </tr>
                     </tbody>

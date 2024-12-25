@@ -877,9 +877,19 @@ class Pembayaran extends CI_Controller {
 
 	public function cmtjahitdetail($id){
 		$data=array();
+		$data['tlainnya']=[];
+		$tlainnyaI=[];
+		$implode=[];
 		$data['title']='Pembayaran Upah Jahit';
 		$data['update']=BASEURL.'Pembayaran/cmtjahit_update';
 		$data['detail']=$this->GlobalModel->getdataRow('pembayaran_cmt',array('id'=>$id));
+		$data['tlainnya']=$this->GlobalModel->getdata('pembayaran_cmt_tambahan_lainnya',array('pembayaran_cmt_id'=>$id,'hapus'=>0));
+		foreach($data['tlainnya'] as $t){
+			$tlainnyaI[]=$t['keterangan'];
+		}
+		$implode = implode(",",$tlainnyaI);
+		$data['ket_tl']=$implode;
+		// pre($implode);
 		$products=$this->GlobalModel->getData('pembayaran_cmt_detail',array('idpembayaran'=>$id));
 		$pots=0;
 		foreach($products as $p){
@@ -1314,6 +1324,8 @@ class Pembayaran extends CI_Controller {
 		$totalalat=0;
 		$totalpotmesin=0;
 		$totalvermak=0;
+		$totaltambahan=0;
+		$ktambahan=[];
 		//echo 'Sedang dalam perbaikan.. Mohon tunggu beberapa saat lagi';exit;
 		//pre($data);
 		if(isset($data['cmt'])){
@@ -1368,6 +1380,7 @@ class Pembayaran extends CI_Controller {
 					'potongan_alat'=>0,
 					'potongan_mesin'=>0,
 					'potongan_vermak'=>0,
+					'tambahan_lainnya'=>$totaltambahan,
 				);
 				//pre(($totalbayar+$totalpengembalianbangke-25000-($btransport-$tripke1)-$data['potongan_lainnya']));
 				$this->db->insert('pembayaran_cmt',$insert);
@@ -1526,6 +1539,20 @@ class Pembayaran extends CI_Controller {
 						$this->db->insert('pengembalian_bangke',$kbangke);
 					}
 				}
+
+				
+				if(isset($data['tambahan'])){
+					foreach($data['tambahan'] as $kb){
+						$ktambahan=array(
+							'pembayaran_cmt_id'=>$id,
+							'nominal'=>$kb['nominal'],
+							'keterangan'=>$kb['keterangan'],
+							'hapus'=>0,
+						);
+						$totaltambahan+=($kb['nominal']);
+						$this->db->insert('pembayaran_cmt_tambahan_lainnya',$ktambahan);
+					}
+				}
 				
 				$update=array(
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
@@ -1533,7 +1560,8 @@ class Pembayaran extends CI_Controller {
 					'potongan_alat' =>$totalalat,
 					'potongan_mesin'=>$totalpotmesin,
 					'potongan_vermak'=>$totalvermak,
-					'total'=>($totalbayar+$totalpengembalianbangke-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']-$totalalat-$totalpotmesin-$totalvermak),
+					'tambahan_lainnya'=>$totaltambahan,
+					'total'=>($totalbayar+$totalpengembalianbangke+$totaltambahan-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']-$totalalat-$totalpotmesin-$totalvermak),
 				);
 				//pre($potptm);
 				$where=array(
@@ -1583,7 +1611,7 @@ class Pembayaran extends CI_Controller {
 				}
 
 				$insert=array(
-					'total'=>$totalbayar + $data['pengembalian_bangke'] - $data['potongan_bangke'] - $data['potongan_alat'] - $data['potongan_mesin'] - $data['potongan_vermak'] - $data['biaya_transport'] - $data['potongan_lainnya'],
+					'total'=>$totalbayar + $data['pengembalian_bangke'] + $data['tambahan_lainnya'] - $data['potongan_bangke'] - $data['potongan_alat'] - $data['potongan_mesin'] - $data['potongan_vermak'] - $data['biaya_transport'] - $data['potongan_lainnya'],
 				);
 				$this->db->update('pembayaran_cmt',$insert,array('id'=>$data['id']));
 

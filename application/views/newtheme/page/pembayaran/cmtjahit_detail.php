@@ -150,6 +150,13 @@
                     <td></td>
                 </tr>
                 <tr>
+                    <td colspan="9" align="center"><b>Total Tambahan Lainnya</td>
+                    <td align="center">
+                    <input type="number" name="tambahan_lainnya" value="<?php echo ($detail['tambahan_lainnya'])?>" readonly>
+                    </td>
+                    <td><?php echo $ket_tl ?></td>
+                </tr>
+                <tr>
                     <td colspan="9" align="center"><b>Total Yang diterima</b></td>
                     <td align="center">
                         <b>

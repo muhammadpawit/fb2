@@ -185,6 +185,22 @@
             
             <tfoot></tfoot>
         </table>
+
+        Tambahan Lainnya 
+        <table class="table table-bordered" id="tambahlainnya">
+            <thead>
+                <tr>
+                    <th>Nominal (Rp)</th>
+                    <th>Keterangan</th>
+                    <th align="right">
+                        <a onclick="tambahlainnya()" class="btn btn-success btn-sm text-white"><i class="fa fa-plus"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <?php $vermak=0;?>
+            
+            <tfoot></tfoot>
+        </table>
     </div>
 </div>
 <div class="row">
@@ -426,6 +442,19 @@
         //$('.select2bs4').selectpicker('refresh');
         $('.select2bs4').select2();
         v++;
+    }
+
+    var tl=0;
+    function tambahlainnya(){
+        var html='<tbody data-parent="0" id="product-row' + tl + '" data="'+tl+'"><tr>';
+        html +='<td><input type="text" class="form-control" name="tambahan['+tl+'][nominal]" required ></td>';
+        html +='<td><input type="text" class="form-control" name="tambahan['+tl+'][keterangan]" value="-" required ></td>';
+        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td></tr>';
+        html +='</tr><tbody>';
+        $("#tambahlainnya tfoot").before(html);
+        //$('.select2bs4').selectpicker('refresh');
+        $('.select2bs4').select2();
+        tl++;
     }
 
     
