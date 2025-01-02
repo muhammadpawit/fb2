@@ -577,14 +577,28 @@ class Keuangan extends CI_Controller {
 		}else{
 			$cat=null;
 		}
+
+		if(isset($get['karyawan'])){
+			$karyawan=$get['karyawan'];
+		}else{
+			$karyawan=null;
+		}
+
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['kar']=$karyawan;
 		$data['n']=1;
 		$data['action']=BASEURL.'Keuangan/pinjamansave';
 		$data['print']=BASEURL.'Keuangan/pinjamankaryawan?pdf=true'.$url;
 		$data['excel']=BASEURL.'Keuangan/pinjamankaryawan?excel=true'.$url;
 		$data['products']=array();
-		$products=$this->GlobalModel->getData('pinjaman_karyawan',array('hapus'=>0));
+		if(!empty($karyawan)){
+			$products=$this->GlobalModel->getData('pinjaman_karyawan',array('hapus'=>0,'idkaryawan'=>$karyawan));
+		}else{
+			$products=$this->GlobalModel->getData('pinjaman_karyawan',array('hapus'=>0));
+		}
+		
 		foreach($products as $p){
 			$hari=date('l',strtotime($p['tanggal']));
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$p['idkaryawan']));
@@ -627,6 +641,7 @@ class Keuangan extends CI_Controller {
 
 	public function rincianpinjaman($id){
 		$data=array();
+		$data['title']='Rincian History Potongan Pinjaman';
 		$data['n']=1;
 		$data['products']=array();
 		$data['cancel']=BASEURL.'Keuangan/pinjamankaryawan';

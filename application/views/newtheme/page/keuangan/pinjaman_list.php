@@ -67,7 +67,24 @@
 </div>
 <div class="row">
 
-  <div class="col-md-4">
+  <div class="col-md-3">
+
+  <div class="form-group">
+
+    <label>Nama Karyawan</label>
+
+    <select id="karyawan" class="form-control select2bs4" required="required" data-live-search="true" style="width: 100%;">
+                <option value="">Pilih</option>
+                <?php foreach($karyawan as $p){?>
+                  <option value="<?php echo $p['id']?>" <?php echo $p['id']==$kar ? 'selected':''?>><?php echo strtoupper($p['nama'])?></option>
+                <?php } ?>
+    </select>
+
+  </div>
+
+  </div>
+
+  <div class="col-md-3">
 
     <div class="form-group">
 
@@ -79,7 +96,7 @@
 
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-3">
 
     <div class="form-group">
 
@@ -91,13 +108,13 @@
 
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-3">
 
     <div class="form-group">
 
       <label>Aksi</label><br>
 
-      <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+      <button class="btn btn-info btn-sm" onclick="filters()">Filter</button>
 
       <span><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Tambah</button></span>
 
@@ -158,3 +175,25 @@
             </table>
   </div>
 </div>
+
+<script>
+  function filters(){
+    var url='?';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    var karyawan =$("#karyawan").val();
+    if(karyawan){
+      url+='&karyawan='+karyawan;
+    }
+
+
+    location =url;
+  }
+</script>
