@@ -639,7 +639,7 @@
                     <?php  
 
                         foreach ($groupedData as $nama_po => $items) {
-                            echo "".count($items)." $nama_po,";
+                            echo " ".count($items)." $nama_po,";
                         }
 
                         ?>
