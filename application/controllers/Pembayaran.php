@@ -558,7 +558,7 @@ class Pembayaran extends CI_Controller {
 					'full'=>$r['full'],
 				);
 				if(!empty($r['harga'])){
-					$total+=($harga['harga_potongan']*$r['jml_pcs']);
+					//$total+=($harga['harga_potongan']*$r['jml_pcs']);
 				}
 			}
 			$no++;
