@@ -1302,6 +1302,24 @@
 			$CI->pdfgenerator->generate($htmlWithHeaderFooter, $title, $paper, $orientation);
 		}
 	}
+
+	if (!function_exists('summarizeData')) {	
+		function summarizeData($data)
+		{
+			$summary = [];
+
+			foreach ($data as $item) {
+				// Ambil prefix 3-4 karakter pertama
+				$prefix = substr($item, 0, 3); // untuk prefix 3 karakter
+				if (!isset($summary[$prefix])) {
+					$summary[$prefix] = 0;
+				}
+				$summary[$prefix]++;
+			}
+
+			return $summary;
+		}
+	}
 	
 	
 

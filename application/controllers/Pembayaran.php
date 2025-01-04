@@ -903,6 +903,7 @@ class Pembayaran extends CI_Controller {
 			}
 			$data['products'][]=array(
 				'id'=>$p['id'],
+				'nama_po' => $po['nama_po'],
 				'kode_po'=>$po['nama_hpp'],
 				'potongan'=>$pots,
 				'jumlah_po_dz'=>!empty($p['kirimpcs'])?($p['kirimpcs']/12):($kirim['jumlah_pcs']/12),
@@ -916,6 +917,19 @@ class Pembayaran extends CI_Controller {
 				'trans'=>$p['trans'],
 			);
 		}
+		
+		// Kelompokkan data berdasarkan `nama_po`
+        $groupedData = [];
+        foreach ($data['products'] as $item) {
+            $nama_po = $item['nama_po'];
+            if (!isset($groupedData[$nama_po])) {
+                $groupedData[$nama_po] = [];
+            }
+            $groupedData[$nama_po][] = $item;
+        }
+
+		$data['groupedData']=$groupedData;
+		
 		$data['bangke']=$this->GlobalModel->getData('potongan_bangke',array('idpembayaran'=>$id));
 		$data['alat']=$this->GlobalModel->getData('potongan_alat',array('idpembayaran'=>$id));
 		$data['mesin']=$this->GlobalModel->getData('potongan_mesin',array('idpembayaran'=>$id));

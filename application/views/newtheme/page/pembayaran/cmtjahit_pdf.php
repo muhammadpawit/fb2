@@ -635,7 +635,15 @@
                                 <?php echo number_format($detail['total']) ?>
                             <?php } ?>
                     </td>
-                    <td></td>
+                    <td>
+                    <?php  
+
+                        foreach ($groupedData as $nama_po => $items) {
+                            echo "".count($items)." $nama_po,";
+                        }
+
+                        ?>
+                    </td>
                 </tr>
             </tbody>
             <tfoot style="font-weight: bold;background-color: #ffe3bf !important;">
