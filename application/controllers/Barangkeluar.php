@@ -181,6 +181,7 @@ class Barangkeluar extends CI_Controller {
 			SELECT a.*, p.harga_skb FROM barangkeluarharian_detail a LEFT JOIN product p on p.product_id=a.idpersediaan
 
 			WHERE a.idbarangkeluarharian='".$id."'
+			AND a.hapus=0
 			"
 		);
 			$data['page']=$this->page.'detail';
