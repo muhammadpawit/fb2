@@ -54,7 +54,7 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert alert-success">
+      <div style="font-weight: bold;">
         Periode : <?php echo format_tanggal($tanggal1) ?> s.d <?php echo format_tanggal($tanggal2) ?>
       </div>
     </div>
