@@ -62,10 +62,10 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-bordered yessearch">
+    <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>No</th>
                   <th>Bagian</th>
                   <th>Tipe Pembayaran</th>
                   <th>Tanggal</th>
@@ -120,7 +120,7 @@
                   <td colspan="9">
                     <center><b>Total</b></center>
                   </td>
-                  <td align="right">
+                  <td align="left">
                     <b><?php echo format_angka($total) ?></b>
                   </td>
                 </tr>
