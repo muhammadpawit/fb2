@@ -94,7 +94,7 @@
               .done(function( data ) {
                 var obj = JSON.parse(data);
                 console.log(obj);
-                dai.find(".harga").val(obj.price);
+                dai.find(".harga").val(obj.harga_beli);
             });
         });
     }
