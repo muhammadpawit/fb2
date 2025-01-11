@@ -1426,6 +1426,7 @@ class Masterdata extends CI_Controller {
 			'telephone'=>$sup['telephone'],
 			'alamat'=>$sup['alamat'],
 			'category'=>$sup['category'],
+			'is_supplier_bahan'=> isset($sup['is_supplier_bahan']) ? $sup['is_supplier_bahan'] : null,
 		);
 		$this->db->update('master_supplier',$update,array('id'=>$sup['id']));
 		$this->session->set_flashdata('msg','Data berhasil ditambah');

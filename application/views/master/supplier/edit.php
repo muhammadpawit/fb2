@@ -27,6 +27,14 @@
                   </select>
                 </div>
                 <div class="form-group">
+                  <label>Apakah supplier bahan ?</label>
+                  <select name="is_supplier_bahan" class="form-control select2bs4">
+                    <option value="">Bukan</option>
+                    <option value="1" <?php echo $products['is_supplier_bahan']==1 ? 'selected':'';?>>Ya</option>
+                    
+                  </select>
+                </div>
+                <div class="form-group">
                   <button type="submit" class="btn btn-success">Simpan</button>
                 </div>
             </form>
