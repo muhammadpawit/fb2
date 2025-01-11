@@ -116,7 +116,9 @@ class Pembayaran extends CI_Controller {
 		$no=1;
 		foreach($results as $r){
 			$job=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$r['id_master_cmt_job']));
+			$this->db->update('kelolapo_kirim_setor',array('cmt_job_price' => $job['harga']),array('id_kelolapo_kirim_setor' => $r['id_kelolapo_kirim_setor']));
 			$data['pendapatan'][]=array(
+				'id_kelolapo_kirim_setor' => $r['id_kelolapo_kirim_setor'],
 				'no'=>$no++,
 				'namapo'=>	$r['kode_po'],
 				'dz'=>	($r['qty_tot_pcs']/12),
@@ -129,7 +131,7 @@ class Pembayaran extends CI_Controller {
 			
 		}
 
-		//rekap
+				//rekap
 
 		$sql="SELECT COALESCE(SUM(kks.qty_tot_pcs/12),0) as dz, mj.grouping, mj.price_group FROM kelolapo_kirim_setor kks LEFT JOIN master_job mj ON mj.id=kks.id_master_cmt_job WHERE progress='SETOR' AND kategori_cmt='SABLON' ";
 		$sql.=" AND id_master_cmt='".$cmt."' AND DATE(create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and kks.hapus=0";
