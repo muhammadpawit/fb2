@@ -316,7 +316,7 @@ class Suratjalanbukupotong extends CI_Controller {
 		$sql="SELECT * FROM kirimbupot WHERE hapus=0";
 
 		if(!empty($cmt)){
-			$sql.=" AND idcmt='$cmt' ";
+			// $sql.=" AND idcmt='$cmt' ";
 		}
 
 		if(!empty($sj)){
