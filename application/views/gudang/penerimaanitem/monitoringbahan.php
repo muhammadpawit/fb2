@@ -103,13 +103,13 @@
                       <td><?php echo strtolower($p['nama']) ?></td>
                       <td align="center"><?php echo $p['jumlah']?> <?php echo $p['satuanJml']?></td>
                       <td><?php echo $p['ukuran']?> <?php echo $p['satuanukuran']?></td>
-                      <td><?php echo $p['harga']?></td>
+                      <td align="right"><?php echo format_angka($p['harga'])?></td>
                       <?php if($i['jenis']==1){?>
                         <?php $total+=($p['harga']*$p['ukuran'])?>
-                      <td><?php echo number_format($p['harga']*$p['ukuran'])?></td>
+                      <td><?php echo format_angka($p['harga']*$p['ukuran'])?></td>
                       <?php }else{ ?>
                         <?php $total+=($p['harga']*$p['ukuran'])?>
-                        <td><?php echo number_format($p['harga']*$p['jumlah'])?></td>
+                        <td><?php echo format_angka($p['harga']*$p['jumlah'])?></td>
                       <?php } ?>
                     </tr>
                   <?php } ?>
@@ -120,8 +120,8 @@
                   <td colspan="9">
                     <center><b>Total</b></center>
                   </td>
-                  <td>
-                    <center><b><?php echo number_format($total) ?></b></center>
+                  <td align="right">
+                    <b><?php echo format_angka($total) ?></b>
                   </td>
                 </tr>
               </tfoot>
