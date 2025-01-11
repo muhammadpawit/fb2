@@ -1342,6 +1342,8 @@ class Pembayaran extends CI_Controller {
 		$totalvermak=0;
 		$totaltambahan=0;
 		$ktambahan=[];
+		$potongantransportfinal=0;
+		$ongkos_transport_perdz=0;
 		//echo 'Sedang dalam perbaikan.. Mohon tunggu beberapa saat lagi';exit;
 		//pre($data);
 		if(isset($data['cmt'])){
@@ -1570,6 +1572,12 @@ class Pembayaran extends CI_Controller {
 					}
 				}
 				
+				$cekcmt = $this->GlobalModel->GetdataRow('master_cmt',array('id_cmt' => $data['cmt']));
+				$potongantransportfinal=$btransport-$tripke1;
+				if(!empty($cekcmt['ongkos_transport_perdz']) || $cekcmt['ongkos_transport_perdz'] > 0){
+					$ongkos_transport_perdz=$cekcmt['ongkos_transport_perdz']*$totaldz;
+					$potongantransportfinal=$ongkos_transport_perdz;
+				}
 				$update=array(
 					'pengembalian_bangke'	=>$totalpengembalianbangke,
 					'potongan_bangke'	=>$totalbangke,
@@ -1577,7 +1585,7 @@ class Pembayaran extends CI_Controller {
 					'potongan_mesin'=>$totalpotmesin,
 					'potongan_vermak'=>$totalvermak,
 					'tambahan_lainnya'=>$totaltambahan,
-					'total'=>($totalbayar+$totalpengembalianbangke+$totaltambahan-$totalbangke-($btransport-$tripke1)-$data['potongan_lainnya']-$totalalat-$totalpotmesin-$totalvermak),
+					'total'=>($totalbayar+$totalpengembalianbangke+$totaltambahan-$totalbangke-($potongantransportfinal)-$data['potongan_lainnya']-$totalalat-$totalpotmesin-$totalvermak),
 				);
 				//pre($potptm);
 				$where=array(
