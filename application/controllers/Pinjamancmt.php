@@ -84,8 +84,8 @@ public function index(){
 		$data['products']=array();
 		$data['cancel']=$this->link;
 		$data['products']=$this->db->query("SELECT pk.*, k.cmt_name as nama FROM pinjaman_cmt pk LEFT JOIN master_cmt k ON (k.id_cmt=pk.idcmt) WHERE pk.id='$id' ")->row_array();
-		$data['d']=$this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id));
-		$data['details']=$this->GlobalModel->getData('potongan_pinjaman_cmt',array('idpinjaman'=>$id));
+		$data['d']=$this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id,'hapus'=>0));
+		$data['details']=$this->GlobalModel->getData('potongan_pinjaman_cmt',array('idpinjaman'=>$id,'hapus'=>0));
 		//pre($data['products']);
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'excel',$data);
