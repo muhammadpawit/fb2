@@ -1850,7 +1850,7 @@ class Kelolapo extends CI_Controller {
 
 		// fungsi baru
 		$id = $post['kode_nota'];
-		pre($id);
+		// pre($id);
 					//hapus di surat jalan
 					$this->db->delete(
 						'kirimcmtsablon_detail', 

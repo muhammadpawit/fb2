@@ -189,7 +189,8 @@ class Barangkeluar extends CI_Controller {
 			$html =  $this->load->view($this->page.'detail',$data,true);			
 			$this->load->library('pdfgenerator');
 	        $file_pdf = $data['title'];
-	        $paper = 'A4';
+	        // $paper = 'A4';
+			$paper = array(0,0,800,850);
 	        $orientation = "potrait";	        
 			$headerContent = $this->load->view('newtheme/page/pdf/header', $data, true);
 			$footerContent =null;
