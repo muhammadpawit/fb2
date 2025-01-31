@@ -14,7 +14,7 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filtertglonlyspv()">Filter</button>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
 		</div>
@@ -159,4 +159,18 @@
 			
 		});
 	 });
+	 <?php if(isset($spv)){ ?>
+	 function filtertglonly(){
+			var url='?spv=true';
+			var tanggal1 =$("#tanggal1").val();
+			var tanggal2 =$("#tanggal2").val();
+			if(tanggal1){
+			url+='&tanggal1='+tanggal1;
+			}
+			if(tanggal2){
+			url+='&tanggal2='+tanggal2;
+			}
+			location =url;
+		}
+	<?php } ?>
 </script>
