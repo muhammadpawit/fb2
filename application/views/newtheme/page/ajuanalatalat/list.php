@@ -14,7 +14,11 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Aksi</label><br>
+			<?php if(isset($spv)){ ?>
 			<button class="btn btn-info btn-sm" onclick="filtertglonlyspv()">Filter</button>
+			<?php }else{ ?>
+			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<?php } ?>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
 		</div>
