@@ -486,13 +486,13 @@
             <?php } ?>
             <?php if(!empty($kembalianbangke)){?>
             <div class="col-md-6">
-                <label>Pengembalian Bangke</label>
-                <table border="1" style="border-collapse: collapse;width: 100%">
+                <div class="label">Pengembalian Bangke</div>
+                <table>
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama PO</th>
-                            <th>Jumlah Potongan/Bangke</th>
+                            <th>Jumlah</th>
                             <th>Harga/Pcs</th>
                             <th>Jumlah</th>
                             <th>Keterangan</th>
