@@ -573,6 +573,16 @@ class Dash extends CI_Controller {
 		}
 
 		// po pending 1 bulan dari potongan
+		
+		// pre($data['pendingkirimsudahpotong']);
+		$data['pendingkirimsudahpotong']=[];
+		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
+		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
+		$data['page']=$this->page.'/dash/welcome';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	function pendingpo(){
 		$pendingkirimsudahpotong=[];
 		$pendingkirimsudahpotong=$this->GlobalModel->QueryManual("
 
@@ -601,11 +611,7 @@ class Dash extends CI_Controller {
 				'posisi'		=> $this->posisi($p['idpo']),
 			);
 		}
-		// pre($data['pendingkirimsudahpotong']);
-		
-		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
-		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
-		$data['page']=$this->page.'/dash/welcome';
+		$data['page']=$this->page.'/dash/pendingpo';
 		$this->load->view($this->page.'main',$data);
 	}
 
