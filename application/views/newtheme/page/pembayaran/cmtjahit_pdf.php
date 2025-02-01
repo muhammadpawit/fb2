@@ -513,9 +513,9 @@
                         <?php } ?>
                          <?php
                                 $jumlahProduk = count($kembalianbangke);
-                                $barisKosongalat = max(5 - $jumlahProduk, 0);
+                                $barisKosongpb = max(5 - $jumlahProduk, 0);
                             ?>
-                            <?php for ($j = 0; $j < $barisKosongalat; $j++) { ?>
+                            <?php for ($j = 0; $j < $barisKosongpb; $j++) { ?>
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td></td>
