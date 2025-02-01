@@ -525,10 +525,11 @@
                                     <td></td>
                                 </tr>
                             <?php } ?>
+                            <tr>
                             <td colspan="4" align="center">Total</td>
-                            <td><b><?php echo ($kb)?></b></td>
-                            <td></td>
-                        </tr>
+                                <td><b><?php echo ($kb)?></b></td>
+                                <td></td>
+                            </tr>
                     </tbody>
                 </table>
             </div>
