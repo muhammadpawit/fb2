@@ -511,9 +511,13 @@
                             </tr>
                             <?php $kb+=($b['qty']*$b['harga']);?>
                         <?php } ?>
-                        <?php for($j=1;$j<=5;$j++){?>
+                         <?php
+                                $jumlahProduk = count($kembalianbangke);
+                                $barisKosongalat = max(5 - $jumlahProduk, 0);
+                            ?>
+                            <?php for ($j = 0; $j < $barisKosongalat; $j++) { ?>
                                 <tr>
-                                    <td></td>
+                                    <td>&nbsp;</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -521,7 +525,6 @@
                                     <td></td>
                                 </tr>
                             <?php } ?>
-                        <tr>
                             <td colspan="4" align="center">Total</td>
                             <td><b><?php echo ($kb)?></b></td>
                             <td></td>
