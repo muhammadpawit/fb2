@@ -674,7 +674,7 @@ class Monitoring extends CI_Controller {
 		}else{
 			$sql.=" AND date(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" AND is_supplier_bahan=1 ";
+		// $sql.=" AND is_supplier_bahan=1 ";
 		$sql.=" ORDER BY a.id DESC";
 		$resutls = $this->GlobalModel->queryManual($sql);
 		$data['supplier']=$this->GlobalModel->getData('master_supplier',array('hapus'=>0,'id'=>26));
@@ -773,7 +773,7 @@ class Monitoring extends CI_Controller {
 		}else{
 			$sql.=" AND date(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" AND is_supplier_bahan=1 ";
+		// $sql.=" AND is_supplier_bahan=1 ";
 		$sql.=" ORDER BY a.id DESC";
 		$resutls = $this->GlobalModel->queryManual($sql);
 		$data['supplier']=$this->GlobalModel->getData('master_supplier',array('hapus'=>0,'id'=>17));
