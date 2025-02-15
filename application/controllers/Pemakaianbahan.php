@@ -52,7 +52,7 @@ class Pemakaianbahan extends CI_Controller {
 		if(isset($get['jenis'])){
 			$jenis=$get['jenis'];
 		}else{
-			$jenis=4;
+			$jenis=null;
 		}
 
 		if(isset($get['kategori'])){
