@@ -36,7 +36,7 @@ class Pemakaianbahan extends CI_Controller {
 
 	public function index(){
 		$data=[];
-		$data['title']='Rekap Laporan Bulanan Stok Bahan';
+		$data['title']='Monitoring Pemakaian Bahan Produksi';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
