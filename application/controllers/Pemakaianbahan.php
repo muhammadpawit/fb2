@@ -33,13 +33,125 @@ class Pemakaianbahan extends CI_Controller {
 		if(empty($this->auth)) {redirect($this->login);}
 	}
 
-	public function index()
-	{
-		$data['title']			='Monitoring Pemakaian Bahan Produksi';
+	public function index(){
+		$data=[];
+		$data['title']='Rekap Laporan Bulanan Stok Bahan';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+		}
 
-		$data['page']			='newtheme/page/pemakaianbahanproduksi/list';
-		$this->load->view('newtheme/page/main',$data);
+		if(isset($get['jenis'])){
+			$jenis=$get['jenis'];
+		}else{
+			$jenis=4;
+		}
 
+		if(isset($get['kategori'])){
+			$kategori=$get['kategori'];
+		}else{
+			$kategori=null;
+		}
+
+		if(isset($get['supplier'])){
+			$supplier=$get['supplier'];
+		}else{
+			$supplier=null;
+		}
+
+		if(isset($get['tipe'])){
+			$tipe=$get['tipe'];
+		}else{
+			$tipe=null;
+		}
+
+		if(isset($get['status'])){
+			$status=$get['status'];
+		}else{
+			$status=null;
+		}
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['kategori']=$kategori;
+		$data['tipe']	 =$tipe;
+		$data['status']  =$status;
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
+		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		$sql.=" AND gpi.id_persediaan IN (SELECT id_persediaan FROM penerimaan_item_detail WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
+		if(!empty($jenis)){
+			$sql.=" AND p.jenis='".$jenis."'";
+		}
+		if(!empty($kategori)){
+			$sql.=" AND p.kategori='".$kategori."'";
+		}
+
+		if(!empty($tipe)){
+			$sql.=" AND p.tipe='".$tipe."'";
+		}
+
+		if(!empty($status)){
+			$sql.=" AND p.status='".$status."'";
+		}
+
+		if(!empty($supplier)){
+			$sql.=" AND gpi.supplier='".$supplier."'";
+		}
+
+		$sql .=" ORDER BY nama_item ASC ";
+		$results=$this->GlobalModel->QueryManual($sql);
+		// pre($sql);
+		$no=1;
+		$stokawal=[];
+		$stokmasuk=[];
+		$stokkeluar=[];
+		$stokakhirroll=0;
+		$stokakhiryard=0;
+		$stokakhirharga=0;
+		$warna=null;
+		$data['prods']=[];
+		foreach($results as $row){
+			$stokawal=$this->ReportModel->stokawal($row['id_persediaan'],$tanggal1);
+			$stokmasuk=$this->ReportModel->stokmasuk($row['id_persediaan'],$tanggal1,$tanggal2);
+			$stokkeluar=$this->ReportModel->stokkeluar($row['id_persediaan'],$tanggal1,$tanggal2);
+			$data['prods'][]=array(
+				'no'=>$no++,
+				'nama'	=>strtolower($row['nama_item']),
+				'warna'	=>strtolower($row['warna_item']),
+				'kode'=>null,
+				//'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+				'stokawalroll'=>empty($stokawal['roll'])?0:$stokawal['roll'],
+				'stokawalyard'=>empty($stokawal['yard'])?0:$stokawal['yard'],
+				'stokawalharga'=>$row['harga_item'],
+				'stokmasukroll'=>empty($stokmasuk['roll'])?0:$stokmasuk['roll'],
+				'stokmasukyard'=>empty($stokmasuk['yard'])?0:$stokmasuk['yard'],
+				'stokmasukharga'=>$row['harga_item'],
+				'stokkeluarroll'=>empty($stokkeluar['roll'])?0:$stokkeluar['roll'],
+				'stokkeluaryard'=>empty($stokkeluar['yard'])?0:$stokkeluar['yard'],
+				'stokkeluarharga'=>$row['harga_item'],
+				'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
+				'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
+				'stokakhirharga'=>$row['harga_item'],
+				'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+				'ket'=>null,
+			);
+		}
+		
+		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'laporanbulananbahan_excel',$data);	
+		}else{
+			$data['page']=$this->page.'laporanbulananbahan';
+			$this->load->view($this->layout,$data);	
+		}
+		
 	}
 
 }
