@@ -38,7 +38,7 @@
             div.body table, 
             div.body thead th, 
             div.body td {
-                font-size: 10pt !important;
+                font-size: 14pt !important;
                 padding:3pt;
             }
 
