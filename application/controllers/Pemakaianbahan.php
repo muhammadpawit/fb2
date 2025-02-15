@@ -140,7 +140,7 @@ class Pemakaianbahan extends CI_Controller {
 				'stokakhirroll'=>($stokawal['roll']+($stokmasuk['roll']-$stokkeluar['roll'])),
 				'stokakhiryard'=>($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard'])),
 				'stokakhirharga'=>$row['harga_item'],
-				'total'=>round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))),
+				'total'=> !empty($row['harga_item']) ?  round($row['harga_item']*($stokawal['yard']+($stokmasuk['yard']-$stokkeluar['yard']))):0,
 				'ket'=>null,
 			);
 		}
