@@ -4,6 +4,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Laporanbulananbahan extends CI_Controller {
 	
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	
+
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -24,7 +44,7 @@ class Laporanbulananbahan extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -69,6 +89,7 @@ class Laporanbulananbahan extends CI_Controller {
 		$data['status']  =$status;
 		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		$sql.=" AND gpi.id_persediaan IN (SELECT id_persediaan FROM penerimaan_item_detail WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
 		}

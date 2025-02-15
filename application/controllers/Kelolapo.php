@@ -3,6 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelolapo extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -637,6 +655,7 @@ class Kelolapo extends CI_Controller {
 
 	public function posave()
 	{
+		$data  = $this->input->post();
 		$post  = $this->input->post();
 		$po=trim(strtoupper($post['namaPO']).$post['kodePO']);
 		$cekpo = $this->GlobalModel->GetData('produksi_po',array('hapus'=>0,'kode_po'=>$po));

@@ -2,6 +2,28 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Finishing extends CI_Controller {
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $GlobalTwoModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $db2;
+	public $KirimsetorModel;
+	public $PembayaranModel;
+	public $BiayaHppPerpoModel;
 
 	function __construct() {
 		parent::__construct();
