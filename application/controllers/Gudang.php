@@ -1961,7 +1961,7 @@ class Gudang extends CI_Controller {
 		$results=array();
 		$products=array();
 		$data['results']=$this->GlobalModel->getDataRow('penerimaan_item',array('id'=>$id));
-		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id));
+		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id,'hapus'=>0));
 		$data['action']=BASEURL.'Gudang/penerimaanitemsave_image';
 		$data['page']='gudang/penerimaanitem/detail';
 		$this->load->view('newtheme/page/main',$data);
