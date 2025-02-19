@@ -58,11 +58,11 @@ class Laporanbahanmasuk extends CI_Controller {
 		$sql .="  WHERE penerimaan_item_detail.hapus=0  ";
 		$sql.=" AND jenis=1 AND keterangan NOT lIKE 'Penyesuaian%' ";
 		if(!empty($tanggal1)){
-			$sql.=" AND MONTH(tanggal)='".date('m',strtotime($tanggal1))."' ";
-			$sql.=" AND YEAR(tanggal)='".date('Y',strtotime($tanggal1))."' ";
+			$sql.=" AND MONTH(penerimaan_item_detail.tanggal)='".date('m',strtotime($tanggal1))."' ";
+			$sql.=" AND YEAR(penerimaan_item_detail.tanggal)='".date('Y',strtotime($tanggal1))."' ";
 		}
-		$sql.=" GROUP BY id_persediaan, tanggal ";
-		$sql.=" ORDER BY tanggal ASC ";		
+		$sql.=" GROUP BY penerimaan_item_detail.id_persediaan, penerimaan_item_detail.tanggal ";
+		$sql.=" ORDER BY penerimaan_item_detail.tanggal ASC ";		
 		$results=$this->GlobalModel->QueryManual($sql);
 		$roll=0;
 		$yardkg=0;
