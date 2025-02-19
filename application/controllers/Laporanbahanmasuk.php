@@ -62,7 +62,7 @@ class Laporanbahanmasuk extends CI_Controller {
 			$sql.=" AND YEAR(penerimaan_item_detail.tanggal)='".date('Y',strtotime($tanggal1))."' ";
 		}
 		$sql.=" GROUP BY penerimaan_item_detail.id_persediaan, penerimaan_item_detail.tanggal ";
-		$sql.=" ORDER BY penerimaan_item_detail.tanggal ASC ";		
+		$sql.=" ORDER BY penerimaan_item.supplier ASC ";		
 		$results=$this->GlobalModel->QueryManual($sql);
 		$roll=0;
 		$yardkg=0;
