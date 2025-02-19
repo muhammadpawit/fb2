@@ -60,6 +60,7 @@
 
 							if ($previous_supplier !== null && $previous_supplier !== $p['supplier']) {
 								echo "<tr><td colspan='8'></td></tr>";
+								echo "<tr><td colspan='8'></td></tr>";
 							}
 
 		
