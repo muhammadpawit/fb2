@@ -56,7 +56,7 @@ class Laporanbahanmasuk extends CI_Controller {
 		$sql =" SELECT penerimaan_item_detail.tanggal,id_persediaan,penerimaan_item_detail.nama, SUM(jumlah) as roll, SUM(ukuran) as yardkg, SUM(ukuran*harga) as total, harga, master_supplier.nama as supplier FROM penerimaan_item_detail INNER JOIN penerimaan_item ON penerimaan_item.id=penerimaan_item_detail.penerimaan_item_id ";
 		$sql .=" LEFT JOIN master_supplier on master_supplier.id=penerimaan_item.supplier ";
 		$sql .="  WHERE penerimaan_item_detail.hapus=0  ";
-		$sql.=" AND jenis=1 AND keterangan NOT lIKE 'Penyesuaian%' ";
+		$sql.=" AND penerimaan_item_detail.jenis=1 AND penerimaan_item_detail.keterangan NOT lIKE 'Penyesuaian%' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND MONTH(penerimaan_item_detail.tanggal)='".date('m',strtotime($tanggal1))."' ";
 			$sql.=" AND YEAR(penerimaan_item_detail.tanggal)='".date('Y',strtotime($tanggal1))."' ";
