@@ -3,6 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Laporanbahanmasuk extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -34,7 +52,10 @@ class Laporanbahanmasuk extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['prods']=[];
 		$no=1;
-		$sql="SELECT tanggal,id_persediaan,nama, SUM(jumlah) as roll, SUM(ukuran) as yardkg, SUM(ukuran*harga) as total, harga FROM penerimaan_item_detail WHERE hapus=0 ";
+		// $sql=" SELECT tanggal,id_persediaan,nama, SUM(jumlah) as roll, SUM(ukuran) as yardkg, SUM(ukuran*harga) as total, harga FROM penerimaan_item_detail WHERE hapus=0 ";
+		$sql =" SELECT penerimaan_item_detail.tanggal,id_persediaan,penerimaan_item_detail.nama, SUM(jumlah) as roll, SUM(ukuran) as yardkg, SUM(ukuran*harga) as total, harga, master_supplier.nama as supplier FROM penerimaan_item_detail INNER JOIN penerimaan_item ON penerimaan_item.id=penerimaan_item_detail.penerimaan_item_id ";
+		$sql =" LEFT JOIN master_supplier on master_supplier.id=penerimaan_item.supplier ";
+		$sql .="  WHERE penerimaan_item_detail.hapus=0  ";
 		$sql.=" AND jenis=1 AND keterangan NOT lIKE 'Penyesuaian%' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND MONTH(tanggal)='".date('m',strtotime($tanggal1))."' ";
@@ -52,6 +73,7 @@ class Laporanbahanmasuk extends CI_Controller {
 			$total+=$r['total'];
 			$data['prods'][]=array(
 				'no'=>$no,
+				'supplier'=> $r['supplier'],
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 				'id'=>$r['id_persediaan'],
 				'nama'=>$r['nama'],

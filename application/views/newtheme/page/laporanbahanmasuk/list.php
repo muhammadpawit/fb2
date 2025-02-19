@@ -44,6 +44,7 @@
 					<tr>
 						<th>No</th>
 						<th>Tanggal</th>
+						<th>Supplier</th>
 						<th>Nama</th>
 						<th>Jumlah (Roll)</th>
 						<th>KG</th>
@@ -55,6 +56,7 @@
 					<?php foreach($prods as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
+							<td><?php echo $p['supplier']?></td>
 							<td><?php echo $p['tanggal']?></td>
 							<td><?php echo $p['nama']?></td>
 							<td><?php echo $p['roll']?></td>
