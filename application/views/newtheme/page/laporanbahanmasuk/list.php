@@ -68,7 +68,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="3" align="center"><b>Total</b></td>
+						<td colspan="4" align="center"><b>Total</b></td>
 						<td><b><?php echo number_format($roll)?></b></td>
 						<td><b><?php echo number_format($yardkg)?></b></td>
 						<td></td>
