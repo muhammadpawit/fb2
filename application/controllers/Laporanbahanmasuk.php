@@ -40,7 +40,7 @@ class Laporanbahanmasuk extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("-12 day"));
+			$tanggal1=date('Y-m-d',strtotime("-30 day"));
 		}
 		//pre(date('m',strtotime($tanggal1)));
 		if(isset($get['tanggal2'])){
