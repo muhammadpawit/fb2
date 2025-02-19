@@ -56,8 +56,8 @@
 					<?php foreach($prods as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
-							<td><?php echo $p['supplier']?></td>
 							<td><?php echo $p['tanggal']?></td>
+							<td><?php echo $p['supplier']?></td>
 							<td><?php echo $p['nama']?></td>
 							<td><?php echo $p['roll']?></td>
 							<td><?php echo $p['yardkg']?></td>
