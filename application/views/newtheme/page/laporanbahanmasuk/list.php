@@ -53,7 +53,18 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php $previous_supplier = null; ?>
 					<?php foreach($prods as $p){?>
+
+						<?php  
+
+							if ($previous_supplier !== null && $previous_supplier !== $p['supplier']) {
+								echo "<tr><td colspan='8'></td></tr>";
+							}
+
+		
+
+						?>
 						<tr>
 							<td><?php echo $p['no']?></td>
 							<td><?php echo $p['tanggal']?></td>
@@ -64,6 +75,8 @@
 							<td><?php echo number_format($p['harga'])?></td>
 							<td><?php echo number_format($p['total'])?></td>
 						</tr>
+
+						<?php $previous_supplier = $p['supplier']; ?>
 					<?php } ?>
 				</tbody>
 				<tfoot>
