@@ -53,36 +53,88 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $previous_supplier = null; ?>
-					<?php foreach($prods as $p){?>
+					<?php 
+					$previous_supplier = null;
+					$totalroll = 0;
+					$totalyard = 0;
+					$totalhg = 0;
+					?>
 
+					<?php foreach ($prods as $p) { ?>
 						<?php  
-
-							if ($previous_supplier !== null && $previous_supplier !== $p['supplier']) {
-								echo "<tr><td colspan='8'></td></tr>";
-								echo "<tr><td colspan='8'></td></tr>";
-							}
-
-		
-
+						// Jika supplier berubah dan bukan iterasi pertama, tampilkan total sebelumnya
+						if ($previous_supplier !== null && $previous_supplier !== $p['supplier']) { ?>
+							<tr><td colspan="8"></td></tr>
+							<tr>
+								<td colspan="4" align="center"><b>Total</b></td>
+								<td><b><?php echo number_format($totalroll) ?></b></td>
+								<td><b><?php echo number_format($totalyard) ?></b></td>
+								<td></td>
+								<td><b><?php echo number_format($totalhg) ?></b></td>
+							</tr>
+							<tr><td colspan="8"></td></tr>
+							<?php  
+							// Reset total untuk supplier baru
+							$totalroll = 0;
+							$totalyard = 0;
+							$totalhg = 0;
+						} 
 						?>
+
 						<tr>
-							<td><?php echo $p['no']?></td>
-							<td><?php echo $p['tanggal']?></td>
-							<td><?php echo $p['supplier']?></td>
-							<td><?php echo $p['nama']?></td>
-							<td><?php echo $p['roll']?></td>
-							<td><?php echo $p['yardkg']?></td>
-							<td><?php echo number_format($p['harga'])?></td>
-							<td><?php echo number_format($p['total'])?></td>
+							<td><?php echo $p['no'] ?></td>
+							<td><?php echo $p['tanggal'] ?></td>
+							<td><?php echo $p['supplier'] ?></td>
+							<td><?php echo $p['nama'] ?></td>
+							<td><?php echo $p['roll'] ?></td>
+							<td><?php echo $p['yardkg'] ?></td>
+							<td><?php echo number_format($p['harga']) ?></td>
+							<td><?php echo number_format($p['total']) ?></td>
 						</tr>
 
-						<?php $previous_supplier = $p['supplier']; ?>
+						<?php 
+						// Akumulasi total
+						$totalroll += $p['roll'];
+						$totalyard += $p['yardkg'];
+						$totalhg += $p['total'];
+
+						// Simpan supplier sebelumnya untuk iterasi berikutnya
+						$previous_supplier = $p['supplier'];
+						?>
+					<?php } ?>
+
+					<?php 
+					// Tampilkan total untuk supplier terakhir
+					if ($previous_supplier !== null) { ?>
+						<tr><td colspan="8"></td></tr>
+						<tr>
+							<td colspan="4" align="center"><b>Total</b></td>
+							<td><b><?php echo number_format($totalroll) ?></b></td>
+							<td><b><?php echo number_format($totalyard) ?></b></td>
+							<td></td>
+							<td><b><?php echo number_format($totalhg) ?></b></td>
+						</tr>
 					<?php } ?>
 				</tbody>
+
 				<tfoot>
 					<tr>
-						<td colspan="4" align="center"><b>Total</b></td>
+						<td colspan="4" align="center"><b></b></td>
+						<td><b></b></td>
+						<td><b></b></td>
+						<td></td>
+						<td><b></b></td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center"><b></b></td>
+						<td><b></b></td>
+						<td><b></b></td>
+						<td></td>
+						<td><b></b></td>
+					</tr>
+					
+					<tr>
+						<td colspan="4" align="center"><b>Grand Total</b></td>
 						<td><b><?php echo number_format($roll)?></b></td>
 						<td><b><?php echo number_format($yardkg)?></b></td>
 						<td></td>
