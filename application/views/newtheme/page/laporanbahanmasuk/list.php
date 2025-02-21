@@ -53,69 +53,72 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php 
-					$previous_supplier = null;
-					$totalroll = 0;
-					$totalyard = 0;
-					$totalhg = 0;
-					?>
-
-					<?php foreach ($prods as $p) { ?>
-						<?php  
-						// Jika supplier berubah dan bukan iterasi pertama, tampilkan total sebelumnya
-						if ($previous_supplier !== null && $previous_supplier !== $p['supplier']) { ?>
-							<tr><td colspan="8"></td></tr>
-							<tr>
-								<td colspan="4" align="center"><b>Total</b></td>
-								<td><b><?php echo number_format($totalroll) ?></b></td>
-								<td><b><?php echo number_format($totalyard) ?></b></td>
-								<td></td>
-								<td><b><?php echo number_format($totalhg) ?></b></td>
-							</tr>
-							<tr><td colspan="8"></td></tr>
-							<?php  
-							// Reset total untuk supplier baru
-							$totalroll = 0;
-							$totalyard = 0;
-							$totalhg = 0;
-						} 
-						?>
-
-						<tr>
-							<td><?php echo $p['no'] ?></td>
-							<td><?php echo $p['tanggal'] ?></td>
-							<td><?php echo $p['supplier'] ?></td>
-							<td><?php echo $p['nama'] ?></td>
-							<td><?php echo $p['roll'] ?></td>
-							<td><?php echo $p['yardkg'] ?></td>
-							<td><?php echo number_format($p['harga']) ?></td>
-							<td><?php echo number_format($p['total']) ?></td>
-						</tr>
-
-						<?php 
-						// Akumulasi total
-						$totalroll += $p['roll'];
-						$totalyard += $p['yardkg'];
-						$totalhg += $p['total'];
-
-						// Simpan supplier sebelumnya untuk iterasi berikutnya
-						$previous_supplier = $p['supplier'];
-						?>
-					<?php } ?>
-
-					<?php 
-					// Tampilkan total untuk supplier terakhir
-					if ($previous_supplier !== null) { ?>
-						<tr><td colspan="8"></td></tr>
-						<tr>
-							<td colspan="4" align="center"><b>Total</b></td>
-							<td><b><?php echo number_format($totalroll) ?></b></td>
-							<td><b><?php echo number_format($totalyard) ?></b></td>
-							<td></td>
-							<td><b><?php echo number_format($totalhg) ?></b></td>
-						</tr>
-					<?php } ?>
-				</tbody>
+            <?php 
+            $previous_supplier = null;
+            $totalroll = 0;
+            $totalyard = 0;
+            $totalhg = 0;
+            $supplier_data = [];
+            
+            foreach ($prods as $p) { 
+                if ($previous_supplier !== null && $previous_supplier !== $p['supplier']) { ?>
+                    <tr><td colspan="8"></td></tr>
+                    <tr>
+                        <td colspan="4" align="center"><b>Total</b></td>
+                        <td><b><?php echo number_format($totalroll) ?></b></td>
+                        <td><b><?php echo number_format($totalyard) ?></b></td>
+                        <td></td>
+                        <td><b><?php echo number_format($totalhg) ?></b></td>
+                    </tr>
+                    <tr><td colspan="8"></td></tr>
+                    <?php 
+                    $supplier_data[] = [
+                        'supplier' => $previous_supplier,
+                        'roll' => $totalroll,
+                        'yardkg' => $totalyard,
+                        'total' => $totalhg
+                    ];
+                    $totalroll = 0;
+                    $totalyard = 0;
+                    $totalhg = 0;
+                } 
+            ?>
+            <tr>
+                <td><?php echo $p['no'] ?></td>
+                <td><?php echo $p['tanggal'] ?></td>
+                <td><?php echo $p['supplier'] ?></td>
+                <td><?php echo $p['nama'] ?></td>
+                <td><?php echo $p['roll'] ?></td>
+                <td><?php echo $p['yardkg'] ?></td>
+                <td><?php echo number_format($p['harga']) ?></td>
+                <td><?php echo number_format($p['total']) ?></td>
+            </tr>
+            <?php 
+            $totalroll += $p['roll'];
+            $totalyard += $p['yardkg'];
+            $totalhg += $p['total'];
+            $previous_supplier = $p['supplier'];
+            } 
+            
+            if ($previous_supplier !== null) { ?>
+                <tr><td colspan="8"></td></tr>
+                <tr>
+                    <td colspan="4" align="center"><b>Total</b></td>
+                    <td><b><?php echo number_format($totalroll) ?></b></td>
+                    <td><b><?php echo number_format($totalyard) ?></b></td>
+                    <td></td>
+                    <td><b><?php echo number_format($totalhg) ?></b></td>
+                </tr>
+            <?php 
+            $supplier_data[] = [
+                'supplier' => $previous_supplier,
+                'roll' => $totalroll,
+                'yardkg' => $totalyard,
+                'total' => $totalhg
+            ];
+            } 
+            ?>
+        </tbody>
 
 				<tfoot>
 					<tr>
@@ -145,3 +148,30 @@
 		</div>
 	</div>
 </div>
+<div id="chart-container" style="width:100%; height:400px;"></div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var supplierData = <?php echo json_encode($supplier_data); ?>;
+            var categories = supplierData.map(item => item.supplier);
+            var rollData = supplierData.map(item => item.roll);
+            var yardkgData = supplierData.map(item => item.yardkg);
+            var totalData = supplierData.map(item => item.total);
+
+            Highcharts.chart('chart-container', {
+                chart: { type: 'column' },
+                title: { text: 'Supplier Data' },
+                xAxis: { categories: categories },
+                yAxis: { title: { text: 'Jumlah' } },
+                series: [
+                    { name: 'Roll', data: rollData },
+                    { name: 'Yard/Kg', data: yardkgData },
+                    { name: 'Total Harga', data: 0 }
+                ]
+            });
+        });
+    </script>
