@@ -3654,6 +3654,19 @@ AND a.jenis = 2
 		}
 		return $hasil;
 	}
+
+	function pinjaman($tanggalMulai){
+		$pinjaman=0;
+		$sql=" SELECT COALESCE(SUM(totalpinjaman),0) as total from pinjaman_karyawan where hapus=0 and  DATE(tanggal)='$tanggalMulai'";
+		$query = $this->GlobalModel->QueryManualRow($sql);
+		if(isset($query['total'])){
+			$pinjaman=$query['total'];
+		}else{
+			$pinjaman=0;
+
+		}
+		return $pinjaman;
+	}
 	
 
 }

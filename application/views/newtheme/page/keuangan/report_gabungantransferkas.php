@@ -36,6 +36,7 @@
           <th rowspan="2" style="vertical-align : middle;text-align:center;">Tanggal</th>
           <th rowspan="2" style="vertical-align : middle;text-align:center;">Trf</th>
           <th rowspan="2" style="vertical-align : middle;text-align:center;">Kas Diterima</th>
+          <th rowspan="2" style="vertical-align : middle;text-align:center;">Pinjaman</th>
           <th colspan="3">Kas Konveksi</th>
           <th colspan="3">Kas Bordir</th>
           <th colspan="3">Kas Sablon</th>
@@ -73,6 +74,7 @@
         $total_trf_sablon=0;
         $total_cash_sablon=0;
         $total_sisa_sablon=0;
+        $total_pinjaman=0;
 
         $no=1;
 
@@ -83,9 +85,10 @@
           <td><?php echo $no++; ?></td>
           <td><?php echo hari($hari).', '.date('d-m-Y',strtotime($p['tanggal']))?></td>
           <td></td>
-          <td><?php echo number_format($p['kasmasuk'])?></td>
+          <td><?php echo !empty($p['kasmasuk']) ? number_format($p['kasmasuk']) : 0?></td>
+          <td><?php echo number_format($p['pinjaman'])?></td>
           <td></td>
-          <td><?php echo number_format($p['masukkonveksi'])?></td>
+          <td><?php echo !empty($p['masukkonveksi']) ? number_format($p['masukkonveksi']):0?></td>
           <td><?php echo !empty($p['sisa_konveksi']) ? number_format($p['sisa_konveksi']):0?></td>
           <td></td>
           <td><?php echo !empty($p['masukbordir']) ? number_format($p['masukbordir']) : 0 ?></td>
@@ -109,6 +112,7 @@
               $total_kasmasuk_sablon+=($p['masuksablon']);
               $total_cash_sablon+=($p['masuksablon']);
               $total_sisa_sablon+=($p['sisa_sablon']);
+              $total_pinjaman+=($p['pinjaman']);
 
             ?>
        
@@ -123,6 +127,7 @@
               <td></td>
               <td></td>
               <td><?php echo number_format($k['nominal'])?></td>
+              <td></td>
               <td></td>
               <td>
                 <?php if($k['bagian']==1){?>
@@ -168,6 +173,11 @@
           <td>
             <b>
               <?php echo number_format($total_kasmasuk,0) ?>
+            </b>
+          </td>
+          <td>
+            <b>
+              <?php echo number_format($total_pinjaman,0) ?>
             </b>
           </td>
           <td>
@@ -225,6 +235,11 @@
             <td colspan="2" align="center">
               <b>
                 <?php echo number_format($total_trf+$total_kasmasuk,0) ?>
+              </b>
+            </td>
+            <td align="center">
+              <b>
+                <?php echo number_format($total_pinjaman,0) ?>
               </b>
             </td>
             <td colspan="2" align="center">

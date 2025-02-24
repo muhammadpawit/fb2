@@ -3,6 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $KirimsetorModel;
+	public $GlobalTwoModel;
+	public $Report;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -152,9 +173,26 @@ class Report extends CI_Controller {
 				);	
 			}
 		}
-		//pre($ket);
+
+		$products3=[];
+		$sbl3a=[];
+		$sql3="SELECT * FROM pinjaman_karyawan WHERE hapus=0 ";
+		$sql3.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$products3=$this->GlobalModel->QueryManual($sql3);
+		$ket=[];
+		if(!empty($products3)){
+			foreach($products3 as $p){
+				$sbl3a[]=array(
+				'tanggal'=>$p['tanggal'],
+				// 'bagian'=>$p['bagian'],
+				'bagian'=>null,
+				);	
+			}
+		}
+		// pre($sbl3a);
+		// pre($pinjaman);
 		$merger=[];
-		$merger=array_merge($tf,$sbl);
+		$merger=array_merge($tf,$sbl,$sbl3a);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -170,13 +208,17 @@ class Report extends CI_Controller {
 			// pre($uniqueArray);
 			// array_unique($merger,SORT_REGULAR)
 		$i=0;
+		$pinjaman=0;
+		
 		// pre($uniqueArray);
 		foreach($uniqueArray as $p){
 			$ket=$this->ReportModel->getket($p['tanggal'],$p['bagian']);
 			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);
+			$pinjaman=$this->ReportModel->pinjaman($p['tanggal']);
 			$data['products'][]=array(
 				'tanggal'=>$p['tanggal'],
 				'kasmasuk'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],$cat),
+				'pinjaman'=>$pinjaman,
 				'masukkonveksi'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],1),
 				'keluarkonveksi'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],1),
 				'sisa_konveksi'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],1),
