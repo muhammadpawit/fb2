@@ -3,6 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Laporanbulananalat extends CI_Controller {
 	
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -18,6 +36,7 @@ class Laporanbulananalat extends CI_Controller {
 
 	public function index(){
 		$data=[];
+		$url='';
 		//pre("Coming soon");
 		$data['title']='';
 		$get=$this->input->get();
@@ -60,7 +79,17 @@ class Laporanbulananalat extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['bulan']=$bulan;
 
-		$sql="SELECT gpi.*, p.harga_beli FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		$sql="
+			SELECT 
+				gpi.id_persediaan, 
+				p.nama, 
+				p.kategori, 
+				MAX(p.harga_beli) AS harga_beli 
+			FROM gudang_persediaan_item gpi 
+			JOIN product p ON p.product_id = gpi.id_persediaan 
+			WHERE gpi.hapus = 0 
+
+		";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
 		}
@@ -78,7 +107,9 @@ class Laporanbulananalat extends CI_Controller {
 			$sql.=" AND gpi.supplier='".$supplier."'";
 		}
 
-		$sql.=" GROUP BY p.nama ASC , p.kategori ASC ";
+		$sql.=" GROUP BY gpi.id_persediaan, p.nama, p.kategori 
+				ORDER BY p.nama ASC, p.kategori ASC
+		";
 		$results=$this->GlobalModel->QueryManual($sql);
 		//pre($results);
 		$no=1;
