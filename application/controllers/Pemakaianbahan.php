@@ -64,7 +64,7 @@ class Pemakaianbahan extends CI_Controller {
 		if(isset($get['supplier'])){
 			$supplier=$get['supplier'];
 		}else{
-			$supplier=null;
+			$supplier=99999999;
 		}
 
 		if(isset($get['tipe'])){
