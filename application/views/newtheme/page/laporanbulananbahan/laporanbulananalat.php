@@ -24,6 +24,17 @@
 		</div>
 	</div>
 	<div class="col-md-3">
+						<div class="form-group">
+                              <label>Supplier</label>
+                              <select name="supplier" class="form-control select2bs4" data-live-search="true">
+                                <option value="0">Pilih</option>
+                                <?php foreach($supplier as $st){?>
+                                  <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
+                                <?php } ?>
+                              </select>
+                            </div>		
+	</div>		
+	<div class="col-md-3">
 							<div class="form-group">
                               <label>Bagian</label>
                               <select name="jenis" class="form-control select2bs4" data-live-search="true">
@@ -184,6 +195,14 @@
 <script type="text/javascript">
 	function filters(){
     url='?';
+
+
+    var supplier = $('select[name=\'supplier\']').val();
+
+    if (supplier != '*') {
+      url += '&supplier=' + encodeURIComponent(supplier);
+    }
+
     
     var filter_date_start = $('input[name=\'tanggal1\']').val();
 
