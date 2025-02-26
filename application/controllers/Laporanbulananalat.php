@@ -82,6 +82,7 @@ class Laporanbulananalat extends CI_Controller {
 		$sql="
 			SELECT 
 				gpi.id_persediaan, 
+				gpi.warna_item,
 				p.nama, 
 				p.kategori, 
 				MAX(p.harga_beli) AS harga_beli 
@@ -136,7 +137,7 @@ class Laporanbulananalat extends CI_Controller {
 			//pre($stokkeluar);
 			$data['prods'][]=array(
 				'no'=>$no++,
-				'nama'	=>$row['nama_item'],
+				'nama'	=>$row['nama'],
 				'warna'	=>$row['warna_item'],
 				'kode'=>null,
 				'stokawal'=>$stokawal,
