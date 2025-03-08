@@ -66,7 +66,12 @@ class Laporanbulananalat extends CI_Controller {
 		if(isset($get['supplier'])){
 			$supplier=$get['supplier'];
 		}else{
-			$supplier=999999;
+			if(!empty($kategori)){
+				$supplier=null;	
+			}else{
+				$supplier=999999;
+			}
+			
 		}
 
 		if(isset($get['bulan'])){
