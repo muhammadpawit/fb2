@@ -35,6 +35,17 @@
                             </div>		
 	</div>		
 	<div class="col-md-3">
+						<div class="form-group">
+                              <label>Kategori</label>
+                              <select name="kategori" class="form-control select2bs4" data-live-search="true">
+                                <option value="0">Pilih</option>
+                                <?php foreach($kategoris as $st){?>
+                                  <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
+                                <?php } ?>
+                              </select>
+                            </div>		
+	</div>		
+	<div class="col-md-3">
 							<div class="form-group">
                               <label>Bagian</label>
                               <select name="jenis" class="form-control select2bs4" data-live-search="true">
@@ -201,6 +212,12 @@
 
     if (supplier != '*') {
       url += '&supplier=' + encodeURIComponent(supplier);
+    }
+
+	var kategori = $('select[name=\'kategori\']').val();
+
+    if (kategori != '*') {
+      url += '&kategori=' + encodeURIComponent(kategori);
     }
 
     
