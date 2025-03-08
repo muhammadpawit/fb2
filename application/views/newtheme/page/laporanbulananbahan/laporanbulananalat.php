@@ -277,6 +277,13 @@
       url += '&bulan=' + encodeURIComponent(bulan);
     }
 
+	var kategori = $('select[name=\'kategori\']').val();
+
+    if (kategori != '*') {
+      url += '&kategori=' + encodeURIComponent(kategori);
+    }
+
+
     
     location =url;
   }
