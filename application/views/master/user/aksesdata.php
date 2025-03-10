@@ -95,8 +95,8 @@
                                                 <option value="180" <?php echo $aksesedit['waktu']==180?'selected':''?>>3 Jam</option> -->
                                                 <option value="1440" <?php echo $aksesedit['waktu']==1440?'selected':''?>>24 Jam</option>
                                                 <option value="2880" <?php echo $aksesedit['waktu']==2880?'selected':''?>>48 Jam</option>
-                                                <!-- <option value="8640" <?php echo $aksesedit['waktu']==8640?'selected':''?>>1 Minggu</option>
-                                                <option value="17280" <?php echo $aksesedit['waktu']==17280?'selected':''?>>2 Minggu</option> -->
+                                                <option value="8640" <?php echo $aksesedit['waktu']==8640?'selected':''?>>1 Minggu</option>
+                                                <option value="17280" <?php echo $aksesedit['waktu']==17280?'selected':''?>>2 Minggu</option>
                                                 <option value="34560" <?php echo $aksesedit['waktu']==34560?'selected':''?>>1 Bulan</option>
                                             </select>
                                         </td>
