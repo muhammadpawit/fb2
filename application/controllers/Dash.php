@@ -700,7 +700,7 @@ class Dash extends CI_Controller {
 			// }
 			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
 		$data = $this->GlobalModel->QueryManualRow($qry);
-		return $data['tanggal'];
+		return isset($data['tanggal'])?$data['tanggal']:date('Y-m-d');
 	}
 
 	public function produksi2122(){
