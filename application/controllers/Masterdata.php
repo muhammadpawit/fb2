@@ -1113,7 +1113,7 @@ class Masterdata extends CI_Controller {
 		$data['products']=array();
 		$data['action']=BASEURL.'Masterdata/Productsave';
 		$data['url']=BASEURL.'Masterdata/Persediaan';
-		$data['kat']=$this->GlobalModel->getData('kategori_barang',array());
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$get=$this->input->get();
 		if(isset($get['product_id'])){
 			$product_id=$get['product_id'];
@@ -2045,7 +2045,7 @@ class Masterdata extends CI_Controller {
 		$data['products']=array();
 		$data['action']=BASEURL.'Masterdata/Productsave';
 		$data['url']=BASEURL.'Masterdata/Persediaan';
-		$data['kat']=$this->GlobalModel->getData('kategori_barang',array());
+		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$get=$this->input->get();
 		if(isset($get['product_id'])){
 			$product_id=$get['product_id'];
