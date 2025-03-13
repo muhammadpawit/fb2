@@ -191,6 +191,7 @@
                   <th>Harga HPP</th>
                   <th>Harga Beli</th>
                   <th>Harga SKB</th>
+                  <th>Kategori</th>
                   <th></th>
                 </tr>
               </thead>          
@@ -214,6 +215,7 @@
                           <td align="right"><?php echo $p['price']?></td>
                           <td align="right"><?php echo $p['harga_beli']?></td>
                           <td align="right"><?php echo $p['harga_skb']?></td>
+                          <td align="right"><?php echo $p['kategori']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
                           <?php } ?></td>

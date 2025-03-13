@@ -12,6 +12,7 @@
                 <tr>
                   <th>No</th>
                   <th>Gambar</th>
+                  <th>Kategori</th>
                   <th>Kode Barang</th>
                   <th>Nama Barang</th>
                   <th>Satuan</th>
@@ -30,6 +31,7 @@
                               <img src="<?php echo BASEURL.'uploads/persediaan/'.$p['foto'] ?>" height="100" width="150" >
                             <?php } ?>
                           </td>
+                          <td><?php echo $p['kategori']?></td>
                           <td><?php echo $p['kodebarang']?></td>
                           <td><?php echo $p['nama']?></td>
                           <td><?php echo $p['ukuran_item'].' '.$p['satuan_ukuran_item']?></td>

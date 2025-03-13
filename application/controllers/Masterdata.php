@@ -1106,7 +1106,8 @@ class Masterdata extends CI_Controller {
 		echo json_encode($k);
 	}
 
-	public function Persediaan(){
+
+	public function persediaan(){
 		$data=array();
 		$data['title']='Master Persediaan';
 		$data['products']=array();
@@ -1163,6 +1164,7 @@ class Masterdata extends CI_Controller {
 		$supplier=null;
 		$color='white';
 		$jenis=null;
+		$kategori=null;
 		foreach($results as $result){
 			$action=array();
 			
@@ -1181,7 +1183,7 @@ class Masterdata extends CI_Controller {
 			
 				$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
 			
-
+				$kategori=$this->GlobalModel->getDataRow('kategori_barang',array('id'=>$result['kategori']));
 
 			$data['products'][]=array(
 				'supplier'=>!empty($supplier)?$supplier['nama']:'-',
@@ -1200,6 +1202,7 @@ class Masterdata extends CI_Controller {
 				'price'=>($result['price']),
 				'harga_beli'=>$result['harga_beli'],
 				'harga_skb'=>$result['harga_skb'],
+				'kategori'	=> !empty($kategori)?$kategori['nama']:'',
 				'action'=>$action,
 			);
 		}
@@ -2091,6 +2094,7 @@ class Masterdata extends CI_Controller {
 		$supplier=null;
 		$color='white';
 		$jenis=null;
+		$kategori=null;
 		foreach($results as $result){
 			$action=array();
 			
@@ -2108,6 +2112,8 @@ class Masterdata extends CI_Controller {
 			$satuan = $this->GlobalModel->getDataRow('master_satuan_barang',array('id_satuan_barang'=>$result['satuan']));
 			
 			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
+
+			$kategori=$this->GlobalModel->getDataRow('kategori_barang',array('id'=>$result['kategori']));
 
 
 			$data['products'][]=array(
@@ -2127,6 +2133,7 @@ class Masterdata extends CI_Controller {
 				'price'=>number_format($result['price'],2),
 				'harga_beli'=>$result['harga_beli'],
 				'harga_skb'=>$result['harga_skb'],
+				'kategori'	=> !empty($kategori)?$kategori['nama']:'',
 				'action'=>$action,
 			);
 		}
