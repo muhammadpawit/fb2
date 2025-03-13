@@ -18,7 +18,7 @@ class Labasablon extends CI_Controller {
 
 	public function index(){
 		$data=[];
-		$data['title']='LAPORAN LABA-RUGI SABLON MINGGUAN';
+		$data['title']='LAPORAN LABA-RUGI SABLON';
 		$data['prods']=[];
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
