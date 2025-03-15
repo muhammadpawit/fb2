@@ -665,7 +665,7 @@ class ReportModel extends CI_Model {
 		*/
 		$hasil=null;
 		$sql="SELECT count(Distinct kbp.idpo) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
-		// $sql.=" AND kbp.id_master_cmt NOT IN(85) ";
+		$sql.=" AND kbp.id_master_cmt NOT IN(85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
