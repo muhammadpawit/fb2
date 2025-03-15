@@ -653,6 +653,8 @@ class Bordir extends CI_Controller {
 		if(!empty($nomesin)){
 			$sm.=" AND nomor='$nomesin' ";
 		}
+		$whernotin="";
+		// $whernotin=" AND c.id NOT IN (4,5) ";
 		$mesin=$this->GlobalModel->QueryManual($sm);
 		$data['luar']=[];
 		$data['luar']=$this->GlobalModel->QueryManual("
@@ -661,6 +663,7 @@ class Bordir extends CI_Controller {
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
 		WHERE a.hapus=0 AND jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  
 		AND laporan_perkalian_tarif IS NOT NULL 
+		$whernotin
 		GROUP BY a.laporan_perkalian_tarif, b.idpemilik order by laporan_perkalian_tarif DESC
 		");
 		

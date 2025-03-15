@@ -88,9 +88,9 @@
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
-                <td><?php echo number_format($req['variabel_pengirimanpo'])?></td>
-                <td><?php echo number_format($req['dz'])?></td>
-                <td><?php echo number_format($req['pcs']) ?></td>
+                <td><?php echo !empty($req['variabel_pengirimanpo']) ? number_format($req['variabel_pengirimanpo']) : 0?></td>
+                <td><?php echo !empty($req['dz']) ? number_format($req['dz']) : 0?></td>
+                <td><?php echo !empty($req['pcs']) ? number_format($req['pcs']) : 0  ?></td>
                 <td><?php echo number_format($req['keseluruhan']) ?></td>
                 <td><?php echo $req['satuan']?></td>
                 <td>
