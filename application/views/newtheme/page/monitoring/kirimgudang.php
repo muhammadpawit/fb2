@@ -66,13 +66,14 @@
                 <?php foreach($rekap as $r){?>
 					<?php if($r['po'] > 0){ ?>
                 <tr>
-                    <td><?php echo $nom++?></td>
+                    <td><?php echo $nom?></td>
                     <td><?php echo $r['type']?></td>
                     <td><?php echo number_format($r['po'])?></td>
                     <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
                     <td><?php echo number_format($r['total'])?></td>
                 </tr>
+				<?php $nom++;?>
 				<?php } ?>
                 <?php
                     $po+=($r['po']);
@@ -111,7 +112,7 @@
 	                    </tr>
 	                </thead>
 	            <tbody>
-	                <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0; ?>
+	                <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0;$nokemeja=1; ?>
 	                <?php foreach($rekapkemeja as $r){?>
 						<?php 
 							$color='';
@@ -121,7 +122,7 @@
 						?>
 					<?php if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
-	                    <td><?php echo $r['no']?></td>
+	                    <td><?php echo $nokemeja++ ?></td>
 	                    <td><?php echo $r['type']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
 	                    <td><?php echo number_format($r['dz'],2)?></td>
@@ -168,7 +169,7 @@
 	                    </tr>
 	                </thead>
 	            <tbody>
-	                <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0; ?>
+	                <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0;$nocelana=1; ?>
 	                <?php foreach($rekapcelana as $r){?>
 						<?php 
 							$color='';
@@ -178,7 +179,7 @@
 						?>
 					<?php if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
-	                    <td><?php echo $r['no']?></td>
+	                    <td><?php echo $nocelana++?></td>
 	                    <td><?php echo $r['type']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
 	                    <td><?php echo number_format($r['dz'],2)?></td>
@@ -227,7 +228,7 @@
 	                    </tr>
 	                </thead>
 	            <tbody>
-	                <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0; ?>
+	                <?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0;$nokaos=1; ?>
 	                <?php foreach($rekapkaos as $r){?>
 						<?php 
 							$color='';
@@ -237,7 +238,7 @@
 						?>
 					<?php if($r['po'] > 0){ ?>
 	                <tr style="background-color: <?php echo $color ?>;">
-	                    <td><?php echo $r['no']?></td>
+	                    <td><?php echo $nokaos++ ?></td>
 	                    <td><?php echo $r['type']?></td>
 	                    <td><?php echo number_format($r['po'])?></td>
 	                    <td><?php echo number_format($r['dz'],2)?></td>
