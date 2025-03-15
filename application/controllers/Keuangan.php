@@ -672,11 +672,35 @@ class Keuangan extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d');
 		}
+
+		if(isset($get['bagian'])){
+			$bagian=$get['bagian'];
+		}else{
+			$bagian=null;
+		}
+		$data['bagian']=$bagian;
+
+		if(isset($get['alokasi'])){
+			$alokasi=$get['alokasi'];
+		}else{
+			$alokasi=null;
+		}
+		$data['alokasi']=$alokasi;
+
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['n']=1;
 		$results=[];
 		$sql="SELECT * FROM transferan WHERE hapus=0 ";
+		if(!empty($bagian)){
+			$sql.=" AND bagian='".$bagian."' ";
+		}
+
+		if(!empty($alokasi)){
+			$sql.=" AND alokasi='".$alokasi."' ";
+		}
+
 		if(!empty($tanggal1)){
 			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}

@@ -63,22 +63,46 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal Awal</label>
       <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal Akhir</label>
       <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
     </div>
   </div>
+  <div class="col-md-2">
+          <div class="form-group">
+            <label>Bagian</label>
+            <select name="bagian" id="bagian" class="form-control select2bs4" required="required">
+              <option value="">Mohon dipilih</option>
+              <option value="1">Konveksi</option>
+              <option value="2">Bordir</option>
+              <option value="3">Sablon</option>
+            </select>
+          </div>
+  </div>
+  <div class="col-md-2">
+          <div class="form-group">
+            <label>Alokasi</label>
+            <select name="alokasi" id="alokasi" class="form-control select2bs4" required="required">
+              <option value="">Mohon dipilih</option>
+              <option value="1">Sukabumi</option>
+              <option value="2">Serang</option>
+              <option value="3">Jawa</option>
+              <option value="4">Giro</option>
+              <option value="5">Ajuan Belanja</option>
+            </select>
+          </div>
+  </div>
   <div class="col-md-4">
     <div class="form-group">
       <label>Aksi</label><br>
-      <button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+      <button class="btn btn-info btn-sm" onclick="filtertglonlytf()">Filter</button>
       <span><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah</button></span>
     </div>
   </div>
@@ -97,6 +121,7 @@
                 </tr>
               </thead>
               <tbody>
+                <?php $total=0 ?>
                 <?php if($products){?>
                   <?php foreach($products as $p){?>
                     <tr>
@@ -127,9 +152,41 @@
                         <?php } ?>
                       </td>
                     </tr>
+                    <?php $total+=$p['nominal'] ?>
                   <?php }?>
                 <?php }?>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2" class="text-right"><b>Total</b></td>
+                  <td></td>
+                  <td colspan="1" class=""><b><?php echo number_format($total)?></b></td><td colspan="1"></td>
+                  <td></td>
+                </tr>
+              </tfoot>
             </table>
   </div>
 </div>
+
+<script type="text/javascript">
+  function filtertglonlytf(){
+    var url='?';
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    var bagian =$("#bagian").val();
+    if(bagian){
+      url+='&bagian='+bagian;
+    }
+    var alokasi =$("#alokasi").val();
+    if(alokasi){
+      url+='&alokasi='+alokasi;
+    }
+    location =url;
+  }
+</script>
