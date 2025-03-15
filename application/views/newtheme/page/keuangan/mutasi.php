@@ -1,13 +1,13 @@
 <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
               <label>Tanggal Awal</label>
               <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <label>Tanggal Akhir</label>
               <input type="text" name="tanggal2" id="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <label>Bagian</label>
               <select name="cat" id="cat" class="form-control select2bs4">
                 <option value="*">Semua</option>
@@ -16,6 +16,17 @@
                 <option value="2" <?php echo $cat==2?'selected':'';?>>Bordir</option>
               <option value="3" <?php echo $cat==3?'selected':'';?>>Sablon</option>
               </select>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+              <label>Pengalokasian</label>
+              <select name="pengalokasian" id="pengalokasian" class="form-control select2bs4" required="required" style="width: 100%;">
+                <option value="*">Semua</option>
+                <?php foreach($pengalokasian as $a){?>
+                  <option value="<?php echo $a['id'] ?>"><?php echo $a['nama'] ?></option>
+                <?php } ?>
+              </select>
+            </div>
             </div>
             <div class="col-md-3">
               <label>Action</label><br>
@@ -33,6 +44,7 @@
                   <th width="100">Tanggal</th>
                   <th>Divisi</th>
                   <th>Keterangan</th>
+                  <th>Pengalokasian</th>
                   <th>Saldomasuk</th>
                   <th>Saldokeluar</th>
                   <th>Sisa</th>
@@ -40,8 +52,9 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $no=1?>
+                <?php $no=1;$pengalokasian=null;?>
                 <?php foreach($mutasi as $m){?>
+                  <?php $pengalokasian=$this->GlobalModel->GetDataRow('pengalokasian',array('id'=>$m['pengalokasian'])); ?>
                   <tr>
                     <td><?php echo $no++?></td>
                     <td><?php echo date('d-m-Y',strtotime($m['tanggal'])) ?></td>
@@ -59,6 +72,7 @@
                       ?>
                     </td>
                     <td><?php echo $m['keterangan']?></td>
+                    <td><?php echo $pengalokasian['nama']?></td>
                     <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldomasuk'])?></p></td>
                     <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldokeluar'])?></p></td>
                     <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldo'])?></p></td>
@@ -112,6 +126,10 @@
         url+='&cat='+cat;
     }
 
+    var pengalokasian=$("#pengalokasian").val();
+    if(pengalokasian!='*'){
+      url+='&pengalokasian='+pengalokasian;
+    }
     location=url;
   }
 

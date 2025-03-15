@@ -68,7 +68,7 @@ class Monitoring extends CI_Controller {
 				'type'=>$arp['type'],
 				'pdz'=>$pdz/12,
 				'ppcs'=>$pdz,
-				'jmlpo'=>round($jmlpo),
+				'jmlpo'=>($jmlpo),
 			);
 			$j++;
 		}

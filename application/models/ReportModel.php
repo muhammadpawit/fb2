@@ -572,7 +572,7 @@ class ReportModel extends CI_Model {
 	public function ppcsjml_filter($jenis,$tanggal1,$tanggal2){
 		$hasil=0;
 		//$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM konveksi_buku_potongan kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.tampil=1 and mjp.idjenis = '".$jenis."' ";
-		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po<>'SKF' and mjp.tampil=1 ";
+		$sql="SELECT count(DISTINCT kbp.idpo) as total,mjp.perkalian,mjp.nama_jenis_po FROM `konveksi_buku_potongan` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis=$jenis AND p.nama_po<>'SKF' and mjp.tampil=1 ";
 		$sql.=" AND kbp.kode_po NOT iN (select kode_po from pogagalproduksi where hapus=0)";
 		$sql.=" and p.hapus=0 ";
 		if(!empty($tanggal1)){

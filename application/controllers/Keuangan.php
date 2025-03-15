@@ -834,16 +834,29 @@ class Keuangan extends CI_Controller {
 		}else{
 			$cat=null;
 		}
+
+		if(isset($get['pengalokasian'])){
+			$pengalokasian=$get['pengalokasian'];
+		}else{
+			$pengalokasian=null;
+		}
+
 		$sql="SELECT * FROM aruskas WHERE hapus=0 AND bank_id='".$id."'";
 		$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		if(!empty($cat)){
 			$sql.=" AND bagian='".$cat."' ";
 		}
+		if(!empty($pengalokasian)){
+			$sql.=" AND pengalokasian='".$pengalokasian."' ";
+		}
+
 		$sql.=" ORDER BY id ";
 		$data['mutasi']=$this->db->query($sql)->result_array();
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;
+		$data['pengalokasian']=$this->GlobalModel->getData('pengalokasian',array('hapus'=>0));
+		
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'keuangan/mutasi_excel',$data);
 		}else{
