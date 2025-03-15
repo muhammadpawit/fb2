@@ -355,6 +355,7 @@ class Monitoring extends CI_Controller {
 		// celana
 		$celana=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>3));
 		$nocelana=1;
+		$data['rekapcelana']=array();
 		foreach($celana as $k){
 			$data['rekapcelana'][]=array(
 				'no'=>$nocelana++,
