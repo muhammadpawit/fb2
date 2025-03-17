@@ -154,13 +154,13 @@ class Laporanbulananalat extends CI_Controller {
 				'stokkeluarroll'=>$stokkeluar,
 				'stokkeluaryard'=>0,
 				'stokkeluarharga'=>$row['harga_beli'],
-				'stokakhirroll'=>$row['jumlah_item'],
+				'stokakhirroll'=>isset($row['jumlah_item']) ? $row['jumlah_item'] : 0,
 				'stokakhiryard'=>0,
 				'stokakhirharga'=>$row['harga_beli'],
 				'total'=>round($row['harga_beli']*($stokawal+($stokmasuk['yard']-$stokkeluar))),
 				//'ket'=>!empty($barangmasukterakhir)?'barang masuk terakhir '.$supplier.' <br>'.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])).'.<br> Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/minggu':null,
 				'ket'=>!empty($barangmasukterakhir)?'Rata-rata '.number_format($ratarata,2).' '.$barangmasukterakhir['satuanJml'].'/hari'.'<br>'.$barangmasukterakhir['keterangan']:null,
-				'satuan'=>$row['satuan_jumlah_item'],
+				'satuan'=>isset($row['satuan_jumlah_item']) ? $row['satuan_jumlah_item'] : 0,
 				'masukterakhir'=>!empty($barangmasukterakhir)?$supplier.' '.$barangmasukterakhir['jumlah'].' '.$barangmasukterakhir['satuanJml'].' tanggal '.date('d-m-Y',strtotime($barangmasukterakhir['tanggal'])):null,
 			);
 		}
