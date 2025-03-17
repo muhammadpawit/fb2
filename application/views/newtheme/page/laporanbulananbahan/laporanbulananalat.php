@@ -28,8 +28,8 @@
                               <label>Supplier</label>
                               <select name="supplier" class="form-control select2bs4" data-live-search="true">
                                 <option value="*">Pilih</option>
-                                <?php foreach($supplier as $st){?>
-                                  <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
+                                <?php foreach($suppliers as $st){?>
+                                  <option value="<?php echo $st['id'] ?>" <?php echo $st['id']==$supplier?'selected':''?>><?php echo $st['nama']?></option>
                                 <?php } ?>
                               </select>
                             </div>		
@@ -40,7 +40,7 @@
                               <select name="kategori" class="form-control select2bs4" data-live-search="true">
                                 <option value="*">Pilih</option>
                                 <?php foreach($kategoris as $st){?>
-                                  <option value="<?php echo $st['id'] ?>"><?php echo $st['nama']?></option>
+                                  <option value="<?php echo $st['id'] ?>" <?php echo $st['id']==$kategori?'selected':''?>><?php echo $st['nama']?></option>
                                 <?php } ?>
                               </select>
                             </div>		

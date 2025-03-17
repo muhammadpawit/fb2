@@ -83,7 +83,9 @@ class Laporanbulananalat extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['bulan']=$bulan;
-
+		$data['kategori']=$kategori;
+		$data['supplier']=$supplier;
+		$data['jenis']=$jenis;
 		$sql="
 			SELECT 
 				gpi.id_persediaan, 
@@ -165,7 +167,7 @@ class Laporanbulananalat extends CI_Controller {
 			);
 		}
 		
-		$data['supplier']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
+		$data['suppliers']=$this->GlobalModel->GetData('master_supplier',array('hapus'=>0));
 		$data['kategoris']=$this->GlobalModel->GetData('kategori_barang',array('hapus'=>0));
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'laporanbulananalat_excel',$data);	

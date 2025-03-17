@@ -125,7 +125,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                 <br>
 
-                                                ( Muchlas)
+                                                ( &nbsp; &nbsp; &nbsp; &nbsp;)
 
                                             </td>
                                             
