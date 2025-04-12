@@ -596,12 +596,12 @@ class Keuangan extends CI_Controller {
 		if(!empty($karyawan)){
 			// $products=$this->GlobalModel->getData('pinjaman_karyawan',array('hapus'=>0,'idkaryawan'=>$karyawan));
 			$sql ="SELECT * FROM pinjaman_karyawan WHERE hapus=0 AND idkaryawan='".$karyawan."'";
-			$sql.=" ORDER BY id DESC ";
+			$sql.=" ORDER BY tanggal DESC , status ASC";
 			$products=$this->GlobalModel->QueryManual($sql);
 		}else{
 			// $products=$this->GlobalModel->getData('pinjaman_karyawan',array('hapus'=>0));
 			$sql ="SELECT * FROM pinjaman_karyawan WHERE hapus=0";
-			$sql.=" ORDER BY id DESC ";
+			$sql.=" ORDER BY tanggal DESC , status ASC ";
 			$products=$this->GlobalModel->QueryManual($sql);
 		}
 		
