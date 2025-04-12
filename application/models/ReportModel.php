@@ -1243,7 +1243,38 @@ class ReportModel extends CI_Model {
 		}
 		$sql.=" AND keterangan LIKE '%Sisa%' ";
 		$data=$this->db->query($sql)->row_array();
-		return $hasil=$data['total'];
+		// return $hasil=$data['total'];
+		// Penyesuaian bagian_dipengajuan berdasarkan $cat
+		$bagian_dipengajuan = null;
+		$cat=$bagian;
+		if (!empty($cat)) {
+			if ($cat == 1) {
+				$bagian_dipengajuan = 3;
+			} elseif ($cat == 2) {
+				$bagian_dipengajuan = 2;
+			} elseif ($cat == 3) {
+				$bagian_dipengajuan = 1;
+			} elseif ($cat == 4) {
+				$bagian_dipengajuan = 4;
+			}
+		}
+
+		// Query pengajuan_harian_new
+		$sql_pengajuan = " SELECT SUM(COALESCE(sisa_cash, 0)) as total
+			FROM pengajuan_harian_new
+			WHERE hapus = 0 AND status = 1 AND DATE(tanggal) = ?";
+
+		$params_pengajuan = [$tanggal];
+
+		if (!empty($bagian)) {
+			$sql_pengajuan .= " AND kategori = ?";
+			$params_pengajuan[] = $bagian_dipengajuan;
+		}
+
+		$pengajuan = $this->db->query($sql_pengajuan, $params_pengajuan)->row();
+		
+
+		return $data['total'] + $pengajuan->total;
 	}
 
 	public function rekapjml($bulan,$tahun,$idcmt,$cmtkat,$progress){
