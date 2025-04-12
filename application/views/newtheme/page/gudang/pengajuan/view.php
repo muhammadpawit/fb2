@@ -60,7 +60,7 @@
                         <tr>
 
                             <th>Ttd</th>
-                            <th>Tanggal</th>
+                            <th>Hari, Tanggal</th>
 
                             <th>Divisi / Cabang</th>
 
@@ -91,7 +91,7 @@
                                 <?php foreach ($harian as $key => $us): ?>
 
                             <tr>
-
+                              <?php $hari= date('l',strtotime($us['tanggal']))?>
                             <td>
                                   <?php if($us['status']==0){?>
                                       <?php if($id_user==7 || $id_user==11){ ?>
@@ -101,7 +101,7 @@
                                       <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
                                       <?php } ?>
                                 </td>
-                                <td><?php echo date('d F Y',strtotime($us['tanggal'])) ?></td>
+                                <td><?php echo hari($hari).', '. date('d F Y',strtotime($us['tanggal'])) ?></td>
 
                                 <td>
                                   <?php 
