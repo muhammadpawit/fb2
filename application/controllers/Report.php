@@ -191,8 +191,37 @@ class Report extends CI_Controller {
 		}
 		// pre($sbl3a);
 		// pre($pinjaman);
+
+		// ambil dai pengajuan
+		$pengajuan=[];
+		$listpengajuan=[];
+		$bagian_dipengajuan=0; // 1 sablon, 2 bordir, 3 konveksi, 4 sukabumi
+		if(!empty($cat)){
+			if($cat==1){
+				$bagian_dipengajuan=3;
+			}else if($cat==2){
+				$bagian_dipengajuan=2;
+			}else if($cat==3){
+				$bagian_dipengajuan=1;
+			}else if($cat==4){
+				$bagian_dipengajuan=4;
+			}
+		}
+		$sql4 ="SELECT * FROM pengajuan_harian_new WHERE hapus=0 AND status=1 ";
+		$sql4.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$pengajuan=$this->GlobalModel->QueryManual($sql4);
+		$ket=[];
+		if(!empty($pengajuan)){
+			foreach($pengajuan as $p){
+				$listpengajuan[]=array(
+				'tanggal'=>$p['tanggal'],
+				// 'bagian'=>$p['bagian'],
+				'bagian'=>null,
+				);	
+			}
+		}
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {

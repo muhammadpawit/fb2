@@ -1159,14 +1159,82 @@ class ReportModel extends CI_Model {
 		return $hasil=$data['total'];
 	}
 
-	public function sumkas($column,$tanggal,$bagian){
-		$sql="SELECT SUM($column) as total FROM aruskas WHERE date(tanggal)='$tanggal'  AND hapus=0  ";
-		if(!empty($bagian)){
-			$sql.=" and bagian='$bagian' ";
+	// public function sumkas($column,$tanggal,$bagian){
+	// 	$sql="SELECT SUM($column) as total FROM aruskas WHERE date(tanggal)='$tanggal'  AND hapus=0  ";
+	// 	if(!empty($bagian)){
+	// 		$sql.=" and bagian='$bagian' ";
+	// 	}
+	// 	$data=$this->db->query($sql)->row_array();
+
+	// 	$pengajuan=[];
+	// 	$listpengajuan=[];
+	// 	$bagian_dipengajuan=0; // 1 sablon, 2 bordir, 3 konveksi, 4 sukabumi
+	// 	if(!empty($cat)){
+	// 		if($cat==1){
+	// 			$bagian_dipengajuan=3;
+	// 		}else if($cat==2){
+	// 			$bagian_dipengajuan=2;
+	// 		}else if($cat==3){
+	// 			$bagian_dipengajuan=1;
+	// 		}else if($cat==4){
+	// 			$bagian_dipengajuan=4;
+	// 		}
+	// 	}
+	// 	$sql4 ="SELECT * FROM pengajuan_harian_new WHERE hapus=0 AND status=1 ";
+	// 	$sql4.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+	// 	$pengajuan=$this->GlobalModel->QueryManual($sql4);
+
+
+	// 	return $hasil=$data['total'];
+	// }
+
+	public function sumkas($column, $tanggal, $bagian = null, $cat = null)
+	{
+		// Query aruskas
+		$sql = "SELECT SUM($column) as total FROM aruskas WHERE DATE(tanggal) = ? AND hapus = 0";
+		$params = [$tanggal];
+
+		if (!empty($bagian)) {
+			$sql .= " AND bagian = ?";
+			$params[] = $bagian;
 		}
-		$data=$this->db->query($sql)->row_array();
-		return $hasil=$data['total'];
-	}
+
+		$data = $this->db->query($sql, $params)->row_array();
+
+		// Penyesuaian bagian_dipengajuan berdasarkan $cat
+		$bagian_dipengajuan = null;
+		$cat=$bagian;
+		if (!empty($cat)) {
+			if ($cat == 1) {
+				$bagian_dipengajuan = 3;
+			} elseif ($cat == 2) {
+				$bagian_dipengajuan = 2;
+			} elseif ($cat == 3) {
+				$bagian_dipengajuan = 1;
+			} elseif ($cat == 4) {
+				$bagian_dipengajuan = 4;
+			}
+		}
+
+		// Query pengajuan_harian_new
+		$sql_pengajuan = " SELECT SUM(COALESCE(diterima_cash, 0)) as total
+			FROM pengajuan_harian_new
+			WHERE hapus = 0 AND status = 1 AND DATE(tanggal) = ?";
+
+		$params_pengajuan = [$tanggal];
+
+		if (!empty($bagian)) {
+			$sql_pengajuan .= " AND kategori = ?";
+			$params_pengajuan[] = $bagian_dipengajuan;
+		}
+
+		$pengajuan = $this->db->query($sql_pengajuan, $params_pengajuan)->row();
+		
+
+		return $data['total'] + $pengajuan->total;
+}
+
+
 
 	public function sisa($column,$tanggal,$bagian){
 		$sql="SELECT SUM($column) as total FROM aruskas WHERE date(tanggal)='$tanggal'  AND hapus=0 ";
@@ -2749,7 +2817,29 @@ AND a.jenis = 2
 			foreach($ket as $k){
 				$hasil[]=$k['keterangan'];
 			}
-			$unique=array_unique($hasil);
+
+			$listpengajuan=[];
+							$sql4 ="SELECT *,
+				CASE 
+					WHEN kategori = 1 THEN 'Sablon'
+					WHEN kategori = 2 THEN 'Bordir'
+					WHEN kategori = 3 THEN 'Konveksi'
+					WHEN kategori = 4 THEN 'Sukabumi'
+					ELSE 'Lainnya'
+				END AS kategori_nama
+				FROM pengajuan_harian_new
+				WHERE hapus = 0 AND status = 1 ";
+			$sql4.=" AND date(tanggal)='".$tanggal."'";
+			$pengajuan=$this->GlobalModel->QueryManual($sql4);
+			$ket=[];
+			if(!empty($pengajuan)){
+				foreach($pengajuan as $p){
+					$listpengajuan[]='Ajuan '.$p['kategori_nama'];
+				}
+			}
+			// pre($listpengajuan);
+			$merge=array_merge($hasil,$listpengajuan);
+			$unique=array_unique($merge);
 			return $unique;
 	}
 
