@@ -3588,7 +3588,7 @@ class Gudang extends CI_Controller {
 		echo '<div class="row">';
 		echo '<div class="col-md-4">';
 		echo 'Cash : <br>';
-		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'" readonly>';
+		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'">';
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Transfer : <br>';
