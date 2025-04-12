@@ -465,7 +465,7 @@
                                     <th>Paraf SPV</th>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $parent['diterima_cash']-$parent['cash']?></td>
+                                    <td><?php echo $parent['cash']-$parent['diterima_cash']?></td>
                                     <td>Sisa Ajuan</td>
                                     <td></td>
                                 </tr>
