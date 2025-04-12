@@ -3584,7 +3584,7 @@ class Gudang extends CI_Controller {
 				Detail Realisasi Penerimaan 
 			</h2>
 		</div>';
-		echo '<input type="hidden" name="id" value="'.$id.'">	';
+		echo '<input type="hidden" name="id" value="'.$id.'">  <input type="hidden" name="ajuancash" value="'.$ajuan['cash'].'">	';
 		echo '<div class="row">';
 		echo '<div class="col-md-4">';
 		echo 'Cash : <br>';
@@ -3596,7 +3596,7 @@ class Gudang extends CI_Controller {
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Sisa Cash : <br>';
-		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  required>';
+		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  readonly>';
 		echo '</div><br><br>';
 		// echo '
 		// 		<div class="row">
@@ -3702,7 +3702,7 @@ class Gudang extends CI_Controller {
 		$update = array(
 			'diterima_cash' => $post['diterima_cash'],
 			'diterima_tf' => $post['diterima_tf'],
-			'sisa_cash' => $post['sisa_cash'],
+			'sisa_cash' => $post['ajuancash']-$post['diterima_cash'],
 		);
 		$where = array(
 			'id'=> $post['id']
