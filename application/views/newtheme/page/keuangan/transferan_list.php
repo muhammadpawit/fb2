@@ -96,6 +96,7 @@
               <option value="3">Jawa</option>
               <option value="4">Giro</option>
               <option value="5">Ajuan Belanja</option>
+              <option value="21">Pinjaman</option>
             </select>
           </div>
   </div>
