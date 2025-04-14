@@ -18,7 +18,7 @@
           </div>
           <div class="form-group">
             <label>Bagian</label>
-            <select name="bagian" class="form-control select2bs4" required="required">
+            <select name="bagian" class="form-control select2bs4" required="required" style="width: 100%;">
               <option value="">Mohon dipilih</option>
               <option value="1">Konveksi</option>
               <option value="2">Bordir</option>
@@ -27,13 +27,14 @@
           </div>
           <div class="form-group">
             <label>Alokasi</label>
-            <select name="alokasi" class="form-control select2bs4" required="required">
+            <select name="alokasi" class="form-control select2bs4" required="required" style="width: 100%;">
               <option value="">Mohon dipilih</option>
               <option value="1">Sukabumi</option>
               <option value="2">Serang</option>
               <option value="3">Jawa</option>
               <option value="4">Giro</option>
               <option value="5">Ajuan Belanja</option>
+              <option value="21">Pinjaman</option>
             </select>
           </div>
           <div class="form-group">
