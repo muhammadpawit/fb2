@@ -43,7 +43,7 @@
               <option value="">Mohon dipilih</option>
               <?php foreach ($penerimaan_item as $p) { ?>
                 <?php $supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$p['supplier'])) ?>
-                <?php $total=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah*harga)) as total FROM penerimaan_item_detail WHERE penerimaan_item_id='".$p['id']."' and hapus=0 ") ?>
+                <?php $total=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(ukuran*harga)) as total FROM penerimaan_item_detail WHERE penerimaan_item_id='".$p['id']."' and hapus=0 ") ?>
                 <option value="<?php echo $p['id'] ?>"><?php echo strtolower($p['keterangan']) ?> dari <?php echo $supplier['nama'] ?> <?php echo date('d F Y', strtotime($p['tanggal'])) ?> Rp.<?php echo number_format($total['total']) ?></option>
               <?php } ?>
             </select>
