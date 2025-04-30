@@ -33,7 +33,7 @@
       <option value="3" <?php echo $cat==4?'selected':'';?>>Sablon</option>
     </select>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <label>Supplier</label>
     <select name="supplier_id" id="supplier_id" class="form-control select2bs4" data-live-search="true">
       <option value="*">Semua</option>
@@ -42,7 +42,15 @@
       <?php } ?>
     </select>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
+    <label for="">Status Pembayaran</label>
+    <select name="status_pembayaran" id="status_pembayaran" class="form-control select2bs4">
+      <option value="*">Semua</option>
+      <option value="sudah" <?php echo $status_pembayaran=='sudah'?'selected':'';?>>Lunas</option> 
+      <option value="belum" <?php echo $status_pembayaran=='belum'?'selected':'';?>>Belum Lunas</option>
+    </select>
+  </div>
+  <div class="col-md-2">
     <div class="form-group">
       <label>Aksi</label><br>
       <button onclick="filters()" class="btn btn-info btn-sm">Filter</button>
@@ -113,7 +121,9 @@
                       </td>
                       <td>
                         <?php if(akseshapus()==1){?>
-                          <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-xs">Hapus</a>
+                          <?php if($p['validasi']==0){ ?>
+                            <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-xs">Hapus</a>
+                          <?php } ?>
                         <?php } ?>
                         
                         <?php if($p['validasi']==0){ ?>
@@ -149,6 +159,11 @@
     var tanggal1=$("#tanggal1").val();
     var tanggal2=$("#tanggal2").val();
     var cat=$("#cat").val();
+    var status_pembayaran=$("#status_pembayaran").val();
+
+    if(status_pembayaran!='*'){
+      url+='&status_pembayaran='+status_pembayaran;
+    }
 
     if(tanggal1){
       url+='&tanggal1='+tanggal1;

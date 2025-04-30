@@ -707,6 +707,8 @@ class Keuangan extends CI_Controller {
 		$sql.=" ORDER BY id desc ";
 		$results = $this->GlobalModel->QueryManual($sql);
 		$data['products']=$results;
+		$data['penerimaan_item']=[];
+		$data['penerimaan_item']=$this->GlobalModel->GetData('penerimaan_item',array('hapus'=>0,'tipepembayaran'=>'Tempo','status_pembayaran'=>'belum'));
 		$data['action']=BASEURL.'Keuangan/transferansave';
 		$data['mutasi']=BASEURL.'Keuangan/mutasibank/';
 		$data['page']=$this->page.'keuangan/transferan_list';
@@ -721,9 +723,17 @@ class Keuangan extends CI_Controller {
 			'keterangan'=>$data['keterangan'],
 			'bagian'=>$data['bagian'],
 			'alokasi'=>$data['alokasi'],
+			'penerimaan_item_id'=>$data['penerimaan_item_id'],
 			'hapus'=>0,
 		);
 		$this->db->insert('transferan',$insert);
+		$update = array(
+			'status_pembayaran' => 'sudah',
+		);
+		if(!empty($data['penerimaan_item_id'])){
+			$this->db->update('penerimaan_item', $update, array('id' => $data['penerimaan_item_id']));
+			$this->db->update('penerimaan_item_detail', array('validasi'=>1), array('penerimaan_item_id' => $data['penerimaan_item_id']));
+		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Keuangan/transferan');
 	}
@@ -734,6 +744,8 @@ class Keuangan extends CI_Controller {
 		$data['action']=BASEURL.'Keuangan/edit_transferansave';
 		$data['batal']=BASEURL.'Keuangan/transferan/';
 		$data['page']=$this->page.'keuangan/transferan_edit';
+		$data['penerimaan_item']=[];
+		$data['penerimaan_item']=$this->GlobalModel->GetData('penerimaan_item',array('hapus'=>0,'tipepembayaran'=>'Tempo'));
 		$this->load->view($this->page.'main',$data);
 	}
 
@@ -744,9 +756,17 @@ class Keuangan extends CI_Controller {
 			'nominal'=>$data['nominal'],
 			'keterangan'=>$data['keterangan'],
 			'bagian'=>$data['bagian'],
+			'penerimaan_item_id'=>$data['penerimaan_item_id'],
 			'hapus'=>0,
 		);
 		$this->db->update('transferan',$insert,array('id'=>$data['id']));
+		$update = array(
+			'status_pembayaran' => 'sudah',
+		);
+		if(!empty($data['penerimaan_item_id'])){
+			$this->db->update('penerimaan_item', $update, array('id' => $data['penerimaan_item_id']));
+			$this->db->update('penerimaan_item_detail', array('validasi'=>1), array('penerimaan_item_id' => $data['penerimaan_item_id']));
+		}
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect(BASEURL.'Keuangan/transferan');
 	}

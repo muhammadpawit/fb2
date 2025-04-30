@@ -18,6 +18,17 @@
 	              <option value="3" <?php echo ($k['bagian']==3)?'selected':'';?>>Sablon</option>
 	            </select>
 	          </div>
+			  <div class="form-group">
+				<label>Untuk Pembayaran </label>
+				<select name="penerimaan_item_id" class="form-control select2bs4" required="required" style="width: 100%;">
+				<option value="">Mohon dipilih</option>
+				<?php foreach ($penerimaan_item as $p) { ?>
+					<?php $supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$p['supplier'])) ?>
+					<?php $total=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah*harga)) as total FROM penerimaan_item_detail WHERE penerimaan_item_id='".$p['id']."' and hapus=0 ") ?>
+					<option value="<?php echo $p['id'] ?>" <?php echo ($p['id']==$k['penerimaan_item_id'])?'selected':'' ?>><?php echo strtolower($p['keterangan']) ?> dari <?php echo $supplier['nama'] ?> <?php echo date('d F Y', strtotime($p['tanggal'])) ?> Rp.<?php echo $total['total'] ?></option>
+				<?php } ?>
+				</select>
+			</div>
 			<div class="form-group">
 				<label>Keterangan</label>
 				<input type="text" name="keterangan" class="form-control" value="<?php echo $k['keterangan']?>">

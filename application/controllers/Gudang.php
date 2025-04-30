@@ -1670,6 +1670,13 @@ class Gudang extends CI_Controller {
 		}else{
 			$sups=null;
 		}
+
+		if(isset($get['status_pembayaran'])){
+			$status_pembayaran=$get['status_pembayaran'];
+		}else{
+			$status_pembayaran=null;
+		}
+
 		$sql='SELECT * FROM penerimaan_item WHERE hapus=0 ';
 
 		if(!empty($tanggal1)){
@@ -1681,6 +1688,10 @@ class Gudang extends CI_Controller {
 
 		if(!empty($sups)){
 			$sql.=" AND supplier='".$sups."' ";
+		}
+
+		if(!empty($status_pembayaran)){
+			$sql.=" AND status_pembayaran='".$status_pembayaran."' ";
 		}
 
 		if(!empty($cat) OR empty(!$sups)){
@@ -1724,6 +1735,7 @@ class Gudang extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;
 		$data['suppliers_id']=$sups;
+		$data['status_pembayaran']=$status_pembayaran;
 		if(isset($get['excel'])){
 			$this->load->view('gudang/penerimaanitem/excel',$data);
 		}else{
