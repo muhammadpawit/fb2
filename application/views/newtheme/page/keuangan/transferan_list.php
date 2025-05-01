@@ -39,7 +39,7 @@
           </div>
           <div class="form-group">
             <label>Untuk Pembayaran </label>
-            <select name="penerimaan_item_id" class="form-control select2bs4" required="required" style="width: 100%;">
+            <select name="penerimaan_item_id" class="form-control select2bs4" style="width: 100%;">
               <option value="">Mohon dipilih</option>
               <?php foreach ($penerimaan_item as $p) { ?>
                 <?php $supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$p['supplier'])) ?>
