@@ -64,12 +64,14 @@
 
                             <th>Divisi / Cabang</th>
 
-                            <th>Cash</th>
+                            <!-- <th>Cash</th>
 
-                            <th>Transfer</th>
-
-                            <th>Total</th>
+                            <th>Transfer</th> -->
+                            <?php if($setujui==1){?>
+                            <th>Pengajuan</th>
+                            <th>Total Pengajuan</th>
                             <th>Realisasi</th>
+                            <?php } ?>
                             <th>Status</th>
                             <th>Revisi</th>
                             
@@ -125,12 +127,19 @@
                                 
                               </td>
 
-                                <td><?php echo number_format($us['cash'])?></td>
-                                <td><?php echo number_format($us['transfer'])?></td>
+                                <!-- <td><?php //echo number_format($us['cash'])?></td>
+                                <td><?php // echo number_format($us['transfer'])?></td> -->
+                                <?php if($setujui==1){?>
+                                <td>
+                                  Cash : <?php echo !empty($us['cash']) ? number_format($us['cash']) : 0 ?><br>Transfer : <?php echo !empty($us['transfer']) ? number_format($us['transfer']) : 0 ?>
+                                </td>
                                 <td><?php echo number_format($us['cash']+$us['transfer'])?></td>
                                 <td>
-                                  Cash : <?php echo !empty($us['diterima_cash']) ? number_format($us['diterima_cash']) : 0 ?><br>Transfer : <?php echo !empty($us['diterima_tf']) ? number_format($us['diterima_tf']) : 0 ?>
+                                  Cash : <?php echo !empty($us['diterima_cash']) ? number_format($us['diterima_cash']) : 0 ?>
+                                  <br>Sisa Cash : <?php echo !empty($us['sisa_cash']) ? number_format($us['sisa_cash']) : 0 ?>
+                                  <br>Transfer : <?php echo !empty($us['diterima_tf']) ? number_format($us['diterima_tf']) : 0 ?>
                                 </td>
+                                <?php } ?>
                                 <td>
 
                                 <?php 
