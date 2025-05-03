@@ -63,7 +63,7 @@ class Rekapkasbon extends CI_Controller {
 				'id'=>$k['id'],
 				'nama'=>$k['nama'],
 				'bagian'=>!empty($divisi)?$divisi['nama']:'',
-				'tgl'=>date('d M Y',strtotime($k['tglmasuk'])),
+				'tgl'=>!empty($k['tglmasuk']) ? formatTanggalIndo($k['tglmasuk']) : '',
 				'lama'=>lamabekerja($k['id']),
 				'gaji'=>$k['gajipokok'],
 				'kasbon'=>$this->KasbonModel->getsumkasbon($k['id'],$bulan,$tahun),

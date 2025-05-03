@@ -920,7 +920,7 @@ class Keuangan extends CI_Controller {
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
 			$total+=($result['nominal_acc']);
 			$data['products'][]=array(
-				'tanggal'=>date('d/m/Y',strtotime($result['tanggal'])),
+				'tanggal'=>date('Y-m-d',strtotime($result['tanggal'])),
 				'nama'=>$karyawan['nama'],
 				'divisi'=>$bagian['nama'],
 				'nominal'=>number_format($result['nominal_request'],2),
@@ -1173,6 +1173,15 @@ class Keuangan extends CI_Controller {
 		}else{
 			$sups=null;
 		}
+
+		if(isset($get['status_pembayaran'])){
+			$status_pembayaran=$get['status_pembayaran'];
+		}else{
+			$status_pembayaran=null;
+		}
+		$data['status_pembayaran']=$status_pembayaran;
+
+
 		$sql='SELECT * FROM penerimaan_item WHERE hapus=0 ';
 
 		if(!empty($tanggal1)){
@@ -1182,6 +1191,11 @@ class Keuangan extends CI_Controller {
 			$sql.=" AND jenis='".$cat."' ";
 		}
 
+		if(!empty($status_pembayaran)){
+			$sql.=" AND status_pembayaran='".$status_pembayaran."' ";
+		}
+
+		
 		if(!empty($sups)){
 			$sql.=" AND supplier='".$sups."' ";
 		}
@@ -1195,6 +1209,7 @@ class Keuangan extends CI_Controller {
 		$resutls = $this->GlobalModel->queryManual($sql);
 		$data['supplier']=$this->GlobalModel->getData('master_supplier',array('hapus'=>0));
 		$data['n']=1;
+		
 		foreach($resutls as $result){
 			$action=array();
 			$action[]=array(
@@ -1217,6 +1232,7 @@ class Keuangan extends CI_Controller {
 				'keterangan'=>$result['keterangan'],
 				'supplier'=>empty($supplier)?'':$supplier['nama'],
 				'jenis'=>$result['jenis'],
+				'tipepembayaran'=>$result['tipepembayaran'],
 				'action'=>$action,
 				'prods'=>$products,
 			);

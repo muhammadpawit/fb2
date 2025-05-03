@@ -99,7 +99,7 @@
                           }
                         ?>
                       </td>
-                      <td><?php echo $i['tipepembayaran']?></td>
+                      <td><?php echo isset($i['tipepembayaran'])?$i['tipepembayaran']:'-'?></td>
                       <td><?php echo $i['tanggal']?></td>
                       <td><?php echo strtolower($i['supplier']) ?></td>
                       <td><?php echo strtolower($p['nama']) ?></td>

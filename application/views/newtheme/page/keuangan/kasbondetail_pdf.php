@@ -85,7 +85,7 @@ foreach($detail as $d) {
         <h1><i>NOTA KASBON FORBOYS</i></h1><hr>
         <div class="row">
             <div style="width: 70%;">Nama : <span class="wide"><b><?php echo $d['nama']?></b></span></div>
-            <div style="width: 30%; float: right;">Tanggal : <span class="wide"><b><?php echo $d['tanggal']?></b></span></div>
+            <div style="width: 30%; float: right;">Tanggal : <span class="wide"><b><?php echo !empty($d['tanggal']) ? formatTanggalIndo($d['tanggal']) : ''?></b></span></div>
         </div><hr><br>
         <div class="row">
           <div style="border: 1px solid black; width: 30%; padding: 30px; font-size: 30px;">

@@ -48,14 +48,14 @@
               <tbody>
                 <?php foreach($products as $p){?>
                   <tr>
-                    <td><?php echo $p['tanggal']?></td>
+                    <td><?php echo !empty($p['tanggal']) ? formatTanggalIndo($p['tanggal']) : ''?></td>
                     <td><?php echo $p['nama']?></td>
                     <td><?php echo $p['divisi']?></td>
                     <td><?php echo $p['nominal']?></td>
                     <td><?php echo $p['nominal_acc']?></td>
                     <td><?php echo $p['status']==0?'Diajukan':'Disetujui';?></td>
                     <td>
-                      <a href="<?php echo $p['detail']?>" class="btn btn-info btn-sm">Detail</a>
+                      <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs">Detail</a>
                     </td>
                   </tr>
                 <?php }?>

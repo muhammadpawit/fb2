@@ -24,7 +24,7 @@
               <tbody>
                 <?php foreach($detail as $d){?>
                   <tr>
-                    <td><input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $d['id']?>"><?php echo $d['tanggal'];?></td>
+                    <td><input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $d['id']?>"><?php echo !empty($d['tanggal']) ? formatTanggalIndo($d['tanggal']) : ''?></td>
                     <td><?php echo $d['nama'];?></td>
                     <td><?php echo $d['divisi'];?></td>
                     <td>Rp. <?php echo number_format($d['nominal']);?></td>

@@ -73,7 +73,7 @@
 			  <tr align="center">
 			  	<?php if(!empty($tgl)){?>
 			  		<?php foreach($tgl as $t){?>
-			  			<th><?php echo date('d/m/Y',strtotime($t['tanggal'])) ?></th>
+			  			<th><?php echo formatTanggalIndo($t['tanggal']) ?></th>
 			  		<?php } ?>
 			  	<?php }else{ ?>
 			  	<?php } ?>
@@ -99,7 +99,9 @@
 			  	<?php } ?>
 				<td><?php echo !empty($k['sisapinjaman']) ? number_format($k['sisapinjaman']) : 0 ?></td> <!-- sisa pinjaman -->
 			    <td><?php echo number_format($k['pinjaman'])?></td> <!-- pinjaman baru -->
-			    <td><?php echo number_format($k['gaji']-$kasbon)?></td>
+			    <td>
+					<b><?php echo number_format($k['gaji']-$kasbon)?></b>
+				</td>
 			    <td>ket</td>
 			  </tr>
 			 <?php } ?>

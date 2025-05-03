@@ -75,7 +75,7 @@ class Setorancmt extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
-				'tanggal'=>date('d/m/Y',strtotime($result['tanggal'])),
+				'tanggal'=>!empty($result['tanggal'])?formatTanggalIndo($result['tanggal']):'',
 				'kode_po'=>$result['kode_po'],
 				'quantity'=>$result['totalsetor'],
 				'namacmt'=>$namacmt['cmt_name'],
