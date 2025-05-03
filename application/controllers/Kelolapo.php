@@ -20,6 +20,10 @@ class Kelolapo extends CI_Controller {
 	public $uri;
 	public $pdf;
 	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
 
 	function __construct() {
 		parent::__construct();
@@ -29,6 +33,11 @@ class Kelolapo extends CI_Controller {
 		$this->page='newtheme/page/kelolapo/';
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
+		$this->bg_warning='#f39c12';
+		$this->bg_danger='#dd4b39';
+		$this->bg_success='#00a65a';
+		$this->bg_info='#00c0ef';
+
 		if(empty($this->auth)) {redirect($this->login);}
 	}
 
@@ -2098,12 +2107,14 @@ class Kelolapo extends CI_Controller {
 			$action[] = array(
 				'text' => 'Detail',
 				'href' => BASEURL.'Kelolapo/kirimcmtview/'.$result['id'],
+				'bg' => '',
 			);
 
 			//if(aksesedit()==1){
 				$action[] = array(
 					'text' => 'Edit',
 					'href' => BASEURL.'Kelolapo/kirimcmtedit/'.$result['id'],
+					'bg' => $this->bg_warning,
 				);
 			//}
 

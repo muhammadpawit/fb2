@@ -53,16 +53,18 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-     <table class="table table-bordered" id="empTable">
+     <table class="table table-bordered yessearch">
                         <thead>
 
                         <tr>
 
-                            <th>NAMA PO</th>
+                            <th>Tanggal</th>
 
-                            <th>NAMA CMT & KAT CMT</th>
+                            <th>PO</th>
 
-                            <th>PROGRESS</th>
+                            <th>Nama CMT ( Kategori )</th>
+
+                            <th>Proses</th>
 
                             <th>Nomor SJ</th>
 
@@ -70,9 +72,9 @@
 
                             <th>Pekerjaan</th>
 
-                            <th>CREATED</th>
+                            
 
-                            <th>ACTION</th>
+                            <!-- <th>ACTION</th> -->
 
                         </tr>
 
@@ -83,6 +85,8 @@
                                 <?php foreach ($kelola as $key => $sat): ?>
 
                             <tr>
+
+                            <td><?php echo formatTanggalIndo($sat['create_date']) ?></td>
 
                                 <td><?php echo $sat['kode_po'] ?></td>
 
@@ -111,15 +115,10 @@
 
                                 <td><?php echo $sat['qty_tot_pcs'] ?></td>
                                 <td><?php echo $sat['pekerjaan'] ?></td>
-                                <td><?php echo $sat['create_date'] ?></td>
+                                
 
-                                <td>
-
-                                    <!-- <a href="<?php echo BASEURL.'kelolapo/formpengecekandetail/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor']; ?>" class="btn btn-sm btn-secondary"> <i class="fi-zoom-in"></i> Detail</a> -->
-
-                                    <!--<a href="<?php echo BASEURL.'kelolapo/kirimsetorcek/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-warning text-white"> <i class="dripicons-browser-upload"></i> Proses</a>-->
-
-                                    <?php if(akseshapus()==1){?>
+                                <!-- <td>
+                                    <?php //if(akseshapus()==1){?>
 
                                       <?php if($sat['progress']=="SETOR"){?>
                                          <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
@@ -129,22 +128,8 @@
                                             <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
                                       <?php } ?>
                                     <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
-                                    <?php } ?>
-
-
-                                    <?php //if ($sat['kategori_cmt'] == 'BORDIR'): ?>
-
-                                        <?php //if ($sat['progress'] == 'KIRIM'){ ?>
-
-                                                <!--<a href="<?php echo BASEURL.'bordir/harianmesinbordirnaik/'.$sat['kode_po'] ?>" disabled class="btn btn-sm btn-info">BORDIR</a>
-
-                                                <a href="<?php echo BASEURL.'bordir/harianbuangbenang/'.$sat['kode_po'] ?>" disabled class="btn btn-sm btn-info">BENANG</a>-->
-
-                                        <?php //} ?>
-
-                                    <?php //endif ?>
-
-                                </td>
+                                    <?php //} ?>
+                                </td> -->
 
                             </tr>
 
@@ -155,7 +140,7 @@
                     </table>
   </div>
 </div>
-<?php $this->view('newtheme/layout/table-button');?>
+<?php //$this->view('newtheme/layout/table-button');?>
 <script type="text/javascript">
   function filter(){
     var url='?';

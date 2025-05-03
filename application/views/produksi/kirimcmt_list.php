@@ -85,10 +85,10 @@
                             <td><?php echo $p['tanggal']?></td>
                             <td><?php echo $p['namacmt']?></td>
                             <td><?php echo $d['jumlah_pcs']?></td>
-                            <td><?php echo $po['kode_po']?></td>
+                            <td><?php echo isset($po['kode_po'])?$po['kode_po']:''?></td>
                             <td><?php echo $p['status']?></td>
                             <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                            <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                            <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                             <?php } ?></td>
                           </tr>
                           <?php } ?>
