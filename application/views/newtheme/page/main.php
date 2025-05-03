@@ -615,7 +615,7 @@
 
 <script>
   $(document).ready(function () {
-      var perpage=100;
+      var perpage=25;
       info =window.location.origin;
 
       
