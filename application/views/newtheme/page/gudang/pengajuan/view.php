@@ -69,7 +69,7 @@
                             <th>Transfer</th>
 
                             <th>Total</th>
-                            <th>Keterangan</th>
+                            <th>Realisasi</th>
                             <th>Status</th>
                             <th>Revisi</th>
                             
@@ -101,7 +101,7 @@
                                       <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
                                       <?php } ?>
                                 </td>
-                                <td><?php echo hari($hari).', '. date('d F Y',strtotime($us['tanggal'])) ?></td>
+                                <td><?php echo hari($hari).', '. formatTanggalIndo($us['tanggal']) ?></td>
 
                                 <td>
                                   <?php 
@@ -129,7 +129,7 @@
                                 <td><?php echo number_format($us['transfer'])?></td>
                                 <td><?php echo number_format($us['cash']+$us['transfer'])?></td>
                                 <td>
-                                  <?php echo isset($us['keterangan']) ? strtolower($us['keterangan']):''?>
+                                  Cash : <?php echo !empty($us['diterima_cash']) ? number_format($us['diterima_cash']) : 0 ?><br>Transfer : <?php echo !empty($us['diterima_tf']) ? number_format($us['diterima_tf']) : 0 ?>
                                 </td>
                                 <td>
 

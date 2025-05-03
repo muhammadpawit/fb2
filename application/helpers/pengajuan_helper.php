@@ -489,6 +489,33 @@
 
 		return $nama;
 	}
+
+	function formatTanggalIndo($tanggal){
+		$bulan = [
+			'January'   => 'Januari',
+			'February'  => 'Februari',
+			'March'     => 'Maret',
+			'April'     => 'April',
+			'May'       => 'Mei',
+			'June'      => 'Juni',
+			'July'      => 'Juli',
+			'August'    => 'Agustus',
+			'September' => 'September',
+			'October'   => 'Oktober',
+			'November'  => 'November',
+			'December'  => 'Desember'
+		];
+	
+		$tanggalObj = strtotime($tanggal);
+		$tgl = date('d', $tanggalObj);
+		$bln = $bulan[date('F', $tanggalObj)];
+		$thn = date('Y', $tanggalObj);
+	
+		return "$tgl $bln $thn";
+	}
+	
+
+
 	function sizebordir($kode_po='')
 	{
 		$CI =& get_instance();
