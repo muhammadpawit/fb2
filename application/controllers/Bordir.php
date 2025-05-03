@@ -1155,18 +1155,20 @@ class Bordir extends CI_Controller {
 						'href' => BASEURL.'bordir/mesinbordirdetailluar/'.$b['kode_po'],
 						'bg'=>'bg-primary',
 					);
-					if($hapus==1){
-						$action[]=array(
-							'text'=>'Hapus',
-							'href'=>BASEURL.'Bordir/mesinharianhapus/'.$b['id_kelola_mesin_bordir'],
-							'bg'=>'bg-yellow',
-						);
-					}
+					
 
 					if(aksesedit()==1){
 						$action[]=array(
 							'text'=>'Edit',
 							'href'=>BASEURL.'Bordir/mesinharian_edit_luar/'.$b['kode_po'],
+							'bg'=>'bg-yellow',
+						);
+					}
+
+					if($hapus==1){
+						$action[]=array(
+							'text'=>'Hapus',
+							'href'=>BASEURL.'Bordir/mesinharianhapus/'.$b['id_kelola_mesin_bordir'],
 							'bg'=>'bg-red',
 						);
 					}

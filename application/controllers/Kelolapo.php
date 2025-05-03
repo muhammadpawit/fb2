@@ -823,11 +823,13 @@ class Kelolapo extends CI_Controller {
 					$action[] = array(
 						'text' => '&nbsp;Edit',
 						'href' => BASEURL.'kelolapo/bukupotonganEditRef/'.$result['idpo'].'/'.$result['refpo'],
+						'bg'   => '#f39c12',
 					);
 				}else{
 					$action[] = array(
 						'text' => '&nbsp;Edit',
 						'href' => BASEURL.'kelolapo/bukupotonganEdit/'.$result['idpo'],
+						'bg'   => '#f39c12',
 					);
 				}
 					
@@ -837,22 +839,26 @@ class Kelolapo extends CI_Controller {
 				$action[] = array(
 					'text' => '&nbsp;Detail',
 					'href' => BASEURL.'kelolapo/bukupotonganDetailRef/'.$result['refpo'],
+					'bg'   => '',
 				);
 			}else{
 				$action[] = array(
 					'text' => '&nbsp;Detail',
 					'href' => BASEURL.'kelolapo/bukupotonganDetail/'.$result['idpo'],
+					'bg'   => '',
 				);
 			}
 
 			$action[] = array(
 				'text' => 'Edit Gambar',
 				'href' => BASEURL.'kelolapo/editgambar/'.$result['idpo'].'',
+				'bg'   => '#f39c12',
 			);
 
 			$action[] = array(
 				'text' => 'Hapus',
 				'href' => BASEURL.'kelolapo/bukupotonganhapus/'.$result['id_potongan'].'',
+				'bg'   => '#dd4b39',
 			);
 
 

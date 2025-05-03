@@ -81,7 +81,8 @@
                                         <th><?php echo $sat['status']?></th>
                                         <td><?php echo (isset($sat['created_date']))?$sat['created_date']:$sat['tanggalProd'] ?></td>
                                         <td class="right"><?php foreach ($sat['action'] as $action) { ?>
-                                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;
+                                          <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?> !important;" class="badge waves-light waves-effect"
+                                          <?php if(strtolower($action['text'])=='hapus'){ ?> onclick="return confirm('Apakah yakin akan menghapus data ini ?') " <?php } ?>><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                                           <?php } ?>
                                         </td>
                                     </tr>
