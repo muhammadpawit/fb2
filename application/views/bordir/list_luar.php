@@ -93,7 +93,7 @@
                             <td class="right">
                                 <?php foreach ($bod['action'] as $action) { ?>
                                     <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"
-                                    <?php if(strtolower($action['text'])=='hapus'){ ?> onclick="return confirm('Apakah yakin akan menghapus data ini ?') " <?php } ?>><?php echo $action['text']; ?></a><br>
+                                    <?php if(strtolower($action['text'])=='hapus'){ ?> onclick="return confirm('Apakah yakin akan menghapus data ini ?') " <?php } ?>><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                                 <?php } ?>
                             </td>
                         </tr>
