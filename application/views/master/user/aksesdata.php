@@ -101,6 +101,7 @@
                                                 <option value="34560" <?php echo $aksesedit['waktu']==34560?'selected':''?>>1 Bulan</option>
                                                 <option value="259200" <?php echo $aksesedit['waktu'] == 259200 ? 'selected' : '' ?>>6 Bulan</option>
                                                 <option value="518400" <?php echo $aksesedit['waktu'] == 518400 ? 'selected' : '' ?>>1 Tahun</option>
+                                                <option value="5184000" <?php echo $aksesedit['waktu'] == 5184000 ? 'selected' : '' ?>>10 Tahun</option>
                                             </select>
                                         </td>
                                     </tr>
