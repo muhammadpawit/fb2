@@ -714,6 +714,7 @@ class Bordir extends CI_Controller {
 	}
 	public function pemilikpoluar(){
 		$data=array();
+		$data['title']='Pemilik Poluar';
 		$data['n']=1;
 		$data['action']=BASEURL.'Bordir/pemilikpoluarsave';
 		$data['products']=array();
@@ -739,7 +740,7 @@ class Bordir extends CI_Controller {
 		$data['action']=BASEURL.'Bordir/poluarsave';
 		$data['products']=array();
 		$data['pemilik']=$this->GlobalModel->getData('pemilik_poluar',array('hapus'=>0));
-		$products=$this->GlobalModel->getData('master_po_luar',array('hapus'=>0));
+		$products=$this->GlobalModel->QueryManual("SELECT * FROM master_po_luar WHERE hapus=0 order by id desc ");
 		$pemilik=0;
 		foreach($products as $p){
 			$pemilik=$this->GlobalModel->getDataRow('pemilik_poluar',array('id'=>$p['idpemilik']));
