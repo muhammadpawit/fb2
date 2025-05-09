@@ -86,7 +86,7 @@ class Pemakaianbahan extends CI_Controller {
 		$data['status']  =$status;
 		$data['kat']=$this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
-		$sql.=" AND gpi.id_persediaan IN (SELECT id_persediaan FROM penerimaan_item_detail WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
+		// $sql.=" AND gpi.id_persediaan IN (SELECT id_persediaan FROM penerimaan_item_detail WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ";
 		if(!empty($jenis)){
 			$sql.=" AND p.jenis='".$jenis."'";
 		}
