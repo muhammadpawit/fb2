@@ -63,7 +63,7 @@
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo strtoupper($p['nama'])?></td>
-                      <th><a href="<?php echo $hapus.$p['id']?>" class="btn btn-danger btn-xs text-white">Hapus</a></th>
+                      <th><a href="<?php echo $hapus.$p['id']?>" class="btn btn-danger btn-xs text-white" onclick="return confirm('Apakah yakin akan menghapus data ini?')">Hapus</a></th>
                     </tr>
                   <?php }?>
                 <?php }?>

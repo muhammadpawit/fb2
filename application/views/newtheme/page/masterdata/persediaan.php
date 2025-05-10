@@ -217,7 +217,7 @@
                           <td align="right"><?php echo $p['harga_skb']?></td>
                           <td align="right"><?php echo $p['kategori']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                           <a href="<?php echo $action['href']; ?>" class="badge <?php echo $action['bg']?> badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                           <?php } ?></td>
                         </tr>
                         <?php } ?>

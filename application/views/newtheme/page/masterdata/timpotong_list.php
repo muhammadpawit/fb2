@@ -40,7 +40,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="form-group">
-      <button type="button" class="btn btn-info btn-sm full" data-toggle="modal" data-target="#myModal" onclick="clears()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" onclick="clears()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
     </div>
   </div>
 </div>
@@ -61,7 +61,7 @@
                       <td><?php echo $n++?></td>
                       <td><?php echo strtolower($p['nama'])?></td>
                       <td>
-                      <button type="button" class="btn btn-warning btn-sm full" data-toggle="modal" data-target="#myModal" onclick="detail(<?php echo $p['id']?>)"><i class="fa fa-pencil"></i>&nbsp;</button>
+                      <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal" onclick="detail(<?php echo $p['id']?>)"><i class="fa fa-pencil"></i>&nbsp;</button>
                       </td>
                     </tr>
                   <?php }?>

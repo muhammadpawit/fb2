@@ -111,7 +111,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="form-group">
-        <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>&nbsp;Tambah</button></span>
+        <span class=""><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>&nbsp;Tambah</button></span>
     </div>
   </div>
 </div>
@@ -163,15 +163,15 @@
                       <td><?php echo ($p['no_rek'])?></td>
                       <td>
                         <?php if($p['status_resign']==2){ ?>
-                          <span class="badge bg-black">Non-aktif / Resign</span><br>
+                          <span class="badge">Non-aktif / Resign</span><br>
                           <span class="badge"><?php echo $p['tglkeluar'] ?></span>
                         <?php }else{ ?>
-                          <span class="badge bg-success">Aktif</span>
+                          <span class="badge bg-green">Aktif</span>
                         <?php } ?>
                       </td>
                       <td>
-                        <a href="<?php echo BASEURL.'Masterdata/karyawanedit/'.$p['id'];?>" class="badge bg-info text-white">Edit</a>
-                        <a href="<?php echo BASEURL.'Masterdata/karyawanhapus/'.$p['id'];?>" class="badge bg-danger text-white">Hapus</a>
+                        <a href="<?php echo BASEURL.'Masterdata/karyawanedit/'.$p['id'];?>" class="badge bg-yellow bg-info text-white">Edit</a>
+                        <a href="<?php echo BASEURL.'Masterdata/karyawanhapus/'.$p['id'];?>" class="badge bg-red bg-danger text-white">Hapus</a>
                       </td>
                     </tr>
                   <?php }?>

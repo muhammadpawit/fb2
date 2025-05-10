@@ -44,7 +44,7 @@
                             <td><?php echo $p['shift']?></td>
                             <td><?php echo $p['status']?></td>
                             <td>
-                                <a href="<?php echo $p['detail']?>" class="btn btn-sm btn-info">Detail</a>
+                                <a href="<?php echo $p['detail']?>" class="btn btn-xs btn-warning">Detail</a>
                             </td>
                         </tr>
                     <?php } ?>

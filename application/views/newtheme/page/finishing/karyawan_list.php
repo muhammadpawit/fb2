@@ -94,8 +94,8 @@
                       <td><?php echo $p['perminggu']==0?number_format($p['gaji']*6):number_format($p['perminggu'])?></td>
                       <td>
                         <?php if($edit==1){?>
-                           <a href="<?php echo $ubah.$p['id'];?>" class="btn btn-warning btn-sm text-white">Edit</a>
-                        <a href="<?php echo $hapus.$p['id'];?>" class="btn btn-danger btn-sm text-white">Delete</a>
+                           <a href="<?php echo $ubah.$p['id'];?>" class="btn btn-warning btn-xs text-white">Edit</a>
+                        <a href="<?php echo $hapus.$p['id'];?>" class="btn btn-danger btn-xs text-white">Delete</a>
                         <?php } ?>
                       </td>
                     </tr>

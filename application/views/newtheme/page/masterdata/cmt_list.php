@@ -58,9 +58,9 @@
                       <td><?php echo strtolower($p['keterangan'])?></td>
                       <td>
                         <?php if($p['cmt_job_desk']=='JAHIT'){?>
-                           <a href="<?php echo BASEURL.'Masterdata/daftarhargacmt'.'/'.$p['id_cmt'];?>" class="btn btn-success btn-xs">Daftar Harga</a>
+                           <a href="<?php echo BASEURL.'Masterdata/daftarhargacmt'.'/'.$p['id_cmt'];?>" class="btn btn-primary btn-xs">Daftar Harga</a>
 
-                           <a href="<?php echo BASEURL.'Masterdata/ongkoshpp'.'/'.$p['id_cmt'];?>" class="btn btn-success btn-xs">Ongkos HPP</a>
+                           <a href="<?php echo BASEURL.'Masterdata/ongkoshpp'.'/'.$p['id_cmt'];?>" class="btn btn-warning btn-xs">Ongkos HPP</a>
                         <?PHP  } ?>
                         <?php if($edit==1){?>
                          

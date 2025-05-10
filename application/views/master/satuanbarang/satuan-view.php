@@ -35,8 +35,8 @@
                                 <td><?php echo $sat['kode_satuan_barang'] ?></td>
                                 <td><?php echo $sat['created_date'] ?></td>
                                 <th>
-                                    <a href="<?php echo BASEURL.'masterdata/satuanbarangEdit/'.$sat['id_satuan_barang'] ?>" class="btn btn-custom"> EDIT</a>
-                                    <a href="<?php echo BASEURL.'masterdata/satuanDelete/'.$sat['id_satuan_barang'] ?>" class="btn btn-danger"> DELETE</a>
+                                    <a href="<?php echo BASEURL.'masterdata/satuanbarangEdit/'.$sat['id_satuan_barang'] ?>" class="btn btn-warning btn-xs"> Edit</a>
+                                    <a href="<?php echo BASEURL.'masterdata/satuanDelete/'.$sat['id_satuan_barang'] ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini?')">Hapus</a>
                                 </th>
                             </tr>
                                 <?php endforeach ?>

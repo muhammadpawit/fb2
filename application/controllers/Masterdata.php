@@ -982,7 +982,7 @@ class Masterdata extends CI_Controller {
 		$from = $this->uri->segment(3);
 		$this->pagination->initialize($config);		
 		//$products = $this->GlobalModel->data('karyawan',$config['per_page'],$from);
-		$products = $this->GlobalModel->getData('karyawan',array('hapus'=>0));
+		$products = $this->GlobalModel->QueryManual("SELECT * FROM karyawan WHERE hapus=0 order by nama");
 		$data['products']=array();
 		$tahun=null;
 		$bulan=null;
@@ -1171,12 +1171,14 @@ class Masterdata extends CI_Controller {
 			$action[] = array(
 				'text' => 'Edit',
 				'href' => BASEURL.'Masterdata/Edit/'.$result['product_id'],
+				'bg'	=> 'bg-yellow',
 			);
 			
 			if(akseshapus()==1){
 				$action[] = array(
 					'text' => 'Hapus',
 					'href' => BASEURL.'Masterdata/hapus/'.$result['product_id'],
+					'bg'	=> 'bg-red',
 				);
 			}
 			$satuan = $this->GlobalModel->getDataRow('master_satuan_barang',array('id_satuan_barang'=>$result['satuan']));
@@ -1786,7 +1788,7 @@ class Masterdata extends CI_Controller {
 
 	{
 
-		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang',null);
+		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang',array('hapus'=>0));
 		$viewData['page']='master/satuanbarang/satuan-view';
 		$this->load->view('newtheme/page/main',$viewData);
 
@@ -1898,7 +1900,7 @@ class Masterdata extends CI_Controller {
 	{
 		$data=[];
 		$data['title']='Master Nama PO';
-		$data['satuan']	= $this->GlobalModel->getData('master_jenis_po',array());
+		$data['satuan']	= $this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po ORDER BY nama_jenis_po ");
 		$data['page']='master/po/po-view';
 		$this->load->view($this->page.'main',$data);
 
@@ -2101,12 +2103,14 @@ class Masterdata extends CI_Controller {
 			$action[] = array(
 				'text' => 'Edit',
 				'href' => BASEURL.'Masterdata/Edit/'.$result['product_id'],
+				'bg'	=> 'bg-yellow',
 			);
 
 			if(akseshapus()==1){
 				$action[] = array(
 					'text' => 'Hapus',
 					'href' => BASEURL.'Masterdata/hapus/'.$result['product_id'],
+					'bg'	=> 'bg-red',
 				);
 			}
 			$satuan = $this->GlobalModel->getDataRow('master_satuan_barang',array('id_satuan_barang'=>$result['satuan']));
@@ -2167,7 +2171,7 @@ class Masterdata extends CI_Controller {
 
 	{
 		$viewData['title']	= 'Kategori Barang';
-		$viewData['satuan']	= $this->GlobalModel->getData('kategori_barang',null);
+		$viewData['satuan']	= $this->GlobalModel->getData('kategori_barang',array('hapus'=>0));
 		$viewData['page']='master/satuanbarang/kategori-view';
 		$this->load->view('newtheme/page/main',$viewData);
 
@@ -2260,7 +2264,7 @@ class Masterdata extends CI_Controller {
 
 	{
 		$viewData['title']	= 'Master Size';
-		$viewData['satuan']	= $this->GlobalModel->getData('master_size',null);
+		$viewData['satuan']	= $this->GlobalModel->QueryManual("SELECT * FROM master_size order by nama_size ");
 		$viewData['page']='master/size/list';
 		$this->load->view('newtheme/page/main',$viewData);
 
@@ -2316,7 +2320,7 @@ class Masterdata extends CI_Controller {
 
 	{
 		$viewData['title']	= 'Model PO';
-		$viewData['satuan']	= $this->GlobalModel->getData('model_po',array('hapus'=>0));
+		$viewData['satuan']	= $this->GlobalModel->QueryManual("SELECT * FROM model_po WHERE hapus=0 ORDER BY nama_model");
 		$viewData['page']='master/modelpo/list';
 		$this->load->view('newtheme/page/main',$viewData);
 

@@ -39,7 +39,7 @@ class Formpengambilanalat extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no,
 				'id'=>$r['id'],
-				'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
+				'tanggal'=> formatTanggalIndo($r['tanggal']),
 				'mandor'=>$r['mandor'],
 				'shift'=>$r['shift'],
 				'status'=>$r['status'] == 2 ? '<span class="badge alert-warning"><i class="fa fa-refresh"></i> menunggu validasi</span>':'<span class="badge alert-success"><i class="fa fa-check"></i> tervalidasi</span>',

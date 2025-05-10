@@ -605,14 +605,16 @@ class Kelolapo extends CI_Controller {
 			$action=array();
 			//if($result['status']==0){
 				$action[] = array(
-					'text' => '<i class="fa fa-pencil"></i>&nbsp;Edit',
+					'text' => '<i class="fa fa-pencil"></i>&nbsp;',
 					'href' =>  BASEURL.'kelolapo/produksipoedit/'.$result['id_produksi_po'],
+					'bg'  =>'bg-yellow',
 				);	
 			//}
 			
 			$action[] = array(
-				'text' => '<i class="fa fa-eye"></i>&nbsp;Detail',
+				'text' => '<i class="fa fa-eye"></i>&nbsp;',
 				'href' =>  BASEURL.'kelolapo/produksipodetail/'.$result['id_produksi_po'],
+				'bg'  =>'bg-blue',
 			);
 			$progress=$this->GlobalModel->getDataRow('proggresion_po',array('id_proggresion_po'=>$result['id_proggresion_po']));
 			$data['po'][]=array(
@@ -630,7 +632,7 @@ class Kelolapo extends CI_Controller {
 				'action'=>$action,
 			);
 		}
-		$data['page']='newtheme/page/kelolapo/polist';
+		
 		$data['title']='Master Kode PO';
 		$data['tambah']=BASEURL.'Kelolapo/addpo';
 		$data['action']=BASEURL.'Kelolapo/posave';
@@ -639,6 +641,7 @@ class Kelolapo extends CI_Controller {
 		$data['progress'] = $this->GlobalModel->getData('proggresion_po',null);
 		$data['JenisPo'] = $this->GlobalModel->getData('master_jenis_po',null);
 		$data['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
+		$data['page']='newtheme/page/kelolapo/polist';
 		$this->load->view('newtheme/layout/header');
 		$this->load->view('newtheme/page/main',$data);
 		$this->load->view('newtheme/layout/footer');

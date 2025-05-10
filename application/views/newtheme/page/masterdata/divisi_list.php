@@ -70,7 +70,7 @@
                       <td><?php echo $n++?></td>
                       <td><?php echo strtoupper($p['nama'])?></td>
                       <td>
-                        <a href="<?php echo BASEURL.'Masterdata/hapusdivisi/'.$p['id'];?>" class="btn btn-danger btn-sm text-white">Hapus</a>
+                        <a href="<?php echo BASEURL.'Masterdata/hapusdivisi/'.$p['id'];?>" class="btn btn-danger btn-xs text-white">Hapus</a>
                       </td>
                     </tr>
                   <?php }?>

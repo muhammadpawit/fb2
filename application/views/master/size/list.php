@@ -31,7 +31,7 @@
                             <tr>
                                 <td><?php echo $sat['nama_size'] ?></td>
                                 <td>
-                                    <a href="<?php echo BASEURL.'Masterdata/sizeOnDelete/'.$sat['id_master_size']?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah yakin akan menghapus data ini ? ')">Hapus</a>
+                                    <a href="<?php echo BASEURL.'Masterdata/sizeOnDelete/'.$sat['id_master_size']?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ? ')">Hapus</a>
                                 </td>
                                
                             </tr>
