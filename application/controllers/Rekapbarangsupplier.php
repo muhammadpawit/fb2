@@ -46,48 +46,51 @@ class Rekapbarangsupplier extends CI_Controller {
 		$data['tahun']=$tahun;
 		$data['bulans']=$bulan;
 		$data['supplier']=$supplier;
+		$results=[];
 		//pre(bulan());
-		$sql="SELECT rekapbarangsupplier.* FROM rekapbarangsupplier ";
+		if(!empty($bulan)  && !empty($tahun) ){
+			$sql="SELECT rekapbarangsupplier.* FROM rekapbarangsupplier ";
 
-		if(!empty($bulan)  && !empty($tahun)){
-			$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
-			$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
-			$sql.=" AND MONTH(tanggal_awal)='".$bulan."' AND YEAR(tanggal_awal)='".$tahun."' ";
-			
-			if(!empty($supplier)){
-				$sql.=" AND supplier='".$supplier."' ";
+			if(!empty($bulan)  && !empty($tahun)){
+				$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
+				$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
+				$sql.=" AND MONTH(tanggal_awal)='".$bulan."' AND YEAR(tanggal_awal)='".$tahun."' ";
+				
+				if(!empty($supplier)){
+					$sql.=" AND supplier='".$supplier."' ";
+				}
+
+				$sql.=" GROUP BY supplier ";
+			}else if(!empty($tahun)){
+				$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
+				$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
+				$sql.=" AND YEAR(tanggal_awal)='".$tahun."' ";
+				
+				if(!empty($supplier)){
+					$sql.=" AND supplier='".$supplier."' ";
+				}
+
+				$sql.=" GROUP BY supplier ";
+			}else if(!empty($bulan)){
+				$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
+				$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
+				$sql.=" AND MONTH(tanggal_awal)='".$bulan."'  ";
+				
+				if(!empty($supplier)){
+					$sql.=" AND supplier='".$supplier."' ";
+				}
+
+				$sql.=" GROUP BY supplier ";
+			}else{
+				$sql.="  WHERE hapus=0 ";
+				if(!empty($supplier)){
+					$sql.=" AND supplier='".$supplier."' ";
+				}
 			}
 
-			$sql.=" GROUP BY supplier ";
-		}else if(!empty($tahun)){
-			$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
-			$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
-			$sql.=" AND YEAR(tanggal_awal)='".$tahun."' ";
-			
-			if(!empty($supplier)){
-				$sql.=" AND supplier='".$supplier."' ";
-			}
 
-			$sql.=" GROUP BY supplier ";
-		}else if(!empty($bulan)){
-			$sql.=" JOIN rekapbarangsupplier_detail ON rekapbarangsupplier.id=rekapbarangsupplier_detail.idrekap ";
-			$sql.=" WHERE rekapbarangsupplier_detail.hapus=0 AND rekapbarangsupplier.hapus=0 ";
-			$sql.=" AND MONTH(tanggal_awal)='".$bulan."'  ";
-			
-			if(!empty($supplier)){
-				$sql.=" AND supplier='".$supplier."' ";
-			}
-
-			$sql.=" GROUP BY supplier ";
-		}else{
-			$sql.="  WHERE hapus=0 ";
-			if(!empty($supplier)){
-				$sql.=" AND supplier='".$supplier."' ";
-			}
+			$results=$this->GlobalModel->QueryManual($sql);
 		}
-
-
-		$results=$this->GlobalModel->QueryManual($sql);
 		$details=[];
 		foreach($results as $r){
 			$s=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$r['supplier']));
