@@ -45,7 +45,7 @@
 								<th>Harga Per PCS</th>
 								<th>Total</th>
 								<th>Keterangan</th>
-								<th></th>
+								<th>Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -62,7 +62,7 @@
 								<td><?php echo $p['keterangan'] ?></td>
 								<td>
 									<?php if(akseshapus()==1){?>
-										<a href="<?php echo $p['hapus'] ?>" class="btn btn-danger btn-sm">Hapus</a>
+										<a href="<?php echo $p['hapus'] ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ?')">Hapus</a>
 									<?php } ?>
 								</td>
 							</tr>

@@ -28,7 +28,7 @@
                                 <td><?php echo $po['kode_po'] ?></td>
                                 <td><?php echo $po['nama_po'] ?></td>
                                 <td><?php echo $po['jenis_po'] ?></td>
-                                <td><?php echo $po['created_date'] ?></td>
+                                <td><?php echo formatTanggalIndo($po['created_date']) ?></td>
                                 <th>
                                     <?php if($po['harga_satuan']>0){?>
                                         <a href="<?php echo BASEURL.'finishing/hppproduksidetail/'.$po['id_produksi_po'] ?>" class="btn btn-success btn-xs text-white" style="width: 100%"><i class="fi-paper">Re-Check</i></a>

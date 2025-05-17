@@ -481,8 +481,8 @@ class Finishing extends CI_Controller {
 			$nama=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['idkaryawan']));
 			$data['products'][]=array(
 				'no'=>$no++,
-				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-				'tglkeluar'=>!empty($r['tglkeluar'])?date('d-m-Y',strtotime($r['tglkeluar'])):null,
+				'tanggal'=>formatTanggalIndo($r['tanggal']),
+				'tglkeluar'=>!empty($r['tglkeluar'])?formatTanggalIndo($r['tglkeluar']):null,
 				'idkaryawan'=>strtolower($nama['nama']),
 				'nama_po'=>strtoupper($r['kode_po']),
 				'jumlah_pcs'=>$r['jumlah_pcs'],
@@ -583,7 +583,7 @@ class Finishing extends CI_Controller {
 			$data['products'][]=array(
 				'id'=>$r['id'],
 				'gaji'=>$r['gaji'],
-				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
+				'tanggal'=>formatTanggalIndo($r['tanggal']),
 				'idkaryawan'=>strtolower($nama['nama']),
 				'nama_po'=>strtoupper($r['kode_po']),
 				'jumlah_pcs'=>$r['jumlah_pcs'],

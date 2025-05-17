@@ -49,7 +49,7 @@
 						<tbody>
 							<?php foreach($products as $p){?>
 							<tr>
-								<td><?php echo date('d-m-Y',strtotime($p['creted_date']))?></td>
+								<td><?php echo formatTanggalIndo($p['creted_date'])?></td>
 								<td><?php echo strtoupper($p['nama_po']) ?></td>
 								<td><?php echo $p['jumlah_dz']?></td>
 								<td><?php echo $p['harga_dz'] ?></td>
@@ -57,15 +57,15 @@
 								<td><?php echo $p['keterangan'] ?></td>
 								<td>
 									<?php if($p['gaji']==1){?>
-										<a href="<?php echo BASEURL ?>Finishing/gajipackingno/<?php echo $p['id'] ?>" class="btn btn-success btn-sm"> <i class="fa fa-check"></i> </a>
+										<a href="<?php echo BASEURL ?>Finishing/gajipackingno/<?php echo $p['id'] ?>" class="btn btn-success btn-xs"> <i class="fa fa-check"></i> </a>
 									<?php } ?>
 									<?php if($p['gaji']==2){?>
-										<a href="<?php echo BASEURL ?>Finishing/gajipackingyes/<?php echo $p['id'] ?>" class="btn btn-danger btn-sm"> <i class="fa fa-window-close"></i> </a>
+										<a href="<?php echo BASEURL ?>Finishing/gajipackingyes/<?php echo $p['id'] ?>" class="btn btn-danger btn-xs"> <i class="fa fa-window-close"></i> </a>
 									<?php } ?>
 								</td>
 								<td>
 									<?php if(akseshapus()==1){?>
-										<a href="<?php echo BASEURL ?>Finishing/packingdel/<?php echo $p['id'] ?>" class="btn btn-danger btn-sm">Hapus</a>
+										<a href="<?php echo BASEURL ?>Finishing/packingdel/<?php echo $p['id'] ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ?')">Hapus</a>
 									<?php } ?>
 								</td>
 							</tr>
