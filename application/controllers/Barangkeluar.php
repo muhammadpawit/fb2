@@ -62,7 +62,7 @@ class Barangkeluar extends CI_Controller {
 			$details=$this->GlobalModel->getData('barangkeluarharian_detail',array('idbarangkeluarharian'=>$row['id'],'hapus'=>0));
 			$data['products'][]=array(
 				'id'=>$row['id'],
-				'tanggal'=>$row['tanggal'],
+				'tanggal'=>formatTanggalIndo($row['tanggal']),
 				'bagian'=>!empty($bagian['nama'])?$bagian['nama']:'-',
 				'pengambil'=>$row['pengambil'],
 				'gudang'=>$row['gudang'],

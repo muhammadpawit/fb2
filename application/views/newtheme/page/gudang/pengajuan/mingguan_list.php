@@ -64,7 +64,7 @@
                   <?php foreach($products as $p){?>
                     <tr>
                       <td><?php echo $n++?></td>
-                      <td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
+                      <td><?php echo $p['tanggal']?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo ($p['satuan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>

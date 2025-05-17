@@ -59,7 +59,7 @@ class Sablonluar extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no++,
 				'id'=>$result['id'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
 				'periode'=>strtolower($result['periode']),
 				'nama'=>strtolower($cmt['cmt_name']),
 				'total'=>number_format($result['total']),
@@ -240,12 +240,14 @@ class Sablonluar extends CI_Controller {
 			$action[] = array(
 				'text' => 'Detail',
 				'href' => $this->url.'kirimcmtsablonview/'.$result['id'],
+				'bg'   => '',
 			);
 
 			if(aksesedit()==1){
 				$action[] = array(
 					'text' => 'Edit',
 					'href' => $this->url.'kirimcmtsablonedit/'.$result['id'],
+					'bg'   => '#f39c12',
 				);
 			}
 
@@ -254,7 +256,7 @@ class Sablonluar extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
 				'kode_po'=>$result['kode_po'],
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,

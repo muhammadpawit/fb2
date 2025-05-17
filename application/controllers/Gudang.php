@@ -246,7 +246,7 @@ class Gudang extends CI_Controller {
 			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
 			$data['products'][]=array(
 				'id'=>$result['id'],
-				'tanggal'=>$result['tanggal'],
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
 				'kebutuhan'=>''.$result['kebutuhan'],
 				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
 				'jml_ajuan'=>$result['jml_ajuan'],
@@ -2313,7 +2313,7 @@ class Gudang extends CI_Controller {
 				);
 			}
 			$viewData['item'][] =array(
-				'created_date'=>$i['created_date'],
+				'created_date'=>formatTanggalIndo($i['created_date']),
 				'nama_penerima'=>$i['nama_penerima'],
 				'kode_po'=>$i['kodepo'],
 				'faktur_no'=>$i['faktur_no'],

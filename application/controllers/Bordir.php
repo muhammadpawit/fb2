@@ -971,7 +971,7 @@ class Bordir extends CI_Controller {
 						'mandor'=>$b['mandor'],
 						'nama_po'=>$po['kode_po'],
 						'mesin'=>$b['mesin_bordir'],
-						'created_date'=>date('d F Y',strtotime($b['created_date'])),
+						'created_date'=>formatTanggalIndo($b['created_date']),
 						'bagian_bordir'=>$b['bagian_bordir'],
 						'size'=>$b['size'],
 						'stich'=>$b['stich'],

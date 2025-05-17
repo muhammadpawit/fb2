@@ -617,6 +617,10 @@
   $(document).ready(function () {
       var perpage=25;
       info =window.location.origin;
+      $('.btn-primary').addClass('btn-xs');
+      $('.btn-warnig').addClass('btn-xs');
+      $('.btn-danger').addClass('btn-xs');
+      
 
       
       //jQuery.noConflict();
