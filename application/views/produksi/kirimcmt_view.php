@@ -6,7 +6,7 @@
 					<div class="card">
 						<div class="card-header">
 						  <strong><?php echo $kirim['nosj']?></strong> 
-						  <span class="float-right"> <strong>Tanggal:</strong> <?php echo date('d F Y',strtotime($kirim['tanggal']))?></span>
+						  <span class="float-right"> <strong>Tanggal:</strong> <?php echo formatTanggalIndo($kirim['tanggal']) ?></span>
 						</div>
 						<div class="card-body">
 							<div class="row mb-4">

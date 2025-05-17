@@ -40,7 +40,7 @@
 			<div class="hs">Kepada Yth&nbsp;&nbsp;: <?php echo strtoupper($cmt['cmt_name'])?></div>
 			<div class="hs">Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo ucfirst($cmt['alamat'])?></div>
 			<div class="hs">Phone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo $cmt['telephone']?></div>
-			<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.date('d M Y',strtotime($kirim['tanggal']))?></div>
+			<div class="hs">Hari / Tgl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo hari($hari).' , '.formatTanggalIndo($kirim['tanggal'])?></div>
 		</div>
 	</div>
 	

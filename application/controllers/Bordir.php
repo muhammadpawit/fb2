@@ -1304,7 +1304,7 @@ class Bordir extends CI_Controller {
 	}
 	public function addharianmesin($jenis){
 		$data=array();
-		$data['title']='Tambah Bordir';
+		$data['title']='Tambah Inputan Mesin Bordir';
 		//pre($jenis);
 		$data['jenis']=$jenis;
 		if($jenis==1){

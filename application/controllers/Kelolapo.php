@@ -1540,7 +1540,7 @@ class Kelolapo extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
 				'kode_po'=>$result['kode_po'],
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:null,
@@ -2127,7 +2127,7 @@ class Kelolapo extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no++,
 				'nosj'=>$result['nosj'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
 				'kode_po'=>isset($po['kode_po']) ? $po['kode_po'] : '',
 				'quantity'=>$result['totalkirim'],
 				'namacmt'=>$namacmt['cmt_name'],
