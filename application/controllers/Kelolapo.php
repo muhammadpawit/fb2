@@ -891,7 +891,7 @@ class Kelolapo extends CI_Controller {
 				'dz'=>$result['hasil_lusinan_potongan'] > 0 ? number_format($result['hasil_lusinan_potongan'],2) : $result['dz_variasi'],
 				'pcs'=>$result['hasil_pieces_potongan'] > 0 ? $result['hasil_pieces_potongan'] : ($result['dz_variasi']*12),
 				'tim_potong_potongan'=>$timpotong['nama']==null?$result['tim_potong_potongan']:$timpotong['nama'],
-				'tanggalProd'=>date('d-m-Y',strtotime($result['tanggalProd'])),
+				'tanggalProd'=>formatTanggalIndo($result['tanggalProd']),
 				'status'=>$status,
 				'action'=>$action,
 			);
