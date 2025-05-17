@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <div class="form-group">
             Nama CMT <label><?php echo $namacmt;?></label><br>
-            Tanggal/periode : <label><?php echo date('d F Y',strtotime($detail['tanggal'])); ?></label><br>
+            Tanggal/periode : <label><?php echo formatTanggalIndo($detail['tanggal']); ?></label><br>
             Trip ke : <label><?php echo $detail['tripke'] ?></label>
         </div>
     </div>
