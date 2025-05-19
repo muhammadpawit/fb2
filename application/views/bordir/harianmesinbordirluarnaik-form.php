@@ -102,7 +102,7 @@
                 <div class="from-group">
                     <label for="perkalianTarif">Target Perkalian Tagihan</label>
                     <input type="hidden" class="form-control" id="perkalianTarget" name="perkalianTarget">
-                    <input type="number" class="form-control" id="perkalianTarif" name="perkalianTarif" value="" required>
+                    <input type="text" class="form-control" id="perkalianTarif" name="perkalianTarif" value="" required>
                 </div>
             </div>
         </div>
