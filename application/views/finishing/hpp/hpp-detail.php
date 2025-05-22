@@ -158,15 +158,15 @@
 
                                 </tr>
 
-                                <tr>
+                                <!-- <tr>
 
                                     <td>ARTIKEL</td>
 
-                                    <td><?php echo $po['kode_artikel'] ?></td>
+                                    <td><?php //echo $po['kode_artikel'] ?></td>
 
                                     
 
-                                </tr>
+                                </tr> -->
 
                                 <tr>
 
