@@ -1416,6 +1416,7 @@ class Finishing extends CI_Controller {
 	{
 		$get = $this->input->get();
 		$kirim=[];
+		$viewData['spek']=[];
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$viewData['po']=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 		$viewData['spek']	= $this->GlobalModel->GetData('spesifikasi_gambar_po',array('idpo'=>$po['id_produksi_po']));
@@ -1598,7 +1599,7 @@ class Finishing extends CI_Controller {
 		$viewData['bawahansablon']=$bawahansablon;
 		$viewData['namabahan']=$this->GlobalModel->QueryManualRow("SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0 AND idpo='$kodepo' AND bahan_kategori='UTAMA' ORDER BY id_item_keluar ASC LIMIT 1 ");
 		$viewData['page']='finishing/hpp/hpp-detail';
-		$viewData['pdf']=BASEURL.'Finishing/hppproduksidetail/'.$kodepo.'?&pdf=true';
+		$viewData['pdf']=BASEURL.'Finishing/hppproduksidetail/'.$po['id_produksi_po'].'?&pdf=true';
 		
 		$this->load->model('BiayaHppPerpoModel');
 		$viewData['biayaperpo']=[];

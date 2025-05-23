@@ -54,10 +54,12 @@
                                     <td width="20%">&nbsp;PO</td>
                                     <td width="20%">&nbsp;<?php echo $po['nama_hpp'] ?></td>
                                     <td width="20%" rowspan="8" valign="middle" align="center">
-                                        <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
+                                       <?php if(!empty($po['gambar_po'])){?>
+                                             <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
+                                        <?php } ?>
                                     </td>
                                     <!-- <td width="20%" rowspan="8" valign="middle" align="center">
-                                        <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
+                                        <img src="<?php //echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
                                     </td> -->
                                 </tr>
                                 <tr>
@@ -74,7 +76,7 @@
                                 </tr>
                                 <tr>
                                     <td>&nbsp;BAHAN</td>
-                                    <td>&nbsp;<?php echo $namabahan['nama_item_keluar'] ?>
+                                    <td>&nbsp;<?php echo isset( $namabahan['nama_item_keluar']) ? $namabahan['nama_item_keluar']:'' ?>
                                     </td>
                                 </tr>
                                 <tr>
