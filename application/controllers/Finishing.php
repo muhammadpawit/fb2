@@ -1013,8 +1013,22 @@ class Finishing extends CI_Controller {
 			'hapus'=>0,
 		);
 		$this->db->insert('karyawan_harian',$insert);
-		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+
+		if(isset($data['skb'])){
+			$skb = array(
+				'nama'=>$data['nama'],
+				'bagian'=>$data['bagian'],
+				'upah'=>$data['perminggu'],
+			);
+			$this->db->insert('karyawan_skb',$skb);
+			
+			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+			redirect(BASEURL.'Finishing/karyawan?bagian=cabang sukabumi');
+		}else{
+			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
 		redirect(BASEURL.'Finishing/karyawan');
+		}
+		
 	}
 
 	public function karyawanubah($id){

@@ -37,6 +37,9 @@
             <label>Bagian </label>
             <input type="text" name="bagian" class="form-control" required="required">
           </div>
+          <?php if(isset($_GET['bagian'])){?>
+            <input type="hidden" name="skb" value="1">
+          <?php } ?>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" data-dismiss="modal">Batal</a>
         </form>
