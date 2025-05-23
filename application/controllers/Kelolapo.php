@@ -2723,7 +2723,7 @@ class Kelolapo extends CI_Controller {
 		}else{
 			$cmt=null;
 		}
-		$sql='SELECT * FROM kelolapo_kirim_setor kks LEFT JOIN produksi_po pp ON kks.kode_po=pp.kode_po';
+		$sql='SELECT * FROM kelolapo_kirim_setor kks LEFT JOIN produksi_po pp ON kks.idpo=pp.id_produksi_po';
 		$sql.=" WHERE pp.hapus=0 and kks.hapus=0 ";
 
 		if(!empty($cmt)){
