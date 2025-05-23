@@ -439,7 +439,7 @@ class Report extends CI_Controller {
 			$totalpcs+=($r['hasil_pieces_potongan']);
 			$data['products'][]=array(
 				'tanggal'=>date('d-m-Y',strtotime($r['created_date'])),
-				'kode_po'=>$r['kode_po'],
+				'kode_po'=>$r['kodepo'],
 				'timpotong'=>$timpotong==null?$r['tim_potong_potongan']:$timpotong['nama'],
 				'panjang_gelaran_potongan_utama'=>$r['panjang_gelaran_potongan_utama'],
 				'panjang_gelaran_variasi'=>$r['panjang_gelaran_variasi']>0?'+'.$r['panjang_gelaran_variasi']:'',
