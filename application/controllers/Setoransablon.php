@@ -341,11 +341,13 @@ public function save(){
 		$data['action']=$this->link.'editsave';
 		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
 		$kirims=$this->GlobalModel->getData('setorcmt_sablon_detail',array('idsetor'=>$id));
+		
 		$job=null;
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
 			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
+				'id'	=>$k['id'],
 				'kode_po'=>$po['kode_po'],
 				'idpo'=>$k['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
@@ -360,7 +362,7 @@ public function save(){
 		$data['listcmt'] = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['listjob'] = $this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
 		$data['listpo']	 = $this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0  ORDER BY kode_po ASC ");
-		$data['page']='produksi/kirimcmtsablon_edit';
+		$data['page']=$this->page.'edit';
 		$this->load->view('newtheme/page/main',$data);
 	}
 
@@ -413,7 +415,7 @@ public function save(){
 	   					'jml_barang'=>$p['jml_barang'],
 	   					'hapus'=>0,
 	   				);
-	   				$this->db->insert('setorcmt_sablon_detail',$detail);
+	   				$this->db->update('setorcmt_sablon_detail',$detail,array('id'=>$p['id']));
 
 
 	   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
