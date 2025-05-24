@@ -344,16 +344,18 @@ public function save(){
 		$kirims=$this->GlobalModel->getData('setorcmt_sablon_detail',array('idsetor'=>$id));
 		
 		$job=null;
+		$jobPo=null;
 		foreach($kirims as $k){
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
 			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
+			$jobPo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('idpo'=>$po['id_produksi_po'],'kategori_cmt'=>'SABLON','progress'=>'KIRIM'));
 			$data['kirims'][]=array(
 				'id'	=>$k['id'],
 				'kode_po'=>$po['kode_po'],
 				'idpo'=>$k['kode_po'],
 				'rincian_po'=>$k['rincian_po'],
-				'job'=>isset($job['id']) ? $job['id'] : 0,
-				'jumlah_pcs'=>$k['jumlah_pcs'],
+				'job'=>isset($job['id']) ? $job['id'] : $jobPo['id_master_cmt_job'],
+				'jumlah_pcs'=>($k['jumlah_pcs']==0) ? $jobPo['qty_tot_pcs'] : $k['jumlah_pcs'],
 				'keterangan'=>$k['keterangan'],
 				'jml_barang'=>$k['jml_barang'],
 			);
