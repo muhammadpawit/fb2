@@ -1518,12 +1518,14 @@ class Kelolapo extends CI_Controller {
 			$action[] = array(
 				'text' => 'Detail',
 				'href' => BASEURL.'Kelolapo/kirimcmtsablonview/'.$result['id'],
+				'bg'   => '#f39c12',
 			);
 
 			if(aksesedit()==1){
 				$action[] = array(
 					'text' => 'Edit',
 					'href' => BASEURL.'Kelolapo/kirimcmtsablonedit/'.$result['id'],
+					'bg'   => '#f39c12',
 				);
 			}
 
@@ -1531,6 +1533,7 @@ class Kelolapo extends CI_Controller {
 				$action[] = array(
 					'text' => 'hapus',
 					'href' => BASEURL.'Kelolapo/kirimcmtsablonhapus/'.$result['id'],
+					'bg'	=>'red'
 				);
 			}
 

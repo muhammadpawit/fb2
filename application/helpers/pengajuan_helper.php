@@ -1348,6 +1348,29 @@
 		}
 	}
 	
+
+	if(!function_exists('bgColor')) {
+		function bgColor($type) {
+			$color = '';
+			if($type =='edit'){
+				$color = '#c97c00';
+			}
+			else if($type == 'detail'){
+				$color = '#0b9ca3';
+			}
+			else if($type == 'error'){
+				$color = '#ff0000';
+			}
+			else if($type == 'success'){
+				$color = '#009900';
+			}
+			else if($type == 'delete'){
+				$color = '#c90000';
+			}
+			return $color;
+		}
+
+	}
 	
 
  ?>

@@ -60,7 +60,7 @@
                           <td><?php echo $p['quantity']?></td>
                           <td><?php echo $p['keterangan']?></td>
                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                           <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                           <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                           <?php } ?></td>
                         </tr>
                         <?php } ?>

@@ -3,6 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Setoransablon extends CI_Controller {
 
+	
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $link;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -61,7 +85,17 @@ class Setoransablon extends CI_Controller {
 			$action[] = array(
 				'text' => 'Detail',
 				'href' => $this->link.'kirimcmtview/'.$result['id'],
+				'bg'   => bgColor('detail'),
 			);
+
+
+			if(aksesedit()==1){
+				$action[] = array(
+					'text' => 'Edit',
+					'href' => $this->link.'edit/'.$result['id'],
+					'bg'   => bgColor('edit'),
+				);
+			}
 
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			
@@ -293,6 +327,127 @@ public function save(){
 		}else{
 			echo "<tr><td colspan='5'>Data tidak ditemukan</td></tr>";
 		}
+	}
+
+	public function edit($id='',$kodepo=''){
+		$toarray=explode(",", $kodepo);
+		$row=count($toarray);
+		$data=array();
+		$rincian=array();
+		$data['no']=1;
+		$data['cetak']=null;
+		$data['excel']=null;
+		$data['kirims']=array();
+		$data['action']=$this->link.'editsave';
+		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
+		$kirims=$this->GlobalModel->getData('setorcmt_sablon_detail',array('idsetor'=>$id));
+		$job=null;
+		foreach($kirims as $k){
+			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
+			$data['kirims'][]=array(
+				'kode_po'=>$po['kode_po'],
+				'idpo'=>$k['kode_po'],
+				'rincian_po'=>$k['rincian_po'],
+				'job'=>isset($job['id']) ? $job['id'] : 0,
+				'jumlah_pcs'=>$k['jumlah_pcs'],
+				'keterangan'=>$k['keterangan'],
+				'jml_barang'=>$k['jml_barang'],
+			);
+		}
+		//pre($data['kirims']);
+		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		$data['listcmt'] = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
+		$data['listjob'] = $this->GlobalModel->getData('master_job',array('hapus'=>0,'jenis'=>2));
+		$data['listpo']	 = $this->GlobalModel->QueryManual("SELECT * FROM produksi_po WHERE hapus=0  ORDER BY kode_po ASC ");
+		$data['page']='produksi/kirimcmtsablon_edit';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function editsave(){
+		$post=$this->input->post();
+		// pre($post);
+		//pre($data);
+		$cmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$post['idcmt']));
+		// update di sj
+		$this->db->query("UPDATE setorcmt set idcmt='".$post['idcmt']."',tanggal='".$post['tanggal']."' WHERE id='".$post['kode_nota']."' ");
+		// update di kelola kirim setor
+		$sql="UPDATE kelolapo_kirim_setor set id_master_cmt='".$post['idcmt']."',nama_cmt='".strtolower($cmt['cmt_name'])."',create_date='".$post['tanggal']."' WHERE kode_nota_cmt='".$post['kode_nota']."' AND kategori_cmt='SABLON' AND progress='SETOR' ";	
+		$this->db->query($sql);
+		$totalkirim=0;
+
+		// fungsi baru
+		$id = $post['kode_nota'];
+		// pre($id);
+					//hapus di surat jalan
+					$this->db->delete(
+						'setorcmt_sablon_detail', 
+							array(
+								'idsetor' => $post['kode_nota'],
+								//'kode_po' => $post['kode_po'],
+							)
+					);
+
+					foreach($post['prods'] as $p){
+							// hapus di kelolapo kirim setor
+							$this->db->delete(
+								'kelolapo_kirim_setor', 
+									array(
+										'idpo' => $p['kode_po_lama'],
+										'progress' => 'SETOR',
+										'kategori_cmt' => $p['kategori_cmt'],
+									)
+							);
+					}
+				foreach($post['prods'] as $p){
+					$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
+					$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
+	   				$totalkirim+=($p['jumlah_pcs']);
+	   				$detail=array(
+	   					'idsetor'=>$id,
+	   					'kode_po'=>$po['kode_po'],
+	   					'cmtjob'=>$p['cmtjob'],
+	   					'rincian_po'=>$p['rincian_po'],
+	   					'jumlah_pcs'=>$p['jumlah_pcs'],
+	   					'keterangan'=>$p['keterangan'],
+	   					'jml_barang'=>$p['jml_barang'],
+	   					'hapus'=>0,
+	   				);
+	   				$this->db->insert('setorcmt_sablon_detail',$detail);
+
+
+	   				$masterpo=$this->GlobalModel->GetdataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
+	   				$insertkks=array(
+	   					'kode_po'=>$masterpo['kode_po'],
+	   					'create_date'=>$post['tanggal'],
+	   					'kode_nota_cmt'=>$id,
+	   					'progress'=>'SETOR',
+	   					'kategori_cmt'=>'SABLON',
+	   					'id_master_cmt'=>$cmt['id_cmt'],
+	   					'id_master_cmt_job'=>$p['cmtjob'],
+	   					'cmt_job_price'=>$jobprice['harga'],
+	   					'nama_cmt'=>$cmt['cmt_name'],
+	   					'qty_tot_pcs'=>$p['jumlah_pcs'],
+	   					'qty_tot_atas'=>0,
+	   					'qty_tot_bawah'=>0,
+	   					'keterangan'=>'-',
+	   					'status'=>0,
+	   					'jml_barang'=>$p['jml_barang'],
+	   					'qty_bangke'=>0,
+	   					'qty_reject'=>0,
+	   					'qty_hilang'=>0,
+	   					'qty_claim'=>0,
+	   					'status_keu'=>0,
+	   					'tglinput'=>date('Y-m-d'),
+	   					'idpo'=>!empty($masterpo)?$masterpo['id_produksi_po']:0,
+	   				);
+	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
+			}// end foreach	
+
+		user_activity(callSessUser('id_user'),1,' edit surat jalan sablon id '.$post['kode_nota']);
+		$this->db->update('setorcmt',array('totalsetor'=>$totalkirim),array('id'=>$post['kode_nota']));
+		$this->session->set_flashdata('msg','Data berhasil diupdate');
+		redirect(BASEURL.'Setoransablon');
 	}
 
 }
