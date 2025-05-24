@@ -67,7 +67,7 @@
 												<option value="<?php echo $l['id_produksi_po']?>" <?php echo $k['kode_po']==$l['kode_po']?'selected':'';?>><?php echo $l['kode_po']?></option>
 											<?php } ?>
 											</select>
-											<input type="hidden" name="prods[<?php echo $no?>][progress]" value="EDIT">
+											<input type="hidden" name="prods[<?php echo $no?>][progress]" value="SETOR">
 											<input type="hidden" name="prods[<?php echo $no?>][kategori_cmt]" value="SABLON">
 											<input type="hidden" name="prods[<?php echo $no?>][id]" value="<?php echo $k['id']?>">
                       <input type="hidden" name="prods[<?php echo $no?>][kode_po_lama]" value="<?php echo $k['idpo']?>">

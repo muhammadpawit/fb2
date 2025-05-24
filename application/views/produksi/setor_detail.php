@@ -63,7 +63,11 @@
 							<hr>
 							<div class="row no-print">
 							<div class="col-12">
-								<a href="<?php echo BASEURL.'Setorancmt'; ?>" class="btn btn-danger">Kembali</a>
+								<?php if(!isset($setoransablon)){?>
+									<a href="<?php echo BASEURL.'Setorancmt'; ?>" class="btn btn-danger">Kembali</a>
+								<?php }else { ?>
+									<a href="<?php echo BASEURL.'Setoransablon'; ?>" class="btn btn-danger">Kembali</a>
+								<?php } ?>
 								<a onclick="cetak()" class="btn btn-primary text-white" target="_blank">Cetak</a>
 								<!--<a href="<?php echo $cetak; ?>" class="btn btn-primary" target="_blank">Cetak</a>
 								<a href="<?php echo $excel; ?>" class="btn btn-info" target="_blank">Excel</a>-->

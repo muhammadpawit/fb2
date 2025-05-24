@@ -140,6 +140,7 @@ class Setoransablon extends CI_Controller {
 			);
 		}
 		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		$data['setoransablon']=true;
 		$data['page']='produksi/setor_detail';
 		$this->load->view('newtheme/page/main',$data);
 	}
@@ -376,19 +377,11 @@ public function save(){
 		// update di kelola kirim setor
 		$sql="UPDATE kelolapo_kirim_setor set id_master_cmt='".$post['idcmt']."',nama_cmt='".strtolower($cmt['cmt_name'])."',create_date='".$post['tanggal']."' WHERE kode_nota_cmt='".$post['kode_nota']."' AND kategori_cmt='SABLON' AND progress='SETOR' ";	
 		$this->db->query($sql);
-		$totalkirim=0;
+		$totalsetor=0;
 
 		// fungsi baru
 		$id = $post['kode_nota'];
 		// pre($id);
-					//hapus di surat jalan
-					$this->db->delete(
-						'setorcmt_sablon_detail', 
-							array(
-								'idsetor' => $post['kode_nota'],
-								//'kode_po' => $post['kode_po'],
-							)
-					);
 
 					foreach($post['prods'] as $p){
 							// hapus di kelolapo kirim setor
@@ -404,15 +397,16 @@ public function save(){
 				foreach($post['prods'] as $p){
 					$jobprice=$this->GlobalModel->getDataRow('master_job',array('id'=>$p['cmtjob']));
 					$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
-	   				$totalkirim+=($p['jumlah_pcs']);
+	   				$totalsetor+=($p['jumlah_pcs']);
 	   				$detail=array(
 	   					'idsetor'=>$id,
-	   					'kode_po'=>$po['kode_po'],
+	   					'kode_po'=>$po['id_produksi_po'],
 	   					'cmtjob'=>$p['cmtjob'],
 	   					'rincian_po'=>$p['rincian_po'],
 	   					'jumlah_pcs'=>$p['jumlah_pcs'],
 	   					'keterangan'=>$p['keterangan'],
 	   					'jml_barang'=>$p['jml_barang'],
+						'totalsetor'=>$p['jumlah_pcs'],
 	   					'hapus'=>0,
 	   				);
 	   				$this->db->update('setorcmt_sablon_detail',$detail,array('id'=>$p['id']));
@@ -446,8 +440,8 @@ public function save(){
 	   				$this->db->insert('kelolapo_kirim_setor',$insertkks);
 			}// end foreach	
 
-		user_activity(callSessUser('id_user'),1,' edit surat jalan sablon id '.$post['kode_nota']);
-		$this->db->update('setorcmt',array('totalsetor'=>$totalkirim),array('id'=>$post['kode_nota']));
+		user_activity(callSessUser('id_user'),1,' edit setoran surat jalan sablon id '.$post['kode_nota']);
+		$this->db->update('setorcmt',array('totalsetor'=>$totalsetor),array('id'=>$post['kode_nota']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'Setoransablon');
 	}
