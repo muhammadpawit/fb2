@@ -112,6 +112,8 @@
             width: 100%;
             max-width: 300px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
         .google-login-button:hover {
@@ -124,10 +126,64 @@
             width: 20px;
             height: 20px;
             margin-right: 10px;
-            background-image: url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#fff" d="M24 9.5c3.27 0 5.83 1.17 7.74 3.06l5.77-5.77C34.42 2.71 29.54 0 24 0 14.07 0 5.48 5.76 1.83 14.06l6.81 5.26C9.9 14.88 16.42 9.5 24 9.5z"/><path fill="#fff" d="M46.7 23.36c0-1.85-.16-3.6-.47-5.32H24v10.02h12.63c-.8 4.05-3.07 7.39-6.32 9.61L36.96 44C43.08 39.54 46.7 32.1 46.7 23.36z"/><path fill="#fff" d="M1.83 14.06C.7 17.06 0 20.18 0 23.36s.7 6.3 1.83 9.3l6.81-5.26C5.48 27.12 4.93 24.9 4.93 23.36c0-1.54.55-3.76 3.7-5.26L1.83 14.06z"/><path fill="#fff" d="M24 48c6.64 0 12.25-2.26 16.33-6.14l-6.81-5.26c-2.48 1.63-5.61 2.76-9.52 2.76-7.58 0-14.1-5.38-16.27-12.6L1.83 32.66C5.48 40.24 14.07 48 24 48z"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="%23fff" d="M24 9.5c3.27 0 5.83 1.17 7.74 3.06l5.77-5.77C34.42 2.71 29.54 0 24 0 14.07 0 5.48 5.76 1.83 14.06l6.81 5.26C9.9 14.88 16.42 9.5 24 9.5z"/><path fill="%23fff" d="M46.7 23.36c0-1.85-.16-3.6-.47-5.32H24v10.02h12.63c-.8 4.05-3.07 7.39-6.32 9.61L36.96 44C43.08 39.54 46.7 32.1 46.7 23.36z"/><path fill="%23fff" d="M1.83 14.06C.7 17.06 0 20.18 0 23.36s.7 6.3 1.83 9.3l6.81-5.26C5.48 27.12 4.93 24.9 4.93 23.36c0-1.54.55-3.76 3.7-5.26L1.83 14.06z"/><path fill="%23fff" d="M24 48c6.64 0 12.25-2.26 16.33-6.14l-6.81-5.26c-2.48 1.63-5.61 2.76-9.52 2.76-7.58 0-14.1-5.38-16.27-12.6L1.83 32.66C5.48 40.24 14.07 48 24 48z"/></svg>');
             background-repeat: no-repeat;
             background-size: contain;
             background-position: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes spin {
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        /* Button loading state */
+        .google-login-button.loading {
+            pointer-events: none;
+        }
+
+        .google-login-button.loading .button-text {
+            visibility: hidden;
+        }
+
+        .google-login-button.loading .google-icon {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .google-login-button.loading .spinner {
+            display: block;
+        }
+
+        /* Button success state (when clicked) */
+        .google-login-button.success {
+            width: 60px;
+            max-width: 60px;
+            transition: all 0.4s ease;
+        }
+
+        .google-login-button.success .button-text {
+            display: none;
+        }
+
+        .google-login-button.success .google-icon {
+            margin-right: 0;
+            transform: scale(1.5);
+            transition: all 0.4s ease;
         }
 
         /* Alert Styling */
@@ -248,14 +304,15 @@
         <h1 class="system-title">Forboys Production System</h1>
         <p class="tagline">Selamat datang! Silakan masuk menggunakan akun Google Anda.</p>
 
-        
-
-        <a href="<?php echo $auth_url; ?>" class="google-login-button">
+        <a href="<?php echo $auth_url; ?>" class="google-login-button" id="googleLoginBtn">
             <span class="google-icon"></span>
-            Login dengan Google
+            <span class="button-text">Login dengan Google</span>
+            <div class="spinner"></div>
         </a>
 
-    </div> <div class="footer">
+    </div> 
+
+    <div class="footer">
         <p class="account-copyright">&copy; 2020 - <?php echo date('Y')?> Forboys Production</p>
     </div>
 
@@ -264,8 +321,8 @@
     <script src="<?php echo ASSETS; ?>js/bootstrap.min.js"></script>
     
     <script>
-        // Script untuk menutup alert flashdata jika Bootstrap Anda tidak menanganinya secara otomatis.
         $(document).ready(function() {
+            // Handle alert closing
             $('.alert .close').on('click', function() {
                 $(this).closest('.alert').fadeOut(300, function() {
                     $(this).remove();
@@ -280,6 +337,27 @@
                     });
                 }, 5000);
             }
+
+            // Google login button animation
+            $('#googleLoginBtn').on('click', function(e) {
+                e.preventDefault();
+                var btn = $(this);
+                var originalHref = btn.attr('href');
+                
+                // Add loading class to show spinner
+                btn.addClass('loading');
+                
+                // Simulate loading for demo purposes (remove this in production)
+                setTimeout(function() {
+                    // After loading, show success state
+                    btn.removeClass('loading').addClass('success');
+                    
+                    // Redirect after a short delay to show the animation
+                    setTimeout(function() {
+                        window.location.href = originalHref;
+                    }, 800);
+                }, 1500);
+            });
         });
     </script>
 </body>
