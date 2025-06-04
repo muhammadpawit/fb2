@@ -347,11 +347,12 @@
                 // Add loading class to show spinner
                 btn.addClass('loading');
                 
+                
                 // Simulate loading for demo purposes (remove this in production)
                 setTimeout(function() {
                     // After loading, show success state
                     btn.removeClass('loading').addClass('success');
-                    
+                    btn.attr('disabled', 'disabled');
                     // Redirect after a short delay to show the animation
                     setTimeout(function() {
                         window.location.href = originalHref;
