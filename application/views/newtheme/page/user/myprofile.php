@@ -4,7 +4,7 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive" src="<?php echo BASEURL?><?php echo $p['foto']?>" alt="<?php echo callSessUser('nama_user')?> profile picture">
+              <img class="profile-user-img img-responsive" src="<?php echo $p['foto']?>" alt="<?php echo callSessUser('nama_user')?> profile picture">
 
               <h3 class="profile-username text-center"><?php echo callSessUser('nama_user')?> </h3>
 

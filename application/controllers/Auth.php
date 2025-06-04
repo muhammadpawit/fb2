@@ -77,6 +77,7 @@ class Auth extends CI_Controller {
             $picture = $user_info->picture;
 
             $dataUser = $this->GlobalModel->getDataRow('user',array('hapus'=>0,'status_user'=>1,'email_user' => trim($email)));
+            $this->db->update('user',array('foto'=>$picture),array('email_user'=>trim($email)));
             if (isset($dataUser['password_user'])) {
                 $dataSession = array(
 					'id_user'=> $dataUser['id_user'], 

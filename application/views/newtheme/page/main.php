@@ -179,7 +179,7 @@
           </li>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="user-image" alt="User Image">
+              <img src="<?php echo foto(callSessUser('id_user')) ?>" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo callSessUser('nama_user') ?></span>
             </a>
             <ul class="dropdown-menu">
@@ -221,7 +221,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel" style="height: 4vw;">
         <div class="pull-left image">
-          <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
+          <img src="<?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo callSessUser('nama_user') ?></p>
