@@ -28,7 +28,7 @@ class Auth extends CI_Controller {
     public function __construct() {
         parent::__construct();
         // Load the Google API client library
-        require_once 'vendor/autoload.php'; // Sesuaikan path jika berbeda
+        // require_once 'vendor/autoload.php'; // Sesuaikan path jika berbeda
         $this->load->library('session');
     }
 
