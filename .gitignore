@@ -36,4 +36,5 @@ uploads/signatures/*
 *.sublime-project
 .editorconfig
 sessions/*
+application/sessions/*
 #.htaccess
