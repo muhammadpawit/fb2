@@ -1416,7 +1416,7 @@ class Finishing extends CI_Controller {
 			$sql.=" AND pp.id_produksi_po ='$kode_po' ";
 		}
 		// $sql.=" GROUP BY pp.id_produksi_po, pp.kode_po, pp.nama_po ";
-		$sql.=" ORDER BY pp.id_produksi_po DESC LIMIT 20";
+		$sql.=" ORDER BY pp.updated_date DESC LIMIT 20";
 		$viewData['produk'] = $this->GlobalModel->queryManual($sql);		
  		// $this->load->view('global/header');
 		// $this->load->view('finishing/hpp/hpp-view',$viewData);
@@ -1782,11 +1782,12 @@ class Finishing extends CI_Controller {
 	{
 
 		$post = $this->input->post();
+		// pre($post);
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
 		$kodepo=$po['id_produksi_po'];
 		//if ($post['button'] == "SUBMIT") {
-
-			$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('operaitonal_price'=>$post['valOperation']));
+			$now=date('Y-m-d H:i:s');
+			$this->GlobalModel->updateData('produksi_po',array('id_produksi_po'=>$kodepo),array('operaitonal_price'=>$post['valOperation'],'updated_date'=>$now));
 
         	redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 
