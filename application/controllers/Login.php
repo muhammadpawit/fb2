@@ -10,7 +10,8 @@ class Login extends CI_Controller {
 	public function index()
 	{
 		$data=[];
-		$this->load->view('login',$data);
+		// $this->load->view('login',$data);
+		redirect(BASEURL.'auth');
 	}
 
 	public function auth()
