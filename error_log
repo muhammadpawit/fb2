@@ -429,3 +429,7 @@ Stack trace:
 [04-Jun-2025 15:22:20 Asia/Jakarta] PHP Fatal error:  'continue' not in the 'loop' or 'switch' context in /home/forboysp/public_html/application/controllers/Auth.php on line 61
 [04-Jun-2025 15:22:20 Asia/Jakarta] PHP Fatal error:  'continue' not in the 'loop' or 'switch' context in /home/forboysp/public_html/application/controllers/Auth.php on line 61
 [04-Jun-2025 15:22:39 Asia/Jakarta] PHP Fatal error:  'continue' not in the 'loop' or 'switch' context in /home/forboysp/public_html/application/controllers/Auth.php on line 61
+[04-Jun-2025 15:45:07 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "mysqli" not found in /home/forboysp/public_html/aksesdata.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/forboysp/public_html/aksesdata.php on line 8
