@@ -185,7 +185,7 @@
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?php echo BASEURL?><?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
+                <img src="<?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
 
                 <p>
                   <?php echo callSessUser('nama_user') ?>
