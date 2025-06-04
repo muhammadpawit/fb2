@@ -46,6 +46,7 @@
             color: var(--text-dark);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            background-color: cadetblue;
         }
 
         .login-container {
