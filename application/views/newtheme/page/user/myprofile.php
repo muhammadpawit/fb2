@@ -127,7 +127,7 @@
                     <label for="inputName" class="col-sm-2 control-label">Foto</label>
 
                     <div class="col-md-4">
-                      <img class="profile-user-img img-responsive" src="<?php echo BASEURL?><?php echo $p['foto']?>" alt="<?php echo callSessUser('nama_user')?> profile picture">
+                      <img class="profile-user-img img-responsive" src="<?php echo $p['foto']?>" alt="<?php echo callSessUser('nama_user')?> profile picture">
                       <br>
                       <input type="file" class="form-control" name="foto" id="inputName" placeholder="Name">
                     </div>
