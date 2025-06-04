@@ -113,7 +113,7 @@
                     <label for="nama_user" class="col-sm-2 control-label">Nama</label>
 
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="nama_user" value="<?php echo callSessUser('nama_user') ?>" id="nama_user" placeholder="Name">
+                      <input type="text" class="form-control" name="nama_user" value="<?php echo callSessUser('nama_user') ?>" id="nama_user" placeholder="Name" readonly>
                     </div>
                   </div>
                   <div class="form-group">
