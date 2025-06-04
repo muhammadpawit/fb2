@@ -129,7 +129,7 @@
                     <div class="col-md-4">
                       <img class="profile-user-img img-responsive" src="<?php echo $p['foto']?>" alt="<?php echo callSessUser('nama_user')?> profile picture">
                       <br>
-                      <input type="file" class="form-control" name="foto" id="inputName" placeholder="Name">
+                      <!-- <input type="file" class="form-control" name="foto" id="inputName" placeholder="Name"> -->
                     </div>
                   </div>
                   <div class="form-group">
