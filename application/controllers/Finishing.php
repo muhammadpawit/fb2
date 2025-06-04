@@ -1731,9 +1731,10 @@ class Finishing extends CI_Controller {
 	{
 		$post = $this->input->post();
 		//pre($post);
+		$now=date('Y-m-d H:i:s');
 		$po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kodepo']));
 		$kodepo=$po['id_produksi_po'];
-		$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kodepo']),array('harga_satuan'=>$post['hargasatuan']));
+		$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kodepo']),array('harga_satuan'=>$post['hargasatuan'],'updated_date'=>$now));
 		redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
