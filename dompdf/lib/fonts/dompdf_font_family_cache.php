@@ -91,6 +91,6 @@
     '900' => $fontDir . '/font_awesome_5_free_900_e3972eb7a6bef455926de11636791f43',
   ),
   'baskervville' => array(
-    'italic' => $fontDir . '/baskervville_italic_7240f4d742a1d821b1b9ac8eb15bd53a',
+    'italic' => $fontDir . '/baskervville_italic_a2dd18bd3040f086d0c811b8a0f83878',
   ),
 ) ?>

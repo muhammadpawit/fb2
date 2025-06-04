@@ -28,7 +28,7 @@ class Auth extends CI_Controller {
     public function __construct() {
         parent::__construct();
         // Load the Google API client library
-        // require_once 'vendor/autoload.php'; // Sesuaikan path jika berbeda
+        require_once 'vendor/autoload.php'; // Sesuaikan path jika berbeda
         $this->load->library('session');
     }
 
@@ -53,7 +53,16 @@ class Auth extends CI_Controller {
         // pre($client);
         if (isset($_GET['code'])) {
             $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-            $client->setAccessToken($token);
+
+            if (!isset($token['error'])) {
+                $client->setAccessToken($token);
+                // ✅ Token valid — simpan ke file atau session
+                file_put_contents('token.json', json_encode($token));
+                // echo 'Token berhasil disimpan!';
+                
+            } else {
+                echo 'Error token: ' . $token['error'];
+            }
 
             // Store the token in session (opsional, untuk menjaga sesi login)
             $this->session->set_userdata('google_access_token', $token);
