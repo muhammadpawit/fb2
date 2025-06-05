@@ -113,6 +113,14 @@ class Auth extends CI_Controller {
 
                 redirect(BASEURL.'dash/welcome');
             }else{
+
+                    $login=array(
+							'nama'	=> $name,
+							'email'	=> $email,
+							'tanggal'=>date('Y-m-d H:i:s'),
+						);
+						$this->db->insert('gagal_login',$login);
+
                 $this->session->set_flashdata('gagal','Username atau password salah');
                 redirect(BASEURL.'auth');
             }
