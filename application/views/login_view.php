@@ -55,8 +55,9 @@
             border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-medium);
             text-align: center;
-            max-width: 420px;
             width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
             position: relative;
             animation: fadeIn 0.8s ease-out;
         }
@@ -93,6 +94,7 @@
             font-size: 1em;
             line-height: 1.6;
             margin-bottom: 35px;
+            padding: 0 10px;
         }
 
         /* Google Login Button */
@@ -102,18 +104,19 @@
             justify-content: center;
             background-color: var(--google-red);
             color: white;
-            padding: 14px 25px;
+            padding: 14px 20px;
             border-radius: var(--border-radius-button);
             text-decoration: none;
             font-size: 1.05em;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             box-shadow: var(--shadow-light);
-            width: 100%;
+            width: calc(100% - 40px);
             max-width: 300px;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         .google-login-button:hover {
@@ -131,6 +134,7 @@
             background-size: contain;
             background-position: center;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         /* Loading spinner */
@@ -249,7 +253,7 @@
                 padding: 15px;
             }
             .login-container {
-                padding: 30px 25px;
+                padding: 30px 20px;
                 border-radius: 10px;
             }
             .logo-section img {
@@ -261,11 +265,12 @@
             .tagline {
                 font-size: 0.9em;
                 margin-bottom: 25px;
+                padding: 0 5px;
             }
             .google-login-button {
-                padding: 12px 20px;
-                font-size: 1em;
-                max-width: none;
+                padding: 12px 15px;
+                font-size: 0.95em;
+                width: calc(100% - 30px);
             }
             .google-icon {
                 width: 18px;
@@ -275,10 +280,23 @@
             .alert {
                 width: calc(100% - 30px);
                 font-size: 0.85em;
+                padding: 10px 15px;
             }
             .footer {
                 bottom: 10px;
                 font-size: 0.8em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .google-login-button {
+                font-size: 0.9em;
+                padding: 10px 12px;
+            }
+            .google-icon {
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
             }
         }
     </style>
@@ -346,7 +364,6 @@
                 
                 // Add loading class to show spinner
                 btn.addClass('loading');
-                
                 
                 // Simulate loading for demo purposes (remove this in production)
                 setTimeout(function() {
