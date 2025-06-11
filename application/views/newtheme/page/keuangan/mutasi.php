@@ -35,7 +35,7 @@
               <a href="<?php echo $kembali?>" class="btn btn-sm btn-info btn-sm">Kembali</a>
             </div>
 </div>
-<div class="row">
+<div class="row table-responsive">
   <div class="col-md-12">
     <table class="table table-bordered">
               <thead>
