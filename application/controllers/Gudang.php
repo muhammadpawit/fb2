@@ -1501,7 +1501,7 @@ class Gudang extends CI_Controller {
 
 		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
 		$adminkeu=null;
-		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>41,));
+		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>41,'hapus'=>0));
 		$viewData['adminkeu']=$adminkeu['nama'];
 		$viewData['menyetujui']=0;
 		$viewData['edit']=BASEURL.'Gudang/pengajuaneditallsave';
