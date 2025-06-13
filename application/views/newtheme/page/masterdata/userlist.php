@@ -24,6 +24,7 @@
     <table class="table table-bordered table-hover yessearch">
               <thead>
                 <tr>
+                  <th>Image</th>
                   <th>Nama User</th>
                   <th>Status</th>
                   <th width="100"></th>
@@ -36,6 +37,7 @@
               <tbody>
                 <?php foreach ($user as $us): ?>
                             <tr>
+                                <td><img src="<?php echo $us['foto'] ?>" width="100px" height="100px"></td>
                                 <td><?php echo $us['nama_user'] ?></td>
                                 <td><?php echo $us['status_user']==1?'Aktif':'Non-aktif'; ?></td>
                                 <?php foreach ($us['action'] as $action) { ?>

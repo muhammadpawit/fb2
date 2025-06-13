@@ -1520,6 +1520,7 @@ class Masterdata extends CI_Controller {
 				'jabatan_user'=>$u['jabatan_user'],
 				'status_user'=>$u['status_user'],
 				'created_date'=>$u['created_date'],
+				'foto'=>$u['foto'],
 				'jabatan_user'=>null,
 				'action'=>$action,
 			);
