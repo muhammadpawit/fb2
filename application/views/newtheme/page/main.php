@@ -219,7 +219,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <div class="user-panel" style="height: 4vw;">
+      <div class="user-panel" style="height: 10vw;">
         <div class="pull-left image">
           <img src="<?php echo foto(callSessUser('id_user')) ?>" class="img-circle" alt="User Image">
         </div>
