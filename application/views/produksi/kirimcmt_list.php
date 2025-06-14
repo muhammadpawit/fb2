@@ -87,9 +87,13 @@
                             <td><?php echo $d['jumlah_pcs']?></td>
                             <td><?php echo isset($po['kode_po'])?$po['kode_po']:''?></td>
                             <td><?php echo $p['status']?></td>
-                            <td class="right"><?php foreach ($p['action'] as $action) { ?>
-                            <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
-                            <?php } ?></td>
+                           <td class="right"><?php foreach ($p['action'] as $action) { ?>
+                              <?php if (strtolower($action['text']) === 'hapus') { ?>
+                                  <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect" onclick="return confirm('Apakah Anda yakin ingin menghapus?')"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                              <?php } else { ?>
+                                  <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                              <?php } ?>
+                          <?php } ?></td>
                           </tr>
                           <?php } ?>
                         <?php } ?>

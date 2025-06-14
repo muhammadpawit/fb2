@@ -2124,6 +2124,14 @@ class Kelolapo extends CI_Controller {
 				);
 			//}
 
+			if(akseshapus()==1){
+				$action[] = array(
+					'text' => 'hapus',
+					'href' => BASEURL.'Kelolapo/kirimcmthapus/'.$result['id'],
+					'bg' => $this->bg_danger,
+				);
+			}
+
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
 			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$result['kode_po']));
@@ -2421,6 +2429,18 @@ class Kelolapo extends CI_Controller {
 		user_activity(callSessUser('id_user'),1,' edit surat jalan jahit '.$post['kode_nota']);
 		$this->db->update('kirimcmt',array('totalkirim'=>$totalkirim),array('id'=>$post['kode_nota']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
+		redirect(BASEURL.'Kelolapo/pengirimancmt');
+	}
+
+	function kirimcmthapus($id){
+
+		$sj = $this->GlobalModel->getDataRow('kirimcmt',array('id'=>$id));
+
+		$this->db->update('kirimcmt',array('hapus'=>1),array('id'=>$id));
+		$this->db->update('kirimcmt_detail',array('hapus'=>1),array('idkirim'=>$id));
+		$this->db->update('kelolapo_kirim_setor',array('hapus'=>1),array('kode_nota_cmt'=>$id,'kategori_cmt'=>'JAHIT'));
+		user_activity(callSessUser('id_user'),1,' hapus surat jalan jahit '.$id);
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Kelolapo/pengirimancmt');
 	}
 
