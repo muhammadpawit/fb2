@@ -261,7 +261,7 @@
 			$satuan= ($menu['waktu'] > 59)?' jam':' menit';
 			$waktu = ($menu['waktu'] > 59)?$menu['waktu']/60:$menu['waktu'];
 			$hasil = 'Anda diberikan otorisasi data selama ' .$waktu. $satuan;
-			$hasil .= ' dan berakhir pada pukul '.date('H:i:s',strtotime($menu['batas'])).' WIB.';
+			$hasil .= ' dan berakhir pada '.date('d-F-Y H:i:s',strtotime($menu['batas'])).' WIB.';
 		}
 		return $hasil;
 
