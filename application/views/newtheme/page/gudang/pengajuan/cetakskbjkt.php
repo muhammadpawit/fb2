@@ -410,7 +410,7 @@
 
                                             <td>
 
-                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminkeu-removebg-preview.png" height="100" width="200">
+                                            <img src="<?php echo BASEURL ?>uploads/signatures/ttdAdminkeu-removebg-previewbaru.png" height="100" width="200">
 
                                             </td>
 
