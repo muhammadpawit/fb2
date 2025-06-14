@@ -1,5 +1,5 @@
 <?php 
-
+	
 	function rand_color(){
 		$array = [
 			'#96180f',
