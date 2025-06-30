@@ -3,6 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ajuanalatalat extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $AjuanalatModel;
+	public $AlatsukabumiModel;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -23,7 +47,7 @@ class Ajuanalatalat extends CI_Controller {
 		$data['title'].=' Mingguan ';
 		$get=$this->input->get();
 		$url='';
-		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat order by id desc limit 1");
+		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat where tanggal <> '0000-00-00' order by id desc limit 1");
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 			$url.='&tanggal1='.$tanggal1;
@@ -353,6 +377,7 @@ class Ajuanalatalat extends CI_Controller {
 	}
 
 	public function Ajuanalatalat_hapus($id){
+		$data=[];
 		$this->db->update('ajuanalatalat',array('hapus'=>1),array('id'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect($this->url.$data['bagian']);
