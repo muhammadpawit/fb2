@@ -3,6 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Bordir extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $GlobalTwoModel;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -1209,6 +1232,9 @@ class Bordir extends CI_Controller {
 				$data['pemilik']=$this->GlobalModel->getData('pemilik_poluar',array('hapus'=>0));
 				$data['opt'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
 				$data['milik'] = isset($get['pemilik']) ? $get['pemilik'] : '';
+				$tanggalMulai=$data['tanggalMulai'];
+				$tanggalEnd=$data['tanggalEnd'];
+				$data['koreksi_gaji_bordir']=BASEURL.'Bordir/koreksi_gaji_bordir/'.$tanggalMulai.'/'.$tanggalEnd;
 				if(isset($get['excel'])){
 					$this->load->view('bordir/list_excel',$data);
 				}else{
@@ -1355,11 +1381,14 @@ class Bordir extends CI_Controller {
 		}
 
 		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$post['jenis'],'nomer_mesin'=>$post['mesin']));
+		$mesin_persenan=$mesin['persenan'];
 		if($post['jenis']==2){ // po luar
 			$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$post['namaPo']));
 			if($pemilik['pemilik']!=1){
 				$perkalian_mesin=0.15;
+				$mesin_persenan=$mesin['persenan'];
 			}else{
+				$mesin_persenan=0.20;
 				$perkalian_mesin=0.18;
 			}
 		}else{
@@ -1388,7 +1417,7 @@ class Bordir extends CI_Controller {
 		'jam_kerja'	=> $post['jamkehadiran'],
 		'jenis'=>$post['jenis'],
 		'kepala'  =>$mesin['kepala'],
-		'persen' =>$mesin['persenan'],
+		'persen' =>$mesin_persenan,
 		'laporan_perkalian_tarif'=>$laporan_perkalian_tarif,
 		'idpo'=>$idpo,
 		//'gaji'  => round(($post['stich']+$post['apl'])*$mesin['kepala']*($post['jmlTurun']/$mesin['kepala'])*0.15*$mesin['persenan']),
@@ -1899,5 +1928,47 @@ class Bordir extends CI_Controller {
 		$data = $this->GlobalModel->QueryManual($sql);
 		header('Content-Type: application/json');
 		echo json_encode($data);
+	}
+
+	public function koreksi_gaji_bordir($tanggal_awal,$tanggal_akhir){
+		$data=[];
+		$data['title']='Koreksi Gaji Operator Bordir';
+		$data['tanggal_awal']=$tanggal_awal;
+		$data['tanggal_akhir']=$tanggal_akhir;
+		$data['d']=$this->GlobalModel->QueryManual("SELECT * FROM kelola_mesin_bordir WHERE jenis=2 AND hapus=0 AND created_date BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ");
+		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+		$data['action']=BASEURL.'Bordir/mesinharian_save_luar_koreksi';
+		$data['batal']=BASEURL.'Bordir/inputharianmesinpoluar/';
+		$data['page']='newtheme/page/bordir/koreksi_gaji_operator_bordir';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function mesinharian_save_luar_koreksi(){
+		$data=$this->input->post();
+		$post=$this->input->post();
+		// pre($data);
+		$mesin=[];
+		foreach($data['prods'] as $p){
+			// $mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>1,'nomer_mesin'=>$p['mesin_bordir']));
+			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$p['jenis'],'nomer_mesin'=>$p['mesin_bordir']));
+			$update=array(
+				'created_date'=>$p['created_date'],
+				'nama_operator'=>$p['nama_operator'],
+				'mesin_bordir'=>$p['mesin_bordir'],
+				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
+				'perkalian_tarif'=>$p['perkalian_tarif'],
+				'stich'		=> $p['stich'],
+				'total_stich'=>$p['total_stich'],
+				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
+				// 'gaji'  => round(($p['jumlah_naik_mesin']*$p['stich'])*0.18*$mesin['persenan']),
+				'gaji'  => $p['gaji'],
+			);
+			$where=array(
+				'id_kelola_mesin_bordir' => $p['id'],
+			);
+			$this->db->update('kelola_mesin_bordir',$update,$where);
+		}
+		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
+		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&tanggalMulai='.$data['tanggal_awal'].'&tanggalEnd='.$data['tanggal_akhir']);
 	}
 }

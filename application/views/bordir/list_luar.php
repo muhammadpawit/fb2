@@ -49,9 +49,10 @@
     </div>
     <div class="col-md-2">
         <label>Aksi</label><br>
-        <a onclick="filter()" class="btn btn-info btn-xs text-white">Filter</a>
-        <a onclick="exceldalam()" class="btn btn-info btn-xs text-white">Excel</a>
-        <a href="<?php echo $tambah?>" class="btn btn-info btn-xs">Tambah</a>
+        <a onclick="filter()" class="btn btn-info btn-sm text-white">Filter</a>
+        <a onclick="exceldalam()" class="btn btn-info btn-sm text-white">Excel</a>
+        <a href="<?php echo $tambah?>" class="btn btn-info btn-sm">Tambah</a>
+        <a href="<?php echo $koreksi_gaji_bordir?>" class="btn btn-warning btn-sm">Koreksi Gaji Operator</a>
     </div>
 </div>
 <div class="row">
