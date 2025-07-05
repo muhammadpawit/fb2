@@ -87,7 +87,7 @@
 				<input type="hidden" name="products[<?php echo $i?>][nama_karyawan_bordir]" value="<?php echo strtolower($p['nama'])?>">
 				<?php foreach($p['hari'] as $h){?>
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][hari]" value="<?php echo $h['hari']?>" checked>
-					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo number_format($h['nominal'])?>">
+					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo ($h['nominal'])?>">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][bonus]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="<?php echo $h['mandor'] ?>">
