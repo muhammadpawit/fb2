@@ -3,6 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $dataUser;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -354,7 +377,7 @@ class User extends CI_Controller {
 	{
 		$post = $this->input->post();
 
-		$datUser = $this->GlobalModel->getDataRow('user',array('id_user'=>$post['idUser']));
+		$dataUser = $this->GlobalModel->getDataRow('user',array('id_user'=>$post['idUser']));
 		// pre($post);
 		if (!empty($post['passwordLama'])) {
 			if (password_verify($post['passwordLama'], $dataUser['password_user'])) {
