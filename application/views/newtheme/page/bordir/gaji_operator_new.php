@@ -87,7 +87,7 @@
 				<input type="hidden" name="products[<?php echo $i?>][nama_karyawan_bordir]" value="<?php echo strtolower($p['nama'])?>">
 				<?php foreach($p['hari'] as $h){?>
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][hari]" value="<?php echo $h['hari']?>" checked>
-					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo $h['nominal']?>">
+					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][gaji]" value="<?php echo format_angka($h['nominal'])?>">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][bonus]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="0">
 					<input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="<?php echo $h['mandor'] ?>">
@@ -95,7 +95,7 @@
 					<tr>
 						<td><?php echo date('d-m-Y',strtotime($h['tanggal']))?></td>
 						<td><?php echo $h['hari'] ?></td>
-						<td><?php echo $h['nominal'] ?></td>
+						<td><?php echo format_angka($h['nominal']) ?></td>
 						<td><?php echo $h['shift'] ?></td>
 						<td><?php echo $h['mandor'] ?></td>
 						<!-- <td>0</td>
