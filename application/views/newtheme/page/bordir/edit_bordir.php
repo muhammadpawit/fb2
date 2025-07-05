@@ -59,10 +59,10 @@
 								<input type="text" name="prods[<?php echo $i?>][mesin_bordir]" value="<?php echo $e['mesin_bordir']?>" class="form-control" size="4">
 							</td>
 							<td>
-								<input type="text" name="prods[<?php echo $i?>][jumlah_naik_mesin]" value="<?php echo $e['jumlah_naik_mesin']?>" class="form-control" size="9">
+								<input type="text" name="prods[<?php echo $i?>][jumlah_naik_mesin]" value="<?php echo $e['jumlah_naik_mesin']?>" class="form-control" size="9" readonly>
 							</td>
 							<td>
-								<input type="text" name="prods[<?php echo $i?>][stich]" value="<?php echo $e['stich']?>">
+								<input type="text" name="prods[<?php echo $i?>][stich]" value="<?php echo $e['stich']?>" class="form-control"  readonly>
 							</td>
 							<td>
 								<input type="hidden" name="prods[<?php echo $i?>][total_stich]" value="<?php echo $total_stich ?>">
@@ -74,7 +74,7 @@
 							</td>
 							<td align="center"><?php echo $e['kepala']?></td>
 							<td>
-								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>">
+								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>" class="form-control"  readonly>
 							</td>
 							<td>
 								<input type="hidden" size="8" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">
