@@ -96,3 +96,31 @@
 		</div>
 	</div>
 </form>
+<div class="row">
+   <div class="col-md-4">
+				<table class="table table-bordered">
+					<tr>
+						<td colspan="3">
+							Keterangan
+						</td>
+					</tr>
+					<tr>
+						<td>X</td>
+						<td>:</td>
+						<td>variabel perhitungan pendapatan operator</td>
+					</tr>
+					<tr>
+						<td>Hasil X</td>
+						<td>:</td>
+						<td>Didapat dari Total Stich * X</td>
+					</tr>
+					<tr>
+						<td>Pendapatan Operator (Rp)</td>
+						<td>:</td>
+						<td>
+							Total Stich * X * Perkalian
+						</td>
+					</tr>
+				</table>
+   </div>
+</div>

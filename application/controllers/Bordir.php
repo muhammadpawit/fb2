@@ -1176,8 +1176,12 @@ class Bordir extends CI_Controller {
 						);
 					}
 
+					$pemilik = $this->GlobalModel->QueryManualRow("SELECT b.* FROM master_po_luar a left join pemilik_poluar b on a.idpemilik = b.id WHERE a.id = '".$b['idpo']."' ");	
+
 
 					$data['bordir'][]=array(
+					'pemilik'=>$pemilik['nama'],
+					'hasil_x'=>$pemilik['hasil_x'],
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
 					'mesin'=>$b['mesin_bordir'],

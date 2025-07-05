@@ -59,10 +59,11 @@
                     <table class="table table-bordered nosearch">
                         <thead>
                         <tr>
+                            <th>Tanggal Masuk</th>
                             <th>Nama Operator</th>
                             <th>No Mesin</th>
                             <th>Nama Po</th>
-                            <th>Tanggal Masuk</th>
+                            <th>Pemilik</th>
                             <th>Posisi Bordir</th>
                             <th>Size</th>
                             <th>Stich</th>
@@ -78,10 +79,11 @@
                         <?php if(isset($bordir)){?>
                         <?php foreach ($bordir as $bod): ?>
                         <tr>
+                            <td><?php echo formatTanggalIndo($bod['created_date']) ?></td>
                             <td><?php echo $bod['operator'] ?></td>
-                             <td><?php echo $bod['mesin'] ?></td>
+                            <td><?php echo $bod['mesin'] ?></td>
                             <td><?php echo $bod['nama_po'] ?></td>
-                            <td><?php echo $bod['created_date'] ?></td>
+                            <td><?php echo $bod['pemilik'] ?></td>
                             <td><?php echo $bod['bagian_bordir'] ?></td>
                             <td><?php echo $bod['size'] ?></td>
                             <td><?php echo $bod['stich'] ?></td>
@@ -89,7 +91,7 @@
                             <td><?php echo ($bod['total_stich']) ?></td>
                             <td><?php echo ($bod['perkalian_tarif']) ?></td>
                             <td><?php echo ($bod['total_tarif']) ?></td>
-                            <td><?php echo ($bod['gaji']) ?></td>
+                            <td><?php echo number_format($bod['gaji']) ?></td>
                             <td class="right">
                                 <?php foreach ($bod['action'] as $action) { ?>
                                     <a href="<?php echo $action['href']; ?>" class="badge <?php echo $action['bg']; ?> waves-light waves-effect"
