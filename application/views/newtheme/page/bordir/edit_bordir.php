@@ -15,6 +15,7 @@
 						<th>Hasil X</th>
 						<th>Kepala Mesin</th>
 						<th>Perkalian</th>
+						<th>Persentase Mesin</th>
 						<th>Pendapatan Operator (Rp)</th>
 						<th>Total</th>
 					</tr>
@@ -39,7 +40,7 @@
 							$pemilik = $this->GlobalModel->QueryManualRow("SELECT b.* FROM master_po_luar a left join pemilik_poluar b on a.idpemilik = b.id WHERE a.id = '".$e['idpo']."' ");	
 
 							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
-							$gaji = ($total_stich *  $pemilik['hasil_x'] * $e['perkalian_tarif'] );
+							$gaji = ($total_stich *  $pemilik['hasil_x'] * $e['persen'] );
 						?>
 						<input type="hidden" name="prods[<?php echo $i?>][id]" value="<?php echo $e['id_kelola_mesin_bordir'] ?>">
 						<input type="hidden" name="prods[<?php echo $i?>][jenis]" value="<?php echo $e['jenis'] ?>">
@@ -75,6 +76,9 @@
 							<td align="center"><?php echo $e['kepala']?></td>
 							<td>
 								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>" class="form-control"  readonly>
+							</td>
+							<td>
+								<?php echo $e['persen']?>
 							</td>
 							<td>
 								<input type="hidden" size="8" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">
@@ -118,7 +122,7 @@
 						<td>Pendapatan Operator (Rp)</td>
 						<td>:</td>
 						<td>
-							Total Stich * X * Perkalian
+							Total Stich * X * Persentase Mesin
 						</td>
 					</tr>
 				</table>
