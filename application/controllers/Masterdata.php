@@ -120,7 +120,10 @@ class Masterdata extends CI_Controller {
 		if(strtolower($page)=='lobangkancing' || strtolower($page)=='pasangkancing' || strtolower($page)=='buangbenang' 
 		|| strtolower($page)=='cucian_finishing' || strtolower($page)=='pasang_kancing' ){
 			$where =' AND idjenis IN(1) ';
-		}else{
+		}else if( strtolower($page)=='tress' ){
+			$where =' ';
+		}
+		else{
 			$where='';
 		}
 		$jenis=$this->GlobalModel->QueryManual("SELECT id_jenis_po, nama_jenis_po, $page as harga FROM master_jenis_po WHERE status=1 $where ");
@@ -153,6 +156,7 @@ class Masterdata extends CI_Controller {
 		}
 		$data['page']=$this->page.'masterdata/hargapacking';
 		$data['update']=BASEURL.'Masterdata/updatehargafinishing';
+		$data['simpanharga']=BASEURL.'Masterdata/simpanharga';
 		$this->load->view($this->layout,$data);
 	}
 
@@ -171,6 +175,20 @@ class Masterdata extends CI_Controller {
 		//pre($update);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Masterdata/biayafinishing/'.$data['page']);
+	}
+
+	public function simpanharga(){
+		$p=$this->input->post();
+		// pre($p);
+			$update=array(
+				$p['page']=>$p['harga'],
+			);
+			$where=array(
+				'id_jenis_po'=>$p['id'],
+			);
+			$this->db->update('master_jenis_po',$update,$where);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Masterdata/biayafinishing/'.$p['page']);
 	}
 
 	public function updatepacking(){
