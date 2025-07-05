@@ -11,14 +11,39 @@
 						<th>Jumlah Naik</th>
 						<th>Stich</th>
 						<th>Total Stich</th>
+						<th>X</th>
+						<th>Hasil X</th>
+						<th>Kepala Mesin</th>
 						<th>Perkalian</th>
+						<th>Pendapatan Operator (Rp)</th>
 						<th>Total</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php $i=0;?>
+					<?php 
+					
+					$i=0;
+					
+						$total_stich = 0;
+						$jumlah_naik = 0;
+						$jumlah_stich = 0;
+						$jumlah_total_stich = 0;
+						$jumlah_perkalian = 0;
+						$jumlah_total = 0;
+						$jumlah_x = 0;
+						$jumlah_hasil_x = 0;
+						$jumlah_gaji = 0;
+					?>
 					<?php foreach($d as $e){?>
+						<?php 
+							$pemilik = $this->GlobalModel->QueryManualRow("SELECT b.* FROM master_po_luar a left join pemilik_poluar b on a.idpemilik = b.id WHERE a.id = '".$e['idpo']."' ");	
+
+							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
+							$gaji = ($total_stich *  $pemilik['hasil_x'] * $e['perkalian_tarif'] );
+						?>
 						<input type="hidden" name="prods[<?php echo $i?>][id]" value="<?php echo $e['id_kelola_mesin_bordir'] ?>">
+						<input type="hidden" name="prods[<?php echo $i?>][jenis]" value="<?php echo $e['jenis'] ?>">
+						<input type="hidden" name="pemilik" value="<?php echo $pemilik['id'] ?>">
 						<tr>
 							<td>
 								<input type="text" name="prods[<?php echo $i?>][created_date]" class="form-control datepicker" value="<?php echo $e['created_date']?>" size="7">
@@ -39,11 +64,26 @@
 							<td>
 								<input type="text" name="prods[<?php echo $i?>][stich]" value="<?php echo $e['stich']?>">
 							</td>
-							<td><?php echo $e['total_stich']?></td>
+							<td>
+								<input type="hidden" name="prods[<?php echo $i?>][total_stich]" value="<?php echo $total_stich ?>">
+								<?php echo $total_stich ?>
+							</td>
+							<td><?php echo $pemilik['hasil_x']?></td>
+							<td>
+								<?php echo $total_stich * $pemilik['hasil_x']?>
+							</td>
+							<td align="center"><?php echo $e['kepala']?></td>
 							<td>
 								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>">
 							</td>
-							<td><?php echo $e['total_tarif']?></td>
+							<td>
+								<input type="hidden" size="8" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">
+								<?php echo $gaji ?>
+							</td>
+							<td>
+								<input type="hidden" size="8" name="prods[<?php echo $i?>][total_tarif]" value="<?php echo $e['total_tarif'] ?>">
+								<?php echo ($e['total_tarif'])?>
+							</td>
 						</tr>
 						<?php $i++;?>
 					<?php } ?>

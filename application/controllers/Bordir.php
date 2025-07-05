@@ -1052,10 +1052,12 @@ class Bordir extends CI_Controller {
 
 	public function mesinharian_save_luar(){
 		$data=$this->input->post();
-		//pre($data);
+		$post=$this->input->post();
+		// pre($data);
 		$mesin=[];
 		foreach($data['prods'] as $p){
-			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>1,'nomer_mesin'=>$p['mesin_bordir']));
+			// $mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>1,'nomer_mesin'=>$p['mesin_bordir']));
+			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$p['jenis'],'nomer_mesin'=>$p['mesin_bordir']));
 			$update=array(
 				'created_date'=>$p['created_date'],
 				'nama_operator'=>$p['nama_operator'],
@@ -1063,9 +1065,10 @@ class Bordir extends CI_Controller {
 				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
 				'perkalian_tarif'=>$p['perkalian_tarif'],
 				'stich'		=> $p['stich'],
-				'total_stich'=>round($p['jumlah_naik_mesin']*$p['stich']),
+				'total_stich'=>$p['total_stich'],
 				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
-				'gaji'  => round(($p['jumlah_naik_mesin']*$p['stich'])*0.18*$mesin['persenan']),
+				// 'gaji'  => round(($p['jumlah_naik_mesin']*$p['stich'])*0.18*$mesin['persenan']),
+				'gaji'  => $p['gaji'],
 			);
 			$where=array(
 				'id_kelola_mesin_bordir' => $p['id'],
@@ -1073,7 +1076,7 @@ class Bordir extends CI_Controller {
 			$this->db->update('kelola_mesin_bordir',$update,$where);
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&namaPo='.$data['kode_po']);
+		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&pemilik='.$data['pemilik']);
 	}
 
 	public function inputharianmesinpoluar(){
@@ -1350,7 +1353,7 @@ class Bordir extends CI_Controller {
 		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$post['jenis'],'nomer_mesin'=>$post['mesin']));
 		if($post['jenis']==2){ // po luar
 			$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$post['namaPo']));
-			if($pemilik['pemilik']==3){
+			if($pemilik['pemilik']!=1){
 				$perkalian_mesin=0.15;
 			}else{
 				$perkalian_mesin=0.18;
