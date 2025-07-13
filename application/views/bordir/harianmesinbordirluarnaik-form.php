@@ -1,5 +1,5 @@
 <form action="<?php echo BASEURL.'bordir/addharianmesinsave' ?>" method="POST">
-<input type="hidden" name="jenis" value="<?php echo $jenis?>">
+<input type="hidden" name="jenis" id="jenis" value="<?php echo $jenis?>">
 <div class="row">
                             <div class="form-group col-md-12">
                                 <label>TANGGAL</label>
@@ -47,11 +47,24 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label>JAGA MESIN</label>
-                                <select class="form-control select2bs4" name="mesin" required>
+                                <select class="form-control select2bs4" id="mesin" name="mesin" required>
+                                    <option value=""></option>
                                     <?php foreach ($mesin as $key => $me): ?>
                                     <option value="<?php echo $me['nomer_mesin'] ?>"><?php echo $me['nomer_mesin'] ?> (<?php echo $me['nama_mesin'] ?>)</option>
                                     <?php endforeach ?>
                                 </select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="spon">Kepala</label>
+                                    <input type="text" class="form-control" name="kepala" id="kepala" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="spon">Persentase Mesin</label>
+                                    <input type="text" class="form-control" name="persenan" id="persenan" required>
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label>GAMBAR</label>
@@ -208,6 +221,24 @@ $('#kehadiran').change(function () {
 $(document).on('click', '.remove', function(){
     $(this).closest('tr').remove();
 });
-    
+   
+
+$('#mesin').change(function () {
+    var mesin = $(this).val();
+    var jenis = $("#jenis").val();
+    $.ajax({
+        url:"<?php echo BASEURL ?>Bordir/getmesinDetail",
+        method:"POST",
+        data:{mesin:mesin,jenis:jenis},
+        dataType:"json",
+        success:function(data){
+            console.log(data);
+            $('#persenan').val(data.persenan);
+            $('#kepala').val(data.kepala);
+        }
+    });
+});
+
+
 });
  </script>

@@ -1386,7 +1386,7 @@ class Bordir extends CI_Controller {
 			$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$post['namaPo']));
 			if($pemilik['pemilik']!=1){
 				$perkalian_mesin=0.15;
-				$mesin_persenan=$mesin['persenan'];
+				$mesin_persenan=isset($post['mesin_persenan'])?$post['mesin_persenan']:$mesin['persenan'];
 			}else{
 				$mesin_persenan=0.20;
 				$perkalian_mesin=0.18;
@@ -1970,5 +1970,11 @@ class Bordir extends CI_Controller {
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
 		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&tanggalMulai='.$data['tanggal_awal'].'&tanggalEnd='.$data['tanggal_akhir']);
+	}
+
+	function getmesinDetail(){
+		$data=$this->input->post();
+		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$data['jenis'],'nomer_mesin'=>$data['mesin']));
+		echo json_encode($mesin);
 	}
 }
