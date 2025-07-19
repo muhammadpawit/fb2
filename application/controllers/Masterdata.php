@@ -2469,6 +2469,26 @@ class Masterdata extends CI_Controller {
 
 	}
 
+	public function mesinbordir(){
+
+		$viewData['title']	= 'Mesin Bordir';
+		$viewData['satuan']	= $this->GlobalModel->Querymanual("SELECT * FROM master_mesin order by jenis ");
+		$viewData['page']='master/mesinbordir/list';
+		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	public function MesinOnDelete($id)
+
+	{
+
+		$this->db->delete('master_mesin',array('id_mesin'=>$id));
+
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+
+		redirect(BASEURL.'Masterdata/mesinbordir');
+
+	}
+
 
 }
 
