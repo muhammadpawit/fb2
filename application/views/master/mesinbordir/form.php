@@ -1,10 +1,11 @@
 
     <form action="<?php echo $action ?>" method="POST">
+        <input type="hidden" name="id_mesin" value="<?php echo $p['id_mesin'] ?>">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="">Nama Size</label>
-                <input type="text" class="form-control" name="nama_size" required>
+                <label for="">Persentase Mesin</label>
+                <input type="text" class="form-control" name="persenan" value="<?php echo $p['persenan'] ?>" required>
             </div>
         </div>
         <div class="col-md-6">

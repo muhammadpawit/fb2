@@ -2490,5 +2490,42 @@ class Masterdata extends CI_Controller {
 	}
 
 
+	public function MesinEdit($id)
+
+	{
+		$data['title']	= 'Form Master Mesin';
+		$data['p']	= $this->GlobalModel->getDataRow('master_mesin',array('id_mesin'=>$id));
+		$data['page']='master/mesinbordir/form';
+		$data['cancel']=BASEURL.'Masterdata/mesinbordir';
+		$data['action']=BASEURL.'Masterdata/MesinEditSave';
+		$this->load->view('newtheme/page/main',$data);
+
+	}
+
+
+
+
+
+	public function MesinEditSave()
+
+	{
+
+		$post = $this->input->post();
+
+		$dataInserted = array(
+
+			'persenan'	=> 	$post['persenan'],
+
+		);
+
+		$this->GlobalModel->update('master_mesin',$dataInserted,array('id_mesin'=>$post['id_mesin']));
+
+		$this->session->set_flashdata('msg','Data berhasil ditambah');
+
+		redirect(BASEURL.'Masterdata/size');
+
+	}
+
+
 }
 

@@ -37,7 +37,10 @@
                                 <td><?php echo $sat['jenis'] == 1?'Dalam':'Luar' ?></td>
                                 <td><?php echo $sat['persenan'] ?></td>
                                 <td>
-                                    <a href="<?php echo BASEURL.'Masterdata/MesinOnDelete/'.$sat['id_mesin']?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ? ')">Hapus</a>
+                                    <a href="<?php echo BASEURL.'Masterdata/MesinEdit/'.$sat['id_mesin']?>" class="btn btn-warning btn-xs">Edit</a>
+                                    <?php if(akseshapus()==1){ ?>
+                                        <a href="<?php echo BASEURL.'Masterdata/MesinOnDelete/'.$sat['id_mesin']?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ? ')">Hapus</a>
+                                    <?php } ?>
                                 </td>
                                
                             </tr>
