@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group text-right">
-        <a href="<?php echo BASEURL.'Masterdata/sizeAdd' ?>" class="btn btn-primary">Tambah</a>
+        
         </div>
     </div>
 </div>
