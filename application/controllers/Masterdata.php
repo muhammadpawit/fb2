@@ -2518,11 +2518,11 @@ class Masterdata extends CI_Controller {
 
 		);
 
-		$this->GlobalModel->update('master_mesin',$dataInserted,array('id_mesin'=>$post['id_mesin']));
+		$this->db->update('master_mesin',$dataInserted,array('id_mesin'=>$post['id_mesin']));
 
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
 
-		redirect(BASEURL.'Masterdata/size');
+		redirect(BASEURL.'Masterdata/mesinbordir');
 
 	}
 
