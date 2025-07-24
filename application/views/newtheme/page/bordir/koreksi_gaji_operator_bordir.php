@@ -39,9 +39,9 @@
 					<?php foreach($d as $e){?>
 						<?php 
 							$pemilik = $this->GlobalModel->QueryManualRow("SELECT b.* FROM master_po_luar a left join pemilik_poluar b on a.idpemilik = b.id WHERE a.id = '".$e['idpo']."' ");	
-
+							$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$e['jenis'],'nomer_mesin'=>$e['mesin']));
 							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
-							$gaji = ($total_stich *  $pemilik['hasil_x'] * $e['persen'] );
+							$gaji = ($total_stich *  $pemilik['hasil_x'] * $mesin['persenan'] );
 						?>
 						<input type="hidden" name="prods[<?php echo $i?>][id]" value="<?php echo $e['id_kelola_mesin_bordir'] ?>">
 						<input type="hidden" name="prods[<?php echo $i?>][jenis]" value="<?php echo $e['jenis'] ?>">
@@ -79,7 +79,7 @@
 								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>" class="form-control"  readonly>
 							</td>
 							<td>
-								<?php echo $e['persen']?>
+								<?php echo $mesin['persenan'] ?>
 							</td>
 							<td>
 								<input type="hidden" size="8" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">
