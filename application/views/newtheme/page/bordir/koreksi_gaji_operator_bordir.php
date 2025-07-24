@@ -39,7 +39,7 @@
 					<?php foreach($d as $e){?>
 						<?php 
 							$pemilik = $this->GlobalModel->QueryManualRow("SELECT b.* FROM master_po_luar a left join pemilik_poluar b on a.idpemilik = b.id WHERE a.id = '".$e['idpo']."' ");	
-							$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$e['jenis'],'nomer_mesin'=>$e['mesin']));
+							$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$e['jenis'],'nomer_mesin'=>$e['mesin_bordir']));
 							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
 							$gaji = ($total_stich *  $pemilik['hasil_x'] * $mesin['persenan'] );
 						?>
