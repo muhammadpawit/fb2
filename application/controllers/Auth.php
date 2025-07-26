@@ -41,7 +41,8 @@ class Auth extends CI_Controller {
         $client->addScope('profile');
 
         $data['auth_url'] = $client->createAuthUrl();
-        $this->load->view('login_view', $data); // Tampilkan link login Google
+        // $this->load->view('login_view', $data);
+        $this->load->view('login_view_modern', $data);
     }
 
     public function google_callback() {
