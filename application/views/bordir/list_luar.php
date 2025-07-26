@@ -11,13 +11,13 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-1">
         <div class="form-group">
             <label>Tanggal</label>
             <input type="text" value="<?php echo $tanggalMulai?>" class="form-control" name="tanggalMulai">
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <div class="form-group">
             <label>Tanggal</label>
             <input type="text" class="form-control" name="tanggalEnd" value="<?php echo $tanggalEnd?>">
@@ -47,7 +47,7 @@
             <?php } ?>
         </select>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
         <label>Aksi</label><br>
         <a onclick="filter()" class="btn btn-info btn-sm text-white">Filter</a>
         <a onclick="exceldalam()" class="btn btn-info btn-sm text-white">Excel</a>
