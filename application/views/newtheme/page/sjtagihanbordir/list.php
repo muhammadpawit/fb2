@@ -78,7 +78,7 @@
                         <td>
                         	<!-- <a href="<?php echo $p['detail']?>" class="btn btn-primary btn-sm text-white">Detail</a> -->
                         	<?php if(akseshapus()==1){?>
-                        		<a href="<?php echo $d['hapus']?>" class="btn btn-danger btn-sm text-white">Hapus</a>
+                        		<a href="<?php echo $d['hapus']?>" class="btn btn-danger btn-xs text-white"><i class="fa fa-trash"></i></a>
                         	<?php } ?>
                         </td>
                       </tr>
