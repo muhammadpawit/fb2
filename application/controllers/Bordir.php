@@ -1170,7 +1170,7 @@ class Bordir extends CI_Controller {
 					$sql .=" AND idpemilik='".$get['pemilik']."' ";
 				}
 
-				$sql.=' ORDER BY kmb.created_date ASC ';
+				$sql.=' ORDER BY kmb.id_kelola_mesin_bordir DESC ';
 				$bordir=array();
 				//pre($sql);
 				$bordirs = $this->GlobalModel->queryManual($sql);
@@ -1384,13 +1384,15 @@ class Bordir extends CI_Controller {
 		$mesin_persenan=$mesin['persenan'];
 		if($post['jenis']==2){ // po luar
 			$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$post['namaPo']));
-			if($pemilik['pemilik']!=1){
+			// pre($post);
+			if($pemilik['idpemilik']!=1){
 				$perkalian_mesin=0.15;
 				$mesin_persenan=isset($post['mesin_persenan'])?$post['mesin_persenan']:$mesin['persenan'];
 			}else{
 				$mesin_persenan=0.20;
 				$perkalian_mesin=0.18;
 			}
+			// pre($mesin_persenan);
 		}else{
 			$perkalian_mesin=0.15; // po dalam
 		}

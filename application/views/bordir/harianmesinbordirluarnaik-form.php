@@ -3,7 +3,7 @@
 <div class="row">
                             <div class="form-group col-md-12">
                                 <label>TANGGAL</label>
-                                <input type="date" class="form-control" name="tanggal" required>
+                                <input type="date" class="form-control" name="tanggal" value="<?php echo date('Y-m-d') ?>" required>
                             </div>
                             <div class="form-group col-md-12">
                                 <label>Nama PO</label>
