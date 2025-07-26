@@ -84,7 +84,7 @@
             <?php foreach($warning_atas as $req){?>
                 <?php  $minimal_order=$req['keseluruhan']; //  ?>
             <?php //if($req['quantity'] < $minimal_order){ ?>
-            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? '#FF8F6C' : (($req['quantity'] < $minimal_order) ? '#FFCE47' : ''); ?>">
+            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? '#FFB198' : (($req['quantity'] < $minimal_order) ? '#FFCE47' : ''); ?>">
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
@@ -126,7 +126,7 @@
             <?php foreach($menipis as $req){?>
                 <?php  $minimal_order=($req['minstok']*0.2); //  ?>
             <?php //if($req['quantity'] < $minimal_order){ ?>
-            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? '#FF8F6C' : (($req['quantity'] < $minimal_order) ? '#FFCE47' : ''); ?>">
+            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? '#FFB198' : (($req['quantity'] < $minimal_order) ? '#FFCE47' : ''); ?>">
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
