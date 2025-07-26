@@ -65,7 +65,7 @@
                 <?php if(isset($products)){?>
                   <?php foreach($products as $d){?>
                       <tr>
-                        <td><?php echo $d['tanggal']?></td>
+                        <td><?php echo formatTanggalIndo($d['tanggal'])?></td>
                         <td><?php echo $d['namapo']?></td>
                         <td><?php echo $d['keterangan']?></td>
                         <td><?php echo $d['size']?></td>
