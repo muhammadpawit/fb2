@@ -477,7 +477,11 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10">
-                        <iframe src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" frameborder="0" height="500" style="width:100%"></iframe>
+                            <?php if(!empty($parent['dokumenNota'])){ ?>
+                                <iframe src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" frameborder="0" height="500" style="width:100%"></iframe>
+                            <?php }else{ ?>
+                                <div class="alert alert-danger"> Dokumen nota belum diupload</div>
+                            <?php } ?>
                         </div>
                     </div>
 
