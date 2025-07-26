@@ -18,7 +18,7 @@
                 <tr>
                     <td><?php echo $no++?></td>    
                     <td><?php echo $req['kode_po']?></td>    
-                    <td><?php echo date('d F Y',strtotime($req['created_date']))?></td>
+                    <td><?php echo formatTanggalIndo($req['created_date'])?></td>
                     <td><?php echo $req['posisi']?></td>    
                 </tr>
                 <?php } ?>
