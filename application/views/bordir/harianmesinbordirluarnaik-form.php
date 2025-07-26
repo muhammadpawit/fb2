@@ -7,7 +7,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label>Nama PO</label>
-                                <select name="namaPo" class="form-control select2bs4" data-live-search="TRUE">
+                                <select name="namaPo" id="namaPo" class="form-control select2bs4" data-live-search="TRUE">
                                     <option value=""></option>
                                     <?php foreach($po as $p){?>
                                         <option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option>
@@ -226,10 +226,11 @@ $(document).on('click', '.remove', function(){
 $('#mesin').change(function () {
     var mesin = $(this).val();
     var jenis = $("#jenis").val();
+    var po = $("#namaPo").val();
     $.ajax({
         url:"<?php echo BASEURL ?>Bordir/getmesinDetail",
         method:"POST",
-        data:{mesin:mesin,jenis:jenis},
+        data:{mesin:mesin,jenis:jenis,po:po},
         dataType:"json",
         success:function(data){
             console.log(data);

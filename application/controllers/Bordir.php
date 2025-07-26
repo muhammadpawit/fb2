@@ -1976,7 +1976,16 @@ class Bordir extends CI_Controller {
 
 	function getmesinDetail(){
 		$data=$this->input->post();
-		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$data['jenis'],'nomer_mesin'=>$data['mesin']));
+		$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$data['po']));
+		if($pemilik['idpemilik']!=1){
+			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$data['jenis'],'nomer_mesin'=>$data['mesin']));
+		}else{
+			$mesin = (object) array(
+				'persenan' => 0.20,
+				'kepala' => '12',
+			);
+		}
+		
 		echo json_encode($mesin);
 	}
 }
