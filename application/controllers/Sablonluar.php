@@ -274,6 +274,14 @@ class Sablonluar extends CI_Controller {
 				);
 			}
 
+			if(akseshapus()==1){
+				$action[] = array(
+					'text' => 'Hapus',
+					'href' => $this->url.'kirimcmtsablonhapus/'.$result['id'],
+					'bg'   => '#dd4b39',
+				);
+			}
+
 			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
 			$dets = $this->GlobalModel->GetData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$result['id']));
 			$data['products'][]=array(
@@ -361,6 +369,13 @@ class Sablonluar extends CI_Controller {
 		}else{
 			echo "Gagal. Tanggal kirim harus diisi";
 		}
+	}
+
+	function kirimcmtsablonhapus($id=''){
+		$this->db->update('kirimcmtsablon',array('hapus'=>1),array('id'=>$id));
+		$this->db->update('kirimcmtsablon_detail',array('hapus'=>1),array('idkirim'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.'kirimsetor');
 	}
 
 	public function kirimcmtsablonview($id='',$kodepo=''){
