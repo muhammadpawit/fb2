@@ -25,7 +25,7 @@
 <?php } ?>
 <div class="row">
     <div class="col-md-12">
-       <div class="alert" style="background-color:darkcyan !important;color: white">
+       <div class="alert" style="background-color:#085B8C !important;color: white">
            PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
            <a href="<?php echo BASEURL?>Dash/pendingpo">Lihat</a>
        </div>
@@ -63,7 +63,7 @@
         <!-- Pending PO : <?php echo $popending?> -->
     </div>
     <div class="col-md-12">
-       <div class="alert" style="background-color: #eb4034 !important;color: white;text-align:center !important;font-size:20px" class="text-center">
+       <div class="alert" style="background-color: #FF7347 !important;color: white;text-align:center !important;font-size:20px" class="text-center">
            Warning  Stok Barang !!!
        </div>
        <table class="table table-bordered table-hover yessearch">
@@ -84,7 +84,7 @@
             <?php foreach($warning_atas as $req){?>
                 <?php  $minimal_order=$req['keseluruhan']; //  ?>
             <?php //if($req['quantity'] < $minimal_order){ ?>
-            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? 'red' : (($req['quantity'] < $minimal_order) ? '#e2ff85' : ''); ?>">
+            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? '#FF8F6C' : (($req['quantity'] < $minimal_order) ? '#FFCE47' : ''); ?>">
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
@@ -126,7 +126,7 @@
             <?php foreach($menipis as $req){?>
                 <?php  $minimal_order=($req['minstok']*0.2); //  ?>
             <?php //if($req['quantity'] < $minimal_order){ ?>
-            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? 'red' : (($req['quantity'] < $minimal_order) ? '#e2ff85' : ''); ?>">
+            <tr style="background-color:<?php echo ($req['quantity'] <= 5 ) ? '#FF8F6C' : (($req['quantity'] < $minimal_order) ? '#FFCE47' : ''); ?>">
                 <td><?php echo $no?></td>    
                 <td><?php echo $req['nama']?></td>      
                 <td><?php echo number_format($req['quantity'])?></td>
