@@ -1986,8 +1986,12 @@ class Bordir extends CI_Controller {
 		if($pemilik['idpemilik']!=1){
 			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$data['jenis'],'nomer_mesin'=>$data['mesin']));
 		}else{
+			$persenan = 0.2;
+			if($data['mesin'] == 5 || $data['mesin']==6){
+				$persenan = 0.18;
+			}
 			$mesin = (object) array(
-				'persenan' => 0.20,
+				'persenan' => $persenan,
 				'kepala' => '12',
 			);
 		}
