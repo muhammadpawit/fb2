@@ -1332,8 +1332,14 @@ class Bordir extends CI_Controller {
 	
 	
 	public function mesinharianhapus($id=''){
+		$data = $this->GlobalModel->GetDataRow('kelola_mesin_bordir',array('id_kelola_mesin_bordir'=>$id));
 		$this->db->query("UPDATE kelola_mesin_bordir set hapus=1 where id_kelola_mesin_bordir='$id' ");
-		redirect(BASEURL.'bordir/inputharianmesinpodalam');	
+		if($data['jenis']==2){
+			redirect(BASEURL.'bordir/inputharianmesinpoluar');	
+		}else{
+			redirect(BASEURL.'bordir/inputharianmesinpodalam');	
+		}
+		
 	}
 	public function addharianmesin($jenis){
 		$data=array();
