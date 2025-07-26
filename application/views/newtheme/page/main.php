@@ -563,7 +563,7 @@
         $("input[name=\'tanggal1\']").addClass("datepicker");
         $("input[name=\'tanggal2\']").attr('type', 'text');
         $("input[name=\'tanggal2\']").addClass("datepicker");
-        $(".table").addClass("table-striped");
+        $(".table").addClass("table-striped table-hover");
     //Date picker
     $.fn.datepicker.defaults.format = "yyyy-mm-dd";
     $('#datepicker').datepicker({
