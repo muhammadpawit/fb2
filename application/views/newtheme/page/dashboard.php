@@ -2,7 +2,7 @@
 <?php if(!empty($request)){?>
 <div class="row">
     <div class="col-md-12">
-       <div class="alert" style="background-color: #3D6AA2 !important;color: white">
+       <div class="alert" style="background-color: #1E77AB !important;color: white">
            Form Request Otorisasi User
        </div>
         <table class="table table-bordered nosearch">
@@ -29,7 +29,7 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #379294 !important;color: white">Update Potongan Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
+      <div class="alert" style="background-color: #1E77AB !important;color: white">Update Potongan Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -57,7 +57,7 @@
                     $pcs+=($r['pcs']);
                 ?>
                 <?php } ?>
-                <tr style="background-color: yellow;">
+                <tr style="background-color: #FFCE47;">
                     <td colspan="2"><b>Total Potongan</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz)?></b></td>
@@ -70,7 +70,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #379294 !important;color: white">Rekap Potongan PO Keseluruhan 2023 - 2024 <br>Per <?php echo date('d F Y')?></div>
+      <div class="alert" style="background-color: #1E77AB !important;color: white">Rekap Potongan PO Keseluruhan 2023 - 2024 <br>Per <?php echo date('d F Y')?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -107,7 +107,7 @@
                     $pcs+=($r['pcs']);
                 ?>
                 <?php } ?>
-                <tr style="background-color: yellow;">
+                <tr style="background-color: #FFCE47;">
                     <td colspan="2"><b>Total Potongan</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz,2)?></b></td>
@@ -127,7 +127,7 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #3D6AA2 !important;color: white">Update PO Kirim Gudang Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
+      <div class="alert" style="background-color: #1E77AB !important;color: white">Update PO Kirim Gudang Mingguan<br><?php echo $tanggalm1?> - <?php echo $tanggalm2?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -158,7 +158,7 @@
                     $total+=($r['total']);
                 ?>
                 <?php } ?>
-                <tr style="background-color: yellow;">
+                <tr style="background-color: #FFCE47;">
                     <td colspan="2"><b>Nilai Total (Rp)</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz,2)?></b></td>
@@ -172,7 +172,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <div class="alert" style="background-color: #3D6AA2 !important;color: white">Rekap PO Kirim Gudang Keseluruhan 2023-2024<br>Per <?php echo date('d F Y')?></div>
+      <div class="alert" style="background-color: #1E77AB !important;color: white">Rekap PO Kirim Gudang Keseluruhan 2023-2024<br>Per <?php echo date('d F Y')?></div>
           <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -213,7 +213,7 @@
                     $total+=($r['total']);
                 ?>
                 <?php } ?>
-                <tr style="background-color: yellow;">
+                <tr style="background-color: #FFCE47;">
                     <td colspan="2"><b>Nilai Total (Rp)</b></td>
                     <td><b><?php echo number_format($cpo)?></b></td>
                     <td><b><?php echo number_format($dz,2)?></b></td>
@@ -256,7 +256,7 @@
           <?php $tpa+=($pd['dz']);?>
           <?php $tpt+=($pd['jmlpo']);?>
         <?php } ?>
-        <tr style="background-color: yellow;font-weight:700">
+        <tr style="background-color: #FFCE47;font-weight:700">
           <td align="center"><b>Total</b></td>
           <td><?php echo number_format($tpt,2)?></td>
           <td><?php echo number_format($tpa,2)?></td>
