@@ -256,12 +256,14 @@
 	function status_oto(){
 		$hasil 			= null;
 		$CI =& get_instance();
-		$menu=$CI->GlobalModel->queryManualRow("SELECT * FROM aksesdata WHERE waktu IS NOT NULL AND user_id='".callSessUser('id_user')."' AND user_id NOT IN (10,11) limit 1 ");
+		$menu=$CI->GlobalModel->queryManualRow("SELECT * FROM aksesdata WHERE waktu IS NOT NULL AND user_id='".callSessUser('id_user')."' AND user_id NOT IN(10,11)  limit 1 ");
+		
 		if(!empty($menu)){
+			$tanggal = date('Y-m-d',strtotime($menu['batas']));
 			$satuan= ($menu['waktu'] > 59)?' jam':' menit';
 			$waktu = ($menu['waktu'] > 59)?$menu['waktu']/60:$menu['waktu'];
 			$hasil = 'Anda diberikan otorisasi data selama ' .$waktu. $satuan;
-			$hasil .= ' dan berakhir pada '.date('d-F-Y H:i:s',strtotime($menu['batas'])).' WIB.';
+			$hasil .= ' dan berakhir pada '.formatTanggalIndo($tanggal).' pukul '.date('H:i:s',strtotime($menu['batas'])).' WIB.';
 		}
 		return $hasil;
 
