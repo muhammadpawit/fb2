@@ -483,7 +483,7 @@ class Finishing extends CI_Controller {
 				'no'=>$no++,
 				'tanggal'=>formatTanggalIndo($r['tanggal']),
 				'tglkeluar'=>!empty($r['tglkeluar'])?formatTanggalIndo($r['tglkeluar']):null,
-				'idkaryawan'=>strtolower($nama['nama']),
+				'idkaryawan'=>!empty($nama['nama']) ? strtolower($nama['nama']) : null,
 				'nama_po'=>strtoupper($r['kode_po']),
 				'jumlah_pcs'=>$r['jumlah_pcs'],
 				'harga'=>number_format($r['harga']),

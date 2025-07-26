@@ -65,7 +65,7 @@
 								</td>
 								<td>
 									<?php if(akseshapus()==1){?>
-										<a href="<?php echo BASEURL ?>Finishing/packingdel/<?php echo $p['id'] ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ?')">Hapus</a>
+										<a href="<?php echo BASEURL ?>Finishing/packingdel/<?php echo $p['id'] ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ?')"><i class="fa fa-trash"></i></a>
 									<?php } ?>
 								</td>
 							</tr>

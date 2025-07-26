@@ -97,8 +97,8 @@
                       <td><?php echo $p['perminggu']==0?number_format($p['gaji']*6):number_format($p['perminggu'])?></td>
                       <td>
                         <?php if($edit==1){?>
-                           <a href="<?php echo $ubah.$p['id'];?>" class="btn btn-warning btn-xs text-white">Edit</a>
-                        <a href="<?php echo $hapus.$p['id'];?>" class="btn btn-danger btn-xs text-white">Delete</a>
+                           <a href="<?php echo $ubah.$p['id'];?>" class="btn btn-warning btn-xs text-white"><i class="fa fa-edit"></i></a>
+                        <a href="<?php echo $hapus.$p['id'];?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah yakin akan menghapus data ini ?')"><i class="fa fa-trash"></i></a>
                         <?php } ?>
                       </td>
                     </tr>
