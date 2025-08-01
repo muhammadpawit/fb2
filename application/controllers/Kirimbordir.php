@@ -175,6 +175,7 @@ class Kirimbordir extends CI_Controller {
 		}else{
 			$this->session->set_flashdata('gagal','Data gagal dihapus');
 		}
+		user_activity(callSessUser('id_user'),2,' Menghapus data kirim bordir dengan id '.$id);
 		redirect($this->link);
 	}
 
