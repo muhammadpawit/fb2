@@ -72,10 +72,6 @@
 
                             <th>Pekerjaan</th>
 
-                            
-
-                            <!-- <th>ACTION</th> -->
-
                         </tr>
 
                         </thead>
@@ -117,20 +113,7 @@
                                 <td><?php echo $sat['pekerjaan'] ?></td>
                                 
 
-                                <!-- <td>
-                                    <?php //if(akseshapus()==1){?>
-
-                                      <?php if($sat['progress']=="SETOR"){?>
-                                         <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
-                                         
-                                        <a href="<?php echo $sat['editsetor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit Setoran</a>
-                                        <?php }else { ?>
-                                            <a href="<?php echo BASEURL.'kelolapo/kirimsetoredit/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-success text-white"> <i class="dripicons-browser-upload"></i> Edit</a>
-                                      <?php } ?>
-                                    <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
-                                    <?php //} ?>
-                                </td> -->
-
+                          
                             </tr>
 
                                 <?php endforeach ?>
