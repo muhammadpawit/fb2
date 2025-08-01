@@ -94,7 +94,7 @@
 
                                 <td>
                                     <?php if(akseshapus()==1){?>
-                                      <a href="<?php echo BASEURL.'kelolapo/kirimsetorhapus/'.$sat['kode_po'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" class="btn btn-sm btn-danger text-white"> <i class="dripicons-browser-upload"></i> Hapus</a>
+                                      <a href="<?php echo BASEURL.'Kirimbordir/hapus/'.$sat['id_kelolapo_kirim_setor'] ?>" onclick="return confirm('Anda yakin ingin menghapus data ini?')" class="btn btn-xs btn-danger text-white"> <i class="fa fa-trash"></i></a>
                                     <?php } ?>
                                 </td>
 
