@@ -101,9 +101,9 @@
                                 <td><?php echo $sat['created_date'] ?></td>
 
                                 <td class="right"><?php foreach ($sat['action'] as $action) { ?>
-                                   <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+                                   <a href="<?php echo $action['href']; ?>"  style="background-color: <?php echo $action['bg']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                                   <?php } ?>
-                                   <a href="<?php echo $sat['edit']?>" class="badge badge-info waves-light waves-effect text-white">Ganti CMT</a>
+                                   <a href="<?php echo $sat['edit']?>"  class="badge badge-info waves-light waves-effect text-white">Ganti CMT</a>
                                 </td>
 
                             </tr>

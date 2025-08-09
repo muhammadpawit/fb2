@@ -21,6 +21,10 @@ class Gudang extends CI_Controller {
 	public $uri;
 	public $pdf;
 	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
 	
 	function __construct() {
 		parent::__construct();
@@ -29,6 +33,10 @@ class Gudang extends CI_Controller {
 		$this->page='newtheme/page/';
 		$this->url=BASEURL.'Gudang/penerimaanitem';
 		$this->login 		= BASEURL.'login';
+		$this->bg_warning='#f39c12';
+		$this->bg_danger='#dd4b39';
+		$this->bg_success='#00a65a';
+		$this->bg_info='#00c0ef';
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
 	}
@@ -2305,11 +2313,13 @@ class Gudang extends CI_Controller {
 			$action[]=array(
 				'text'=>'Detail / Edit ',
 				'href'=>BASEURL.'gudang/itemkeluarDetail/'.$i['idpo'],
+				'bg' => $this->bg_warning,
 			);
 			if($hapus==1){
 				$action[]=array(
 					'text'=>'Hapus',
 					'href'=>BASEURL.'gudang/itemkeluarDelete/'.$i['id_item_keluar'],
+					'bg' => $this->bg_danger,
 				);
 			}
 			$viewData['item'][] =array(
