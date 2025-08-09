@@ -531,7 +531,7 @@ class Dash extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
+			$tanggal1=date('Y-m-d',strtotime("Monday last week"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
