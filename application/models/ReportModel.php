@@ -3200,7 +3200,10 @@ AND a.jenis = 2
 
 	public function getrekapalat($penerima,$tanggal1,$tanggal2){
 		$hasil=[];
-		$sql="SELECT SUM(a.jumlah_item_keluar) as jumlah_item_keluar , a.nama_item_keluar as nama_item FROM gudang_item_keluar a JOIN produksi_po b ON b.id_produksi_po=a.idpo WHERE a.hapus=0 AND LOWER(a.nama_penerima)='".strtolower($penerima)."' ";
+		$sql="SELECT SUM(a.jumlah_item_keluar) as jumlah_item_keluar , a.nama_item_keluar as nama_item FROM gudang_item_keluar a JOIN produksi_po b ON b.id_produksi_po=a.idpo WHERE a.hapus=0 ";
+		if($penerima !='dashboard'){
+			$sql .="AND LOWER(a.nama_penerima)='".strtolower($penerima)."' ";
+		}
 		$sql .=" AND LOWER(a.nama_penerima) <> 'kandar'";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(a.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -3211,7 +3214,7 @@ AND a.jenis = 2
 			// $dat['nama_item'].' '.$dat['jumlah_item_keluar'];
 			foreach($d as $dat){
 				$hasil[]=array(
-					'nama_item'=>$dat['nama_item'],
+					'nama_item'=>strtolower($dat['nama_item']),
 					'jumlah_item_keluar'=>$dat['jumlah_item_keluar']
 				);
 			}

@@ -29,11 +29,15 @@
            PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
            <a href="<?php echo BASEURL?>Dash/pendingpo">Lihat</a>
        </div>
-        
     </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  
+<div class="col-md-12">
+    <div id="grafik_alat" style="width:100%; height:400px;"></div>
+  </div>
+
+<div class="col-md-12">
     <div id="container" style="width:100%; height:400px;"></div>
   </div>
 </div>
@@ -107,4 +111,55 @@
         <?php } ?>
         ]
     });
+
+    Highcharts.chart('grafik_alat', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Grafik Jumlah Alat Keluar Periode <?php echo formatTanggalIndo($tanggal1) . " - " . formatTanggalIndo($tanggal2); ?>'
+    },
+    xAxis: {
+        categories: <?php echo json_encode($alat); ?>,
+        labels: {
+            style: {
+                fontSize: '12px'
+            }
+        },
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Jumlah Keluar '
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        bar: { // karena chart: 'bar'
+            pointPadding: 0.2,
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y}', // angka langsung
+                style: {
+                    fontSize: '11px',
+                    fontWeight: 'bold'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Jumlah',
+        data: <?php echo json_encode($jumlah_alat, JSON_NUMERIC_CHECK); ?>
+    }]
+});
+
 </script>

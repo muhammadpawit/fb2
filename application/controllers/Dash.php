@@ -526,6 +526,20 @@ class Dash extends CI_Controller {
 	public function welcome(){
 		$user=user();
 		$data['title']='<i>'. 'Selamat datang, ' . ''.$user['nama_user'].'</i>';
+		$get=$this->input->get();
+		$url='';
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("Saturday this week"));;
+		}		
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
 		$setujui=0;
 		if(isset($user['id_user'])){
 			$setujui=akses($user['id_user'],3);
@@ -559,6 +573,12 @@ class Dash extends CI_Controller {
 		$data['bulan']=json_encode($bulan);
 		$pdze=$this->ReportModel->getPotonganP();
 		$data['po']=$pdze;
+
+		$update=$this->GlobalModel->QueryManualRow("SELECT * FROM gudang_item_keluar WHERE hapus=0 ORDER BY created_date DESC LIMIT 1 ");
+		$d=$this->ReportModel->getrekapalat('dashboard',$tanggal1,$tanggal2);
+		$data['alat'] = array_column($d, 'nama_item');
+		$data['jumlah_alat'] = array_column($d, 'jumlah_item_keluar');
+		$data['update']=date('d F Y',strtotime($update['created_date']));
 		
 
 		$data['page']=$this->page.'/dash/welcome';
