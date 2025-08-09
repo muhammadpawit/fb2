@@ -59,7 +59,7 @@
           <td><?php echo $sat['kode_po'] ?></td>
           <td class="right">
             <?php foreach ($sat['action'] as $action) { ?>
-               <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a><br>
+               <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
             <?php } ?>
           </td>
         </tr>

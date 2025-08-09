@@ -2416,6 +2416,7 @@ class Gudang extends CI_Controller {
 	{
 		$viewData['title']='Surat Jalan Alat Keluar';
 		$viewData['update']=BASEURL.'Gudang/editalat_save';
+		$viewData['batal']=BASEURL.'Gudang/Pengeluaranalat';
 		$viewData['lampiran']=BASEURL.'Gudang/lampiran_save';
 		$viewData['l']=[];
 		$viewData['l'] = $this->GlobalModel->getDataRow('lampiran_alat',array('kode_po' => $id));
@@ -2469,10 +2470,11 @@ class Gudang extends CI_Controller {
 	        	'foto'=>$imageGambar,
 	        );
 	        $this->db->insert('lampiran_alat',$up);
+			$this->session->set_flashdata('msg','Data berhasil di edit');
+		}else{
+			$this->session->set_flashdata('gagal','Data gagal di edit. lampiran tidak ada');
 		}
-
-		$this->session->set_flashdata('msg','Data berhasil di edit');
-		redirect(BASEURL.'Gudang/itemkeluarDetail/'.$data['kode_po']);
+		redirect(BASEURL.'Gudang/itemkeluarDetail/'.$data['id_produksi_po']);
 	}
 
 	public function editalat_save(){
@@ -2852,11 +2854,13 @@ class Gudang extends CI_Controller {
 			$action[]=array(
 				'text'=>'Detail / Edit',
 				'href'=>BASEURL.'gudang/outbahanDetail/'.$i['idpo'],
+				'bg' => $this->bg_warning,
 			);
 			if(aksesedit()==1){
 				$action[]=array(
 					'text'=>'Edit (Ganti Nama PO)',
 					'href'=>BASEURL.'Gudang/editbahankeluar/'.$i['id_item_keluar'],
+					'bg' =>'dark',
 				);
 			}
 			
@@ -2864,6 +2868,7 @@ class Gudang extends CI_Controller {
 				$action[]=array(
 					'text'=>'Hapus',
 					'href'=>BASEURL.'gudang/outbahanHapus/'.$i['id_item_keluar'],
+					'bg' => $this->bg_danger,
 				);
 			}
 			$viewData['item'][] =array(
@@ -2887,6 +2892,7 @@ class Gudang extends CI_Controller {
 	{
 		$viewData['title']='Form Pemakaian bahan';
 		$viewData['lockdouble']=settings('lockdouble');
+		$viewData['batal']=BASEURL.'Gudang/Pengeluaranbahan';
 		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
 		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
