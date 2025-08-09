@@ -578,6 +578,7 @@ class Dash extends CI_Controller {
 		$d=$this->ReportModel->getrekapalat('dashboard',$tanggal1,$tanggal2);
 		$data['alat'] = array_column($d, 'nama_item');
 		$data['jumlah_alat'] = array_column($d, 'jumlah_item_keluar');
+		$data['satuan_alat'] = array_column($d, 'satuan_jumlah_keluar');
 		$data['update']=date('d F Y',strtotime($update['created_date']));
 		
 

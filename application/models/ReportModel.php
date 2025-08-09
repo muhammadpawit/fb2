@@ -3200,7 +3200,7 @@ AND a.jenis = 2
 
 	public function getrekapalat($penerima,$tanggal1,$tanggal2){
 		$hasil=[];
-		$sql="SELECT SUM(a.jumlah_item_keluar) as jumlah_item_keluar , a.nama_item_keluar as nama_item FROM gudang_item_keluar a JOIN produksi_po b ON b.id_produksi_po=a.idpo WHERE a.hapus=0 ";
+		$sql="SELECT SUM(a.jumlah_item_keluar) as jumlah_item_keluar , a.nama_item_keluar as nama_item, a.satuan_jumlah_keluar FROM gudang_item_keluar a JOIN produksi_po b ON b.id_produksi_po=a.idpo WHERE a.hapus=0 ";
 		if($penerima !='dashboard'){
 			$sql .="AND LOWER(a.nama_penerima)='".strtolower($penerima)."' ";
 		}
@@ -3208,14 +3208,16 @@ AND a.jenis = 2
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(a.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" GROUP BY nama_item_keluar ORDER BY nama_item_keluar ";
+		$sql.=" GROUP BY a.nama_item_keluar, a.satuan_jumlah_keluar
+			ORDER BY nama_item_keluar ";
 		$d=$this->GlobalModel->QueryManual($sql);
 		if(!empty($d)){
 			// $dat['nama_item'].' '.$dat['jumlah_item_keluar'];
 			foreach($d as $dat){
 				$hasil[]=array(
 					'nama_item'=>strtolower($dat['nama_item']),
-					'jumlah_item_keluar'=>$dat['jumlah_item_keluar']
+					'jumlah_item_keluar'=>$dat['jumlah_item_keluar'],
+					'satuan_jumlah_keluar'=>$dat['satuan_jumlah_keluar']
 				);
 			}
 		}

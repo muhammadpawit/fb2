@@ -148,7 +148,11 @@
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
-                format: '{point.y}', // angka langsung
+                // format: '{point.y}', // angka langsung
+                formatter: function () {
+                    let satuan = <?php echo json_encode($satuan_alat); ?>;
+                    return this.y + ' ' + satuan[this.point.index];
+                },
                 style: {
                     fontSize: '11px',
                     fontWeight: 'bold'
