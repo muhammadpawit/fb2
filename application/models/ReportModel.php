@@ -1772,11 +1772,12 @@ class ReportModel extends CI_Model {
 		$hasil=array();
 		$sql="SELECT mjp.* FROM master_jenis_po mjp ";
 		$sql.=" LEFT JOIN produksi_po p ON p.nama_po=mjp.nama_jenis_po ";
-		$sql .=" WHERE mjp.status=1 and tampil=1 and p.hapus=0 and p.kode_po IN(SELECT kode_po FROM konveksi_buku_potongan) ";
+		$sql .=" WHERE mjp.status=1 and tampil=1 and p.hapus=0 and p.kode_po IN(SELECT kode_po FROM konveksi_buku_potongan WHERE hapus=0) ";
 		$sql.=" GROUP BY mjp.nama_jenis_po ";
 		$po=$this->db->query($sql)->result_array();
 		$periode=$this->periode();
 		foreach($po as $p){
+			
 			for ($i = 0; $i < 12; $i++) {
 		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
 		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
@@ -1786,25 +1787,41 @@ class ReportModel extends CI_Model {
 		    	$lusin[$p['nama_jenis_po']][]=$d['dz']==null?0:$d['dz'];
 			}
 
-			$hasil[]=array(
-				'namapo'=>$p['nama_jenis_po'],
-				//'lusin'=>implode(",", $lusin),
-				'lusin'=>$lusin[$p['nama_jenis_po']],
-			);
+			if(array_sum($lusin[$p['nama_jenis_po']]) > 0){
+				$hasil[]=array(
+					'namapo'=>$p['nama_jenis_po'],
+					//'lusin'=>implode(",", $lusin),
+					'lusin'=>$lusin[$p['nama_jenis_po']],
+				);
+			}
+			
 		}
 		return $hasil;
 	}
 
 	public function month(){
-		$months = array();
-		$periode=$this->periode();
-		for ($i = 0; $i < 12; $i++) {
-		    $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']); // angka 6 bulan juni, periode awal potongan
-		    $bulan[]=$months[date('n', $timestamp)] = date('M Y', $timestamp);
+		$bulan = [];
+		$periode = $this->periode();
+		$now = date('M Y'); // bulan sekarang
+		$month = date('n');
+		$listBulan = bulan(); // panggil helper
+		for ($i = 0; $i <= 12; $i++) {
+			$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1, $periode['tahun']);
+			$bulanAngka = date('m', $timestamp); // format 01-12
+			$tahun = date('Y', $timestamp);
+			$current = date('n Y', $timestamp);
+
+			// ambil nama bulan indonesia dari helper
+			$bulan[] = $listBulan[$bulanAngka] . ' ' . $tahun;
+
+			// berhenti kalau sudah sampai bulan sekarang
+			if ($current === $now) {
+				break;
+			}
 		}
-		
 		return $bulan;
 	}
+
 
 	public function periode(){
 		$hasil=array();
@@ -1882,8 +1899,9 @@ class ReportModel extends CI_Model {
 		$sql="SELECT * FROM master_jenis_po WHERE status=1 and tampil=1 GROUP BY idjenis ";
 		$po=$this->db->query($sql)->result_array();
 		$periode=$this->periode();
+		$month = date('n');
 		foreach($po as $p){
-			for ($i = 0; $i < 12; $i++) {
+			for ($i = 0; $i <= $month; $i++) {
 		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
 		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
 		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);

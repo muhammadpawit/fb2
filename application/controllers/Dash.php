@@ -524,8 +524,8 @@ class Dash extends CI_Controller {
 	}
 
 	public function welcome(){
-		$data['title']='';
 		$user=user();
+		$data['title']='<i>'. 'Selamat datang, ' . ''.$user['nama_user'].'</i>';
 		$setujui=0;
 		if(isset($user['id_user'])){
 			$setujui=akses($user['id_user'],3);
@@ -549,45 +549,18 @@ class Dash extends CI_Controller {
 		}
 		
 		$data['warning_atas']=[];
-		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
-		$warning_atas=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND spesial_warning=1 ORDER BY nama ");
-		foreach($warning_atas as $m){
-			
-			$last_masuk = $this->last_masuk($m['id']); 
-			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
-			$data['warning_atas'][] = array(
-				'nama'			=> $m['nama'],
-				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
-				'variabel_pengirimanpo' => $m['variabel_pengirimanpo'],
-				'dz'			=> $m['rata_rata_dz'],
-				'pcs'			=> $m['rata_rata_dz']*12,
-				'keseluruhan'			=> ($m['variabel_pengirimanpo'] * ($m['rata_rata_dz']*12)),
-				'satuan'		=> $m['satuan'],
-			);
-		}
-
-
 		$data['menipis']=[];
-		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
-		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
-		foreach($menipis as $m){
-			
-			$last_masuk = $this->last_masuk($m['id']); 
-			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
-			$data['menipis'][] = array(
-				'nama'			=> $m['nama'],
-				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
-				'minstok'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
-				'satuan'		=> $m['satuan'],
-			);
-		}
-
-		// po pending 1 bulan dari potongan
-		
 		// pre($data['pendingkirimsudahpotong']);
 		$data['pendingkirimsudahpotong']=[];
 		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
 		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
+
+		$bulan=$this->ReportModel->month();
+		$data['bulan']=json_encode($bulan);
+		$pdze=$this->ReportModel->getPotonganP();
+		$data['po']=$pdze;
+		
+
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
 	}

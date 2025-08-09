@@ -3875,4 +3875,108 @@ class Gudang extends CI_Controller {
 		
 	}
 
+	public function warningstok(){
+		$data['title']='Warning Stok';
+		$user=user();
+		$setujui=0;
+		if(isset($user['id_user'])){
+			$setujui=akses($user['id_user'],3);
+		}
+		$data['setujui']=$setujui;
+		$njo=1;
+		$data['request']=[];
+		$sql="SELECT * FROM user_request WHERE hapus=0 and status=0 ";
+		$sql.=" ORDER BY id DESC ";
+		$results=$this->GlobalModel->queryManual($sql);
+		$oto=null;
+		foreach($results as $r){
+			$data['request'][]=array(
+				'no'=>$njo++,
+				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
+				'nama'=>strtolower($r['nama']),
+				'keterangan'=>strtolower($r['keterangan']),
+				'setujui'=>BASEURL.'User/accreq/'.$r['aksestable'].'/'.$r['userid'].'/'.$r['id'],
+				'status'=>$r['status']==1?'sudah diproses':'belum diproses',
+			);
+		}
+		
+		$data['warning_atas']=[];
+		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
+		$warning_atas=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND spesial_warning=1 ORDER BY nama ");
+		foreach($warning_atas as $m){
+			
+			$last_masuk = $this->last_masuk($m['id']); 
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
+			$data['warning_atas'][] = array(
+				'nama'			=> $m['nama'],
+				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
+				'variabel_pengirimanpo' => $m['variabel_pengirimanpo'],
+				'dz'			=> $m['rata_rata_dz'],
+				'pcs'			=> $m['rata_rata_dz']*12,
+				'keseluruhan'			=> ($m['variabel_pengirimanpo'] * ($m['rata_rata_dz']*12)),
+				'satuan'		=> $m['satuan'],
+			);
+		}
+
+
+		$data['menipis']=[];
+		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
+		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
+		foreach($menipis as $m){
+			
+			$last_masuk = $this->last_masuk($m['id']); 
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
+			$data['menipis'][] = array(
+				'nama'			=> $m['nama'],
+				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
+				'minstok'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
+				'satuan'		=> $m['satuan'],
+			);
+		}
+
+		// po pending 1 bulan dari potongan
+		
+		// pre($data['pendingkirimsudahpotong']);
+		$data['pendingkirimsudahpotong']=[];
+		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
+		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
+		$data['page']=$this->page.'/dash/warningstok';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	function last_masuk($id){
+		$data=[];
+		$lasttgl = $this->last_masuk_tgl($id);
+		$qry ="SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
+			 LEFT JOIN product b on b.product_id=a.id_persediaan
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
+			if($id==16){
+				//$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			}else{
+				//$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			}
+			$qry .=" AND DATE(a.tanggal)='".$lasttgl."' ";
+			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
+		$data = $this->GlobalModel->QueryManualRow($qry);
+		return $data;
+	}
+
+	function last_masuk_tgl($id){
+		$data=[];
+		$qry ="SELECT a.tanggal FROM penerimaan_item_detail a
+			 LEFT JOIN product b on b.product_id=a.id_persediaan
+			 INNER JOIN penerimaan_item c ON c.id=a.penerimaan_item_id
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' 
+			 AND c.keterangan LIKE '%BARANG MASUK%'
+			 ";
+			// if($id==16){
+			// 	$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			// }else{
+			// 	$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+			// }
+			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
+		$data = $this->GlobalModel->QueryManualRow($qry);
+		return isset($data['tanggal'])?$data['tanggal']:date('Y-m-d');
+	}
+
 }
