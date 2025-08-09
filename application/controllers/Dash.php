@@ -527,16 +527,25 @@ class Dash extends CI_Controller {
 		$user=user();
 		$data['title']='<i>'. 'Selamat datang, ' . ''.$user['nama_user'].'</i>';
 		$get=$this->input->get();
+		$hariIni = date('N'); // 1 = Senin, 4 = Kamis, dst
 		$url='';
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("Monday last week"));
+			if($hariIni == 1){ // Senin
+				$tanggal1 = date('Y-m-d', strtotime("Monday last week"));
+			} else {
+				$tanggal1 = date('Y-m-d', strtotime("Monday this week"));	
+			}
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d',strtotime("Saturday this week"));;
+			if($hariIni == 1){ // Senin
+				$tanggal2 = date('Y-m-d', strtotime("Saturday last week"));
+			} else {
+				$tanggal2 = date('Y-m-d', strtotime("Saturday this week"));
+			}
 		}		
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
