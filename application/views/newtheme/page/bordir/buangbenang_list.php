@@ -70,7 +70,7 @@
                     <td><?php echo $p['keterangan']?></td>
                     <td>
                       <?php //if(akseshapus()==1){?>
-                        <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs" onclick="return confirm('Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"></i></a>
                       <?php //} ?>
                     </td>
                   </tr>

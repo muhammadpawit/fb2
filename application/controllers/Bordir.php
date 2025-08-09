@@ -759,6 +759,7 @@ class Bordir extends CI_Controller {
 
 	public function poluar(){
 		$data=array();
+		$data['title']='Master PO Luar';
 		$data['n']=1;
 		$data['action']=BASEURL.'Bordir/poluarsave';
 		$data['products']=array();
@@ -1555,7 +1556,7 @@ class Bordir extends CI_Controller {
 				'harga'=>$result['harga_buang_benan'],
 				'keterangan'=>$result['keterangan_buang_benang'],
 				'pekerja'=>$pekerja['nama_karyawan_benang'],
-				'tanggal'=>date('d/m/Y',strtotime($result['created_date'])),
+				'tanggal'=>formatTanggalIndo($result['created_date']),
 				'hapus'=>BASEURL.'Bordir/buangbenanghapus/'.$result['id_kelolapo_buang_benang'],
 			);
 		}

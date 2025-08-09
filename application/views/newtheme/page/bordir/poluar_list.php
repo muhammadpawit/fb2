@@ -68,7 +68,7 @@
       <!-- Default box -->
       <div class="card card-info">
         <div class="card-header">
-          <h3 class="card-title">Master PO Luar</h3>
+          <h3 class="card-title"></h3>
           <div class="card-tools">
             <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button></span>
           </div>
@@ -92,7 +92,7 @@
                       <td><?php echo ucwords($p['pemilik'])?></td>
                       <td><?php echo ucwords($p['nama'])?></td>
                       <td>
-                        <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
                       </td>
                     </tr>
                   <?php }?>
