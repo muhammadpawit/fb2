@@ -2,6 +2,28 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sablon extends CI_Controller {
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $GlobalTwoModel;
 
 	function __construct() {
 		parent::__construct();
@@ -584,6 +606,7 @@ class Sablon extends CI_Controller {
 	public function reportproduksikaos($value='')
 	{
 		$get = $this->input->get();
+		$sql='';
 		if (empty($get)) {
 			$viewData['produk'] = $this->GlobalModel->queryManual('SELECT * FROM `produksi_po` pp JOIN kelolapo_rincian_setor_cmt_finish kpp ON pp.kode_po=kpp.kode_po');
 				$viewData['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
