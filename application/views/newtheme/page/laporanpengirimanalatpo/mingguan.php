@@ -41,10 +41,10 @@
 			<thead>
 				<tr>
 					<th>No</th>
-					<th>Nama</th>
+					<th>Nama Penerima</th>
 					<th>Alamat</th>
-					<th>Nama PO</th>
-					<th>Jumlah PO</th>
+					<th>Rincian</th>
+					<!-- <th>Jumlah PO</th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -55,22 +55,34 @@
 						<td><?php echo $r['nama'] ?></td>
 						<td><?php echo $r['alamat'] ?></td>
 						<td>
-							<?php 
-								$str =str_replace(",", ", ", $r['po']);
-								echo wordwrap($str,140,"<br>\n");
-							?>	
+							<table class="table teble-bordered">
+								<thead>
+									<tr>
+										<th style="width: 50%">Nama Alat</th>
+										<th style="width: 50%">Jumlah</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach($r['alat'] as $a){ ?>
+										<tr>
+											<td><?php echo $a['nama_item'] ?></td>
+											<td><?php echo $a['jumlah_item_keluar'] ?></td>
+										</tr>
+									<?php } ?>
+								</tbody>
+							</table>
 						</td>
-						<td align="center"><?php echo $r['jumlah'] ?></td>
+						<!-- <td align="center"><?php // echo $r['jumlah'] ?></td> -->
 					</tr>
 					<?php 
-						$totalpo+=($r['jumlah']);
+						//$totalpo+=($r['jumlah']);
 					?>
 					<?php $no++; ?>
 				<?php } ?>
-				<tr>
+				<!-- <tr>
 					<td colspan="4" align="center"><b>Total PO</b></td>
-					<td align="center"><b><?php echo $totalpo ?></b></td>
-				</tr>
+					<td align="center"><b><?php //echo $totalpo ?></b></td>
+				</tr> -->
 			</tbody>
 		</table>
 	</div>

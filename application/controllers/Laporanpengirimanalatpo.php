@@ -3,6 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Laporanpengirimanalatpo extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $GlobalTwoModel;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -34,10 +57,11 @@ class Laporanpengirimanalatpo extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$update=$this->GlobalModel->QueryManualRow("SELECT * FROM gudang_item_keluar WHERE hapus=0 ORDER BY created_date DESC LIMIT 1 ");
 		$sql="SELECT id_item_keluar, nama_penerima, tujuan_item FROM gudang_item_keluar WHERE hapus=0 "; 
+		$sql .=" AND LOWER(nama_penerima) <> 'kandar'";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
-		$sql.=" GROUP BY nama_penerima ASC ";
+		$sql.=" GROUP BY nama_penerima ORDER BY nama_penerima ASC ";
 		//pre($sql);
 		$results=[];
 		$results=$this->GlobalModel->Querymanual($sql);
@@ -46,11 +70,12 @@ class Laporanpengirimanalatpo extends CI_Controller {
 			$data['results'][]=array(
 				'nama'=>strtolower($r['nama_penerima']),
 				'alamat'=>strtolower($r['tujuan_item']),
-				'po'=>implode(",", $d),
-				'jumlah'=>count($d),
+				// 'po'=>implode(",", $d),
+				'alat'=>$d,
+				// 'jumlah'=>count($d),
 			);
 		}
-		//pre($data['results']);
+		// pre($data['results']);
 		$data['update']=date('d F Y',strtotime($update['created_date']));
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'mingguan_excel',$data);
