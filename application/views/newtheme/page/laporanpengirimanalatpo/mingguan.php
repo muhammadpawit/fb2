@@ -11,22 +11,33 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Nama Item</label>
+			<select name="id_persediaan" id="id_persediaan" class="form-control select2bs4">
+				<option value="">Pilih Nama Item</option>
+				<?php foreach($persediaan as $p){ ?>
+					<option value="<?php echo $p['id_persediaan'] ?>" <?php echo ($id_persediaan == $p['id_persediaan']) ? 'selected' : '' ?>><?php echo $p['nama_persediaan'] ?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Aksi</label><br>
-			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
+			<button class="btn btn-info btn-sm" onclick="filtercari()">Filter</button>
 			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
 		</div>
 	</div>
@@ -87,3 +98,26 @@
 		</table>
 	</div>
 </div>
+
+<script>
+	function filtercari(){
+    url='?';
+
+    var id_persediaan = $('select[name=\'id_persediaan\']').val();
+
+    if (id_persediaan) {
+      url += '&id_persediaan=' + encodeURIComponent(id_persediaan);
+    }
+
+    
+    var tanggal1 =$("#tanggal1").val();
+    var tanggal2 =$("#tanggal2").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+    location =url;
+  }
+</script>

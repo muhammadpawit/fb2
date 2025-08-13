@@ -3199,6 +3199,14 @@ AND a.jenis = 2
 	}
 
 	public function getrekapalat($penerima,$tanggal1,$tanggal2){
+		$get=$this->input->get();
+		if(isset($get['id_persediaan'])){
+			$idpersediaan=$get['id_persediaan'];
+		}else{
+			$idpersediaan=null;
+		}
+
+
 		$hasil=[];
 		$sql="SELECT SUM(a.jumlah_item_keluar) as jumlah_item_keluar , a.nama_item_keluar as nama_item, a.satuan_jumlah_keluar FROM gudang_item_keluar a JOIN produksi_po b ON b.id_produksi_po=a.idpo WHERE a.hapus=0 ";
 		if($penerima !='dashboard'){
@@ -3208,6 +3216,11 @@ AND a.jenis = 2
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(a.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+
+		if(!empty($idpersediaan)){
+			$sql.=" AND a.id_persediaan='".$idpersediaan."' ";
+		}
+
 		$sql.=" GROUP BY a.nama_item_keluar, a.satuan_jumlah_keluar
 			ORDER BY nama_item_keluar ";
 		$d=$this->GlobalModel->QueryManual($sql);

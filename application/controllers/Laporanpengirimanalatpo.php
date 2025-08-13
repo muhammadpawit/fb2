@@ -53,8 +53,17 @@ class Laporanpengirimanalatpo extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d',strtotime("Saturday this week"));;
 		}		
+
+		if(isset($get['id_persediaan'])){
+			$idpersediaan=$get['id_persediaan'];
+		}else{
+			$idpersediaan=null;
+		}
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['id_persediaan']=$idpersediaan;
+		$data['persediaan']	=$this->GlobalModel->QueryManual("SELECT id_persediaan, nama_item_keluar as nama_persediaan FROM gudang_item_keluar GROUP BY id_persediaan ");
 		$update=$this->GlobalModel->QueryManualRow("SELECT * FROM gudang_item_keluar WHERE hapus=0 ORDER BY created_date DESC LIMIT 1 ");
 		$sql="SELECT id_item_keluar, nama_penerima, tujuan_item FROM gudang_item_keluar WHERE hapus=0 "; 
 		$sql .=" AND LOWER(nama_penerima) <> 'kandar'";
@@ -64,6 +73,7 @@ class Laporanpengirimanalatpo extends CI_Controller {
 		$sql.=" GROUP BY nama_penerima ORDER BY nama_penerima ASC ";
 		//pre($sql);
 		$results=[];
+		$data['results']=[];
 		$results=$this->GlobalModel->Querymanual($sql);
 		foreach($results as $r){
 			$d=$this->ReportModel->getrekapalat(strtolower($r['nama_penerima']),$tanggal1,$tanggal2);
