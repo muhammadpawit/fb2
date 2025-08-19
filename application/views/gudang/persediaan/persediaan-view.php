@@ -16,8 +16,8 @@
           <option value="1" >Hangtag</option>
           <option value="2" >Slip</option>
           <option value="3" >Kerah</option>
-          <option value="4" >Kancing</option>
-          <option value="5" >Kancing</option>
+          <option value="4" >Kancing Baru</option>
+          <option value="5" >Kancing Lama</option>
           <option value="6" >Barang Bordir</option>
           <option value="7" >Resleting</option>
           <option value="8" >Resleting Kantong</option>
