@@ -2682,7 +2682,8 @@ class Gudang extends CI_Controller {
 
 		$viewData['product_id']=$product_id;
 		$viewData['product'] = $this->GlobalModel->GetData('product',array('hapus'=>0));
-
+		$viewData['kategories'] = $this->GlobalModel->GetData('kategori_barang',array('hapus'=>0));
+		$viewData['kategori']=$kategori;
 
 		$viewData['title']='Persediaan Stok';
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
