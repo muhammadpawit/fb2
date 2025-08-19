@@ -1,15 +1,15 @@
 <div class="row">
-    <div class="col-md-4">
-    <label>Jenis</label>
-    <select name="jenis" class="form-control select2bs4" data-live-search="true">
-        <option value="*">Semua</option>
-        <option value="1">Konveksi</option>
-        <option value="2">Bordir</option>
-        <option value="3">Sablon</option>
-        <option value="4">Bahan</option>
-    </select>
-  </div>
-   <div class="col-md-4">
+    <div class="col-md-3">
+        <label>Jenis</label>
+        <select name="jenis" class="form-control select2bs4" data-live-search="true">
+            <option value="*">Semua</option>
+            <option value="1">Konveksi</option>
+            <option value="2">Bordir</option>
+            <option value="3">Sablon</option>
+            <option value="4">Bahan</option>
+        </select>
+    </div>
+   <div class="col-md-3">
     <label>Kategori Barang</label>
         <select name="kategori" class="form-control select2bs4" data-live-search="true">
           <option value="*">Pilih</option>
@@ -28,7 +28,17 @@
           <option value="13" >ATK</option>
         </select>
   </div>
-    <div class="col-md-4">
+  <div class="col-md-3">
+        <label>Nama</label>
+        <select name="product_id" class="form-control select2bs4" data-live-search="true">
+            <option value="*">Semua</option>
+            <?php foreach ($product as $item): ?>
+                <option value="<?php echo $item['product_id']; ?>" <?php echo ($product_id==$item['product_id']) ?'selected':'' ?>><?php echo $item['nama']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        </select>
+    </div>
+    <div class="col-md-3">
         <div class="form-group">
             <label>Aksi</label><br>
             <a onclick="filter()" class="btn btn-info btn-sm text-white">Filter</a>
@@ -90,9 +100,15 @@
 
         var kategori = $('select[name=\'kategori\']').val();
 
-    if (kategori != '*') {
-      url += '&kategori=' + encodeURIComponent(kategori);
-    }
+        if (kategori != '*') {
+        url += '&kategori=' + encodeURIComponent(kategori);
+        }
+
+        var product_id = $('select[name=\'product_id\']').val();
+
+        if (product_id != '*') {
+        url += '&product_id=' + encodeURIComponent(product_id);
+        }
     location=url;
   }
 </script>

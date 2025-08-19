@@ -2673,6 +2673,17 @@ class Gudang extends CI_Controller {
 			//$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		}
 
+		if(isset($get['product_id'])){
+			$product_id=$get['product_id'];
+			$url.="&product_id=".$product_id;
+		}else{
+			$product_id=null;
+		}
+
+		$viewData['product_id']=$product_id;
+		$viewData['product'] = $this->GlobalModel->GetData('product',array('hapus'=>0));
+
+
 		$viewData['title']='Persediaan Stok';
 		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
 		if(!empty($jenis)){
@@ -2680,6 +2691,9 @@ class Gudang extends CI_Controller {
 		}
 		if(!empty($kategori)){
 			$sql.=" AND p.kategori='".$kategori."'";
+		}
+		if(!empty($product_id)){
+			$sql.=" AND p.product_id='".$product_id."'";
 		}
 		$viewData['persediaan']=$this->GlobalModel->queryManual($sql);
 		$viewData['excel']=BASEURL.'Gudang/persediaanstok?&excel=true'.$url;
