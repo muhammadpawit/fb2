@@ -2696,6 +2696,7 @@ class Gudang extends CI_Controller {
 		if(!empty($product_id)){
 			$sql.=" AND p.product_id='".$product_id."'";
 		}
+		$sql .=" ORDER BY nama_item asc ";
 		$viewData['persediaan']=$this->GlobalModel->queryManual($sql);
 		$viewData['excel']=BASEURL.'Gudang/persediaanstok?&excel=true'.$url;
 		if(isset($get['excel'])){
