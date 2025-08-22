@@ -2681,8 +2681,8 @@ class Gudang extends CI_Controller {
 		}
 
 		$viewData['product_id']=$product_id;
-		$viewData['product'] = $this->GlobalModel->GetData('product',array('hapus'=>0));
-		$viewData['kategories'] = $this->GlobalModel->GetData('kategori_barang',array('hapus'=>0));
+		$viewData['product'] = $this->GlobalModel->getDataOrderBy('product',array('hapus'=>0),'nama','ASC');
+		$viewData['kategories'] = $this->GlobalModel->getDataOrderBy('kategori_barang',array('hapus'=>0),'nama','ASC');
 		$viewData['kategori']=$kategori;
 
 		$viewData['title']='Persediaan Stok';

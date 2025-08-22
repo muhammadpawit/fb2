@@ -292,4 +292,20 @@ class GlobalModel extends CI_Model {
 
 	}
 
+	public function getDataOrderBy($table, $where = [], $orderBy = null, $orderType = 'ASC')
+{
+    $this->db->from($table);
+
+    if (!empty($where)) {
+        $this->db->where($where);
+    }
+
+    if (!empty($orderBy)) {
+        $this->db->order_by($orderBy, $orderType);
+    }
+
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
 }
