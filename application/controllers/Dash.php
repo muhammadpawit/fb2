@@ -600,6 +600,7 @@ class Dash extends CI_Controller {
 		
 		$data['countpenerimaancmtmingguini']  = count($this->Report->penerimaancmtmingguini());
 		
+		$data['ajuanharian'] =count($this->Report->ajuanharian());
 
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
@@ -1996,6 +1997,12 @@ class Dash extends CI_Controller {
 	function setorjson(){
 		$data =[];
 		$data = $this->Report->penerimaancmtmingguini();
+		echo json_encode($data);
+	}
+
+	function ajuanharianjson(){
+		$data =[];
+		$data = $this->Report->ajuanharian();
 		echo json_encode($data);
 	}
 

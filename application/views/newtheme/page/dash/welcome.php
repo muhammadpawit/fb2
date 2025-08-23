@@ -63,9 +63,23 @@
                 <p >Penerimaan setoran dari CMT minggu ini</p>
                 </div>
                 <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa fa-truck"></i>
                 </div>
                 <a href="#" class="small-box-footer lihat-detail" data-id="setorcmt">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#f56954 !important;color: white">
+                <div class="inner">
+                <h3><?php echo $ajuanharian ?></h3>
+                <p >Pengajuan Harian Belum Disetujui</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-hourglass-half"></i>
+                </div>
+                <a href="#" class="small-box-footer lihat-detail" data-id="ajuanharian">
                     Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -90,10 +104,10 @@
 
 <!-- Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document"><!-- pakai modal-xl biar luas -->
+  <div class="modal-dialog modal-lg" role="document"><!-- pakai modal-xl biar luas -->
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Detail PO</h5>
+        <h5 class="modal-title">Detail Data</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -302,6 +316,48 @@ $(document).on("click", ".lihat-detail", function(e) {
                             <tr>
                                 <td>${no}</td>
                                 <td>${row.nama_po}</td>
+                                <td>${row.tanggal}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='ajuanharian'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/ajuanharianjson",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Total Ajuan Cash</th>
+                                    <th>Total Ajuan Transfer</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.cash}</td>
+                                <td>${row.transfer}</td>
                                 <td>${row.tanggal}</td>
                             </tr>
                         `;

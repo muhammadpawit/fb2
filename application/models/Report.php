@@ -120,4 +120,11 @@ class Report extends CI_Model {
 	}
 
 
+	function ajuanharian(){
+		$sql="SELECT * FROM pengajuan_harian_new WHERE hapus=0 AND  `status` = '0' AND `tanggal` > '2025-05-01' ";
+		$data = $this->db->query($sql)->result_array();
+		return $data;
+	}
+
+
 }
