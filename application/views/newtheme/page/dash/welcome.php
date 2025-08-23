@@ -70,7 +70,7 @@
                 </a>
             </div>
         </div>
-        <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 31 ){ ?>
+        <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35 ){ ?>
         <div class="col-md-6">
             <div class="small-box" style="background-color:#f56954 !important;color: white">
                 <div class="inner">
