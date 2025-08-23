@@ -96,7 +96,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
             <br>
             <br>
             <br>
-            (Ifah)
+            (Najwa)
           </td>
         </tr>
       </table>

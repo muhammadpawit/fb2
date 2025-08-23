@@ -195,7 +195,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
                                                 <br>
 
                                                 <br>                                            
-                                                ( Ifah )
+                                                ( Najwa )
                                             </td>
                                         </tr>
 
@@ -267,7 +267,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 
                                                     <br>
 
-                                                    ( Ifah )
+                                                    ( Najwa )
 
                                                 </td>
 
