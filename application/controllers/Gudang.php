@@ -25,6 +25,7 @@ class Gudang extends CI_Controller {
 	public $bg_danger;
 	public $bg_success;
 	public $bg_info;
+	public $image_lib;
 	
 	function __construct() {
 		parent::__construct();
@@ -3868,28 +3869,53 @@ class Gudang extends CI_Controller {
 	}
 
 	function uploadnota(){
-		$data=$this->input->post();
-		$config['upload_path']          = './uploads/nota/';
-        $config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
-		// pre($data);
-		if(!empty($_FILES['nota']['name'])){
+		$data = $this->input->post();
+		$config['upload_path']   = './uploads/nota/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|pdf';
+		$config['encrypt_name']  = TRUE; // biar aman, nama file diacak
+
+		if (!empty($_FILES['nota']['name'])) {
 			$this->load->library('upload', $config);
-	        $this->upload->do_upload('nota');
-	        $imageGambar = $this->upload->data('file_name');
-	        $up=array(
-	        	'dokumenNota'=>$imageGambar,
-	        );
-	        $this->db->update('pengajuan_harian_new',$up,array('id'=>$data['idnota']));
-			user_activity(callSessUser('id_user'),1,' upload nota belanja ajuan dengan id '.$data['idnota']);
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'Gudang/pengajuan');
-		}else{
-			
+
+			if ($this->upload->do_upload('nota')) {
+				$uploadData  = $this->upload->data();
+				$imageGambar = $uploadData['file_name'];
+
+				// 🔽 Kalau file berupa gambar (bukan PDF) → compress
+				if (in_array(strtolower($uploadData['file_ext']), ['.jpg', '.jpeg', '.png', '.gif'])) {
+					$config_resize['image_library']  = 'gd2';
+					$config_resize['source_image']   = $uploadData['full_path']; // file yg baru di-upload
+					$config_resize['create_thumb']   = FALSE;
+					$config_resize['maintain_ratio'] = TRUE;
+					$config_resize['quality']        = '70%'; // kualitas gambar
+					$config_resize['width']          = 1024;  // max width (opsional)
+					$config_resize['height']         = 768;   // max height (opsional)
+					$config_resize['new_image']      = $uploadData['full_path']; // overwrite file asli
+
+					$this->load->library('image_lib', $config_resize);
+					$this->image_lib->resize();
+					$this->image_lib->clear();
+				}
+
+				// simpan ke database
+				$up = [
+					'dokumenNota' => $imageGambar,
+				];
+				$this->db->update('pengajuan_harian_new', $up, ['id' => $data['idnota']]);
+
+				user_activity(callSessUser('id_user'), 1, ' upload nota belanja ajuan dengan id '.$data['idnota']);
+				$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+				redirect(BASEURL.'Gudang/pengajuan');
+			} else {
+				$this->session->set_flashdata('gagal', $this->upload->display_errors());
+				redirect(BASEURL.'Gudang/pengajuan');
+			}
+		} else {
 			$this->session->set_flashdata('gagal','Data gagal disimpan');
 			redirect(BASEURL.'Gudang/pengajuan');
 		}
-		
 	}
+
 
 	public function warningstok(){
 		$data['title']='Warning Stok';
