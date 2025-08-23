@@ -24,12 +24,58 @@
 </div>
 <?php } ?>
 <div class="row">
-    <div class="col-md-12">
-       <div class="alert" style="background-color:#085B8C !important;color: white">
+    <!-- <div class="alert" style="background-color:#085B8C !important;color: white">
            PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
+           <a href="<?php //echo BASEURL?>Dash/pendingpo">Lihat</a>
+       </div> -->
+        <div class="col-md-3">
+            <div class="small-box bg-aqua" style="background-color:#3c8dbc !important;color: white">
+                <div class="inner">
+                <h3><?php echo $countpendingpo ?> PO</h3>
+                <p >Belum dikirim ke gudang,Produksi > 1 bulan</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $countpendingpo ?>">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#f39c12 !important;color: white">
+                <div class="inner">
+                <h3><?php echo $countpacking ?> PO</h3>
+                <p >Selesai Packing</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer lihat-detail" data-id="packing">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#00a65a !important;color: white">
+                <div class="inner">
+                <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
+                <p >Penerimaan setoran dari CMT minggu ini</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer lihat-detail" data-id="setorcmt">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    <!-- <div class="col-md-12">
+       <div class="alert" style="background-color:#DCA100 !important;color: white">
+           PO selesai packing
            <a href="<?php echo BASEURL?>Dash/pendingpo">Lihat</a>
        </div>
-    </div>
+    </div> -->
 </div>
 <div class="row">
   
@@ -39,6 +85,23 @@
 
 <div class="col-md-12">
     <div id="container" style="width:100%; height:400px;"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document"><!-- pakai modal-xl biar luas -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail PO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="detailContent">
+        <!-- Isi tabel dari AJAX -->
+      </div>
+    </div>
   </div>
 </div>
 
@@ -164,6 +227,141 @@
         name: 'Jumlah',
         data: <?php echo json_encode($jumlah_alat, JSON_NUMERIC_CHECK); ?>
     }]
+});
+
+
+$(document).on("click", ".lihat-detail", function(e) {
+    e.preventDefault();
+
+    $("#detailContent").html("Loading...");
+    $("#detailModal").modal("show");
+
+    let id = $(this).attr("data-id");
+
+    if(id=='packing'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/packingjson",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='setorcmt'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/setorjson",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.tanggal}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else{
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/pendingpojson",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                    <th>Posisi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.kode_po}</td>
+                                <td>${row.created_date}</td>
+                                <td>${row.posisi}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }
+
 });
 
 </script>

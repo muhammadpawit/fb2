@@ -13,6 +13,7 @@ class Dash extends CI_Controller {
 	public $input;
 	public $db;
 	public $ReportModel;
+	public $Report;
 
 	function __construct() {
 		parent::__construct();
@@ -20,6 +21,7 @@ class Dash extends CI_Controller {
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->load->model('ReportModel');
 		$this->load->model('GlobalModel');
+		$this->load->model('Report');
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
 		$this->login 		= BASEURL.'login';
@@ -589,6 +591,14 @@ class Dash extends CI_Controller {
 		$data['jumlah_alat'] = array_column($d, 'jumlah_item_keluar');
 		$data['satuan_alat'] = array_column($d, 'satuan_jumlah_keluar');
 		$data['update']=date('d F Y',strtotime($update['created_date']));
+
+
+		$data['countpendingpo'] = count($this->Report->Pendingpo());
+
+		$data['countpacking']  = $this->Report->packing('count');
+
+		
+		$data['countpenerimaancmtmingguini']  = count($this->Report->penerimaancmtmingguini());
 		
 
 		$data['page']=$this->page.'/dash/welcome';
@@ -1969,6 +1979,24 @@ class Dash extends CI_Controller {
 	function jam(){
 		$data['page']='newtheme/page/jam';
 		$this->load->view($this->layout,$data);
+	}
+
+	function pendingpojson(){
+		$data =[];
+		$data = $this->Report->Pendingpo();
+		echo json_encode($data);
+	}
+	
+	function packingjson(){
+		$data =[];
+		$data = $this->Report->packing('data');
+		return $data;
+	}
+
+	function setorjson(){
+		$data =[];
+		$data = $this->Report->penerimaancmtmingguini();
+		echo json_encode($data);
 	}
 
 }

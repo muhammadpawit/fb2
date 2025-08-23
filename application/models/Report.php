@@ -9,4 +9,115 @@ class Report extends CI_Model {
 	}
 
 
+	function Pendingpo(){
+		$pendingkirimsudahpotong=[];
+		$data['pendingkirimsudahpotong']=[];
+		$pendingkirimsudahpotong=$this->GlobalModel->QueryManual("
+
+		SELECT kp.idpo, kp.kode_po, kp.created_date
+			FROM konveksi_buku_potongan kp
+			LEFT JOIN finishing_kirim_gudang fk ON kp.idpo = fk.idpo
+			WHERE fk.idpo IS NULL 
+			AND kp.kode_po NOT LIKE 'BJK%' 
+			AND kp.kode_po NOT LIKE 'TEST%' 
+			AND kp.kode_po NOT LIKE 'BJF%' 
+			AND kp.kode_po NOT LIKE 'AQO%' 
+			AND kp.kode_po NOT LIKE 'AQS%' 
+			AND kp.kode_po NOT LIKE 'PSL%'
+			AND kp.kode_po NOT LIKE 'PUS%'
+			AND kp.kode_po NOT LIKE 'POB%'
+			AND kp.kode_po NOT LIKE 'BKK%'
+			AND kp.created_date < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+			AND kp.created_date >= '2024-05-01'
+			ORDER BY kp.created_date ASC,kp.kode_po
+		");
+
+		foreach($pendingkirimsudahpotong as $p){
+			$data['pendingkirimsudahpotong'][] = array(
+				'kode_po' 		=> $p['kode_po'],
+				'created_date'	=> $p['created_date'],
+				'posisi'		=> $this->posisi($p['idpo']),
+			);
+		}
+
+		return $data['pendingkirimsudahpotong'];
+	}
+
+	function posisi($idpo){
+		$posisi='Dikirim Ke CMT';
+		// kirim gudang
+		$where = array(
+			'idpo' => $idpo,
+		);
+		
+		$kg = $this->GlobalModel->getDataRow('finishing_kirim_gudang',$where);
+		if(isset($kg['idpo'])){
+			$posisi='Kirim Gudang';
+		}
+
+		$whereinsetor = array(
+			'idpo' => $idpo,
+			'hapus' =>0,
+			'progress' => 'SETOR',
+			'kategori_cmt' => 'JAHIT',
+		);
+		// $st = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',$whereinsetor);
+		$st = $this->GlobalModel->QueryManualRow("
+			SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='SETOR'
+			AND kategori_cmt='JAHIT' AND idpo='".$idpo."' AND id_master_cmt_job NOT IN(138)
+		");
+		if(isset($st['idpo'])){
+			$posisi='Disetor CMT';
+		}
+
+		// $whereinkirim = array(
+		// 	'idpo' => $idpo,
+		// 	'hapus' =>0,
+		// 	'progress' => 'Kirim',
+		// 	'kategori_cmt' => 'JAHIT'
+		// );
+		// $kr = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',$whereinkirim);
+		// if(isset($kr['idpo'])){
+		// 	$posisi='Kirim CMT';
+		// }
+
+		return $posisi;
+
+
+	}
+
+
+	function packing($type){
+		$sql ="SELECT * FROM `packing` WHERE id_produksi_po NOT IN (SELECT idpo FROM finishing_kirim_gudang) and hapus=0";
+		$data = $this->GlobalModel->QueryManual($sql);
+		if($type=='count'){
+			return count($data);
+		}else{
+			echo json_encode($data);
+		}
+		
+	}
+
+
+	function penerimaancmtmingguini(){
+		$results=[];
+		$tanggal1 = date('Y-m-d', strtotime("tuesday this week"));
+		$tanggal2=date('Y-m-d');
+		$sql="SELECT a.id as ids_setor, a.tanggal, b.*, p.kode_po as nama_po FROM setorcmt a LEFT JOIN setorcmt_detail b on b.idsetor=a.id  LEFT JOIN produksi_po p on p.id_produksi_po=b.kode_po
+		 WHERE a.hapus=0 AND a.cmtKat='JAHIT' ";
+
+		 $sql.=" AND p.id_produksi_po NOT IN (SELECT idpo FROM finishing_kirim_gudang) ";
+		
+		if(!empty($cmt)){
+			$sql.=" AND idcmt='".$cmt."' ";
+		}else{
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		
+		$sql.=" ORDER BY id DESC ";
+		$results= $this->GlobalModel->queryManual($sql);
+		return $results;
+	}
+
+
 }

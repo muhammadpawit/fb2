@@ -3,6 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Stockpo extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $image_lib;
+	public $link;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -90,6 +114,7 @@ class Stockpo extends CI_Controller {
 		$data['n']=1;
 		$data['tambah']=$this->link.'save';
 		$data['products']=array();
+		$data['prods']=array();
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
 		$sql="SELECT kc.*, c.cmt_name FROM kirimcmt kc LEFT JOIN master_cmt c ON(c.id_cmt=kc.idcmt) WHERE kc.idcmt='$idcmt' ";
 		$data['products']=$this->GlobalModel->QueryManualRow($sql);
