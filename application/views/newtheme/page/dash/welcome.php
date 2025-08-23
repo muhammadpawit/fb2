@@ -28,35 +28,35 @@
            PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
            <a href="<?php //echo BASEURL?>Dash/pendingpo">Lihat</a>
        </div> -->
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="small-box bg-aqua" style="background-color:#3c8dbc !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpendingpo ?> PO</h3>
                 <p >Belum dikirim ke gudang,Produksi > 1 bulan</p>
                 </div>
                 <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fa fa-clock-o"></i>
                 </div>
                 <a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $countpendingpo ?>">
                     Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="small-box" style="background-color:#f39c12 !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpacking ?> PO</h3>
                 <p >Selesai Packing</p>
                 </div>
                 <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fa fa-cubes"></i>
                 </div>
                 <a href="#" class="small-box-footer lihat-detail" data-id="packing">
                     Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="small-box" style="background-color:#00a65a !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
@@ -70,7 +70,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="small-box" style="background-color:#f56954 !important;color: white">
                 <div class="inner">
                 <h3><?php echo $ajuanharian ?></h3>
