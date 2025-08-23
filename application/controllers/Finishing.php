@@ -742,8 +742,10 @@ class Finishing extends CI_Controller {
 	public function packing_save(){
 		$post=$this->input->post();
 		foreach ($post['kodepo'] as $key => $kodepo) {
+			$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
 			$insertData = array(
-				'nama_po'		=>	$kodepo,
+				'id_produksi_po'=>$po['id_produksi_po'],
+				'nama_po'		=>	$po['kode_po'],
 				'jumlah_dz'	=>	$post['jumlahpcs'][$key],
 				// 'jumlah_titik'	=>	$post['jumlahtitik'][$key],
 				'harga_dz'	=>	$post['pricePerTitik'][$key],
