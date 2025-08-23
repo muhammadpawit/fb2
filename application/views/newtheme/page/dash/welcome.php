@@ -70,6 +70,7 @@
                 </a>
             </div>
         </div>
+        <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 31 ){ ?>
         <div class="col-md-6">
             <div class="small-box" style="background-color:#f56954 !important;color: white">
                 <div class="inner">
@@ -84,6 +85,7 @@
                 </a>
             </div>
         </div>
+        <?php } ?>
     <!-- <div class="col-md-12">
        <div class="alert" style="background-color:#DCA100 !important;color: white">
            PO selesai packing

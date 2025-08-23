@@ -527,6 +527,7 @@ class Dash extends CI_Controller {
 
 	public function welcome(){
 		$user=user();
+		$data['user']=$user;
 		$data['title']='<i>'. 'Selamat datang, ' . ''.$user['nama_user'].'</i>';
 		$get=$this->input->get();
 		$hariIni = date('N'); // 1 = Senin, 4 = Kamis, dst
