@@ -1,4 +1,19 @@
 <div class="row no-print">
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document"><!-- pakai modal-xl biar luas -->
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Detail Data</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="detailContent">
+				<!-- Isi tabel dari AJAX -->
+			</div>
+			</div>
+		</div>
+	</div>
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
@@ -48,7 +63,11 @@
             		<tr>
 	                    <td><?php echo $nom++?></td>
 	                    <td><?php echo $r['nama']?></td>
-	                    <td><?php echo number_format($r['po'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['po'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['dz'],2)?></td>
 	                    <td><?php echo number_format($r['pcs'])?></td>
 	                    <td><?php echo number_format($r['total'])?></td>
@@ -67,7 +86,11 @@
 					<?php if($r['po'] > 0){ ?>
                 <tr>
                     <td><?php echo $nom?></td>
-                    <td><?php echo $r['type']?></td>
+                    <td>
+							<a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $r['id']?>">
+								<?php echo  $r['type']?>
+							</a>
+						</td>
                     <td><?php echo number_format($r['po'])?></td>
                     <td><?php echo number_format($r['dz'],2)?></td>
                     <td><?php echo number_format($r['pcs'])?></td>
@@ -279,3 +302,58 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).on("click", ".lihat-detail", function(e) {
+    e.preventDefault();
+
+    $("#detailContent").html("Loading...");
+    $("#detailModal").modal("show");
+
+    let id = $(this).attr("data-id");
+
+    	$.ajax({
+            url: "<?php echo BASEURL ?>Monitoring/kirimgudangjson",   
+            type: "GET",
+            dataType: "json",
+			data:{
+				id:id
+			},
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+
+});
+</script>

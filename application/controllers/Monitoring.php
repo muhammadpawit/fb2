@@ -3,6 +3,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Monitoring extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $image_lib;
+	public $AdjustModel;
+	public $Report;
+
 
 	function __construct() {
 		parent::__construct();
@@ -10,6 +35,7 @@ class Monitoring extends CI_Controller {
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->load->model('ReportModel');
 		$this->load->model('GlobalModel');
+		$this->load->model('Report');
 		$this->page='newtheme/page/monitoring/';
 		$this->layout='newtheme/page/';
 		$this->login 		= BASEURL.'login';
@@ -818,6 +844,13 @@ class Monitoring extends CI_Controller {
 			$this->load->view('newtheme/page/main',$data);
 		}
 
+	}
+
+	function kirimgudangjson(){
+		$data =[];
+		$get = $this->input->get();
+		$data = $this->Report->kirimgudangjson($get['id'],'2025-07-01','2025-08-31');
+		echo json_encode($data);
 	}
 
 }

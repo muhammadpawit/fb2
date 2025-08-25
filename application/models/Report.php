@@ -126,5 +126,22 @@ class Report extends CI_Model {
 		return $data;
 	}
 
+	public function kirimgudangjson($jenis,$tgl1,$tgl2){
+		$h=0;
+		$data=array();
+		$h=0;
+		$sql="SELECT p.kode_po as nama_po, kbp.tanggal_kirim as creted_date FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
+		
+		WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.tahunpo IS NULL AND mjp.tampil=1 AND kbp.susulan=2 ";
+		$sql.=" AND p.hapus=0 ";
+		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		if(!empty($tgl1)){
+			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
+		}		
+		$data=$this->GlobalModel->QueryManual($sql);
+		
+		return $data;
+	}
+
 
 }
