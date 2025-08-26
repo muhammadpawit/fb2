@@ -122,7 +122,7 @@
                       <td>
                         <?php if(akseshapus()==1){?>
                           <?php if($p['validasi']==0){ ?>
-                            <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" class="btn btn-danger btn-xs">Hapus</a>
+                            <a href="<?php echo BASEURL?>Gudang/penerimaanitem_hapus/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin akan menghapus data ini?')" class="btn btn-danger btn-xs">Hapus</a>
                           <?php } ?>
                         <?php } ?>
                         
