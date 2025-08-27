@@ -28,7 +28,7 @@
            PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
            <a href="<?php //echo BASEURL?>Dash/pendingpo">Lihat</a>
        </div> -->
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="small-box bg-aqua" style="background-color:#3c8dbc !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpendingpo ?> PO</h3>
@@ -42,7 +42,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="small-box" style="background-color:#f39c12 !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpacking ?> PO</h3>
@@ -56,7 +56,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="small-box" style="background-color:#00a65a !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
@@ -71,7 +71,7 @@
             </div>
         </div>
         <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35 ){ ?>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="small-box" style="background-color:#f56954 !important;color: white">
                 <div class="inner">
                 <h3><?php echo $ajuanharian ?></h3>
@@ -93,15 +93,17 @@
        </div>
     </div> -->
 </div>
+<hr>
 <div class="row">
-  
-<div class="col-md-12">
+  <div class="col-md-6">
+    <div id="container" style="width:100%; height:400px;"></div>
+  </div>
+
+<div class="col-md-6">
     <div id="grafik_alat" style="width:100%; height:400px;"></div>
   </div>
 
-<div class="col-md-12">
-    <div id="container" style="width:100%; height:400px;"></div>
-  </div>
+
 </div>
 
 <!-- Modal -->
