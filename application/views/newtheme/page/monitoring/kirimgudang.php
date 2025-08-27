@@ -1,19 +1,5 @@
 <div class="row no-print">
-	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document"><!-- pakai modal-xl biar luas -->
-			<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Detail Data</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
-				<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body" id="detailContent">
-				<!-- Isi tabel dari AJAX -->
-			</div>
-			</div>
-		</div>
-	</div>
+	<?php $this->load->view('newtheme/page/modaldetail');?>
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
@@ -317,7 +303,9 @@
             type: "GET",
             dataType: "json",
 			data:{
-				id:id
+				id:id,
+				tanggal1:'<?php echo $tanggal1?>',
+				tanggal2:'<?php echo $tanggal2?>',
 			},
             success: function(res) {
                 if (res.length > 0) {

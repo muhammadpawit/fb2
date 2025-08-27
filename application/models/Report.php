@@ -143,5 +143,17 @@ class Report extends CI_Model {
 		return $data;
 	}
 
+	public function kirimsetorjson($jenis,$tanggal1,$tanggal2,$proses){
+		$data=[];
+		$sql="SELECT p.kode_po as nama_po, kbp.create_date as creted_date  FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql.=" AND kbp.id_master_cmt NOT IN(85) ";
+		if(!empty($tanggal1)){
+			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
+		}
+		$sql.=" GROUP BY p.id_produksi_po ";
+		$data=$this->GlobalModel->QueryManual($sql);
+		return $data;
+	}
+
 
 }

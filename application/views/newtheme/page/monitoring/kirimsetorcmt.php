@@ -1,4 +1,5 @@
 <div class="row no-print">
+	<?php $this->load->view('newtheme/page/modaldetail');?>
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
@@ -75,11 +76,23 @@
                 <?php foreach($rekap as $r){?>
                 <tr>
                     <td><?php echo $nom++?></td>
-                    <td><?php echo $r['type']?></td>
-                    <td><?php echo number_format($r['countkirim'])?></td>
+                    <td>
+							
+						<?php echo  $r['type']?>
+							
+					</td>
+                    <td>
+						<a href="#" class="small-box-footer lihat-detail" name="kirim" data-id="<?php echo $r['id']?>">
+							<?php echo number_format($r['countkirim'])?>
+						</a>
+					</td>
                     <td><?php echo number_format($r['qtykirimdz'])?></td>
                     <td><?php echo number_format($r['qtykirimpcs'])?></td>
-                    <td><?php echo number_format($r['countsetor'])?></td>
+                    <td>
+						<a href="#" class="small-box-footer lihat-detail" name="setor" data-id="<?php echo $r['id']?>">
+						<?php echo number_format($r['countsetor'])?>
+						</a>
+					</td>
                     <td><?php echo number_format($r['qtysetordz'])?></td>
                     <td><?php echo number_format($r['qtysetorpcs'])?></td>
                 </tr>
@@ -288,3 +301,61 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(document).on("click", ".lihat-detail", function(e) {
+    e.preventDefault();
+
+    $("#detailContent").html("Loading...");
+    $("#detailModal").modal("show");
+
+    let id = $(this).attr("data-id");
+	let proses = $(this).attr("name");
+
+    	$.ajax({
+            url: "<?php echo BASEURL ?>Monitoring/kirimsetorjson",   
+            type: "GET",
+            dataType: "json",
+			data:{
+				id:id,
+				tanggal1:'<?php echo $tanggal1?>',
+				tanggal2:'<?php echo $tanggal2?>',
+				proses:proses,
+			},
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+
+});
+</script>

@@ -849,7 +849,42 @@ class Monitoring extends CI_Controller {
 	function kirimgudangjson(){
 		$data =[];
 		$get = $this->input->get();
-		$data = $this->Report->kirimgudangjson($get['id'],'2025-07-01','2025-08-31');
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-30 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+
+		$data = $this->Report->kirimgudangjson($get['id'],$tanggal1,$tanggal2);
+		echo json_encode($data);
+	}
+
+	function kirimsetorjson(){
+		$data =[];
+		$get = $this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("-30 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+
+		if(isset($get['proses'])){
+			$proses=$get['proses'];
+		}else{
+			$proses=null;
+		}
+
+		$data = $this->Report->kirimsetorjson($get['id'],$tanggal1,$tanggal2,$proses);
 		echo json_encode($data);
 	}
 
