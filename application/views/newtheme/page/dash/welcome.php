@@ -152,9 +152,9 @@
                                   ?>
                                 
                               </td>
-                              <td><?php echo number_format($us['cash'])?></td>
-                              <td><?php echo number_format($us['transfer'])?></td>
-                              <td><?php echo number_format($us['cash']+$us['transfer'])?></td>
+                              <td align="right"><?php echo number_format($us['cash'])?></td>
+                              <td align="right"><?php echo number_format($us['transfer'])?></td>
+                              <td align="right"><?php echo number_format($us['cash']+$us['transfer'])?></td>
                             </tr>
 
                                 <?php endforeach ?>
