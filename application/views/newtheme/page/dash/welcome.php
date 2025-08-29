@@ -95,77 +95,79 @@
 </div>
 <hr>
 <?php if(!empty($harian)){?>
-<div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <div class="table-responsive">
-        <label>Pengajuan Harian</label>
-              <table class="table table-bordered">
-                        <thead style="color:white; background-color:#337ab7">
-                            <tr>
+    <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35 ){ ?>
+    <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+        <div class="table-responsive">
+            <label>Pengajuan Harian</label>
+                <table class="table table-bordered">
+                            <thead style="color:white; background-color:#337ab7">
+                                <tr>
 
-                                <th>Ttd</th>
-                                <th>Hari, Tanggal</th>
-                                <th>Divisi / Cabang</th>
-                                <th><center>Cash (Rp)</center></th>
-                                <th><center>Transfer (Rp)</center></th>
-                                <th><center>Total (Rp)</center></th>
-                            </tr>
+                                    <th>Ttd</th>
+                                    <th>Hari, Tanggal</th>
+                                    <th>Divisi / Cabang</th>
+                                    <th><center>Cash (Rp)</center></th>
+                                    <th><center>Transfer (Rp)</center></th>
+                                    <th><center>Total (Rp)</center></th>
+                                </tr>
 
-                        </thead>
+                            </thead>
 
-                        <tbody  style="color:black !important">
+                            <tbody  style="color:black !important">
 
-                                <?php foreach ($harian as $key => $us): ?>
+                                    <?php foreach ($harian as $key => $us): ?>
 
-                            <tr>
-                              <?php $hari= date('l',strtotime($us['tanggal']))?>
-                            <td>
-                                  <?php if($us['status']==0){?>
-                                      <?php if($id_user==7 || $id_user==11){ ?>
-                                        <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
-                                        <?php } ?>
-                                    <?php }else{ ?>
-                                      <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
-                                      <?php } ?>
-                                </td>
-                                <td><?php echo hari($hari).', '. formatTanggalIndo($us['tanggal']) ?></td>
-
+                                <tr>
+                                <?php $hari= date('l',strtotime($us['tanggal']))?>
                                 <td>
-                                  <?php 
-                                  
-                                  if ($us['kategori'] == 1) {
-                                   echo "Sablon";
-                                  }else if($us['kategori'] == 2) { 
-                                    echo "Bordir"; 
-                                  } else if($us['kategori'] == 3) {
-                                    echo "Konveksi";
-                                  }else if($us['kategori'] == 4) {
-                                    echo "Sukabumi";
-                                  }
+                                    <?php if($us['status']==0){?>
+                                        <?php if($id_user==7 || $id_user==11){ ?>
+                                            <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                            <?php } ?>
+                                        <?php }else{ ?>
+                                        <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
+                                        <?php } ?>
+                                    </td>
+                                    <td><?php echo hari($hari).', '. formatTanggalIndo($us['tanggal']) ?></td>
 
-                                  if(!empty($us['from_mingguan'])){
-                                    echo ' Mingguan';
-                                  }else{
-                                    echo ' Harian';
-                                  }
-                                  ?>
-                                
-                              </td>
-                              <td align="right"><?php echo number_format($us['cash'])?></td>
-                              <td align="right"><?php echo number_format($us['transfer'])?></td>
-                              <td align="right"><?php echo number_format($us['cash']+$us['transfer'])?></td>
-                            </tr>
+                                    <td>
+                                    <?php 
+                                    
+                                    if ($us['kategori'] == 1) {
+                                    echo "Sablon";
+                                    }else if($us['kategori'] == 2) { 
+                                        echo "Bordir"; 
+                                    } else if($us['kategori'] == 3) {
+                                        echo "Konveksi";
+                                    }else if($us['kategori'] == 4) {
+                                        echo "Sukabumi";
+                                    }
 
-                                <?php endforeach ?>
+                                    if(!empty($us['from_mingguan'])){
+                                        echo ' Mingguan';
+                                    }else{
+                                        echo ' Harian';
+                                    }
+                                    ?>
+                                    
+                                </td>
+                                <td align="right"><?php echo number_format($us['cash'])?></td>
+                                <td align="right"><?php echo number_format($us['transfer'])?></td>
+                                <td align="right"><?php echo number_format($us['cash']+$us['transfer'])?></td>
+                                </tr>
 
-                        </tbody>
+                                    <?php endforeach ?>
 
-                    </table>
-            </div>
+                            </tbody>
+
+                        </table>
+                </div>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
+<?php } ?>
 <?php } ?>
 
 <div class="row">
