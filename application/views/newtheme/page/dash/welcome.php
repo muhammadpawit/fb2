@@ -94,6 +94,80 @@
     </div> -->
 </div>
 <hr>
+<?php if(!empty($harian)){?>
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <div class="table-responsive">
+        <label>Pengajuan Harian</label>
+              <table class="table table-bordered nosearch bg-primary">
+                        <thead>
+                            <tr>
+
+                                <th>Ttd</th>
+                                <th>Hari, Tanggal</th>
+                                <th>Divisi / Cabang</th>
+                                <th>Cash</th>
+                                <th>Transfer</th>
+                                <th>Total</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody  style="color:black !important">
+
+                                <?php foreach ($harian as $key => $us): ?>
+
+                            <tr>
+                              <?php $hari= date('l',strtotime($us['tanggal']))?>
+                            <td>
+                                  <?php if($us['status']==0){?>
+                                      <?php if($id_user==7 || $id_user==11){ ?>
+                                        <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                        <?php } ?>
+                                    <?php }else{ ?>
+                                      <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
+                                      <?php } ?>
+                                </td>
+                                <td><?php echo hari($hari).', '. formatTanggalIndo($us['tanggal']) ?></td>
+
+                                <td>
+                                  <?php 
+                                  
+                                  if ($us['kategori'] == 1) {
+                                   echo "Sablon";
+                                  }else if($us['kategori'] == 2) { 
+                                    echo "Bordir"; 
+                                  } else if($us['kategori'] == 3) {
+                                    echo "Konveksi";
+                                  }else if($us['kategori'] == 4) {
+                                    echo "Sukabumi";
+                                  }
+
+                                  if(!empty($us['from_mingguan'])){
+                                    echo ' Mingguan';
+                                  }else{
+                                    echo ' Harian';
+                                  }
+                                  ?>
+                                
+                              </td>
+                              <td><?php echo number_format($us['cash'])?></td>
+                              <td><?php echo number_format($us['transfer'])?></td>
+                              <td><?php echo number_format($us['cash']+$us['transfer'])?></td>
+                            </tr>
+
+                                <?php endforeach ?>
+
+                        </tbody>
+
+                    </table>
+            </div>
+    </div>
+  </div>
+</div>
+<?php } ?>
+
 <div class="row">
   <div class="col-md-6">
     <div id="container" style="width:100%; height:400px;"></div>
@@ -105,7 +179,27 @@
 
 
 </div>
-
+<div class="modal fade" id="detailModalTtd" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Persetujuan Digital</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="signatureModal">
+            <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
+            </div>
+            <div class="modal-footer">
+            
+                <button id="clear_signature">Clear</button>
+                <button id="save_signature">Save Signature</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document"><!-- pakai modal-xl biar luas -->
@@ -425,3 +519,183 @@ $(document).on("click", ".lihat-detail", function(e) {
 });
 
 </script>
+
+<style>
+  canvas {
+    margin: 10vh 5px !important;
+    height: 250px !important;
+  }
+
+  #signature {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #000;
+        background-color: #fff;
+    }
+
+    .modal-footer button {
+        margin: 5px;
+    }
+
+    #clear_signature, #save_signature {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #clear_signature:hover, #save_signature:hover {
+        background-color: #0056b3;
+    }
+
+    .modal-body {
+        padding: 20px;
+        overflow: hidden;
+    }
+
+    #signature {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+</style>
+<script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
+<script>
+  $(document).ready(function() {
+
+    $('#detailModalTtd').on('shown.bs.modal', function () {
+        $("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
+        $("#signatures").jSignature();
+    });
+
+    $('#detailModal').on('shown.bs.modal', function () {
+        $(".signatuers").jSignature();
+    });
+
+    // $("#signature").jSignature();
+
+      $('#clear_signature').click(function() {
+           $("#signature").jSignature("reset");
+       });
+       $('#save_signature').click(function() {
+           var datapair = $("#signature").jSignature("getData", "image");
+           var imgData = datapair[1];
+           var idajuan = $("#idajuan").val();
+           $.ajax({
+               url: "<?= BASEURL ?>Gudang/ttdsave",
+               type: "POST",
+               data: {image_data: imgData, id:idajuan},
+               success: function(response) {
+                   alert('Signature saved successfully!');
+                   location.reload();
+               }
+           });
+        });
+      
+        $('.modals').on('click', function() {
+          var id = $(this).data('id'); // Ambil ID dari atribut data-id
+          $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+
+          // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+          // Contoh logika AJAX untuk mengambil data:
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getRealisasiDetail', // Sesuaikan URL untuk mengambil data
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                  $('#detailModal .modal-body').html(response);
+              },
+              error: function() {
+                  $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
+
+        $('.ttdDigital').on('click', function() {
+          var id = $(this).data('id'); // Ambil ID dari atribut data-id
+          $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+
+          // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+          // Contoh logika AJAX untuk mengambil data:
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getRealisasiDetailTtd', // Sesuaikan URL untuk mengambil data
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                  $('#signatureModal').html(response);
+              },
+              error: function() {
+                  $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
+
+        $('.nota').on('click', function() {
+          var id = $(this).data('id'); // Ambil ID dari atribut data-id
+          $('#idajuan').val(id); // Masukkan ID ke input dalam modal
+
+          // Anda bisa menambahkan logika AJAX di sini jika ingin mengambil data dari server
+          // Contoh logika AJAX untuk mengambil data:
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getiD', // Sesuaikan URL untuk mengambil data
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
+                  $('#idnota').val(response);
+              },
+              error: function() {
+                  $('#detailModalNota .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
+});
+
+</script>
+<script type="text/javascript">
+  
+  function filter(){
+    var url='?';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    var cat=$("#cat").val();
+
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    if(cat!="*"){
+        url+='&cat='+cat;
+    }
+
+    location=url;
+  }
+
+  function excel(){
+    var url='?excel=1';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    var cat=$("#cat").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    if(cat!="*"){
+        url+='&cat='+cat;
+    }
+
+    location=url;
+  }
+</script>    

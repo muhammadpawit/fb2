@@ -578,7 +578,6 @@ class Dash extends CI_Controller {
 		$data['menipis']=[];
 		// pre($data['pendingkirimsudahpotong']);
 		$data['pendingkirimsudahpotong']=[];
-		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
 		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
 
 		$bulan=$this->ReportModel->month();
@@ -602,6 +601,8 @@ class Dash extends CI_Controller {
 		$data['countpenerimaancmtmingguini']  = count($this->Report->penerimaancmtmingguini());
 		
 		$data['ajuanharian'] =count($this->Report->ajuanharian());
+		$data['harian'] =$this->Report->ajuanharian();
+		$data['id_user']=$user['id_user'];
 
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
