@@ -100,8 +100,8 @@
     <div class="form-group">
       <div class="table-responsive">
         <label>Pengajuan Harian</label>
-              <table class="table table-bordered bg-primary">
-                        <thead>
+              <table class="table table-bordered">
+                        <thead style="color:white; background-color:#337ab7">
                             <tr>
 
                                 <th>Ttd</th>
