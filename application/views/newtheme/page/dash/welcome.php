@@ -102,14 +102,14 @@
         <label>Pengajuan Harian</label>
               <table class="table table-bordered">
                         <thead style="color:white; background-color:#337ab7">
-                            <tr style="text-align: center;">
+                            <tr>
 
                                 <th>Ttd</th>
                                 <th>Hari, Tanggal</th>
                                 <th>Divisi / Cabang</th>
-                                <th>Cash</th>
-                                <th>Transfer</th>
-                                <th>Total</th>
+                                <th><center>Cash (Rp)</center></th>
+                                <th><center>Transfer (Rp)</center></th>
+                                <th><center>Total (Rp)</center></th>
                             </tr>
 
                         </thead>
