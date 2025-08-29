@@ -100,7 +100,7 @@
     <div class="form-group">
       <div class="table-responsive">
         <label>Pengajuan Harian</label>
-              <table class="table table-bordered nosearch bg-primary">
+              <table class="table table-bordered bg-primary">
                         <thead>
                             <tr>
 
