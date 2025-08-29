@@ -102,7 +102,7 @@
         <label>Pengajuan Harian</label>
               <table class="table table-bordered">
                         <thead style="color:white; background-color:#337ab7">
-                            <tr>
+                            <tr style="text-align: center;">
 
                                 <th>Ttd</th>
                                 <th>Hari, Tanggal</th>
