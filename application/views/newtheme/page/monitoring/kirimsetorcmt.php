@@ -86,14 +86,14 @@
 							<?php echo number_format($r['countkirim'])?>
 						</a>
 					</td>
-                    <td><?php echo number_format($r['qtykirimdz'])?></td>
+                    <td><?php echo number_format($r['qtykirimdz'],2)?></td>
                     <td><?php echo number_format($r['qtykirimpcs'])?></td>
                     <td>
 						<a href="#" class="small-box-footer lihat-detail" name="setor" data-id="<?php echo $r['id']?>">
 						<?php echo number_format($r['countsetor'])?>
 						</a>
 					</td>
-                    <td><?php echo number_format($r['qtysetordz'])?></td>
+                    <td><?php echo number_format($r['qtysetordz'],2)?></td>
                     <td><?php echo number_format($r['qtysetorpcs'])?></td>
                 </tr>
                 <?php
@@ -108,10 +108,10 @@
                 <tr>
                     <td colspan="2"><b>Total</b></td>
                     <td><b><?php echo number_format($jmlpo1+$adjkirim)?></b></td>
-                    <td><b><?php echo number_format($dz1+$adjdz)?></b></td>
+                    <td><b><?php echo number_format($dz1+$adjdz,2)?></b></td>
                     <td><b><?php echo number_format($pcs1+$adjpcs)?></b></td>
                     <td><b><?php echo number_format($jmlpo2+$spo)?></b></td>
-                    <td><b><?php echo number_format($dz2+$sdz)?></b></td>
+                    <td><b><?php echo number_format($dz2+$sdz,2)?></b></td>
                     <td><b><?php echo number_format($pcs2+$spcs)?></b></td>
                 </tr>
             </tbody>
