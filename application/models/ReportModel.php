@@ -3222,7 +3222,7 @@ AND a.jenis = 2
 		}
 
 		$sql.=" GROUP BY a.nama_item_keluar, a.satuan_jumlah_keluar
-			ORDER BY nama_item_keluar ";
+			ORDER BY jumlah_item_keluar DESC ";
 		$d=$this->GlobalModel->QueryManual($sql);
 		if(!empty($d)){
 			// $dat['nama_item'].' '.$dat['jumlah_item_keluar'];
