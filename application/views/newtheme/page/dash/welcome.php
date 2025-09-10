@@ -60,7 +60,7 @@
             <div class="small-box" style="background-color:#00a65a !important;color: white">
                 <div class="inner">
                 <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
-                <p >Penerimaan setoran dari CMT minggu ini</p>
+                <p >Setoran CMT minggu ini</p>
                 </div>
                 <div class="icon">
                 <i class="fa fa-truck"></i>
