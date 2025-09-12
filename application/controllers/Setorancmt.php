@@ -3,6 +3,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Setorancmt extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $image_lib;
+	public $link;
+	public $load;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -61,12 +86,22 @@ class Setorancmt extends CI_Controller {
 			$action[] = array(
 				'text' => 'Detail',
 				'href' => BASEURL.'Setorancmt/kirimcmtview/'.$result['id'],
+				'bg'=>'bg-primary',
 			);
 
 			if(akseshapus()==1 && empty($result['nosj']) ){
 				$action[] = array(
 					'text' => 'Hapus',
 					'href' => BASEURL.'Setorancmt/hapussetoran/'.$result['id'],
+					'bg'=>'bg-red',
+				);
+			}
+
+			if(aksesedit()==1 ){
+				$action[] = array(
+					'text' => 'Edit',
+					'href' => BASEURL.'Setorancmt/editsetoran/'.$result['id'],
+					'bg'=>'bg-yellow',
 				);
 			}
 
@@ -395,5 +430,89 @@ class Setorancmt extends CI_Controller {
 			echo "<tr><td colspan='5'>Data tidak ditemukan</td></tr>";
 		}
 	}
+
+	public function editsetoran($id='',$kodepo=''){
+		$toarray=explode(",", $kodepo);
+		$row=count($toarray);
+		$data=array();
+		$rincian=array();
+		$data['no']=1;
+		$data['cetak']=BASEURL.'setorcmt/kirimcmtcetak/'.$id.'/1';
+		$data['excel']=BASEURL.'setorcmt/kirimcmtcetak/'.$id.'/2';
+		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
+		$kirims=$this->GlobalModel->getData('setorcmt_detail',array('idsetor'=>$id));
+		$job=null;
+		$data['kirims']=[];
+		foreach($kirims as $k){
+			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
+			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
+			$data['kirims'][]=array(
+				'id'=>$k['id'],
+				'idpo'=>$po['id_produksi_po'],
+				'kode_po'=>$po['kode_po'],
+				'rincian_po'=>$k['rincian_po'],
+				'job'=>!empty($job)?$job['nama_job']:'',
+				'totalsetor'=>$k['totalsetor'],
+				'keterangan'=>$k['keterangan'],
+				'jml_barang'=>$k['jml_barang'],
+			);
+		}
+		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$data['kirim']['idcmt']));
+		$data['page']='produksi/setor_edit';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function updatePO()
+{
+    $ids          = $this->input->post('id_setoran');          // array id PO
+    $totalsetors  = $this->input->post('totalsetor');  // array jumlah PO
+	$prods        = $this->input->post('prods');    // array kode PO
+    // pre($this->input->post());
+    if ($ids) {
+        foreach ($prods as $p) {
+			$totalsetors += $p['totalsetor'];
+			$updatesetoran = array(
+				'totalsetor' => $p['totalsetor'],
+			);
+			$this->db->update('setorcmt_detail', $updatesetoran, ['id' => $p['id']]);
+
+			$updateklo = array(
+				'qty_tot_pcs' => $p['totalsetor'],
+			);
+			$whereklo = array(
+				'idpo' => $p['idpo'],
+				'progress' => 'SETOR',
+				'kategori_cmt' => 'JAHIT',
+				'id_master_cmt' => $this->input->post('id_cmt'),
+			);
+			$this->db->update('kelolapo_kirim_setor', $updateklo, $whereklo);
+
+			$updateklofinish = array(
+				'qty_tot_pcs' => $p['totalsetor'],
+			);
+			$whereklofinish = array(
+				'idpo' => $p['idpo'],
+				'progress' => 'FINISHING',
+				'kategori_cmt' => 'JAHIT',
+				'id_master_cmt' => $this->input->post('id_cmt'),
+			);
+			$this->db->update('kelolapo_kirim_setor', $updateklofinish, $whereklofinish);
+			
+		}
+
+        // kalau mau update juga total keseluruhan (di tabel "kirim")
+        $total_all = ($totalsetors);
+        $this->db->update('setorcmt', ['totalsetor' => $total_all], ['id' => $this->input->post('id_setoran')]);
+
+        $this->session->set_flashdata('msg', 'Data berhasil diperbarui');
+		
+    } else {
+        $this->session->set_flashdata('gagal', 'Data tidak valid');
+		
+    }
+
+    redirect(BASEURL.'Setorancmt/editsetoran/'.$this->input->post('id_setoran'));
+}
+
 
 }
