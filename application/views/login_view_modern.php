@@ -136,7 +136,7 @@
         }
 
         .logo-section img {
-            height: 80px;
+            height: 150px;
             width: auto;
             margin: 0 auto 20px;
             display: block;
@@ -349,7 +349,7 @@
         <?php } ?>
 
         <div class="logo-section">
-            <img src="https://forboysproduction.com/assets/images/0001.jpg" alt="Forboys Production Logo">
+            <img src="<?php echo BASEURL?>/assets/images/0001.png" alt="Forboys Production Logo">
         </div>
         
         <h1 class="system-title">Forboys Production System</h1>
