@@ -505,6 +505,8 @@ class Setorancmt extends CI_Controller {
         $this->db->update('setorcmt', ['totalsetor' => $total_all], ['id' => $this->input->post('id_setoran')]);
 
         $this->session->set_flashdata('msg', 'Data berhasil diperbarui');
+
+		user_activity(callSessUser('id_user'),1,' mengubah setorancmt dengan id '.$this->input->post('id_setoran'));
 		
     } else {
         $this->session->set_flashdata('gagal', 'Data tidak valid');
