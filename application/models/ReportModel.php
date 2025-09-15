@@ -213,7 +213,7 @@ class ReportModel extends CI_Model {
 
 	public function countdashkirim_monitoring($jenis,$tanggal1,$tanggal2){
 		$hasil=null;
-		$sql="SELECT count(Distinct kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql="SELECT count(Distinct kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -233,8 +233,8 @@ class ReportModel extends CI_Model {
 
 	public function countdashsetor_monitoring($jenis,$tanggal1,$tanggal2){
 		$hasil=null;
-		//$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po LIKE '$jenis%' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
-		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		//$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po LIKE '$jenis%' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
+		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -648,7 +648,7 @@ class ReportModel extends CI_Model {
 		/*
 		$hasil=null;
 		$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";
-		$sql .=" AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql .=" AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -664,7 +664,7 @@ class ReportModel extends CI_Model {
 		return $hasil;
 		*/
 		$hasil=null;
-		$sql="SELECT count(Distinct kbp.idpo) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql="SELECT count(Distinct kbp.idpo) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		// $sql.=" AND kbp.id_master_cmt NOT IN(85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
@@ -698,7 +698,7 @@ class ReportModel extends CI_Model {
 		// 	return $out;
 		// }
 		$sql="SELECT count(DISTINCT p.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";
-		$sql .=" AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql .=" AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -1340,7 +1340,7 @@ class ReportModel extends CI_Model {
 	public function rekapjml_tgl($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
 		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
-		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
+		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($bulan)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 		}
@@ -1361,7 +1361,7 @@ class ReportModel extends CI_Model {
 	public function rekapjml_tglKLO($bulan,$tahun,$idcmt,$cmtkat,$progress){
 		$hasil=0;
 		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE kbp.id_master_cmt='".$idcmt."' ";
-		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil IN (1,2) AND kbp.id_master_cmt NOT IN(63) ";
+		$sql .=" AND kbp.kategori_cmt='$cmtkat' AND kbp.progress='$progress' AND kbp.hapus=0 and mjp.tampil IN (1,2) AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($bulan)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
 			$sql.=" AND kbp.qty_tot_pcs > 50 ";
@@ -3439,7 +3439,7 @@ AND a.jenis = 2
 		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE mjp.id_jenis_po ='$idjenis' AND kbp.kategori_cmt='JAHIT' 
-		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) 
 		
 		";
 
@@ -3469,7 +3469,7 @@ AND a.jenis = 2
 		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE mjp.id_jenis_po ='$idjenis' AND kbp.kategori_cmt='JAHIT' 
-		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) 
 		
 		";
 		
@@ -3503,7 +3503,7 @@ AND a.jenis = 2
 		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE  kbp.kategori_cmt='JAHIT' 
-		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) 
 		AND mc.lokasi='".$lokasicmt."' AND mjp.idjenis='$idjenis'
 		";
 		
@@ -3529,7 +3529,7 @@ AND a.jenis = 2
 		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE kbp.kategori_cmt='JAHIT' 
-		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) 
 		AND mc.lokasi='".$lokasicmt."' AND mjp.idjenis='$idjenis'
 		";
 		
@@ -3704,7 +3704,7 @@ AND a.jenis = 2
 		LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		LEFT JOIN master_cmt mc ON mc.id_cmt=kbp.id_master_cmt
 		WHERE mjp.id_jenis_po ='$idjenis' AND kbp.kategori_cmt='JAHIT' 
-		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) 
+		AND kbp.progress='KIRIM' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) 
 		AND mc.lokasi='".$lokasicmt."' 
 
 		AND kbp.kode_po NOT IN (SELECT kode_po FROM kelolapo_kirim_setor WHERE hapus=0 AND progress='SETOR' AND id_master_cmt NOT IN (63) AND kategori_cmt='JAHIT' )
