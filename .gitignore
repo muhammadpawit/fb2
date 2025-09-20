@@ -39,4 +39,5 @@ sessions/*
 application/sessions/*
 .htaccess
 token.json
+.env
 #.htaccess
