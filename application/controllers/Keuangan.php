@@ -380,11 +380,13 @@ class Keuangan extends CI_Controller {
 		$data['title']='Detail Uang makan security';
 		$data['prods']=$this->GlobalModel->getData('um_security',array('tanggal'=>$id,'hapus'=>0));
 		//pre($data['prods']);
-		$idt=[];
-		foreach($data['prods'] as $dp){
-			$idt[]=$dp['id'];
+		$idt = [];
+		if (!empty($data['prods']) && is_array($data['prods'])) {
+			foreach ($data['prods'] as $dp) {
+				$idt[] = $dp['id'];
+			}
 		}
-		$kid=implode($idt, ",");
+		$kid = implode(",", $idt);
 		$details=[];
 		$details=$this->GlobalModel->QueryManual("SELECT * FROM um_security_detail WHERE idum IN($kid) AND hapus=0 ");
 		// pre($details);
