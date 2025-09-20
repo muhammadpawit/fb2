@@ -35,7 +35,12 @@
           </div>
           <div class="form-group">
             <label>Bagian </label>
-            <input type="text" name="bagian" class="form-control" required="required">
+            <select class="form-control select2bs4" id="bagian" name="bagian" required style="width:100%">
+                <option value="">Pilih</option>
+                <?php foreach($bagian as $b){?>
+                  <option value="<?php echo $b['nama_bagian']?>"><?php echo $b['nama_bagian']?></option>
+                <?php } ?>
+            </select>
           </div>
           <?php if(isset($_GET['bagian'])){?>
             <input type="hidden" name="skb" value="1">

@@ -972,7 +972,7 @@ class Finishing extends CI_Controller {
 			SELECT * FROM karyawan_harian WHERE bagian NOT LIKE '%cabang sukabumi%' AND hapus=0
 			");
 		}
-		
+		$data['bagian']=$this->GlobalModel->getData('bagian',array('hapus'=>0));
 		$borongan=array();
 		$no=1;
 		foreach($products as $p){
@@ -1039,6 +1039,7 @@ class Finishing extends CI_Controller {
 		$data['action']=BASEURL.'Finishing/karyawaneditsave';
 		$data['update']=BASEURL.'Finishing/karyawaneditsave';
 		$data['cmt']= $this->GlobalModel->GetData('master_cmt',array('hapus'=>0));
+		$data['bagian']=$this->GlobalModel->getData('bagian',array('hapus'=>0));
 		$data['products']=array();
 		$user=user();
 		$edit=0;

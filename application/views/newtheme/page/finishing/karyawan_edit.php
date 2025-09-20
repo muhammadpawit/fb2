@@ -37,7 +37,15 @@
                     <tr>
                       <td>Bagian</td>
                       <td>:</td>
-                      <td><input type="text" name="bagian" value="<?php echo $p['bagian']?>" class="form-control"></td>
+                      <td>
+                        
+                        <select class="form-control select2bs4" id="bagian" name="bagian" required style="width:100%">
+                            <option value="">Pilih</option>
+                            <?php foreach($bagian as $b){?>
+                              <option value="<?php echo $b['nama_bagian']?>" <?php echo $p['bagian'] == $b['nama_bagian'] ? 'selected':''?>><?php echo $b['nama_bagian']?></option>
+                            <?php } ?>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
                       <td>Gaji Per Minggu</td>
@@ -84,10 +92,10 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><input type="text" name="gajiborongan[tress]" value="<?php echo $borongan['tress']?>" class="form-control"></td>
-                  <td><input type="text" name="gajiborongan[lobangkancing]" value="<?php echo $borongan['lobangkancing']?>" class="form-control"></td>
-                  <td><input type="text" name="gajiborongan[pasangkancing]" value="<?php echo $borongan['pasangkancing']?>" class="form-control"></td>
-                  <td><input type="text" name="gajiborongan[keterangan]" value="<?php echo $borongan['keterangan']?>" class="form-control"></td>
+                  <td><input type="text" name="gajiborongan[tress]" value="<?php echo !empty($borongan['tress']) ? $borongan['tress'] : 0?>" class="form-control"></td>
+                  <td><input type="text" name="gajiborongan[lobangkancing]" value="<?php echo !empty($borongan['lobangkancing']) ? $borongan['lobangkancing'] : 0?>" class="form-control"></td>
+                  <td><input type="text" name="gajiborongan[pasangkancing]" value="<?php echo !empty($borongan['pasangkancing']) ? $borongan['pasangkancing'] : 0?>" class="form-control"></td>
+                  <td><input type="text" name="gajiborongan[keterangan]" value="<?php echo !empty($borongan['keterangan']) ? $borongan['keterangan']:0 ?>" class="form-control"></td>
                 </tr>
               </tbody>
             </table>
@@ -98,6 +106,7 @@
         <!-- /.card-body -->
         <div class="card-footer text-right">
           <button onclick="simpan()" class="btn btn-success text-white">Save</button>
+          <a href="<?php echo BASEURL?>Finishing/karyawan" class="btn btn-danger text-white">Batal</a>
         </div>
         <!-- /.card-footer-->
       </div>
