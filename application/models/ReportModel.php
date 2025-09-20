@@ -3,6 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ReportModel extends CI_Model {
 
+	public $tgl_stokawal;
+	public $tglperkalianbaru;
+	public $tahun;
+
 	function __construct() {
 		parent::__construct();
 		$this->tgl_stokawal='2022-04-30';
@@ -434,6 +438,7 @@ class ReportModel extends CI_Model {
 	}
 
 	public function getpcsK($kodepo,$kat,$progress){
+		$tahun=!empty($tahun) ? $tahun : date('Y');
 		$hasil=0;
 		$qtykembalianbangke=0;
 		// $sql="SELECT COALESCE(SUM(kks.qty_tot_pcs),0) as pcs FROM kelolapo_kirim_setor kks INNER JOIN produksi_po p ON p.id_produksi_po=kks.idpo WHERE kks.hapus=0 AND kks.kode_po='$kodepo' AND kks.kategori_cmt='$kat' AND kks.progress='$progress' ";
@@ -2104,6 +2109,7 @@ AND a.jenis = 2
 	
 
 	public function total02_array_bulan($nomor,$shift,$tanggal1,$tanggal2){
+		$tahun = !empty($tahun) ? $tahun : date('Y');
 		$total=['total'=>0,'0.2'=>0,'0.3'=>0];
 		$sql="SELECT COALESCE(sum(total_stich*laporan_perkalian_tarif),0) as total,laporan_perkalian_tarif as tarif FROM kelola_mesin_bordir WHERE hapus=0 and jenis=2 ";
 		$sql.= " AND mesin_bordir='$nomor' AND shift='$shift' ";
@@ -2412,6 +2418,7 @@ AND a.jenis = 2
 	}
 
 	public function stokkeluar_bulanan($id,$bulan,$tahun){
+		$tgl2 = !empty($tgl2) ? $tgl2 : date('Y');
 		$hasil=array('roll'=>0,'yard'=>0,'harga'=>0);
 		$sql = "SELECT SUM(pid.ukuran) as yard,SUM(pid.jumlah) as roll,pid.harga FROM barangkeluar_harian_detail pid JOIN barangkeluar_harian pi ON(pi.id=pid.idbarangkeluar) WHERE pi.hapus=0 AND pid.hapus=0";
 		if(!empty($tgl)){
@@ -3329,6 +3336,7 @@ AND a.jenis = 2
 		}
 
 		$stokset=[];
+		$kirimgdset=[];
 		//pre($st);
 		foreach($st as $s){
 			foreach($s['detail'] as $sd){
