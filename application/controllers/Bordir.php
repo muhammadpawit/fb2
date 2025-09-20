@@ -1039,6 +1039,7 @@ class Bordir extends CI_Controller {
 		$po=$this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$id));
 		//pre($po);
 		$id=$po['id'];
+		$data['idpo']=$po['id'];
 		$data['title']='Edit Inputan Mesin Bordir '.$id;
 		$data['kode_po']=$id;
 		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'kode_po'=>$id));
@@ -1100,7 +1101,8 @@ class Bordir extends CI_Controller {
 			$this->db->update('kelola_mesin_bordir',$update,$where);
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&pemilik='.$data['pemilik']);
+		$idpo=isset($data['idpo']) ? '&namaPo='.$data['idpo']:'';
+		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&pemilik='.$data['pemilik'].$idpo);
 	}
 
 	public function inputharianmesinpoluar(){
@@ -1124,8 +1126,8 @@ class Bordir extends CI_Controller {
 			if(!empty($get['tanggalMulai'])) {			
 				if(isset($get['namaPo'])){				
 					$po=$get['namaPo'];				
-					$data['tanggalMulai']=null;				
-					$data['tanggalEnd']=null;			
+					$data['tanggalMulai']=$get['tanggalMulai'];
+					$data['tanggalEnd']=$get['tanggalEnd'];			
 				}else{
 					$data['tanggalMulai']=$get['tanggalMulai'];
 					$data['tanggalEnd']=$get['tanggalEnd'];
@@ -1134,8 +1136,8 @@ class Bordir extends CI_Controller {
 			
 			if(isset($get['namaPo'])){
 				$po=$get['namaPo'];
-				$data['tanggalMulai']=null;
-				$data['tanggalEnd']=null;
+				$data['tanggalMulai']=isset($data['tanggalMulai']) ? $data['tanggalMulai'] :date('Y-m-d',strtotime("first day of this month"));;
+				$data['tanggalEnd']=isset($data['tanggalEnd']) ? $data['tanggalEnd']:date('Y-m-d',strtotime("last day of this month"));;
 				}else{
 					$data['tanggalMulai']=date('Y-m-d',strtotime("first day of this month"));
 					$data['tanggalEnd']=date('Y-m-d',strtotime("last day of this month"));
@@ -1235,7 +1237,9 @@ class Bordir extends CI_Controller {
 				$data['milik'] = isset($get['pemilik']) ? $get['pemilik'] : '';
 				$tanggalMulai=$data['tanggalMulai'];
 				$tanggalEnd=$data['tanggalEnd'];
-				$data['koreksi_gaji_bordir']=BASEURL.'Bordir/koreksi_gaji_bordir/'.$tanggalMulai.'/'.$tanggalEnd;
+				$namapo=isset($get['namaPo']) ? $get['namaPo']:null;
+				$namapoadd = !empty($namapo) ? '?&idpo='.$namapo:null;
+				$data['koreksi_gaji_bordir']=BASEURL.'Bordir/koreksi_gaji_bordir/'.$tanggalMulai.'/'.$tanggalEnd.$namapoadd;
 				if(isset($get['excel'])){
 					$this->load->view('bordir/list_excel',$data);
 				}else{
@@ -1941,10 +1945,21 @@ class Bordir extends CI_Controller {
 
 	public function koreksi_gaji_bordir($tanggal_awal,$tanggal_akhir){
 		$data=[];
+		$get = $this->input->get();
+		if(isset($get['idpo'])){
+			$idpo=$get['idpo'];
+		}else{
+			$idpo=null;
+		}
+		$data['idpo']=$idpo;
 		$data['title']='Koreksi Gaji Operator Bordir';
 		$data['tanggal_awal']=$tanggal_awal;
 		$data['tanggal_akhir']=$tanggal_akhir;
-		$data['d']=$this->GlobalModel->QueryManual("SELECT * FROM kelola_mesin_bordir WHERE jenis=2 AND hapus=0 AND created_date BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ");
+		$sql="SELECT * FROM kelola_mesin_bordir WHERE jenis=2 AND hapus=0 AND created_date BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ";
+		if(!empty($idpo)){
+			$sql.=" AND idpo='".$idpo."' ";
+		}
+		$data['d']=$this->GlobalModel->QueryManual($sql);
 		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
 		$data['action']=BASEURL.'Bordir/mesinharian_save_luar_koreksi';
 		$data['batal']=BASEURL.'Bordir/inputharianmesinpoluar/';
@@ -1978,7 +1993,8 @@ class Bordir extends CI_Controller {
 			$this->db->update('kelola_mesin_bordir',$update,$where);
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&tanggalMulai='.$data['tanggal_awal'].'&tanggalEnd='.$data['tanggal_akhir']);
+		$idpo=isset($data['idpo']) ? '&namaPo='.$data['idpo']:'';
+		redirect(BASEURL.'Bordir/inputharianmesinpoluar?&tanggalMulai='.$data['tanggal_awal'].'&tanggalEnd='.$data['tanggal_akhir'].$idpo);
 	}
 
 	function getmesinDetail(){

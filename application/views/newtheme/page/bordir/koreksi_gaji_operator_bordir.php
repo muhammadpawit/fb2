@@ -46,6 +46,9 @@
 						<input type="hidden" name="prods[<?php echo $i?>][id]" value="<?php echo $e['id_kelola_mesin_bordir'] ?>">
 						<input type="hidden" name="prods[<?php echo $i?>][jenis]" value="<?php echo $e['jenis'] ?>">
 						<input type="hidden" name="pemilik" value="<?php echo $pemilik['id'] ?>">
+						<?php if(!empty($idpo)){ ?>
+							<input type="hidden" name="idpo" value="<?php echo $idpo ?>">
+						<?php } ?>
 						<tr>
 							<td>
 								<input type="text" name="prods[<?php echo $i?>][created_date]" class="form-control datepicker" value="<?php echo $e['created_date']?>" size="7">
