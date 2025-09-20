@@ -1293,6 +1293,10 @@ class Keuangan extends CI_Controller {
 			echo '<option value="3"' . ($data['bagian'] == '3' ? ' selected' : '') . '>Sablon</option>';
 			echo '</select>';
 			echo '</div>';
+            echo '<label for="saldoawal">Tanggal:</label>';
+            echo '<input type="text" name="tanggal" id="datepicker" class="form-control datepicker" value="' . $data['tanggal'] . '">';
+            echo '</div>';
+			echo '</div>';
             echo '<label for="saldoawal">Saldo Awal:</label>';
             echo '<input type="number" name="saldoawal" class="form-control" value="' . $data['saldoawal'] . '">';
             echo '</div>';
@@ -1306,7 +1310,8 @@ class Keuangan extends CI_Controller {
             echo '</div>';
             echo '<div class="form-group">';
             echo '<label for="saldo">Saldo:</label>';
-            echo '<input type="number" name="saldo" class="form-control" value="' . $data['saldo'] . '">';
+            echo '<input type="hidden" name="saldo_exist" class="form-control" value="' . $data['saldo'] . '">
+					<input type="number" name="saldo" class="form-control" value="' . $data['saldo'] . '">';
             echo '</div>';
             echo '<div class="form-group">';
             echo '<label for="keterangan">Keterangan:</label>';
@@ -1331,19 +1336,23 @@ class Keuangan extends CI_Controller {
 				'saldo' => $post['saldo'],
 				'keterangan' => $post['keterangan'],
 				'bagian' => $post['bagian'],
+				'tanggal' => $post['tanggal'],
 			),
 			array('id'=>$post['id'])
 		);
-
-		$this->db->update(
-			'bank',
-			array(
-				'saldo' => $post['saldo']
-			),
-			array(
-				'id' => $post['bank']
-			)
-		);
+		$saldo_exist = $post['saldo_exist'];
+		if($saldo_exist != $post['saldo']){
+			$this->db->update(
+				'bank',
+				array(
+					'saldo' => $post['saldo']
+				),
+				array(
+					'id' => $post['bank']
+				)
+			);
+		}
+		
 
 		user_activity(callSessUser('id_user'),1,' mengedit aruskas dengan id '.$post['id']);
 		$this->session->set_flashdata('msg','Data berhasil diubah');
