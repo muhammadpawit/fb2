@@ -951,6 +951,7 @@ class Keuangan extends CI_Controller {
 				'nominal_acc'=>number_format($result['nominal_acc'],2),
 				'status'=>$result['status'],
 				'detail'=>BASEURL.'Keuangan/kasbondetail/'.$result['tanggal'],
+				'edit'=>BASEURL.'Keuangan/kasbonedit/'.$result['tanggal'],
 			);
 		}
 		$data['totalkasbon']=$total;
@@ -1359,6 +1360,100 @@ class Keuangan extends CI_Controller {
 		user_activity(callSessUser('id_user'),1,' mengedit aruskas dengan id '.$post['id']);
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect(BASEURL.'Keuangan/mutasibank/'.$post['bank']);
+	}
+
+	public function kasbonedit($id){
+		$data=array();
+		$data['title']='Edit Kasbon Karyawan Forboys';
+		$data['n']=1;
+		$data['i']=0;
+		$data['kembali']=BASEURL.'Keuangan/kasbonkaryawan';
+		$data['action']=BASEURL.'Keuangan/kasboneditsave';
+		$data['detail']=array();
+		$data['acc']=null;
+		$data['acc']=$this->GlobalModel->getDataRow('kasbon_acc',array('tanggal'=>$id,'hapus'=>0));
+		// $results=$this->GlobalModel->getData('kasbon',array('tanggal'=>$id,'hapus'=>0));
+		$results = $this->GlobalModel->QueryManual(
+			"SELECT a.* FROM kasbon a JOIN karyawan b ON b.id=a.idkaryawan WHERE tanggal='".$id."' AND a.hapus=0 ORDER BY b.nama ASC "
+		);
+		$total=0;
+		$ajuan=0;
+		foreach($results as $result){
+			$ajuan+=($result['nominal_request']);
+			$total+=($result['nominal_acc']);
+			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
+			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
+			$data['detail'][]=array(
+				'id'=>$result['id'],
+				'tanggal'=>!empty($result['tanggal']) ? date('Y-m-d',strtotime($result['tanggal'])) : '',
+				'nama'=>$karyawan['nama'],
+				'divisi'=>$bagian['nama'],
+				'nominal'=>$result['nominal_request'],
+				'nominal_acc'=>$result['nominal_acc'],
+				'status'=>$result['status'],
+				'terbilang' => terbilang($result['nominal_request']),
+				'keterangan' => $result['keterangan'],
+			);
+		}
+		
+		$data['total']=($total);
+		$data['ajuan']=($ajuan);
+		$get=$this->input->get();
+		$data['excel']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&excel=true';
+		$data['pdf']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&pdf=true';
+		if(isset($get['excel'])){
+			$this->load->view('newtheme/page/keuangan/kasbondetail_excel',$data);
+		}else{
+			if(isset($get['pdf'])){
+				$get = $this->input->get();
+				$html =  $this->load->view('newtheme/page/keuangan/kasbondetail_pdf',$data,true);
+	
+				$this->load->library('pdfgenerator');
+				
+				// title dari pdf
+				$this->data['title_pdf'] = 'Surat Jalan Kirim Jahit';
+				
+				// filename dari pdf ketika didownload
+				$file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
+				// setting paper
+				$paper = 'A4';
+				// $paper = array(0,0,900,1250);
+				//orientasi paper potrait / landscape
+				$orientation = "potrait";
+				
+	
+				
+				// run dompdf
+				$this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+			}else{
+				$data['page']='newtheme/page/keuangan/kasbonedit';
+				$this->load->view('newtheme/page/main',$data);
+			}
+			
+		}
+	}
+
+	function kasboneditsave(){
+		$post = $this->input->post();
+		foreach($post['products'] as $p){
+			$update = array(
+				'nominal_request' => $p['nominal'],
+				'nominal_acc' => $p['nominal']
+			);
+			if($p['nominal_old']!=$p['nominal']){
+				$perubahan = array(
+					'karyawan'	=> $p['karyawan'],
+					'nominal_lama' => $p['nominal_old'],
+					'nominal_baru' => $p['nominal'],
+				);
+				user_activity(callSessUser('id_user'),1,' mengedit kasbon '.json_encode($perubahan).' dengan dengan id '.$p['id']);
+				$this->db->update('kasbon',$update,array('id'=>$p['id']));
+			}
+			
+			
+		}
+		$this->session->set_flashdata('msg','Data berhasil diubah');
+		redirect(BASEURL.'Keuangan/kasbonkaryawan');
 	}
 
 }

@@ -56,6 +56,9 @@
                     <td><?php echo $p['status']==0?'Diajukan':'Disetujui';?></td>
                     <td>
                       <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs">Detail</a>
+                      <?php if(aksesedit()==1){?>
+                        <a href="<?php echo $p['edit']?>" class="btn btn-primary btn-xs">Edit</a>
+                        <?php } ?>
                     </td>
                   </tr>
                 <?php }?>
