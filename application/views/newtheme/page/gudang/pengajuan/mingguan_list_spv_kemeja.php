@@ -73,7 +73,7 @@
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
-                      <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']?>"></td>
+                      <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']=='0' ? $p['jml_ajuan'] : $p['jml_acc']?>"></td>
                       <td><input type="text" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo $p['acc_satuan']?>"></td>
                       <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
