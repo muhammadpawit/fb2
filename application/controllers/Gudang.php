@@ -3761,6 +3761,7 @@ class Gudang extends CI_Controller {
 	function getRealisasiDetailTtd(){
 		$id = $this->input->get('id');
 		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		$detail = $this->GlobalModel->GetData('pengajuan_harian_new_detail',array('hapus'=>0,'idpengajuan'=>$id));
 		echo '
 			<div class="row">
 
@@ -3802,6 +3803,25 @@ class Gudang extends CI_Controller {
 		</div>';
 		
 		echo '</div><br><br>';
+		echo '<h3>Rincian Pengajuan</h3>';
+		echo '<table class="table table-bordered">';
+		echo '<tr>';
+		echo '<th>Item</th>';
+		echo '<th>Quantity</th>';
+		echo '<th>Satuan</th>';
+		echo '<th>Harga Satuan</th>';
+		echo '<th>Total Harga</th>';
+		echo '</tr>';
+		foreach($detail as $d){
+		echo '<tr>';
+		echo '<td>'.$d['nama_item'].'</td>';
+		echo '<td>'.$d['jumlah'].'</td>';
+		echo '<td>'.$d['satuan'].'</td>';
+		echo '<td align="right">'.number_format($d['harga']).'</td>';
+		echo '<td align="right">'.number_format(($d['jumlah']*$d['harga'])).'</td>';
+		echo '</tr>';
+		}
+		echo '</table>';
 		// echo '<div class="row">
 		// <div class="col-md-4">		
 		// <div class="col-md-4"><br><br>
