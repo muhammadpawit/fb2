@@ -3,6 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Gajisukabumi extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $bg_warning;
+	public $bg_danger;
+	public $bg_success;
+	public $bg_info;
+	public $GlobalTwoModel;
+	public $link;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -105,6 +129,7 @@ class Gajisukabumi extends CI_Controller {
 		$id = $this->db->insert_id();		
 		$total=0;
 		$perkalian=1;
+		$totala=0;
 		foreach($data['prods'] as $p){
 			if(strtolower($p['keterangan'])==2){
 				$perkalian=1;
@@ -160,6 +185,8 @@ class Gajisukabumi extends CI_Controller {
 	public function hapus($id){
 		$this->db->update('gajisukabumi',array('hapus'=>1),array('id'=>$id));
 		$this->db->update('gajisukabumi_detail',array('hapus'=>1),array('idgaji'=>$id));
+		$this->db->update('anggaran_operasional_sukabumi',array('hapus'=>1),array('id'=>$id));
+		$this->db->update('anggaran_operasional_sukabumi_detail',array('hapus'=>1),array('idanggaran'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect($this->link);
 	}
