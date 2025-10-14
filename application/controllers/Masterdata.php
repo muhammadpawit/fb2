@@ -1062,6 +1062,7 @@ class Masterdata extends CI_Controller {
 				'bank' 		=> $p['bank'],
 				'no_rek'	=> $p['no_rek'],
 				'atas_nama' => $p['atas_nama'],
+				'file_ktp'	=> $p['file_ktp'],
 			);
 		}
 		$data['jabatan']=$this->GlobalModel->getData('jabatan',array('hapus'=>0));
