@@ -1338,7 +1338,7 @@ class Keuangan extends CI_Controller {
 				'saldokeluar' => $post['saldokeluar'],
 				'saldo' => $post['saldo'],
 				'keterangan' => $post['keterangan'],
-				'bagian' => $post['bagian'],
+				'bagian' => $post['cat'],
 				'tanggal' => $post['tanggal'],
 			),
 			array('id'=>$post['id'])
