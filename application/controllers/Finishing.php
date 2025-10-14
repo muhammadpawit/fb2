@@ -1050,12 +1050,19 @@ class Finishing extends CI_Controller {
 		$data['ubah']=BASEURL.'Finishing/karyawanubah/';
 		$data['hapus']=BASEURL.'Finishing/karyawanhapus/';
 		$data['products']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0,'id'=>$id));
+		$data['dk']=$this->GlobalModel->getDataRow('karyawan_harian',array('hapus'=>0,'id'=>$id));
 		$data['borongan']=$this->GlobalModel->getDataRow('gajiborongan',array('idkaryawanharian'=>$id));
 		$data['page']=$this->page.'finishing/karyawan_edit';
 		$this->load->view($this->page.'main',$data);
 	}
 
 	public function karyawaneditsave(){
+		$config['upload_path']          = './uploads/ktp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0755, true); // true → bikin folder berjenjang jika perlu
+		}
+		$post=$this->input->post();
 		$data=$this->input->post();
 		$insert=array(
 			'nama'=>$data['nama'],
@@ -1064,8 +1071,14 @@ class Finishing extends CI_Controller {
 			'perminggu'=>$data['perminggu'],
 			'tipe'=>$data['tipe'],
 			'cmt_id' => $data['cmt_id'],
+			'nomor_ktp' => $data['nomor_ktp'],
 		);
 		$this->db->update('karyawan_harian',$insert,array('id'=>$data['id']));
+		$this->load->library('upload', $config);
+		$this->upload->do_upload('ktp');
+		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+		$this->db->update('karyawan_harian',array('file_ktp'=>$fileName),array('id'=>$data['id']));
+
 		if(isset($data['gajiborongan'])){
 			$this->db->query("DELETE FROM gajiborongan WHERE idkaryawanharian='".$data['id']."' ");
 			if($data['tipe']==2){
@@ -1080,7 +1093,7 @@ class Finishing extends CI_Controller {
 			}
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Di Diubah');
-		redirect(BASEURL.'finishing/karyawan');
+		redirect(BASEURL.'finishing/karyawanubah/'.$data['id']);
 	}
 
 	

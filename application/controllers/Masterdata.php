@@ -1107,6 +1107,12 @@ class Masterdata extends CI_Controller {
 
 
 	public function karyawaneditsave(){
+		$config['upload_path']          = './uploads/ktp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0755, true); // true → bikin folder berjenjang jika perlu
+		}
+
 		$post=$this->input->post();
 		//pre($post);
 		if($post['status_resign']==2){
@@ -1127,11 +1133,17 @@ class Masterdata extends CI_Controller {
 			'bank' 		=> $post['bank'],
 			'no_rek'	=> $post['no_rek'],
 			'atas_nama' => $post['atas_nama'],
+			'nomor_ktp' => $post['nomor_ktp'],
 			'hapus'=>0
 		);
 		$this->db->update('karyawan',$insert,array('id'=>$post['id']));
+		$this->load->library('upload', $config);
+		$this->upload->do_upload('ktp');
+		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+		$this->db->update('karyawan',array('file_ktp'=>$fileName),array('id'=>$post['id']));
+		
 		$this->session->set_flashdata('msg','Data Berhasil Diubah');
-			redirect(BASEURL.'Masterdata/karyawan');
+		redirect(BASEURL.'Masterdata/karyawanedit/'.$post['id']);
 	}
 
 	public function karyawanhapus($id){

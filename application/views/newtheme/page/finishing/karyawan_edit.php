@@ -24,7 +24,7 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <form method="post" action="<?php echo $update?>">
+            <form method="post" action="<?php echo $update?>" enctype="multipart/form-data">
             <table class="table table-bordered">
               <tbody>
                  <?php if($products){?>
@@ -100,6 +100,23 @@
               </tbody>
             </table>
             <?php } ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Nomor KTP</label>
+                      <input type="text" name="nomor_ktp" value="<?php echo $dk['nomor_ktp']?>" class="form-control" required="required">
+                    </div>
+                    <?php if(!empty($dk['file_ktp'])){?>
+                    <div class="form-group">
+                      <img src="<?php echo BASEURL?>/<?php echo $dk['file_ktp']?>" class="img img-thumbnail" style="width:500px;">
+                    </div>
+                    <?php } ?>
+                    <div class="form-group">
+                      <label><?php if(!empty($dk['file_ktp'])){?> Ubah <?php } ?>File KTP</label>
+                      <input type="file" name="ktp" accept=".jpg,.png" class="form-control" required="required">
+                    </div>
+                </div>
+            </div>
             </form>
           </div>
         </div>

@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo $action?>">
+<form method="post" action="<?php echo $action?>" enctype="multipart/form-data">
 <div class="table-responsive">
             <input type="hidden" name="id" value="<?php echo $products['id']?>">
           <div class="form-group">
@@ -91,6 +91,19 @@
           <?php } ?>
             <label>Tanggal Keluar / Tanggal resign</label>
             <input type="text" name="tglkeluar" value="<?php echo $products['tglkeluar']?>" class="form-control datepicker">
+          </div>
+          <div class="form-group">
+            <label>Nomor KTP</label>
+            <input type="text" name="nomor_ktp" value="<?php echo $products['nomor_ktp']?>" class="form-control" required="required">
+          </div>
+          <?php if(!empty($products['file_ktp'])){?>
+          <div class="form-group">
+            <img src="<?php echo BASEURL?>/<?php echo $products['file_ktp']?>" class="img img-thumbnail" style="width:500px;">
+          </div>
+          <?php } ?>
+          <div class="form-group">
+            <label><?php if(!empty($products['file_ktp'])){?> Ubah <?php } ?>File KTP</label>
+            <input type="file" name="ktp" accept=".jpg,.png" class="form-control" required="required">
           </div>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" href="<?php echo $batal?>">Batal</a>
