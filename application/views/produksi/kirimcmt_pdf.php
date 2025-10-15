@@ -90,12 +90,12 @@
 			<tr>
                 <td>Supir</td>
                 <td>:</td>
-                <td><?php echo strtolower(ucfirst($cmt['supir'])) ?></td>
+                <td><?php echo strtolower(ucfirst($kirim['supir'])) ?></td>
             </tr>
 			<tr>
                 <td>Pendamping</td>
                 <td>:</td>
-                <td><?php echo strtolower(ucfirst($cmt['pendamping'])) ?></td>
+                <td><?php echo strtolower(ucfirst($kirim['pendamping'])) ?></td>
             </tr>
         </table>
     </div>
