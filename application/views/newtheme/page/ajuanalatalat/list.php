@@ -67,7 +67,7 @@
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][satuan]" value="<?php echo $p['satuan'] ?>">
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][supplier]" value="<?php echo $p['supplier_id'] ?>">
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][keterangan]" value="<?php echo $p['keterangan'] ?>">
-							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" value="<?php echo $p['acc_ajuan'] ?>">
+							<input type="number" name="prods[<?php echo $p['no']?>][acc_ajuan]" value="<?php echo ($p['acc_ajuan']==0) ? $p['ajuan'] : $p['acc_ajuan'] ?>">
 							<input type="hidden" name="prods[<?php echo $p['no']?>][pembayaran]" value="<?php echo $p['pembayaran'] ?>">
 						<?php }else{ ?>
 							<?php echo $p['acc_ajuan'] ?>
