@@ -2191,6 +2191,8 @@ class Kelolapo extends CI_Controller {
 				'status'=>0,
 				'keterangan'=>$post['keterangan'],
 				'dibuat'=>date('Y-m-d H:i:s'),
+				'supir'=>ucfirst($post['supir']),
+				'pendamping'=>ucfirst($post['pendamping']),
 				'hapus'=>0,
 			);
 			$this->db->insert('kirimcmt', $insert);

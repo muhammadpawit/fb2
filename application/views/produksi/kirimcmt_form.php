@@ -48,6 +48,20 @@
                           </select>
                         </td>
                       </tr>
+                       <tr>
+                        <td><label>Supir</label></td>
+                        <td>:</td>
+                        <td>
+                          <input type="text" class="form-control" name="supir" required>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td><label>Pendamping</label></td>
+                        <td>:</td>
+                        <td>
+                          <input type="text" class="form-control" name="pendamping" required>
+                        </td>
+                      </tr>
                       <tr>
                         <td></td>
                         <td></td>

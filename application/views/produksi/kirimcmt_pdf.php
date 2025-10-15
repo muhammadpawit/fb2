@@ -87,6 +87,16 @@
                 <td>:</td>
                 <td><?php echo hari($hari) ?>, <?php echo format_tanggal($kirim['tanggal'])?></td>
             </tr>
+			<tr>
+                <td>Supir</td>
+                <td>:</td>
+                <td><?php echo strtolower(ucfirst($cmt['supir'])) ?></td>
+            </tr>
+			<tr>
+                <td>Pendamping</td>
+                <td>:</td>
+                <td><?php echo strtolower(ucfirst($cmt['pendamping'])) ?></td>
+            </tr>
         </table>
     </div>
 
