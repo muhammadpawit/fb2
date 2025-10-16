@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Json extends CI_Controller {
 
+	public $GlobalModel;
+	public $login;
+	public $auth;
+	public $session;
+	public $input;
+	public $ReportModel;
+
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -531,6 +539,11 @@ class Json extends CI_Controller {
 	{
 		$post = $this->input->get();
 		$data = $this->GlobalModel->QueryManualRow("SELECT SUM(kbp.hasil_pieces_potongan) as potongan FROM konveksi_buku_potongan kbp WHERE idpo='".$post['kodepo']."' ");
+		if($data['potongan']=='0'){
+			$data = array(
+				'potongan'=>$data['dz_variasi']*12,
+			);
+		}
 		echo json_encode($data);
 	}
 
