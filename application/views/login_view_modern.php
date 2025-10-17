@@ -291,9 +291,35 @@
         }
 
         .alert-danger {
-            background-color:#eb4034 !important;
-            color:white;
-        }
+          background: linear-gradient(135deg, #f44336, #d32f2f);
+          color: #fff;
+          border-radius: 8px;
+          padding: 12px 18px;
+          box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+          border-left: 6px solid #b71c1c;
+          font-weight: 500;
+          letter-spacing: 0.3px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          animation: fadeIn 0.3s ease-in-out;
+      }
+
+      .alert-danger::before {
+          content: "⚠️";
+          font-size: 18px;
+      }
+
+      @keyframes fadeIn {
+          from {
+              opacity: 0;
+              transform: translateY(-5px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
