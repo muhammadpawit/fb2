@@ -1024,7 +1024,7 @@ class Keuangan extends CI_Controller {
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
 			$data['detail'][]=array(
 				'id'=>$result['id'],
-				'tanggal'=>date('d/m/Y',strtotime($result['tanggal'])),
+				'tanggal'=>date('Y-m-d',strtotime($result['tanggal'])),
 				'nama'=>$karyawan['nama'],
 				'divisi'=>$bagian['nama'],
 				'nominal'=>$result['nominal_request'],
@@ -1454,6 +1454,13 @@ class Keuangan extends CI_Controller {
 		}
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect(BASEURL.'Keuangan/kasbonkaryawan');
+	}
+
+	function hapuskasbon($id){
+		$get=$this->input->get();
+		$this->db->update('kasbon',['hapus'=>1],['id'=>$id]);
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect(BASEURL.'Keuangan/kasbondetail/'.$get['tanggal']);
 	}
 
 }

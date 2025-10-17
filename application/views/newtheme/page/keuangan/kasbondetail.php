@@ -19,6 +19,7 @@
                   <th>Jumlah Kasbon</th>
                   <th>Jumlah Di ACC</th>
                   <th>Keterangan</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -30,6 +31,9 @@
                     <td>Rp. <?php echo number_format($d['nominal']);?></td>
                     <td>Rp. <?php echo number_format($d['nominal_acc']);?></td>
                     <td><?php echo $d['keterangan'];?></td>
+                    <td>
+                      <a href="<?php echo BASEURL.'Keuangan/hapuskasbon/'.$d['id'] ?>?&tanggal=<?php echo $d['tanggal']?>" onclick="return confirm('Yakin akan menghapus?')" class="btn btn-danger btn-xs text-white"><i class="fa fa-trash"></i></a>
+                    </td>
                   </tr>
                   <?php $i++?>
                 <?php } ?>
