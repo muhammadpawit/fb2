@@ -291,7 +291,8 @@
         }
 
         .alert-danger {
-            background-color:red !important;
+            background-color:#eb4034 !important;
+            color:white;
         }
 
         /* Responsive adjustments */

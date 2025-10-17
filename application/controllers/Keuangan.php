@@ -921,7 +921,7 @@ class Keuangan extends CI_Controller {
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d');
+			$tanggal2=date('Y-m-d',strtotime("Saturday this week"));
 		}
 		if(isset($get['cat'])){
 			$cat=$get['cat'];
