@@ -373,9 +373,6 @@
         <?php if ($this->session->flashdata('gagal')) { ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <?php echo $this->session->flashdata('gagal'); ?> 
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                
-            </button>
         </div>
         <?php } ?>
 
