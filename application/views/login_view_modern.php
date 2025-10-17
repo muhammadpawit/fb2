@@ -290,6 +290,10 @@
             animation-delay: 2s;
         }
 
+        .alert-danger {
+            background-color:red !important;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .login-container {
