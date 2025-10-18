@@ -1155,7 +1155,7 @@ class Masterdata extends CI_Controller {
 
 	public function karyawanget(){
 		$data=$this->input->get();
-		$sql="SELECT d.id,d.nama from divisi d JOIN karyawan k ON(k.divisi=d.id) WHERE k.id='".$data['id']."' ";
+		$sql="SELECT d.id,d.nama, k.file_ktp from divisi d JOIN karyawan k ON(k.divisi=d.id) WHERE k.id='".$data['id']."' ";
 		$k=$this->db->query($sql)->row_array();
 		echo json_encode($k);
 	}

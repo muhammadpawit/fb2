@@ -59,25 +59,40 @@
     html+='<td><span class="tgl"></span></td>';
     html+='<td><select name="products['+i+'][idkaryawan]" class="form-control select2 select2bs4 karyawan" required data-live-search="true" style="width:100%"><option value="">Pilih</option><?php foreach($karyawan as $k){?><option value="<?php echo $k['id']?>"><?php echo strtolower($k['nama'])?></option><?php } ?></select></td>';
     html+='<td><span class="bagian"></span><input type="hidden" name="products['+i+'][bagian]" class="bag"/></td>';
-    html+='<td><input type="number" name="products['+i+'][jumlah]" class="form-control"></td>';
-    html+='<td><input type="text" name="products['+i+'][keterangan]" class="form-control"></td>';
+    html+='<td><input type="number" name="products['+i+'][jumlah]" class="form-control jumlah"></td>';
+    html+='<td><input type="text" name="products['+i+'][keterangan]" class="form-control keterangan"></td>';
     html+='<td><i class="fa fa-trash remove"></i></td>';
     html+='</tr>';
     $("#addkasbon").append(html);
     $(".tgl").html(t);
     //$('.select2').selectpicker();
     $('.select2').select2();
+    
+
     $(document).on('change', '.karyawan', function(e){
-            var select = $(this).find(':selected').val();
-            var dai = $(this).closest('tr');
-            $.get( "<?php echo BASEURL.'Masterdata/karyawanget' ?>", { id: select }  )
-              .done(function( data ) {
-                var obj = JSON.parse(data);
-                console.log(obj);
-                dai.find(".bagian").html(obj.nama);
-                dai.find(".bag").val(obj.id);
-            });
-        });
+      var select = $(this).find(':selected').val();
+      var dai = $(this).closest('tr');
+
+      $.get("<?php echo BASEURL.'Masterdata/karyawanget' ?>", { id: select })
+        .done(function(data) {
+          var obj = JSON.parse(data);
+          console.log(obj);
+            dai.find(".bagian").html(obj.nama);
+            dai.find(".bag").val(obj.id);
+          if (obj.file_ktp != null) {
+            dai.find(".jumlah").prop("disabled", false);
+            dai.removeData('alerted'); // reset flag
+          } else {
+            // cek apakah alert sudah pernah ditampilkan di baris ini
+            if (!dai.data('alerted')) {
+              dai.find(".keterangan").val('KTP pegawai belum diupload. Mohon upload terlebih dahulu');
+              dai.find(".jumlah").prop("disabled", true);
+              dai.data('alerted', true); // set flag agar alert tidak muncul lagi
+            }
+          }
+      });
+  });
+
     /*
     $(document).on('change', '.karyawan', function(){
         var select = $(this).find(':selected').val();
