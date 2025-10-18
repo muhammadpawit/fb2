@@ -8,13 +8,23 @@
         <h4 class="modal-title">Tambah Tim Potong Baru</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?php echo $action?>" id="formId">
+        <form method="post" action="<?php echo $action?>" id="formId" enctype="multipart/form-data">
           <input type="hidden" name="id" id="id">
           <div class="form-group">
             <label>Nama</label>
             <input type="text" name="nama" id="nama" class="form-control" required="required">
           </div>
           <br>
+          <div class="form-group">
+            <label>Nomor KTP</label>
+            <input type="text" name="no_ktp" id="no_ktp" class="form-control" required="required">
+          </div>
+          <br>
+          <div class="form-group">
+            <label>File KTP</label>
+            <input type="file" name="ktp" id="ktp" class="form-control" required accept=".png,.jpg">
+          </div>
+          
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" data-dismiss="modal">Batal</a>
         </form>
@@ -51,6 +61,8 @@
                 <tr>
                   <th>No.</th>
                   <th>Nama </th>
+                  <th>No.KTP</th>
+                  <th>KTP</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -60,6 +72,14 @@
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo strtolower($p['nama'])?></td>
+                      <td><?php echo ($p['no_ktp'])?></td>
+                      <td>
+                        <?php if(!empty($p['file_ktp'])){?>
+                          <div class="form-group">
+                            <img src="<?php echo BASEURL?>/<?php echo $p['file_ktp']?>" class="img img-thumbnail" style="width:250px;">
+                          </div>
+                          <?php } ?>
+                      </td>
                       <td>
                       <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal" onclick="detail(<?php echo $p['id']?>)"><i class="fa fa-pencil"></i>&nbsp;</button>
                       </td>
@@ -86,7 +106,11 @@
           success: function (data) {
             var obj = JSON.parse(data);
               $("#id").val(obj.id);
-              $("#nama").val(obj.nama);   
+              $("#nama").val(obj.nama);
+              $("#no_ktp").val(obj.no_ktp);   
+              if(obj.file_ktp!=null){
+                $("#ktp").removeAttr("required");
+              }
               $('#formId').attr('action', edit);
               $(".modal-title").html("Edit Nama Tim Potong");
           },

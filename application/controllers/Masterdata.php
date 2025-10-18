@@ -441,8 +441,10 @@ class Masterdata extends CI_Controller {
 
 	function edittimpotong(){
 		$post = $this->input->post();
+	
 		$update = array(
-			'nama' => $post['nama']
+			'nama' => $post['nama'],
+			'no_ktp' => $post['no_ktp'],
 		);
 		$where = array(
 			'id' => $post['id']
@@ -452,6 +454,18 @@ class Masterdata extends CI_Controller {
 			$update,
 			$where
 		);
+		
+		$config['upload_path']          = './uploads/ktp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0755, true); // true → bikin folder berjenjang jika perlu
+		}
+		$this->load->library('upload', $config);
+		if (!empty($_FILES['ktp']['name'])) {
+		$this->upload->do_upload('ktp');
+		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+		$this->db->update('timpotong',array('file_ktp'=>$fileName),array('id'=>$post['id']));
+		}
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
 		redirect(BASEURL.'Masterdata/timpotong');
 	}
@@ -460,9 +474,21 @@ class Masterdata extends CI_Controller {
 		$data=$this->input->post();
 		$insert=array(
 			'nama'=>$data['nama'],
+			'no_ktp'=>$data['no_ktp'],
 			'hapus'=>0,
 		);
 		$this->db->insert('timpotong',$insert);
+		$lastId = $this->db->insert_id();
+		$config['upload_path']          = './uploads/ktp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0755, true); // true → bikin folder berjenjang jika perlu
+		}
+		$this->load->library('upload', $config);
+		$this->upload->do_upload('ktp');
+		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+		$this->db->update('timpotong',array('file_ktp'=>$fileName),array('id'=>$lastId));
+
 		$insert2=array(
 			'nama'=>$data['nama'],
 		);
@@ -1139,10 +1165,11 @@ class Masterdata extends CI_Controller {
 		);
 		$this->db->update('karyawan',$insert,array('id'=>$post['id']));
 		$this->load->library('upload', $config);
-		$this->upload->do_upload('ktp');
-		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
-		$this->db->update('karyawan',array('file_ktp'=>$fileName),array('id'=>$post['id']));
-		
+		if (!empty($_FILES['ktp']['name'])) {
+			$this->upload->do_upload('ktp');
+			$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+			$this->db->update('karyawan',array('file_ktp'=>$fileName),array('id'=>$post['id']));
+		}
 		$this->session->set_flashdata('msg','Data Berhasil Diubah');
 		redirect(BASEURL.'Masterdata/karyawanedit/'.$post['id']);
 	}

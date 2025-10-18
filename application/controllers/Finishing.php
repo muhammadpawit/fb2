@@ -1076,10 +1076,11 @@ class Finishing extends CI_Controller {
 		);
 		$this->db->update('karyawan_harian',$insert,array('id'=>$data['id']));
 		$this->load->library('upload', $config);
+		if (!empty($_FILES['ktp']['name'])) {
 		$this->upload->do_upload('ktp');
 		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
 		$this->db->update('karyawan_harian',array('file_ktp'=>$fileName),array('id'=>$data['id']));
-
+		}
 		if(isset($data['gajiborongan'])){
 			$this->db->query("DELETE FROM gajiborongan WHERE idkaryawanharian='".$data['id']."' ");
 			if($data['tipe']==2){
