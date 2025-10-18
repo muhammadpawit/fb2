@@ -125,7 +125,7 @@
                   <th>Nama Karyawan</th>
                   <th>Divisi</th>
                   <th>Jabatan</th>
-                  <th>Gaji Pokok</th>
+                  <th>KTP</th>
                   <th>Tanggal Masuk</th>
                   <th>Masa Kerja</th>
                   <th>No.Rek</th>
@@ -142,7 +142,7 @@
                       <td><?php echo ucwords($p['nama'])?></td>
                       <td><?php echo ucwords($p['divisi'])?></td>
                       <td><?php echo ucwords($p['jabatan'])?></td>
-                      <td><?php echo ($p['gajipokok'])?></td>
+                      <td><?php echo !empty($p['file_ktp']) ? '<span class="badge bg-green">✓</span>':'<span class="badge bg-red">X</span>' ?></td>
                       <td><?php echo ucwords($p['tglmasuk'])?></td>
                       <td>
                         <?php 
