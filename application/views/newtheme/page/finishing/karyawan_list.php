@@ -73,6 +73,7 @@
                   <th>Tipe</th>
                   <th>Gaji per hari</th>
                   <th>Gaji per minggu</th>
+                  <th>KTP</th>
                   <th></th>
                 </tr>
               </thead>
@@ -100,6 +101,7 @@
                         ?>  
                       </td>
                       <td><?php echo $p['perminggu']==0?number_format($p['gaji']*6):number_format($p['perminggu'])?></td>
+                      <td><?php echo !empty($p['file_ktp']) ? '<span class="badge bg-green">✓</span>':'<span class="badge bg-red">X</span>' ?></td>
                       <td>
                         <?php if($edit==1){?>
                            <a href="<?php echo $ubah.$p['id'];?>" class="btn btn-warning btn-xs text-white"><i class="fa fa-edit"></i></a>

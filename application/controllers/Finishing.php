@@ -986,6 +986,7 @@ class Finishing extends CI_Controller {
 				'gaji'=>$p['gaji'],
 				'perminggu'=>$p['perminggu'],
 				'borongan'=>$borongan,
+				'file_ktp'	=> $p['file_ktp'],
 			);
 		}
 		$data['cmt']= $this->GlobalModel->GetData('master_cmt',array('hapus'=>0));
