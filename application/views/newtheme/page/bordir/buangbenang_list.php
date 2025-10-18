@@ -69,9 +69,13 @@
                     <td><?php echo $p['harga']?></td>
                     <td><?php echo $p['keterangan']?></td>
                     <td>
-                      <?php //if(akseshapus()==1){?>
+                      <?php if(aksesedit()==1){?>
+                        <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                      <?php } ?>
+
+                      <?php if(akseshapus()==1){?>
                         <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs" onclick="return confirm('Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"></i></a>
-                      <?php //} ?>
+                      <?php } ?>
                     </td>
                   </tr>
 

@@ -1562,6 +1562,7 @@ class Bordir extends CI_Controller {
 				'pekerja'=>$pekerja['nama_karyawan_benang'],
 				'tanggal'=>formatTanggalIndo($result['created_date']),
 				'hapus'=>BASEURL.'Bordir/buangbenanghapus/'.$result['id_kelolapo_buang_benang'],
+				'edit'=>BASEURL.'Bordir/buangbenangedit/'.$result['created_date'],
 			);
 		}
 		$data['page']='newtheme/page/bordir/buangbenang_list';
@@ -2014,5 +2015,34 @@ class Bordir extends CI_Controller {
 		}
 		
 		echo json_encode($mesin);
+	}
+
+	public function buangbenangedit($tanggal){
+		$kodePo=0;
+		$viewData['title']='Edit Buang Benang Bordir';
+		$viewData['tanggal']=$tanggal;
+		$viewData['cancel']=BASEURL.'Bordir/buangbenang';
+		$viewData['action']=BASEURL.'Bordir/buangbenangeditsave';
+		$viewData['prods'] = $this->GlobalModel->QueryManual("SELECT a.*, b.nama_karyawan_benang as nama from kelolapo_buang_benang a LEFT JOIN master_karyawan_benang b ON b.id_master_karyawan_benang=a.nama_pekerja WHERE a.hapus=0 and date(a.created_date)='$tanggal' ORDER BY id_kelolapo_buang_benang DESC  ");
+		$viewData['page']='bordir/buang-benang-edit';
+		$viewData['savepekerja']=BASEURL.'Bordir/savepekerja';
+		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	function buangbenangeditsave(){
+		$post = $this->input->post();
+		
+		foreach($post['prods'] as $p){
+			$update = [
+				'harga_buang_benan' => $p['harga_buang_benan']
+			];
+			$where = [
+				'id_kelolapo_buang_benang' => $p['id']
+			];
+			$this->db->update('kelolapo_buang_benang',$update,$where);
+		}
+		$this->session->set_flashdata('msg','Data Berhasil Di Update');
+		$idpo=isset($data['idpo']) ? '&namaPo='.$data['idpo']:'';
+		redirect(BASEURL.'Bordir/buangbenang?&tanggal1='.$post['tanggals'].'&tanggal2='.$post['tanggals']);
 	}
 }
