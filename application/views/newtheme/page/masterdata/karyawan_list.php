@@ -170,8 +170,10 @@
                         <?php } ?>
                       </td>
                       <td>
+                        <?php if($p['status_resign']!=2){ ?>
                         <a href="<?php echo BASEURL.'Masterdata/karyawanedit/'.$p['id'];?>" class="badge bg-yellow bg-info text-white">Edit</a>
                         <a href="<?php echo BASEURL.'Masterdata/karyawanhapus/'.$p['id'];?>" class="badge bg-red bg-danger text-white">Hapus</a>
+                        <?php } ?>
                       </td>
                     </tr>
                   <?php }?>
