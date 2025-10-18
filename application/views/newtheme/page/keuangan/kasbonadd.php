@@ -1,6 +1,6 @@
 <form method="post" action="<?php echo $action?>">
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal</label>
       <input type="text" id="tgl" name="tanggal" class="form-control datepicker" required="required" value="<?php echo date('Y-m-d',strtotime('Saturday this week')) ?>" onblur="iptgl()">
@@ -82,10 +82,12 @@
           if (obj.file_ktp != null) {
             dai.find(".jumlah").prop("disabled", false);
             dai.find(".keterangan").val('');
+            dai.find(".keterangan").removeClass("text-red");
             dai.removeData('alerted'); // reset flag
           } else {
             // cek apakah alert sudah pernah ditampilkan di baris ini
             if (!dai.data('alerted')) {
+              dai.find(".keterangan").addClass("text-red");
               dai.find(".keterangan").val('KTP pegawai belum diupload. Mohon upload terlebih dahulu');
               dai.find(".jumlah").prop("disabled", true);
               dai.data('alerted', true); // set flag agar alert tidak muncul lagi
