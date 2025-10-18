@@ -2034,7 +2034,7 @@ class Bordir extends CI_Controller {
 		
 		foreach($post['prods'] as $p){
 			$update = [
-				'harga_buang_benan' => $p['harga_buang_benan']
+				'harga_buang_benan' => ($post['harga']==0) ? $p['harga_buang_benan'] : $post['harga'],
 			];
 			$where = [
 				'id_kelolapo_buang_benang' => $p['id']

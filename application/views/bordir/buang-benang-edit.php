@@ -29,6 +29,18 @@
 <form action="<?php echo $action ?>" method="POST">
   <input type="hidden" name="tanggals" value="<?php echo $tanggal?>">
 <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+          <label>Ubah Semua Data Harga ini Menjadi </label>
+          <input type="number" name="harga" class="form-control" value="0">
+      </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+          <label><br></label><br>
+          <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah yakin akan merubah semua harga ?')">Update Semua</button>
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="form-group">
             <table class="table table-bordered">
