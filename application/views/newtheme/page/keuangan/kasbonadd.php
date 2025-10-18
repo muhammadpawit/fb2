@@ -3,7 +3,7 @@
   <div class="col-md-12">
     <div class="form-group">
       <label>Tanggal</label>
-      <input type="text" id="tgl" name="tanggal" class="form-control datepicker" required="required" onblur="iptgl()">
+      <input type="text" id="tgl" name="tanggal" class="form-control datepicker" required="required" value="<?php echo date('Y-m-d',strtotime('Saturday this week')) ?>" onblur="iptgl()">
     </div>
   </div>
 </div>
