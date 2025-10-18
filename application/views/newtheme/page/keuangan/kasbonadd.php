@@ -81,6 +81,7 @@
             dai.find(".bag").val(obj.id);
           if (obj.file_ktp != null) {
             dai.find(".jumlah").prop("disabled", false);
+            dai.find(".keterangan").val('');
             dai.removeData('alerted'); // reset flag
           } else {
             // cek apakah alert sudah pernah ditampilkan di baris ini
