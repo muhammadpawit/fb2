@@ -125,11 +125,11 @@
                   <th>Nama Karyawan</th>
                   <th>Divisi</th>
                   <th>Jabatan</th>
-                  <th>KTP</th>
                   <th>Tanggal Masuk</th>
                   <th>Masa Kerja</th>
                   <th>No.Rek</th>
                   <th>Status</th>
+                  <th>KTP</th>
                   <th></th>
                 </tr>
               </thead>
@@ -142,7 +142,6 @@
                       <td><?php echo ucwords($p['nama'])?></td>
                       <td><?php echo ucwords($p['divisi'])?></td>
                       <td><?php echo ucwords($p['jabatan'])?></td>
-                      <td><?php echo !empty($p['file_ktp']) ? '<span class="badge bg-green">✓</span>':'<span class="badge bg-red">X</span>' ?></td>
                       <td><?php echo ucwords($p['tglmasuk'])?></td>
                       <td>
                         <?php 
@@ -169,6 +168,7 @@
                           <span class="badge bg-green">Aktif</span>
                         <?php } ?>
                       </td>
+                      <td><?php echo !empty($p['file_ktp']) ? '<span class="badge bg-green">✓</span>':'<span class="badge bg-red">X</span>' ?></td>
                       <td>
                         <?php if($p['status_resign']!=2){ ?>
                         <a href="<?php echo BASEURL.'Masterdata/karyawanedit/'.$p['id'];?>" class="badge bg-yellow bg-info text-white">Edit</a>
