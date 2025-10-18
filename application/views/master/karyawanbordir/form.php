@@ -4,7 +4,7 @@
 			<div class="col-12">
 				<div class="card-box table-responsive">
 					<div class="col-md-12">
-						<form method="post" action="<?php echo $insert?>">
+						<form method="post" action="<?php echo $insert?>" enctype="multipart/form-data">
 							<div class="form-group">
 								<label>Nama</label>
 								<input type="text" name="nama" class="form-control" required="required">
@@ -24,6 +24,14 @@
 							<div class="form-group">
 								<label>Gaji Mingguan</label>
 								<input type="number" name="karyawan_gaji_weekend" class="form-control" value="0" required="required">
+							</div>
+							<div class="form-group">
+								<label>Nomor KTP</label>
+								<input type="text" name="nomor_ktp" class="form-control" required="required">
+							</div>
+							<div class="form-group">
+								<label>File KTP</label>
+								<input type="file" name="ktp" accept=".jpg,.png" class="form-control" required="required">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-success btn-sm">Simpan</button>

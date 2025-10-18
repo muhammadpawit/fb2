@@ -36,6 +36,7 @@
 								<th>TglMasuk</th>
 								<th>Gaji Harian</th>
 								<th>Gaji Mingguan</th>
+								<th>KTP</th>
 								<th>Aksi</th>
 							</tr>
 						</thead>
@@ -48,6 +49,7 @@
 									<td><?php echo !empty($k['tgl_masuk'])?date('d F Y',strtotime($k['tgl_masuk'])):''?></td>
 									<td><?php echo number_format($k['karyawan_gaji_weekday'],2)?></td>
 									<td><?php echo number_format($k['karyawan_gaji_weekend'],2)?></td>
+									<td><?php echo !empty($k['file_ktp']) ? '<span class="badge bg-green">✓</span>':'<span class="badge bg-red">X</span>' ?></td>
 									<td>
 										<a href="<?php echo BASEURL.'Masterdata/karyawanbordirhapus/'.$k['id_master_karyawan_bordir'];?>" class="badge bg-red">Hapus</a>
 										<a href="<?php echo BASEURL.'Masterdata/karyawanbordiredit/'.$k['id_master_karyawan_bordir'];?>" class="badge bg-green">Edit</a>

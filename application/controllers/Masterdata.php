@@ -1708,14 +1708,29 @@ class Masterdata extends CI_Controller {
 
 	public function karyawanbordirupdate(){
 		$post=$this->input->post();
+		// pre($post);
 		$insert=array(
 			'nama_karyawan_bordir'=>$post['nama'],
 			'no_telp'=>$post['no_telp'],
 			'tgl_masuk'=>$post['tgl_masuk'],
 			'karyawan_gaji_weekday'=>$post['karyawan_gaji_weekday'],
 			'karyawan_gaji_weekend'=>$post['karyawan_gaji_weekend'],
+			'no_ktp'	=> $post['no_ktp'],
 		);
 		$this->db->update('master_karyawan_bordir',$insert,array('id_master_karyawan_bordir'=>$post['id']));
+
+		$config['upload_path']          = './uploads/ktp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0755, true); // true → bikin folder berjenjang jika perlu
+		}
+		$this->load->library('upload', $config);
+		if (!empty($_FILES['ktp']['name'])) {
+		$this->upload->do_upload('ktp');
+		$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+		$this->db->update('master_karyawan_bordir',array('file_ktp'=>$fileName),array('id_master_karyawan_bordir'=>$post['id']));
+		}
+
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'masterdata/karyawanbordir');
 	}
@@ -1749,8 +1764,23 @@ class Masterdata extends CI_Controller {
 			'tgl_masuk'=>$post['tgl_masuk'],
 			'karyawan_gaji_weekday'=>$post['karyawan_gaji_weekday'],
 			'karyawan_gaji_weekend'=>$post['karyawan_gaji_weekend'],
+			'no_ktp'	=> $post['no_ktp'],
 		);
 		$this->db->insert('master_karyawan_bordir',$insert);
+		$lastId = $this->db->insert_id();
+		$config['upload_path']          = './uploads/ktp/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0755, true); // true → bikin folder berjenjang jika perlu
+		}
+		$this->load->library('upload', $config);
+		if (!empty($_FILES['ktp']['name'])) {
+			$this->upload->do_upload('ktp');
+			$fileName = 'uploads/ktp/'.$this->upload->data('file_name');
+			$this->db->update('master_karyawan_bordir',array('file_ktp'=>$fileName),array('id'=>$lastId));
+		}
+
+
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
 		redirect(BASEURL.'masterdata/karyawanbordir');
 	}
