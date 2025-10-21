@@ -64,7 +64,8 @@
     <table class="table table-bordered yessearch">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>No</th>
+                  <th>Jenis</th>
                   <th>Bagian</th>
                   <th>Tipe Pembayaran</th>
                   <th>Tanggal</th>
@@ -84,6 +85,7 @@
                   <?php foreach($i['prods'] as $p){?>
                     <tr>
                       <td><?php echo $n++?></td>
+                      <td><?php echo $i['jenis'] ?></td>
                       <td>
                         <?php 
                           if($i['jenis']==1){
@@ -105,12 +107,12 @@
                       <td><?php echo strtolower($p['nama']) ?></td>
                       <td align="center"><?php echo $p['jumlah']?> <?php echo $p['satuanJml']?></td>
                       <td><?php echo $p['ukuran']?> <?php echo $p['satuanukuran']?></td>
-                      <td><?php echo $p['harga']?></td>
+                      <td><?php echo number_format($p['harga']) ?></td>
                       <?php if($i['jenis']==1){?>
                         <?php $total+=($p['harga']*$p['ukuran'])?>
                       <td><?php echo number_format($p['harga']*$p['ukuran'])?></td>
                       <?php }else{ ?>
-                        <?php $total+=($p['harga']*$p['ukuran'])?>
+                        <?php $total+=($p['harga']*$p['jumlah'])?>
                         <td><?php echo number_format($p['harga']*$p['jumlah'])?></td>
                       <?php } ?>
                       <!-- <td><?php // echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') ?></td> -->
@@ -139,7 +141,7 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="9">
+                  <td colspan="10">
                     <center><b>Total</b></center>
                   </td>
                   <td>
