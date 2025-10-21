@@ -65,7 +65,6 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Jenis</th>
                   <th>Bagian</th>
                   <th>Tipe Pembayaran</th>
                   <th>Tanggal</th>
@@ -85,7 +84,6 @@
                   <?php foreach($i['prods'] as $p){?>
                     <tr>
                       <td><?php echo $n++?></td>
-                      <td><?php echo $i['jenis'] ?></td>
                       <td>
                         <?php 
                           if($i['jenis']==1){
