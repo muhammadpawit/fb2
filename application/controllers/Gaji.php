@@ -3,6 +3,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Gaji extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $GlobalTwoModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $db2;
+	public $KirimsetorModel;
+	public $PembayaranModel;
+	public $BiayaHppPerpoModel;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -558,7 +581,7 @@ class Gaji extends CI_Controller {
 		}else{
 			$tanggal2=date('m',strtotime("last day of this month"));
 		}
-		$sql="SELECT * FROM kasbon WHERE idkaryawan='".$get['idkaryawan']."'  ";
+		$sql="SELECT * FROM kasbon WHERE hapus=0 AND idkaryawan='".$get['idkaryawan']."'   ";
 		//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$sql.=" AND MONTH(tanggal) ='".$tanggal2."' ";
 		$sql.=" AND YEAR(tanggal) ='".$year."' ";
@@ -599,7 +622,7 @@ class Gaji extends CI_Controller {
 		}else{
 			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
 		}
-		$sql="SELECT * FROM kasbon WHERE idkaryawan='".$get['idkaryawan']."'  ";
+		$sql="SELECT * FROM kasbon WHERE hapus=0 and idkaryawan='".$get['idkaryawan']."'  ";
 		//$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$sql.=" AND MONTH(tanggal) ='".date('m',strtotime($tanggal2))."' ";
 		$sql.=" ORDER BY id ASC ";
