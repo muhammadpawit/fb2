@@ -52,38 +52,48 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $no=1;$pengalokasian=null;?>
-                <?php foreach($mutasi as $m){?>
-                  <?php $pengalokasian=$this->GlobalModel->GetDataRow('pengalokasian',array('id'=>$m['pengalokasian'])); ?>
+                <?php 
+                  $no = 1;
+                  $pengalokasian = null;
+                  $totalMutasi = count($mutasi); // hitung total item
+                  $i = 0;
+                ?>
+                <?php foreach($mutasi as $m){ $i++; ?>
+                  <?php $pengalokasian = $this->GlobalModel->GetDataRow('pengalokasian', array('id' => $m['pengalokasian'])); ?>
                   <tr>
-                    <td><?php echo $no++?></td>
-                    <td><?php echo date('d-m-Y',strtotime($m['tanggal'])) ?></td>
+                    <td><?php echo $no++ ?></td>
+                    <td><?php echo date('d-m-Y', strtotime($m['tanggal'])) ?></td>
                     <td>
                       <?php 
-                        if($m['bagian']==1){
+                        if($m['bagian'] == 1){
                           echo "Konveksi";
-                        }else if($m['bagian']==2){
+                        } else if($m['bagian'] == 2){
                           echo "Bordir";
-                        }else if($m['bagian']==3){
+                        } else if($m['bagian'] == 3){
                           echo "Sablon";
-                        }else{
+                        } else {
                           echo "Default";
                         }
                       ?>
                     </td>
-                    <td><?php echo $m['keterangan']?></td>
-                    <td><?php echo $pengalokasian['nama']?></td>
-                    <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldomasuk'])?></p></td>
-                    <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldokeluar'])?></p></td>
-                    <td><span style="float: left">Rp.</span><p style="text-align: right !important;width: 150px;float: right;"><?php echo number_format($m['saldo'])?></p></td>
+                    <td><?php echo $m['keterangan'] ?></td>
+                    <td><?php echo $pengalokasian['nama'] ?></td>
+                    <td><span style="float:left">Rp.</span><p style="text-align:right;width:150px;float:right;"><?php echo number_format($m['saldomasuk']) ?></p></td>
+                    <td><span style="float:left">Rp.</span><p style="text-align:right;width:150px;float:right;"><?php echo number_format($m['saldokeluar']) ?></p></td>
+                    <td><span style="float:left">Rp.</span><p style="text-align:right;width:150px;float:right;"><?php echo number_format($m['saldo']) ?></p></td>
                     <td>
-                      <?php if(aksesedit()==1){?>
+                      <?php if(aksesedit() == 1){ ?>
                         <a href="javascript:void(0)" class="btn btn-xs btn-warning btn-edit" data-id="<?php echo $m['id']?>">Edit</a>
+                      <?php } ?>
+
+                      <?php if($i == $totalMutasi && aksesedit() == 1){ // jika loop terakhir ?>
+                        <a href="<?php echo BASEURL?>Keuangan/hapusmutasi/<?php echo $m['id']?>/<?php echo $bankid ?>" onclick="return confirm('Apakah anda yakin akan menghapus data ini?')" class="btn btn-xs btn-danger btn-hapus" data-id="<?php echo $m['id']?>">Hapus</a>
                       <?php } ?>
                     </td>
                   </tr>
                 <?php } ?>
               </tbody>
+
             </table>
   </div>
 </div>

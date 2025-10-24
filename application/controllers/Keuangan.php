@@ -900,13 +900,39 @@ class Keuangan extends CI_Controller {
 		$data['tanggal2']=$tanggal2;
 		$data['cat']=$cat;
 		$data['pengalokasian']=$this->GlobalModel->getData('pengalokasian',array('hapus'=>0));
-		
+		$data['bankid']=$id;
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'keuangan/mutasi_excel',$data);
 		}else{
 			$data['page']='newtheme/page/keuangan/mutasi';
 			$this->load->view($this->page.'main',$data);
 		}
+	}
+
+	function hapusmutasi($id,$bankid){
+
+		
+		$update = ['hapus'=>1];
+		$where  = ['id'=>$id];
+		$table  = 'aruskas';
+
+		$aruskas = $this->GlobalModel->GetDataRow($table,$where);
+		$balik=0;
+		$logmessage=' menghapus aruskas dengan id '.$id;
+		if($aruskas['saldokeluar'] > 0){
+			$balik=$aruskas['saldokeluar'];
+			$this->db->query("UPDATE bank set saldo=saldo+$balik where id=$bankid ");
+		}else{
+			$balik=$aruskas['saldomasuk'];
+			$this->db->query("UPDATE bank set saldo=saldo-$balik where id=$bankid ");
+		}
+		
+		
+		$this->db->update($table,$update,$where);
+		user_activity(callSessUser('id_user'),1,$logmessage);
+		$this->session->set_flashdata('msg','Data berhasil diubah');
+		redirect(BASEURL.'Keuangan/mutasibank/'.$bankid);
+		
 	}
 
 	public function kasbonkaryawan(){
