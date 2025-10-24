@@ -59,7 +59,7 @@
               </div>
             </form>
 
-            <script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
     var i=0;
     $(document).on('click', '.addbahankeluars', function(){
@@ -74,16 +74,13 @@ $(document).ready(function(){
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
         i++;
         $('#addbahankeluars').append(html);
-         //$('.selectpicker').selectpicker('refresh');
         $('.barang').select2();
-        //$('.barang').select2({
-          //theme: 'bootstrap4'
-        //});
      });
 
     $(document).on('click', '.remove', function(){
         $(this).closest('tr').remove();
     });
+
     $(document).on('change', '.barang', function(e){
         var dataItem = $(this).find(':selected').data('item');
         var dai = $(this).closest('tr');
@@ -93,12 +90,22 @@ $(document).ready(function(){
             var obj = JSON.parse(data);
             console.log(obj);
             dai.find(".stok").val(obj.quantity);
-            // dai.find(".jumlah").val(obj.quantity);
             dai.find(".satuanJml").val(obj.satuan_jumlah_item);
             dai.find(".id").val(obj.id_persediaan);
             dai.find(".harga").val(obj.harga_item);
-            // dai.find(".jumlah").attr('max',obj.jumlah_item);
         });
     });
+
+    // Validasi jumlah_ajuan tidak melebihi stok
+    $(document).on('input', '.jumlah_ajuan', function(){
+        var tr = $(this).closest('tr');
+        var stok = parseFloat(tr.find('.stok').val()) || 0;
+        var jumlah = parseFloat($(this).val()) || 0;
+        if(jumlah > stok){
+            alert('Jumlah tidak boleh melebihi stok!');
+            $(this).val(stok); // otomatis set ke stok maksimal
+        }
+    });
 });
- </script>                  
+</script>
+             
