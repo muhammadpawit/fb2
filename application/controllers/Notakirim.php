@@ -3,6 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Notakirim extends CI_Controller {
 
+	public $layout;
+	public $page;
+	public $url;
+	public $login;
+	public $auth;
+	public $session;
+	public $GlobalModel;
+	public $GlobalTwoModel;
+	public $input;
+	public $db;
+	public $ReportModel;
+	public $upload;
+	public $viewData;
+	public $pdfgenerator;
+	public $pagination;
+	public $uri;
+	public $pdf;
+	public $data;
+	public $db2;
+	public $KirimsetorModel;
+	public $PembayaranModel;
+	public $BiayaHppPerpoModel;
+	public $link;
+
 	function __construct() {
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
@@ -125,6 +149,7 @@ class Notakirim extends CI_Controller {
 		$viewData['cancel']=BASEURL.'Finishing/pengirimangudang';
 		$viewData['excel']=$this->link.'Detail/'.$noFaktur.'?&excel=1'.$url;
 		$viewData['pdf']=$this->link.'Detailpdf/'.$noFaktur.'?'.$url;
+		$viewData['pdfharga']=$this->link.'Detailpdf/'.$noFaktur.'?'.$url.'&harga=true';
 		$viewData['no']=1;
 		$get=$this->input->get();
 		
@@ -172,6 +197,12 @@ class Notakirim extends CI_Controller {
 			$url='&hgs='.$hgs;
 		}else{
 			$hgs=null;
+		}
+
+		if(isset($get['harga'])){
+			$harga=true;
+		}else{
+			$harga=false;
 		}
 		$tahunsebelum=[];
 		if(!empty($tahunsebelum->tahunpo)){
@@ -238,7 +269,12 @@ class Notakirim extends CI_Controller {
 		
 		$pdf=true;
 		if($pdf==true){
-			$html =  $this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			if($harga){
+				$html =  $this->load->view('finishing/nota/nota-kirim-pdf-harga',$viewData,true);
+			}else{
+				$html =  $this->load->view('finishing/nota/nota-kirim-pdf',$viewData,true);
+			}
+			
 			$this->load->library('pdfgenerator');
 	        $file_pdf = $viewData['title'];
 	        // $paper = 'A4';

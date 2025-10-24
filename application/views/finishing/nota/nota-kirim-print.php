@@ -161,8 +161,9 @@
                                     <div class="hidden-print mt-4 mb-4 no-print">
                                         <div class="text-right">
                                             <!-- <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a> -->
-                                            <a href="<?php echo $pdf?>" class="btn btn-success text-white">Print PDF</a>
-                                            <a href="<?php echo $excel?>" class="btn btn-success text-white">Excel</a>
+                                            <a href="<?php echo $pdf?>" target="_blank" class="btn btn-success text-white">Print PDF</a>
+                                            <a href="<?php echo $pdfharga?>" target="_blank" class="btn btn-success text-white">Print Ada Harga</a>
+                                            <a href="<?php echo $excel?>" target="_blank" class="btn btn-success text-white">Excel</a>
 
                                             <a href="<?php echo $cancel?>" class="btn btn-danger text-white">Cancel</a>
                                         </div>
