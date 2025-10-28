@@ -626,6 +626,7 @@ class Report extends CI_Controller {
 	public function reportproduksikaos($value='')
 	{
 		$get = $this->input->get();
+		$sql=' kbp.hapus=0 ';
 		if (empty($get)) {
 			$viewData['produk'] = $this->GlobalModel->queryManual('SELECT * FROM `produksi_po` pp JOIN kelolapo_rincian_setor_cmt_finish kpp ON pp.kode_po=kpp.kode_po');
 				$viewData['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
