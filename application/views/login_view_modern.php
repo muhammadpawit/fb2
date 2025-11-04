@@ -393,7 +393,7 @@
     </div>
 
     <div class="footer">
-        <p>&copy; 2020 - <?php echo date('Y')?> Forboys Production</p>
+        <p>&copy; 2020 - <?php echo date('Y')?> Forboys Production </p>
     </div>
 
     <script src="<?php echo ASSETS; ?>js/jquery.min.js"></script>
