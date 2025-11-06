@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+#[\AllowDynamicProperties]
 class Auth extends CI_Controller {
 
 
@@ -42,7 +42,7 @@ class Auth extends CI_Controller {
 
         $data['auth_url'] = $client->createAuthUrl();
         // $this->load->view('login_view', $data);
-        $this->load->view('login_view_modern', $data);
+        $this->load->view('login_view_modern_input', $data);
     }
 
     public function google_callback() {
