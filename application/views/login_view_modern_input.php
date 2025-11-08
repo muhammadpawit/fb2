@@ -12,24 +12,25 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style type="text/css">
+    <style>
         :root {
-            --primary: #4361ee;
-            --primary-light: #4895ef;
-            --primary-dark: #3a0ca3;
-            --secondary: #7209b7;
-            --accent: #f72585;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --glass: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #818cf8;
+            --accent: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --gray-900: #1e293b;
+            --gray-700: #334155;
+            --gray-500: #64748b;
+            --gray-300: #cbd5e1;
+            --gray-100: #f1f5f9;
+            --white: #ffffff;
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 25px 60px rgba(99, 102, 241, 0.15);
         }
 
         * {
@@ -39,80 +40,126 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: var(--dark);
-            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
             position: relative;
             overflow: hidden;
         }
 
-        body::before {
-            content: '';
+        /* Animated Background */
+        .bg-shape {
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
-            opacity: 0.2;
-            z-index: -1;
-            animation: float 15s infinite alternate;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
         }
 
-        body::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            left: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            opacity: 0.1;
-            z-index: -1;
-            animation: float 18s infinite alternate-reverse;
+        .shape-1 {
+            width: 600px;
+            height: 600px;
+            background: rgba(236, 72, 153, 0.3);
+            top: -15%;
+            left: -10%;
+        }
+
+        .shape-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, 0.3);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 5s;
         }
 
         @keyframes float {
-            0% {
-                transform: translate(0, 0);
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
             }
-            50% {
-                transform: translate(-10%, -10%);
+            33% {
+                transform: translate(50px, -80px) scale(1.15);
             }
-            100% {
-                transform: translate(10%, 10%);
+            66% {
+                transform: translate(-40px, 60px) scale(0.9);
             }
         }
 
-        .login-container {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: var(--shadow-lg);
-            text-align: center;
+        /* Login Container */
+        .login-wrapper {
             position: relative;
-            overflow: hidden;
-            transform: translateY(0);
-            opacity: 1;
-            transition: var(--transition);
-            animation: fadeInUp 0.8s ease-out;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
         }
 
-        @keyframes fadeInUp {
+        .login-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Logo & Brand */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-header img {
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+        }
+
+        .brand-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            font-size: 15px;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        /* Alert */
+        .alert {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            animation: alertSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes alertSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
             }
             to {
                 opacity: 1;
@@ -120,105 +167,131 @@
             }
         }
 
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+        .alert::before {
+            content: "⚠";
+            font-size: 18px;
         }
 
-        .logo-section {
-            margin-bottom: 30px;
+        /* Login Methods Toggle */
+        .login-methods {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+            background: var(--gray-100);
+            padding: 6px;
+            border-radius: 12px;
+        }
+
+        .method-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--gray-700);
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .method-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .method-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .method-btn:not(.active):hover {
+            color: var(--primary);
+        }
+
+        /* Login Content */
+        .login-content {
             position: relative;
         }
 
-        .logo-section img {
-            height: 150px;
-            width: auto;
-            margin: 0 auto 20px;
+        .login-method {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .login-method.active {
             display: block;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
-        .system-title {
-            font-weight: 700;
-            color: var(--dark);
-            font-size: 2rem;
-            margin-bottom: 8px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-        }
-
-        .tagline {
-            color: var(--gray);
-            font-size: 1rem;
-            margin-bottom: 32px;
-            font-weight: 400;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Form Styles */
-        .login-form {
-            width: 100%;
-            margin-bottom: 24px;
-        }
-
         .form-group {
             margin-bottom: 20px;
-            text-align: left;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
             margin-bottom: 8px;
-            color: var(--dark);
-            font-weight: 500;
-            font-size: 0.9375rem;
+            color: var(--gray-700);
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .input-wrapper {
             position: relative;
         }
 
-        .input-wrapper svg {
+        .input-icon {
             position: absolute;
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
             width: 20px;
             height: 20px;
-            color: var(--gray);
+            color: var(--gray-500);
             pointer-events: none;
+            transition: color 0.3s;
         }
 
-        .form-control {
+        .form-input {
             width: 100%;
             padding: 14px 16px 14px 48px;
-            border: 2px solid var(--glass-border);
+            border: 2px solid var(--gray-300);
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            font-size: 1rem;
+            background: white;
+            font-size: 15px;
             color: var(--dark);
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Inter', sans-serif;
         }
 
-        .form-control:focus {
+        .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
 
-        .form-control::placeholder {
-            color: var(--gray);
-            opacity: 0.7;
+        .form-input:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-500);
         }
 
         .password-toggle {
@@ -229,9 +302,11 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
-            color: var(--gray);
-            transition: var(--transition);
+            padding: 6px;
+            color: var(--gray-500);
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
         }
 
         .password-toggle:hover {
@@ -243,416 +318,394 @@
             height: 20px;
         }
 
-        .forgot-password {
+        .forgot-link {
             text-align: right;
             margin-top: 8px;
         }
 
-        .forgot-password a {
+        .forgot-link a {
             color: var(--primary);
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: var(--transition);
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.3s;
         }
 
-        .forgot-password a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+        .forgot-link a:hover {
+            color: var(--primary-hover);
         }
 
-        .login-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
             background: var(--primary);
             color: white;
-            padding: 16px 32px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            width: 100%;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
             border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 24px;
+            position: relative;
         }
 
-        .login-button:hover {
-            background: var(--primary-dark);
+        .btn-primary:hover {
+            background: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 12px 28px rgba(99, 102, 241, 0.3);
         }
 
-        .login-button:active {
+        .btn-primary:active {
             transform: translateY(0);
         }
 
-        .login-button .icon {
+        .btn-primary svg {
             width: 20px;
             height: 20px;
-            margin-right: 12px;
-            transition: var(--transition);
+            transition: transform 0.3s;
         }
 
-        .login-button .text {
-            transition: var(--transition);
+        .btn-primary:hover svg {
+            transform: translateX(3px);
         }
 
-        .login-button .spinner {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            opacity: 0;
-            transition: var(--transition);
+        .btn-primary.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-primary.loading svg {
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
             to {
-                transform: translate(-50%, -50%) rotate(360deg);
+                transform: rotate(360deg);
             }
         }
 
-        .login-button.loading .text {
-            opacity: 0;
-            transform: translateX(10px);
-        }
-
-        .login-button.loading .icon {
-            opacity: 0;
-            transform: translateX(-10px);
-        }
-
-        .login-button.loading .spinner {
-            opacity: 1;
-        }
-
-        /* Divider */
-        .divider {
+        .btn-google {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
-            align-items: center;
-            margin: 24px 0;
-            color: var(--gray);
-            font-size: 0.875rem;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--glass-border);
-        }
-
-        .divider span {
-            padding: 0 16px;
-            font-weight: 500;
-        }
-
-        /* Google Login Button */
-        .google-login-button {
-            display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: white;
-            color: var(--dark);
-            padding: 14px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 0.9375rem;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-            width: 100%;
-            border: 2px solid var(--glass-border);
-            cursor: pointer;
+            gap: 12px;
         }
 
-        .google-login-button:hover {
-            background: #f8f9fa;
+        .btn-google:hover {
+            border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-light);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .google-login-button .icon {
+        .google-icon {
             width: 20px;
             height: 20px;
-            margin-right: 12px;
         }
 
-        .alert-danger {
-            background: linear-gradient(135deg, #f44336, #d32f2f);
-            color: #fff;
-            border-radius: 8px;
-            padding: 12px 18px;
-            box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
-            border-left: 6px solid #b71c1c;
+        /* Welcome Text for Google Login */
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .welcome-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .welcome-text {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-300);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--gray-500);
             font-weight: 500;
-            letter-spacing: 0.3px;
+        }
+
+        /* Security Badge */
+        .security-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: fadeIn 0.3s ease-in-out;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 8px;
         }
 
-        .alert-danger::before {
-            content: "⚠️";
-            font-size: 18px;
+        .security-info svg {
+            width: 16px;
+            height: 16px;
+            color: var(--primary);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-5px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .security-info span {
+            font-size: 12px;
+            color: var(--gray-600);
+            font-weight: 500;
         }
 
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: var(--gray);
-            font-size: 0.875rem;
-            font-weight: 400;
-        }
-
-        .footer p {
-            opacity: 0.8;
-        }
-
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(113, 9, 183, 0.1);
-            z-index: -1;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        .circle:nth-child(1) {
-            width: 150px;
-            height: 150px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .circle:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            bottom: 15%;
-            right: 10%;
-            animation-delay: 2s;
-        }
-
-        @media (max-width: 768px) {
-            .login-container {
-                padding: 32px 24px;
-                border-radius: 16px;
-            }
-            
-            .system-title {
-                font-size: 1.75rem;
-            }
-            
-            .login-button {
-                padding: 14px 24px;
-                font-size: 0.9375rem;
-            }
-        }
-
+        /* Responsive */
         @media (max-width: 480px) {
-            body {
-                padding: 16px;
+            .login-card {
+                padding: 36px 28px;
+                border-radius: 20px;
             }
-            
-            .login-container {
-                padding: 24px 20px;
+
+            .brand-title {
+                font-size: 22px;
             }
-            
-            .logo-section img {
-                height: 70px;
-                margin-bottom: 16px;
+
+            .brand-header img {
+                height: 80px;
             }
-            
-            .system-title {
-                font-size: 1.5rem;
-            }
-            
-            .tagline {
-                font-size: 0.9375rem;
-                margin-bottom: 24px;
+
+            .method-btn {
+                font-size: 13px;
+                padding: 10px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="circle"></div>
-    <div class="circle"></div>
+    <!-- Animated Background -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
 
-    <div class="login-container">
-        <?php if ($this->session->flashdata('gagal')) { ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo $this->session->flashdata('gagal'); ?> 
-        </div>
-        <?php } ?>
+    <!-- Login Card -->
+    <div class="login-wrapper">
+        <div class="login-card">
+            <!-- Alert -->
+            <?php if ($this->session->flashdata('gagal')) { ?>
+            <div class="alert" id="alertBox">
+                <?php echo $this->session->flashdata('gagal'); ?>
+            </div>
+            <?php } ?>
 
-        <div class="logo-section">
-            <img src="<?php echo BASEURL?>/assets/images/0001.png" alt="Forboys Production Logo">
-        </div>
-        
-        <h1 class="system-title">Forboys Production System</h1>
-        <p class="tagline">Selamat datang! Silakan masuk ke sistem produksi.</p>
+            <!-- Brand Header -->
+            <div class="brand-header">
+                <img src="<?php echo BASEURL?>/assets/images/0001.png" alt="Forboys Production Logo" style="height: 100px; width: auto; margin: 0 auto 20px; display: block;">
+                <h1 class="brand-title">Forboys Production</h1>
+                <p class="brand-subtitle">Production Management System</p>
+            </div>
 
-        <!-- Email/Password Login Form -->
-        <form class="login-form" method="POST" action="<?php echo BASEURL; ?>Auth/login" id="loginForm">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <div class="input-wrapper">
+            <!-- Login Method Toggle -->
+            <div class="login-methods">
+                <button class="method-btn active" data-method="email">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="nama@email.com" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    <span>Email</span>
+                </button>
+                <button class="method-btn" data-method="google">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.798-1.677-4.175-2.715-6.735-2.715-5.522 0-10 4.479-10 10s4.478 10 10 10c8.396 0 10-7.496 10-9.999 0-0.781-0.082-1.533-0.23-2.253h-9.77z"/>
                     </svg>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
-                    <button type="button" class="password-toggle" id="togglePassword">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeIcon">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <span>Google</span>
+                </button>
+            </div>
+
+            <!-- Login Content -->
+            <div class="login-content">
+                <!-- Email Login Method -->
+                <div class="login-method active" id="emailMethod">
+                    <form method="POST" action="<?php echo BASEURL; ?>Auth/login" id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <div class="input-wrapper">
+                                <input type="email" class="form-input" id="email" name="email" placeholder="nama@email.com" required>
+                                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <div class="input-wrapper">
+                                <input type="password" class="form-input" id="password" name="password" placeholder="Masukkan password" required>
+                                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <button type="button" class="password-toggle" id="togglePassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeIcon">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="forgot-link">
+                                <a href="<?php echo BASEURL; ?>auth/forgot-password">Lupa password?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="loginBtn">
+                            <span>Masuk ke Dashboard</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div class="security-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
-                    </button>
+                        <span>Koneksi aman dengan enkripsi SSL</span>
+                    </div>
                 </div>
-                <div class="forgot-password">
-                    <a href="<?php echo BASEURL; ?>auth/forgot-password">Lupa password?</a>
+
+                <!-- Google Login Method -->
+                <div class="login-method" id="googleMethod">
+                    <div class="welcome-message">
+                        <h2 class="welcome-title">Selamat Datang!</h2>
+                        <p class="welcome-text">Masuk dengan akun Google Anda untuk mengakses sistem produksi dengan cepat dan aman</p>
+                    </div>
+
+                    <button class="btn-google" id="googleLoginBtn">
+                        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span>Lanjutkan dengan Google</span>
+                    </button>
+
+                    <div class="security-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span>Login aman melalui Google OAuth</span>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="login-button" id="loginBtn">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                </svg>
-                <span class="text">Masuk</span>
-                <div class="spinner"></div>
-            </button>
-        </form>
-
-        <!-- Divider -->
-        <div class="divider">
-            <span>atau</span>
+            <!-- Footer -->
+            <div class="footer">
+                <p class="footer-text">&copy; 2020 - <?php echo date('Y')?> Forboys Production</p>
+            </div>
         </div>
-
-        <!-- Google Login -->
-        <button class="google-login-button" id="googleLoginBtn">
-            <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#4285F4" d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.798-1.677-4.175-2.715-6.735-2.715-5.522 0-10 4.479-10 10s4.478 10 10 10c8.396 0 10-7.496 10-9.999 0-0.781-0.082-1.533-0.23-2.253h-9.77z"/>
-            </svg>
-            <span>Login dengan Google</span>
-        </button>
-    </div>
-
-    <div class="footer">
-        <p>&copy; 2020 - <?php echo date('Y')?> Forboys Production</p>
     </div>
 
     <script src="<?php echo ASSETS; ?>js/jquery.min.js"></script>
-    <script src="<?php echo ASSETS; ?>js/popper.min.js"></script>
-    <script src="<?php echo ASSETS; ?>js/bootstrap.min.js"></script>
-    
     <script>
         $(document).ready(function() {
-            // Handle alert closing
-            $('.alert .close').on('click', function() {
-                $(this).closest('.alert').animate({
-                    opacity: 0,
-                    height: 0,
-                    padding: 0,
-                    margin: 0
-                }, 300, function() {
-                    $(this).remove();
-                });
-            });
-
-            // Auto-hide alert after 5 seconds
-            if ($('.alert').length) {
+            // Auto-hide alert
+            if ($('#alertBox').length) {
                 setTimeout(function() {
-                    $('.alert').animate({
-                        opacity: 0,
-                        height: 0,
-                        padding: 0,
-                        margin: 0
-                    }, 500, function() {
+                    $('#alertBox').fadeOut(400, function() {
                         $(this).remove();
                     });
                 }, 5000);
             }
 
+            // Toggle between login methods
+            $('.method-btn').on('click', function() {
+                const method = $(this).data('method');
+                
+                // Update active button
+                $('.method-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                // Toggle content with animation
+                $('.login-method').removeClass('active');
+                
+                setTimeout(function() {
+                    if (method === 'email') {
+                        $('#emailMethod').addClass('active');
+                    } else {
+                        $('#googleMethod').addClass('active');
+                    }
+                }, 50);
+            });
+
             // Toggle password visibility
             $('#togglePassword').on('click', function() {
                 const passwordInput = $('#password');
+                const eyeIcon = $('#eyeIcon');
                 const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+                
                 passwordInput.attr('type', type);
                 
-                // Toggle eye icon
                 if (type === 'text') {
-                    $('#eyeIcon').html(`
+                    eyeIcon.html(`
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                     `);
                 } else {
-                    $('#eyeIcon').html(`
+                    eyeIcon.html(`
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     `);
                 }
             });
 
-            // Login form submission
+            // Email login form submission
             $('#loginForm').on('submit', function(e) {
                 e.preventDefault();
-                var btn = $('#loginBtn');
+                const btn = $('#loginBtn');
+                const btnText = btn.find('span');
+                const btnIcon = btn.find('svg');
                 
-                // Add loading state
+                // Show loading state
                 btn.addClass('loading');
                 btn.prop('disabled', true);
+                btnText.text('Sedang Masuk...');
                 
                 // Submit form after animation
-                setTimeout(function() {
-                    e.target.submit();
+                setTimeout(() => {
+                    this.submit();
                 }, 800);
             });
 
             // Google login button
             $('#googleLoginBtn').on('click', function(e) {
                 e.preventDefault();
-                window.location.href = "<?php echo $auth_url; ?>";
+                const btn = $(this);
+                const btnText = btn.find('span');
+                
+                // Show loading state
+                btn.addClass('loading').css('pointer-events', 'none');
+                btnText.text('Menghubungkan ke Google...');
+                
+                // Add spinner
+                btn.find('svg').css('animation', 'spin 1s linear infinite');
+                
+                // Redirect to Google OAuth
+                setTimeout(function() {
+                    window.location.href = "<?php echo $auth_url; ?>";
+                }, 800);
             });
         });
     </script>
-</body>
-</html>
