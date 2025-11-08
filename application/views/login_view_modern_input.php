@@ -41,7 +41,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -51,41 +51,41 @@
             overflow: hidden;
         }
 
-        /* Animated Background */
-        .bg-shape {
+        body::before {
+            content: '';
             position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-            animation: float 25s ease-in-out infinite;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #4895ef 0%, transparent 70%);
+            opacity: 0.2;
+            z-index: 0;
+            animation: float 15s infinite alternate;
         }
 
-        .shape-1 {
-            width: 600px;
-            height: 600px;
-            background: rgba(236, 72, 153, 0.3);
-            top: -15%;
-            left: -10%;
-        }
-
-        .shape-2 {
-            width: 500px;
-            height: 500px;
-            background: rgba(99, 102, 241, 0.3);
-            bottom: -10%;
-            right: -10%;
-            animation-delay: 5s;
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #f72585 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: 0;
+            animation: float 18s infinite alternate-reverse;
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
+            0% {
+                transform: translate(0, 0);
             }
-            33% {
-                transform: translate(50px, -80px) scale(1.15);
+            50% {
+                transform: translate(-10%, -10%);
             }
-            66% {
-                transform: translate(-40px, 60px) scale(0.9);
+            100% {
+                transform: translate(10%, 10%);
             }
         }
 
@@ -411,6 +411,11 @@
             border-color: var(--primary);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-google.loading {
+            opacity: 0.7;
+            transform: translateY(0);
         }
 
         .google-icon {
