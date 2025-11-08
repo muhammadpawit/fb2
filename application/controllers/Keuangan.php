@@ -1489,4 +1489,63 @@ class Keuangan extends CI_Controller {
 		redirect(BASEURL.'Keuangan/kasbondetail/'.$get['tanggal']);
 	}
 
+	public function tagihanbahan() {
+		$data =[];
+		$data['title'] ='Tagihan Bahan Masuk Bulanan';
+		$data['prods']=[];
+		$kemeja=[];
+		$kaos=[];
+		$celana=[];
+		$data['perminggu']=[];
+		$total=0;
+		$periode = $this->ReportModel->periode();
+		$months = [
+			1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+			5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug',
+			9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dec'
+		];
+
+		// Ambil supplier
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', [
+			'hapus' => 0,
+			'is_supplier_bahan' => 1
+		]);
+
+		// Buat list bulan selama 12 bulan ke depan
+		$bulan = [];
+		for ($i = 0; $i < 12; $i++) {
+			$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1, $periode['tahun']);
+			$bulan[] = date('M Y', $timestamp);
+		}
+
+		// Loop bulan dan isi supplier per bulan
+		$data['prods'] = [];
+		foreach ($bulan as $val) {
+			$t = explode(" ", $val); // pisahkan misal ["Mar","2025"]
+			$monthNum = date('n', strtotime("1 " . $val)); // ubah jadi angka bulan
+			$year = $t[1];
+
+			// Loop supplier
+			$suppliers = [];
+			foreach ($data['supplier'] as $s) {
+				$suppliers[] = [
+					'id_supplier' => $s['id'], // sesuaikan dengan kolom tabel
+					'nama_supplier' => $s['nama'],
+					'total' => $this->ReportModel->getTagihanSupplier($s['id'], $monthNum, $year), // misal nanti kamu isi nilai tagihan
+				];
+			}
+
+			// Simpan hasil
+			$data['prods'][] = [
+				'bulan' => $val,
+				'bln' => $monthNum,
+				'year' => $year,
+				'supplier' => $suppliers,
+			];
+		}
+		
+		$data['page']=$this->page.'tagihanbahan/list';
+		$this->load->view($this->layout,$data);
+	}
+
 }
