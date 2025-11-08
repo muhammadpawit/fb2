@@ -12,6 +12,7 @@
 					<?php endforeach; ?>
 				</tr>
 			</thead>
+
 			<tbody>
 				<?php foreach($prods as $p): ?>
 					<tr>
@@ -19,15 +20,40 @@
 						<?php foreach($p['supplier'] as $sup): ?>
 							<td align="right">
 								<?php 
-									// Jika nanti kamu punya nilai total/tagihan, tampilkan di sini
-									echo number_format($sup['total'], 0, ',', '.') ?? '-';
+									// Tampilkan kosong jika total = 0 atau null
+									echo ($sup['total'] ?? 0) > 0 
+										? number_format($sup['total'], 0, ',', '.') 
+										: '';
 								?>
 							</td>
 						<?php endforeach; ?>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
+
+			<tfoot>
+				<tr style="font-weight: bold; background-color: #f5f5f5;">
+					<td align="right">Total</td>
+					<?php 
+					// Hitung total per supplier
+					foreach($supplier as $s): 
+						$totalSupplier = 0;
+						foreach($prods as $p){
+							foreach($p['supplier'] as $sup){
+								if ($sup['nama_supplier'] == $s['nama']) {
+									$totalSupplier += $sup['total'] ?? 0;
+								}
+							}
+						}
+					?>
+						<td align="right">
+							<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
+						</td>
+					<?php endforeach; ?>
+				</tr>
+			</tfoot>
 		</table>
+
 
 	</div>
 </div>

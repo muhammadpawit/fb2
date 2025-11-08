@@ -3846,7 +3846,7 @@ AND a.jenis = 2
 	function getTagihanSupplier($spid,$bulan,$tahun)
 	{
 		$hasil=0;
-		$sql=" SELECT COALESCE(SUM(b.ukuran*harga),0) as total from penerimaan_item a JOIN penerimaan_item_detail b ON a.id=b.penerimaan_item_id WHERE a.hapus=0 AND a.supplier='$spid' AND MONTH(a.tanggal)='$bulan' AND YEAR(a.tanggal)='$tahun' ";
+		$sql=" SELECT COALESCE(SUM(b.ukuran*harga),0) as total from penerimaan_item a JOIN penerimaan_item_detail b ON a.id=b.penerimaan_item_id WHERE a.hapus=0 and b.hapus=0 AND a.supplier='$spid' AND MONTH(a.tanggal)='$bulan' AND YEAR(a.tanggal)='$tahun' ";
 		$query = $this->GlobalModel->QueryManualRow($sql);
 		if(isset($query['total'])){
 			$hasil=$query['total'];
