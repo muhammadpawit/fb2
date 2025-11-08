@@ -51,6 +51,46 @@
 						</td>
 					<?php endforeach; ?>
 				</tr>
+
+					<tr style="font-weight: bold; background-color: #f5f5f5;">
+						<td align="right">Total Pembayaran</td>
+						<?php 
+						// Hitung total per supplier
+						foreach($supplier as $s): 
+							$totalSupplier = 0;
+							foreach($prods as $p){
+								foreach($p['supplier'] as $sup){
+									if ($sup['nama_supplier'] == $s['nama']) {
+										$totalSupplier += $sup['totaldibayar'] ?? 0;
+									}
+								}
+							}
+						?>
+							<td align="right">
+								<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
+							</td>
+						<?php endforeach; ?>
+					</tr>
+
+					<tr style="font-weight: bold; background-color: #f5f5f5;">
+						<td align="right">Sisa Tagihan Pembayaran</td>
+						<?php 
+						// Hitung total per supplier
+						foreach($supplier as $s): 
+							$totalSupplier = 0;
+							foreach($prods as $p){
+								foreach($p['supplier'] as $sup){
+									if ($sup['nama_supplier'] == $s['nama']) {
+										$totalSupplier += $sup['sisa'] ?? 0;
+									}
+								}
+							}
+						?>
+							<td align="right">
+								<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
+							</td>
+						<?php endforeach; ?>
+					</tr>
 			</tfoot>
 		</table>
 

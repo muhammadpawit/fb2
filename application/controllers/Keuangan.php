@@ -1532,6 +1532,10 @@ class Keuangan extends CI_Controller {
 					'id_supplier' => $s['id'], // sesuaikan dengan kolom tabel
 					'nama_supplier' => $s['nama'],
 					'total' => $this->ReportModel->getTagihanSupplier($s['id'], $monthNum, $year), // misal nanti kamu isi nilai tagihan
+					'totaldibayar' => $this->ReportModel->getTotalPembayaranSupplier($s['id'], $monthNum, $year),
+					'sisa' => ( $this->ReportModel->getTagihanSupplier($s['id'], $monthNum, $year) -
+								$this->ReportModel->getTotalPembayaranSupplier($s['id'], $monthNum, $year)
+							),
 				];
 			}
 

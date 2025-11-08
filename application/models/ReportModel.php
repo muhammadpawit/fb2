@@ -3856,4 +3856,16 @@ AND a.jenis = 2
 		}
 		return $hasil;
 	}
+
+	function getTotalPembayaranSupplier($spid,$bulan,$tahun)
+	{
+		$hasil=0;
+		$sql=" SELECT COALESCE(SUM(nominal),0) as total from supplier_giro 
+		WHERE hapus=0 AND supplier_id='$spid' AND MONTH(tanggal)='$bulan' AND YEAR(tanggal)='$tahun' ";
+		$query = $this->GlobalModel->QueryManualRow($sql);
+		if(isset($query['total'])){
+			$hasil=$query['total'];
+		}
+		return $hasil;
+	}
 }
