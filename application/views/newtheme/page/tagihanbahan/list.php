@@ -8,7 +8,7 @@
 				</tr>
 				<tr>
 					<?php foreach($supplier as $s): ?>
-						<th><?php echo $s['nama']; ?></th>
+						<th><?php echo strtolower($s['nama']); ?></th>
 					<?php endforeach; ?>
 				</tr>
 			</thead>
