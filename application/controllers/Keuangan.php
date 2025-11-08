@@ -1491,7 +1491,7 @@ class Keuangan extends CI_Controller {
 
 	public function tagihanbahan() {
 		$data =[];
-		$data['title'] ='Tagihan Bahan Masuk Bulanan';
+		$data['title'] ='Tagihan Bahan Masuk Bulanan - Giro ';
 		$data['prods']=[];
 		$kemeja=[];
 		$kaos=[];
