@@ -46,7 +46,7 @@
 							}
 						}
 					?>
-						<td align="right">
+						<td align="right" style="color:#91240c">
 							<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
 						</td>
 					<?php endforeach; ?>
@@ -66,7 +66,7 @@
 								}
 							}
 						?>
-							<td align="right">
+							<td align="right" style="color:#0c9132">
 								<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
 							</td>
 						<?php endforeach; ?>
