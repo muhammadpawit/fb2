@@ -52,7 +52,7 @@ class Historygiro extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -69,7 +69,7 @@ class Historygiro extends CI_Controller {
 
 		$query = "SELECT a.*, b.nama FROM supplier_giro a LEFT JOIN master_supplier b ON b.id = a.supplier_id WHERE a.hapus=0 ";
 		if(!empty($tanggal1)){
-			$query.=" AND date(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+			// $query.=" AND date(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
 		}
 
 		$query.=" ORDER BY a.id DESC";
