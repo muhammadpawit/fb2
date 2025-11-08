@@ -12,22 +12,29 @@
 </div>
 <div class="row">
   <div class="col-md-3">
-    <label>Tanggal Awal</label>
-    <input type="text" value="<?php echo $tanggal1?>" name="tanggal1" class="form-control datepicker">
+    <div class="form-group">
+      <label>Tanggal Awal</label>
+      <input type="text" value="<?php echo $tanggal1?>" name="tanggal1" class="form-control datepicker">
+    </div>
   </div>
   <div class="col-md-3">
-    <label>Tanggal Akhir</label>
-    <input type="text" value="<?php echo $tanggal2?>" name="tanggal2" class="form-control datepicker">
+    <div class="form-group">
+      <label>Tanggal Akhir</label>
+      <input type="text" value="<?php echo $tanggal2?>" name="tanggal2" class="form-control datepicker">
+    </div>
   </div>
   <div class="col-md-3">
-    <label>Action</label><br>
-    <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
-    <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+    <div class="form-group">
+      <label>Action</label><br>
+      <button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
+      <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+    </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="" border="1" style="border-collapse: collapse;width:100%">
+    <div class="form-group">
+                    <table class="table table-bordered" border="1" style="border-collapse: collapse;width:100%">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -51,6 +58,7 @@
                         <?php } ?>
                       </tbody>
                    </table>
+    </div>
   </div>
 </div>
 <script type="text/javascript">
