@@ -40,7 +40,7 @@
 						$totalSupplier = 0;
 						foreach($prods as $p){
 							foreach($p['supplier'] as $sup){
-								if ($sup['nama_supplier'] == $s['nama']) {
+								if ($sup['id_supplier'] == $s['id']) {
 									$totalSupplier += $sup['total'] ?? 0;
 								}
 							}
@@ -60,7 +60,7 @@
 							$totalSupplier = 0;
 							foreach($prods as $p){
 								foreach($p['supplier'] as $sup){
-									if ($sup['nama_supplier'] == $s['nama']) {
+									if ($sup['id_supplier'] == $s['id']) {
 										$totalSupplier += $sup['totaldibayar'] ?? 0;
 									}
 								}
@@ -80,7 +80,7 @@
 							$totalSupplier = 0;
 							foreach($prods as $p){
 								foreach($p['supplier'] as $sup){
-									if ($sup['nama_supplier'] == $s['nama']) {
+									if ($sup['id_supplier'] == $s['id']) {
 										$totalSupplier += $sup['sisa'] ?? 0;
 									}
 								}
