@@ -24,10 +24,6 @@
 </div>
 <?php } ?>
 <div class="row">
-    <!-- <div class="alert" style="background-color:#085B8C !important;color: white">
-           PO yang belum dikirim ke gudang yang proses produksinya lebih dari 1 bulan
-           <a href="<?php //echo BASEURL?>Dash/pendingpo">Lihat</a>
-       </div> -->
         <div class="col-md-3">
             <div class="small-box bg-aqua" style="background-color:#3c8dbc !important;color: white">
                 <div class="inner">
@@ -86,13 +82,92 @@
             </div>
         </div>
         <?php } ?>
-    <!-- <div class="col-md-12">
-       <div class="alert" style="background-color:#DCA100 !important;color: white">
-           PO selesai packing
-           <a href="<?php echo BASEURL?>Dash/pendingpo">Lihat</a>
-       </div>
-    </div> -->
 </div>
+<hr>
+<div class="row">
+
+    <!-- Buang Benang -->
+    <div class="col-md-2">
+        <div class="small-box" style="background-color:#026AA7;color:white;">
+            <div class="inner">
+                <h3><?php echo $buangBenang ?> PO</h3>
+                <p>Buang Benang</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-scissors"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="buangbenang">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Cucian -->
+    <div class="col-md-2">
+        <div class="small-box" style="background-color:#D97706;color:white;">
+            <div class="inner">
+                <h3><?php echo $Cucian ?> PO</h3>
+                <p>Cucian</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-soap"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="cucian">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Lubang Kancing -->
+    <div class="col-md-2">
+        <div class="small-box" style="background-color:#059669;color:white;">
+            <div class="inner">
+                <h3><?php echo $lk ?> PO</h3>
+                <p>Lubang Kancing</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-grip-lines-vertical"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="lubangkancing">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Pasang Kancing -->
+    <div class="col-md-3">
+        <div class="small-box" style="background-color:#605ca8;color:white;">
+            <div class="inner">
+                <h3><?php echo $pk ?> PO</h3>
+                <p>Pasang Kancing</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-circle-dot"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="pasangkancing">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Tress (Obras) -->
+    <div class="col-md-3">
+        <div class="small-box" style="background-color:#d81b60;color:white;">
+            <div class="inner">
+                <h3><?php echo $tress ?> PO</h3>
+                <p>Tress</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-solid fa-yarn"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="tress">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
 <hr>
 <?php if(!empty($harian)){?>
     <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35 ){ ?>
@@ -223,6 +298,7 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>
     Highcharts.chart('container', {
         chart: {
@@ -459,6 +535,206 @@ $(document).on("click", ".lihat-detail", function(e) {
                                 <td>${row.cash}</td>
                                 <td>${row.transfer}</td>
                                 <td>${row.tanggal}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='buangbenang'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/buangbenang",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.kode_po}</td>
+                                <td>${row.tanggal}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='cucian'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/cucian",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.kode_po}</td>
+                                <td>${row.tanggal}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='lubangkancing'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/borongan/1",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='pasangkancing'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/borongan/2",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='tress'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/borongan/3",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
                             </tr>
                         `;
                         no++;

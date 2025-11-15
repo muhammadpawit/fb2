@@ -604,6 +604,15 @@ class Dash extends CI_Controller {
 		$data['harian'] =$this->Report->ajuanharian();
 		$data['id_user']=$user['id_user'];
 
+
+		// borongan finishing
+		$data['buangBenang'] 	= $this->Report->BuangBenang('count');
+		$data['Cucian'] 		= $this->Report->Cucian('count');
+		$data['lk'] 			= $this->Report->borongan(1,'count');
+		$data['pk'] 			= $this->Report->borongan(2,'count');
+		$data['tress'] 			= $this->Report->borongan(3,'count');
+		
+
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
 	}
@@ -2007,5 +2016,24 @@ class Dash extends CI_Controller {
 		$data = $this->Report->ajuanharian();
 		echo json_encode($data);
 	}
+
+	function buangbenang(){
+		$data =[];
+		$data = $this->Report->buangbenang('data');
+		echo json_encode($data);
+	}
+
+	function cucian(){
+		$data =[];
+		$data = $this->Report->Cucian('data');
+		echo json_encode($data);
+	}
+
+	function borongan($id){
+		$data =[];
+		$data = $this->Report->borongan($id,'data');
+		echo json_encode($data);
+	}
+	
 
 }

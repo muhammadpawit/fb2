@@ -156,4 +156,63 @@ class Report extends CI_Model {
 	}
 
 
+	function BuangBenang($type){
+		$tanggal_awal = date('Y-m-d',strtotime("Saturday last week"));
+		$tanggal_akhir = date('Y-m-d',strtotime("Friday this week"));
+		$sql="SELECT * FROM buang_benang_finishing WHERE hapus=0 ";
+		$sql.=" AND date(tanggal) BETWEEN '".$tanggal_awal."' AND '".$tanggal_akhir."' ";
+		$sql.=" ORDER BY tanggal DESC ";
+		$data=$this->GlobalModel->queryManual($sql);
+
+		if($type=='count'){
+			return count($data);
+		}else{
+			return $data;
+		}
+	}
+
+	function Cucian($type){
+		$tanggal_awal = date('Y-m-d',strtotime("Saturday last week"));
+		$tanggal_akhir = date('Y-m-d',strtotime("Friday this week"));
+		$sql="SELECT * FROM cucian WHERE hapus=0 ";
+		$sql.=" AND date(tanggal) BETWEEN '".$tanggal_awal."' AND '".$tanggal_akhir."' ";
+		$sql.=" ORDER BY tanggal DESC ";
+		$data=$this->GlobalModel->queryManual($sql);
+		
+		if($type=='count'){
+			return count($data);
+		}else{
+			return $data;
+		}
+	}
+
+	function borongan($jenis,$type){
+		$tanggal_awal = date('Y-m-d',strtotime("Saturday last week"));
+		$tanggal_akhir = date('Y-m-d',strtotime("Friday this week"));
+		if($jenis==1){
+			$title="Lobang Kancing";
+			$kategori="LOBANG KANCING";
+		}else if($jenis==2){
+			$title="Pasang Kancing";
+			$kategori="PASANG KANCING";
+		}else if($jenis==3){
+			$title="Tress";
+			$kategori="TRESS";
+		}
+
+		$sql="SELECT boronganmesin.*,ki.nama as karyawan FROM boronganmesin JOIN karyawan_harian ki ON(ki.id=boronganmesin.idkaryawanharian) WHERE boronganmesin.hapus=0 and boronganmesin.kategori='$kategori' ";
+		$sql.=" AND date(boronganmesin.creted_date) BETWEEN '".$tanggal_awal."' AND '".$tanggal_akhir."' ";
+		$sql.=" ORDER BY boronganmesin.creted_date DESC ";
+		$data=$this->GlobalModel->queryManual($sql);
+
+		if($type=='count'){
+			return count($data);
+		}else{
+			return $data;
+		}
+
+
+	}
+
+
 }
