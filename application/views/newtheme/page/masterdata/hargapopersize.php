@@ -62,7 +62,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah</button></span>
+    <!-- <span class="pull-right"><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah</button></span> -->
   </div>
 </div>
 <div class="row">
