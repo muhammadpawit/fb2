@@ -173,7 +173,7 @@
         <div class="small-box" style="background-color:#475569; color:white;">
             <div class="inner">
                 <h3><?php echo $sablonKirim ?> PO</h3>
-                <p>Pengiriman Sablon</p>
+                <p>Pengiriman Sablon Minggu ini</p>
             </div>
             <div class="icon">
                 <i class="fas fa-paper-plane"></i>
@@ -188,7 +188,7 @@
         <div class="small-box" style="background-color:#475569; color:white;">
             <div class="inner">
                 <h3><?php echo $sablonSetor ?> PO</h3>
-                <p>Setoran Sablon</p>
+                <p>Setoran Sablon Minggu ini</p>
             </div>
             <div class="icon">
                 <i class="fas fa-inbox"></i>
