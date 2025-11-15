@@ -2596,6 +2596,56 @@ class Masterdata extends CI_Controller {
 
 	}
 
+	public function hargapo(){
+		$data=[];
+		$data['title']='Master harga po per jenis dan per size';
+		$get=$this->input->get();
+		$where=' hapus=0 ';
+		if(isset($get['idpo'])){
+			$where .= " and idpo='".$get['idpo']."' ";
+		}
+		$jenis=$this->GlobalModel->querymanual("SELECT * FROM konveksi_buku_potongan where $where GROUP BY idpo ORDER BY hargahpp DESC, idpo DESC ");
+		$data['action']=BASEURL.'Masterdata/updatepacking';
+		$no=1;
+		$data['products']=[];
+		foreach($jenis as $j){
+			$data['products'][]=array(
+				'no'=>$no++,
+				'id'=>$j['id_potongan'],
+				'idpo'=>$j['idpo'],
+				'kode_po'=>$j['kode_po'],
+				'size_potongan'=>$j['size_potongan'],
+				'hargahpp'=>$j['hargahpp'],
+				'edit'=>BASEURL.'Masterdata/hargapoedit/'.$j['id_potongan'],
+				'hapus'=>BASEURL.'Masterdata/hargapohapus/'.$j['id_potongan']
+			);
+		}
+		$data['page']=$this->page.'masterdata/hargapopersize';
+		$data['update']=BASEURL.'Masterdata/updatepacking';
+		$this->load->view($this->layout,$data);
+	}
+
+	function hargapoedit($id){
+
+		$data['title']	= 'Form Master Harga PO';
+		$data['products']	= $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('id_potongan'=>$id));
+		$data['page']=$this->page.'/masterdata/hargapoedit';
+		$data['cancel']=BASEURL.'Masterdata/hargapo';
+		$data['action']=BASEURL.'Masterdata/hargapoedit_save';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	function hargapoedit_save(){
+
+		$post = $this->input->post();
+		$dataInserted = array(
+			'hargahpp'	=> 	$post['hargahpp'],
+		);
+		$this->db->update('konveksi_buku_potongan',$dataInserted,array('id_potongan'=>$post['id_potongan']));
+		$this->session->set_flashdata('msg','Data berhasil diupdate');
+		redirect(BASEURL.'Masterdata/hargapo?idpo='.$post['idpo']);
+	}
+
 
 }
 

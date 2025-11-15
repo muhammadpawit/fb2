@@ -172,7 +172,7 @@
 
                                     <td>JENIS</td>
 
-                                    <td><?php echo $po['jenis_po'] ?></td>
+                                    <td><?php echo $po['jenis_po'] ?? '' ?></td>
 
                                 </tr>
 
@@ -180,7 +180,7 @@
 
                                     <td>SIZE</td>
 
-                                    <td><?php echo $pot['size_potongan'] ?></td>
+                                    <td><?php echo $pot['size_potongan'] ?? '' ?></td>
 
                                 </tr>
 
@@ -190,7 +190,7 @@
 
                                     <td>
                                         <?php //echo $produk['bahan_potongan'] ?>
-                                        <?php echo $namabahan['nama_item_keluar'] ?>
+                                        <?php echo $namabahan['nama_item_keluar'] ?? '' ?>
                                     </td>
 
                                 </tr>
@@ -1021,9 +1021,9 @@
 
                                             <div class="col-12">
 											<div class="print" style="text-align: right;padding-right: 10%">
-												<?php $opr=0;$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); ?>
+												<?php $opr=$pot['hargahpp'] ?? 0 ; //$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); ?>
 											</div>
-                                            <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo (empty($po['operaitonal_price'])) ?0 : $po['operaitonal_price'] ?>">
+                                            <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo $opr ?>">
                                             </div>
                                             <span  class="no-print">
                                             <input type="hidden" value="<?php echo $po['kode_po'] ?>" name="kode_po">
@@ -1051,7 +1051,7 @@
 
                                     <td id="grandTotal" align="right">
 
-                                        Rp. <?php $grand= $po['operaitonal_price'] + $total + $totalAlat; 
+                                        Rp. <?php $grand= $opr + $total + $totalAlat; 
 
                                             echo number_format($grand);?> 
 
