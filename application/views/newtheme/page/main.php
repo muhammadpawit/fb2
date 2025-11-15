@@ -9,7 +9,8 @@
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/font-awesome/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo NEWTHEME?>bower_components/Ionicons/css/ionicons.min.css">
 
@@ -141,6 +142,11 @@
     .menu li:hover {
         background-color: #ddd; /* Warna background saat dihover */
     }
+
+    .sidebar-menu i {
+        width: 20px !important;
+        text-align: center;
+    }
 </style>
 
 </head>
@@ -240,67 +246,120 @@
       </form> -->
       <!-- /.search form -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <?php foreach(MenuParentForUSer() as $mp){?>
-            <?php if(!empty(MenuSub1($mp['id']))){?>
-              <li class="treeview">
-                <a href="<?php echo $mp['url']?>">
-                  <i class="fa fa-share"></i> <span><?php echo $mp['nama']?></span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                    <ul class="treeview-menu">
-                      <!-- <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li> -->
-                      <?php foreach( MenuSub1($mp['id']) as $sub1 ){?>
-                        <?php if(!empty(MenuSub2($sub1['id']))){?>
-                        <li class="treeview">
-                          <a href="#"><i class="fa fa-circle-o"></i> <?php echo $sub1['nama']?>
+    <li class="header">MAIN NAVIGATION</li>
+
+    <?php foreach(MenuParentForUSer() as $mp){ ?>
+        <?php if(!empty(MenuSub1($mp['id']))){ ?>
+
+        <!-- PARENT MENU -->
+        <li class="treeview">
+            <a href="<?php echo $mp['url'] ?>">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span><?php echo $mp['nama'] ?></span>
+                <span class="pull-right-container">
+                    <i class="fa-solid fa-angle-left pull-right"></i>
+                </span>
+            </a>
+
+            <ul class="treeview-menu">
+
+                <?php foreach(MenuSub1($mp['id']) as $sub1){ ?>
+                    <?php if(!empty(MenuSub2($sub1['id']))){ ?>
+
+                    <!-- SUB 1 -->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa-solid fa-circle-dot"></i>
+                            <?php echo $sub1['nama'] ?>
                             <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
+                                <i class="fa-solid fa-angle-left pull-right"></i>
                             </span>
-                          </a>
-                          <ul class="treeview-menu">
-                            <!-- <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li> -->
-                            <?php foreach( MenuSub2($sub1['id']) as $sub2 ){?>
-                              <?php if( !empty(MenuSub3($sub2['id']) ) ) {?>
+                        </a>
+
+                        <ul class="treeview-menu">
+
+                            <?php foreach(MenuSub2($sub1['id']) as $sub2){ ?>
+                                <?php if(!empty(MenuSub3($sub2['id']))){ ?>
+
+                                <!-- SUB 2 -->
                                 <li class="treeview">
-                                  <a href="<?php echo BASEURL.$sub2['url'] ?>"><i class="fa fa-circle-o"></i> <?php echo $sub2['nama'] ?>
-                                    <span class="pull-right-container">
-                                      <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                  </a>
-                                  <ul class="treeview-menu">
-                                    <?php foreach(MenuSub3($sub2['id']) as $sub3 ){?>
-                                    <li><a href="<?php echo BASEURL.$sub3['url'] ?>"><i class="fa fa-circle-o"></i> <?php echo $sub3['nama']?></a></li>
-                                    <?php }?>
-                                  </ul>
+                                    <a href="<?php echo BASEURL.$sub2['url'] ?>">
+                                        <i class="fa-solid fa-circle-dot"></i>
+                                        <?php echo $sub2['nama'] ?>
+                                        <span class="pull-right-container">
+                                            <i class="fa-solid fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+
+                                    <ul class="treeview-menu">
+
+                                        <?php foreach(MenuSub3($sub2['id']) as $sub3){ ?>
+                                        <!-- SUB 3 -->
+                                        <li>
+                                            <a href="<?php echo BASEURL.$sub3['url'] ?>">
+                                                <i class="fa-solid fa-circle-dot"></i>
+                                                <?php echo $sub3['nama'] ?>
+                                            </a>
+                                        </li>
+                                        <?php } ?>
+
+                                    </ul>
                                 </li>
-                              <?php }else { ?>
-                                <li><a href="<?php echo BASEURL.$sub2['url'] ?>"><i class="fa fa-circle-o"></i> <?php echo $sub2['nama'] ?></a></li>
-                              <?php  }?>
+
+                                <?php } else { ?>
+
+                                <!-- SUB 2 tanpa child -->
+                                <li>
+                                    <a href="<?php echo BASEURL.$sub2['url'] ?>">
+                                        <i class="fa-solid fa-circle-dot"></i>
+                                        <?php echo $sub2['nama'] ?>
+                                    </a>
+                                </li>
+
+                                <?php } ?>
                             <?php } ?>
-                          </ul>
-                        </li>
-                      <?php  }else{ ?>
-                        <li><a href="<?php echo BASEURL.$sub1['url'] ?>"><i class="fa fa-circle-o"></i><?php echo $sub1['nama'] ?></a></li>
-                      <?php  } ?>
-                      <?php  } ?>
-                    </ul>
+
+                        </ul>
+                    </li>
+
+                    <?php } else { ?>
+
+                    <!-- SUB 1 tanpa child -->
+                    <li>
+                        <a href="<?php echo BASEURL.$sub1['url'] ?>">
+                            <i class="fa-solid fa-circle-dot"></i>
+                            <?php echo $sub1['nama'] ?>
+                        </a>
+                    </li>
+
+                    <?php } ?>
+                <?php } ?>
+
+            </ul>
+        </li>
+
+        <?php } else { ?>
+
+        <!-- MENU TANPA SUB -->
+        <li class="nav-item">
+            <a href="<?php echo BASEURL.$mp['url'] ?>" class="nav-link">
                 
-              </li>
-              <?php }else{ ?>
-              <li class="nav-item">
-                <a href="<?php echo BASEURL.$mp['url'] ?>" class="nav-link">
-                    <i class="nav-icon <?php echo $mp['icon']?>"></i>
-                  <p><?php echo $mp['nama']?> </p>
-                </a>
-              </li>
-              <?php } ?>
+                <p><i class="fa-solid fa-circle-dot"></i><?php echo $mp['nama'] ?></p>
+            </a>
+        </li>
+
         <?php } ?>
-        <li><a href="<?php echo BASEURL.'login/signout' ?>"><i class="fa fa-sign-out"></i> <span>Log Out</span></a></li>
-        
-      </ul>
+    <?php } ?>
+
+    <!-- LOGOUT -->
+    <li>
+        <a href="<?php echo BASEURL.'login/signout' ?>">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Log Out</span>
+        </a>
+    </li>
+</ul>
+
     </section>
     <!-- /.sidebar -->
   </aside>
