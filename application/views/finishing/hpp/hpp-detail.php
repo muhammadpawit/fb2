@@ -1023,7 +1023,7 @@
 											<div class="print" style="text-align: right;padding-right: 10%">
 												<?php 
                                                     // $opr=0;$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); 
-                                                    $opr = ($pot['hargahpp'] > 0) ? ($pot['hargahpp'] - $totalHPP) : 0; 
+                                                    $opr = ($masterharga['hargahpp'] > 0) ? ($masterharga['hargahpp'] - $totalHPP) : 0; 
                                                     echo 'Rp. '.number_format($opr);
                                                 ?>
 											</div>
@@ -1058,7 +1058,7 @@
 
                                         Rp. <?php 
                                             // $grand= $po['operaitonal_price'] + $total + $totalAlat; 
-                                            $grand= $pot['hargahpp'] ?? 0; 
+                                            $grand= $masterharga['hargahpp'] ?? 0; 
 
                                             echo number_format($grand);?> 
 

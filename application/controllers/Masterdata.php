@@ -2602,22 +2602,21 @@ class Masterdata extends CI_Controller {
 		$get=$this->input->get();
 		$where=' hapus=0 ';
 		if(isset($get['idpo'])){
-			$where .= " and idpo='".$get['idpo']."' ";
+			// $where .= " and idpo='".$get['idpo']."' ";
 		}
-		$jenis=$this->GlobalModel->querymanual("SELECT * FROM konveksi_buku_potongan where $where GROUP BY idpo ORDER BY hargahpp DESC, idpo DESC ");
-		$data['action']=BASEURL.'Masterdata/updatepacking';
+		$jenis=$this->GlobalModel->querymanual("SELECT * FROM masterdata_hargapo where $where GROUP BY nama_po, size ORDER BY hargahpp DESC, nama_po DESC ");
+		$data['action']=BASEURL.'Masterdata/hargapo_save';
 		$no=1;
 		$data['products']=[];
 		foreach($jenis as $j){
 			$data['products'][]=array(
 				'no'=>$no++,
-				'id'=>$j['id_potongan'],
-				'idpo'=>$j['idpo'],
-				'kode_po'=>$j['kode_po'],
-				'size_potongan'=>$j['size_potongan'],
+				'id'=>$j['id'],
+				'nama_po'=>$j['nama_po'],
+				'size_potongan'=>$j['size'],
 				'hargahpp'=>$j['hargahpp'],
-				'edit'=>BASEURL.'Masterdata/hargapoedit/'.$j['id_potongan'],
-				'hapus'=>BASEURL.'Masterdata/hargapohapus/'.$j['id_potongan']
+				'edit'=>BASEURL.'Masterdata/hargapoedit/'.$j['id'],
+				'hapus'=>BASEURL.'Masterdata/hargapohapus/'.$j['id']
 			);
 		}
 		$data['page']=$this->page.'masterdata/hargapopersize';
@@ -2625,10 +2624,24 @@ class Masterdata extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+
+	function hargapo_save(){
+
+		$post = $this->input->post();
+		$dataInserted = array(
+			'nama_po'	=> 	$post['nama_po'],
+			'size'		=> 	$post['size'],
+			'hargahpp'	=> 	$post['hargahpp'],
+		);
+		$this->db->insert('masterdata_hargapo',$dataInserted);
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Masterdata/hargapo');
+	}
+
 	function hargapoedit($id){
 
 		$data['title']	= 'Form Master Harga PO';
-		$data['products']	= $this->GlobalModel->getDataRow('konveksi_buku_potongan',array('id_potongan'=>$id));
+		$data['products']	= $this->GlobalModel->getDataRow('masterdata_hargapo',array('id'=>$id));
 		$data['page']=$this->page.'/masterdata/hargapoedit';
 		$data['cancel']=BASEURL.'Masterdata/hargapo';
 		$data['action']=BASEURL.'Masterdata/hargapoedit_save';
@@ -2639,9 +2652,11 @@ class Masterdata extends CI_Controller {
 
 		$post = $this->input->post();
 		$dataInserted = array(
+			'nama_po'	=> 	$post['nama_po'],
+			'size'		=> 	$post['size'],
 			'hargahpp'	=> 	$post['hargahpp'],
 		);
-		$this->db->update('konveksi_buku_potongan',$dataInserted,array('id_potongan'=>$post['id_potongan']));
+		$this->db->update('masterdata_hargapo',$dataInserted,array('id'=>$post['id']));
 		$this->session->set_flashdata('msg','Data berhasil diupdate');
 		redirect(BASEURL.'Masterdata/hargapo?idpo='.$post['idpo']);
 	}
