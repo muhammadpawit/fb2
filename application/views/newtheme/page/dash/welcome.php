@@ -87,7 +87,7 @@
 <div class="row">
 
     <!-- Buang Benang -->
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="small-box" style="background-color:#026AA7;color:white;">
             <div class="inner">
                 <h3><?php echo $buangBenang ?> PO</h3>
@@ -103,7 +103,7 @@
     </div>
 
     <!-- Cucian -->
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="small-box" style="background-color:#D97706;color:white;">
             <div class="inner">
                 <h3><?php echo $Cucian ?> PO</h3>
@@ -135,7 +135,7 @@
     </div>
 
     <!-- Pasang Kancing -->
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="small-box" style="background-color:#605ca8;color:white;">
             <div class="inner">
                 <h3><?php echo $pk ?> PO</h3>
@@ -151,7 +151,7 @@
     </div>
 
     <!-- Tress (Obras) -->
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="small-box" style="background-color:#d81b60;color:white;">
             <div class="inner">
                 <h3><?php echo $tress ?> PO</h3>
@@ -162,6 +162,39 @@
             </div>
             <a href="#" class="small-box-footer lihat-detail" data-id="tress">
                 Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color:#475569; color:white;">
+            <div class="inner">
+                <h3><?php echo $sablonKirim ?> PO</h3>
+                <p>Pengiriman Sablon</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="sablonkirim">
+                Detail <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+     <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color:#475569; color:white;">
+            <div class="inner">
+                <h3><?php echo $sablonSetor ?> PO</h3>
+                <p>Setoran Sablon</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="sablonsetor">
+                Detail <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
@@ -735,6 +768,86 @@ $(document).on("click", ".lihat-detail", function(e) {
                                 <td>${no}</td>
                                 <td>${row.nama_po}</td>
                                 <td>${row.creted_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='sablonkirim'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/produksi/SABLON/KIRIM",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.kode_po}</td>
+                                <td>${row.create_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='sablonsetor'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/produksi/SABLON/SETOR",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.kode_po}</td>
+                                <td>${row.create_date}</td>
                             </tr>
                         `;
                         no++;

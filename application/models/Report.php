@@ -215,4 +215,21 @@ class Report extends CI_Model {
 	}
 
 
+	function produksi($type,$kategori,$proses){
+		$tanggal_awal = date('Y-m-d',strtotime("Monday this week"));
+		$tanggal_akhir = date('Y-m-d',strtotime("Saturday this week"));
+		$sql=" SELECT * FROM kelolapo_kirim_setor WHERE `progress` = '$proses' AND `kategori_cmt` = '$kategori' ";
+		$sql.=" AND date(create_date) BETWEEN '".$tanggal_awal."' AND '".$tanggal_akhir."' ";
+		$sql.=" ORDER BY create_date DESC ";
+		$data=$this->GlobalModel->queryManual($sql);
+
+		if($type=='count'){
+			return count($data);
+		}else{
+			return $data;
+		}
+
+
+	}
+
 }

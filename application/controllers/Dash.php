@@ -611,6 +611,10 @@ class Dash extends CI_Controller {
 		$data['lk'] 			= $this->Report->borongan(1,'count');
 		$data['pk'] 			= $this->Report->borongan(2,'count');
 		$data['tress'] 			= $this->Report->borongan(3,'count');
+
+		// sablon
+		$data['sablonKirim'] 	= $this->Report->produksi('count','SABLON','KIRIM');
+		$data['sablonSetor'] 	= $this->Report->produksi('count','SABLON','SETOR');
 		
 
 		$data['page']=$this->page.'/dash/welcome';
@@ -2032,6 +2036,12 @@ class Dash extends CI_Controller {
 	function borongan($id){
 		$data =[];
 		$data = $this->Report->borongan($id,'data');
+		echo json_encode($data);
+	}
+
+	function produksi($kategori,$proses){
+		$data =[];
+		$data = $this->Report->produksi('data',$kategori,$proses);
 		echo json_encode($data);
 	}
 	
