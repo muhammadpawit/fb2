@@ -1609,6 +1609,21 @@ class Pembayaran extends CI_Controller {
 			'hapus'=>1,
 		);
 		$this->db->update('pembayaran_cmt',$update,array('id'=>$id));
+
+		// cek jika ada pinjaman yang dipotong untuk dibalikin lagi 
+		$pembayarancmt = $this->GlobalModel->GetdataRow('pembayaran_cmt',array('id' => $id));
+		$potonganPinjaman = $this->GlobalModel->GetdataRow('potongan_pinjaman_cmt',array('tanggal' => $pembayarancmt['tanggal'],'idcmt' => $pembayarancmt['idcmt']));
+		if(isset($potonganPinjaman['id'])){
+			$updateHistoryPinjaman = array(
+				'hapus'=>1,
+			);
+			$whereHistoryPinjaman = array(
+				'tanggal'=>$potonganPinjaman['tanggal'],
+				'idcmt'=>$potonganPinjaman['idcmt'],
+			);
+			$this->db->update('potongan_pinjaman_cmt',$updateHistoryPinjaman,$whereHistoryPinjaman);
+			$this->GlobalModel->QueryManual("UPDATE pinjaman_cmt SET totalpotongan=totalpotongan-'".$potonganPinjaman['totalpotongan']."' WHERE idcmt='".$pembayarancmt['idcmt']."' AND status NOT IN (3) AND hapus=0 ");
+		}
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Pembayaran/cmtjahit');
 	}
