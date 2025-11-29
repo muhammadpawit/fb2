@@ -9,6 +9,13 @@
             Trip ke : <label><?php echo $detail['tripke'] ?></label>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            
+            Keterangan :
+            <textarea class="form-control" name="keterangan" rows="2" placeholder="Keterangan"><?php echo $detail['keterangan']; ?></textarea>
+        </div>
+    </div>
     <div class="col-md-12">
         <table class="table table-bordered">
             <thead>

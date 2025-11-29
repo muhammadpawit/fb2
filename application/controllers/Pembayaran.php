@@ -1660,6 +1660,7 @@ class Pembayaran extends CI_Controller {
 					'potongan_mesin'	  	  => $data['potongan_mesin'],
 					'potongan_vermak'	  	  => $data['potongan_vermak'],
 					'tambahan_lainnya'	  	  => $data['tambahan_lainnya'],
+					'keterangan'	  	  		=> $data['keterangan'],
 					'total'=>$totalbayar + $data['pengembalian_bangke'] + $data['tambahan_lainnya'] - $data['potongan_bangke'] - $data['potongan_alat'] - $data['potongan_mesin'] - $data['potongan_vermak'] - $data['biaya_transport'] - $data['potongan_lainnya'],
 				);
 				$this->db->update('pembayaran_cmt',$insert,array('id'=>$data['id']));
