@@ -899,7 +899,7 @@ class Pembayaran extends CI_Controller {
 			$pot=$this->GlobalModel->GetDataRow('konveksi_buku_potongan',array('idpo'=>$p['kode_po']));
 			$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$p['kode_po']));
 			if(!empty($pot)){
-				$pots=$pot['hasil_pieces_potongan'];
+				$pots=$pot['hasil_pieces_potongan'] ?? ($pot['dz_variasi']*12);
 			}else{
 				$pots=!empty($p['potongan'])?$p['potongan']:0;
 			}
