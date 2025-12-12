@@ -9,8 +9,9 @@ class LaravelApi extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->ciSecretKey = getenv('CI_SECRET_KEY') ?: 'default_value';
-        $this->laravelBaseUrl = getenv('API_URL') ?: 'default_value';
+        $this->ciSecretKey = getenv('CI_SECRET_KEY') ?: $this->config->item('CI_SECRET_KEY');
+        $this->laravelBaseUrl = getenv('API_URL') ?: $this->config->item('API_URL');
+        
         // atau kalau Laravel, bisa pakai env()
         // $this->ciSecretKey = env('CI_SECRET_KEY', 'default_value');
         header('Access-Control-Allow-Origin: forboysproduction.com'); // bisa ganti * dengan domain front-end

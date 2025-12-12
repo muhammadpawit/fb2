@@ -522,3 +522,5 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+$config['CI_SECRET_KEY'] = '9BYmzfRGsXit9syTRSeI6ek2mGV4b7GM';
+$config['API_URL']       = 'https://api.forboysproduction.com';
