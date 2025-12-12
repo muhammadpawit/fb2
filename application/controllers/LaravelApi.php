@@ -46,6 +46,7 @@ class LaravelApi extends CI_Controller {
         ]);
 
         $response = curl_exec($curl);
+        pre($response);
         curl_close($curl);
 
         return json_decode($response, true);
