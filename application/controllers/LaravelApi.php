@@ -96,39 +96,44 @@ class LaravelApi extends CI_Controller {
     
     public function monitor()
     {
-        // 1. Ambil token dari Laravel
+        // 1. Ambil token Laravel
         $tokenResponse = $this->getLaravelToken();
-        // pre($tokenResponse);
         if (!$tokenResponse || !$tokenResponse['success']) {
             echo json_encode([
+                "draw" => intval($this->input->get('draw', 1)),
+                "recordsTotal" => 0,
+                "recordsFiltered" => 0,
                 "data" => [],
                 "error" => "Gagal mendapatkan token dari Laravel API"
             ]);
             return;
         }
 
-        $token = $tokenResponse['token']; // token valid
+        $token = $tokenResponse['token'];
 
-
-        // 2. Ambil filter dari FE (URL)
+        // 2. Ambil filter & pagination dari FE
         $jenispo   = $this->input->get('jenispo')  ?: null;
         $validasi  = $this->input->get('validasi') ?: null;
         $model_po  = $this->input->get('model_po') ?: null;
+        $page      = $this->input->get('page', 1);
+        $per_page  = $this->input->get('per_page', 25);
+        $draw      = intval($this->input->get('draw', 1));
 
         // 3. Build URL GET Query
         $params = http_build_query([
             "secret_key" => $this->ciSecretKey,
             "jenispo"    => $jenispo,
             "validasi"   => $validasi,
-            "model_po"   => $model_po
+            "model_po"   => $model_po,
+            "page"       => $page,
+            "per_page"   => $per_page,
+            "draw"       => $draw
         ]);
 
         $url = $this->laravelBaseUrl . "/api/monitor?" . $params;
 
-
-        // 4. CURL GET ke Laravel
+        // 4. CURL GET
         $ch = curl_init($url);
-
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer {$token}",
             "Accept: application/json"
@@ -136,27 +141,31 @@ class LaravelApi extends CI_Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
-
         if (curl_errno($ch)) {
             echo json_encode([
+                "draw" => $draw,
+                "recordsTotal" => 0,
+                "recordsFiltered" => 0,
                 "data" => [],
                 "error" => curl_error($ch)
             ]);
             curl_close($ch);
             return;
         }
-
         curl_close($ch);
 
-        // Decode JSON dari Laravel
         $result = json_decode($response, true);
 
-        // Output JSON ke FE (mis. DataTables)
+        // 5. Kembalikan ke DataTables
         echo json_encode([
+            "draw" => $draw,
+            "recordsTotal" => $result['recordsTotal'] ?? 0,
+            "recordsFiltered" => $result['recordsFiltered'] ?? 0,
             "data" => $result['data'] ?? [],
             "message" => $result['message'] ?? null
         ]);
     }
+
 
 
 }

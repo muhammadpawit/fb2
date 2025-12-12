@@ -75,153 +75,80 @@
     </div>
 </div>
 <script type="text/javascript">
-     function search_proses(){
-        url='?';
-    
-        var sj = $('select[name=\'jenispo\']').val();
+function search_proses(){
+    let url = '?';
+    let sj = $('select[name="jenispo"]').val();
+    if (sj != '*') url += '&jenispo=' + encodeURIComponent(sj);
 
-        if (sj != '*') {
-          url += '&jenispo=' + encodeURIComponent(sj);
-        }
+    let val = $('select[name="validasi"]').val();
+    if (val != '*') url += '&validasi=' + encodeURIComponent(val);
 
+    let model_po = $('select[name="model_po"]').val();
+    if (model_po != '*') url += '&model_po=' + encodeURIComponent(model_po);
 
-        var val = $('select[name=\'validasi\']').val();
+    location = url;
+}
 
-        if (val != '*') {
-          url += '&validasi=' + encodeURIComponent(val);
-        }
+$(document).ready(function () {
+    const params = new URLSearchParams(window.location.search);
 
-        var model_po = $('select[name=\'model_po\']').val();
+    const jenispo  = params.get('jenispo')  ?? null;
+    const validasi = params.get('validasi') ?? null;
+    const model_po = params.get('model_po') ?? null;
 
-        if (model_po != '*') {
-          url += '&model_po=' + encodeURIComponent(model_po);
-        }
+    $('.ss').DataTable({
+        processing: true,
+        serverSide: true,
+        searching: false,
+        paging: true,
+        lengthChange: true,
+        pageLength: 25,
+        ordering: false,
 
-        location =url;
-      }
+        ajax: {
+            url: '<?php echo  BASEURL.("LaravelApi/monitor") ?>', // CI controller
+            type: 'GET',
+            data: function(d){
+                d.jenispo  = jenispo;
+                d.validasi = validasi;
+                d.model_po = model_po;
+                d.page     = Math.ceil(d.start / d.length) + 1;
+                d.per_page = d.length;
+                d.draw     = d.draw;
 
-
-    $(document).ready(function () {
-         const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const page_type = urlParams.get('halaman');
-            const jenispo = urlParams.get('jenispo');
-            const validasi = urlParams.get('validasi');
-            const model_po = urlParams.get('model_po');
-            //alert(jenispo);
-            url='?';
-
-            if (jenispo != '*') {
-              url += '&jenispo=' + encodeURIComponent(jenispo);
-            }
-
-            if (validasi != '*') {
-              url += '&validasi=' + encodeURIComponent(validasi);
-            }
-
-            if (model_po != '*') {
-              url += '&model_po=' + encodeURIComponent(model_po);
-            }
-
-        $('.ss').DataTable( {
-            "footerCallback": function ( row, data, start, end, display ) {
-            var api = this.api(), data;
- 
-            // converting to interger to find total
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
- 
-            // computing column Total of the complete result 
-            var monTotal = api
-                .column( 2 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-                
-            var tueTotal = api
-                    .column( 3 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-                    
-                var wedTotal = api
-                    .column( 4 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-                    
-             var thuTotal = api
-                    .column( 5 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-                    
-             var friTotal = api
-                    .column( 6 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-
-            var sfriTotal = api
-                    .column( 7 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-
-            var dfriTotal = api
-                    .column( 8 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-
-             var adfriTotal = api
-                    .column( 9 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-
-            // var adfriTotal = api
-            //         .column( 10 )
-            //         .data()
-            //         .reduce( function (a, b) {
-            //             return intVal(a) + intVal(b);
-            //         }, 0 );
-                
-                    
-                // Update footer by showing the total with the reference of the column index 
-                $( api.column( 0 ).footer() ).html('Total');
-                $( api.column( 1 ).footer() ).html('');
-                $( api.column( 2 ).footer() ).html(monTotal);
-                $( api.column( 3 ).footer() ).html(tueTotal);
-                $( api.column( 4 ).footer() ).html(wedTotal);
-                $( api.column( 5 ).footer() ).html(thuTotal);
-                $( api.column( 6 ).footer() ).html(friTotal);
-                $( api.column( 7 ).footer() ).html(sfriTotal);
-                $( api.column( 8 ).footer() ).html(dfriTotal);
-                $( api.column( 9 ).footer() ).html(adfriTotal);
-                $( api.column( 10 ).footer() ).html(adfriTotal);
+                return d; // wajib
             },
-            "processing": true,
-            "serverSide": true,
-            // "ordering": true,
-            "searching":false,
-            "paging":   false,
-            "lengthChange": false,
-            "ajax":'<?php echo BASEURL?>LaravelApi/monitor'+url,
-            responsive: true,
-        });
+            dataSrc: function(res){
+                return res.data || [];
+            }
+        },
 
+        columns: [
+            { data: 0 }, // No
+            { data: 1 }, // Nama PO
+            { data: 2 }, // Potongan
+            { data: 3 }, // Pengecekan
+            { data: 4 }, // Sablon
+            { data: 5 }, // Bordir
+            { data: 6 }, // Kirim Jahit
+            { data: 7 }, // Setor Jahit
+            { data: 8 }, // Kirim Gudang
+            { data: 9 }, // Rijek
+            { data: 10 } // Selisih
+        ],
+
+        footerCallback: function (row, data) {
+            let api = this.api();
+            let intVal = i => typeof i === 'string' ? i.replace(/,/g, '')*1 : typeof i === 'number' ? i : 0;
+
+            for (let col=2; col<=10; col++){
+                let total = api.column(col).data().reduce((a,b) => intVal(a)+intVal(b), 0);
+                $(api.column(col).footer()).html(total);
+            }
+            $(api.column(0).footer()).html("Total");
+        },
+
+        responsive: true
     });
+});
 </script>
