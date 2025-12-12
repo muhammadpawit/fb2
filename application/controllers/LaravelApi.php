@@ -50,6 +50,11 @@ class LaravelApi extends CI_Controller {
         return json_decode($response, true);
     }
 
+    function index(){
+        echo "Laravel API Controller";
+        echo $this->laravelBaseUrl;
+    }
+
 
     // ===========================================
     // 2. Function GET DATA ke Laravel API (pakai token)
