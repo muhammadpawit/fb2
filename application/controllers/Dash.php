@@ -424,7 +424,7 @@ class Dash extends CI_Controller {
     	if(isset($get['jenispo'])){
     		$data['jenispo']=$get['jenispo'];
     	}else{
-    		$data['jenispo']=1;
+    		$data['jenispo']=null;
     	}
 
 		if(isset($get['model_po'])){
