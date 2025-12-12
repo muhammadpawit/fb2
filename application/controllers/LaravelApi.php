@@ -138,7 +138,7 @@ class LaravelApi extends CI_Controller {
         ];
 
         // 4. Panggil helper apiRequest() GET
-        $url = $this->laravelBaseUrl . "/api/monitor";
+        $url = $this->laravelBaseUrl . "/api/proses-produksi";
         $result = apiRequest($url, 'GET', $params, [
             'Authorization' => "Bearer {$token}"
         ]);
