@@ -119,8 +119,8 @@ class LaravelApi extends CI_Controller {
         $per_page  = $this->input->get('per_page', 25);
         $draw      = intval($this->input->get('draw', 1));
 
-        // 3. Build URL GET Query
-        $params = http_build_query([
+        // 3. Build data untuk helper
+        $params = [
             "secret_key" => $this->ciSecretKey,
             "jenispo"    => $jenispo,
             "validasi"   => $validasi,
@@ -128,33 +128,13 @@ class LaravelApi extends CI_Controller {
             "page"       => $page,
             "per_page"   => $per_page,
             "draw"       => $draw
+        ];
+
+        // 4. Panggil helper apiRequest() GET
+        $url = $this->laravelBaseUrl . "/api/monitor";
+        $result = apiRequest($url, 'GET', $params, [
+            'Authorization' => "Bearer {$token}"
         ]);
-
-        $url = $this->laravelBaseUrl . "/api/monitor?" . $params;
-
-        // 4. CURL GET
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Bearer {$token}",
-            "Accept: application/json"
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo json_encode([
-                "draw" => $draw,
-                "recordsTotal" => 0,
-                "recordsFiltered" => 0,
-                "data" => [],
-                "error" => curl_error($ch)
-            ]);
-            curl_close($ch);
-            return;
-        }
-        curl_close($ch);
-
-        $result = json_decode($response, true);
 
         // 5. Kembalikan ke DataTables
         echo json_encode([
@@ -162,10 +142,10 @@ class LaravelApi extends CI_Controller {
             "recordsTotal" => $result['recordsTotal'] ?? 0,
             "recordsFiltered" => $result['recordsFiltered'] ?? 0,
             "data" => $result['data'] ?? [],
-            "message" => $result['message'] ?? null
+            "message" => $result['message'] ?? null,
+            "error" => $result['error'] ?? null
         ]);
     }
-
 
 
 }

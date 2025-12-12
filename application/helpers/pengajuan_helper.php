@@ -1374,6 +1374,72 @@
 		}
 
 	}
+
+
+	if (!function_exists('apiRequest')) {
+
+    /**
+     * Global helper untuk request API via cURL
+     * 
+     * @param string $url       Endpoint API
+     * @param string $method    GET atau POST
+     * @param array  $data      Query params (GET) atau body (POST)
+     * @param array  $headers   Optional headers tambahan
+     * @return array            Hasil decode JSON
+     */
+    function apiRequest(string $url, string $method = 'GET', array $data = [], array $headers = [])
+    {
+        $ch = curl_init();
+
+        $method = strtoupper($method);
+
+        if ($method === 'GET' && !empty($data)) {
+            $query = http_build_query($data);
+            $url .= (strpos($url, '?') === false ? '?' : '&') . $query;
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Headers default
+        $defaultHeaders = [
+            'Accept: application/json',
+        ];
+        if (!empty($headers)) {
+            foreach ($headers as $key => $val) {
+                $defaultHeaders[] = "$key: $val";
+            }
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $defaultHeaders);
+
+        if ($method === 'POST') {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            // pastikan content-type sudah ada
+            if (!isset($headers['Content-Type'])) {
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($defaultHeaders, [
+                    'Content-Type: application/json'
+                ]));
+            }
+        }
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $error = curl_error($ch);
+            curl_close($ch);
+            return [
+                'success' => false,
+                'error' => $error,
+            ];
+        }
+
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+        return $result ?: ['success' => false, 'raw' => $response];
+    }
+}
 	
 
  ?>
