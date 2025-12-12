@@ -118,6 +118,13 @@ class LaravelApi extends CI_Controller {
         $page      = $this->input->get('page', 1);
         $per_page  = $this->input->get('per_page', 25);
         $draw      = intval($this->input->get('draw', 1));
+        
+
+         // Jika user pilih "All", kirim semua data
+        if ($per_page == -1) {
+            $per_page = 1000000; // jumlah row maksimal, bisa disesuaikan
+            $page     = 1;
+        }
 
         // 3. Build data untuk helper
         $params = [
