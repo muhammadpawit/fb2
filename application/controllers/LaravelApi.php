@@ -97,7 +97,7 @@ class LaravelApi extends CI_Controller {
     {
         // 1. Ambil token dari Laravel
         $tokenResponse = $this->getLaravelToken();
-        pre($tokenResponse);
+        // pre($tokenResponse);
         if (!$tokenResponse || !$tokenResponse['success']) {
             echo json_encode([
                 "data" => [],
