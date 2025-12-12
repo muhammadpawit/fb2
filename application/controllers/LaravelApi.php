@@ -54,7 +54,7 @@ class LaravelApi extends CI_Controller {
 
     function index(){
         echo "Laravel API Controller";
-        echo $this->laravelBaseUrl;
+        // echo $this->laravelBaseUrl;
     }
 
 
