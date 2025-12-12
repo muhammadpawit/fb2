@@ -86,4 +86,70 @@ class LaravelApi extends CI_Controller {
         print_r($data);
         echo "</pre>";
     }
+    
+    public function monitor()
+    {
+        // 1. Ambil token dari Laravel
+        $tokenResponse = $this->getLaravelToken();
+        
+        if (!$tokenResponse || !$tokenResponse['success']) {
+            echo json_encode([
+                "data" => [],
+                "error" => "Gagal mendapatkan token dari Laravel API"
+            ]);
+            return;
+        }
+
+        $token = $tokenResponse['token']; // token valid
+
+
+        // 2. Ambil filter dari FE (URL)
+        $jenispo   = $this->input->get('jenispo')  ?: null;
+        $validasi  = $this->input->get('validasi') ?: null;
+        $model_po  = $this->input->get('model_po') ?: null;
+
+        // 3. Build URL GET Query
+        $params = http_build_query([
+            "secret_key" => $this->ciSecretKey,
+            "jenispo"    => $jenispo,
+            "validasi"   => $validasi,
+            "model_po"   => $model_po
+        ]);
+
+        $url = $this->laravelBaseUrl . "/api/monitor?" . $params;
+
+
+        // 4. CURL GET ke Laravel
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer {$token}",
+            "Accept: application/json"
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo json_encode([
+                "data" => [],
+                "error" => curl_error($ch)
+            ]);
+            curl_close($ch);
+            return;
+        }
+
+        curl_close($ch);
+
+        // Decode JSON dari Laravel
+        $result = json_decode($response, true);
+
+        // Output JSON ke FE (mis. DataTables)
+        echo json_encode([
+            "data" => $result['data'] ?? [],
+            "message" => $result['message'] ?? null
+        ]);
+    }
+
+
 }

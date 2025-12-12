@@ -219,7 +219,7 @@
             "searching":false,
             "paging":   false,
             "lengthChange": false,
-            "ajax":'<?php echo BASEURL?>Json/monitor'+url,
+            "ajax":'<?php echo BASEURL?>LaravelApi/monitor'+url,
             responsive: true,
         });
 
