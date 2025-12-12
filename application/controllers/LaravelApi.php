@@ -58,7 +58,7 @@ class LaravelApi extends CI_Controller {
     {
         // 1. Minta token baru
         $tokenResponse = $this->getLaravelToken();
-        
+        pre($tokenResponse);
         if (!$tokenResponse || !$tokenResponse['success']) {
             die("Gagal mendapatkan token dari Laravel");
         }
