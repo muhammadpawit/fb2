@@ -36,13 +36,13 @@
         </div>
     </div>
     <div class="col-md-12">
-        <table class="table table-bordered ss">
+        <table class="table table-bordered ss" style="width: auto;">
                 <thead>
                   <tr>
-                        <th>No</th>
+                        <th width="2%">No</th>
                         <th>Nama PO</th>
                         <th>Potongan</th>
-                        <th>Pengecekan</th>
+                        <!-- <th>Pengecekan</th> -->
                         <th>Sablon</th>
                         <th>Bordir</th>
                         <th>Kirim Jahit</th>
@@ -58,7 +58,6 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -128,21 +127,20 @@ $(document).ready(function () {
             { data: 0 }, // No
             { data: 1 }, // Nama PO
             { data: 2 }, // Potongan
-            { data: 3 }, // Pengecekan
-            { data: 4 }, // Sablon
-            { data: 5 }, // Bordir
-            { data: 6 }, // Kirim Jahit
-            { data: 7 }, // Setor Jahit
-            { data: 8 }, // Kirim Gudang
-            { data: 9 }, // Rijek
-            { data: 10 } // Selisih
+            { data: 3 }, // Sablon
+            { data: 4 }, // Bordir
+            { data: 5 }, // Kirim Jahit
+            { data: 6 }, // Setor Jahit
+            { data: 7 }, // Kirim Gudang
+            { data: 8 }, // Rijek
+            { data: 9 } // Selisih
         ],
 
         footerCallback: function (row, data) {
             let api = this.api();
             let intVal = i => typeof i === 'string' ? i.replace(/,/g, '')*1 : typeof i === 'number' ? i : 0;
 
-            for (let col=2; col<=10; col++){
+            for (let col=2; col<=9; col++){
                 let total = api.column(col).data().reduce((a,b) => intVal(a)+intVal(b), 0);
                 $(api.column(col).footer()).html(total);
             }
