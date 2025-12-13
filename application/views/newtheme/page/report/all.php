@@ -2,7 +2,7 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Nama PO</label>
-            <select name="jenispo" class="form-control select2bs4" data-live-search="true">
+            <select name="jenispo" id="jenispo" class="form-control select2bs4" data-live-search="true">
                 <option value="*">Semua</option>
                 <?php foreach($jenis as $j){?>
                     <option value="<?php echo $j['id_jenis_po']?>" <?php echo $j['id_jenis_po']==$jenispo?'selected':'';?>><?php echo $j['nama_jenis_po']?></option>
@@ -13,7 +13,7 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Model PO</label>
-            <select name="model_po" class="form-control select2bs4" data-live-search="true">
+            <select name="model_po" id="model_po" class="form-control select2bs4" data-live-search="true">
                 <option value="*">Semua</option>
                 <?php foreach($model_pos as $j){?>
                     <option value="<?php echo $j['id']?>" <?php echo $j['id']==$model_po?'selected':'';?>><?php echo $j['nama_model']?></option>
@@ -75,26 +75,15 @@
 </div>
 <script type="text/javascript">
 function search_proses(){
-    let url = '?';
-    let sj = $('select[name="jenispo"]').val();
-    if (sj != '*') url += '&jenispo=' + encodeURIComponent(sj);
-
-    let val = $('select[name="validasi"]').val();
-    if (val != '*') url += '&validasi=' + encodeURIComponent(val);
-
-    let model_po = $('select[name="model_po"]').val();
-    if (model_po != '*') url += '&model_po=' + encodeURIComponent(model_po);
-
-    location = url;
+     $('.ss').DataTable().ajax.reload();
 }
 
 $(document).ready(function () {
     const params = new URLSearchParams(window.location.search);
 
-    const jenispo  = params.get('jenispo')  ?? null;
-    const validasi = params.get('validasi') ?? null;
-    const model_po = params.get('model_po') ?? null;
+    
 
+    
     $('.ss').DataTable({
         processing: true,
         serverSide: true,
@@ -109,9 +98,13 @@ $(document).ready(function () {
             url: '<?php echo  BASEURL.("LaravelApi/proses_produksi") ?>', // CI controller
             type: 'GET',
             data: function(d){
-                d.jenispo  = jenispo;
-                d.validasi = validasi;
-                d.model_po = model_po;
+
+                const jenispo  = $('#jenispo').val();
+                const validasi = $('#validasi').val();
+                const model_po = $('#model_po').val();
+                d.jenispo  = jenispo !== '*' ? jenispo : null;
+                d.validasi = validasi !== '*' ? validasi : null;
+                d.model_po = model_po !== '*' ? model_po : null;
                 d.page     = Math.ceil(d.start / d.length) + 1;
                 d.per_page = d.length;
                 d.draw     = d.draw;
@@ -149,5 +142,10 @@ $(document).ready(function () {
 
         responsive: true
     });
+
+    // Fungsi filter
+    window.filter = function(){
+        table.ajax.reload();
+    };
 });
 </script>

@@ -137,6 +137,8 @@ class LaravelApi extends CI_Controller {
             "draw"       => $draw
         ];
 
+        // pre($params);
+
         // 4. Panggil helper apiRequest() GET
         $url = $this->laravelBaseUrl . "/api/proses-produksi";
         $result = apiRequest($url, 'GET', $params, [
