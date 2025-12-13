@@ -89,6 +89,8 @@ class Report extends CI_Model {
 
 	function packing($type){
 		$sql ="SELECT * FROM `packing` WHERE id_produksi_po NOT IN (SELECT idpo FROM finishing_kirim_gudang) and hapus=0";
+		$sql.=" AND date(creted_data) BETWEEN '".date('Y-m-d',strtotime("Monday this week"))."' AND '".date('Y-m-d',strtotime("Saturday this week"))."' ";
+		$sql.=" ORDER BY creted_data DESC ";
 		$data = $this->GlobalModel->QueryManual($sql);
 		if($type=='count'){
 			return count($data);
