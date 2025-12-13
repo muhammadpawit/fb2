@@ -424,7 +424,9 @@ class Report extends CI_Controller {
 			'jenis'=>$jenis,
 		);
 		$data['products']=array();
-		$results=$this->ReportModel->potongan($filter);
+		$results=[];
+		// $results=$this->ReportModel->potongan($filter);
+		
 		$data['n']=1;
 		$timpotong=null;
 		$totaldz=0;

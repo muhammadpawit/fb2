@@ -107,7 +107,7 @@ $(document).ready(function () {
         ordering: false,
 
         ajax: {
-            url: '<?php echo  BASEURL.("LaravelApi/monitor") ?>', // CI controller
+            url: '<?php echo  BASEURL.("LaravelApi/proses_produksi") ?>', // CI controller
             type: 'GET',
             data: function(d){
                 d.jenispo  = jenispo;

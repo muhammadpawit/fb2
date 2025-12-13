@@ -94,7 +94,7 @@ class LaravelApi extends CI_Controller {
         echo "</pre>";
     }
     
-    public function monitor()
+    public function proses_produksi()
     {
         // 1. Ambil token Laravel
         $tokenResponse = $this->getLaravelToken();
@@ -139,6 +139,72 @@ class LaravelApi extends CI_Controller {
 
         // 4. Panggil helper apiRequest() GET
         $url = $this->laravelBaseUrl . "/api/proses-produksi";
+        $result = apiRequest($url, 'GET', $params, [
+            'Authorization' => "Bearer {$token}"
+        ]);
+
+        // 5. Kembalikan ke DataTables
+        echo json_encode([
+            "draw" => $draw,
+            "recordsTotal" => $result['recordsTotal'] ?? 0,
+            "recordsFiltered" => $result['recordsFiltered'] ?? 0,
+            "data" => $result['data'] ?? [],
+            "message" => $result['message'] ?? null,
+            "error" => $result['error'] ?? null
+        ]);
+    }
+
+    public function report_potongan()
+    {
+        // 1. Ambil token Laravel
+        $tokenResponse = $this->getLaravelToken();
+        if (!$tokenResponse || !$tokenResponse['success']) {
+            echo json_encode([
+                "draw" => intval($this->input->get('draw', 1)),
+                "recordsTotal" => 0,
+                "recordsFiltered" => 0,
+                "data" => [],
+                "error" => "Gagal mendapatkan token dari Laravel API"
+            ]);
+            return;
+        }
+
+        $token = $tokenResponse['token'];
+
+        // 2. Ambil filter & pagination dari FE
+        $jenispo   = $this->input->get('jenispo')  ?: null;
+        $validasi  = $this->input->get('validasi') ?: null;
+        $model_po  = $this->input->get('model_po') ?: null;
+        $page      = $this->input->get('page', 1);
+        $per_page  = $this->input->get('per_page', 25);
+        $draw      = intval($this->input->get('draw', 1));
+
+        $tanggal_from  = $this->input->get('tanggal_from') ?: null;
+        $tanggal_to  = $this->input->get('tanggal_to') ?: null;
+        
+
+         // Jika user pilih "All", kirim semua data
+        if ($per_page == -1) {
+            $per_page = 1000000; // jumlah row maksimal, bisa disesuaikan
+            $page     = 1;
+        }
+
+        // 3. Build data untuk helper
+        $params = [
+            "secret_key" => $this->ciSecretKey,
+            "jenispo"    => $jenispo,
+            "validasi"   => $validasi,
+            "model_po"   => $model_po,
+            "page"       => $page,
+            "per_page"   => $per_page,
+            "draw"       => $draw,
+            "tanggal_from"   => $tanggal_from,
+            "tanggal_to"   => $tanggal_to
+        ];
+        // pre($params);
+
+        // 4. Panggil helper apiRequest() GET
+        $url = $this->laravelBaseUrl . "/api/report-potongan";
         $result = apiRequest($url, 'GET', $params, [
             'Authorization' => "Bearer {$token}"
         ]);
