@@ -1574,54 +1574,39 @@ class Finishing extends CI_Controller {
 		$viewData['buangbenang']= $this->GlobalModel->QueryManual(
 			"SELECT DISTINCT kode_po,jumlah_pcs, harga FROM buang_benang_finishing WHERE hapus=0 AND kode_po='$kodepo' GROUP by kode_po "
 		);
-		$viewData['packing']=[];
-		$namapo=$viewData['po']['nama_po'];
-		if(strtolower($namapo)=="kfb" OR strtolower($namapo)=="kkf"){
-			$viewData['packing']=array(
-				array(
-					// 'harga_dz'=>12000,
-					'harga_dz'=>24000,
-					'keterangan'=>'Packing',
-				),
+		
+
+		$viewData['packing'] = [];
+
+		$namapo = strtolower($viewData['po']['nama_po']);
+
+		// ambil harga packing per PO
+		$packingPo = $this->GlobalModel->getRow(
+			'packing_po',
+			[
+				'nama_po' => $namapo,
+				'aktif'   => 1
+			]
+		);
+
+		if ($packingPo) {
+			$viewData['packing'] = [
+				[
+					'harga_dz'   => (int)$packingPo->harga_dz,
+					'keterangan' => 'Packing',
+				]
+			];
+		} else {
+			// fallback (logic lama)
+			$viewData['packing'] = $this->GlobalModel->getData(
+				'packing',
+				[
+					'nama_po' => $kodepo,
+					'hapus'   => 0
+				]
 			);
-		}else if(strtolower($namapo)=="skf" OR strtolower($namapo)=="fahk"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>24000,
-					'keterangan'=>'Packing',
-				),
-			);
-		}else if(strtolower($namapo)=="ksf"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>30000, // perubahan ke 30000 tgl 2 februari 2024
-					'keterangan'=>'Packing',
-				),
-			);
-		}else if(strtolower($namapo)=="fshk"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>30000, // perubahan ke 30000 tgl 2 februari 2024
-					'keterangan'=>'Packing',
-				),
-			);
-		}else if(strtolower($namapo)=="fshq"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>30000, // perubahan ke 30000 tgl 2 februari 2024
-					'keterangan'=>'Packing',
-				),
-			);
-		}else if(strtolower($namapo)=="fshj"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>30000, // perubahan ke 30000 tgl 2 februari 2024
-					'keterangan'=>'Packing',
-				),
-			);
-		}else{
-			$viewData['packing']= $this->GlobalModel->getData('packing',array('nama_po'=>$kodepo,'hapus'=>0));
 		}
+
 		
 		$viewData['cucian']=[];
 		$viewData['cucian']= $this->GlobalModel->getData('cucian',array('kode_po'=>$kodepo,'hapus'=>0));
