@@ -894,7 +894,7 @@
 
                                         <td><center><?php echo $no+=1?></center></td>
 
-                                        <td><?php echo strtoupper((empty($mesin['keterangan']))?"Packing":'Packing') ?></td>
+                                        <td><?php echo strtoupper((empty($mesin['keterangan']))?"Packing":$mesin['keterangan']) ?></td>
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 

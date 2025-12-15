@@ -1592,7 +1592,7 @@ class Finishing extends CI_Controller {
 		if ($packingPo) {
 			$viewData['packing'] = [
 				[
-					'harga_dz'   => (int)$packingPo->harga_dz,
+					'harga_dz'   => $packingPo['harga_dz'] ?? 0,
 					'keterangan' => 'Packing',
 				]
 			];
@@ -1607,6 +1607,7 @@ class Finishing extends CI_Controller {
 			);
 		}
 
+		// pre($viewData['packing']);
 		
 		$viewData['cucian']=[];
 		$viewData['cucian']= $this->GlobalModel->getData('cucian',array('kode_po'=>$kodepo,'hapus'=>0));
