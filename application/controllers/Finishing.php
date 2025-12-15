@@ -1581,7 +1581,7 @@ class Finishing extends CI_Controller {
 		$namapo = strtolower($viewData['po']['nama_po']);
 
 		// ambil harga packing per PO
-		$packingPo = $this->GlobalModel->getRow(
+		$packingPo = $this->GlobalModel->GetDataRow(
 			'packing_po',
 			[
 				'nama_po' => $namapo,
