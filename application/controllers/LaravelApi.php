@@ -222,71 +222,54 @@ class LaravelApi extends CI_Controller {
         ]);
     }
 
-    public function report_potongan_excel()
-    {
-        // 1. Ambil token Laravel
-        $tokenResponse = $this->getLaravelToken();
-        if (!$tokenResponse || !$tokenResponse['success']) {
-            echo json_encode([
-                "draw" => intval($this->input->get('draw', 1)),
-                "recordsTotal" => 0,
-                "recordsFiltered" => 0,
-                "data" => [],
-                "error" => "Gagal mendapatkan token dari Laravel API"
-            ]);
-            return;
-        }
-
-        $token = $tokenResponse['token'];
-
-        // 2. Ambil filter & pagination dari FE
-        $jenispo   = $this->input->get('jenispo')  ?: null;
-        $validasi  = $this->input->get('validasi') ?: null;
-        $model_po  = $this->input->get('model_po') ?: null;
-        $page      = $this->input->get('page', 1);
-        $per_page  = $this->input->get('per_page', 25);
-        $draw      = intval($this->input->get('draw', 1));
-
-        $tanggal_from  = $this->input->get('tanggal_from') ?: null;
-        $tanggal_to  = $this->input->get('tanggal_to') ?: null;
-        
-
-         // Jika user pilih "All", kirim semua data
-        if ($per_page == -1) {
-            $per_page = 1000000; // jumlah row maksimal, bisa disesuaikan
-            $page     = 1;
-        }
-
-        // 3. Build data untuk helper
-        $params = [
-            "secret_key" => $this->ciSecretKey,
-            "jenispo"    => $jenispo,
-            "validasi"   => $validasi,
-            "model_po"   => $model_po,
-            "page"       => $page,
-            "per_page"   => $per_page,
-            "draw"       => $draw,
-            "tanggal_from"   => $tanggal_from,
-            "tanggal_to"   => $tanggal_to
-        ];
-        // pre($params);
-
-        // 4. Panggil helper apiRequest() GET
-        $url = $this->laravelBaseUrl . "/api/report-potongan-excel";
-        $result = apiRequest($url, 'GET', $params, [
-            'Authorization' => "Bearer {$token}"
-        ]);
-
-        // 5. Kembalikan ke DataTables
-        echo json_encode([
-            "draw" => $draw,
-            "recordsTotal" => $result['recordsTotal'] ?? 0,
-            "recordsFiltered" => $result['recordsFiltered'] ?? 0,
-            "data" => $result['data'] ?? [],
-            "message" => $result['message'] ?? null,
-            "error" => $result['error'] ?? null
-        ]);
+   public function report_potongan_excel()
+{
+    // 1. Ambil token Laravel
+    $tokenResponse = $this->getLaravelToken();
+    if (!$tokenResponse || !$tokenResponse['success']) {
+        show_error('Gagal mendapatkan token Laravel', 500);
+        return;
     }
+
+    $token = $tokenResponse['token'];
+
+    // 2. Ambil filter dari FE
+    $params = [
+        "secret_key"    => $this->ciSecretKey,
+        "jenispo"       => $this->input->get('jenispo'),
+        "validasi"      => $this->input->get('validasi'),
+        "model_po"      => $this->input->get('model_po'),
+        "tanggal_from"  => $this->input->get('tanggal_from'),
+        "tanggal_to"    => $this->input->get('tanggal_to'),
+        "per_page"      => $this->input->get('per_page', 1000000),
+    ];
+
+    // bersihkan null
+    $params = array_filter($params, fn($v) => $v !== null && $v !== '');
+
+    $url = $this->laravelBaseUrl . "/api/report-potongan-excel?" . http_build_query($params);
+
+    // 3. CURL STREAM FILE (INI KUNCI UTAMA)
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => false, // ⬅️ PENTING
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTPHEADER => [
+            "Authorization: Bearer {$token}"
+        ],
+        CURLOPT_HEADER => false
+    ]);
+
+    // 4. Set header agar browser download
+    header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    header("Content-Disposition: attachment; filename=report_potongan.xlsx");
+    header("Cache-Control: max-age=0");
+
+    curl_exec($ch);
+    curl_close($ch);
+    exit;
+}
+
 
 
 }
