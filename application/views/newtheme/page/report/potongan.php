@@ -141,4 +141,31 @@ $(document).ready(function () {
         table.ajax.reload();
     };
 });
+
+function excelpotongan() {
+    const params = new URLSearchParams();
+
+    const tanggalFrom = $('#tanggal1').val();
+    const tanggalTo   = $('#tanggal2').val();
+    const tim         = $('#tim').val();
+    const jenispo     = $('#jenis').val();
+
+    if (tanggalFrom) params.append('tanggal_from', tanggalFrom);
+    if (tanggalTo)   params.append('tanggal_to', tanggalTo);
+
+    // ⬇️ JANGAN kirim kalau *
+    if (tim && tim !== '*') {
+        params.append('tim', tim);
+    }
+
+    if (jenispo && jenispo !== '*') {
+        params.append('jenispo', jenispo);
+    }
+
+    params.append('per_page', 1000000000);
+
+    window.location.href =
+        '<?= BASEURL ?>LaravelApi/report_potongan_excel?' + params.toString();
+}
+
 </script>
