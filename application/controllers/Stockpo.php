@@ -116,7 +116,7 @@ class Stockpo extends CI_Controller {
 		$data['products']=array();
 		$data['prods']=array();
 		$data['jenis']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
-		$sql="SELECT kc.*, c.cmt_name FROM kirimcmt kc LEFT JOIN master_cmt c ON(c.id_cmt=kc.idcmt) WHERE kc.idcmt='$idcmt' ";
+		$sql="SELECT kc.*, c.cmt_name FROM kirimcmt kc LEFT JOIN master_cmt c ON(c.id_cmt=kc.idcmt) WHERE kc.hapus=0 AND kc.idcmt='$idcmt'  ";
 		$data['products']=$this->GlobalModel->QueryManualRow($sql);
 		$jenis=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
 		$no=1;
