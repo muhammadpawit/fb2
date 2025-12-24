@@ -60,9 +60,17 @@ class Laporanpengirimanalatpo extends CI_Controller {
 			$idpersediaan=null;
 		}
 
+		if(isset($get['idcmt'])){
+			$idcmt=$get['idcmt'];
+		}else{
+			$idcmt=null;
+		}
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['id_persediaan']=$idpersediaan;
+		$data['idcmt']=$idcmt;
+		$data['cmt']	=$this->GlobalModel->QueryManual("SELECT id_cmt, cmt_name as nama_cmt FROM master_cmt GROUP BY id_cmt ");
 		$data['persediaan']	=$this->GlobalModel->QueryManual("SELECT id_persediaan, nama_item_keluar as nama_persediaan FROM gudang_item_keluar GROUP BY id_persediaan ");
 		$update=$this->GlobalModel->QueryManualRow("SELECT * FROM gudang_item_keluar WHERE hapus=0 ORDER BY created_date DESC LIMIT 1 ");
 		$sql="SELECT id_item_keluar, nama_penerima, tujuan_item FROM gudang_item_keluar WHERE hapus=0 "; 
@@ -70,6 +78,12 @@ class Laporanpengirimanalatpo extends CI_Controller {
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
+
+		if(!empty($idcmt)){
+			$sql.=" AND nama_penerima='".$idcmt."' ";
+		}
+
+
 		$sql.=" GROUP BY nama_penerima ORDER BY nama_penerima ASC ";
 		//pre($sql);
 		$results=[];

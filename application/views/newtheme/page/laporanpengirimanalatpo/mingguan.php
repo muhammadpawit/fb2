@@ -11,13 +11,13 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Awal</label>
 			<input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Tanggal Akhir</label>
 			<input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
@@ -35,6 +35,17 @@
 		</div>
 	</div>
 	<div class="col-md-3">
+		<div class="form-group">
+			<label>Nama CMT</label>
+			<select name="idcmt" id="idcmt" class="form-control select2bs4">
+				<option value="*">Pilih Nama CMT</option>
+				<?php foreach($cmt as $p){ ?>
+					<option value="<?php echo $p['nama_cmt'] ?>" <?php echo ($idcmt == $p['nama_cmt']) ? 'selected' : '' ?>><?php echo $p['nama_cmt'] ?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtercari()">Filter</button>
@@ -107,6 +118,12 @@
 
     if (id_persediaan) {
       url += '&id_persediaan=' + encodeURIComponent(id_persediaan);
+    }
+
+	var idcmt = $('select[name=\'idcmt\']').val();
+
+    if (idcmt!='*') {
+      url += '&idcmt=' + encodeURIComponent(idcmt);
     }
 
     
