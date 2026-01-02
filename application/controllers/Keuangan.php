@@ -939,10 +939,11 @@ class Keuangan extends CI_Controller {
 		$data=array();
 		$data['title']='List Kasbon karyawan';
 		$get=$this->input->get();
+		$lastdata=$this->GlobalModel->QueryManualRow(" SELECT tanggal FROM kasbon WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of previous month"));
+			$tanggal1=date('Y-m-d',strtotime($lastdata['tanggal']));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
