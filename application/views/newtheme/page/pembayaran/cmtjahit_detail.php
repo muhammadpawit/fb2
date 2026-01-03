@@ -221,7 +221,7 @@
     <div class="col-md-6">
         <div class="box box-success">
             <div class="box-header">
-                <b>Total Diterima</b>
+                <b>Total Dibayarkan Ke-CMT</b>
             </div>
             <div class="box-body text-center">
                 <h2 class="text-green">
