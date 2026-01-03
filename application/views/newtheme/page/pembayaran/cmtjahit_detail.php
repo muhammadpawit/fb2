@@ -230,7 +230,7 @@
                         <td><?php echo $r['keterangan']?></td>
                     </tr>
                 <?php } ?>
-                <?php foreach($harga as $r){?>
+                <?php foreach((array)$harga as $r){?>
                     <tr>
                         <td><?php echo $number++?></td>
                         <td><?php echo $r['namapo']?></td>
@@ -281,7 +281,7 @@
             </thead>
             <tbody>
                 <?php $nomor=1;$bang=0;?>
-                <?php foreach($bangke as $b){?>
+                <?php foreach((array)$bangke as $b){?>
                     <tr>
                         <td><?php echo $nomor++?></td>
                         <td><?php echo strtoupper($b['kode_po'])?></td>
@@ -375,7 +375,7 @@
             </thead>
             <tbody>
                 <?php $nomor=1;$am=0;?>
-                <?php foreach($mesin as $b){?>
+                <?php foreach((array)$mesin as $b){?>
                     <tr>
                         <td><?php echo $nomor++?></td>
                         <td><?php echo strtoupper($b['rincian'])?></td>
@@ -421,7 +421,7 @@
             </thead>
             <tbody>
                 <?php $nomor=1;$av=0;?>
-                <?php foreach($vermak as $b){?>
+                <?php foreach((array)$vermak as $b){?>
                     <tr>
                         <td><?php echo $nomor++?></td>
                         <td><?php echo strtoupper($b['rincian'])?></td>
