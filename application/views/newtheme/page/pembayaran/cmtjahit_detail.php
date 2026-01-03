@@ -331,8 +331,10 @@
                     <tr>
                         <td><?php echo $nomor++?></td>
                         <td><?php echo strtoupper($b['rincian'])?></td>
-                        <td><?php echo $b['qty']?></td>
-                        <td><?php echo number_format($b['harga'])?></td>
+                        <td>
+                            <input name="alat[<?php echo $b['id']?>][id]" type="hidden" value="<?php echo $b['id']?>">
+                            <input name="alat[<?php echo $b['id']?>][qty]" type="number" value="<?php echo $b['qty']?>"></td>
+                        <td><input name="alat[<?php echo $b['id']?>][harga]" type="number" value="<?php echo $b['harga']?>"></td>
                         <td><?php echo number_format($b['qty']*$b['harga'])?></td>
                         <td><?php echo strtolower($b['keterangan'])?></td>
                     </tr>

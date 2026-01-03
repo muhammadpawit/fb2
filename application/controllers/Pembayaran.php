@@ -1631,6 +1631,7 @@ class Pembayaran extends CI_Controller {
 	public function cmtjahit_update(){
 		$data=$this->input->post();
 		// pre($data);
+		$id=$data['id'];
 		$totalbayar=0;
 		$totalbangke=0;
 		$totalpengembalianbangke=0;
@@ -1664,6 +1665,29 @@ class Pembayaran extends CI_Controller {
 					'total'=>$totalbayar + $data['pengembalian_bangke'] + $data['tambahan_lainnya'] - $data['potongan_bangke'] - $data['potongan_alat'] - $data['potongan_mesin'] - $data['potongan_vermak'] - $data['biaya_transport'] - $data['potongan_lainnya'],
 				);
 				$this->db->update('pembayaran_cmt',$insert,array('id'=>$data['id']));
+
+				if(isset($data['alat'])){
+					foreach($data['alat'] as $p){
+						$alat=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalalat+=($p['qty']*$p['harga']);
+						$this->db->update('potongan_alat',$alat,array('id'=>$p['id']));
+						if(isset($p['id_distribusi'])){
+							$updatedis = array(
+								'idpembayaran' => $id
+							);
+							$this->db->update('distribusi_alat_sukabumi',$updatedis,array('id'=> $p['id_distribusi']));
+						}
+					}
+					$this->db->update('pembayaran_cmt',array('potongan_alat'=>$totalalat),array('id'=>$id));
+				}
 
 				$this->session->set_flashdata('msg','Data berhasil ditambah');
 				redirect(BASEURL.'Pembayaran/cmtjahit');
