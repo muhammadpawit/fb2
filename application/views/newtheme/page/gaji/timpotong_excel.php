@@ -32,40 +32,40 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 					<?php if($p['total'] > 0){ ?>
 					<tr>
 						<td><?php echo $no++?></td>
-						<td><?php echo $p['tanggal']?></td>
+						<td><?php echo date('Y-m-d',strtotime($p['tanggal']))?></td>
 						<td><?php echo $p['kode_po']?></td>
 						<td><?php echo $p['jenis']?></td>
 						<td>'<?php echo $p['size']?></td>
-						<td><?php echo number_format($p['lusin'],2)?></td>
+						<td>'<?php echo number_format($p['lusin'],2)?></td>
 						<td><?php echo $p['pcs']?></td>
-						<td><?php echo $p['harga']?></td>
-						<td><?php echo $p['total']?></td>
+						<td><?php echo number_format($p['harga'],2)?></td>
+						<td><?php echo number_format($p['total'],2)?></td>
 						<td></td>
 					</tr>
 					<?php } ?>
 				<?php } ?>
 				<tr>
-					<td colspan="6"><b></b></td>
+					<td colspan="9"><b></b></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Subtotal</b></td>
+					<td colspan="9"><b>Subtotal</b></td>
 					<td><b><?php echo $totals?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Saving 5%</b></td>
+					<td colspan="9"><b>Saving 5%</b></td>
 					<td><b><?php echo $savings?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Total Claim</b></td>
+					<td colspan="9"><b>Total Claim</b></td>
 					<td><b><?php echo ($claim)?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6"><b>Total yang diterima</b></td>
+					<td colspan="9"><b>Total yang diterima</b></td>
 					<td><b><?php echo $nominals?></b></td>
 					<td></td>
 				</tr>
