@@ -1,6 +1,6 @@
 <?php
 header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_".date('d F Y',strtotime($prods['tanggal'])).time().".xls");
+header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_".date('d F Y',strtotime($prods['tanggal'])).time().".xlsx");
 ?>
 <style type="text/css">
 	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -11,7 +11,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 		<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="12">
 			<thead>
 				<tr>
-					<th colspan="8" align="center"><h4>Laporan Pembayaran Hasil Kerja Tim Potong <?php echo $timnya['nama']?></h4></th>
+					<th colspan="9" align="center"><h4>Laporan Pembayaran Hasil Kerja Tim Potong <?php echo $timnya['nama']?></h4></th>
 				</tr>
 				<tr>
 					<th>No</th>
@@ -39,7 +39,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 						<td>'<?php echo number_format($p['lusin'],2)?></td>
 						<td><?php echo $p['pcs']?></td>
 						<td><?php echo number_format($p['harga'],2)?></td>
-						<td><?php echo number_format($p['total'],0)?></td>
+						<td><?php echo $p['total']?></td>
 						<td></td>
 					</tr>
 					<?php } ?>
