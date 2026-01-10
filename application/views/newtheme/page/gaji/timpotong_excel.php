@@ -11,7 +11,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 		<table border="1" style="border-collapse: collapse;width: 100%;" cellpadding="12">
 			<thead>
 				<tr>
-					<th colspan="9" align="center"><h4>Laporan Pembayaran Hasil Kerja Tim Potong <?php echo $timnya['nama']?></h4></th>
+					<th colspan="10" align="center"><h4>Laporan Pembayaran Hasil Kerja Tim Potong <?php echo $timnya['nama']?></h4></th>
 				</tr>
 				<tr>
 					<th>No</th>
