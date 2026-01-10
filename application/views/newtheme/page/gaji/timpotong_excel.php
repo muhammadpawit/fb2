@@ -1,6 +1,6 @@
 <?php
 header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_".date('d F Y',strtotime($prods['tanggal'])).time().".xlsx");
+header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_".date('d F Y',strtotime($prods['tanggal'])).time().".xls");
 ?>
 <style type="text/css">
 	@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
