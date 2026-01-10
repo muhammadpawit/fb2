@@ -1804,28 +1804,32 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
-	public function month(){
-		$bulan = [];
-		$periode = $this->periode();
-		$now = date('M Y'); // bulan sekarang
-		$month = date('n');
-		$listBulan = bulan(); // panggil helper
-		for ($i = 0; $i <= 12; $i++) {
-			$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1, $periode['tahun']);
-			$bulanAngka = date('m', $timestamp); // format 01-12
-			$tahun = date('Y', $timestamp);
-			$current = date('n Y', $timestamp);
+	public function month()
+{
+    $bulan = [];
+    $periode = $this->periode();
 
-			// ambil nama bulan indonesia dari helper
-			$bulan[] = $listBulan[$bulanAngka] . ' ' . $tahun;
+    $now = date('Y-m'); // contoh: 2026-01
+    $listBulan = bulan(); // helper nama bulan indonesia
 
-			// berhenti kalau sudah sampai bulan sekarang
-			if ($current === $now) {
-				break;
-			}
-		}
-		return $bulan;
-	}
+    for ($i = 0; $i <= 12; $i++) {
+        $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1, $periode['tahun']);
+
+        $bulanAngka = date('m', $timestamp);
+        $tahun      = date('Y', $timestamp);
+        $current    = date('Y-m', $timestamp);
+
+        $bulan[] = $listBulan[$bulanAngka] . ' ' . $tahun;
+
+        // stop tepat di bulan sekarang
+        if ($current === $now) {
+            break;
+        }
+    }
+
+    return $bulan;
+}
+
 
 
 	public function periode(){
@@ -1898,37 +1902,73 @@ class ReportModel extends CI_Model {
 		}
 	}
 
-	public function getPotonganP(){
-		$lusin=array();
-		$hasil=array();
-		$sql="SELECT * FROM master_jenis_po WHERE status=1 and tampil=1 GROUP BY idjenis ";
-		$po=$this->db->query($sql)->result_array();
-		$periode=$this->periode();
-		$month = date('n');
-		foreach($po as $p){
-			for ($i = 0; $i <= $month; $i++) {
-		    	$timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1,$periode['tahun']);
-		    	$bulan=$months[date('n', $timestamp)] = date('n', $timestamp);
-		    	$tahun=$yearrs[date('n', $timestamp)] = date('Y', $timestamp);
-		    	$sql="SELECT SUM(hasil_lusinan_potongan) as dz,mjp.nama_jenis_po as nama FROM `konveksi_buku_potongan` kbp JOIN produksi_po po ON (po.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(po.nama_po=mjp.nama_jenis_po) WHERE po.hapus=0 and mjp.idjenis='".$p['idjenis']."' and MONTH(kbp.created_date) ='".$bulan."' AND YEAR(kbp.created_date)='".$tahun."' ";
-		    	$d=$this->db->query($sql)->row_array();
-		    	$lusin[$p['nama_jenis_po']][]=$d['dz']==null?0:number_format($d['dz'],2,'.','');
-			}
-			if($p['idjenis']==1){
-				$je='kemeja';
-			}else if($p['idjenis']==2){
-				$je='kaos';
-			}else{
-				$je='Celana';
-			}
-			$hasil[]=array(
-				'namapo'=>$je,
-				//'lusin'=>implode(",", $lusin),
-				'lusin'=>$lusin[$p['nama_jenis_po']],
-			);
-		}
-		return $hasil;
-	}
+	public function getPotonganP()
+{
+    $lusin  = [];
+    $hasil  = [];
+
+    $periode = $this->periode();
+
+    // ambil JUMLAH BULAN dari function month()
+    $bulanList = $this->month();
+    $totalBulan = count($bulanList);
+
+    $sql = "SELECT * FROM master_jenis_po 
+            WHERE status = 1 AND tampil = 1 
+            GROUP BY idjenis";
+    $po = $this->db->query($sql)->result_array();
+
+    foreach ($po as $p) {
+
+        $lusin[$p['nama_jenis_po']] = [];
+
+        for ($i = 0; $i < $totalBulan; $i++) {
+
+            $timestamp = mktime(
+                0, 0, 0,
+                $periode['bulan'] + $i,
+                1,
+                $periode['tahun']
+            );
+
+            $bulan = date('n', $timestamp);
+            $tahun = date('Y', $timestamp);
+
+            $sql = "
+                SELECT SUM(hasil_lusinan_potongan) AS dz
+                FROM konveksi_buku_potongan kbp
+                JOIN produksi_po po ON po.id_produksi_po = kbp.idpo
+                LEFT JOIN master_jenis_po mjp ON po.nama_po = mjp.nama_jenis_po
+                WHERE po.hapus = 0
+                AND mjp.idjenis = '{$p['idjenis']}'
+                AND MONTH(kbp.created_date) = '{$bulan}'
+                AND YEAR(kbp.created_date) = '{$tahun}'
+            ";
+
+            $d = $this->db->query($sql)->row_array();
+
+            $lusin[$p['nama_jenis_po']][] =
+                $d['dz'] == null ? 0 : number_format($d['dz'], 2, '.', '');
+        }
+
+        // penamaan TETAP
+        if ($p['idjenis'] == 1) {
+            $je = 'kemeja';
+        } elseif ($p['idjenis'] == 2) {
+            $je = 'kaos';
+        } else {
+            $je = 'Celana';
+        }
+
+        // 🚨 RETURN TIDAK DIUBAH
+        $hasil[] = array(
+            'namapo' => $je,
+            'lusin'  => $lusin[$p['nama_jenis_po']],
+        );
+    }
+
+    return $hasil;
+}
 
 
 	public function monitoring_jml($nama,$proses){
