@@ -104,7 +104,7 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 
                                                 <br>
 
-                                                ( Muchlas Muchtar)
+                                                ( _________________ )
 
                                             </td>
                                              <td height="100" align="center">
