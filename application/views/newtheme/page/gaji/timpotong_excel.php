@@ -39,33 +39,33 @@ header("Content-Disposition: attachment; filename=Laporan_Pembayaran_Tim_Potong_
 						<td>'<?php echo number_format($p['lusin'],2)?></td>
 						<td><?php echo $p['pcs']?></td>
 						<td><?php echo number_format($p['harga'],2)?></td>
-						<td><?php echo number_format($p['total'],2)?></td>
+						<td><?php echo number_format($p['total'],0)?></td>
 						<td></td>
 					</tr>
 					<?php } ?>
 				<?php } ?>
 				<tr>
-					<td colspan="9"><b></b></td>
+					<td colspan="8"><b></b></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="9"><b>Subtotal</b></td>
+					<td colspan="8"><b>Subtotal</b></td>
 					<td><b><?php echo $totals?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="9"><b>Saving 5%</b></td>
+					<td colspan="8"><b>Saving 5%</b></td>
 					<td><b><?php echo $savings?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="9"><b>Total Claim</b></td>
+					<td colspan="8"><b>Total Claim</b></td>
 					<td><b><?php echo ($claim)?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="9"><b>Total yang diterima</b></td>
+					<td colspan="8"><b>Total yang diterima</b></td>
 					<td><b><?php echo $nominals?></b></td>
 					<td></td>
 				</tr>
