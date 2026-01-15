@@ -173,12 +173,12 @@
         <div class="signature-col">
             <p>Admin Keuangan,</p>
             <div class="signature-line"></div>
-            <p>Nama Admin</p>
+            <p>Mia Melia</p>
         </div>
         <div class="signature-col">
             <p>Diterima Oleh,</p>
             <div class="signature-line"></div>
-            <p>Nama Karyawan</p>
+            <p><?php echo strtoupper($nama) ?></p>
         </div>
     </div>
 </div>
