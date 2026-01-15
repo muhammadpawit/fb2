@@ -178,7 +178,7 @@
         <div class="signature-col">
             <p>Diterima Oleh,</p>
             <div class="signature-line"></div>
-            <p><?php echo strtoupper($nama) ?></p>
+            <p><?php echo ucfirst($nama) ?></p>
         </div>
     </div>
 </div>
