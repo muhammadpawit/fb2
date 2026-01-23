@@ -2408,6 +2408,8 @@ class Masterdata extends CI_Controller {
 		);
 
 		$this->GlobalModel->insertData('master_size',$dataInserted);
+		$this->GlobalModel->insertData('mastersize_potongan',array('size'=>	$post['nama_size']));
+		
 
 		$this->session->set_flashdata('msg','Data berhasil ditambah');
 
