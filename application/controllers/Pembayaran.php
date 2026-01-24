@@ -144,7 +144,9 @@ class Pembayaran extends CI_Controller {
 			//$job=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$r['id_master_cmt_job']));
 			$data['rekap'][]=array(
 				'no'=>$no++,
-				'jenis'=>$r['grouping']==1?'Full Print':'Biasa',
+				'jenis' => $r['grouping'] == 1
+    ? 'Full Print'
+    : ($r['grouping'] == 3 ? 'Plastisol' : 'Biasa'),
 				'dz'=>$r['dz'],
 				'harga'=>$r['price_group'],
 				'jumlah'=>($r['dz']*$r['price_group']),
