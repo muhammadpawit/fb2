@@ -66,11 +66,11 @@
                     <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_all" id="setujuiAll">
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="prods[<?php echo $i ?>][id]" value="<?php echo $p['id']?>">
-                    <input type="hidden" hidden name="prods[<?php echo $i ?>][tanggal]" value="<?php echo $p['tanggal']?>">
+                    <input type="hidden" hidden name="prods[<?php echo $i ?>][tanggal]" value="<?php echo date('Y-m-d',strtotime($p['tanggal'])) ?>">
                     <input type="hidden" hidden name="prods[<?php echo $i ?>][metodebayar]" value="<?php echo $p['metodebayar']?>">
                     <tr>
                       <td><?php echo $n++?></td>
-                      <td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
+                      <td><?php echo $p['tanggal'] ?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
