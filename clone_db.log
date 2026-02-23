@@ -4717,3 +4717,25 @@ Tabel skip   : 2
 Tabel error  : 0
 Total rows   : 719769
 Waktu selesai: 2026-02-23 12:02:27
+PHP Warning:  Undefined array key "HTTP_HOST" in /var/www/fb2/application/config/constants.php on line 78
+
+Warning: Undefined array key "HTTP_HOST" in /var/www/fb2/application/config/constants.php on line 78
+
+A PHP Error was encountered
+
+Severity:    Warning
+Message:     mysqli::real_connect(): (HY000/1045): Access denied for user 'forboysp_2223'@'180.254.72.251' (using password: YES)
+Filename:    /var/www/fb2/system/database/drivers/mysqli/mysqli_driver.php
+Line Number: 212
+
+Backtrace:
+	File: /var/www/fb2/application/controllers/CloneDb.php
+	Line: 33
+	Function: database
+
+	File: /var/www/fb2/index.php
+	Line: 315
+	Function: require_once
+
+
+ERROR: Gagal konek ke database sumber!

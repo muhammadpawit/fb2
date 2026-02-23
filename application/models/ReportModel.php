@@ -105,11 +105,12 @@ class ReportModel extends CI_Model {
 	
 	public function pcs_monitoring_kirimgudang_detail($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po='$jenis' ";		
+		$sql="SELECT COALESCE(SUM(sub.total), 0) as total FROM (
+			SELECT SUM(jumlah_piece_diterima) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po='$jenis' ";		
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
-		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL ";
+		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -119,12 +120,14 @@ class ReportModel extends CI_Model {
 
 	public function count_monitoring_kirimgudang_detail($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COUNT(DISTINCT kbp.idpo) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.nama_jenis_po='$jenis' ";
+		$sql="SELECT COUNT(sub.idpo) as total FROM (
+			SELECT kbp.idpo FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.nama_jenis_po='$jenis' ";
 		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND kbp.susulan=2";
 		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
+		$sql.=" GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -134,11 +137,12 @@ class ReportModel extends CI_Model {
 
 	public function pcs_monitoring_kirimgudang($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";
+		$sql="SELECT COALESCE(SUM(sub.total), 0) as total FROM (
+			SELECT SUM(jumlah_piece_diterima) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
-		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.tampil=1 ";
+		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.tampil=1 GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -148,16 +152,15 @@ class ReportModel extends CI_Model {
 
 	public function count_monitoring_kirimgudang($jenis,$tgl1,$tgl2){
 		$h=0;
-		$data=array('total'=>0);
-		$h=0;
-		$sql="SELECT COUNT(DISTINCT kbp.idpo) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
-		
+		$sql="SELECT COUNT(sub.idpo) as total FROM (
+			SELECT kbp.idpo FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.tahunpo IS NULL AND mjp.tampil=1 AND kbp.susulan=2 ";
 		$sql.=" AND p.hapus=0 ";
 		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
+		$sql.=" GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -167,16 +170,15 @@ class ReportModel extends CI_Model {
 
 	public function count_monitoring_kirimgudangLangsung($jenis,$tgl1,$tgl2){
 		$h=0;
-		$data=array('total'=>0);
-		$h=0;
-		$sql="SELECT COUNT(DISTINCT kbp.kode_po) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
-		
+		$sql="SELECT COUNT(sub.kode_po) as total FROM (
+			SELECT kbp.kode_po FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.tahunpo IS NULL AND mjp.online='ya' ";
 		$sql.=" AND p.hapus=0 ";
 		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
+		$sql.=" GROUP BY kbp.kode_po) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -186,11 +188,12 @@ class ReportModel extends CI_Model {
 
 	public function pcs_monitoring_kirimgudangLangsung($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(jumlah_piece_diterima),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";
+		$sql="SELECT COALESCE(SUM(sub.total), 0) as total FROM (
+			SELECT SUM(jumlah_piece_diterima) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.idjenis ='$jenis' ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
-		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.online='ya' ";
+		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.online='ya' GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -200,11 +203,12 @@ class ReportModel extends CI_Model {
 
 	public function pcs_monitoring_kirimgudang_hargaLangsung($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";	
+		$sql="SELECT COALESCE(SUM(sub.total), 0) as total FROM (
+			SELECT SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";	
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}	
-		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.online='ya' ";
+		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.online='ya' GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -2537,11 +2541,12 @@ AND a.jenis = 2
 
 	public function pcs_monitoring_kirimgudang_harga($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";	
+		$sql="SELECT COALESCE(SUM(sub.total), 0) as total FROM (
+			SELECT SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";	
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}	
-		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.tampil=1 ";
+		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND mjp.tampil=1 GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -2551,11 +2556,13 @@ AND a.jenis = 2
 
 	public function pcs_monitoring_kirimgudang_harga_det($jenis,$tgl1,$tgl2){
 		$h=0;
-		$sql="SELECT COALESCE(SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan),0) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.id_jenis_po ='$jenis' ";	
+		$sql="SELECT COALESCE(SUM(sub.total), 0) as total FROM (
+			SELECT SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.id_jenis_po ='$jenis' ";	
 		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}	
+		$sql.=" GROUP BY kbp.idpo) as sub";
 		$data=$this->GlobalModel->QueryManualRow($sql);
 		if(!empty($data)){
 			$h=$data['total'];
@@ -3951,5 +3958,99 @@ AND a.jenis = 2
 			$hasil=$query['total'];
 		}
 		return $hasil;
+	}
+	public function get_monitoring_kirimgudang_stat($id_jenis,$tgl1,$tgl2){
+		$h=array('po'=>0,'pcs'=>0,'total'=>0);
+		$sql="SELECT 
+            SUM(sub.perkalian) as po,
+            SUM(sub.total_pcs) as pcs,
+            SUM(sub.total_harga) as total
+			FROM (
+				SELECT 
+					kbp.idpo,
+					mjp.perkalian,
+					SUM(kbp.jumlah_piece_diterima) as total_pcs,
+					SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+				FROM finishing_kirim_gudang kbp 
+				JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
+				LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
+				WHERE p.hapus=0 
+				AND mjp.idjenis ='$id_jenis' 
+				AND kbp.tahunpo IS NULL 
+				AND mjp.tampil=1 
+				AND mjp.status=1 
+				AND kbp.susulan=2 
+				AND LOWER(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+				
+	if(!empty($tgl1)){
+		$sql.=" AND kbp.tanggal_kirim BETWEEN '".$tgl1."' AND '".$tgl2."' ";
+	}
+
+	$sql.=" GROUP BY kbp.idpo, mjp.perkalian) as sub";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$h=$data;
+		}
+		return (object)$h;
+	}
+
+	public function get_monitoring_kirimgudang_stat_detail($nama_jenis,$id_jenis_po,$tgl1,$tgl2){
+		$h=array('po'=>0,'pcs'=>0,'total'=>0);
+		$sql="SELECT COUNT(sub.idpo) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
+			SELECT kbp.idpo, SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+			FROM `finishing_kirim_gudang` kbp 
+			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
+			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
+			WHERE p.hapus=0 and mjp.nama_jenis_po='$nama_jenis' AND kbp.tahunpo IS NULL AND mjp.tampil=1 AND mjp.status=1 AND kbp.susulan=2 
+			AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		if(!empty($tgl1)){
+			$sql.=" AND DATE(kbp.tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
+		}
+		$sql.=" GROUP BY kbp.idpo) as sub";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$h=$data;
+		}
+		return (object)$h;
+	}
+
+	public function get_monitoring_kirimgudangLangsung_stat($id_jenis,$tgl1,$tgl2){
+		$h=array('po'=>0,'pcs'=>0,'total'=>0);
+		$sql="SELECT COUNT(sub.idpo) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
+			SELECT kbp.idpo, SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+			FROM `finishing_kirim_gudang` kbp 
+			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
+			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
+			WHERE p.hapus=0 and mjp.idjenis ='$id_jenis' AND kbp.tahunpo IS NULL AND mjp.online='ya' AND mjp.status=1 
+			AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		if(!empty($tgl1)){
+			$sql.=" AND DATE(kbp.tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
+		}
+		$sql.=" GROUP BY kbp.idpo) as sub";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$h=$data;
+		}
+		return (object)$h;
+	}
+
+	public function get_monitoring_kirimgudangLangsung_stat_detail($nama_jenis,$id_jenis_po,$tgl1,$tgl2){
+		$h=array('po'=>0,'pcs'=>0,'total'=>0);
+		$sql="SELECT COUNT(sub.idpo) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
+			SELECT kbp.idpo, SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+			FROM `finishing_kirim_gudang` kbp 
+			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
+			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
+			WHERE p.hapus=0 and mjp.nama_jenis_po='$nama_jenis' AND kbp.tahunpo IS NULL AND mjp.online='ya' AND mjp.status=1 
+			AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		if(!empty($tgl1)){
+			$sql.=" AND DATE(kbp.tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
+		}
+		$sql.=" GROUP BY kbp.idpo) as sub";
+		$data=$this->GlobalModel->QueryManualRow($sql);
+		if(!empty($data)){
+			$h=$data;
+		}
+		return (object)$h;
 	}
 }

@@ -296,7 +296,7 @@ class Monitoring extends CI_Controller {
 	}
 
 
-	public function kirimgudang() {
+		public function kirimgudang() {
 		$data=[];
 		$data['title']='Monitoring Kirim Gudang';
 		$get=$this->input->get();
@@ -328,14 +328,15 @@ class Monitoring extends CI_Controller {
 		$ckirim=0;
 		$csetor=0;
 		foreach($arpo as $arp){
+			$res = $this->ReportModel->get_monitoring_kirimgudang_stat($arp['id'],$tanggal1,$tanggal2);
 			$data['rekap'][]=array(
 				'no'=>$i,
 				'id'=>$arp['id'],
 				'type'=>$arp['type'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang($arp['id'],$tanggal1,$tanggal2),
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang($arp['id'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang($arp['id'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga($arp['id'],$tanggal1,$tanggal2),
+				'po'=>$res->po,
+				'dz'=>$res->pcs/12,
+				'pcs'=>$res->pcs,
+				'total'=>$res->total,
 			);
 			$i++;
 		}
@@ -344,16 +345,17 @@ class Monitoring extends CI_Controller {
 		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>1));
 		$nok=1;
 		foreach($kemeja as $k){
+			$res_det = $this->ReportModel->get_monitoring_kirimgudang_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
 			$data['rekapkemeja'][]=array(
 				'no'=>$nok++,
-				'id'=>$arp['id'],
+				'id'=>$k['id_jenis_po'],
 				'type'=>$k['nama_jenis_po'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
-				'hppdz'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?( $this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2) / ($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12) ):0,
-				'hpppcs'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?($this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2)/$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)):0,
+				'po'=>$res_det->po*$k['perkalian'],
+				'dz'=>$res_det->pcs/12,
+				'pcs'=>$res_det->pcs,
+				'total'=>$res_det->total,
+				'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+				'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
 			);
 		}
 
@@ -365,16 +367,17 @@ class Monitoring extends CI_Controller {
 		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>2));
 		$nokaos=1;
 		foreach($kaos as $k){
+			$res_det = $this->ReportModel->get_monitoring_kirimgudang_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
 			$data['rekapkaos'][]=array(
 				'no'=>$nokaos++,
-				'id'=>$arp['id'],
+				'id'=>$k['id_jenis_po'],
 				'type'=>$k['nama_jenis_po'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
-				'hppdz'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?( $this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2) / ($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12) ):0,
-				'hpppcs'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?($this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2)/$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)):0,
+				'po'=>$res_det->po*$k['perkalian'],
+				'dz'=>$res_det->pcs/12,
+				'pcs'=>$res_det->pcs,
+				'total'=>$res_det->total,
+				'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+				'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
 			);
 		}
 
@@ -383,16 +386,17 @@ class Monitoring extends CI_Controller {
 		$nocelana=1;
 		$data['rekapcelana']=array();
 		foreach($celana as $k){
+			$res_det = $this->ReportModel->get_monitoring_kirimgudang_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
 			$data['rekapcelana'][]=array(
 				'no'=>$nocelana++,
-				'id'=>$arp['id'],
+				'id'=>$k['id_jenis_po'],
 				'type'=>$k['nama_jenis_po'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
-				'hppdz'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?( $this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2) / ($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12) ):0,
-				'hpppcs'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?($this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2)/$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)):0,
+				'po'=>$res_det->po*$k['perkalian'],
+				'dz'=>$res_det->pcs/12,
+				'pcs'=>$res_det->pcs,
+				'total'=>$res_det->total,
+				'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+				'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
 			);
 		}
 
@@ -420,7 +424,7 @@ class Monitoring extends CI_Controller {
 	}
 
 
-	public function penjualan() {
+		public function penjualan() {
 		$data=[];
 		$data['title']='Monitoring Penjualan Langsung & Online  ';
 		$get=$this->input->get();
@@ -443,7 +447,7 @@ class Monitoring extends CI_Controller {
 		$arpo=array(
 			array('type'=>'Kemeja','id'=>1),
 			array('type'=>'Kaos','id'=>2),
-			array('type'=>'Celana','id'=>3),
+			array('type'=>'Celana' ,'id'=>3),
 		);
 		
 		$i=1;
@@ -452,14 +456,15 @@ class Monitoring extends CI_Controller {
 		$ckirim=0;
 		$csetor=0;
 		foreach($arpo as $arp){
+			$res = $this->ReportModel->get_monitoring_kirimgudangLangsung_stat($arp['id'],$tanggal1,$tanggal2);
 			$data['rekap'][]=array(
 				'no'=>$i,
 				'id'=>$arp['id'],
 				'type'=>$arp['type'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudangLangsung($arp['id'],$tanggal1,$tanggal2),
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudangLangsung($arp['id'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudangLangsung($arp['id'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_hargaLangsung($arp['id'],$tanggal1,$tanggal2),
+				'po'=>$res->po,
+				'dz'=>$res->pcs/12,
+				'pcs'=>$res->pcs,
+				'total'=>$res->total,
 			);
 			$i++;
 		}
@@ -468,16 +473,17 @@ class Monitoring extends CI_Controller {
 		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('online'=>'ya','status'=>1,'idjenis'=>1));
 		$nok=1;
 		foreach($kemeja as $k){
+			$res_det = $this->ReportModel->get_monitoring_kirimgudangLangsung_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
 			$data['rekapkemeja'][]=array(
 				'no'=>$nok++,
-				'id'=>$arp['id'],
+				'id'=>$k['id_jenis_po'],
 				'type'=>$k['nama_jenis_po'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
-				'hppdz'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?( $this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2) / ($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12) ):0,
-				'hpppcs'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?($this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2)/$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)):0,
+				'po'=>$res_det->po*$k['perkalian'],
+				'dz'=>$res_det->pcs/12,
+				'pcs'=>$res_det->pcs,
+				'total'=>$res_det->total,
+				'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+				'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
 			);
 		}
 
@@ -489,16 +495,17 @@ class Monitoring extends CI_Controller {
 		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('online'=>'ya','status'=>1,'idjenis'=>2));
 		$nokaos=1;
 		foreach($kaos as $k){
+			$res_det = $this->ReportModel->get_monitoring_kirimgudangLangsung_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
 			$data['rekapkaos'][]=array(
 				'no'=>$nokaos++,
-				'id'=>$arp['id'],
+				'id'=>$k['id_jenis_po'],
 				'type'=>$k['nama_jenis_po'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
-				'hppdz'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?( $this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2) / ($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12) ):0,
-				'hpppcs'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?($this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2)/$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)):0,
+				'po'=>$res_det->po*$k['perkalian'],
+				'dz'=>$res_det->pcs/12,
+				'pcs'=>$res_det->pcs,
+				'total'=>$res_det->total,
+				'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+				'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
 			);
 		}
 
@@ -506,16 +513,17 @@ class Monitoring extends CI_Controller {
 		$celana=$this->GlobalModel->Getdata('master_jenis_po',array('online'=>'ya','status'=>1,'idjenis'=>3));
 		$nocelana=1;
 		foreach($celana as $k){
+			$res_det = $this->ReportModel->get_monitoring_kirimgudangLangsung_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
 			$data['rekapcelana'][]=array(
 				'no'=>$nocelana++,
-				'id'=>$arp['id'],
+				'id'=>$k['id_jenis_po'],
 				'type'=>$k['nama_jenis_po'],
-				'po'=>$this->ReportModel->count_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)*$k['perkalian'],
-				'dz'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12,
-				'pcs'=>$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2),
-				'total'=>$this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2),
-				'hppdz'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?( $this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2) / ($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)/12) ):0,
-				'hpppcs'=>($this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)>0)?($this->ReportModel->pcs_monitoring_kirimgudang_harga_det($k['id_jenis_po'],$tanggal1,$tanggal2)/$this->ReportModel->pcs_monitoring_kirimgudang_detail($k['nama_jenis_po'],$tanggal1,$tanggal2)):0,
+				'po'=>$res_det->po*$k['perkalian'],
+				'dz'=>$res_det->pcs/12,
+				'pcs'=>$res_det->pcs,
+				'total'=>$res_det->total,
+				'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+				'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
 			);
 		}
 
@@ -541,6 +549,7 @@ class Monitoring extends CI_Controller {
 			$this->load->view($this->layout.'main',$data);
 		}
 	}
+
 
 	public function bahanmasuk()
 	{
