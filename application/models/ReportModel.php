@@ -236,9 +236,29 @@ class ReportModel extends CI_Model {
 	}
 
 	public function countdashsetor_monitoring($jenis,$tanggal1,$tanggal2){
+		// $hasil=null;
+		// //$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po LIKE '$jenis%' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
+		// $sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
+		// if(!empty($tanggal1)){
+		// 	$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
+		// }
+		// $row=$this->db->query($sql)->row_array();
+		// $d=$row;
+		// if($d['total']>0){
+		// 	$hasil=$d['total'];
+		// 		if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
+		// 			$hasil=round($d['total']*$d['perkalian']);
+		// 		}
+		// 	// return ($hasil['total']);
+		// }else{
+		// 	$out=0;
+		// 	$hasil=$out;
+		// 	//return $out;
+		// }
+
+		// return $hasil;
 		$hasil=null;
-		//$sql="SELECT count(*) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po LIKE '$jenis%' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
-		$sql="SELECT count(DISTINCT kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
+		$sql="SELECT count(Distinct kbp.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.nama_jenis_po ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
@@ -249,13 +269,10 @@ class ReportModel extends CI_Model {
 				if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
 					$hasil=round($d['total']*$d['perkalian']);
 				}
-			// return ($hasil['total']);
 		}else{
 			$out=0;
 			$hasil=$out;
-			//return $out;
 		}
-
 		return $hasil;
 	}
 
@@ -703,19 +720,22 @@ class ReportModel extends CI_Model {
 		// 	$out=0;
 		// 	return $out;
 		// }
-		$sql="SELECT count(DISTINCT p.kode_po) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' ";
-		$sql .=" AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
+		$hasil=null;
+		$sql="SELECT count(Distinct kbp.idpo) as total,mjp.nama_jenis_po,mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63,85) ";
+		// $sql.=" AND kbp.id_master_cmt NOT IN(85) ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
-		$sql.=" GROUP BY mjp.nama_jenis_po ";
-		$row=$this->db->query($sql)->result_array();
-		if(!empty($row)){
-			foreach($row as $d){
-				$hasil+=round($d['total']*$d['perkalian']);
-			}
+		$row=$this->db->query($sql)->row_array();
+		$d=$row;
+		if($d['total']>0){
+			$hasil=$d['total'];
+				if($d['nama_jenis_po']=="SKF" OR strtoupper($d['nama_jenis_po'])=="SIMULASI SKF"){
+					$hasil=round($d['total']*$d['perkalian']);
+				}
 		}else{
-			$hasil=0;	
+			$out=0;
+			$hasil=$out;
 		}
 		return $hasil;
 	}
@@ -739,9 +759,38 @@ class ReportModel extends CI_Model {
 	}
 
 	public function rpdashsetor($jenis,$tanggal1,$tanggal2){
+		// $hasil=null;
+		// // $sql="SELECT COALESCE(SUM(rincian_lusin*12+rincian_piece),0) as total FROM kelolapo_rincian_setor_cmt_finish rpo ";
+		// // $sql.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
+		// $sql="SELECT COALESCE(SUM(sub.qty_tot_pcs),0) as total FROM (SELECT kbp.idpo, kbp.qty_tot_pcs FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
+		// $sql.=" AND kbp.id_master_cmt NOT IN(85,63) ";
+		// if(!empty($tanggal1)){
+		// 	$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
+		// }
+		// $sql.=" GROUP BY kbp.idpo) as sub";
+		// $row=$this->db->query($sql)->row_array();
+		// $hasil=$row;
+
+		// 	$bangke="SELECT COALESCE(SUM(jml_setor_qty-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
+		// 	$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
+		// 	if(!empty($tanggal1)){
+		// 		//$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
+		// 		$bangke.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
+		// 	}
+		// 	$dbangke=$this->db->query($bangke)->row();
+		// 	$bangkenya=0;
+		// 	if(!empty($dbangke)){
+		// 		$bangkenya=$dbangke->total;
+		// 	}
+		// if($hasil['total']>0){
+		// 	// return ($hasil['total']-$bangkenya);
+		// 	// return ($bangkenya);
+		// 	return $hasil['total'];
+		// }else{
+		// 	$out=0;
+		// 	return $out;
+		// }
 		$hasil=null;
-		// $sql="SELECT COALESCE(SUM(rincian_lusin*12+rincian_piece),0) as total FROM kelolapo_rincian_setor_cmt_finish rpo ";
-		// $sql.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
 		$sql="SELECT COALESCE(SUM(sub.qty_tot_pcs),0) as total FROM (SELECT kbp.idpo, kbp.qty_tot_pcs FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
 		$sql.=" AND kbp.id_master_cmt NOT IN(85,63) ";
 		if(!empty($tanggal1)){
@@ -750,22 +799,8 @@ class ReportModel extends CI_Model {
 		$sql.=" GROUP BY kbp.idpo) as sub";
 		$row=$this->db->query($sql)->row_array();
 		$hasil=$row;
-
-			$bangke="SELECT COALESCE(SUM(jml_setor_qty-bangke_qty),0) as total FROM kelolapo_rincian_setor_cmt rpo ";
-			$bangke.=" LEFT JOIN kelolapo_kirim_setor kbp ON kbp.kode_po=rpo.kode_po LEFT JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis='$jenis' and  mjp.tampil=1 AND kbp.kategori_cmt='JAHIT' AND kbp.progress='SETOR' AND kbp.hapus=0";
-			if(!empty($tanggal1)){
-				//$bangke.=" AND DATE(kbp.create_date) BETWEEN '".$bulan."' AND '".$tahun."' ";
-				$bangke.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
-			}
-			$dbangke=$this->db->query($bangke)->row();
-			$bangkenya=0;
-			if(!empty($dbangke)){
-				$bangkenya=$dbangke->total;
-			}
 		if($hasil['total']>0){
-			// return ($hasil['total']-$bangkenya);
-			// return ($bangkenya);
-			return $hasil['total'];
+			return ($hasil['total']);
 		}else{
 			$out=0;
 			return $out;
