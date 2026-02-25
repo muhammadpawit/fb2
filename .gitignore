@@ -41,3 +41,5 @@ application/sessions/*
 token.json
 .env
 #.htaccess
+clone_db.log
+*.log
