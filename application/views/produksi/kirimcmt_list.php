@@ -89,11 +89,13 @@
                             <td><?php echo $p['status']?></td>
                            <td class="right"><?php foreach ($p['action'] as $action) { ?>
                               <?php if (strtolower($action['text']) === 'hapus') { ?>
-                                  <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect" onclick="return confirm('Apakah Anda yakin ingin menghapus? ini akan menghapus data dalam 1 surat jalan secara bersamaan ')"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                                  <a href="<?php echo BASEURL.'Kelolapo/kirimcmtdetailhapus/'.$d['id']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect" onclick="return confirm('Apakah Anda yakin ingin menghapus rincian ini?')">Hapus Item</a>&nbsp;&nbsp;
+                                  <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect" onclick="return confirm('Apakah Anda yakin ingin menghapus satu surat jalan secara bersamaan? ')">Hapus SJ</a>&nbsp;&nbsp;
                               <?php } else { ?>
                                   <a href="<?php echo $action['href']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                               <?php } ?>
                           <?php } ?></td>
+
                           </tr>
                           <?php } ?>
                         <?php } ?>
