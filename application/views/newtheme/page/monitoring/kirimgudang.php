@@ -283,10 +283,27 @@
 <div class="row no-print">
 	<div class="col-md-12">
 		<div class="form-group">
-			<button class="btn btn-info btn-sm" onclick="window.print()">Print</button>
-			<button class="btn btn-info btn-sm" onclick="excelwithtgl()">Excel</button>
+			<button class="btn btn-primary btn-sm" onclick="printpdf()"><i class="fa fa-file-pdf-o"></i> Print PDF</button>
+			<button class="btn btn-success btn-sm" onclick="excelwithtgl()"><i class="fa fa-file-excel-o"></i> Excel</button>
 		</div>
 	</div>
+</div>
+
+<!-- Modal PDF -->
+<div class="modal fade" id="modal-pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: 90%; max-width: 1200px;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Preview PDF</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe id="iframe-pdf" src="" style="width: 100%; height: 600px; border: none;"></iframe>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -344,4 +361,12 @@
         });
 
 });
+
+function printpdf() {
+    var tanggal1 = $("#tanggal1").val();
+    var tanggal2 = $("#tanggal2").val();
+    var url = "<?php echo BASEURL ?>Monitoring/kirimgudang?pdf=true&tanggal1=" + tanggal1 + "&tanggal2=" + tanggal2;
+    $("#iframe-pdf").attr("src", url);
+    $("#modal-pdf").modal("show");
+}
 </script>

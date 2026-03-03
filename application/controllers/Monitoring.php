@@ -417,6 +417,10 @@ class Monitoring extends CI_Controller {
 		if(isset($get['excel'])){
 			$data['page']=$this->page.'kirimgudang';
 			$this->load->view($this->page.'kirimgudang_excel',$data);
+		}else if(isset($get['pdf'])){
+			$this->load->library('pdfgenerator');
+			$html = $this->load->view($this->page.'kirimgudang_pdf',$data,true);
+			$this->pdfgenerator->generate($html, 'Monitoring_Kirim_Gudang', 'A4', 'landscape');
 		}else{
 			$data['page']=$this->page.'kirimgudang';
 			$this->load->view($this->layout.'main',$data);
