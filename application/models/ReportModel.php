@@ -123,7 +123,7 @@ class ReportModel extends CI_Model {
 		$sql="SELECT COUNT(sub.idpo) as total FROM (
 			SELECT kbp.idpo FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.nama_jenis_po='$jenis' ";
 		$sql.=" AND p.hapus=0 AND kbp.tahunpo IS NULL AND kbp.susulan=2";
-		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
@@ -156,7 +156,7 @@ class ReportModel extends CI_Model {
 			SELECT kbp.idpo FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.tahunpo IS NULL AND mjp.tampil=1 AND kbp.susulan=2 ";
 		$sql.=" AND p.hapus=0 ";
-		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
@@ -174,7 +174,7 @@ class ReportModel extends CI_Model {
 			SELECT kbp.kode_po FROM `finishing_kirim_gudang` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
 		WHERE p.hapus=0 and mjp.idjenis='$jenis' AND kbp.tahunpo IS NULL AND mjp.online='ya' ";
 		$sql.=" AND p.hapus=0 ";
-		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+		$sql.=" AND lower(kbp.keterangan) NOT IN('kirim sample') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}		
@@ -3980,7 +3980,7 @@ AND a.jenis = 2
 				AND mjp.tampil=1 
 				AND mjp.status=1 
 				AND kbp.susulan=2 
-				AND LOWER(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+				AND LOWER(kbp.keterangan) NOT IN('kirim sample') ";
 				
 	if(!empty($tgl1)){
 		$sql.=" AND kbp.tanggal_kirim BETWEEN '".$tgl1."' AND '".$tgl2."' ";
@@ -4002,7 +4002,7 @@ AND a.jenis = 2
 			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
 			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
 			WHERE p.hapus=0 and mjp.nama_jenis_po='$nama_jenis' AND kbp.tahunpo IS NULL AND mjp.tampil=1 AND mjp.status=1 AND kbp.susulan=2 
-			AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+			AND lower(kbp.keterangan) NOT IN('kirim sample') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(kbp.tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
@@ -4022,7 +4022,7 @@ AND a.jenis = 2
 			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
 			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
 			WHERE p.hapus=0 and mjp.idjenis ='$id_jenis' AND kbp.tahunpo IS NULL AND mjp.online='ya' AND mjp.status=1 
-			AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+			AND lower(kbp.keterangan) NOT IN('kirim sample') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(kbp.tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
@@ -4042,7 +4042,7 @@ AND a.jenis = 2
 			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
 			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
 			WHERE p.hapus=0 and mjp.nama_jenis_po='$nama_jenis' AND kbp.tahunpo IS NULL AND mjp.online='ya' AND mjp.status=1 
-			AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') ";
+			AND lower(kbp.keterangan) NOT IN('kirim sample') ";
 		if(!empty($tgl1)){
 			$sql.=" AND DATE(kbp.tanggal_kirim) BETWEEN '".$tgl1."' and '".$tgl2."' ";
 		}
