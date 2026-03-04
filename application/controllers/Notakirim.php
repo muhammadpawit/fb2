@@ -301,7 +301,7 @@ class Notakirim extends CI_Controller {
 
 	public function edit($noFaktur='')
 	{
-		$viewData['gudangfb'] = $this->GlobalModel->queryManual('SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur="'.$noFaktur.'" ');
+		$viewData['gudangfb'] = $this->GlobalModel->queryManual('SELECT pp.kode_po,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur="'.$noFaktur.'" ');
 		//pre($viewData);
 		$data = array();
 		foreach ($viewData['gudangfb'] as $key => $idkirim) {
