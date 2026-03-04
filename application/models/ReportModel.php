@@ -3962,13 +3962,14 @@ AND a.jenis = 2
 	public function get_monitoring_kirimgudang_stat($id_jenis,$tgl1,$tgl2){
 		$h=array('po'=>0,'pcs'=>0,'total'=>0);
 		$sql="SELECT 
-            SUM(sub.perkalian) as po,
+            SUM(sub.perkalian * sub.is_main) as po,
             SUM(sub.total_pcs) as pcs,
             SUM(sub.total_harga) as total
 			FROM (
 				SELECT 
 					kbp.idpo,
 					mjp.perkalian,
+					MAX(CASE WHEN kbp.susulan = 2 AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') THEN 1 ELSE 0 END) as is_main,
 					SUM(kbp.jumlah_piece_diterima) as total_pcs,
 					SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
 				FROM finishing_kirim_gudang kbp 
@@ -3995,8 +3996,10 @@ AND a.jenis = 2
 
 	public function get_monitoring_kirimgudang_stat_detail($nama_jenis,$id_jenis_po,$tgl1,$tgl2){
 		$h=array('po'=>0,'pcs'=>0,'total'=>0);
-		$sql="SELECT COUNT(sub.idpo) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
-			SELECT kbp.idpo, SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+		$sql="SELECT SUM(sub.is_main) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
+			SELECT kbp.idpo, 
+			MAX(CASE WHEN kbp.susulan = 2 AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') THEN 1 ELSE 0 END) as is_main,
+			SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
 			FROM `finishing_kirim_gudang` kbp 
 			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
 			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
@@ -4015,8 +4018,10 @@ AND a.jenis = 2
 
 	public function get_monitoring_kirimgudangLangsung_stat($id_jenis,$tgl1,$tgl2){
 		$h=array('po'=>0,'pcs'=>0,'total'=>0);
-		$sql="SELECT COUNT(sub.idpo) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
-			SELECT kbp.idpo, SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+		$sql="SELECT SUM(sub.is_main) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
+			SELECT kbp.idpo, 
+			MAX(CASE WHEN kbp.susulan = 2 AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') THEN 1 ELSE 0 END) as is_main,
+			SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
 			FROM `finishing_kirim_gudang` kbp 
 			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
 			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
@@ -4035,8 +4040,10 @@ AND a.jenis = 2
 
 	public function get_monitoring_kirimgudangLangsung_stat_detail($nama_jenis,$id_jenis_po,$tgl1,$tgl2){
 		$h=array('po'=>0,'pcs'=>0,'total'=>0);
-		$sql="SELECT COUNT(sub.idpo) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
-			SELECT kbp.idpo, SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
+		$sql="SELECT SUM(sub.is_main) as po, SUM(sub.total_pcs) as pcs, SUM(sub.total_harga) as total FROM (
+			SELECT kbp.idpo, 
+			MAX(CASE WHEN kbp.susulan = 2 AND lower(kbp.keterangan) NOT IN('kirim sample','po susulan') THEN 1 ELSE 0 END) as is_main,
+			SUM(kbp.jumlah_piece_diterima) as total_pcs, SUM(kbp.jumlah_piece_diterima*kbp.harga_satuan) as total_harga 
 			FROM `finishing_kirim_gudang` kbp 
 			JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
 			LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
