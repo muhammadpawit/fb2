@@ -2118,12 +2118,14 @@ class Dash extends CI_Controller {
 		$this->db->from('chat_messages cm');
 		$this->db->join('user u', 'u.id_user = cm.sender_id');
 		$this->db->group_start();
-			$this->db->where('cm.sender_id', $my_id);
-			$this->db->where('cm.receiver_id', $other_id);
-		$this->db->group_end();
-		$this->db->or_group_start();
-			$this->db->where('cm.sender_id', $other_id);
-			$this->db->where('cm.receiver_id', $my_id);
+			$this->db->group_start();
+				$this->db->where('cm.sender_id', $my_id);
+				$this->db->where('cm.receiver_id', $other_id);
+			$this->db->group_end();
+			$this->db->or_group_start();
+				$this->db->where('cm.sender_id', $other_id);
+				$this->db->where('cm.receiver_id', $my_id);
+			$this->db->group_end();
 		$this->db->group_end();
 		
 		if(!empty($last_id)){

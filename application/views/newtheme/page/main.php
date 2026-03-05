@@ -1298,8 +1298,10 @@
     });
 
     // Load messages
+    var isLoadingMessages = false;
     function loadMessages(polling) {
-        if (!currentChatUserId) return;
+        if (!currentChatUserId || isLoadingMessages) return;
+        isLoadingMessages = true;
         
         var params = { user_id: currentChatUserId };
         if (polling && chatLastMessageId > 0) {
@@ -1316,6 +1318,7 @@
                     // Full load
                     if (messages.length === 0) {
                         $("#chat-messages").html('<div class="chat-empty-state"><i class="fa fa-comment-o" style="font-size:24px;margin-bottom:8px;display:block;"></i>Belum ada pesan.<br>Mulai percakapan!</div>');
+                        isLoadingMessages = false;
                         return;
                     }
                     var html = '';
@@ -1338,6 +1341,10 @@
                 // Scroll to bottom
                 var chatEl = document.getElementById('chat-messages');
                 if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
+                isLoadingMessages = false;
+            },
+            error: function() {
+                isLoadingMessages = false;
             }
         });
     }
