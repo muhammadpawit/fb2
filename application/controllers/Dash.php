@@ -2051,6 +2051,21 @@ class Dash extends CI_Controller {
 		$data = $this->Report->poCMT('data');
 		echo json_encode($data);
 	}
-	
 
+	public function getOnlineUsers(){
+		$threshold = date('Y-m-d H:i:s', strtotime('-10 minutes'));
+		$this->db->select('id_user, nama_user, foto, last_activity');
+		$this->db->from('user');
+		$this->db->where('last_activity >=', $threshold);
+		$this->db->where('id_user !=', $this->session->userdata('id_user')); // Exclude self
+		$this->db->order_by('last_activity', 'DESC');
+		$query = $this->db->get();
+		$users = $query->result_array();
+		
+		foreach($users as &$u){
+			$u['foto_url'] = foto($u['id_user']);
+		}
+		
+		echo json_encode($users);
+	}
 }

@@ -3798,11 +3798,11 @@ class Gudang extends CI_Controller {
 		echo '<hr>';
 		// echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
 		echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
-		echo '<div claass="card-header">
-			 <div id="signature"></div>
+		echo '<div class="card-header">
+			 <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000; background-color: #fff;"></div>
 		</div>';
 		
-		echo '</div><br><br>';
+		echo '<br><br>';
 		echo '<h3>Rincian Pengajuan</h3>';
 		echo '<table class="table table-bordered">';
 		echo '<tr>';

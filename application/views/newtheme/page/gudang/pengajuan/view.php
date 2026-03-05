@@ -414,6 +414,7 @@
               success: function(response) {
                   // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
                   $('#signatureModal').html(response);
+                  $("#signature").jSignature();
               },
               error: function() {
                   $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');

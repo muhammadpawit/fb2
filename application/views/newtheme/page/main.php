@@ -147,6 +147,84 @@
         width: 20px !important;
         text-align: center;
     }
+
+    /* Online Users Sidebar Style */
+    #online-users-sidebar {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 250px;
+        max-height: 400px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px 0 0 0;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+    }
+    #online-users-sidebar.collapsed {
+        transform: translateY(calc(100% - 40px));
+    }
+    #online-users-header {
+        background: #3c8dbc;
+        color: #fff;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 8px 0 0 0;
+    }
+    #online-users-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 5px 0;
+    }
+    .online-user-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 15px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .online-user-item:hover {
+        background: #f4f7f9;
+    }
+    .online-user-item img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 2px #28a745; /* Online green circle */
+    }
+    .online-user-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        flex: 1;
+    }
+    .online-status-dot {
+        width: 10px;
+        height: 10px;
+        background: #28a745;
+        border-radius: 50%;
+        margin-left: 10px;
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    }
+    .chat-icon {
+        color: #3c8dbc;
+        margin-left: 10px;
+        font-size: 14px;
+        opacity: 0.7;
+    }
+    .online-user-item:hover .chat-icon {
+        opacity: 1;
+    }
 </style>
 
 </head>
@@ -929,6 +1007,41 @@
       });
 
       updateClock();
+    
+    // Polling for online users
+    function fetchOnlineUsers() {
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/getOnlineUsers",
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                let html = '';
+                if (res.length > 0) {
+                    res.forEach(user => {
+                        html += `
+                            <div class="online-user-item" onclick="alert('Mulai percakapan dengan ${user.nama_user} - Fitur chat akan segera hadir!')">
+                                <img src="${user.foto_url}" alt="${user.nama_user}">
+                                <div class="online-user-name">${user.nama_user}</div>
+                                <i class="fa fa-comment chat-icon"></i>
+                                <div class="online-status-dot"></div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html = '<div style="padding:15px; text-align:center; color:#888; font-size:12px;">Tidak ada user lain yang online</div>';
+                }
+                $("#online-users-list").html(html);
+                $("#online-count").text(res.length);
+            }
+        });
+    }
+
+    $("#online-users-header").click(function() {
+        $("#online-users-sidebar").toggleClass("collapsed");
+    });
+
+    fetchOnlineUsers();
+    setInterval(fetchOnlineUsers, 30000); // Update every 30 seconds
   });
 
   function updateClock() {
@@ -944,12 +1057,26 @@
         
         var time = hours + ':' + minutes + ':' + seconds;
         
-        document.getElementById('clock').innerHTML = time;
-        document.getElementById('jam').innerHTML = time;
+        let clockEl = document.getElementById('clock');
+        if(clockEl) clockEl.innerHTML = time;
+
+        let jamEl = document.getElementById('jam');
+        if(jamEl) jamEl.innerHTML = time;
         
         setTimeout(updateClock, 1000); // Pembaruan setiap 1 detik
     }
 </script>
+
+<!-- Online Users Sidebar -->
+<div id="online-users-sidebar" class="collapsed">
+    <div id="online-users-header">
+        <span><i class="fa fa-users"></i> Online (<span id="online-count">0</span>)</span>
+        <i class="fa fa-chevron-up"></i>
+    </div>
+    <div id="online-users-list">
+        <!-- Will be populated by AJAX -->
+    </div>
+</div>
 <?php //$this->load->view('newtheme/page/script');?>
 </body>
 </html>

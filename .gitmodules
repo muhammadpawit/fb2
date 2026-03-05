@@ -1,0 +1,3 @@
+[submodule "jSignature_new"]
+	path = jSignature_new
+	url = https://github.com/brinley/jSignature.git
