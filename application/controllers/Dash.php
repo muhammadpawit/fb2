@@ -26,7 +26,12 @@ class Dash extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
-		if(empty($this->auth)) {redirect($this->login);}
+		if(empty($this->auth)) {
+			redirect($this->login);
+		} else {
+			// Update last activity
+			$this->db->update('user', array('last_activity' => date('Y-m-d H:i:s')), array('id_user' => $this->auth));
+		}
 	}
 
 	function produksitahunlalu(){
@@ -2050,6 +2055,23 @@ class Dash extends CI_Controller {
 		$data =[];
 		$data = $this->Report->poCMT('data');
 		echo json_encode($data);
+	}
+
+	function getOnlineUsers(){
+		$threshold = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+		$this->db->select('id_user, nama_user, foto, last_activity');
+		$this->db->from('user');
+		$this->db->where('last_activity >=', $threshold);
+		$this->db->where('id_user !=', $this->session->userdata('id_user')); // Exclude self
+		$this->db->order_by('last_activity', 'DESC');
+		$query = $this->db->get();
+		$users = $query->result_array();
+		
+		foreach($users as &$u){
+			$u['foto_url'] = foto($u['id_user']);
+		}
+		
+		echo json_encode($users);
 	}
 	
 
