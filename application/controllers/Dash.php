@@ -26,7 +26,12 @@ class Dash extends CI_Controller {
 		$this->layout='newtheme/page/main';
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
-		if(empty($this->auth)) {redirect($this->login);}
+		if(empty($this->auth)) {
+			redirect($this->login);
+		} else {
+			// Update last activity
+			$this->db->update('user', array('last_activity' => date('Y-m-d H:i:s')), array('id_user' => $this->auth));
+		}
 	}
 
 	function produksitahunlalu(){

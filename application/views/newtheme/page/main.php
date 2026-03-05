@@ -1006,7 +1006,7 @@
         responsive: true
       });
 
-      updateClock();
+    updateClock();
     
     // Polling for online users
     function fetchOnlineUsers() {
@@ -1077,6 +1077,7 @@
         <!-- Will be populated by AJAX -->
     </div>
 </div>
+
 <?php //$this->load->view('newtheme/page/script');?>
 </body>
 </html>
