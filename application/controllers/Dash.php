@@ -2080,6 +2080,30 @@ class Dash extends CI_Controller {
 		echo json_encode($users);
 	}
 
+	// ===== Chat Encryption Helpers =====
+	private $chat_encryption_key = 'FB2Ch@tS3cur3K3y!2026xYz';
+
+	private function encryptMessage($plaintext){
+		$cipher = 'aes-256-cbc';
+		$key = hash('sha256', $this->chat_encryption_key, true);
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+		$encrypted = openssl_encrypt($plaintext, $cipher, $key, 0, $iv);
+		return base64_encode($iv . '::' . $encrypted);
+	}
+
+	private function decryptMessage($ciphertext){
+		$cipher = 'aes-256-cbc';
+		$key = hash('sha256', $this->chat_encryption_key, true);
+		$data = base64_decode($ciphertext);
+		if($data === false) return $ciphertext; // fallback jika bukan encrypted
+		$parts = explode('::', $data, 2);
+		if(count($parts) !== 2) return $ciphertext; // fallback untuk pesan lama yang belum diencrypt
+		$iv = $parts[0];
+		$encrypted = $parts[1];
+		$decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
+		return ($decrypted !== false) ? $decrypted : $ciphertext;
+	}
+
 	// Send a chat message
 	public function sendMessage(){
 		$sender_id = $this->session->userdata('id_user');
@@ -2091,10 +2115,13 @@ class Dash extends CI_Controller {
 			return;
 		}
 		
+		$cleanMessage = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+		$encryptedMessage = $this->encryptMessage($cleanMessage);
+		
 		$data = array(
 			'sender_id' => $sender_id,
 			'receiver_id' => $receiver_id,
-			'message' => htmlspecialchars($message, ENT_QUOTES, 'UTF-8'),
+			'message' => $encryptedMessage,
 			'is_read' => 0,
 			'created_at' => date('Y-m-d H:i:s')
 		);
@@ -2136,6 +2163,11 @@ class Dash extends CI_Controller {
 		$this->db->limit(100);
 		$query = $this->db->get();
 		$messages = $query->result_array();
+		
+		// Decrypt messages
+		foreach($messages as &$msg){
+			$msg['message'] = $this->decryptMessage($msg['message']);
+		}
 		
 		// Mark messages from other user as read
 		$this->db->where('sender_id', $other_id);
@@ -2180,6 +2212,10 @@ class Dash extends CI_Controller {
 		
 		foreach($users as &$u){
 			$u['foto_url'] = foto($u['id_user']);
+			// Decrypt last message preview
+			if(!empty($u['last_message'])){
+				$u['last_message'] = $this->decryptMessage($u['last_message']);
+			}
 		}
 		
 		echo json_encode($users);
