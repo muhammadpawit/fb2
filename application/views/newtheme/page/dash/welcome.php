@@ -199,6 +199,21 @@
         </div>
     </div>
 
+    <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color:#7c3aed; color:white;">
+            <div class="inner">
+                <h3><?php echo $countpoCmt ?> PO</h3>
+                <p>PO Masih di CMT</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="pocmt">
+                Detail <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
 </div>
 
 <hr>
@@ -807,6 +822,50 @@ $(document).on("click", ".lihat-detail", function(e) {
                                 <td>${no}</td>
                                 <td>${row.kode_po}</td>
                                 <td>${row.create_date}</td>
+                            </tr>
+                        `;
+                        no++;
+                    });
+
+                    html += `</tbody></table>`;
+                    $("#detailContent").html(html);
+                } else {
+                    $("#detailContent").html("<em>Tidak ada data</em>");
+                }
+            },
+            error: function(xhr) {
+                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+            }
+        });
+    }else if(id=='pocmt'){
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/poCmtJson",   
+            type: "GET",
+            dataType: "json",
+            success: function(res) {
+                if (res.length > 0) {
+                    let html = `
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode PO</th>
+                                    <th>Tanggal Kirim</th>
+                                    <th>Proses</th>
+                                    <th>Nama CMT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    let no=1;
+                    res.forEach(row => {
+                        html += `
+                            <tr>
+                                <td>${no}</td>
+                                <td>${row.nama_po}</td>
+                                <td>${row.creted_date}</td>
+                                <td>${row.proses}</td>
+                                <td>${row.nama_cmt}</td>
                             </tr>
                         `;
                         no++;

@@ -616,6 +616,7 @@ class Dash extends CI_Controller {
 		$data['sablonKirim'] 	= $this->Report->produksi('count','SABLON','KIRIM');
 		$data['sablonSetor'] 	= $this->Report->produksi('count','SABLON','SETOR');
 		
+		$data['countpoCmt'] 	= $this->Report->poCMT('count');
 
 		$data['page']=$this->page.'/dash/welcome';
 		$this->load->view($this->page.'main',$data);
@@ -2042,6 +2043,12 @@ class Dash extends CI_Controller {
 	function produksi($kategori,$proses){
 		$data =[];
 		$data = $this->Report->produksi('data',$kategori,$proses);
+		echo json_encode($data);
+	}
+
+	function poCmtJson(){
+		$data =[];
+		$data = $this->Report->poCMT('data');
 		echo json_encode($data);
 	}
 	

@@ -235,4 +235,31 @@ class Report extends CI_Model {
 
 	}
 
+	function poCMT($type){
+		$sql = "SELECT kbp.kode_po as nama_po, kbp.create_date as creted_date, kbp.kategori_cmt as proses, kbp.nama_cmt FROM `kelolapo_kirim_setor` kbp 
+				JOIN produksi_po p ON (p.id_produksi_po=kbp.idpo) 
+				LEFT JOIN master_jenis_po mjp ON (mjp.nama_jenis_po=p.nama_po) 
+				WHERE kbp.kategori_cmt IN ('JAHIT','SABLON') 
+				AND kbp.progress='KIRIM' 
+				AND kbp.hapus=0 
+				AND mjp.tampil=1 
+				AND kbp.id_master_cmt NOT IN (63, 85)
+				AND p.id_produksi_po NOT IN (SELECT idpo FROM finishing_kirim_gudang) 
+				AND NOT EXISTS (
+					SELECT 1 FROM kelolapo_kirim_setor kks2 
+					WHERE kks2.kode_po = kbp.kode_po 
+					AND kks2.kategori_cmt = kbp.kategori_cmt 
+					AND kks2.progress = 'SETOR' 
+					AND kks2.hapus = 0
+				)
+		";
+		$sql .= " GROUP BY kbp.kode_po, kbp.kategori_cmt ";
+		$data = $this->GlobalModel->QueryManual($sql);
+		if($type=='count'){
+			return count($data);
+		}else{
+			return $data;
+		}
+	}
+
 }
