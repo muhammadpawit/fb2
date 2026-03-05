@@ -2069,6 +2069,115 @@ class Dash extends CI_Controller {
 		
 		foreach($users as &$u){
 			$u['foto_url'] = foto($u['id_user']);
+			// Count unread messages from this user
+			$unread = $this->db->where('sender_id', $u['id_user'])
+						->where('receiver_id', $this->session->userdata('id_user'))
+						->where('is_read', 0)
+						->count_all_results('chat_messages');
+			$u['unread'] = $unread;
+		}
+		
+		echo json_encode($users);
+	}
+
+	// Send a chat message
+	public function sendMessage(){
+		$sender_id = $this->session->userdata('id_user');
+		$receiver_id = $this->input->post('receiver_id');
+		$message = $this->input->post('message');
+		
+		if(empty($receiver_id) || empty($message)){
+			echo json_encode(['status' => 'error', 'message' => 'Data tidak lengkap']);
+			return;
+		}
+		
+		$data = array(
+			'sender_id' => $sender_id,
+			'receiver_id' => $receiver_id,
+			'message' => htmlspecialchars($message, ENT_QUOTES, 'UTF-8'),
+			'is_read' => 0,
+			'created_at' => date('Y-m-d H:i:s')
+		);
+		
+		$this->db->insert('chat_messages', $data);
+		echo json_encode(['status' => 'success', 'id' => $this->db->insert_id()]);
+	}
+
+	// Get chat messages between current user and another user
+	public function getMessages(){
+		$my_id = $this->session->userdata('id_user');
+		$other_id = $this->input->get('user_id');
+		$last_id = $this->input->get('last_id'); // for polling new messages
+		
+		if(empty($other_id)){
+			echo json_encode([]);
+			return;
+		}
+		
+		$this->db->select('cm.*, u.nama_user as sender_name');
+		$this->db->from('chat_messages cm');
+		$this->db->join('user u', 'u.id_user = cm.sender_id');
+		$this->db->group_start();
+			$this->db->where('cm.sender_id', $my_id);
+			$this->db->where('cm.receiver_id', $other_id);
+		$this->db->group_end();
+		$this->db->or_group_start();
+			$this->db->where('cm.sender_id', $other_id);
+			$this->db->where('cm.receiver_id', $my_id);
+		$this->db->group_end();
+		
+		if(!empty($last_id)){
+			$this->db->where('cm.id >', $last_id);
+		}
+		
+		$this->db->order_by('cm.created_at', 'ASC');
+		$this->db->limit(100);
+		$query = $this->db->get();
+		$messages = $query->result_array();
+		
+		// Mark messages from other user as read
+		$this->db->where('sender_id', $other_id);
+		$this->db->where('receiver_id', $my_id);
+		$this->db->where('is_read', 0);
+		$this->db->update('chat_messages', array('is_read' => 1));
+		
+		echo json_encode($messages);
+	}
+
+	// Get total unread message count
+	public function getUnreadCount(){
+		$my_id = $this->session->userdata('id_user');
+		$count = $this->db->where('receiver_id', $my_id)
+					->where('is_read', 0)
+					->count_all_results('chat_messages');
+		echo json_encode(['count' => $count]);
+	}
+
+	// Get all users for chat (not just online)
+	public function getChatUsers(){
+		$my_id = $this->session->userdata('id_user');
+		$threshold = date('Y-m-d H:i:s', strtotime('-10 minutes'));
+		
+		// Get users who have chatted with current user, plus online users
+		$sql = "SELECT u.id_user, u.nama_user, u.foto, u.last_activity,
+				(SELECT COUNT(*) FROM chat_messages WHERE sender_id = u.id_user AND receiver_id = ? AND is_read = 0) as unread,
+				(SELECT message FROM chat_messages WHERE (sender_id = u.id_user AND receiver_id = ?) OR (sender_id = ? AND receiver_id = u.id_user) ORDER BY created_at DESC LIMIT 1) as last_message,
+				(SELECT created_at FROM chat_messages WHERE (sender_id = u.id_user AND receiver_id = ?) OR (sender_id = ? AND receiver_id = u.id_user) ORDER BY created_at DESC LIMIT 1) as last_message_time,
+				CASE WHEN u.last_activity >= ? THEN 1 ELSE 0 END as is_online
+				FROM user u
+				WHERE u.id_user != ?
+				AND (
+					u.last_activity >= ?
+					OR u.id_user IN (SELECT DISTINCT sender_id FROM chat_messages WHERE receiver_id = ?)
+					OR u.id_user IN (SELECT DISTINCT receiver_id FROM chat_messages WHERE sender_id = ?)
+				)
+				ORDER BY last_message_time DESC, u.nama_user ASC";
+		
+		$query = $this->db->query($sql, array($my_id, $my_id, $my_id, $my_id, $my_id, $threshold, $my_id, $threshold, $my_id, $my_id));
+		$users = $query->result_array();
+		
+		foreach($users as &$u){
+			$u['foto_url'] = foto($u['id_user']);
 		}
 		
 		echo json_encode($users);

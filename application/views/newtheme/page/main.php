@@ -148,82 +148,279 @@
         text-align: center;
     }
 
-    /* Online Users Sidebar Style */
-    #online-users-sidebar {
+    /* ===== CHAT SIDEBAR STYLES ===== */
+    #chat-sidebar {
         position: fixed;
         right: 0;
         bottom: 0;
-        width: 250px;
-        max-height: 400px;
+        width: 320px;
+        height: 450px;
         background: #fff;
         border: 1px solid #ddd;
-        border-radius: 8px 0 0 0;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        border-radius: 12px 0 0 0;
+        box-shadow: -3px -3px 15px rgba(0,0,0,0.12);
         z-index: 1040;
         display: flex;
         flex-direction: column;
         transition: transform 0.3s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    #online-users-sidebar.collapsed {
-        transform: translateY(calc(100% - 40px));
+    #chat-sidebar.collapsed {
+        transform: translateY(calc(100% - 42px));
     }
-    #online-users-header {
-        background: #3c8dbc;
+    /* Header */
+    #chat-header {
+        background: linear-gradient(135deg, #3c8dbc, #2c6fa0);
         color: #fff;
         padding: 10px 15px;
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 600;
+        font-size: 14px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-radius: 8px 0 0 0;
+        border-radius: 12px 0 0 0;
+        user-select: none;
     }
-    #online-users-list {
+    #chat-header .badge-unread {
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 50%;
+        padding: 2px 7px;
+        font-size: 11px;
+        margin-left: 6px;
+        display: none;
+    }
+    /* User List */
+    #chat-user-list {
         flex: 1;
         overflow-y: auto;
-        padding: 5px 0;
+        padding: 0;
     }
-    .online-user-item {
+    .chat-user-item {
         display: flex;
         align-items: center;
-        padding: 8px 15px;
-        border-bottom: 1px solid #eee;
+        padding: 10px 14px;
+        border-bottom: 1px solid #f0f0f0;
         cursor: pointer;
         transition: background 0.2s;
     }
-    .online-user-item:hover {
-        background: #f4f7f9;
+    .chat-user-item:hover {
+        background: #f0f7ff;
     }
-    .online-user-item img {
-        width: 32px;
-        height: 32px;
+    .chat-user-item img {
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
         margin-right: 10px;
-        border: 2px solid #fff;
-        box-shadow: 0 0 0 2px #28a745; /* Online green circle */
+        object-fit: cover;
     }
-    .online-user-name {
-        font-size: 13px;
-        font-weight: 500;
-        color: #333;
-        flex: 1;
+    .chat-user-item .user-avatar-wrap {
+        position: relative;
+        margin-right: 10px;
     }
-    .online-status-dot {
+    .chat-user-item .user-avatar-wrap img {
+        margin-right: 0;
+    }
+    .chat-user-item .online-dot {
+        position: absolute;
+        bottom: 1px;
+        right: 1px;
         width: 10px;
         height: 10px;
         background: #28a745;
         border-radius: 50%;
-        margin-left: 10px;
-        box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+        border: 2px solid #fff;
     }
-    .chat-icon {
+    .chat-user-item .offline-dot {
+        position: absolute;
+        bottom: 1px;
+        right: 1px;
+        width: 10px;
+        height: 10px;
+        background: #aaa;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+    .chat-user-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .chat-user-info .name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .chat-user-info .last-msg {
+        font-size: 11px;
+        color: #999;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 2px;
+    }
+    .chat-user-item .unread-badge {
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 50%;
+        min-width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: bold;
+        margin-left: 8px;
+    }
+    /* Chat Conversation View */
+    #chat-conversation {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    #chat-conv-header {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+    }
+    #chat-conv-header .back-btn {
+        cursor: pointer;
+        margin-right: 10px;
         color: #3c8dbc;
-        margin-left: 10px;
-        font-size: 14px;
-        opacity: 0.7;
+        font-size: 16px;
     }
-    .online-user-item:hover .chat-icon {
-        opacity: 1;
+    #chat-conv-header img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 8px;
+        object-fit: cover;
+    }
+    #chat-conv-header .conv-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        flex: 1;
+    }
+    #chat-conv-header .conv-status {
+        font-size: 11px;
+        color: #28a745;
+    }
+    /* Messages Area */
+    #chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px 12px;
+        background: #f5f7fa;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .chat-msg {
+        max-width: 80%;
+        padding: 8px 12px;
+        border-radius: 14px;
+        font-size: 12.5px;
+        line-height: 1.4;
+        word-wrap: break-word;
+        position: relative;
+    }
+    .chat-msg.sent {
+        align-self: flex-end;
+        background: linear-gradient(135deg, #3c8dbc, #2980b9);
+        color: #fff;
+        border-bottom-right-radius: 4px;
+    }
+    .chat-msg.received {
+        align-self: flex-start;
+        background: #fff;
+        color: #333;
+        border: 1px solid #e8e8e8;
+        border-bottom-left-radius: 4px;
+    }
+    .chat-msg .msg-time {
+        font-size: 10px;
+        opacity: 0.7;
+        margin-top: 3px;
+        display: block;
+    }
+    .chat-msg.sent .msg-time {
+        text-align: right;
+        color: rgba(255,255,255,0.8);
+    }
+    .chat-msg.received .msg-time {
+        color: #aaa;
+    }
+    /* Chat Input */
+    #chat-input-area {
+        display: flex;
+        padding: 8px;
+        border-top: 1px solid #eee;
+        background: #fff;
+        align-items: center;
+        gap: 6px;
+    }
+    #chat-input-area input {
+        flex: 1;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 7px 14px;
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    #chat-input-area input:focus {
+        border-color: #3c8dbc;
+    }
+    #chat-input-area button {
+        background: #3c8dbc;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+    #chat-input-area button:hover {
+        background: #2c6fa0;
+    }
+    .chat-empty-state {
+        text-align: center;
+        padding: 30px 15px;
+        color: #aaa;
+        font-size: 12px;
+    }
+    .chat-date-divider {
+        text-align: center;
+        font-size: 10px;
+        color: #aaa;
+        margin: 8px 0;
+        position: relative;
+    }
+    .chat-date-divider span {
+        background: #f5f7fa;
+        padding: 0 10px;
+        position: relative;
+        z-index: 1;
+    }
+    .chat-date-divider::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background: #e0e0e0;
     }
 </style>
 
@@ -1008,40 +1205,210 @@
 
     updateClock();
     
-    // Polling for online users
-    function fetchOnlineUsers() {
+    // ===== CHAT SYSTEM =====
+    var currentChatUserId = null;
+    var currentChatUserName = '';
+    var currentChatUserFoto = '';
+    var currentChatUserOnline = false;
+    var chatLastMessageId = 0;
+    var chatPollingInterval = null;
+    var myUserId = <?php echo $this->session->userdata('id_user'); ?>;
+
+    // Toggle sidebar
+    $("#chat-header").click(function(e) {
+        if ($(e.target).closest('.back-btn').length) return;
+        $("#chat-sidebar").toggleClass("collapsed");
+    });
+
+    // Fetch user list
+    function fetchChatUsers() {
         $.ajax({
-            url: "<?php echo BASEURL ?>Dash/getOnlineUsers",
+            url: "<?php echo BASEURL ?>Dash/getChatUsers",
             type: "GET",
             dataType: "json",
-            success: function(res) {
-                let html = '';
-                if (res.length > 0) {
-                    res.forEach(user => {
-                        html += `
-                            <div class="online-user-item" onclick="alert('Mulai percakapan dengan ${user.nama_user} - Fitur chat akan segera hadir!')">
-                                <img src="${user.foto_url}" alt="${user.nama_user}">
-                                <div class="online-user-name">${user.nama_user}</div>
-                                <i class="fa fa-comment chat-icon"></i>
-                                <div class="online-status-dot"></div>
-                            </div>
-                        `;
+            success: function(users) {
+                var html = '';
+                var totalUnread = 0;
+                if (users.length > 0) {
+                    users.forEach(function(user) {
+                        totalUnread += parseInt(user.unread || 0);
+                        var dotClass = parseInt(user.is_online) ? 'online-dot' : 'offline-dot';
+                        var lastMsg = user.last_message ? user.last_message.substring(0, 30) : 'Mulai percakapan...';
+                        var unreadHtml = parseInt(user.unread) > 0 ? '<div class="unread-badge">' + user.unread + '</div>' : '';
+                        html += '<div class="chat-user-item" data-userid="' + user.id_user + '" data-username="' + user.nama_user + '" data-foto="' + user.foto_url + '" data-online="' + user.is_online + '">';
+                        html += '  <div class="user-avatar-wrap"><img src="' + user.foto_url + '" alt=""><div class="' + dotClass + '"></div></div>';
+                        html += '  <div class="chat-user-info"><div class="name">' + user.nama_user + '</div><div class="last-msg">' + lastMsg + '</div></div>';
+                        html += '  ' + unreadHtml;
+                        html += '</div>';
                     });
                 } else {
-                    html = '<div style="padding:15px; text-align:center; color:#888; font-size:12px;">Tidak ada user lain yang online</div>';
+                    html = '<div class="chat-empty-state"><i class="fa fa-comments" style="font-size:24px;margin-bottom:8px;display:block;"></i>Tidak ada user yang online</div>';
                 }
-                $("#online-users-list").html(html);
-                $("#online-count").text(res.length);
+                $("#chat-user-list").html(html);
+                
+                // Update header badge
+                if (totalUnread > 0) {
+                    $(".badge-unread").text(totalUnread).show();
+                } else {
+                    $(".badge-unread").hide();
+                }
+                $("#chat-online-count").text(users.filter(function(u){ return parseInt(u.is_online); }).length);
             }
         });
     }
 
-    $("#online-users-header").click(function() {
-        $("#online-users-sidebar").toggleClass("collapsed");
+    // Open conversation
+    $(document).on('click', '.chat-user-item', function() {
+        currentChatUserId = $(this).data('userid');
+        currentChatUserName = $(this).data('username');
+        currentChatUserFoto = $(this).data('foto');
+        currentChatUserOnline = parseInt($(this).data('online'));
+        chatLastMessageId = 0;
+
+        // Update conversation header
+        $("#conv-user-foto").attr('src', currentChatUserFoto);
+        $("#conv-user-name").text(currentChatUserName);
+        $("#conv-user-status").text(currentChatUserOnline ? 'Online' : 'Offline');
+        $("#conv-user-status").css('color', currentChatUserOnline ? '#28a745' : '#aaa');
+
+        // Switch views
+        $("#chat-user-list").hide();
+        $("#chat-conversation").css('display', 'flex');
+        $("#chat-messages").html('<div class="chat-empty-state">Memuat pesan...</div>');
+
+        // Load messages
+        loadMessages(false);
+
+        // Start polling for new messages
+        if (chatPollingInterval) clearInterval(chatPollingInterval);
+        chatPollingInterval = setInterval(function() {
+            loadMessages(true);
+        }, 3000);
     });
 
-    fetchOnlineUsers();
-    setInterval(fetchOnlineUsers, 30000); // Update every 30 seconds
+    // Back to user list
+    $(document).on('click', '.back-btn', function(e) {
+        e.stopPropagation();
+        currentChatUserId = null;
+        if (chatPollingInterval) clearInterval(chatPollingInterval);
+        
+        $("#chat-conversation").css('display', 'none');
+        $("#chat-user-list").show();
+        fetchChatUsers(); // Refresh user list
+    });
+
+    // Load messages
+    function loadMessages(polling) {
+        if (!currentChatUserId) return;
+        
+        var params = { user_id: currentChatUserId };
+        if (polling && chatLastMessageId > 0) {
+            params.last_id = chatLastMessageId;
+        }
+
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/getMessages",
+            type: "GET",
+            data: params,
+            dataType: "json",
+            success: function(messages) {
+                if (!polling || chatLastMessageId === 0) {
+                    // Full load
+                    if (messages.length === 0) {
+                        $("#chat-messages").html('<div class="chat-empty-state"><i class="fa fa-comment-o" style="font-size:24px;margin-bottom:8px;display:block;"></i>Belum ada pesan.<br>Mulai percakapan!</div>');
+                        return;
+                    }
+                    var html = '';
+                    messages.forEach(function(msg) {
+                        html += renderMessage(msg);
+                    });
+                    $("#chat-messages").html(html);
+                    chatLastMessageId = messages[messages.length - 1].id;
+                } else {
+                    // Append new messages only
+                    if (messages.length > 0) {
+                        // Remove empty state if present
+                        $(".chat-empty-state", "#chat-messages").remove();
+                        messages.forEach(function(msg) {
+                            $("#chat-messages").append(renderMessage(msg));
+                        });
+                        chatLastMessageId = messages[messages.length - 1].id;
+                    }
+                }
+                // Scroll to bottom
+                var chatEl = document.getElementById('chat-messages');
+                if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
+            }
+        });
+    }
+
+    // Render a single message bubble
+    function renderMessage(msg) {
+        var isSent = parseInt(msg.sender_id) === myUserId;
+        var cls = isSent ? 'sent' : 'received';
+        var time = formatChatTime(msg.created_at);
+        return '<div class="chat-msg ' + cls + '">' + 
+               msg.message + 
+               '<span class="msg-time">' + time + '</span>' +
+               '</div>';
+    }
+
+    // Format time
+    function formatChatTime(datetime) {
+        if (!datetime) return '';
+        var d = new Date(datetime);
+        var now = new Date();
+        var hours = d.getHours().toString().padStart(2, '0');
+        var mins = d.getMinutes().toString().padStart(2, '0');
+        
+        if (d.toDateString() === now.toDateString()) {
+            return hours + ':' + mins;
+        } else {
+            var day = d.getDate().toString().padStart(2, '0');
+            var month = (d.getMonth() + 1).toString().padStart(2, '0');
+            return day + '/' + month + ' ' + hours + ':' + mins;
+        }
+    }
+
+    // Send message
+    $("#chat-send-btn").click(function() {
+        sendChatMessage();
+    });
+
+    $("#chat-input").keypress(function(e) {
+        if (e.which === 13) {
+            sendChatMessage();
+        }
+    });
+
+    function sendChatMessage() {
+        var msg = $("#chat-input").val().trim();
+        if (!msg || !currentChatUserId) return;
+
+        $("#chat-input").val('');
+
+        $.ajax({
+            url: "<?php echo BASEURL ?>Dash/sendMessage",
+            type: "POST",
+            data: { receiver_id: currentChatUserId, message: msg },
+            dataType: "json",
+            success: function(res) {
+                if (res.status === 'success') {
+                    // Immediately load new messages
+                    loadMessages(true);
+                }
+            }
+        });
+    }
+
+    // Initial load
+    fetchChatUsers();
+    setInterval(function() {
+        if (!currentChatUserId) {
+            fetchChatUsers();
+        }
+    }, 15000);
+
   });
 
   function updateClock() {
@@ -1067,14 +1434,31 @@
     }
 </script>
 
-<!-- Online Users Sidebar -->
-<div id="online-users-sidebar" class="collapsed">
-    <div id="online-users-header">
-        <span><i class="fa fa-users"></i> Online (<span id="online-count">0</span>)</span>
-        <i class="fa fa-chevron-up"></i>
+<!-- Chat Sidebar -->
+<div id="chat-sidebar" class="collapsed">
+    <div id="chat-header">
+        <span><i class="fa fa-comments"></i> Chat <span class="badge-unread">0</span></span>
+        <span style="font-size:12px;opacity:0.8;"><span id="chat-online-count">0</span> online <i class="fa fa-chevron-up"></i></span>
     </div>
-    <div id="online-users-list">
-        <!-- Will be populated by AJAX -->
+    
+    <!-- User List View -->
+    <div id="chat-user-list">
+        <div class="chat-empty-state">Memuat...</div>
+    </div>
+
+    <!-- Conversation View -->
+    <div id="chat-conversation">
+        <div id="chat-conv-header">
+            <i class="fa fa-arrow-left back-btn"></i>
+            <img id="conv-user-foto" src="" alt="">
+            <span class="conv-name" id="conv-user-name"></span>
+            <span class="conv-status" id="conv-user-status">Online</span>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off">
+            <button id="chat-send-btn"><i class="fa fa-paper-plane"></i></button>
+        </div>
     </div>
 </div>
 
