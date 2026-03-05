@@ -1014,14 +1014,7 @@ $(document).on("click", ".lihat-detail", function(e) {
 <script>
   $(document).ready(function() {
 
-    $('#detailModalTtd').on('shown.bs.modal', function () {
-        $("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
-        $("#signatures").jSignature();
-    });
-
-    $('#detailModal').on('shown.bs.modal', function () {
-        $(".signatuers").jSignature();
-    });
+    // jSignature diinisialisasi di AJAX success callback dengan setTimeout
 
     // $("#signature").jSignature();
 
@@ -1076,7 +1069,10 @@ $(document).on("click", ".lihat-detail", function(e) {
               success: function(response) {
                   // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
                   $('#signatureModal').html(response);
-                  $("#signature").jSignature();
+                  // Init jSignature setelah DOM di-render
+                  setTimeout(function(){
+                      $("#signature").jSignature();
+                  }, 300);
               },
               error: function() {
                   $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');

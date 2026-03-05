@@ -159,7 +159,7 @@
         border: 1px solid #ddd;
         border-radius: 8px 0 0 0;
         box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-        z-index: 9999;
+        z-index: 1040;
         display: flex;
         flex-direction: column;
         transition: transform 0.3s ease;
