@@ -299,7 +299,7 @@ class Sablon extends CI_Controller {
 	public function pengeluarantambah(){
 		$data=[];
 		$data['title']='Tambah pengeluaran sablon';
-		$data['gajisablonharian']=$this->GlobalModel->QueryManual("SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND dibayarkan=0 GROUP BY periode");
+		$data['gajisablonharian']=$this->GlobalModel->QueryManual("SELECT * FROM gaji_sablon_harian WHERE hapus=0 AND dibayarkan=0 GROUP BY periode order by id desc");
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['action']=BASEURL.'Sablon/pengeluaran_save';
 		$data['page']=$this->page.'sablon/pengeluaran_add';
