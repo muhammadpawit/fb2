@@ -398,9 +398,11 @@
                                         <tr>
 
                                             <td>
-
-                                            <img src="<?php echo BASEURL ?>uploads/signatures/<?php echo $parent['paraf']?>" height="100" width="200">
-
+                                                <?php if(!empty($parent['paraf'])){
+                                                    $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                                                ?>
+                                                    <img src="<?php echo $src ?>" height="100" width="200">
+                                                <?php } ?>
                                             </td>
 
                                             <td>
@@ -444,8 +446,10 @@
                                     <td><?php echo $parent['diterima_tf']?></td>
                                     <td><?php echo $parent['diterima_cash']+$parent['diterima_tf']?></td>
                                     <td>
-                                    <?php if(!empty($parent['ttdBuHj'])){?>
-                                        <img src="<?php echo BASEURL?>uploads/signatures/<?php echo $parent['ttdBuHj']?>" height="130">
+                                    <?php if(!empty($parent['ttdBuHj'])){
+                                        $src_buhj = (strlen($parent['ttdBuHj']) > 100) ? 'data:image/png;base64,'.$parent['ttdBuHj'] : BASEURL.'uploads/signatures/'.$parent['ttdBuHj'];
+                                    ?>
+                                        <img src="<?php echo $src_buhj?>" height="130">
                                     <?php } else { ?>
                                         <div id="signature"></div>
                                     <button id="clear_signature">Clear</button>
@@ -487,7 +491,7 @@
                         <div class="text-right">
                             <?php if($parent['status']==1){?>
                             <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a>
-                            <a onclick="excel()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-excel m-r-5"></i> PDF</a>
+                            <a onclick="showPdfModal()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-pdf-o m-r-5"></i> PDF</a>
                             <?php }?>
 
                             <?php if($parent['kategori']==4){ ?>
@@ -518,6 +522,33 @@
 
 
 </div> <!-- content -->
+
+<!-- Modal PDF Preview -->
+<div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="pdfPreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 95%; height: 90vh;">
+        <div class="modal-content" style="height: 90vh;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfPreviewModalLabel"><i class="fa fa-file-pdf-o"></i> Preview PDF - Pengajuan <?php echo $mingguan ?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: calc(90vh - 120px);">
+                <div id="pdfLoading" style="display:flex; justify-content:center; align-items:center; height:100%;">
+                    <div style="text-align:center;">
+                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                        <p style="margin-top:10px;">Memuat PDF...</p>
+                    </div>
+                </div>
+                <iframe id="pdfIframe" style="width: 100%; height: 100%; border: none; display:none;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <a id="pdfDownloadLink" href="#" target="_blank" class="btn btn-success"><i class="fa fa-download"></i> Download PDF</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 <style>
     
   canvas {
@@ -561,9 +592,23 @@ $('#clear_signature').click(function() {
         });
 
 
-    function excel(){
-        location ='?pdf=true';
+    function showPdfModal(){
+        var pdfUrl = '?pdf=true';
+        $('#pdfLoading').show();
+        $('#pdfIframe').hide();
+        $('#pdfIframe').attr('src', pdfUrl);
+        $('#pdfDownloadLink').attr('href', pdfUrl);
+        $('#pdfPreviewModal').modal('show');
+        $('#pdfIframe').on('load', function(){
+            $('#pdfLoading').hide();
+            $('#pdfIframe').show();
+        });
     }
+
+    // Hapus iframe src saat modal ditutup agar tidak memakan resource
+    $('#pdfPreviewModal').on('hidden.bs.modal', function () {
+        $('#pdfIframe').attr('src', '');
+    });
 
     jQuery(document).bind("keyup keydown", function(e){
         if(e.ctrlKey && e.keyCode == 80){

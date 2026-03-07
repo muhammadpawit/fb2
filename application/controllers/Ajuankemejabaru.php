@@ -200,15 +200,9 @@ class Ajuankemejabaru extends CI_Controller {
 			}
 			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
 			$image_data = $this->input->post('image_data');
-			// pre($post);
-			// Mengonversi data base64 menjadi file gambar
-			$image_data = base64_decode($image_data);
-			$file_name = uniqid() . '.png';
-			$file_path = FCPATH . 'uploads/signatures/' . $file_name;
-
-			if (file_put_contents($file_path, $image_data)) {
+			if (!empty($image_data)) {
 				$update = array(
-					'paraf' => $file_name,
+					'paraf' => $image_data,
 				);
 				$where = array(
 					'id' => $id,

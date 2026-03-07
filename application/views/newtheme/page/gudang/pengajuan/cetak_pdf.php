@@ -298,8 +298,10 @@
                 </tr>
                 <tr align="center">
                     <td colspan="2">
-                        <?php if(!empty($parent['paraf'])){ ?>
-                            <img src="<?php echo BASEURL ?>uploads/signatures/<?php echo $parent['paraf']?>" height="100" alt="">
+                        <?php if(!empty($parent['paraf'])){ 
+                            $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                        ?>
+                            <img src="<?php echo $src ?>" height="100" alt="">
                             ( <b style="padding:0px 25pt 0px 25pt;font-weight:0 !important"></b> )
                         <?php }else { ?>
                         <br><br><br><br><br><br>

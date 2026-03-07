@@ -402,10 +402,11 @@
                                         <tr>
 
                                             <td>
-
-                                               
-                                                <img src="<?php echo BASEURL ?>uploads/signatures/<?php echo $parent['paraf']?>" height="100" width="200">
-
+                                                <?php if(!empty($parent['paraf'])){
+                                                    $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                                                ?>
+                                                    <img src="<?php echo $src ?>" height="100" width="200">
+                                                <?php } ?>
                                             </td>
 
                                             <td>
