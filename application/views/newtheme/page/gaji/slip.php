@@ -50,7 +50,7 @@
 				<tr>
 					<th height="80" valign="bottom">
 						<a href="<?php echo $batal?>" class="btn btn-danger btn-sm text-white">Kembali</a>
-						<a href="<?php echo $cetak?>" target="_blank" class="btn btn-default btn-sm text-white">Cetak Slip</a>
+						<button type="button" onclick="showPdfModal('<?php echo $cetak?>', 'Cetak Slip Gaji')" class="btn btn-default btn-sm text-white">Cetak Slip</button>
 					</th>
 					<th height="80" valign="bottom"></th>
 				</tr>

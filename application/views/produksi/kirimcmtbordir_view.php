@@ -73,7 +73,7 @@
 							<div class="row">
 							<div class="col-12">
 								<a href="<?php echo $kembali; ?>" class="btn btn-danger">Kembali</a>
-								<a href="<?php echo $cetak; ?>" class="btn btn-primary" target="_blank">Cetak</a>
+								<button type="button" onclick="showPdfModal('<?php echo $cetak; ?>', 'Cetak Surat Jalan Bordir')" class="btn btn-primary">Cetak</button>
 								<a href="<?php echo $excel; ?>" class="btn btn-info" target="_blank">Excel</a>
 							</div>
 							</div>

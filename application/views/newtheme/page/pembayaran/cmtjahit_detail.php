@@ -598,10 +598,9 @@
         </button>
     </div>
     <div class="col-md-4">
-        <a href="<?php echo BASEURL.'Pembayaran/cmtjahitdetail/'.$detail['id'].'?pdf=1&id='.$detail['id'];?>"
-           target="_blank" class="btn btn-info btn-block">
+        <button type="button" onclick="showPdfModal('<?php echo BASEURL.'Pembayaran/cmtjahitdetail/'.$detail['id'].'?pdf=1&id='.$detail['id'];?>', 'Cetak Pembayaran CMT')" class="btn btn-info btn-block">
             🧾 Cetak PDF
-        </a>
+        </button>
     </div>
 </div>
 

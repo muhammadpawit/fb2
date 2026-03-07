@@ -53,7 +53,7 @@
     <a href="<?php echo $kembali;?>" class="btn btn-danger text-white full">Kembali</a>
   </div>
   <div class="col-md-4">
-    <a href="<?php echo $pdf;?>" target="_blank" class="btn btn-primary text-white full">Print Nota Kasbon</a>
+    <button type="button" onclick="showPdfModal('<?php echo $pdf;?>', 'Print Nota Kasbon')" class="btn btn-primary text-white full">Print Nota Kasbon</button>
   </div>
   <div class="col-md-4">
     <a href="<?php echo $excel;?>" class="btn btn-success text-white full">Excel</a>

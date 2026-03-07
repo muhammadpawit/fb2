@@ -1469,6 +1469,68 @@
     </div>
 </div>
 
+<!-- Global Modal Cetak PDF -->
+<div class="modal fade" id="modalPdfGlobal" tabindex="-1" role="dialog" aria-labelledby="modalPdfGlobalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalPdfGlobalLabel">Cetak PDF</h4>
+            </div>
+            <div class="modal-body" style="position: relative;">
+                <!-- Loader Spinner -->
+                <div id="pdfLoader" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
+                    <div class="text-center">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw text-blue"></i>
+                        <span class="sr-only">Loading...</span>
+                        <p>Sedang memuat dokumen...</p>
+                    </div>
+                </div>
+                <iframe id="pdfFrameGlobal" src="" style="width: 100%; height: 80vh; border: none; display: none;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showPdfModal(url, title = "Cetak PDF") {
+        const modal = $('#modalPdfGlobal');
+        const frame = document.getElementById('pdfFrameGlobal');
+        const loader = document.getElementById('pdfLoader');
+        
+        // Set title
+        modal.find('.modal-title').text(title);
+        
+        // Show loader and hide frame
+        loader.style.display = 'block';
+        frame.style.display = 'none';
+        
+        // Set URL and show modal
+        frame.src = url;
+        modal.modal('show');
+        
+        // Hide loader when iframe finished loading
+        frame.onload = function() {
+            loader.style.display = 'none';
+            frame.style.display = 'block';
+        };
+    }
+
+    $(document).ready(function() {
+        // Reset iframe src when modal is closed
+        $('#modalPdfGlobal').on('hidden.bs.modal', function () {
+            document.getElementById('pdfFrameGlobal').src = "";
+            document.getElementById('pdfFrameGlobal').style.display = 'none';
+            document.getElementById('pdfLoader').style.display = 'block';
+        });
+    });
+</script>
+
 <?php //$this->load->view('newtheme/page/script');?>
 </body>
 </html>
