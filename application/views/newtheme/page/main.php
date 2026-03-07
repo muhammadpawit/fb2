@@ -1529,6 +1529,22 @@
             document.getElementById('pdfFrameGlobal').style.display = 'none';
             document.getElementById('pdfLoader').style.display = 'block';
         });
+
+        // Auto highlight menu and open parent collapse
+        var currentUrl = window.location.origin + window.location.pathname + window.location.search;
+        
+        $('.sidebar-menu a').each(function() {
+            var menuUrl = this.href;
+            
+            // Exact match or match without query string
+            if(currentUrl == menuUrl || currentUrl.split('?')[0] == menuUrl) {
+                $(this).closest('li').addClass('active');
+                $(this).parents('li.treeview').addClass('active menu-open');
+                
+                // For nested menus, ensure the child ul is visible (AdminLTE 2 standard)
+                $(this).parents('ul.treeview-menu').css('display', 'block');
+            }
+        });
     });
 </script>
 
