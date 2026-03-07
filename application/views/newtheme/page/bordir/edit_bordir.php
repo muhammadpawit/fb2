@@ -39,12 +39,15 @@
 						<?php 
 							$pemilik = $this->GlobalModel->QueryManualRow("SELECT b.* FROM master_po_luar a left join pemilik_poluar b on a.idpemilik = b.id WHERE a.id = '".$e['idpo']."' ");	
 							$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$e['jenis'],'nomer_mesin'=>$e['mesin_bordir']));
+							$pemilik_hasil_x = !empty($pemilik) ? $pemilik['hasil_x'] : 0;
+							$pemilik_id = !empty($pemilik) ? $pemilik['id'] : '';
+							$mesin_persenan = !empty($mesin) ? $mesin['persenan'] : 0;
 							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
-							$gaji = ($total_stich *  $pemilik['hasil_x'] * $mesin['persenan'] );
+							$gaji = ($total_stich *  $pemilik_hasil_x * $mesin_persenan );
 						?>
 						<input type="hidden" name="prods[<?php echo $i?>][id]" value="<?php echo $e['id_kelola_mesin_bordir'] ?>">
 						<input type="hidden" name="prods[<?php echo $i?>][jenis]" value="<?php echo $e['jenis'] ?>">
-						<input type="hidden" name="pemilik" value="<?php echo $pemilik['id'] ?>">
+						<input type="hidden" name="pemilik" value="<?php echo $pemilik_id ?>">
 						<?php if(!empty($idpo)){ ?>
 							<input type="hidden" name="idpo" value="<?php echo $idpo ?>">
 						<?php } ?>
@@ -72,16 +75,16 @@
 								<input type="hidden" name="prods[<?php echo $i?>][total_stich]" value="<?php echo $total_stich ?>">
 								<?php echo $total_stich ?>
 							</td>
-							<td><?php echo $pemilik['hasil_x']?></td>
+							<td><?php echo $pemilik_hasil_x?></td>
 							<td>
-								<?php echo $total_stich * $pemilik['hasil_x']?>
+								<?php echo $total_stich * $pemilik_hasil_x?>
 							</td>
 							<td align="center"><?php echo $e['kepala']?></td>
 							<td>
 								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>" class="form-control"  readonly>
 							</td>
 							<td>
-								<?php echo $mesin['persenan'] ?>
+								<?php echo $mesin_persenan ?>
 							</td>
 							<td>
 								<input type="hidden" size="8" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">

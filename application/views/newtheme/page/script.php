@@ -12,6 +12,12 @@
 <!-- Responsive examples -->
 <script src="<?php echo PLUGINS ?>datatables/dataTables.responsive.min.js"></script>
 <script src="<?php echo PLUGINS ?>datatables/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo PLUGINS ?>sweet-alert/sweetalert2.min.js"></script>
+<script>
+    if (typeof Sweetalert2 !== 'undefined' && typeof Swal === 'undefined') {
+        window.Swal = Sweetalert2;
+    }
+</script>
 
 <!-- SlimScroll -->
 <script src="<?php echo NEWTHEME?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>

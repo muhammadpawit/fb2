@@ -1034,6 +1034,19 @@ class Bordir extends CI_Controller {
 		$this->load->view($this->layout,$data);
 	}
 
+	public function mesinharian_edit_modal($id){
+		$data=[];
+		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
+		$id=$po['id_produksi_po'];
+		$data['title']='Edit Inputan Mesin Bordir '.$id;
+		$data['kode_po']=$id;
+		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'idpo'=>$id));
+		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+		$data['action']=BASEURL.'Bordir/mesinharian_save';
+		$data['batal']='#';
+		$this->load->view('newtheme/page/bordir/edit_bordir',$data);
+	}
+
 	public function mesinharian_edit_luar($id){
 		$data=[];
 		$po=$this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$id));
@@ -1048,6 +1061,20 @@ class Bordir extends CI_Controller {
 		$data['batal']=BASEURL.'Bordir/inputharianmesinpoluar/';
 		$data['page']='newtheme/page/bordir/edit_bordir';
 		$this->load->view($this->layout,$data);
+	}
+
+	public function mesinharian_edit_modal_luar($id){
+		$data=[];
+		$po=$this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$id));
+		$id=$po['id'];
+		$data['idpo']=$po['id'];
+		$data['title']='Edit Inputan Mesin Bordir '.$id;
+		$data['kode_po']=$id;
+		$data['d']=$this->GlobalModel->GetData('kelola_mesin_bordir',array('hapus'=>0,'kode_po'=>$id));
+		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+		$data['action']=BASEURL.'Bordir/mesinharian_save_luar';
+		$data['batal']='#';
+		$this->load->view('newtheme/page/bordir/edit_bordir',$data);
 	}
 
 	public function mesinharian_save(){
@@ -2027,6 +2054,16 @@ class Bordir extends CI_Controller {
 		$viewData['page']='bordir/buang-benang-edit';
 		$viewData['savepekerja']=BASEURL.'Bordir/savepekerja';
 		$this->load->view('newtheme/page/main',$viewData);
+	}
+
+	public function buangbenangedit_modal($tanggal){
+		$viewData['title']='Edit Buang Benang Bordir';
+		$viewData['tanggal']=$tanggal;
+		$viewData['cancel']='#';
+		$viewData['action']=BASEURL.'Bordir/buangbenangeditsave';
+		$viewData['prods'] = $this->GlobalModel->QueryManual("SELECT a.*, b.nama_karyawan_benang as nama from kelolapo_buang_benang a LEFT JOIN master_karyawan_benang b ON b.id_master_karyawan_benang=a.nama_pekerja WHERE a.hapus=0 and date(a.created_date)='$tanggal' ORDER BY id_kelolapo_buang_benang DESC  ");
+		$viewData['savepekerja']=BASEURL.'Bordir/savepekerja';
+		$this->load->view('bordir/buang-benang-edit',$viewData);
 	}
 
 	function buangbenangeditsave(){

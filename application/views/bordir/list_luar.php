@@ -95,8 +95,12 @@
                             <td><?php echo number_format($bod['gaji']) ?></td>
                             <td class="right">
                                 <?php foreach ($bod['action'] as $action) { ?>
-                                    <a href="<?php echo $action['href']; ?>" class="badge <?php echo $action['bg']; ?> waves-light waves-effect"
-                                    <?php if(strtolower($action['text'])=='hapus'){ ?> onclick="return confirm('Apakah yakin akan menghapus data ini ?') " <?php } ?>><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                                    <?php if(strtolower($action['text'])=='edit'){ ?>
+                                        <a href="javascript:void(0)" onclick="edit_modal('<?php echo $action['href']; ?>')" class="badge waves-light waves-effect <?php echo $action['bg']; ?>"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                                    <?php } else { ?>
+                                        <a href="<?php echo $action['href']; ?>" class="badge  waves-light waves-effect <?php echo $action['bg']; ?>"
+                                        <?php if(strtolower($action['text'])=='hapus'){ ?> onclick="return confirm('Apakah yakin akan menghapus data ini ?') " <?php } ?>><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                                    <?php } ?>
                                 <?php } ?>
                             </td>
                         </tr>
@@ -193,8 +197,83 @@
                 "searching": false,
                 //buttons: ['copy', 'excel', 'pdf']
             });
-            table.buttons().container()
-                    .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            if ($.isFunction(table.buttons)) {
+                table.buttons().container()
+                        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            }
         } );
 
     </script>
+
+<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">Edit Harian Mesin Bordir Luar</h4>
+      </div>
+      <div class="modal-body" id="modal-body-edit">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    function edit_modal(url){
+        var modal_url = url.replace('mesinharian_edit_luar', 'mesinharian_edit_modal_luar');
+        $('#modal-body-edit').load(modal_url, function(){
+            $('#modal-edit').modal('show');
+            $('#modal-body-edit a.btn-danger').attr('href', 'javascript:void(0)').attr('data-dismiss', 'modal').removeAttr('onclick');
+            
+            if($.isFunction($.fn.datepicker)) {
+                $('.datepicker').datepicker({
+                    autoclose: true,
+                    format: 'yyyy-mm-dd'
+                });
+            }
+
+            if($.isFunction($.fn.select2)) {
+                $('.select2bs4').select2();
+            }
+
+            $('#modal-body-edit form').submit(function(e){
+                e.preventDefault();
+                var form = $(this);
+                var url = form.attr('action');
+                var data = form.serialize();
+                var btn = form.find('button[type="submit"], .btn-success');
+                var oldText = btn.html();
+
+                btn.html('<i class="fa fa-spinner fa-spin"></i> Memproses...').attr('disabled', true);
+
+                $.post(url, data, function(response){
+                    $('#modal-edit').modal('hide');
+                    
+                    Sweetalert2({
+                      title: 'Data berhasil disimpan',
+                      type: 'success',
+                      timer: 2000,
+                      showConfirmButton: false
+                    }).then(function() {
+                        location.reload();
+                    }, function(dismiss) {
+                        if (dismiss === 'timer') {
+                            location.reload();
+                        }
+                    });
+
+                }).fail(function(){
+                    Sweetalert2({
+                      title: 'Oops...',
+                      text: 'Gagal menyimpan data. Silakan coba lagi.',
+                      type: 'error'
+                    });
+                    btn.html(oldText).attr('disabled', false);
+                });
+            });
+        });
+    }
+</script>
