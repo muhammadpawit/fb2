@@ -1457,6 +1457,7 @@ class Gudang extends CI_Controller {
 					$footerContent =null;
 					$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
 					$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
+					return;
 				}else{
 					$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
 				}

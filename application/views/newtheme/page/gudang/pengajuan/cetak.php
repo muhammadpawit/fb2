@@ -146,13 +146,13 @@
 
                                             <td align="center"><?php echo $no++; ?></td>
 
-                                            <td><?php echo $tem['nama_item'] ?></td>
+                                            <td><?php echo htmlspecialchars($tem['nama_item']) ?></td>
 
-                                            <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
+                                            <td><?php echo !empty($warna) ? htmlspecialchars($warna['warna_item']):'' ?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
-                                            <td><?php echo $tem['satuan'] ?></td>
+                                            <td><?php echo htmlspecialchars($tem['satuan']) ?></td>
                                             <?php if( $parent['kategori']<4){ ?>
                                             <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
 
@@ -170,11 +170,11 @@
 
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
-                                            <td><?php echo $tem['supplier']; ?></td>
+                                            <td><?php echo htmlspecialchars($tem['supplier']); ?></td>
                                             <?php } ?>
-                                            <td><?php echo $tem['keterangan']; ?></td>
+                                            <td><?php echo htmlspecialchars($tem['keterangan']); ?></td>
                                             <?php if($parent['status']!=1){?>
-                                            <td><span class="no-print"><?php echo $tem['komentar']?></span></td>
+                                            <td><span class="no-print"><?php echo htmlspecialchars($tem['komentar'])?></span></td>
                                             <?php } ?>
                                         </tr>
                                         <?php $i++?>
@@ -250,13 +250,13 @@
 
                                             <td align="center"><?php echo $no++; ?></td>
 
-                                            <td><?php echo $tem['nama_item'] ?></td>
+                                            <td><?php echo htmlspecialchars($tem['nama_item']) ?></td>
 
-                                            <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
+                                            <td><?php echo !empty($warna) ? htmlspecialchars($warna['warna_item']):'' ?></td>
 
                                             <td align="center"><?php echo $tem['jumlah'] ?></td>
 
-                                            <td><?php echo $tem['satuan'] ?></td>
+                                            <td><?php echo htmlspecialchars($tem['satuan']) ?></td>
 
                                             <?php if( $parent['kategori']<4){ ?>
                                             
@@ -276,12 +276,12 @@
 
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
-                                            <td><?php echo $tem['supplier']; ?></td>
+                                            <td><?php echo htmlspecialchars($tem['supplier']); ?></td>
                                             <?php } ?>
 
-                                            <td><?php echo $tem['keterangan']; ?></td>
+                                            <td><?php echo htmlspecialchars($tem['keterangan']); ?></td>
                                             <?php if($parent['status']!=1){?>
-                                            <td><span class="no-print"><?php echo $tem['komentar']?></span></td>
+                                            <td><span class="no-print"><?php echo htmlspecialchars($tem['komentar'])?></span></td>
                                             <?php } ?>
                                         </tr>
                                         <?php $i++?>
@@ -495,7 +495,7 @@
                         <div class="text-right">
                             <?php if($parent['status']==1){?>
                             <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a>
-                            <a onclick="showPdfModal()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-pdf-o m-r-5"></i> PDF</a>
+                            <a onclick="showPengajuanPdfModal()" class="btn btn-success waves-effect waves-light text-white"><i class="fa fa-file-pdf-o m-r-5"></i> PDF</a>
                             <?php }?>
 
                             <?php if($parent['kategori']==4){ ?>
@@ -529,15 +529,15 @@
 
 <!-- Modal PDF Preview -->
 <div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="pdfPreviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document" style="max-width: 95%; height: 90vh;">
-        <div class="modal-content" style="height: 90vh;">
+    <div class="modal-dialog" role="document" style="width: 98%; max-width: 98%; height: 95vh; margin: 1vh auto;">
+        <div class="modal-content" style="height: 95vh;">
             <div class="modal-header">
                 <h5 class="modal-title" id="pdfPreviewModalLabel"><i class="fa fa-file-pdf-o"></i> Preview PDF - Pengajuan <?php echo $mingguan ?></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="padding: 0; height: calc(90vh - 120px);">
+            <div class="modal-body" style="padding: 0; height: calc(95vh - 120px);">
                 <div id="pdfLoading" style="display:flex; justify-content:center; align-items:center; height:100%;">
                     <div style="text-align:center;">
                         <i class="fa fa-spinner fa-spin fa-3x"></i>
@@ -596,8 +596,9 @@ $('#clear_signature').click(function() {
         });
 
 
-    function showPdfModal(){
-        var pdfUrl = '?pdf=true';
+    function showPengajuanPdfModal(){
+        var pdfUrl = '<?php echo BASEURL; ?>Gudang/pengajuancetak/<?php echo $parent['id']; ?>?pdf=true';
+        console.log(pdfUrl);
         $('#pdfLoading').show();
         $('#pdfIframe').hide();
         $('#pdfIframe').attr('src', pdfUrl);

@@ -593,7 +593,7 @@ $('#clear_signature').click(function() {
 
 
     function showPdfModal(){
-        var pdfUrl = '?pdf=true';
+        var pdfUrl = '<?php echo BASEURL; ?>Gudang/pengajuancetak/<?php echo $parent['id']; ?>?pdf=true';
         $('#pdfLoading').show();
         $('#pdfIframe').hide();
         $('#pdfIframe').attr('src', pdfUrl);

@@ -68,13 +68,13 @@
                 ?>
                 <tr>
                     <td align="center"><?php echo $no++; ?></td>
-                    <td><?php echo $tem['nama_item'] ?></td>
+                    <td><?php echo htmlspecialchars($tem['nama_item']) ?></td>
 
-                    <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
+                    <td><?php echo !empty($warna) ? htmlspecialchars($warna['warna_item']):'' ?></td>
 
                     <td align="center"><?php echo $tem['jumlah'] ?></td>
 
-                    <td><?php echo $tem['satuan'] ?></td>
+                    <td><?php echo htmlspecialchars($tem['satuan']) ?></td>
                     
                     <?php if( $parent['kategori']<4){ ?>
                     <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
@@ -93,9 +93,9 @@
 
                     <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
-                    <td><?php echo $tem['supplier']; ?></td>
+                    <td><?php echo htmlspecialchars($tem['supplier']); ?></td>
                     <?php } ?>
-                    <td><?php echo $tem['keterangan']; ?></td>
+                    <td><?php echo htmlspecialchars($tem['keterangan']); ?></td>
                 </tr>
                 <?php $i++?>
             <?php endforeach ?>
@@ -184,10 +184,10 @@
                 ?>
                  <tr>
                     <td align="center"><?php echo $no++; ?></td>
-                    <td><?php echo $tem['nama_item'] ?></td>
-                    <td><?php echo !empty($warna) ? $warna['warna_item']:'' ?></td>
+                    <td><?php echo htmlspecialchars($tem['nama_item']) ?></td>
+                    <td><?php echo !empty($warna) ? htmlspecialchars($warna['warna_item']):'' ?></td>
                     <td align="center"><?php echo $tem['jumlah'] ?></td>
-                    <td><?php echo $tem['satuan'] ?></td>
+                    <td><?php echo htmlspecialchars($tem['satuan']) ?></td>
                     <?php if( $parent['kategori']<4){ ?>
                     
                     <td width="125" align="center"><?php echo number_format($tem['harga']) ?></td>
@@ -206,9 +206,9 @@
 
                     <td><?php echo ($tem['pembayaran']==1)?'Cash':'Transfer'; ?></td>
 
-                    <td><?php echo $tem['supplier']; ?></td>
+                    <td><?php echo htmlspecialchars($tem['supplier']); ?></td>
                     <?php } ?>
-                    <td><?php echo $tem['keterangan']; ?></td>
+                    <td><?php echo htmlspecialchars($tem['keterangan']); ?></td>
                  </tr>
 
                 
