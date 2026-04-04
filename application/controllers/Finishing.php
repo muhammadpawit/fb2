@@ -1945,10 +1945,16 @@ class Finishing extends CI_Controller {
 	{
 		$post = $this->input->get();
 		$query = "SELECT COALESCE(SUM(krs.jumlah_piece_diterima-COALESCE(krs.bangke_qty,0))) as jumlah_pcs_po, p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan FROM kelolapo_rincian_setor_cmt krs ";
-		$query .=" LEFT JOIN produksi_po p ON p.id_produksi_po=krs.idpo ";
-		// $query .=" LEFT JOIN finishing_kirim_gudang kg ON kg.idpo=krs.idpo";
+		$query .=" RIGHT JOIN produksi_po p ON p.id_produksi_po=krs.idpo ";
 		$query .=" WHERE p.id_produksi_po='".$post['kodepo']."' ";
 		$data = $this->GlobalModel->queryManualRow($query);
+
+		if(empty($data['jumlah_pcs_po'])){
+			$query = "SELECT COALESCE(SUM(krs.jml_setor_qty-COALESCE(krs.bangke_qty,0))) as jumlah_pcs_po, p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan FROM kelolapo_rincian_setor_cmt_celana krs ";
+			$query .=" RIGHT JOIN produksi_po p ON p.id_produksi_po=krs.idpo ";
+			$query .=" WHERE p.id_produksi_po='".$post['kodepo']."' ";
+			$data = $this->GlobalModel->queryManualRow($query);
+		}
 		
 		// Rincian Size
 		$po = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $post['kodepo']));
@@ -1958,7 +1964,7 @@ class Finishing extends CI_Controller {
 		
 		// Jika nihil, coba cari di rincian setor celana
 		if(empty($rincian)){
-			$rincian = $this->GlobalModel->queryManual("SELECT rincian_size, SUM(rincian_lusin) as lusin, SUM(rincian_piece) as piece FROM kelolapo_rincian_setor_cmt_finish_celana WHERE kode_po='".$post['kodepo']."' GROUP BY rincian_size ");
+			$rincian = $this->GlobalModel->queryManual("SELECT rincian_size, SUM(rincian_lusin) as lusin, SUM(rincian_piece) as piece FROM kelolapo_rincian_setor_cmt_finish_celana WHERE kode_po LIKE '%".$post['kodepo']."%' GROUP BY rincian_size ");
 		}
 		
 		$r = [];
