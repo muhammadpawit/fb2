@@ -1148,6 +1148,42 @@ class Finishing extends CI_Controller {
 		$this->load->view($this->page.'main',$viewData);
 		//$this->load->view('global/footer');
 	}
+	public function detail_setoran_modal($idpo)
+	{
+		$setor = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$idpo));
+		$data['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish', array('id_kelolapo_rincian_setor_cmt' => $setor['id_kelolapo_rincian_setor_cmt']));
+		$this->load->view('kelolapo/rinciansetor/rincian-setor-detail-modal', $data);
+	}
+
+	public function edit_setoran_modal($idpo)
+	{
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT kks.*, pp.id_proggresion_po FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.idpo=pp.id_produksi_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo="'.$idpo.'"');
+		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$idpo));
+		$viewData['setorcmtjahititem'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$viewData['setorcmtjahit']['id_kelolapo_rincian_setor_cmt']));
+		$viewData['editaction']=BASEURL.'Finishing/editsave';
+		$this->load->view('kelolapo/rinciansetor/rincian-setor-edit-modal', $viewData);
+	}
+
+	public function editsetoran_susulan_modal($kodepo='')
+	{
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT kks.*, pp.kode_po as nama_po, pp.id_proggresion_po FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.idpo=pp.id_produksi_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo="'.$kodepo.'"');
+		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$kodepo));
+		$viewData['setorcmtjahititem'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$viewData['setorcmtjahit']['id_kelolapo_rincian_setor_cmt']));
+		$viewData['editaction']=BASEURL.'Finishing/editsave_susulan';
+		$this->load->view('kelolapo/rinciansetor/rincian-setor-susulan-modal', $viewData);
+	}
+
+	public function produksikaoscmt_modal($idpo,$kodepo,$idklo)
+	{
+		$viewData['idpo']=$idpo;
+		$viewData['kodepo']=$kodepo;
+		$viewData['idklo']=$idklo;
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT kks.*, pp.id_proggresion_po FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.idpo=pp.id_produksi_po WHERE kks.id_kelolapo_kirim_setor="'.$idklo.'"');
+		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
+		$this->load->view('kelolapo/rinciansetor/rincian-setor-proses-modal', $viewData);
+	}
 
 	function rinciansetorcelanacmt(){
 		$tanggal1=date('Y-m-d',strtotime("-1 month"));
@@ -1210,9 +1246,75 @@ class Finishing extends CI_Controller {
 		redirect(BASEURL.'Finishing/rinciansetorcelanacmt');
 	}
 
+	public function celana_add_modal()
+	{
+		$data['cmt']	= $this->GlobalModel->getData('master_cmt',array('cmt_job_desk'=>'JAHIT','hapus'=>0));
+		$data['po']	= $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['size'] = $this->GlobalModel->getData('master_size',null);
+		$this->load->view('kelolapo/rinciansetor/celana_add_modal', $data);
+	}
+
+	public function editsetoran_susulan_celana_modal($kodepo='')
+	{
+		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po JOIN konveksi_buku_potongan kbp ON kks.kode_po=kbp.kode_po WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.kode_po="'.$kodepo.'"');
+		$viewData['progress'] = $this->GlobalModel->getData('proggresion_po',null);
+		$viewData['atas'] = $this->GlobalModel->getData('kelolapo_kirim_setor_atas',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+		$viewData['bawah'] = $this->GlobalModel->getData('kelolapo_kirim_setor_bawah',array('kode_po'=>$kodepo,'id_kelolapo_kirim_setor'=>$viewData['poProd']['id_kelolapo_kirim_setor']));
+		$viewData['size'] = $this->GlobalModel->getData('master_size',null);
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('kode_po LIKE' => '%' . $kodepo . '%'));
+		$viewData['setorcmtjahititem'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana',array('id_kelolapo_rincian_setor_cmt'=>$viewData['setorcmtjahit']['id_kelolapo_rincian_setor_cmt']));
+		$viewData['editaction']=BASEURL.'Finishing/editsave_susulan_celana';
+		$this->load->view('kelolapo/rinciansetor/celana_susulan_modal', $viewData);
+	}
+
 	function detail_setoran_celana($id){
 		$data['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana', array('id_kelolapo_rincian_setor_cmt' => $id));
 		$this->load->view('kelolapo/rinciansetor/celana_detail', $data);
+	}
+
+	function edit_setoran_celana($id){
+		$viewData['setorcmtjahit'] = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana', array('id_kelolapo_rincian_setor_cmt' => $id));
+		$viewData['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana', array('id_kelolapo_rincian_setor_cmt' => $id));
+		$this->load->view('kelolapo/rinciansetor/celana_edit', $viewData);
+	}
+
+	function edit_setoran_celana_save(){
+		$post = $this->input->post();
+		$pcs = 0; $jml = 0; $bangke = 0; $reject = 0; $hilang = 0; $claim = 0;
+		foreach ($post['rincian_lusin'] as $key => $lusin) {
+			$pcs += $post['rincian_piece'][$key];
+			$jml += $lusin * 12;
+			$bangke += $post['rincian_bangke'][$key];
+			$reject += $post['rincian_reject'][$key];
+			$hilang += $post['rincian_hilang'][$key];
+			$claim += $post['rincian_claim'][$key];
+
+			$itemUpdate = array(
+				'rincian_lusin' => $lusin,
+				'rincian_piece' => $post['rincian_piece'][$key],
+				'rincian_bangke' => $post['rincian_bangke'][$key],
+				'rincian_reject' => $post['rincian_reject'][$key],
+				'rincian_hilang' => $post['rincian_hilang'][$key],
+				'rincian_claim' => $post['rincian_claim'][$key],
+				'rincian_keterangan' => $post['rincian_keterangan'][$key],
+			);
+			$this->db->update('kelolapo_rincian_setor_cmt_finish_celana', $itemUpdate, array('id_kelolapo_rincian_setor_cmt_finish' => $post['id_finish'][$key]));
+		}
+
+		$total = $jml + $pcs + $bangke + $hilang + $reject;
+		$headerUpdate = array(
+			'pcs_setor_qty' => $pcs,
+			'jml_setor_qty' => $total,
+			'bangke_qty' => $bangke,
+			'barang_cacad_qty' => $reject,
+			'barang_claim_qty' => $claim,
+			'barang_hilang_qty' => $hilang,
+			'jumlah_piece_diterima' => $total
+		);
+		$this->db->update('kelolapo_rincian_setor_cmt_celana', $headerUpdate, array('id_kelolapo_rincian_setor_cmt' => $post['id_kelolapo_rincian_setor_cmt']));
+
+		$this->session->set_flashdata('msg', 'Data Berhasil Diperbarui');
+		redirect(BASEURL . 'Finishing/rinciansetorcelanacmt');
 	}
 
 	function editsetoran_hapus($id){
