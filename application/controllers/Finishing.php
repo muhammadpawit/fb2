@@ -1949,6 +1949,29 @@ class Finishing extends CI_Controller {
 		// $query .=" LEFT JOIN finishing_kirim_gudang kg ON kg.idpo=krs.idpo";
 		$query .=" WHERE p.id_produksi_po='".$post['kodepo']."' ";
 		$data = $this->GlobalModel->queryManualRow($query);
+		
+		// Rincian Size
+		$po = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $post['kodepo']));
+		
+		// Coba cari di rincian setor kaos (reguler)
+		$rincian = $this->GlobalModel->queryManual("SELECT rincian_size, SUM(rincian_lusin) as lusin, SUM(rincian_piece) as piece FROM kelolapo_rincian_setor_cmt_finish WHERE idpo='".$post['kodepo']."' GROUP BY rincian_size ");
+		
+		// Jika nihil, coba cari di rincian setor celana
+		if(empty($rincian)){
+			$rincian = $this->GlobalModel->queryManual("SELECT rincian_size, SUM(rincian_lusin) as lusin, SUM(rincian_piece) as piece FROM kelolapo_rincian_setor_cmt_finish_celana WHERE kode_po='".$post['kodepo']."' GROUP BY rincian_size ");
+		}
+		
+		$r = [];
+		foreach($rincian as $rin){
+			$r[] = [
+				'rincian_size' => $rin['rincian_size'],
+				'lusin'        => $rin['lusin']+0,
+				'piece'        => $rin['piece']+0
+			];
+		}
+		$data['rincian_size'] = $r;
+		$data['jumlah_item'] = count($r) > 0 ? implode(", ", array_map(function($rin){ return $rin['rincian_size'].": ".$rin['lusin']."dz ".$rin['piece']."pcs"; }, $r)) : "";
+
 		echo json_encode($data);
 	}
 

@@ -81,7 +81,7 @@ $(document).ready(function(){
     $(document).on('click', '.addkirimgudang', function(){
         var html = '';
         html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['id_produksi_po'] ?>" data-item="<?php echo $po['id_produksi_po'] ?>"><?php echo $po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['id_produksi_po'] ?>" data-item="<?php echo $po['id_produksi_po'] ?>"><?php echo $po['kode_po'] ?></option><?php } ?></select><div class="rincianSizeContainer" style="margin-top: 10px;"></div></td>';
         html += '<td><input type="text" class="form-control artikel" name="artikel[]"  required value="" readonly></td>';
         html += '<td><input type="number" class="form-control hargasatuan"  name="hargasatuan[]" required value="" readonly></td>';
         html += '<td><input type="number" class="form-control jumlah" name="jumlahRinci[]" required></td>';
@@ -114,6 +114,15 @@ $(document).ready(function(){
             dai.find(".jumlah").val(obj.jumlah_pcs_po);
             dai.find(".jumlahRp").val(obj.jumlah_pcs_po * Math.round(obj.harga_satuan));
             dai.find(".keterangan").val(obj.jumlah_item);
+            
+            // Render rincian as a clean table
+            var rincianHtml = '<table class="table table-sm table-condensed" style="margin-bottom:0; font-size:12px; background:#f9f9f9;">';
+            rincianHtml += '<tr style="background:#eee;"><th>Size</th><th>Lusin</th><th>Pcs</th></tr>';
+            $.each(obj.rincian_size, function(i, v) {
+                rincianHtml += '<tr><td>' + v.rincian_size + '</td><td>' + v.lusin + '</td><td>' + v.piece + '</td></tr>';
+            });
+            rincianHtml += '</table>';
+            dai.find(".rincianSizeContainer").html(rincianHtml);
         });
     });
 });
