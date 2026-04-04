@@ -53,7 +53,8 @@
         </table>
     
     <button class="btn btn-info" type="submit">Simpan</button>
-	                        </form>
+    <a href="<?php echo BASEURL ?>Finishing/rinciansetorcelanacmt" class="btn btn-danger">Kembali</a>
+</form>
     </div>
 </div>
 <script src="<?php echo PLUGINS ?>bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>

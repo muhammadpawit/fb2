@@ -1152,6 +1152,7 @@ class Finishing extends CI_Controller {
 	function rinciansetorcelanacmt(){
 		$tanggal1=date('Y-m-d',strtotime("-1 month"));
 		$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+		$get = $this->input->get();
 		// $sql	 = "SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po ";
 		// $sql    .= " LEFT JOIN master_jenis_po kbp ON kbp.nama_jenis_po=pp.nama_po";
 		// $sql	.= " WHERE pp.hapus=0  ";
@@ -1160,11 +1161,15 @@ class Finishing extends CI_Controller {
 		$sql    .= " LEFT JOIN master_jenis_po kbp ON kbp.nama_jenis_po=pp.nama_po";
 		$sql 	.= " LEFT JOIN master_cmt mc ON mc.id_cmt=kks.idcmt ";
 		$sql	.= " WHERE pp.hapus=0  ";
+		if(isset($get['kode_po']) && !empty($get['kode_po'])){
+			$sql .= " AND pp.kode_po LIKE '%".$get['kode_po']."%' ";
+		}
 		$sql 	.= " GROUP BY pp.kode_po, kks.refpo, kks.jumlah_piece_diterima ";
 		$sql	.= " order by pp.kode_po ";
 		$rincian = $this->GlobalModel->queryManual($sql);
 		//pre($rincian);
 		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
+		$viewData['rincian'] = [];
 		foreach ($rincian as $key => $rinci) {
 			$refpo = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$rinci['refpo']));
 			$viewData['rincian'][$key]['id']=$rinci['id'];
@@ -1181,7 +1186,7 @@ class Finishing extends CI_Controller {
 		
 		// pre($viewData);
 		//$this->load->view('global/header');
-		
+		$viewData['kode_po'] = isset($get['kode_po']) ? $get['kode_po'] : '';
 		$viewData['page']='kelolapo/rinciansetor/celana';
 		$viewData['tambah']=BASEURL.'Finishing/celana_add';
 		$this->load->view($this->page.'main',$viewData);
@@ -1203,6 +1208,11 @@ class Finishing extends CI_Controller {
 		$this->db->delete('kelolapo_rincian_setor_cmt_finish_celana',array('kode_po'=>$id));
 		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
 		redirect(BASEURL.'Finishing/rinciansetorcelanacmt');
+	}
+
+	function detail_setoran_celana($id){
+		$data['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana', array('id_kelolapo_rincian_setor_cmt' => $id));
+		$this->load->view('kelolapo/rinciansetor/celana_detail', $data);
 	}
 
 	function editsetoran_hapus($id){
@@ -1834,7 +1844,7 @@ class Finishing extends CI_Controller {
 		$post = $this->input->get();
 		$query = "SELECT COALESCE(SUM(krs.jumlah_piece_diterima-COALESCE(krs.bangke_qty,0))) as jumlah_pcs_po, p.id_produksi_po, p.kode_po, p.kode_artikel, p.harga_satuan FROM kelolapo_rincian_setor_cmt krs ";
 		$query .=" LEFT JOIN produksi_po p ON p.id_produksi_po=krs.idpo ";
-		$query .=" LEFT JOIN finishing_kirim_gudang kg ON kg.idpo=krs.idpo";
+		// $query .=" LEFT JOIN finishing_kirim_gudang kg ON kg.idpo=krs.idpo";
 		$query .=" WHERE p.id_produksi_po='".$post['kodepo']."' ";
 		$data = $this->GlobalModel->queryManualRow($query);
 		echo json_encode($data);
@@ -2151,7 +2161,7 @@ class Finishing extends CI_Controller {
 			redirect(BASEURL.'finishing/produksikaoscmt_celana/'.$id);
 		}
 
-		redirect(BASEURL.'finishing/rinciansetorcelanacmt');
+		redirect(BASEURL.'finishing/produksikaoscmt_celana/'.$lastId);
 	}
 
 	public function editsetoran_susulan($kodepo='')
@@ -2291,6 +2301,7 @@ class Finishing extends CI_Controller {
 	public function editsave_susulan_celana($value='')
 	{
 		$post = $this->input->post();
+		pre($post);
 		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
 		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo']));
 		$pcs = 0;
@@ -2382,6 +2393,6 @@ class Finishing extends CI_Controller {
 			redirect(BASEURL.'finishing/editsetoran_susulan_celana/'.$po['kode_po']);
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
-		redirect(BASEURL.'finishing/rinciansetorcelanacmt');
+		redirect(BASEURL.'finishing/editsetoran_susulan_celana/'.$po['kode_po']);
 	}
 }
