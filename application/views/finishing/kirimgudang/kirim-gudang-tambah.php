@@ -57,73 +57,101 @@
                                     <th>Jumlah Pcs(PO)</th>
                                     <th>Jumlah (Rp)</th>
                                     <th>Keterangan</th>
+                                    <th>Rincian</th>
                                     <th><button type="button" name="add" class="btn btn-success btn-sm addkirimgudang"><i class="fa fa-plus"></i></button></th>
                                 </tr>
-                            </table>
-                            <hr>
-                        </div>
-
-                        <button type="submit" class="btn btn-info">Simpan</button>
-                        <a href="<?php echo BASEURL.'Finishing/pengirimangudang';?>" class="btn btn-danger text-white">Batal</a>
-                   </form>
-
-                </div>
-
-            </div>
-
-        </div>
-        <!-- end row -->
-
-    </div> <!-- container -->
+                            </table>                             <hr>
+                         </div>
  
- <script type="text/javascript">
-$(document).ready(function(){
-    $(document).on('click', '.addkirimgudang', function(){
-        var html = '';
-        html += '<tr>';
-        html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['id_produksi_po'] ?>" data-item="<?php echo $po['id_produksi_po'] ?>"><?php echo $po['kode_po'] ?></option><?php } ?></select><div class="rincianSizeContainer" style="margin-top: 10px;"></div></td>';
-        html += '<td><input type="text" class="form-control artikel" name="artikel[]"  required value="" readonly></td>';
-        html += '<td><input type="number" class="form-control hargasatuan"  name="hargasatuan[]" required value="" readonly></td>';
-        html += '<td><input type="number" class="form-control jumlah" name="jumlahRinci[]" required></td>';
-        html += '<td><input type="number" class="form-control jumlahRp" name="jumlahRp[]" required></td>';
-        html += '<td><input type="text" class="form-control keterangan" name="keterangan[]" required ></td>';
-        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
-        $('#addkirimgudang').append(html);
-        //$('.selectpicker').selectpicker('refresh');
-        $('.selectpicker').select2();
+                         <button type="submit" class="btn btn-info">Simpan</button>
+                         <a href="<?php echo BASEURL.'Finishing/pengirimangudang';?>" class="btn btn-danger text-white">Batal</a>
+                    </form>
+ 
+                 </div>
+ 
+             </div>
+ 
+         </div>
+         <!-- end row -->
+ 
+     </div> <!-- container -->
+ 
+ <!-- Modal Rincian Size -->
+ <div class="modal fade" id="modal-rincian-size" tabindex="-1" role="dialog" aria-hidden="true">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title">Rincian Size Penerimaan</h4>
+             </div>
+             <div class="modal-body">
+                 <div id="rincian-size-content"></div>
+             </div>
+         </div>
+     </div>
+ </div>
+  
+  <script type="text/javascript">
+ $(document).ready(function(){
+     $(document).on('click', '.addkirimgudang', function(){
+         var html = '';
+         html += '<tr>';
+         html += '<td><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih</option><?php foreach ($rincian as $key => $po) { ?><option value="<?php echo $po['id_produksi_po'] ?>" data-item="<?php echo $po['id_produksi_po'] ?>"><?php echo $po['kode_po'] ?></option><?php } ?></select></td>';
+         html += '<td><input type="text" class="form-control artikel" name="artikel[]"  required value="" readonly></td>';
+         html += '<td><input type="number" class="form-control hargasatuan"  name="hargasatuan[]" required value="" readonly></td>';
+         html += '<td><input type="number" class="form-control jumlah" name="jumlahRinci[]" required></td>';
+         html += '<td><input type="number" class="form-control jumlahRp" name="jumlahRp[]" required></td>';
+         html += '<td><input type="text" class="form-control keterangan" name="keterangan[]" required ></td>';
+         html += '<td><button type="button" class="btn btn-info btn-sm btn-lihat-rincian" disabled><i class="fa fa-eye"></i></button></td>';
+         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-sm remove"><span class="fa fa-trash"></span></button></td></tr>';
+         $('#addkirimgudang').append(html);
+         //$('.selectpicker').selectpicker('refresh');
+         $('.selectpicker').select2();
+      });
+ 
+     $(document).on('click', '.remove', function(){
+         $(this).closest('tr').remove();
      });
+     
+     $(document).on('change', '.selectpicker', function(e){
+         var dataItem = $(this).find(':selected').data('item');
+         var dai = $(this).closest('tr');
+         var jumlahItem = $('#piecesPo').val();
+         $.get( "<?php echo BASEURL.'finishing/kirimgudangsendRincinan' ?>", { kodepo: dataItem } )
+           .done(function( data ) {
+             var obj = JSON.parse(data);
+             console.log(obj);
+             if(obj.harga_satuan==0){
+                 alert("PO Belum dibuat HPP. Silahkan buat HPPnya terlebih dahulu."); 
+                  dai.remove();
+                 return  false;
+             }
+             dai.find(".artikel").val(obj.kode_artikel);
+             dai.find(".hargasatuan").val(Math.round(obj.harga_satuan));
+             dai.find(".jumlah").val(obj.jumlah_pcs_po);
+             dai.find(".jumlahRp").val(obj.jumlah_pcs_po * Math.round(obj.harga_satuan));
+             dai.find(".keterangan").val(obj.jumlah_item);
+             
+             // Simpan data rincian di button
+             dai.find(".btn-lihat-rincian").prop('disabled', false).data('rincian', obj.rincian_size);
+         });
+     });
+ 
+     $(document).on('click', '.btn-lihat-rincian', function() {
+         var rincian = $(this).data('rincian');
+         var html = '<table class="table table-bordered">';
+         html += '<thead><tr class="bg-light"><th>Size</th><th>Lusin</th><th>Pcs</th></tr></thead><tbody>';
+         if(rincian && rincian.length > 0) {
+             $.each(rincian, function(i, v) {
+                 html += '<tr><td>' + v.rincian_size + '</td><td>' + v.lusin + '</td><td>' + v.piece + '</td></tr>';
+             });
+         } else {
+             html += '<tr><td colspan="3" class="text-center">Tidak ada rincian ditemukan</td></tr>';
+         }
+         html += '</tbody></table>';
+         $('#rincian-size-content').html(html);
+         $('#modal-rincian-size').modal('show');
+     });
+ });
 
-    $(document).on('click', '.remove', function(){
-        $(this).closest('tr').remove();
-    });
-    $(document).on('change', '.selectpicker', function(e){
-        var dataItem = $(this).find(':selected').data('item');
-        var dai = $(this).closest('tr');
-        var jumlahItem = $('#piecesPo').val();
-        $.get( "<?php echo BASEURL.'finishing/kirimgudangsendRincinan' ?>", { kodepo: dataItem } )
-          .done(function( data ) {
-            var obj = JSON.parse(data);
-            console.log(obj);
-            if(obj.harga_satuan==0){
-                alert("PO Belum dibuat HPP. Silahkan buat HPPnya terlebih dahulu."); 
-                 dai.remove();
-                return  false;
-            }
-            dai.find(".artikel").val(obj.kode_artikel);
-            dai.find(".hargasatuan").val(Math.round(obj.harga_satuan));
-            dai.find(".jumlah").val(obj.jumlah_pcs_po);
-            dai.find(".jumlahRp").val(obj.jumlah_pcs_po * Math.round(obj.harga_satuan));
-            dai.find(".keterangan").val(obj.jumlah_item);
-            
-            // Render rincian as a clean table
-            var rincianHtml = '<table class="table table-sm table-condensed" style="margin-bottom:0; font-size:12px; background:#f9f9f9;">';
-            rincianHtml += '<tr style="background:#eee;"><th>Size</th><th>Lusin</th><th>Pcs</th></tr>';
-            $.each(obj.rincian_size, function(i, v) {
-                rincianHtml += '<tr><td>' + v.rincian_size + '</td><td>' + v.lusin + '</td><td>' + v.piece + '</td></tr>';
-            });
-            rincianHtml += '</table>';
-            dai.find(".rincianSizeContainer").html(rincianHtml);
-        });
-    });
-});
  </script>
