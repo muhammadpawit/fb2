@@ -66,46 +66,116 @@
 								<input type="text" name="prods[<?php echo $i?>][mesin_bordir]" value="<?php echo $e['mesin_bordir']?>" class="form-control" size="4">
 							</td>
 							<td>
-								<input type="text" name="prods[<?php echo $i?>][jumlah_naik_mesin]" value="<?php echo $e['jumlah_naik_mesin']?>" class="form-control" size="9" readonly>
+								<input type="text" name="prods[<?php echo $i?>][jumlah_naik_mesin]" value="<?php echo $e['jumlah_naik_mesin']?>" class="form-control naik-mesin" size="9">
 							</td>
 							<td>
-								<input type="text" name="prods[<?php echo $i?>][stich]" value="<?php echo $e['stich']?>" class="form-control"  readonly>
+								<input type="text" name="prods[<?php echo $i?>][stich]" value="<?php echo $e['stich']?>" class="form-control stich-val">
 							</td>
 							<td>
-								<input type="hidden" name="prods[<?php echo $i?>][total_stich]" value="<?php echo $total_stich ?>">
-								<?php echo $total_stich ?>
+								<input type="hidden" class="total-stich-input" name="prods[<?php echo $i?>][total_stich]" value="<?php echo $total_stich ?>">
+								<span class="total-stich-text"><?php echo $total_stich ?></span>
 							</td>
-							<td><?php echo $pemilik_hasil_x?></td>
 							<td>
-								<?php echo $total_stich * $pemilik_hasil_x?>
+								<input type="text" class="form-control hasil-x-const" value="<?php echo $pemilik_hasil_x?>" size="4">
+							</td>
+							<td>
+								<span class="hasil-x-text"><?php echo $total_stich * $pemilik_hasil_x?></span>
 							</td>
 							<td align="center"><?php echo $e['kepala']?></td>
 							<td>
-								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>" class="form-control"  readonly>
+								<input type="text" size="8" name="prods[<?php echo $i?>][perkalian_tarif]" value="<?php echo $e['perkalian_tarif']?>" class="form-control perkalian-tarif">
 							</td>
 							<td>
-								<?php echo $mesin_persenan ?>
+								<input type="text" class="form-control persenan-mesin" value="<?php echo $mesin_persenan ?>" size="4">
 							</td>
 							<td>
-								<input type="hidden" size="8" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">
-								<?php echo $gaji ?>
+								<input type="hidden" size="8" class="gaji-input" name="prods[<?php echo $i?>][gaji]" value="<?php echo $gaji ?>">
+								<span class="gaji-text"><?php echo $gaji ?></span>
 							</td>
 							<td>
-								<input type="hidden" size="8" name="prods[<?php echo $i?>][total_tarif]" value="<?php echo $e['total_tarif'] ?>">
-								<?php echo ($e['total_tarif'])?>
+								<input type="hidden" size="8" class="total-tarif-input" name="prods[<?php echo $i?>][total_tarif]" value="<?php echo $e['total_tarif'] ?>">
+								<span class="total-tarif-text"><?php echo ($e['total_tarif'])?></span>
 							</td>
 						</tr>
 						<?php $i++;?>
 					<?php } ?>
-					<tr>
-						<td><button class="btn btn-success full">Simpan</button></td>
-						<td><a href="<?php echo $batal?>" class="btn btn-danger full">Batal</a></td>
-					</tr>
 				</tbody>
+				<tfoot>
+					<tr style="font-weight: bold; background-color: #f8f9fa;">
+						<td colspan="11" align="right">GRAND TOTAL</td>
+						<td id="grand-total-gaji"><?php echo $jumlah_gaji ?></td>
+						<td id="grand-total-tarif"><?php echo $jumlah_total ?></td>
+					</tr>
+					<tr>
+						<td colspan="2"><button class="btn btn-success full">Simpan</button></td>
+						<td colspan="2"><a href="<?php echo $batal?>" class="btn btn-danger full">Batal</a></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>
 </form>
+
+<script>
+$(document).ready(function() {
+    function parseNum(val) {
+        if (typeof val === 'string') {
+            val = val.replace(',', '.');
+        }
+        var n = parseFloat(val);
+        return isNaN(n) ? 0 : n;
+    }
+
+    function formatNumber(n) {
+        return n.toLocaleString('id-ID');
+    }
+
+    function calculateAll() {
+        var grandGaji = 0;
+        var grandTarif = 0;
+
+        $('table tbody tr').each(function() {
+            var row = $(this);
+            if (row.find('.naik-mesin').length === 0) return;
+
+            var naik = parseNum(row.find('.naik-mesin').val());
+            var stich = parseNum(row.find('.stich-val').val());
+            var perkalian_tarif = parseNum(row.find('.perkalian-tarif').val());
+            var hasil_x_var = parseNum(row.find('.hasil-x-const').val());
+            var persenan_mesin = parseNum(row.find('.persenan-mesin').val());
+
+            var total_stich = naik * stich;
+            var hasil_x = total_stich * hasil_x_var;
+            var gaji = Math.round(total_stich * hasil_x_var * persenan_mesin);
+            var total_tarif = Math.round(total_stich * perkalian_tarif);
+
+            row.find('.total-stich-text').text(total_stich);
+            row.find('.total-stich-input').val(total_stich);
+            
+            row.find('.hasil-x-text').text(hasil_x);
+            
+            row.find('.gaji-text').text(gaji);
+            row.find('.gaji-input').val(gaji);
+            
+            row.find('.total-tarif-text').text(total_tarif);
+            row.find('.total-tarif-input').val(total_tarif);
+
+            grandGaji += gaji;
+            grandTarif += total_tarif;
+        });
+
+        $('#grand-total-gaji').text(grandGaji);
+        $('#grand-total-tarif').text(grandTarif);
+    }
+
+    $(document).on('input keyup change', '.naik-mesin, .stich-val, .perkalian-tarif, .hasil-x-const, .persenan-mesin', function() {
+        calculateAll();
+    });
+
+    // Initial calculation
+    calculateAll();
+});
+</script>
 <div class="row">
    <div class="col-md-4">
 				<table class="table table-bordered">
