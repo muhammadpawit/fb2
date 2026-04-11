@@ -306,6 +306,17 @@
                             } else {
                                 $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
                             }
+                            
+                            // DomPDF workaround: Convert large base64 inline images to physical temporary files
+                            if (strpos($src, 'data:image/png;base64,') === 0) {
+                                $b64Str = substr($src, 22);
+                                $tmpName = 'ttd_tmp_' . md5($b64Str) . '.png';
+                                $tmpPath = '/var/www/fb2/uploads/signatures/' . $tmpName;
+                                if (!file_exists($tmpPath)) {
+                                    file_put_contents($tmpPath, base64_decode($b64Str));
+                                }
+                                $src = BASEURL . 'uploads/signatures/' . $tmpName; // Gunakan BASEURL agar tidak terkena larangan chroot DomPDF
+                            }
                         ?>
                             <img src="<?php echo $src ?>" height="100" alt="">
                             ( <b style="padding:0px 25pt 0px 25pt;font-weight:0 !important"></b> )
@@ -316,7 +327,7 @@
                     </td>
                     <td colspan="2">
                         <?php if(!empty($ttd)){ ?>
-                            <img src="<?php echo BASEURL ?>/uploads/ttd/<?php echo $ttd ?>" height="100" alt="">
+                            <img src="<?php echo BASEURL ?>uploads/ttd/<?php echo $ttd ?>" height="100" alt="">
                             ( <b style="padding:0px 25pt 0px 25pt;font-weight:0 !important">Mia</b> )
                         <?php }else { ?>
                         <br><br><br><br><br><br>
