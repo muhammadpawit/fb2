@@ -174,9 +174,7 @@
             </div>
             <div class="modal-body">
                 <!-- Data akan di-load di sini -->
-                 <form action="">
-                  <input type="text" id="idajuan">
-                 </form>
+                 <div id="detailContentMain"></div>
             </div>
             <div class="modal-footer">
                 
@@ -195,7 +193,6 @@
                 </button>
             </div>
             <div class="modal-body" id="signatureModal">
-            <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
             </div>
             <div class="modal-footer">
             
@@ -288,7 +285,7 @@
   $(document).ready(function() {
 
     $('#detailModalTtd').on('shown.bs.modal', function () {
-        $("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
+        $("#signature-pad").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
         $("#signatures").jSignature();
     });
 
@@ -296,22 +293,61 @@
         $(".signatuers").jSignature();
     });
 
-    // $("#signature").jSignature();
+    // $("#signature-pad").jSignature();
 
       $('#clear_signature').click(function() {
-           $("#signature").jSignature("reset");
+           $("#signature-pad").jSignature("reset");
        });
        $('#save_signature').click(function() {
-           var datapair = $("#signature").jSignature("getData", "image");
-           var imgData = datapair[1];
+           var $sigdiv = window.currentSigPad || $("#signature-pad"); if ($sigdiv.length == 0) $sigdiv = $(".jSignature").last();
+           var data = $sigdiv.jSignature("getData", "image");
+           var imgData = Array.isArray(data) ? data.join(",") : data;
            var idajuan = $("#idajuan").val();
+
+           if (!imgData || imgData.length < 100) {
+               Swal({
+                   type: 'warning',
+                   title: 'Tanda tangan kosong',
+                   text: 'Silakan tanda tangan terlebih dahulu pada panel yang disediakan.'
+               });
+               return false;
+           }
+
+           var formData = new FormData();
+           formData.append('image_data', imgData);
+           formData.append('id', idajuan);
+
            $.ajax({
                url: "<?= BASEURL ?>Gudang/ttdsave",
                type: "POST",
-               data: {image_data: imgData, id:idajuan},
+               data: formData,
+               processData: false,
+               contentType: false,
                success: function(response) {
-                   alert('Signature saved successfully!');
-                   location.reload();
+                   if (response.indexOf('successfully') !== -1) {
+                       Swal({
+                           type: 'success',
+                           title: 'Berhasil',
+                           text: response,
+                           showConfirmButton: false,
+                           timer: 1500
+                       }).then(function() {
+                           location.reload();
+                       });
+                   } else {
+                       Swal({
+                           type: 'error',
+                           title: 'Gagal',
+                           text: response
+                       });
+                   }
+               },
+               error: function(xhr) {
+                   Swal({
+                       type: 'error',
+                       title: 'Error',
+                       text: 'Terjadi kesalahan: ' + xhr.statusText
+                   });
                }
            });
         });
@@ -350,8 +386,8 @@
                   // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
                   $('#signatureModal').html(response);
                   setTimeout(function(){
-                      $("#signature").jSignature();
-                  }, 300);
+                      $("#signature-pad").jSignature();
+                  }, 500);
               },
               error: function() {
                   $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');

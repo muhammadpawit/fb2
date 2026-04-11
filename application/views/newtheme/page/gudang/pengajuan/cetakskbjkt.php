@@ -403,7 +403,11 @@
 
                                             <td>
                                                 <?php if(!empty($parent['paraf'])){
-                                                    $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                                                    if (strpos($parent['paraf'], 'data:image') === 0) {
+                                                        $src = $parent['paraf'];
+                                                    } else {
+                                                        $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                                                    }
                                                 ?>
                                                     <img src="<?php echo $src ?>" height="100" width="200">
                                                 <?php } ?>

@@ -398,8 +398,12 @@
                                         <tr>
 
                                             <td>
-                                                <?php if(!empty($parent['paraf'])){
-                                                    $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                                                 <?php if(!empty($parent['paraf'])){
+                                                    if (strpos($parent['paraf'], 'data:image') === 0) {
+                                                        $src = $parent['paraf'];
+                                                    } else {
+                                                        $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
+                                                    }
                                                 ?>
                                                     <img src="<?php echo $src ?>" height="100" width="200">
                                                 <?php } ?>
@@ -446,8 +450,12 @@
                                     <td><?php echo $parent['diterima_tf']?></td>
                                     <td><?php echo $parent['diterima_cash']+$parent['diterima_tf']?></td>
                                     <td>
-                                    <?php if(!empty($parent['ttdBuHj'])){
-                                        $src_buhj = (strlen($parent['ttdBuHj']) > 100) ? 'data:image/png;base64,'.$parent['ttdBuHj'] : BASEURL.'uploads/signatures/'.$parent['ttdBuHj'];
+                                     <?php if(!empty($parent['ttdBuHj'])){
+                                        if (strpos($parent['ttdBuHj'], 'data:image') === 0) {
+                                            $src_buhj = $parent['ttdBuHj'];
+                                        } else {
+                                            $src_buhj = (strlen($parent['ttdBuHj']) > 100) ? 'data:image/png;base64,'.$parent['ttdBuHj'] : BASEURL.'uploads/signatures/'.$parent['ttdBuHj'];
+                                        }
                                     ?>
                                         <img src="<?php echo $src_buhj?>" height="130">
                                     <?php } else { ?>
@@ -568,25 +576,64 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-    $("#signature").jSignature();
+    $("#signature-pad").jSignature();
 });
 
 $('#clear_signature').click(function() {
-           $("#signature").jSignature("reset");
+           $("#signature-pad").jSignature("reset");
        });
 
 
         $('#save_signature').click(function() {
-           var datapair = $("#signature").jSignature("getData", "image");
-           var imgData = datapair[1];
+           var $sigdiv = $("#signature-pad");
+           var data = $sigdiv.jSignature("getData", "image");
+           var imgData = Array.isArray(data) ? data.join(",") : data;
            var idajuan = '<?php echo $parent['id']?>';
+
+           if (!imgData || imgData.length < 100) {
+               Swal({
+                   type: 'warning',
+                   title: 'Tanda tangan kosong',
+                   text: 'Silakan tanda tangan terlebih dahulu pada panel yang disediakan.'
+               });
+               return false;
+           }
+
+           var formData = new FormData();
+           formData.append('image_data', imgData);
+           formData.append('id', idajuan);
+
            $.ajax({
                url: "<?= BASEURL ?>Gudang/ttdsaveBuhj",
                type: "POST",
-               data: {image_data: imgData, id:idajuan},
+               data: formData,
+               processData: false,
+               contentType: false,
                success: function(response) {
-                   alert('Signature saved successfully!');
-                   location.reload();
+                   if (response.indexOf('successfully') !== -1) {
+                       Swal({
+                           type: 'success',
+                           title: 'Berhasil',
+                           text: response,
+                           showConfirmButton: false,
+                           timer: 1500
+                       }).then(function() {
+                           location.reload();
+                       });
+                   } else {
+                       Swal({
+                           type: 'error',
+                           title: 'Gagal',
+                           text: response
+                       });
+                   }
+               },
+               error: function(xhr) {
+                   Swal({
+                       type: 'error',
+                       title: 'Error',
+                       text: 'Terjadi kesalahan: ' + xhr.statusText
+                   });
                }
            });
         });

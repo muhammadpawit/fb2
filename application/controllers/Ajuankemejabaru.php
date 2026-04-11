@@ -210,7 +210,7 @@ class Ajuankemejabaru extends CI_Controller {
 				$this->db->update('pengajuan_harian_new',$update,$where);
 				
 			} else {
-				echo 'Failed to save signature.';
+				echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
 			}
 		}else{
 			

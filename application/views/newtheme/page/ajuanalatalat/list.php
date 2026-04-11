@@ -26,6 +26,8 @@
 </div>
 <div class="row table-responsive">
 	<div class="col-md-12">
+		<form method="POST" action="<?php echo $acc ?>" id="setujuiAll">
+		<input type="hidden" name="bagian" value="<?php echo $type ?>">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -46,7 +48,6 @@
 				<?php $no=1;?>
 				<?php foreach($prods as $p){ ?>
 					
-					<?php //if(!empty($spv)) { ?>
 					<tr>
 						<td><?php echo $p['no'] ?></td>
 						<td><?php echo $p['supplier_nama'] ?></td>
@@ -58,10 +59,8 @@
 						<td><?php echo $p['ajuan'] ?></td>
 						<td><?php echo $p['keterangan'] ?></td>
 						<td>
-						<form method="POST" action="<?php echo $acc ?>" id="setujuiAll">
-							<input type="hidden" name="bagian" value="<?php echo $type ?>">
-							<input type="hidden" hidden name="tanggal" value="<?php echo date('Y-m-d',strtotime($p['tanggal'])) ?>">
 						<?php if(!empty($spv)) { ?>
+							<input type="hidden" hidden name="tanggal" value="<?php echo date('Y-m-d',strtotime($p['tanggal'])) ?>">
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][id]" value="<?php echo $p['id'] ?>">
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][product_id]" value="<?php echo $p['product_id'] ?>">
 							<input type="hidden" name="prods[<?php echo $p['no'] ?>][satuan]" value="<?php echo $p['satuan'] ?>">
@@ -73,16 +72,12 @@
 							<?php echo $p['acc_ajuan'] ?>
 						<?php } ?>
 						</td>
-						
+					
 						<td>
 							<?php if(!empty($spv)) { ?>
 								<?php if($p['acc_ajuan']==0){ ?>
 									<!-- <button type="submit" class="btn btn-success">Disetujui</button> -->
 								<?php } ?>
-								<!-- </form>
-								<br><br>
-								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_hapus/'.$p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah yakin akan menghapus data ini ? ') ">Dibatalkan</a>
-								<br><br> -->
 								<a href="<?php echo BASEURL.'Ajuanalatalat/Ajuanalatalat_edit/'.$p['id'] ?>?&spv=true" class="btn btn-sm btn-warning">Detail</a>
 							<?php }else{ ?>
 							<?php //if(aksesedit()==1){ ?>
@@ -95,27 +90,20 @@
 						</td>
 					</tr>
 					
-					<?php //} ?>
 					<?php $no++; ?>
 				<?php } ?>
 				<tr>
                   <td colspan="8" align="right"></td>
                   <td>
-                    <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
-                    <!-- <button type="submit" class="btn btn-success btn-sm full">Disetujui</button> -->
 					<a href="#" class="btn btn-primary full text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd">Setujui</a>
-                    </form>
                   </td>
                   <td>
-                  <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_batal" hidden>
-                    <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
-                    <button type="submit" class="btn btn-danger btn-sm full">Dibatalkan</button>
-                    </form>
                   </td>
                 </tr>
 			</tbody>
 		</table>
+		</form>
 	</div>
 </div>
 
@@ -129,7 +117,7 @@
                 </button>
             </div>
             <div class="modal-body" id="signatureModal">
-            <div id="signatures" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
+            <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
             </div>
             <div class="modal-footer">
             
@@ -143,10 +131,11 @@
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
 	 $(document).ready(function() {
-		// $("#signatures").jSignature();
 		$('#detailModalTtd').on('shown.bs.modal', function () {
-			$("#signature").jSignature(); // Inisialisasi jSignature setelah modal ditampilkan
-			$("#signatures").jSignature();
+			if (!$(this).data('jSignatureInitialized')) {
+				$("#signature").jSignature();
+				$(this).data('jSignatureInitialized', true);
+			}
 		});
 
 		$('#clear_signature').click(function() {
@@ -156,11 +145,56 @@
 		$('#save_signature').click(function() {
 			var c= confirm('Apakah data sudah benar ?');
 			if(c==true){
-				$("#setujuiAll").submit();
+				var $btn = $(this);
+				var originalText = $btn.html();
+				$btn.html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...').attr('disabled', true);
+
+				var data = $("#signature").jSignature("getData", "image");
+				var imgData = Array.isArray(data) ? data.join(",") : data;
+				var form = $("#setujuiAll")[0];
+				var formData = new FormData(form);
+				formData.append('image_data', imgData);
+
+				$.ajax({
+					url: "<?php echo $acc ?>",
+					type: "POST",
+					data: formData,
+					contentType: false,
+					processData: false,
+					success: function(response) {
+						if (response.indexOf('successfully') !== -1 || response.indexOf('Berhasil') !== -1) {
+							Swal({
+								type: 'success',
+								title: 'Berhasil',
+								text: 'Signature saved successfully!',
+								showConfirmButton: false,
+								timer: 1500
+							});
+							setTimeout(function() {
+								location.reload();
+							}, 1500);
+						} else {
+							$btn.html(originalText).attr('disabled', false);
+							Swal({
+								type: 'error',
+								title: 'Gagal',
+								text: response
+							});
+						}
+					},
+					error: function(xhr, status, error) {
+						$btn.html(originalText).attr('disabled', false);
+						Swal({
+							type: 'error',
+							title: 'Error',
+							text: 'Gagal menyimpan tanda tangan: ' + error
+						});
+						console.log(xhr.responseText);
+					}
+				});
 			}else{
 				return false;
 			}
-			
 		});
 	 });
 	 <?php if(isset($spv)){ ?>

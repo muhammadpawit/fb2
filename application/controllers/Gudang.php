@@ -3794,7 +3794,7 @@ class Gudang extends CI_Controller {
 		// echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
 		echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
 		echo '<div class="card-header">
-			 <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000; background-color: #fff;"></div>
+			 <div id="signature-pad" style="width: 100%; min-width: 300px; height: 300px; min-height: 300px; border: 1px solid #000; background-color: #fff;"></div>
 		</div>';
 		
 		echo '<br><br>';
@@ -3841,7 +3841,7 @@ class Gudang extends CI_Controller {
 			$this->db->update('pengajuan_harian_new',$update,$where);
             echo 'Signature saved successfully!';
         } else {
-            echo 'Failed to save signature.';
+            echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
         }
 	}
 
@@ -3861,7 +3861,7 @@ class Gudang extends CI_Controller {
 			$this->db->update('pengajuan_harian_new',$update,$where);
             echo 'Signature saved successfully!';
         } else {
-            echo 'Failed to save signature.';
+            echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
         }
     }
 

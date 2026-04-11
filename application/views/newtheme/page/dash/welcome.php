@@ -314,7 +314,6 @@
                 </button>
             </div>
             <div class="modal-body" id="signatureModal">
-            <div id="signature" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
             </div>
             <div class="modal-footer">
             
@@ -1016,22 +1015,74 @@ $(document).on("click", ".lihat-detail", function(e) {
 
     // jSignature diinisialisasi di AJAX success callback dengan setTimeout
 
-    // $("#signature").jSignature();
+    // $("#signature-pad").jSignature();
 
       $('#clear_signature').click(function() {
-           $("#signature").jSignature("reset");
+           $("#signature-pad").jSignature("reset");
        });
        $('#save_signature').click(function() {
-           var datapair = $("#signature").jSignature("getData", "image");
-           var imgData = datapair[1];
+           var $sigdiv = window.currentSigPad || $("#detailModalTtd #signature-pad");
+           if ($sigdiv.length == 0 || !$sigdiv.jSignature) {
+               $sigdiv = $(".jSignature").last();
+           }
+           var data = $sigdiv.jSignature("getData", "image");
+           var imgData = Array.isArray(data) ? data.join(",") : data;
            var idajuan = $("#idajuan").val();
+
+           if (!imgData || imgData.length < 100) {
+               var len = imgData ? imgData.length : 0;
+               var info = (typeof $.fn.jSignature === 'undefined') ? ' (Lib Not Found)' : ' (Len: ' + len + ')';
+               Swal({
+                   type: 'warning',
+                   title: 'Tanda tangan kosong',
+                   text: 'Silakan tanda tangan terlebih dahulu pada panel yang disediakan.' + info
+               });
+               return false;
+           }
+
+           var $btn = $(this);
+           var originalText = $btn.html();
+           $btn.html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...').attr('disabled', true);
+
+           var formData = new FormData();
+           formData.append('image_data', imgData);
+           formData.append('id', idajuan);
+
            $.ajax({
                url: "<?= BASEURL ?>Gudang/ttdsave",
                type: "POST",
-               data: {image_data: imgData, id:idajuan},
+               data: formData,
+               processData: false,
+               contentType: false,
                success: function(response) {
-                   alert('Signature saved successfully!');
-                   location.reload();
+                   if (response.indexOf('successfully') !== -1) {
+                       Swal({
+                           title: 'Berhasil',
+                           text: response,
+                           type: 'success',
+                           showConfirmButton: false,
+                           timer: 1500
+                       });
+                       // Gunakan setTimeout sebagai ganti Promise untuk kompatibilitas ke versi jadul
+                       setTimeout(function() {
+                           location.reload();
+                       }, 1500);
+                   } else {
+                       $btn.html(originalText).attr('disabled', false);
+                       Swal({
+                           title: 'Gagal',
+                           text: response,
+                           type: 'error'
+                        });
+                   }
+               },
+               error: function(xhr) {
+                   $btn.html(originalText).attr('disabled', false);
+                   Swal({
+                       title: 'Error',
+                       text: 'Terjadi kesalahan: ' + xhr.statusText,
+                       type: 'error'
+                    });
                }
            });
         });
@@ -1068,11 +1119,19 @@ $(document).on("click", ".lihat-detail", function(e) {
               data: { id: id },
               success: function(response) {
                   // Asumsikan response berisi HTML atau data yang ingin Anda tampilkan di modal
-                  $('#signatureModal').html(response);
-                  // Init jSignature setelah DOM di-render
+                  var $modal = $('#detailModalTtd');
+                  $modal.find('#signatureModal').html(response);
+                  
+                  // Init jSignature setelah DOM di-render dan modal stabil
                   setTimeout(function(){
-                      $("#signature").jSignature();
-                  }, 300);
+                      var $pad = $modal.find('#signature-pad');
+                      if ($pad.length > 0) {
+                          // Hancurkan instansi lama jika ada
+                          try { $pad.jSignature('destroy'); } catch(e) {}
+                          // Inisialisasi baru
+                          $pad.jSignature(); window.currentSigPad = $pad;
+                      }
+                  }, 1000);
               },
               error: function() {
                   $('#detailModal .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');

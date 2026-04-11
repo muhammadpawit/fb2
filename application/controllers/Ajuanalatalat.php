@@ -184,12 +184,16 @@ class Ajuanalatalat extends CI_Controller {
 				);
 				$this->db->insert('pengajuan_harian_new_detail',$rip);
 			}
-			$this->db->query("UPDATE pengajuan_harian_new SET cash=cash+'".$cash."',transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
 		}
-		//pre($transfer);
+
+		$image_data = $this->input->post('image_data');
+		if (!empty($image_data)) {
+			$this->db->update('pengajuan_harian_new', array('paraf' => $image_data), array('id' => $id));
+		}
+
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect($this->url.$post['bagian'].'?&spv=true');
-		//pre($update);
 	}
 
 	public function tambah($id){

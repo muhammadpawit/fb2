@@ -131,8 +131,8 @@
 			var c= confirm('Apakah data sudah benar ?');
 			if(c==true){
 				   
-        var datapair = $("#signature").jSignature("getData", "image");
-        var imgData = datapair[1];
+        var data = $("#signature").jSignature("getData", "image");
+        var imgData = Array.isArray(data) ? data.join(",") : data;
         var idajuan = $("#idajuan").val();
         var form = $("#setujuiAll")[0]; // Mengambil elemen form
 
@@ -150,10 +150,30 @@
             contentType: false, // Jangan set tipe konten secara otomatis
             processData: false, // Jangan proses data, biarkan FormData yang menangani
             success: function(response) {
-                // alert('Signature saved successfully!');
-                // Bisa reload atau tindakan lain sesuai kebutuhan
-                console.log(response);
-                window.location.href = "<?= BASEURL ?>Gudang/pengajuancetak/" + response;
+                if(response.indexOf('Failed') !== -1){
+                    Swal({
+                        type: 'error',
+                        title: 'Gagal',
+                        text: response
+                    });
+                }else{
+                    Swal({
+                        type: 'success',
+                        title: 'Berhasil',
+                        text: 'Signature saved successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        window.location.href = "<?= BASEURL ?>Gudang/pengajuancetak/" + response;
+                    });
+                }
+            },
+            error: function(xhr) {
+                Swal({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan: ' + xhr.statusText
+                });
             }
         });
 
