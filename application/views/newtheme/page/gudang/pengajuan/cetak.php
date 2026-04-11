@@ -401,6 +401,8 @@
                                                  <?php if(!empty($parent['paraf'])){ 
                                                      if (strpos($parent['paraf'], 'data:image') === 0) {
                                                          $src = $parent['paraf'];
+                                                     } else if (strpos($parent['paraf'], 'image/') === 0) {
+                                                         $src = 'data:'.$parent['paraf'];
                                                      } else {
                                                          $src = (strlen($parent['paraf']) > 100) ? 'data:image/png;base64,'.$parent['paraf'] : BASEURL.'uploads/signatures/'.$parent['paraf'];
                                                      }
@@ -453,6 +455,8 @@
                                      <?php if(!empty($parent['ttdBuHj'])){
                                          if (strpos($parent['ttdBuHj'], 'data:image') === 0) {
                                              $src_buhj = $parent['ttdBuHj'];
+                                         } else if (strpos($parent['ttdBuHj'], 'image/') === 0) {
+                                             $src_buhj = 'data:'.$parent['ttdBuHj'];
                                          } else {
                                              $src_buhj = (strlen($parent['ttdBuHj']) > 100) ? 'data:image/png;base64,'.$parent['ttdBuHj'] : BASEURL.'uploads/signatures/'.$parent['ttdBuHj'];
                                          }
