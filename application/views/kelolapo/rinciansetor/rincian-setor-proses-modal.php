@@ -3,18 +3,26 @@
     <input type="hidden" name="kode_po" value="<?php echo $kodepo ?>">
     <input type="hidden" name="id_kelolapo_kirim_setor" value="<?php echo $idklo ?>">
     <input type="hidden" name="progresName" value="<?php echo $poProd['id_proggresion_po'] ?>">
+    <input type="hidden" name="id_master_cmt" value="<?php echo $poProd['id_master_cmt'] ?>">
+    <input type="hidden" name="jumlahPotPcs" value="<?php echo $poProd['qty_tot_pcs'] ?>">
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label>Nama PO</label>
                 <input type="text" class="form-control" value="<?php echo $kodepo ?>" readonly>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Nama CMT</label>
+                <input type="text" class="form-control" value="<?php echo $poProd['nama_cmt'] ?>" readonly>
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label>Tanggal Terima</label>
-                <input type="date" name="tanggal_terima" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                <input type="date" name="tanggal_penerimaan" class="form-control" value="<?php echo date('Y-m-d') ?>">
             </div>
         </div>
     </div>

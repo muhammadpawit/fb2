@@ -1118,12 +1118,21 @@ class Finishing extends CI_Controller {
 		
 		$viewData['rincian']=[];
 		$rincian=[];
-		if(isset($get['kode_po'])){
-			$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.id_produksi_po='".$kode_po."' AND pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt ");
-		}else{
-			$rincian = $this->GlobalModel->queryManual("SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE pp.hapus=0 and  kks.progress='KIRIM' AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' GROUP BY pp.id_produksi_po,kks.id_master_cmt LIMIT 30 ");
+		$where = " pp.hapus=0 and (kks.progress='KIRIM' OR kks.progress='SELESAI') AND kks.kategori_cmt='JAHIT'  AND kks.hapus=0 and pp.kode_po NOT LIKE 'BJK%' ";
+		if(isset($get['kode_po']) && !empty($get['kode_po'])){
+			$where .= " AND pp.id_produksi_po='".$get['kode_po']."' ";
 		}
-		//$rincian = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.kode_po=kks.kode_po WHERE kks.progress="SETOR" AND kks.kategori_cmt="JAHIT"  AND DATE(create_date) BETWEEN "'.$tanggal1.'" AND "'.$tanggal2.'"  AND pp.kode_po NOT IN(SELECT kode_po FROM kelolapo_rincian_setor_cmt) ORDER BY kks.create_date DESC ');
+		if(isset($get['cmt']) && !empty($get['cmt']) && $get['cmt'] != '*'){
+			$where .= " AND kks.id_master_cmt='".$get['cmt']."' ";
+		}
+
+		$sql = "SELECT * FROM produksi_po pp JOIN kelolapo_kirim_setor kks ON pp.id_produksi_po=kks.idpo WHERE $where GROUP BY pp.id_produksi_po,kks.id_master_cmt ";
+		if(!isset($get['kode_po']) && (!isset($get['cmt']) || $get['cmt'] == '*')){
+			$sql .= " LIMIT 30 ";
+		}
+		
+		$rincian = $this->GlobalModel->queryManual($sql);
+
 		foreach ($rincian as $key => $rinci) {
 			$pcs=$this->GlobalModel->QueryManualRow("
 				SELECT * FROM kelolapo_kirim_setor WHERE idpo='".$rinci['id_produksi_po']."' AND (progress='SELESAI' OR progress='FINISHING')
@@ -1138,12 +1147,10 @@ class Finishing extends CI_Controller {
 			// $viewData['rincian'][$key]['qty_tot_pcs']=$rinci['qty_tot_pcs'];
 			$viewData['rincian'][$key]['qty_tot_pcs']=isset($pcs['qty_tot_pcs']) ? $pcs['qty_tot_pcs'] : 0;
 			$viewData['rincian'][$key]['created_date']=$rinci['created_date'];
-			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$rinci['id_produksi_po']));
+			$viewData['rincian'][$key]['rincianSetor']=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$rinci['id_produksi_po'],'nama_cmt'=>$rinci['nama_cmt']));
 		}
 		
-		// pre($viewData);
-		//$this->load->view('global/header');
-		
+		$viewData['cmt'] = $this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
 		$viewData['page']='kelolapo/rinciansetor/rincian-setor-view';
 		$this->load->view($this->page.'main',$viewData);
 		//$this->load->view('global/footer');
@@ -1317,11 +1324,16 @@ class Finishing extends CI_Controller {
 		redirect(BASEURL . 'Finishing/rinciansetorcelanacmt');
 	}
 
-	function editsetoran_hapus($id){
-		$this->db->delete('kelolapo_rincian_setor_cmt',array('kode_po'=>$id));
-		$this->db->delete('kelolapo_rincian_setor_cmt_finish',array('kode_po'=>$id));
-		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
-		redirect(BASEURL.'Finishing/rinciansetorkaoscmt');
+	function editsetoran_hapus($id,$idklo){
+		$sj=$this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$idklo));
+		$rincian=$this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$id,'nama_cmt'=>$sj['nama_cmt']));
+		if(!empty($rincian)){
+			$this->db->delete('kelolapo_rincian_setor_cmt_finish',array('id_kelolapo_rincian_setor_cmt'=>$rincian['id_kelolapo_rincian_setor_cmt']));
+			$this->db->delete('kelolapo_rincian_setor_cmt',array('id_kelolapo_rincian_setor_cmt'=>$rincian['id_kelolapo_rincian_setor_cmt']));
+		}
+		$this->db->update('kelolapo_kirim_setor',array('progress'=>'KIRIM'),array('id_kelolapo_kirim_setor'=>$idklo));
+		$this->session->set_flashdata('msg','Data Berhasil Direset');
+		redirect(BASEURL.'Finishing/rinciansetorkaoscmt?&kode_po='.$id);
 	}
 
 	public function produksikaoscmt($idpo,$kodepo,$idklo)
@@ -1427,7 +1439,7 @@ class Finishing extends CI_Controller {
 				);
 				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish',$insertRincinan);
 			}
-			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','idpo'=>$post['idpo']),array('progress'=>'FINISHING'));
+			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$post['id_kelolapo_kirim_setor']),array('progress'=>'SELESAI'));
 			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
 			if($rijek>0){
 				$this->db->insert(
@@ -1446,7 +1458,7 @@ class Finishing extends CI_Controller {
 			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
 		}
 
-		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
+		redirect(BASEURL.'finishing/rinciansetorkaoscmt?&kode_po='.$post['idpo']);
 	}
 
 	public function editsetoran($kodepo='')
@@ -1528,7 +1540,7 @@ class Finishing extends CI_Controller {
 		// 	redirect(BASEURL.'finishing/editsetoran/'.$post['kode_po']);
 		// }
 		$this->session->set_flashdata('msg','Data Berhasil diubah');
-		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
+		redirect(BASEURL.'finishing/rinciansetorkaoscmt?&kode_po='.$post['kode_po']);
 	}
 
 	public function hppproduksi()
@@ -2317,7 +2329,7 @@ class Finishing extends CI_Controller {
 	{
 		$post = $this->input->post();
 		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
-		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo']));
+		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo'],'id_master_cmt' => $post['id_master_cmt']));
 		$pcs = 0;
 		$jml = 0;
 		$bangke = 0;
@@ -2407,7 +2419,7 @@ class Finishing extends CI_Controller {
 			redirect(BASEURL.'finishing/editsetoran_susulan/'.$po['kode_po']);
 		}
 		$this->session->set_flashdata('msg','Data Berhasil Disimpan');
-		redirect(BASEURL.'finishing/rinciansetorkaoscmt');
+		redirect(BASEURL.'finishing/rinciansetorkaoscmt?&kode_po='.$post['idpo']);
 	}
 
 	// susulan celana

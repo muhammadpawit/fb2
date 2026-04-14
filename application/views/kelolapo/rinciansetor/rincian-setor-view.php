@@ -42,6 +42,17 @@
             </select>
         </div>
     </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="">Cari CMT</label>
+            <select name="cmt" id="cmt" class="form-control select2" data-live-search="true">
+                <option value="*">Pilih</option>
+                <?php foreach($cmt as $c): ?>
+                    <option value="<?php echo $c['id_cmt'] ?>"><?php echo $c['cmt_name'] ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+    </div>
     <div class="col-md-2">
         <div class="form-group">
             <label for="">Aksi</label><br>
@@ -86,11 +97,11 @@
                                         <?php } ?>
                                      <?php } ?>
 
-                                     <?php if(akseshapus()==1){?>
-                                         <?php if(!empty($sat['rincianSetor'])){ ?>
-                                             <a href="<?php echo BASEURL.'finishing/editsetoran_hapus/'.$sat['idpo'] ?>" onclick="return confirm('Apakah yakin akan mereset data ini ? Seluruh data penerimaan akan terhapus') " class="btn btn-danger btn-sm"><i class="fa fa-trash">Reset</i></a>
+                                         <?php if(akseshapus()==1){?>
+                                             <?php if(!empty($sat['rincianSetor'])){ ?>
+                                                 <a href="<?php echo BASEURL.'finishing/editsetoran_hapus/'.$sat['idpo'].'/'.$sat['id_kelolapo_kirim_setor'] ?>" onclick="return confirm('Apakah yakin akan mereset data ini ? Seluruh data penerimaan akan terhapus') " class="btn btn-danger btn-sm"><i class="fa fa-trash">Reset</i></a>
+                                             <?php } ?>
                                          <?php } ?>
-                                     <?php } ?>
                                  </td>
                              </tr>
                                  <?php endforeach ?>

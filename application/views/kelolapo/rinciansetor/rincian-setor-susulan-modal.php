@@ -26,6 +26,7 @@
     <div class="col-md-12">
     <form action="<?php echo $editaction ?>" method="post">
         <input type="hidden" name="idpo" value="<?php echo $poProd['idpo']?>">
+        <input type="hidden" name="id_master_cmt" value="<?php echo $poProd['id_master_cmt']?>">
         <input type="hidden" name="tanggal" id="tanggal_hidden_susulan_regular" value="<?php echo date('Y-m-d') ?>">
         <input type="hidden" class="form-control" name="tgl" value="<?php echo $poProd['create_date'] ?>" >
         <div class="table-responsive">
