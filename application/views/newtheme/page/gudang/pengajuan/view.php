@@ -398,6 +398,10 @@
                            timer: 1500
                        }).then(function() {
                            location.reload();
+                       }).catch(function(reason) {
+                           if (reason === 'timer') {
+                               location.reload();
+                           }
                        });
                    } else {
                        Swal({
