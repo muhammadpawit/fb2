@@ -632,6 +632,15 @@ class Keuangan extends CI_Controller {
 		foreach($products as $p){
 			$hari=date('l',strtotime($p['tanggal']));
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$p['idkaryawan']));
+			$can_edit = false;
+			if($p['status']==1){
+				$can_edit = true;
+			}
+
+			if($p['status']==2 && $p['totalpotongan'] == 0){
+				$can_edit = true;
+			}
+
 			$data['products'][]=array(
 				'tanggal'=>hari($hari).', '.date('d-m-Y',strtotime($p['tanggal'])),
 				'nama'=>strtolower($karyawan['nama']),
@@ -641,6 +650,7 @@ class Keuangan extends CI_Controller {
 				'keterangan'=>$p['keterangan'],
 				'status'=>$p['status'],
 				'edit'=>BASEURL.'Keuangan/pinjamankaryawanedit/'.$p['id'],
+				'can_edit' => $can_edit,
 				'rincian'=>BASEURL.'Keuangan/rincianpinjaman/'.$p['id'],
 			);
 		}

@@ -165,7 +165,9 @@
                         ?>
                       </td>
                       <td>
+                        <?php if($p['can_edit']){ ?>
                         <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-xs text-white">Edit</a>
+                        <?php } ?>
                         <a href="<?php echo $p['rincian']?>" class="btn btn-success btn-xs text-white">History Potongan</a>
                       </td>
                     </tr>
