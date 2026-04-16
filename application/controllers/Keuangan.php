@@ -682,6 +682,37 @@ class Keuangan extends CI_Controller {
 		$this->load->view($this->page.'main',$data);
 	}
 
+	public function hapus_rincian_pinjaman($id){
+		$detail = $this->GlobalModel->getDataRow('potongan_pinjaman_karyawan', array('id' => $id));
+		if($detail){
+			$idpinjaman = $detail['idpinjaman'];
+			$totalpotongan = $detail['totalpotongan'];
+
+			// Update pinjaman_karyawan
+			$this->db->query("UPDATE pinjaman_karyawan set totalpotongan = totalpotongan - '$totalpotongan' WHERE id = '$idpinjaman' ");
+
+			// Re-evaluate status
+			$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan', array('id' => $idpinjaman));
+			if($cek['totalpotongan'] == 0){
+				$status = 1;
+			} else if($cek['totalpinjaman'] == $cek['totalpotongan']){
+				$status = 3;
+			} else {
+				$status = 2;
+			}
+			$this->db->query("UPDATE pinjaman_karyawan set status = '$status' WHERE id = '$idpinjaman' ");
+
+			// Mark as deleted
+			$this->db->update('potongan_pinjaman_karyawan', array('hapus' => 1), array('id' => $id));
+
+			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+			redirect(BASEURL.'Keuangan/rincianpinjaman/'.$idpinjaman);
+		} else {
+			$this->session->set_flashdata('msg', 'Data tidak ditemukan');
+			redirect(BASEURL.'Keuangan/pinjamankaryawan');
+		}
+	}
+
 	public function transferan(){
 		$data=array();
 		$data['title']='List Transferan';

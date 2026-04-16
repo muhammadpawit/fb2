@@ -8,13 +8,14 @@
     <table class="table table-bordered table-hover">
               <thead >
                 <tr>
-                  <th colspan="4">History Potongan Pinjaman</th>
+                  <th colspan="5">History Potongan Pinjaman</th>
                 </tr>
                 <tr>
                   <th><center>No</center></th>
                   <th><center>Tanggal Potongan</center></th>
                   <th><center>Nominal Potongan</center></th>
                   <th><center>Keterangan</center></th>
+                  <th><center>Action</center></th>
                 </tr>
               </thead>
               <tbody>
@@ -26,6 +27,9 @@
                       <td><?php echo format_tanggal($p['tanggal']) ?></td>
                       <td align="right"><?php echo format_angka($p['totalpotongan'])?></td>
                       <td><?php echo $p['keterangan']?></td>
+                      <td align="center">
+                        <a href="<?php echo BASEURL.'Keuangan/hapus_rincian_pinjaman/'.$p['id']?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Hapus</a>
+                      </td>
                     </tr>
                     <?php $total+=($p['totalpotongan']);?>
                   <?php }?>
@@ -38,6 +42,7 @@
                   <td>
                     
                   </td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td colspan="2" align="center"><b>Total Pinjaman</b></td>
@@ -45,6 +50,7 @@
                   <td>
                     
                   </td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td colspan="2" align="center"><b>Sisa Pinjaman</b></td>
@@ -52,6 +58,7 @@
                   <td>
                     
                   </td>
+                  <td></td>
                 </tr>
               </tfoot>
             </table>
