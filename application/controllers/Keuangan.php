@@ -663,7 +663,18 @@ class Keuangan extends CI_Controller {
 			$products=$this->GlobalModel->QueryManual($sql);
 		}
 		
+		$lunas = 0;
+		$belum_lunas = 0;
+		$nom_lunas = 0;
+		$nom_belum_lunas = 0;
 		foreach($products as $p){
+			if($p['status']==3){
+				$lunas++;
+				$nom_lunas += ($p['totalpinjaman']);
+			}else{
+				$belum_lunas++;
+				$nom_belum_lunas += ($p['totalpinjaman']-$p['totalpotongan']);
+			}
 			$hari=date('l',strtotime($p['tanggal']));
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$p['idkaryawan']));
 			$can_edit = false;
@@ -689,6 +700,12 @@ class Keuangan extends CI_Controller {
 				'rincian'=>BASEURL.'Keuangan/rincianpinjaman/'.$p['id'],
 			);
 		}
+		$data['recap'] = array(
+			'lunas' => $lunas,
+			'belum_lunas' => $belum_lunas,
+			'nom_lunas' => $nom_lunas,
+			'nom_belum_lunas' => $nom_belum_lunas,
+		);
 		$data['karyawan']=karyawan();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'keuangan/pinjaman_list_excel',$data);

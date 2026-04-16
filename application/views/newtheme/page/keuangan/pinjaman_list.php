@@ -128,6 +128,31 @@
 </div>
 
 <div class="row">
+  <div class="col-lg-6 col-6">
+    <div class="small-box bg-success">
+      <div class="inner">
+        <h3>Rp <?php echo number_format($recap['nom_lunas']) ?></h3>
+        <p>Total Lunas (<?php echo $recap['lunas'] ?> Data)</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-check"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-6">
+    <div class="small-box bg-danger">
+      <div class="inner">
+        <h3>Rp <?php echo number_format($recap['nom_belum_lunas']) ?></h3>
+        <p>Total Belum Lunas (<?php echo $recap['belum_lunas'] ?> Data)</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-times-circle"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-md-12">
     <table class="table table-bordered" id="datatable">
               <thead>
