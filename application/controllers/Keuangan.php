@@ -208,7 +208,7 @@ class Keuangan extends CI_Controller {
 		$data['n']=1;
 		$data['action']=BASEURL.'Keuangan/potonganpinjamansave';;
 		$data['products']=array();
-		$products=$this->GlobalModel->getData('potongan_pinjaman_karyawan',array('hapus'=>0));
+		$products=$this->GlobalModel->getDataOrderBy('potongan_pinjaman_karyawan',array('hapus'=>0),'id','desc');
 		foreach($products as $p){
 			$hari=date('l',strtotime($p['tanggal']));
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$p['idkaryawan']));
@@ -222,6 +222,7 @@ class Keuangan extends CI_Controller {
 				'status'=>$p['status'],
 				'edit'=>BASEURL.'Keuangan/pinjamankaryawanedit/'.$p['id'],
 				'rincian'=>BASEURL.'Keuangan/rincianpinjaman/'.$p['id'],
+				'hapus'=>BASEURL.'Keuangan/potonganpinjaman_hapus/'.$p['id'],
 			);
 		}
 		$data['karyawan']=karyawan();
@@ -250,6 +251,39 @@ class Keuangan extends CI_Controller {
 		$this->db->insert('potongan_pinjaman_karyawan',$insert);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Keuangan/potonganpinjaman');	
+	}
+
+	public function potonganpinjaman_hapus($id){
+		$detail = $this->GlobalModel->getDataRow('potongan_pinjaman_karyawan', array('id' => $id));
+		if($detail){
+			$idpinjaman = $detail['idpinjaman'];
+			$totalpotongan = $detail['totalpotongan'];
+
+			// Update pinjaman_karyawan
+			$this->db->query("UPDATE pinjaman_karyawan set totalpotongan = totalpotongan - '$totalpotongan' WHERE id = '$idpinjaman' ");
+
+			// Re-evaluate status
+			$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan', array('id' => $idpinjaman));
+			if($cek['totalpotongan'] == 0){
+				$status = 1;
+			} else if($cek['totalpinjaman'] == $cek['totalpotongan']){
+				$status = 3;
+			} else {
+				$status = 2;
+			}
+			$this->db->query("UPDATE pinjaman_karyawan set status = '$status' WHERE id = '$idpinjaman' ");
+
+			// Mark as deleted
+			$this->db->update('potongan_pinjaman_karyawan', array('hapus' => 1), array('id' => $id));
+
+			user_activity(callSessUser('id_user'), 1, ' menghapus rincian potongan pinjaman dengan id ' . $id);
+
+			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+			redirect(BASEURL.'Keuangan/potonganpinjaman');
+		} else {
+			$this->session->set_flashdata('msg', 'Data tidak ditemukan');
+			redirect(BASEURL.'Keuangan/potonganpinjaman');
+		}
 	}
 
 	public function uangmakansecurity(){
@@ -651,6 +685,7 @@ class Keuangan extends CI_Controller {
 				'status'=>$p['status'],
 				'edit'=>BASEURL.'Keuangan/pinjamankaryawanedit/'.$p['id'],
 				'can_edit' => $can_edit,
+				'hapus'=>BASEURL.'Keuangan/pinjamankaryawan_hapus/'.$p['id'],
 				'rincian'=>BASEURL.'Keuangan/rincianpinjaman/'.$p['id'],
 			);
 		}
@@ -677,6 +712,27 @@ class Keuangan extends CI_Controller {
 		$this->db->insert('pinjaman_karyawan',$insert);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Keuangan/pinjamankaryawan');
+	}
+
+	public function pinjamankaryawan_hapus($id){
+		$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan', array('id' => $id));
+		if($cek){
+			if($cek['totalpotongan'] > 0){
+				$this->session->set_flashdata('msg', 'Data tidak bisa dihapus karena sudah ada potongan');
+				redirect(BASEURL.'Keuangan/pinjamankaryawan');
+			}
+
+			// Mark as deleted
+			$this->db->update('pinjaman_karyawan', array('hapus' => 1), array('id' => $id));
+
+			user_activity(callSessUser('id_user'), 1, ' menghapus data pinjaman dengan id ' . $id);
+
+			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+			redirect(BASEURL.'Keuangan/pinjamankaryawan');
+		} else {
+			$this->session->set_flashdata('msg', 'Data tidak ditemukan');
+			redirect(BASEURL.'Keuangan/pinjamankaryawan');
+		}
 	}
 
 	public function rincianpinjaman($id){

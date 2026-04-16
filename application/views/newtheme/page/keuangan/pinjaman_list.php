@@ -167,6 +167,7 @@
                       <td>
                         <?php if($p['can_edit']){ ?>
                         <a href="<?php echo $p['edit']?>" class="btn btn-warning btn-xs text-white">Edit</a>
+                        <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs text-white" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
                         <?php } ?>
                         <a href="<?php echo $p['rincian']?>" class="btn btn-success btn-xs text-white">History Potongan</a>
                       </td>

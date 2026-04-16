@@ -11,7 +11,7 @@
         <form method="post" action="<?php echo $action?>">
           <div class="form-group">
             <label>Tanggal Potongan</label>
-            <input type="date" name="tanggal" class="form-control" required="required">
+            <input type="date" name="tanggal" class="form-control" value="<?php echo date('Y-m-d') ?>" required="required">
           </div>
           <div class="form-group">
             <label>Nama Karyawan</label>
@@ -136,8 +136,7 @@
                       <td><?php echo $p['totalpotongan']?></td>
                       <td><?php echo $p['keterangan'];?></td>
                       <td>
-                        <!--<a href="<?php echo $p['edit']?>" class="btn btn-warning btn-xs text-white">Edit</a>
-                        <a href="<?php echo $p['rincian']?>" class="btn btn-success btn-xs text-white">Rincian</a>-->
+                        <a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-xs text-white" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
                   <?php }?>
