@@ -676,7 +676,7 @@ class Keuangan extends CI_Controller {
 		$data['products']=array();
 		$data['cancel']=BASEURL.'Keuangan/pinjamankaryawan';
 		$data['products']=$this->db->query("SELECT pk.*, k.nama FROM pinjaman_karyawan pk LEFT JOIN karyawan k ON (k.id=pk.idkaryawan) WHERE pk.id='$id' ")->row_array();
-		$data['details']=$this->GlobalModel->getData('potongan_pinjaman_karyawan',array('idpinjaman'=>$id));
+		$data['details']=$this->GlobalModel->getData('potongan_pinjaman_karyawan',array('idpinjaman'=>$id,'hapus'=>0));
 		//pre($data['products']);
 		$data['page']=$this->page.'keuangan/pinjaman_detail';
 		$this->load->view($this->page.'main',$data);
