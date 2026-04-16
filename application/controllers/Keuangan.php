@@ -705,6 +705,8 @@ class Keuangan extends CI_Controller {
 			// Mark as deleted
 			$this->db->update('potongan_pinjaman_karyawan', array('hapus' => 1), array('id' => $id));
 
+			user_activity(callSessUser('id_user'), 1, ' menghapus rincian potongan pinjaman dengan id ' . $id);
+
 			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
 			redirect(BASEURL.'Keuangan/rincianpinjaman/'.$idpinjaman);
 		} else {
