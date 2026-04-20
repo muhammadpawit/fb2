@@ -6,7 +6,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header bg-info">
-        <h4 class="modal-title">Tambah Harga <?php echo $halaman ?> Baru</h4>
+        <h4 class="modal-title">Tambah Harga <?php echo isset($halaman)?$halaman:'' ?> Baru</h4>
       </div>
       <div class="modal-body">
 		<form method="post" action="<?php echo $simpanharga?>">

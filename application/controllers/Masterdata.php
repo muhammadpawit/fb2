@@ -97,7 +97,7 @@ class Masterdata extends CI_Controller {
 	public function hargapacking(){
 		$data=[];
 		$data['title']='Master harga packing';
-		$jenis=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
+		$jenis=$this->GlobalModel->getData('master_jenis_po',array('hapus'=>0));
 		$no=0;
 		$data['products']=[];
 		foreach($jenis as $j){
@@ -105,11 +105,14 @@ class Masterdata extends CI_Controller {
 				'no'=>$no++,
 				'id'=>$j['id_jenis_po'],
 				'nama'=>$j['nama_jenis_po'],
-				'harga'=>$j['harga_packing']
+				'harga'=>$j['harga_packing'],
+				'sat'=>null,
 			);
 		}
 		$data['page']=$this->page.'masterdata/hargapacking';
 		$data['update']=BASEURL.'Masterdata/updatepacking';
+		$data['simpanharga']=BASEURL.'Masterdata/simpanharga';
+		$data['halaman']='harga_packing';
 		$this->load->view($this->layout,$data);
 	}
 
@@ -188,7 +191,11 @@ class Masterdata extends CI_Controller {
 			);
 			$this->db->update('master_jenis_po',$update,$where);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Masterdata/biayafinishing/'.$p['page']);
+		if($p['page']=='harga_packing'){
+			redirect(BASEURL.'Masterdata/hargapacking');
+		}else{
+			redirect(BASEURL.'Masterdata/biayafinishing/'.$p['page']);
+		}
 	}
 
 	public function updatepacking(){
