@@ -76,7 +76,7 @@
                         <td align="center"><?php echo number_format($p['jumlah_dz'],2)?></td>
                         <td align="center"><?php echo $p['jumlah_pcs']?></td>
                         <td align="center"><?php echo number_format($p['harga'])?></td>
-                        <td align="center"><?php echo number_format($p['total']-$p['potpertama'])?></td>
+                        <td align="center"><?php echo number_format($p['total']-$p['potpertama'], 2)?></td>
                         <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
                             <?php echo strtolower($p['keterangan'])?>
                         </td>
@@ -118,37 +118,37 @@
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Pengembalian Bangke</b></td>
-                    <td align="center"><b><?php echo number_format($detail['pengembalian_bangke'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['pengembalian_bangke'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Bangke</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_bangke'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['potongan_bangke'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Alat</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_alat'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['potongan_alat'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Mesin</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_mesin'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['potongan_mesin'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Permak</b></td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_vermak'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['potongan_vermak'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Biaya Transport Antar & Penjemputan Po</td>
-                    <td align="center"><b><?php echo number_format($detail['biaya_transport']-$detail['potongan_transport'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['biaya_transport']-$detail['potongan_transport'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="9" align="center"><b>Potongan Pinjaman/Claim</td>
-                    <td align="center"><b><?php echo number_format($detail['potongan_lainnya'])?></b></td>
+                    <td align="center"><b><?php echo number_format($detail['potongan_lainnya'], 2)?></b></td>
                     <td></td>
                 </tr>
                 <tr style="background-color: yellow">
@@ -156,9 +156,9 @@
                     <td align="center">
                         <b>
                             <?php if($detail['potongan_transport']==0){?>
-                                <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
+                                <?php echo number_format($detail['total']+$detail['potongan_transport'], 2) ?>
                             <?php }else{ ?>
-                                <?php echo number_format($detail['total']) ?>
+                                <?php echo number_format($detail['total'], 2) ?>
                             <?php } ?>
                         </b>
                     </td>

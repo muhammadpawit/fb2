@@ -907,11 +907,11 @@ class Pembayaran extends CI_Controller {
 			}
 			$data['products'][]=array(
 				'id'=>$p['id'],
-				'nama_po' => $po['nama_po'],
-				'kode_po'=>$po['nama_hpp'],
+				'nama_po' => isset($po['nama_po']) ? $po['nama_po'] : '',
+				'kode_po'=> isset($po['nama_hpp']) ? $po['nama_hpp'] : $p['kode_po'],
 				'potongan'=>$pots,
-				'jumlah_po_dz'=>!empty($p['kirimpcs'])?($p['kirimpcs']/12):($kirim['jumlah_pcs']/12),
-				'jumlah_po_pcs'=>!empty($p['kirimpcs'])?($p['kirimpcs']):($kirim['jumlah_pcs']/12),
+				'jumlah_po_dz'=>!empty($p['kirimpcs'])?($p['kirimpcs']/12):(isset($kirim['jumlah_pcs']) ? ($kirim['jumlah_pcs']/12) : 0),
+				'jumlah_po_pcs'=>!empty($p['kirimpcs'])?($p['kirimpcs']):(isset($kirim['jumlah_pcs']) ? $kirim['jumlah_pcs'] : 0),
 				'jumlah_dz'=>$p['jumlah_dz'],
 				'jumlah_pcs'=>$p['jumlah_pcs'],
 				'harga'=>$p['harga'],

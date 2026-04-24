@@ -59,6 +59,11 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Detail Perhitungan PO</h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-info" onclick="koreksiSemuaTotal()" title="Koreksi Semua (Dz * Harga)">
+                        <i class="fa fa-refresh"></i> Koreksi Total Pembayaran
+                    </button>
+                </div>
             </div>
             <div class="box-body table-responsive">
                 <!-- TABLE ANDA TIDAK BERUBAH -->
@@ -115,7 +120,11 @@
                                     <td align="center"><?php echo ($p['trans']==1)?'Ya':'Tidak';?></td>
                                     <td align="center"><?php echo number_format($p['harga'])?></td>
                                     <td align="center">
-                                        <input type="text" name="products[<?php echo $n?>][total]" value="<?php echo ($p['total']-$p['potpertama'])?>" class="form-control">
+                                        <input type="text" name="products[<?php echo $n?>][total]" 
+                                            value="<?php echo number_format($p['total']-$p['potpertama'], 2, '.', '')?>" 
+                                            class="form-control total-item"
+                                            data-dz="<?php echo $p['jumlah_dz'] ?>"
+                                            data-harga="<?php echo $p['harga'] ?>">
                                     </td>
                                     <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
                                         <input type="hidden" name="products[<?php echo $n?>][keterangan]" value="<?php echo strtolower($p['keterangan'])?>" class="form-control">
@@ -135,6 +144,9 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 <?php } ?>
                             <tr>
@@ -143,11 +155,11 @@
                                 <td align="center"><b><?php echo $potongan?></b></td>
                                 <td align="center"><b><?php echo $jmlpodz?></b></td>
                                 <td align="center"><b><?php echo $jmlpopcs?></b></td>
-                                <td align="center"><b><?php echo $jmldz?></b></td>
+                                <td align="center"><b><?php echo number_format($jmldz, 2)?></b></td>
                                 <td align="center"><b><?php echo $jmlpcs?></b></td>
                                 <td></td>
-                                <td align="center"><b><?php echo number_format($total)?></b></td>
                                 <td></td>
+                                <td align="center"><b><?php echo number_format($total, 2)?></b></td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -605,3 +617,35 @@
 </div>
 
 </form>
+<script>
+    function koreksiSemuaTotal() {
+        var btn = $('button[onclick="koreksiSemuaTotal()"]');
+        var icon = btn.find('i');
+        
+        // Start animation
+        btn.prop('disabled', true);
+        btn.addClass('btn-warning').removeClass('btn-info');
+        icon.addClass('fa-spin');
+        btn.contents().last()[0].textContent = ' Memproses...';
+
+        // Artificial delay to show animation (800ms)
+        setTimeout(function() {
+            $('.total-item').each(function() {
+                var dz = $(this).data('dz');
+                var harga = $(this).data('harga');
+                var result = parseFloat(dz) * parseFloat(harga);
+                $(this).val(result.toFixed(2));
+            });
+
+            // Reset button state
+            btn.prop('disabled', false);
+            btn.addClass('btn-info').removeClass('btn-warning');
+            icon.removeClass('fa-spin');
+            btn.contents().last()[0].textContent = ' Koreksi Total Pembayaran';
+
+            // Show success feedback with a nice animation if using AdminLTE (Toastr/SweetAlert usually available)
+            // Fallback to simple alert if not
+            alert('Sukses! Semua telah dikoreksi otomatis.');
+        }, 800);
+    }
+</script>
