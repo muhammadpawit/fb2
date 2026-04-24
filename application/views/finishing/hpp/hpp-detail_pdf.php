@@ -1,7 +1,7 @@
 <style type="text/css">
     table {
         width: 100%;
-        font-size: 17px !important;
+        font-size: 13px !important;
         text-transform: uppercase;
         font-family: Arial, sans-serif;
     }
@@ -29,7 +29,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
   .registered {
     font-family: 'Baskervville', serif;
-    font-size: 20px !important;
+    font-size: 12px !important;
     font-weight:bold;
     float: right;
   }
@@ -53,14 +53,11 @@
                                 <tr>
                                     <td width="20%">&nbsp;PO</td>
                                     <td width="20%">&nbsp;<?php echo $po['nama_hpp'] ?></td>
-                                    <td width="20%" rowspan="8" valign="middle" align="center">
+                                    <td width="40%" colspan="2" rowspan="8" valign="middle" align="center" style="padding: 5px;">
                                        <?php if(!empty($po['gambar_po'])){?>
-                                             <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
+                                             <img src="<?php echo (strpos($po['gambar_po'], 'data:image') === 0) ? $po['gambar_po'] : BASEURL.$po['gambar_po'] ?>" style="max-height: 100px; width: auto;"  >
                                         <?php } ?>
                                     </td>
-                                    <!-- <td width="20%" rowspan="8" valign="middle" align="center">
-                                        <img src="<?php //echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
-                                    </td> -->
                                 </tr>
                                 <tr>
                                     <td>&nbsp;ARTIKEL</td>
@@ -81,7 +78,7 @@
                                 </tr>
                                 <tr>
                                     <td>&nbsp;TIM POTONG</td>
-                                    <td>&nbsp;<?php echo strtoupper($timpotong) ?></td>
+                                    <td>&nbsp;<?php echo strtoupper($timpotong ?? '') ?></td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;JUMLAH PO</td>
@@ -90,7 +87,7 @@
                                 </tr>
                                 <tr>
                                     <td>&nbsp;CMT JAHIT</td>
-                                    <td>&nbsp;<?php echo strtoupper($namacmt) ?></td>
+                                    <td>&nbsp;<?php echo strtoupper($namacmt ?? '') ?></td>
                                 </tr>
 
                             </table>
@@ -113,8 +110,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <br>
-                            <table class="table" style="width: 100%;" cellpadding="5">
+                            <table class="table" style="width: 100%; margin-top: 5px;" cellpadding="2">
 
                                 <tr class="text-center">
                                 	<th width="5%"><center>No</center></th>
@@ -823,7 +819,7 @@
 
                                 <?php endforeach ?>
 
-                                <?php if($biayalain){?>
+                                 <?php if(is_array($biayalain)){?>
 
                                     <?php foreach($biayalain as $b){?>
 
@@ -871,59 +867,43 @@
                                     <td  align="right">
 
                                     <?php 
-                                                    // $opr=0;$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); 
-                                                    $opr = ($masterharga['hargahpp'] > 0) ? ($masterharga['hargahpp'] - $totalHPP) : 0; 
-                                                    echo 'Rp. '.number_format($opr);
-                                                ?>
-
+                                        // Prioritaskan nilai dari database (operaitonal_price)
+                                        $opr = isset($po['operaitonal_price']) ? $po['operaitonal_price'] : 0;
+                                        
+                                        // Jika di DB masih 0, baru coba hitung dari selisih master harga (opsional/logic lama)
+                                        if ($opr == 0 && isset($masterharga['hargahpp']) && $masterharga['hargahpp'] > 0) {
+                                            $opr = $masterharga['hargahpp'] - $totalHPP;
+                                        }
+                                        
+                                        echo 'Rp. '.number_format($opr);
+                                    ?>
                                     </td>
-
                                 </tr>
 
-
-
                                 <tr>
-
                                     <td colspan="4"  align="center">GRAND TOTAL</td>
-
                                     <td id="grandTotal" align="right">
-
                                         Rp. <?php 
-                                            
-                                            // $grand= $po['operaitonal_price'] + $total + $totalAlat; 
-                                            $grand= $masterharga['hargahpp'] ?? 0; 
-
+                                            // Hitung Grand Total dari Total HPP + Operasional (agar sinkron dengan view utama)
+                                            $grand = $totalHPP + $opr; 
                                             echo number_format($grand);?> 
-
                                     </td>
-
                                 </tr>
 
                                 <tr>
-
                                     <td colspan="4"  align="center">HARGA PCS</td>
-
                                     <td id="hargaPCS" align="right">
-
                                         Rp. <?php echo number_format($grand / 12) ?>
-
                                     </td>
-
                                 </tr>
 
                             </table>
-                            <br>
-                            <br>
-                            <table border="0" style="border: 0px solid !important;" cellpadding="27">
+                            <table border="0" style="border: 0px solid !important; width: 100%; margin-top: 10px;">
                                 <tr>
-                                    <td align="right">
+                                    <td align="right" style="border: 0px solid !important; padding-right: 20px;">
                                         Persetujuan Pimpinan<br>
                                         Tanggal : <?php echo strtoupper(date('d F Y')) ?>
-                                        <?php 
-                                             for($i=0;$i<=5;$i++){
-                                                echo "<br>"; 
-                                             }        
-                                        ?>
+                                        <div style="height: 50px;"></div>
                                         ( H.RICKO WENDRA )
                                     </td>
                                 </tr>

@@ -73,6 +73,12 @@
         width: 20%;
     }
 
+    .image-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+    }
+
     .image-cell img {
         max-width: 100%;
         height: auto;
@@ -154,7 +160,103 @@
         .no-print { display: none !important; }
         .print-only { display: block !important; }
     }
+
+    /* Loader */
+    .loader-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.8);
+        z-index: 10000;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(2px);
+    }
+    .spinner-hpp {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #1e293b;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Fullscreen Modal Override */
+    .modal-fullscreen {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .modal-fullscreen .modal-content {
+        height: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+    }
+    .modal-fullscreen .modal-body {
+        height: calc(100vh - 120px) !important;
+        overflow-y: auto;
+    }
+
+    .btn-edit-image {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: #1e293b;
+        color: white;
+        border-radius: 4px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: all 0.2s;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .btn-edit-image:hover {
+        background: #334155;
+        transform: scale(1.1);
+    }
 </style>
+
+<div class="loader-overlay" id="loadingHPP">
+    <div class="spinner-hpp"></div>
+    <div style="font-weight: 700; color: #1e293b; letter-spacing: 1px;">SEDANG MEMPROSES...</div>
+</div>
+
+<!-- Modal Ganti Gambar -->
+<div class="modal fade" id="modalGantiGambar" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ganti Gambar PO</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST" class="hpp-upload-form">
+                <div class="modal-body">
+                    <input type="file" name="gambarPO1" class="form-control" accept="image/*" required>
+                    <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Start Page content -->
 
 <div class="content">
@@ -177,22 +279,22 @@
                         <b>Spesifikasi PO</b>
                         <?php if(!empty($spek)){ foreach($spek as $s){ echo $s['kolom'].' : '.$s['isi'].'<br>'; } } ?>
                     </td>
-                    <td rowspan="7" class="image-cell">
+                    <td rowspan="7" class="image-cell" colspan="2">
                         <?php if(!empty($po['gambar_po'])){ ?>
-                            <img src="<?php echo BASEURL.$po['gambar_po'] ?>">
+                            <div class="image-container">
+                                <button type="button" class="btn-edit-image no-print" data-toggle="modal" data-target="#modalGantiGambar" title="Ganti Gambar">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <img src="<?php echo (strpos($po['gambar_po'], 'data:image') === 0) ? $po['gambar_po'] : BASEURL.$po['gambar_po'] ?>">
+                            </div>
                         <?php } else { ?>
-                            <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST" class="no-print">
-                                <input type="file" name="gambarPO1" class="form-control form-control-sm">
+                            <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST" class="no-print hpp-upload-form">
+                                <input type="file" name="gambarPO1" class="form-control form-control-sm" accept="image/*">
                                 <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
-                                <button type="submit" class="btn btn-xs btn-warning mt-1 w-100">UPLOAD</button>
+                                <button type="submit" class="btn btn-xs btn-warning mt-1 w-100">UPLOAD GAMBAR</button>
                             </form>
                         <?php } ?>
                     </td>
-                    <?php if(!empty($po['gambar_po2'])){ ?>
-                    <td rowspan="7" class="image-cell">
-                        <img src="<?php echo BASEURL.$po['gambar_po2'] ?>">
-                    </td>
-                    <?php } ?>
                 </tr>
                 <tr>
                     <td class="label-cell">JENIS</td>
@@ -223,10 +325,8 @@
                 </tr>
             </table>
 
-            <div class="row">
-                <div class="col-12">
-                    <table class="main-table">
-                        <thead>
+            <table class="main-table">
+                <thead>
                             <tr>
                                 <th width="50">No</th>
                                 <th>Perincian Biaya</th>
@@ -997,7 +1097,7 @@
                         <tr style="background: #f1f5f9;">
                             <td colspan="4" class="text-right" style="vertical-align: middle; font-weight: 600; color: #475569;">BIAYA OPERASIONAL</td>
                             <td>
-                                <form action="<?php echo BASEURL.'finishing/submitOperational' ?>" method="post">
+                                <form action="<?php echo BASEURL.'finishing/submitOperational' ?>" method="post" class="hpp-upload-form">
                                     <div class="input-group input-group-sm">
                                         <div class="print-only text-right w-100" style="font-weight: bold; padding: 5px;">
                                             <?php 
@@ -1040,8 +1140,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
 
         <div class="signature-section">
             <div class="signature-wrap">
@@ -1054,15 +1152,62 @@
         </div>
 
         <div class="no-print mt-5 mb-5 text-center">
-            <div class="btn-group">
-                <button onclick="printsubmit()" class="btn btn-primary btn-lg"><i class="fa fa-print"></i> Print Laporan</button>
-                <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-info btn-lg"><i class="fa fa-file-pdf-o"></i> Simpan PDF</a>
-                <form action="<?php echo BASEURL.'finishing/hppproduksidetailAct' ?>" method="POST" id="submit" style="display:none;">
-                    <input type="hidden" name="hargasatuan" value="<?php echo ($grand / 12) ?>">
-                    <input type="hidden" name="kodepo" value="<?php echo $po['kode_po'] ?>">
-                </form>
+            <button type="button" class="btn btn-primary btn-lg px-5 shadow-sm" data-toggle="modal" data-target="#modalCetak">
+                <i class="fa fa-print"></i> CETAK LAPORAN HPP
+            </button>
+        </div>
+
+        <!-- Modal Cetak -->
+        <div class="modal fade" id="modalCetak" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="max-width: 450px; margin-top: 100px;">
+                <div class="modal-content" style="border-radius: 8px; border: none; box-shadow: 0 15px 50px rgba(0,0,0,0.2);">
+                    <div class="modal-header" style="background: #1e293b; color: white; border-radius: 8px 8px 0 0; padding: 20px;">
+                        <h4 class="modal-title" style="font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Opsi Cetak Laporan</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="color: white; opacity: 0.8;">&times;</button>
+                    </div>
+                    <div class="modal-body text-center" style="padding: 25px;">
+                        <!-- Pemilihan Cetak -->
+                        <div id="pilihanCetak">
+                            <div style="background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px dashed #cbd5e1; margin-bottom: 25px;">
+                                <div style="font-size: 12px; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">HPP Produksi</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #1e293b;"><?php echo $po['nama_hpp'] ?></div>
+                                <div style="font-size: 14px; color: #475569; margin-top: 5px; font-weight: 600;">Grand Total: Rp <?php echo number_format($grand) ?></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button onclick="printsubmit()" class="btn btn-outline-dark btn-block" style="padding: 12px; font-weight: 700;">
+                                        <i class="fa fa-print fa-2x d-block mb-2"></i> PRINTER
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button onclick="showPDF()" class="btn btn-outline-info btn-block" style="padding: 12px; font-weight: 700;">
+                                        <i class="fa fa-file-pdf-o fa-2x d-block mb-2"></i> LIHAT PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview PDF (Hidden by default) -->
+                        <div id="previewPDF" style="display: none;">
+                            <div class="mb-3 text-left">
+                                <button onclick="hidePDF()" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left"></i> Kembali</button>
+                                <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-sm btn-info pull-right"><i class="fa fa-download"></i> Download</a>
+                            </div>
+                            <iframe src="" id="pdfFrame" style="width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 4px;"></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 15px; border-top: 1px solid #f1f5f9; background: #fbfbfb; border-radius: 0 0 8px 8px;">
+                        <button type="button" class="btn btn-link btn-sm text-muted" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <form action="<?php echo BASEURL.'finishing/hppproduksidetailAct' ?>" method="POST" id="submit" style="display:none;">
+            <input type="hidden" name="hargasatuan" value="<?php echo ($grand / 12) ?>">
+            <input type="hidden" name="kodepo" value="<?php echo $po['kode_po'] ?>">
+        </form>
     </div>
 </div>
 
@@ -1084,9 +1229,29 @@ $( document ).ready(function() {
 
 });
 
+function showPDF() {
+    $('#pilihanCetak').hide();
+    $('#previewPDF').show();
+    $('#modalCetak .modal-dialog').addClass('modal-fullscreen');
+    $('#pdfFrame').attr('src', '<?php echo $pdf ?>');
+    $('#pdfFrame').css('height', '88vh');
+}
+
+function hidePDF() {
+    $('#previewPDF').hide();
+    $('#pilihanCetak').show();
+    $('#modalCetak .modal-dialog').removeClass('modal-fullscreen');
+    $('#modalCetak .modal-dialog').attr('style', 'max-width: 450px; margin: 100px auto;');
+    $('#pdfFrame').attr('src', '');
+}
+
 function printsubmit(){
         window.print();
     $("#submit").submit();
 }
+
+$('.hpp-upload-form').on('submit', function() {
+    $('#loadingHPP').css('display', 'flex');
+});
 
 </script>

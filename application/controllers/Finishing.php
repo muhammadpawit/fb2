@@ -1887,30 +1887,48 @@ class Finishing extends CI_Controller {
 
 	public function submitImageHppsat()
 	{
-		$config['upload_path']          = './uploads/hpp/';
-        $config['allowed_types']        = 'gif|jpg|png|jpeg';
-        $post = $this->input->post();
+		$post = $this->input->post();
         $po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
 		$kodepo=$po['id_produksi_po'];
 
-        $this->load->library('upload', $config);
-        $this->upload->do_upload('gambarPO1');
-        $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
-        $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po'=>$fileName));
+        if (!empty($_FILES['gambarPO1']['name'])) {
+            $path = $_FILES['gambarPO1']['tmp_name'];
+            $type = pathinfo($_FILES['gambarPO1']['name'], PATHINFO_EXTENSION);
+            $mime = mime_content_type($path);
+
+            if (strpos($mime, 'image/') !== 0) {
+                 $this->session->set_flashdata('gagal', 'Gagal Unggah: File harus berupa gambar!');
+                 redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
+            }
+
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            
+            $this->GlobalModel->updateData('produksi_po', array('kode_po'=>$post['kode_po']), array('gambar_po'=>$base64));
+            $this->session->set_flashdata('msg', 'Gambar Berhasil Disimpan');
+        } else {
+            $this->session->set_flashdata('gagal', 'Gagal Unggah: File tidak ditemukan');
+        }
         redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
 	public function submitImageHppdua()
 	{
-		$config['upload_path']          = './uploads/hpp/';
-        $config['allowed_types']        = 'gif|jpg|png|jpeg';
-        $post = $this->input->post();
+		$post = $this->input->post();
         $po=$this->GlobalModel->GetDataRow('produksi_po',array('kode_po'=>$post['kode_po']));
 		$kodepo=$po['id_produksi_po'];
-        $this->load->library('upload', $config);
-        $this->upload->do_upload('gambarPO2');
-        $fileName = 'uploads/hpp/'.$this->upload->data('file_name');
-        $this->GlobalModel->updateData('produksi_po',array('kode_po'=>$post['kode_po']),array('gambar_po2'=>$fileName));
+
+        if (!empty($_FILES['gambarPO2']['name'])) {
+            $path = $_FILES['gambarPO2']['tmp_name'];
+            $type = pathinfo($_FILES['gambarPO2']['name'], PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            
+            $this->GlobalModel->updateData('produksi_po', array('kode_po'=>$post['kode_po']), array('gambar_po2'=>$base64));
+            $this->session->set_flashdata('msg', 'Gambar Ke-2 Berhasil Disimpan');
+        } else {
+            $this->session->set_flashdata('gagal', 'Gagal Unggah: File ke-2 tidak ditemukan');
+        }
         redirect(BASEURL.'finishing/hppproduksidetail/'.$kodepo);
 	}
 
