@@ -1,241 +1,252 @@
 <style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-    body {
-        background-color: #f8fafc;
-        font-family: 'Inter', sans-serif;
-        color: #1e293b;
+    table, th, td {
+        font-size: 25px !important;
+        border: 2px solid black !important;
+
     }
-
-    .hpp-wrapper {
-        max-width: 1300px;
-        margin: 20px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    h6{
+        font-size: 25px !important;
     }
-
-    .header-table {
-        width: 100%;
-        border: 1px solid #e2e8f0;
-        border-collapse: collapse;
-        margin-bottom: 25px;
+	.print{ display:none !important}
+	@media print
+{    
+	.print{ display:block !important}
+    .no-print, .no-print *
+    {
+        display: none !important;
     }
+}
 
-    .header-table td {
-        border: 1px solid #e2e8f0;
-        padding: 10px 15px;
-        vertical-align: top;
-        font-size: 13px;
-    }
-
-    .header-title {
-        background: #1e293b;
-        color: #fff;
-        text-align: center;
-        padding: 15px !important;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        font-weight: 700;
-        font-size: 20px !important;
-    }
-
-    .label-cell {
-        background: #f8fafc;
-        font-weight: 600;
-        color: #64748b;
-        width: 120px;
-    }
-
-    .value-cell {
-        font-weight: 500;
-        color: #0f172a;
-    }
-
-    .spec-cell {
-        background: #fff;
-        font-size: 12px;
-        line-height: 1.6;
-    }
-
-    .spec-cell b {
-        display: block;
-        margin-bottom: 5px;
-        color: #1e293b;
-        border-bottom: 1px solid #f1f5f9;
-        padding-bottom: 2px;
-    }
-
-    .image-cell {
-        text-align: center;
-        background: #fff;
-        width: 20%;
-    }
-
-    .image-cell img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 2px;
-    }
-
-    .main-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
-
-    .main-table th {
-        background: #f1f5f9;
-        border: 1px solid #e2e8f0;
-        padding: 12px 10px;
-        font-size: 12px;
-        text-transform: uppercase;
-        color: #475569;
-        font-weight: 700;
-        text-align: center;
-    }
-
-    .main-table td {
-        border: 1px solid #e2e8f0;
-        padding: 8px 12px;
-        font-size: 13px;
-    }
-
-    .main-table tr:nth-child(even) {
-        background: #fcfdfe;
-    }
-
-    .total-row {
-        background: #f8fafc !important;
-        font-weight: 700;
-    }
-
-    .grand-total {
-        background: #1e293b !important;
-        color: #fff;
-        font-size: 16px;
-    }
-
-    .signature-section {
-        margin-top: 40px;
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    .signature-wrap {
-        width: 250px;
-        text-align: center;
-    }
-
-    .signature-wrap .date {
-        font-size: 12px;
-        margin-bottom: 10px;
-        color: #64748b;
-    }
-
-    .signature-wrap .title {
-        font-weight: 700;
-        text-decoration: underline;
-        margin-top: 60px;
-        display: block;
-    }
-
-    .no-print { display: block; }
-    .print-only { display: none; }
-
-    @media print {
-        body { background: #fff !important; }
-        .hpp-wrapper { padding: 0; box-shadow: none; border: none; max-width: 100%; }
-        .header-title { background: #000 !important; color: #fff !important; -webkit-print-color-adjust: exact; }
-        .label-cell { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
-        .main-table th { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
-        .grand-total { background: #000 !important; color: #fff !important; -webkit-print-color-adjust: exact; }
-        .no-print { display: none !important; }
-        .print-only { display: block !important; }
-    }
+</style>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
+  .registered {
+    font-family: 'Baskervville', serif;
+    font-size: 20px !important;
+    font-weight:bold;
+    float: right;
+  }
 </style>
 <!-- Start Page content -->
 
 <div class="content">
+
     <div class="container-fluid">
-        <div class="row no-print mt-3 mb-3">
-            <div class="col-md-12">
-                <a href="<?php echo $back ?>" class="btn btn-outline-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
+
+        <div class="row no-print">
+            <div class="col-md-2">
+                <a href="<?php echo $back ?>" class="btn btn-danger btn-sm full">Kembali</a>
             </div>
         </div>
+        <br>
 
-        <div class="hpp-wrapper">
-            <table class="header-table">
-                <tr>
-                    <td colspan="5" class="header-title">HPP <?php echo $jenis?></td>
-                </tr>
-                <tr>
-                    <td class="label-cell">PO</td>
-                    <td class="value-cell"><?php echo $po['nama_hpp'] ?></td>
-                    <td rowspan="7" class="spec-cell" width="25%">
-                        <b>Spesifikasi PO</b>
-                        <?php if(!empty($spek)){ foreach($spek as $s){ echo $s['kolom'].' : '.$s['isi'].'<br>'; } } ?>
-                    </td>
-                    <td rowspan="7" class="image-cell">
-                        <?php if(!empty($po['gambar_po'])){ ?>
-                            <img src="<?php echo BASEURL.$po['gambar_po'] ?>">
-                        <?php } else { ?>
-                            <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST" class="no-print">
-                                <input type="file" name="gambarPO1" class="form-control form-control-sm">
-                                <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
-                                <button type="submit" class="btn btn-xs btn-warning mt-1 w-100">UPLOAD</button>
-                            </form>
-                        <?php } ?>
-                    </td>
-                    <?php if(!empty($po['gambar_po2'])){ ?>
-                    <td rowspan="7" class="image-cell">
-                        <img src="<?php echo BASEURL.$po['gambar_po2'] ?>">
-                    </td>
-                    <?php } ?>
-                </tr>
-                <tr>
-                    <td class="label-cell">JENIS</td>
-                    <td class="value-cell"><?php echo $po['jenis_po'] ?? '-' ?></td>
-                </tr>
-                <tr>
-                    <td class="label-cell">SIZE</td>
-                    <td class="value-cell"><?php echo $pot['size_potongan'] ?? '-' ?></td>
-                </tr>
-                <tr>
-                    <td class="label-cell">BAHAN</td>
-                    <td class="value-cell"><?php echo $namabahan['nama_item_keluar'] ?? '-' ?></td>
-                </tr>
-                <tr>
-                    <td class="label-cell">TIM POTONG</td>
-                    <td class="value-cell"><?php echo strtoupper($timpotong ?? '-') ?></td>
-                </tr>
-                <tr>
-                    <td class="label-cell">JUMLAH PO</td>
-                    <td class="value-cell">
-                        <?php echo isset($pot['hasil_pieces_potongan']) ? $pot['hasil_pieces_potongan'] : 0 ?> PCS / 
-                        <?php echo isset($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 0 ?> DZ
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label-cell">CMT JAHIT</td>
-                    <td class="value-cell"><?php echo strtoupper($namacmt ?? '-') ?></td>
-                </tr>
-            </table>
+        <div class="row">
 
-            <div class="row">
-                <div class="col-12">
-                    <table class="main-table">
-                        <thead>
-                            <tr>
-                                <th width="50">No</th>
-                                <th>Perincian Biaya</th>
-                                <th width="150">Keterangan</th>
-                                <th width="150">Harga (RP)</th>
-                                <th width="180">Jumlah (RP)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            <div class="col-md-12">
+
+                <div class="card-box">
+
+
+
+                    <div class="row">
+
+                        <div class="col-12">
+
+                            <table class="table " border="2" style="border: 2px solid black !important;">
+
+                                <tr>
+
+                                    <td colspan="5" class="text-center">
+
+                                        <h1>HPP <?php echo $jenis?> </h1>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>PO</td>
+
+                                    <td><?php echo $po['nama_hpp'] ?></td>
+                                    <td rowspan="8" width="25%" height="70%">
+                                       <b> Spesifikasi PO <small class="no-print"></small></b>
+                                        <div style="font-size: 23.5px !important">
+                                            <?php if(!empty($spek)){ ?>
+                                                <?php 
+                                                    foreach($spek as $s){
+                                                        echo $s['kolom'].' : '.$s['isi'].'<br>';
+                                                    }
+                                                ?>
+                                            <?php } ?>
+                                        </div>
+
+                                    </td>
+                                    <td rowspan="8" width="25%" height="70%">
+
+                                        <?php //if (!empty($produk['gambar_po'])){ ?>
+
+                                            <img src="<?php echo BASEURL.$po['gambar_po'] ?>" style="width: 100%;"  >
+
+                                        <?php //} else { ?>
+
+                                        <form action="<?php echo BASEURL.'finishing/submitImageHppsat' ?>" enctype="multipart/form-data" method="POST">
+
+                                            <div class="row no-print" style="display: none;">
+
+                                                <div class="form-group col-12 text-center">
+
+                                                    <label>Gambar KAOS</label>
+
+                                                    <input type="file" name="gambarPO1" class="form-control">
+
+                                                    <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
+
+                                                </div>
+
+                                                <div class="col-12">
+
+                                                    <button type="submit" class="btn btn-warning"> SUBMIT</button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+
+                                        <?php //} ?>
+
+                                    </td>
+                                    <?php if(!empty($po['gambar_po2'])){ ?>
+                                    <td rowspan="8" width="25%" height="70%">
+
+                                        <?php //if (!empty($produk['gambar_po2'])){ ?>
+
+                                            <img src="<?php echo BASEURL.$po['gambar_po2'] ?>" style="width: 100%;"  >
+
+                                        <?php //} else { ?>
+
+                                        <form action="<?php echo BASEURL.'finishing/submitImageHppdua' ?>" enctype="multipart/form-data" method="POST">
+
+                                            <div class="row no-print" style="display: none;">
+
+                                                <div class="form-group col-12 text-center">
+
+                                                    <label>Gambar KAOS</label>
+
+                                                    <input type="file" name="gambarPO2" class="form-control">
+
+                                                    <input type="hidden" name="kode_po" value="<?php echo $po['kode_po'] ?>">
+
+                                                </div>
+
+                                                <div class="col-12">
+
+                                                    <button type="submit" class="btn btn-warning"> SUBMIT</button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+
+                                        <?php //} ?>
+
+                                    </td>
+                                    <?php } ?>
+
+                                </tr>
+
+                                <!-- <tr>
+
+                                    <td>ARTIKEL</td>
+
+                                    <td><?php //echo $po['kode_artikel'] ?></td>
+
+                                    
+
+                                </tr> -->
+
+                                <tr>
+
+                                    <td>JENIS</td>
+
+                                    <td><?php echo $po['jenis_po'] ?? '' ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>SIZE</td>
+
+                                    <td><?php echo $pot['size_potongan'] ?? '' ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>BAHAN</td>
+
+                                    <td>
+                                        <?php //echo $produk['bahan_potongan'] ?>
+                                        <?php echo $namabahan['nama_item_keluar'] ?? '' ?>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>TIM POTONG</td>
+
+                                    <td><?php echo strtoupper($timpotong) ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>JUMLAH PO</td>
+
+                                    <td>
+                                        <?php echo isset( $pot['hasil_pieces_potongan'])? $pot['hasil_pieces_potongan']:0 ?> PCS<br>
+                                        <?php echo isset( $pot['hasil_lusinan_potongan'])? $pot['hasil_lusinan_potongan']:0 ?> DZ
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>CMT JAHIT</td>
+
+
+                                    <td><?php echo strtoupper($namacmt) ?></td>
+
+                                </tr>
+
+                            </table>
+
+                            
+
+                        </div>
+
+
+
+                        <div class="col-12">
+
+                            <table class="table " border="2" style="border: 2px solid black !important;">
+
+                                <tr class="text-center">
+                                	<th><center>No</center></th>
+
+                                    <th><center>PERINCIAN BIAYA</center></th>
+
+                                    <th width="120"><center>KETERANGAN</center></th>
+
+                                    <th align="center"><center>HARGA</center></th>
+
+                                    <th width="200"><center>JUMLAH</center></th>
+
+                                </tr>
 
                         <?php $no=0;$resiko = 0;$total = 0; $totalAlat = 0; if (isset($bahan)): ?>
 
@@ -244,7 +255,7 @@
                                 <?php if ($bahanAja['bahan_kategori'] == "UTAMA"){ ?>
 
                                 <tr>
-                                	                                    <td class="text-center"><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         BAHAN <?php echo $bahanAja['bahan_kategori'] ?>
@@ -257,13 +268,13 @@
 
                                     </td>
 
-                                                                        <td class="text-center">
+                                    <td align="center">
 
                                         <?php echo number_format($bahanAja['harga_item']) ?>
 
                                     </td>
 
-                                                                        <td class="text-right"><?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_utama']); ?></td>
+                                    <td align="right"><?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_utama']); ?></td>
 
                                     <?php 
 
@@ -280,7 +291,7 @@
 
 
                                 <tr>
-                                	                                    <td class="text-center"><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         BAHAN <?php echo $bahanAja['bahan_kategori'] ?>
@@ -293,7 +304,7 @@
 
                                     </td>
 
-                                                                        <td class="text-center">
+                                    <td align="center">
 
                                         <?php echo number_format($bahanAja['harga_item']) ?>
 
@@ -318,7 +329,7 @@
                                 <?php } else if($bahanAja['bahan_kategori'] == "KAINKANTONG") { ?> 
 
                                 <tr>
-                                	                                    <td class="text-center"><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         <?php echo str_replace("KAINKANTONG","KAIN - KANTONG",$bahanKantong['bahan_kategori']) ?>
@@ -331,7 +342,7 @@
 
                                     </td>
 
-                                                                        <td class="text-center">
+                                    <td align="center">
 
                                         <?php echo number_format($bahanKantong['harga_item']) ?>
 
@@ -370,7 +381,7 @@
 
                                     </td>
 
-                                                                        <td class="text-center">
+                                    <td align="center">
 
                                         <?php echo number_format($variasi['harga_item']) ?>
 
@@ -398,7 +409,7 @@
                             <?php if (isset($master_harga_potongan)): ?>
 
                                 <tr>
-                                	                                    <td class="text-center"><?php echo $no+=1?></td>
+                                	<td><center><?php echo $no+=1?></center></td>
                                     <td>
 
                                         ONGKOS POTONG
@@ -411,7 +422,7 @@
 
                                     </td>
 
-                                                                        <td class="text-center">
+                                    <td align="center">
 
                                         <?php echo number_format($master_harga_potongan['harga_potongan']) ?>
 
@@ -442,7 +453,7 @@
                                 <?php foreach ($cmt as $key => $cmtt): ?>
 
                                     <tr>
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
                                             <?php if($cmtt['kategori_cmt']=='JAHIT'){?>
@@ -556,7 +567,7 @@
                                     <?php if (strtoupper($rinci['nama_item_keluar']) == "KARET 555A" OR strtoupper($rinci['nama_item_keluar']) == "SIMULASI KARET 555A") {?>
 
                                     <tr>
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
                                         <td>
 
                                             <?php echo $rinci['nama_item_keluar'] ?>
@@ -592,7 +603,7 @@
                                 <?php } elseif (strtoupper($rinci['nama_item_keluar']) == "KARET 11A") {?>
 
                                     <tr>
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -606,7 +617,7 @@
 
                                         </td>
 
-                                                                            <td class="text-center">
+                                        <td align="center">
 
                                             (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 72,1) ?> Pcs)
 
@@ -629,7 +640,7 @@
                                     <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "PITA" OR strtoupper($rinci['nama_item_keluar']) == "SIMULASI PITA" ) {?>
 
                                     <tr>
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
                                         <td>
 
                                             <?php echo $rinci['nama_item_keluar'] ?>
@@ -642,7 +653,7 @@
 
                                         </td>
 
-                                                                            <td class="text-center">
+                                        <td align="center">
 
                                             (<?php echo $rinci['harga_item'].' Roll) ('.round( ($rinci['jumlah_item_keluar']*$rinci['harga_item'])  / $pot['hasil_lusinan_potongan']) ?> Pcs)
 
@@ -668,7 +679,7 @@
                                    <?php  } elseif (strtoupper($rinci['nama_item_keluar']) == "LABEL 108") { ?>
 
                                     <tr>
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -682,7 +693,7 @@
 
                                         </td>
 
-                                                                            <td class="text-center">
+                                        <td align="center">
 
                                             <?php echo $rinci['harga_item'] ?> 
 
@@ -706,7 +717,7 @@
 
                                     <tr>
 
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -720,7 +731,7 @@
 
                                         </td>
 
-                                                                            <td class="text-center">
+                                        <td align="center">
 
                                             (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['jumlah_item_keluar']*$rinci['harga_item'] / $pot['hasil_lusinan_potongan']) ?> Pcs)
 
@@ -746,7 +757,7 @@
 
                                                 <tr>
 
-                                                                                        <td class="text-center"><?php echo $no+=1?></td>
+                                                    <td><center><?php echo $no+=1?></center></td>
 
                                                     <td>
 
@@ -760,7 +771,7 @@
 
                                                     </td>
 
-                                                                                        <td class="text-center">
+                                                    <td align="center">
 
                                                         (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['jumlah_item_keluar']*$rinci['harga_item'] / $pot['hasil_lusinan_potongan']) ?> Pcs)
 
@@ -786,7 +797,7 @@
 
                                     <tr>
 
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td>
 
@@ -800,7 +811,7 @@
 
                                         </td>
 
-                                                                            <td class="text-center">
+                                        <td align="center">
 
                                             <?php echo $rinci['harga_item'] ?>
 
@@ -837,13 +848,13 @@
                                     ?>
                                     <tr>
 
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?$mesin['kategori']:$mesin['kategori']) ?></td>
 
                                         <td class="text-center"><?php echo $mesin['jumlah_titik']*12 ?></td>
 
-                                                                            <td class="text-center"><?php echo $hargapertitik ?></td>
+                                        <td align="center"><?php echo $hargapertitik ?></td>
 
                                         <td align="right"><?php echo number_format(($mesin['jumlah_titik']*12)*$hargapertitik) ?></td>
 
@@ -859,13 +870,13 @@
 
                                     <tr>
 
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?"Buang Benang":'Buang Benang') ?></td>
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                                                            <td class="text-center"><?php echo $mesin['harga'] ?></td>
+                                        <td align="center"><?php echo $mesin['harga'] ?></td>
 
                                         <td align="right"><?php echo number_format(($mesin['harga']*12)) ?></td>
 
@@ -881,13 +892,13 @@
 
                                     <tr>
 
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?"Packing":$mesin['keterangan']) ?></td>
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                                                            <td class="text-center"><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
+                                        <td align="center"><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
 
                                         <td align="right"><?php echo number_format($mesin['harga_dz']) ?></td>
 
@@ -913,13 +924,13 @@
 
                                     <tr>
 
-                                                                            <td class="text-center"><?php echo $no+=1?></td>
+                                        <td><center><?php echo $no+=1?></center></td>
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?"cucian":'cucian') ?></td>
 
                                         <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                                                            <td class="text-center"><?php echo number_format($harga) ?></td>
+                                        <td align="center"><?php echo number_format($harga) ?></td>
 
                                         <td align="right"><?php echo number_format(($harga*12)) ?></td>
 
@@ -931,19 +942,19 @@
 
                                 <?php endforeach ?>
 
-                                <?php if(is_array($biayalain)){?>
+                                <?php if($biayalain){?>
 
                                     <?php foreach($biayalain as $b){?>
 
                                         <tr>
 
-                                                                                <td class="text-center"><?php echo $no+=1?></td>
+                                            <td><center><?php echo $no+=1?></center></td>
 
                                             <td><?php echo $b['namabiaya'] ?></td>
 
                                             <td class="text-center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                                                                <td class="text-center"><?php echo number_format($b['biaya']) ?></td>
+                                            <td align="center"><?php echo number_format($b['biaya']) ?></td>
 
                                             <td align="right"><?php echo number_format($b['biaya']) ?></td>
 
@@ -957,19 +968,19 @@
 
                                 <?php } ?>
 
-                                <?php if(is_array($biayaperpo)){?>
+                                <?php if($biayaperpo){?>
 
                                     <?php foreach($biayaperpo as $b){?>
 
                                         <tr>
 
-                                                                                <td class="text-center"><?php echo $no+=1?></td>
+                                            <td><center><?php echo $no+=1?></center></td>
 
                                             <td><?php echo $b['nama_biaya'] ?></td>
 
                                             <td class="text-center">12<?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                                                                <td class="text-center"><?php echo number_format($b['nominal']) ?></td>
+                                            <td align="center"><?php echo number_format($b['nominal']) ?></td>
 
                                             <td align="right"><?php echo number_format($b['nominal']) ?></td>
 
@@ -984,87 +995,204 @@
                                     <?php } ?>
 
 
-                        <tr style="background: #f8f9fa; font-weight: bold;">
-                            <td colspan="4" class="text-right">TOTAL BIAYA PRODUKSI</td>
-                            <td class="text-right">
-                                <?php  
-                                $totalHPP = $total + $totalAlat;
-                                echo 'Rp ' . number_format($total + $totalAlat); 
-                                ?>
-                            </td>
-                        </tr>
+                                <tr>
 
-                        <tr style="background: #f1f5f9;">
-                            <td colspan="4" class="text-right" style="vertical-align: middle; font-weight: 600; color: #475569;">BIAYA OPERASIONAL</td>
-                            <td>
-                                <form action="<?php echo BASEURL.'finishing/submitOperational' ?>" method="post">
-                                    <div class="input-group input-group-sm">
-                                        <div class="print-only text-right w-100" style="font-weight: bold; padding: 5px;">
-                                            <?php 
-                                            // Prioritaskan nilai dari database (operaitonal_price)
-                                            $opr = isset($po['operaitonal_price']) ? $po['operaitonal_price'] : 0;
-                                            
-                                            // Jika di DB masih 0, baru coba hitung dari selisih master harga (opsional/logic lama)
-                                            if ($opr == 0 && isset($masterharga['hargahpp']) && $masterharga['hargahpp'] > 0) {
-                                                $opr = $masterharga['hargahpp'] - $totalHPP;
-                                            }
-                                            
-                                            echo 'Rp '.number_format($opr);
-                                            ?>
+                                    <td colspan="4" class="text-center">TOTAL</td>
+
+                                    <td align="right">Rp. <?php  
+
+                                    $totalHPP = $total + $totalAlat;
+
+                                    echo number_format($total + $totalAlat); 
+
+                                    ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td colspan="4" class="text-center">OPERASIONAL</td>
+
+                                    <td>
+
+                                        <form action="<?php echo BASEURL.'finishing/submitOperational' ?>" method="post">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+											<div class="print" style="text-align: right;padding-right: 10%">
+												<?php 
+                                                    // $opr=0;$opr= (empty($po['operaitonal_price'])) ? $operation['val_operational'] : $po['operaitonal_price']; echo 'Rp. '.number_format($opr); 
+                                                    $opr = ($masterharga['hargahpp'] > 0) ? ($masterharga['hargahpp'] - $totalHPP) : 0; 
+                                                    echo 'Rp. '.number_format($opr);
+                                                ?>
+											</div>
+                                            <!-- <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php //echo (empty($po['operaitonal_price'])) ?0 : $po['operaitonal_price'] ?>"> -->
+                                             <input type="text" class="form-control no-print" name="valOperation" id="valOperation" value="<?php echo $opr ?? 0 ?>">
+                                            </div>
+                                            <span  class="no-print">
+                                            <input type="hidden" value="<?php echo $po['kode_po'] ?>" name="kode_po">
+
+                                            <div class="col-12 mt-1">
+
+                                                <input class="btn btn-info no-print" type="submit" id="" name="button" value="UPDATE">
+
+                                            </div>
+                                            </span>
+
                                         </div>
-                                        <input type="number" class="form-control no-print text-right" name="valOperation" id="valOperation" value="<?php echo $opr ?? 0 ?>" style="font-weight: bold; border-color: #cbd5e1; color: #1e293b;">
-                                        <input type="hidden" value="<?php echo $po['kode_po'] ?>" name="kode_po">
-                                        <div class="input-group-append no-print">
-                                            <button class="btn btn-dark" type="submit" name="button">UPDATE</button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+
+
+                                <tr>
+
+                                    <td colspan="4" class="text-center">GRAND TOTAL</td>
+
+                                    <td id="grandTotal" align="right">
+
+                                        Rp. <?php 
+                                            // $grand= $po['operaitonal_price'] + $total + $totalAlat; 
+                                            $grand= $masterharga['hargahpp'] ?? 0; 
+
+                                            echo number_format($grand);?> 
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td colspan="4" class="text-center">HARGA PCS</td>
+
+                                    <td id="hargaPCS" align="right">
+
+                                        Rp. <?php echo number_format($grand / 12) ?>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td colspan="5">
+
+                                        <div class="row">
+
+                                            <div class="col-2"></div>
+
+                                            <div class="col-4 text-right" style="padding-right: 8%;">
+
+                                                <h6>PARAF PERSETUJUAN / ACC PIMPINAN</h6>
+
+                                                <h6>TANGGAL : <?php echo strtoupper(date('d F Y')) ?></h6>
+
+                                                <br><br><br>
+
+                                                <h6 style="padding-right: 80px">( H.RICKO WENDRA )</h6>
+
+                                            </div>
+                                            <div class="col-6">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
                                         </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
 
-                        <tr class="grand-total" style="font-size: 18px;">
-                            <td colspan="4" class="text-right">GRAND TOTAL HPP (LUSIN)</td>
-                            <td id="grandTotal" class="text-right">
-                                Rp <?php 
-                                    // Hitung Grand Total dari Total HPP + Operasional (agar sinkron)
-                                    $grand = $totalHPP + $opr; 
-                                    echo number_format($grand);?> 
-                            </td>
-                        </tr>
+                                    </td>
 
-                        <tr style="background: #334155; color: white; font-weight: 700;">
-                            <td colspan="4" class="text-right">HARGA PER PCS</td>
-                            <td id="hargaPCS" class="text-right">
-                                Rp <?php echo number_format($grand / 12) ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <!-- end row -->
+            <i class="registered">Registered by Forboys Production System</i>
+
+<?php 
+
+// $nonsequential['BORDIR'] = array("namaCMT"=>"Pak Abdul", "IdCMT"=>"1"); 
+
+// $nonsequential['BORDIR']['JOBDESK'] = array("KatJob"=>"Wangki", "priceJob"=>"100000"); 
+
+// $nonsequential['JAHIT'] = array("namaCMT"=>"Bu Jenni", "IdCMT"=>"1"); 
+
+// $nonsequential['JAHIT']['JOBDESK'] = array("KatJob"=>"Wangki", "priceJob"=>"100000"); 
+
+
+
+// foreach ($nonsequential as $key => $value) {
+
+//    print_r($value['namaCMT']);
+
+// }
+
+// pre($nonsequential);
+
+?>
+
+
+
+                    <div class="hidden-print mt-4 mb-4">
+
+                        <div class="text-center">
+
+                            <div class="row">
+
+                                <div class="col-6">
+
+                                     <form action="<?php echo BASEURL.'finishing/hppproduksidetailAct' ?>" method="POST" id="submit">
+
+                                        <input type="hidden" name="hargasatuan" value="<?php echo ($grand / 12) ?>">
+
+                                        <input type="hidden" name="kodepo" value="<?php echo $po['kode_po'] ?>">
+                                        <!--
+                                        <button type="submit" class="btn btn-info no-print">submit</button>-->
+                                    </form>
+
+                                </div>
+
+                                <div class="col-6 no-print">
+
+                                    <a onClick="printsubmit()" class="btn btn-primary waves-effect waves-light text-white"><i class="fa fa-print m-r-5"></i> Print</a>
+                                    <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-primary waves-effect waves-light text-white"><i class="fa fa-print m-r-5"></i> Print PDF</a>
+
+                                </div>
+
+                            </div>
+
+                           
+
+                            
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
             </div>
+
+
+
         </div>
 
-        <div class="signature-section">
-            <div class="signature-wrap">
-                <div class="date">TANGGAL : <?php echo strtoupper(date('d F Y')) ?></div>
-                <div class="date">PARAF PERSETUJUAN / ACC PIMPINAN</div>
-                <div style="height: 80px;"></div>
-                <span class="title">( H.RICKO WENDRA )</span>
-                <div style="font-size: 10px; color: #cbd5e1; margin-top: 15px; font-style: italic;">Registered by Forboys Production System</div>
-            </div>
-        </div>
+        <!-- end row -->
 
-        <div class="no-print mt-5 mb-5 text-center">
-            <div class="btn-group">
-                <button onclick="printsubmit()" class="btn btn-primary btn-lg"><i class="fa fa-print"></i> Print Laporan</button>
-                <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-info btn-lg"><i class="fa fa-file-pdf-o"></i> Simpan PDF</a>
-                <form action="<?php echo BASEURL.'finishing/hppproduksidetailAct' ?>" method="POST" id="submit" style="display:none;">
-                    <input type="hidden" name="hargasatuan" value="<?php echo ($grand / 12) ?>">
-                    <input type="hidden" name="kodepo" value="<?php echo $po['kode_po'] ?>">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
+
+    </div> <!-- container -->
+
+
+
+</div> <!-- content -->
 
 <script type="text/javascript">
 
