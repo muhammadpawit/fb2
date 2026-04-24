@@ -1,71 +1,70 @@
 <form action="<?php echo BASEURL.'bordir/addharianmesinsave' ?>" method="POST">
 <input type="hidden" name="jenis" value="<?php echo $jenis?>">
 <div class="row">
-                            <div class="form-group col-md-12">
-                                <label>TANGGAL</label>
-                                <input type="text" class="form-control datepicker" name="tanggal" value="<?php echo date('Y-m-d') ?>" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>Nama PO</label>
-                                <select name="namaPo" class="form-control select2bs4" data-live-search="TRUE">
-                                    <option value=""></option>
-                                    <?php foreach($po as $p){?>
-                                        <option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>SHIFT</label>
-                                <select class="form-control select2bs4 shift" name="shift" title="pilih shift" data-live-search="TRUE">
-                                    <option value="PAGI" data-shift="PAGI">PAGI</option>
-                                    <option value="MALAM" data-shift="MALAM">MALAM</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>ABSENSI</label>
-                                <select class="form-control select2bs4 shift" name="kehadiran" id="kehadiran" title="pilih kehadiran" data-live-search="TRUE" required>
-                                    <option value="HADIR" data-shift="HADIR" data-jam="12">HADIR</option>
-                                    <option value="IZIN" data-shift="IZIN" data-jam="12">IZIN</option>
-                                    <option value="1/2HARI" data-shift="1/2HARI" data-jam="6">1/2HARI</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>JAM KERJA</label>
-                                <input type="number" class="form-control selectpicker shift" name="jamkehadiran" id="jamkerja" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>Nama OPERATOR</label>
-                                <select class="form-control select2bs4" data-live-search="TRUE" name="namaOperator" required>
-                                    <?php foreach ($operator as $key => $op): ?>
-                                        <option value="<?php echo $op['id_master_karyawan_bordir'] ?>"><?php echo $op['nama_karyawan_bordir'] ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>Nama Mandor</label>
-                                <input type="text" name="mandor" class="form-control" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>JAGA MESIN</label>
-                                <select class="form-control select2bs4" name="mesin" required>
-                                    <?php foreach ($mesin as $key => $me): ?>
-                                    <option value="<?php echo $me['nomer_mesin'] ?>"><?php echo $me['nomer_mesin'] ?> (<?php echo $me['nama_mesin'] ?>)</option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>GAMBAR</label>
-                                <input type="text" class="form-control" name="gambar" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>JUMLAH BAGIAN YANG DI BORDIR</label>
-                                <input type="number" class="form-control" name="jumlahbagian" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>JUMLAH SIZE</label>
-                                <input type="text" class="form-control" name="jumlah_size" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
-                            </div>
-                            
+    <div class="form-group col-md-4">
+        <label>TANGGAL</label>
+        <input type="text" class="form-control datepicker" name="tanggal" value="<?php echo date('Y-m-d') ?>" required>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Nama PO</label>
+        <select name="namaPo" class="form-control select2bs4" data-live-search="TRUE" required>
+            <option value=""></option>
+            <?php foreach($po as $p){?>
+                <option value="<?php echo $p['kode_po']?>"><?php echo $p['kode_po']?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label>SHIFT</label>
+        <select class="form-control select2bs4 shift" name="shift" title="pilih shift" data-live-search="TRUE">
+            <option value="PAGI" data-shift="PAGI">PAGI</option>
+            <option value="MALAM" data-shift="MALAM">MALAM</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label>ABSENSI</label>
+        <select class="form-control select2bs4 shift" name="kehadiran" id="kehadiran" title="pilih kehadiran" data-live-search="TRUE" required>
+            <option value="HADIR" data-shift="HADIR" data-jam="12">HADIR</option>
+            <option value="IZIN" data-shift="IZIN" data-jam="12">IZIN</option>
+            <option value="1/2HARI" data-shift="1/2HARI" data-jam="6">1/2HARI</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label>JAM KERJA</label>
+        <input type="number" class="form-control selectpicker shift" name="jamkehadiran" id="jamkerja" required>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Nama OPERATOR</label>
+        <select class="form-control select2bs4" data-live-search="TRUE" name="namaOperator" required>
+            <?php foreach ($operator as $key => $op): ?>
+                <option value="<?php echo $op['id_master_karyawan_bordir'] ?>"><?php echo $op['nama_karyawan_bordir'] ?></option>
+            <?php endforeach ?>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label>Nama Mandor</label>
+        <input type="text" name="mandor" class="form-control" required>
+    </div>
+    <div class="form-group col-md-4">
+        <label>JAGA MESIN</label>
+        <select class="form-control select2bs4" name="mesin" required>
+            <?php foreach ($mesin as $key => $me): ?>
+            <option value="<?php echo $me['nomer_mesin'] ?>"><?php echo $me['nomer_mesin'] ?> (<?php echo $me['nama_mesin'] ?>)</option>
+            <?php endforeach ?>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label>GAMBAR</label>
+        <input type="text" class="form-control" name="gambar" required>
+    </div>
+    <div class="form-group col-md-6">
+        <label>JUMLAH BAGIAN YANG DI BORDIR</label>
+        <input type="number" class="form-control" name="jumlahbagian" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
+    </div>
+    <div class="form-group col-md-6">
+        <label>JUMLAH SIZE</label>
+        <input type="text" class="form-control" name="jumlah_size" placeholder="JUMLAH YANG DI BORDIR" value="" required="">
+    </div>
 </div>
         <div class="row">
             <div class="col-md-6 mb-3">

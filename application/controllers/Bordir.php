@@ -1397,6 +1397,24 @@ class Bordir extends CI_Controller {
 		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
 		$this->load->view('newtheme/page/main',$data);
 				
+	}
+
+	public function addharianmesin_modal($jenis){
+		$data=array();
+		$data['title']='Tambah Inputan Mesin Bordir';
+		$data['jenis']=$jenis;
+		$data['kembali']='#';
+		if($jenis==1){
+			$po=$this->GlobalModel->getData('produksi_po',null);
+			$view='bordir/harianmesinbordirnaik-form';
+		}else{
+			$view='bordir/harianmesinbordirluarnaik-form';
+			$po=$this->GlobalModel->getData('master_po_luar',null);
+		}
+		$data['po'] = $po;
+		$data['mesin'] = $this->GlobalModel->getData('master_mesin',array('input'=>1));
+		$data['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',array('hapus'=>0));
+		$this->load->view($view,$data);
 	}		
 	public function addharianmesinsave()
 	{		

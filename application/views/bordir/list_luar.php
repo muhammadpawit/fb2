@@ -51,7 +51,7 @@
         <label>Aksi</label><br>
         <a onclick="filter()" class="btn btn-info btn-sm text-white">Filter</a>
         <a onclick="exceldalam()" class="btn btn-info btn-sm text-white">Excel</a>
-        <a href="<?php echo $tambah?>" class="btn btn-info btn-sm">Tambah</a>
+        <a href="javascript:void(0)" onclick="tambah_modal('<?php echo $tambah?>')" class="btn btn-info btn-sm">Tambah</a>
         <a href="<?php echo $koreksi_gaji_bordir?>" class="btn btn-warning btn-sm">Koreksi Gaji Operator</a>
     </div>
 </div>
@@ -205,6 +205,22 @@
 
     </script>
 
+<div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="exampleModalLabel">Tambah Inputan Mesin Bordir</h4>
+      </div>
+      <div class="modal-body" id="modal-body-tambah">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
     <div class="modal-content">
@@ -222,6 +238,63 @@
 </div>
 
 <script type="text/javascript">
+    function tambah_modal(url){
+        var modal_url = url.replace('addharianmesin', 'addharianmesin_modal');
+        $('#modal-body-tambah').load(modal_url, function(){
+            $('#modal-tambah').modal('show');
+            $('#modal-body-tambah a.btn-danger').attr('href', 'javascript:void(0)').attr('data-dismiss', 'modal').removeAttr('onclick');
+            
+            if($.isFunction($.fn.datepicker)) {
+                $('.datepicker').datepicker({
+                    autoclose: true,
+                    format: 'yyyy-mm-dd'
+                });
+            }
+
+            if($.isFunction($.fn.select2)) {
+                $('.select2bs4').select2({
+                    width: '100%'
+                });
+            }
+
+            $('#modal-body-tambah form').submit(function(e){
+                e.preventDefault();
+                var form = $(this);
+                var url = form.attr('action');
+                var data = form.serialize();
+                var btn = form.find('button[type="submit"], .btn-info');
+                var oldText = btn.html();
+
+                btn.html('<i class="fa fa-spinner fa-spin"></i> Memproses...').attr('disabled', true);
+
+                $.post(url, data, function(response){
+                    $('#modal-tambah').modal('hide');
+                    
+                    Sweetalert2({
+                      title: 'Data berhasil disimpan',
+                      type: 'success',
+                      timer: 2000,
+                      showConfirmButton: false
+                    }).then(function() {
+                        location.reload();
+                    }, function(dismiss) {
+                        if (dismiss === 'timer') {
+                            location.reload();
+                        }
+                    });
+                     
+                }).fail(function(){
+                    Sweetalert2({
+                      title: 'Oops...',
+                      text: 'Gagal menyimpan data. Silakan coba lagi.',
+                      type: 'error'
+                    });
+                    btn.html(oldText).attr('disabled', false);
+                });
+            });
+        });
+    }
+
     function edit_modal(url){
         var modal_url = url.replace('mesinharian_edit_luar', 'mesinharian_edit_modal_luar');
         $('#modal-body-edit').load(modal_url, function(){
@@ -236,7 +309,9 @@
             }
 
             if($.isFunction($.fn.select2)) {
-                $('.select2bs4').select2();
+                $('.select2bs4').select2({
+                    width: '100%'
+                });
             }
 
             $('#modal-body-edit form').submit(function(e){
