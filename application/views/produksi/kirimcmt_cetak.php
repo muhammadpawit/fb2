@@ -81,42 +81,35 @@
 									</tr>
 								</tfoot>
 								</table>
-							</div>
-							<br>
-							<div>
-								<p>Catatan :</p>
-								<ol>
-									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
-									<li>Apabila ada kekurangan, harap segera konfirmasi bagian QC</li>
-									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
-									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
-								</ol>
-							</div>
-							<br>
-							<br>
-							<div>
-								<table>
-									<tr>
-										<td width="15%"></td>
-										<td></td>
-										<td width="70%">
-											<table border="1" style="border-collapse: collapse;width: 100%;">
-												<tr>
-													<td align="center">CMT</td>
-													<td align="center">SPV</td>
-													<td align="center">Admin KLO</td>
-												</tr>
-												<tr>
-													<td align="center" height="100" valign="bottom">(..................)</td>
-													<td align="center" height="100" valign="bottom">(MUCHLAS)</td>
-													<td align="center" height="100" valign="bottom">(ULPAH)</td>
-												</tr>
-											</table>
-										</td>
-										<td></td>
-										<td width="15%"></td>
-									</tr>
-								</table>
+							<table style="width: 100%;">
+								<tr>
+									<td width="35%" valign="top">
+										<p>Catatan :</p>
+										<ol>
+											<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
+											<li>Apabila ada kekurangan, harap segera konfirmasi bagian QC</li>
+											<li>Batas maksimal konfirmasi 3 x 24 jam</li>
+											<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
+										</ol>
+									</td>
+									<td width="65%" valign="top">
+										<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
+											<tr>
+												<td align="center" width="25%" style="padding: 5px;">Security</td>
+												<td align="center" width="25%" style="padding: 5px;">CMT</td>
+												<td align="center" width="25%" style="padding: 5px;">SPV</td>
+												<td align="center" width="25%" style="padding: 5px;">Admin KLO</td>
+											</tr>
+											<tr>
+												<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">....................</td>
+												<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">....................</td>
+												<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">....................</td>
+												<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;"> ASMIA </td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
 							</div>
 						</div>
 					</div>

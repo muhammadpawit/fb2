@@ -159,7 +159,7 @@
 
 		<table style="width:100%">
 			<tr>
-				<td style="width:40%">
+				<td style="width:35%" valign="top">
 					<p>Catatan :</p>
 								<ol>
 									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
@@ -168,20 +168,20 @@
 									<li>Apabila tidak ada konfirmasi, PO dianggap komplit</li>
 								</ol>
 				</td>
-				<td style="width:60%" valign="top">
+				<td style="width:65%" valign="top">
 					<br>
 					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
 						<tr>
-							<td align="center">Security</td>
-							<td align="center">CMT</td>
-							<td align="center"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td>
-							<td align="center"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin KLO <?php } ?></td>
+							<td align="center" width="25%" style="padding: 5px;">Security</td>
+							<td align="center" width="25%" style="padding: 5px;">CMT</td>
+							<td align="center" width="25%" style="padding: 5px;"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td>
+							<td align="center" width="25%" style="padding: 5px;"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin KLO <?php } ?></td>
 						</tr>
 						<tr>
-						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom">(..................)</td>
-						<td align="center" height="100" valign="bottom"><?php if(!empty($alat)){ ?> (VINA) <?php }else{ ?> (Kandar) <?php } ?></td>
+							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
+							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
+							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
+							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;"><?php if(!empty($alat)){ ?> VINA <?php }else{ ?> ASMIA <?php } ?></td>
 						</tr>
 					</table>
 				</td>

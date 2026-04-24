@@ -1521,6 +1521,12 @@ class Kelolapo extends CI_Controller {
 				'bg'   => '#f39c12',
 			);
 
+			$action[] = array(
+				'text' => 'Cetak',
+				'href' => BASEURL.'Kelolapo/kirimcmtsabloncetak/'.$result['id'],
+				'bg'   => '#00a65a',
+			);
+
 			if(aksesedit()==1){
 				$action[] = array(
 					'text' => 'Edit',
@@ -1555,6 +1561,47 @@ class Kelolapo extends CI_Controller {
 		$data['page']='produksi/kirimcmt_list';
 		$data['sablon']=true;
 		$this->load->view('newtheme/page/main',$data);
+	}
+
+	public function pengirimansablon_pdf(){
+		$data=array();
+		$data['title']='Laporan Surat Jalan Pengiriman Sablon';
+		$data['products']=array();
+		$get=$this->input->get();
+		$tanggal1 = isset($get['tanggal1']) ? $get['tanggal1'] : date('Y-m-d',strtotime("first day of last month"));
+		$tanggal2 = isset($get['tanggal2']) ? $get['tanggal2'] : date('Y-m-d');
+		$cmt = isset($get['cmt']) ? $get['cmt'] : null;
+		$sj = isset($get['sj']) ? $get['sj'] : null;
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		
+		$sql="SELECT * FROM kirimcmtsablon WHERE hapus=0";
+		if(!empty($cmt) && $cmt != '*'){ $sql.=" AND idcmt='$cmt' "; }
+		if(!empty($sj) && $sj != '*'){ $sql.=" AND id='$sj' "; }
+		if((empty($cmt) || $cmt == '*') && (empty($sj) || $sj == '*')){
+			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		$sql.=' ORDER BY id DESC ';
+		$results= $this->GlobalModel->queryManual($sql);
+		
+		$no=1;
+		foreach($results as $result){
+			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			$dets = $this->GlobalModel->GetData('kirimcmtsablon_detail',array('hapus'=>0,'idkirim'=>$result['id']));
+			$data['products'][]=array(
+				'no'=>$no++,
+				'nosj'=>$result['nosj'],
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
+				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:'',
+				'status'=>$result['status']==1?'Disetor':'Dikirim',
+				'dets'=>$dets,
+			);
+		}
+		$data['sablon']=true;
+		$html = $this->load->view('produksi/kirimcmt_list_pdf', $data, true);
+		$this->load->library('pdfgenerator');
+		$this->pdfgenerator->generate($html, 'Laporan_Kirim_Sablon_'.time(), 'A4', 'landscape');
 	}
 
 	public function kirimcmtsablonadd(){
@@ -2113,7 +2160,13 @@ class Kelolapo extends CI_Controller {
 			$action[] = array(
 				'text' => 'Detail',
 				'href' => BASEURL.'Kelolapo/kirimcmtview/'.$result['id'],
-				'bg' => '',
+				'bg' => '#f39c12',
+			);
+
+			$action[] = array(
+				'text' => 'Cetak',
+				'href' => BASEURL.'Kelolapo/kirimcmtcetak/'.$result['id'],
+				'bg' => '#00a65a',
 			);
 
 			//if(aksesedit()==1){
@@ -2151,6 +2204,48 @@ class Kelolapo extends CI_Controller {
 		$data['page']='produksi/kirimcmt_list';
 		$this->load->view('newtheme/page/main',$data);
 		
+	}
+
+	public function pengirimancmt_pdf(){
+		$data=array();
+		$data['title']='Laporan Surat Jalan Pengiriman Jahit';
+		$data['products']=array();
+		$get=$this->input->get();
+		$tanggal1 = isset($get['tanggal1']) ? $get['tanggal1'] : date('Y-m-d',strtotime("first day of last month"));
+		$tanggal2 = isset($get['tanggal2']) ? $get['tanggal2'] : date('Y-m-d');
+		$cmt = isset($get['cmt']) ? $get['cmt'] : null;
+		$sj = isset($get['sj']) ? $get['sj'] : null;
+
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		
+		$sql="SELECT * FROM kirimcmt WHERE hapus=0";
+		if(!empty($cmt) && $cmt != '*'){ $sql.=" AND idcmt='$cmt' "; }
+		if(!empty($sj) && $sj != '*'){ $sql.=" AND id='$sj' "; }
+		if((empty($cmt) || $cmt == '*') && (empty($sj) || $sj == '*')){
+			if(!empty($tanggal1)){
+				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+			}
+		}
+		$sql.=' ORDER BY id DESC ';
+		$results= $this->GlobalModel->queryManual($sql);
+		
+		$no=1;
+		foreach($results as $result){
+			$namacmt = $this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$result['idcmt']));
+			$dets = $this->GlobalModel->GetData('kirimcmt_detail',array('hapus'=>0,'idkirim'=>$result['id']));
+			$data['products'][]=array(
+				'no'=>$no++,
+				'nosj'=>$result['nosj'],
+				'tanggal'=>formatTanggalIndo($result['tanggal']),
+				'namacmt'=>!empty($namacmt)?$namacmt['cmt_name']:'',
+				'status'=>$result['status']==1?'Disetor':'Dikirim',
+				'dets'=>$dets,
+			);
+		}
+		$html = $this->load->view('produksi/kirimcmt_list_pdf', $data, true);
+		$this->load->library('pdfgenerator');
+		$this->pdfgenerator->generate($html, 'Laporan_Kirim_Jahit_'.time(), 'A4', 'landscape');
 	}
 
 	public function kirimcmtadd(){
