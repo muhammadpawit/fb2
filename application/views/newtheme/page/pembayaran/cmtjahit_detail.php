@@ -12,7 +12,55 @@
         border-radius: 4px;
     }
 
+    /* Page Loader Styling */
+    #page-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999999;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(3px);
+    }
+
+    .loader-content {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    .spinner-custom {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #00a65a;
+        border-radius: 50%;
+        animation: spin-loader 1s linear infinite;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+    @keyframes spin-loader {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
+
+<!-- Full Page Loader -->
+<div id="page-loader">
+    <div class="loader-content">
+        <div class="spinner-custom"></div>
+        <div style="font-weight: bold; color: #333; font-size: 16px;">Sedang Menyimpan Data...</div>
+        <div style="color: #777; font-size: 12px; margin-top: 5px;">Mohon jangan tutup halaman ini.</div>
+    </div>
+</div>
 <form method="post" action="<?php echo $update ?>">
     <input type="hidden" name="id" value="<?php echo $detail['id'] ?>"/>
     <input type="hidden" name="cmt" value="<?php echo $detail['idcmt'] ?>"/>
@@ -112,9 +160,9 @@
                                     <td align="center"><?php echo $p['potongan']?></td>
                                     <td align="center"><?php echo number_format($p['jumlah_po_dz'],2)?></td>
                                     <td align="center"><?php echo $p['jumlah_po_pcs']?></td>
-                                    <td align="center"><?php echo number_format($p['jumlah_dz'],2)?></td>
+                                    <td align="center"><span class="row-dz"><?php echo number_format($p['jumlah_dz'], 2)?></span></td>
                                     <td align="center">
-                                        <input type="text" name="products[<?php echo $n?>][jumlah_pcs]" value="<?php echo $p['jumlah_pcs'] ?>" class="form-control">
+                                        <input type="text" name="products[<?php echo $n?>][jumlah_pcs]" value="<?php echo $p['jumlah_pcs'] ?>" class="form-control jumlah-pcs-input">
                                         <input type="hidden" name="products[<?php echo $n?>][harga]" value="<?php echo $p['harga'] ?>" class="form-control">
                                     </td>
                                     <td align="center"><?php echo ($p['trans']==1)?'Ya':'Tidak';?></td>
@@ -155,11 +203,11 @@
                                 <td align="center"><b><?php echo $potongan?></b></td>
                                 <td align="center"><b><?php echo $jmlpodz?></b></td>
                                 <td align="center"><b><?php echo $jmlpopcs?></b></td>
-                                <td align="center"><b><?php echo number_format($jmldz, 2)?></b></td>
-                                <td align="center"><b><?php echo $jmlpcs?></b></td>
+                                <td align="center"><b><span id="footer-total-dz"><?php echo number_format($jmldz, 2)?></span></b></td>
+                                <td align="center"><b><span id="footer-total-pcs"><?php echo $jmlpcs?></span></b></td>
                                 <td></td>
                                 <td></td>
-                                <td align="center"><b><?php echo number_format($total, 2)?></b></td>
+                                <td align="center"><b><span id="footer-total-bayar"><?php echo number_format($total, 2)?></span></b></td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -231,12 +279,33 @@
     </div>
 
     <div class="col-md-6">
+        <!-- Persistent Bottom Bar -->
+        <div id="sticky-pembayaran-bar" style="position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; background: #222d32; color: white; border-top: 4px solid #00a65a; z-index: 999999; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; align-items: center;">
+                <div style="background: rgba(0,166,90,0.2); padding: 10px; border-radius: 8px; margin-right: 20px; border: 1px solid #00a65a;">
+                    <i class="fa fa-money fa-2x" style="color: #00ff87;"></i>
+                </div>
+                <div>
+                    <div style="font-size: 11px; text-transform: uppercase; color: #aaa; letter-spacing: 1px; font-weight: bold;">Estimasi Total Pembayaran Ke-CMT</div>
+                    <div style="font-size: 32px; font-weight: 800; color: #fff; line-height: 1;" id="grand-total-sticky">Rp 0</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn btn-default" style="background: #333; color: #eee; border: 1px solid #444;">
+                    <i class="fa fa-arrow-up"></i> Top
+                </button>
+                <button type="button" onclick="jQuery('form').submit()" class="btn btn-success btn-lg" style="font-weight: 800; padding: 12px 40px; background: #00a65a; border: none; box-shadow: 0 4px 15px rgba(0,166,90,0.4);">
+                    <i class="fa fa-save"></i> SIMPAN PERUBAHAN
+                </button>
+            </div>
+        </div>
+
         <div class="box box-success">
             <div class="box-header">
                 <b>Total Dibayarkan Ke-CMT</b>
             </div>
             <div class="box-body text-center">
-                <h2 class="text-green">
+                <h2 class="text-green" id="grand-total-display" style="font-weight: 800; font-size: 36px;">
                     Rp <?php if($detail['potongan_transport']==0){?>
                                             <?php echo number_format($detail['total']+$detail['potongan_transport']) ?>
                                         <?php }else{ ?>
@@ -646,6 +715,85 @@
             // Show success feedback with a nice animation if using AdminLTE (Toastr/SweetAlert usually available)
             // Fallback to simple alert if not
             alert('Sukses! Semua telah dikoreksi otomatis.');
+            updateAllCalculations();
         }, 800);
     }
+
+    $(document).ready(function() {
+        // Function for clean formatting
+        function formatMoney(n) {
+            return 'Rp ' + n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function updateAllCalculations() {
+            var totalPcs = 0;
+            var totalDz = 0;
+            var totalBayarRow = 0;
+            
+            jQuery('.jumlah-pcs-input').each(function() {
+                var row = jQuery(this).closest('tr');
+                var pcs = parseFloat(jQuery(this).val()) || 0;
+                var harga = parseFloat(row.find('input[name*="[harga]"]').val()) || 0;
+                
+                var dz = pcs / 12;
+                row.find('.row-dz').text(dz.toFixed(2));
+                
+                var totalItem = row.find('.total-item');
+                totalItem.data('dz', dz);
+                
+                var total = dz * harga;
+                totalItem.val(total.toFixed(2));
+                
+                totalPcs += pcs;
+                totalDz += dz;
+                totalBayarRow += total;
+            });
+            
+            // Update footer totals
+            jQuery('#footer-total-pcs').text(totalPcs);
+            jQuery('#footer-total-dz').text(totalDz.toFixed(2));
+            jQuery('#footer-total-bayar').text(totalBayarRow.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+
+            // Other fields
+            var val_bangke_kembali = parseFloat(jQuery('input[name="pengembalian_bangke"]').val()) || 0;
+            var val_bangke_pot = parseFloat(jQuery('input[name="potongan_bangke"]').val()) || 0;
+            var val_alat_pot = parseFloat(jQuery('input[name="potongan_alat"]').val()) || 0;
+            var val_mesin_pot = parseFloat(jQuery('input[name="potongan_mesin"]').val()) || 0;
+            var val_vermak_pot = parseFloat(jQuery('input[name="potongan_vermak"]').val()) || 0;
+            var val_transport = parseFloat(jQuery('input[name="biaya_transport"]').val()) || 0;
+            var val_lain_pot = parseFloat(jQuery('input[name="potongan_lainnya"]').val()) || 0;
+            var val_tambahan = parseFloat(jQuery('input[name="tambahan_lainnya"]').val()) || 0;
+            
+            var grandTotal = totalBayarRow + val_tambahan + val_transport - val_bangke_pot - val_alat_pot - val_mesin_pot - val_vermak_pot - val_lain_pot + val_bangke_kembali;
+            
+            var formatted = formatMoney(grandTotal);
+            jQuery('#grand-total-display').text(formatted);
+            jQuery('#grand-total-sticky').text(formatted);
+        }
+
+        // Event for Table Inputs
+        jQuery(document).on('input change', '.jumlah-pcs-input', function() {
+            updateAllCalculations();
+        });
+
+        // Event for correction total
+        jQuery(document).on('input change', '.total-item', function() {
+            updateAllCalculations();
+        });
+
+        // Event for Other Inputs
+        jQuery(document).on('input change', 'input[name="pengembalian_bangke"], input[name="potongan_bangke"], input[name="potongan_alat"], input[name="potongan_mesin"], input[name="potongan_vermak"], input[name="biaya_transport"], input[name="potongan_lainnya"], input[name="tambahan_lainnya"]', function() {
+            updateAllCalculations();
+        });
+
+        // Form Submit Loader
+        jQuery('form').on('submit', function() {
+            jQuery('#page-loader').css('display', 'flex');
+            jQuery('button').prop('disabled', true);
+            jQuery('.btn-success').html('<i class="fa fa-spinner fa-spin"></i> MEMPROSES...');
+        });
+
+        // Finalize initial values
+        updateAllCalculations();
+    });
 </script>

@@ -1639,6 +1639,7 @@ class Pembayaran extends CI_Controller {
 		$totalpengembalianbangke=0;
 		$totaldz=0;
 		$btransport=0;
+		$totalalat=0;
 		if(isset($data['cmt'])){
 			if(isset($data['products'])){
 				foreach($data['products'] as $p){
@@ -1653,18 +1654,17 @@ class Pembayaran extends CI_Controller {
 				}
 
 				$insert=array(
-					'pengembalian_bangke' => $data['pengembalian_bangke'],
-					'potongan_bangke'	  => $data['potongan_bangke'],
-					'biaya_transport' 	  => $data['biaya_transport'],
-					'potongan_lainnya'	  => $data['potongan_lainnya'],
-					'potongan_transport'	  => $data['potongan_transport'],
-					'potongan_alat'	  		  => $data['potongan_alat'],
-					'potongan_transport'	  => $data['potongan_transport'],
-					'potongan_mesin'	  	  => $data['potongan_mesin'],
-					'potongan_vermak'	  	  => $data['potongan_vermak'],
-					'tambahan_lainnya'	  	  => $data['tambahan_lainnya'],
-					'keterangan'	  	  		=> $data['keterangan'],
-					'total'=>$totalbayar + $data['pengembalian_bangke'] + $data['tambahan_lainnya'] - $data['potongan_bangke'] - $data['potongan_alat'] - $data['potongan_mesin'] - $data['potongan_vermak'] - $data['biaya_transport'] - $data['potongan_lainnya'],
+					'pengembalian_bangke' => isset($data['pengembalian_bangke']) ? $data['pengembalian_bangke'] : 0,
+					'potongan_bangke'	  => isset($data['potongan_bangke']) ? $data['potongan_bangke'] : 0,
+					'biaya_transport' 	  => isset($data['biaya_transport']) ? $data['biaya_transport'] : 0,
+					'potongan_lainnya'	  => isset($data['potongan_lainnya']) ? $data['potongan_lainnya'] : 0,
+					'potongan_transport'  => isset($data['potongan_transport']) ? $data['potongan_transport'] : 0,
+					'potongan_alat'	  	  => isset($data['potongan_alat']) ? $data['potongan_alat'] : 0,
+					'potongan_mesin'	  => isset($data['potongan_mesin']) ? $data['potongan_mesin'] : 0,
+					'potongan_vermak'	  => isset($data['potongan_vermak']) ? $data['potongan_vermak'] : 0,
+					'tambahan_lainnya'	  => isset($data['tambahan_lainnya']) ? $data['tambahan_lainnya'] : 0,
+					'keterangan'	  	  => isset($data['keterangan']) ? $data['keterangan'] : '',
+					'total'=>$totalbayar + (isset($data['pengembalian_bangke'])?$data['pengembalian_bangke']:0) + (isset($data['tambahan_lainnya'])?$data['tambahan_lainnya']:0) - (isset($data['potongan_bangke'])?$data['potongan_bangke']:0) - (isset($data['potongan_alat'])?$data['potongan_alat']:0) - (isset($data['potongan_mesin'])?$data['potongan_mesin']:0) - (isset($data['potongan_vermak'])?$data['potongan_vermak']:0) - (isset($data['biaya_transport'])?$data['biaya_transport']:0) - (isset($data['potongan_lainnya'])?$data['potongan_lainnya']:0),
 				);
 				$this->db->update('pembayaran_cmt',$insert,array('id'=>$data['id']));
 
@@ -1672,13 +1672,17 @@ class Pembayaran extends CI_Controller {
 					foreach($data['alat'] as $p){
 						$alat=array(
 							'idpembayaran'=>$id,
-							'rincian'=>$p['rincian'],
 							'qty'=>$p['qty'],
 							'harga'=>$p['harga'],
 							'total'=>($p['qty']*$p['harga']),
-							'keterangan'=>$p['keterangan'],
 							'hapus'=>0,
 						);
+						if(isset($p['rincian'])){
+							$alat['rincian'] = $p['rincian'];
+						}
+						if(isset($p['keterangan'])){
+							$alat['keterangan'] = $p['keterangan'];
+						}
 						$totalalat+=($p['qty']*$p['harga']);
 						$this->db->update('potongan_alat',$alat,array('id'=>$p['id']));
 						if(isset($p['id_distribusi'])){
