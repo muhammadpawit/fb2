@@ -1705,6 +1705,13 @@ class ReportModel extends CI_Model {
 		return $hasil;
 	}
 
+	public function pembayarantimpotong($tanggal){
+		$sql = "SELECT a.*, b.nama as namatimpotong FROM gaji_timpotong a 
+				JOIN timpotong b ON b.id=a.timpotong 
+				WHERE a.hapus=0 AND DATE(a.tanggal) = '$tanggal'";
+		return $this->db->query($sql)->result_array();
+	}
+
 	public function oprkas($tanggal,$bagian){
 		$hasil=array();
 		$sql="SELECT * FROM aruskas WHERE hapus=0 ";
@@ -3027,6 +3034,14 @@ AND a.jenis = 2
 			}
 			// pre($listpengajuan);
 			$merge=array_merge($hasil,$listpengajuan);
+
+			$tp = $this->pembayarantimpotong($tanggal);
+			if(!empty($tp)){
+				foreach($tp as $t){
+					$merge[]='transfer ke '.$t['namatimpotong'];
+				}
+			}
+
 			$unique=array_unique($merge);
 			return $unique;
 	}

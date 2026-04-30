@@ -588,7 +588,7 @@ class Pembayaran extends CI_Controller {
 		// pre($data);
 		if(isset($data['products'])){
 			$insert=array(
-				'tanggal'=>date('Y-m-d'),
+				'tanggal'=>$data['tanggal'] ?? date('Y-m-d'),
 				'periode'=>$data['periode'],
 				'timpotong'=>$data['tim'],
 				// 'total'=>$data['total'],
