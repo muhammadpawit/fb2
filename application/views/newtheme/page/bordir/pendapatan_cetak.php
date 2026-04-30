@@ -75,11 +75,8 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
             <?php 
             $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
             foreach($luar as $b) {
-              // Ambil nilai kolom dinamis
-              $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik'], $b['perkalian']));
-              $data = json_decode($hasil);
-
-              $nilaiData = isset($data->data) ? $data->data : 0;
+              $key = $b['idpemilik'] . '_' . $b['perkalian'];
+              $nilaiData = isset($p['dynamic'][$key]) ? $p['dynamic'][$key] : 0;
               $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
               ?>
               <td align="right"><?php echo number_format($nilaiData); ?></td>

@@ -2157,7 +2157,7 @@ class ReportModel extends CI_Model {
 
 	public function total018($nomor,$shift,$tanggal1,$tanggal2){
 		$total=0;
-		$sql="SELECT COALESCE(SUM(total_stich*0.18),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		$sql="SELECT COALESCE(SUM(total_stich*perkalian_tarif),0) as total FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
 		$sql.= " AND mesin_bordir='$nomor' AND mesin_bordir<>11 AND shift='$shift' ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -2190,7 +2190,7 @@ class ReportModel extends CI_Model {
     COALESCE(SUM(
         CASE
             WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
-            ELSE a.total_stich * a.laporan_perkalian_tarif
+            ELSE a.total_stich * a.perkalian_tarif
         END
     ), 0) AS total
 FROM kelola_mesin_bordir a
@@ -2234,21 +2234,39 @@ AND a.jenis = 2
 		return $total;
 	}
 
+	public function getPendapatanLuarDetail($nomor, $shift, $tanggal1, $tanggal2) {
+		$sql = "
+			SELECT 
+				c.id as idpemilik, 
+				a.perkalian_tarif as perkalian,
+				CASE 
+					WHEN SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
+					THEN CEILING(SUM(a.total_stich * a.perkalian_tarif))
+					ELSE FLOOR(SUM(a.total_stich * a.perkalian_tarif))
+				END AS total
+			FROM kelola_mesin_bordir a
+			LEFT JOIN master_po_luar b ON b.id = a.kode_po
+			LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+			WHERE a.hapus = 0 
+				AND a.jenis = 2 
+				AND a.mesin_bordir = '$nomor' 
+				AND a.shift = '$shift'
+				AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY c.id, a.perkalian_tarif
+		";
+		return $this->GlobalModel->QueryManual($sql);
+	}
+
 	public function total02_array($nomor,$shift,$tanggal1,$tanggal2,$pemilik,$perkalian=null){
-		//$total=['total'=>0,'0.2'=>0,'0.3'=>0];
+		$total=[];
+		$total['data']=0;
 		$sql="
 		SELECT 
-    CASE
-        WHEN c.id = 4 AND a.stich = 4000 THEN 
-			SUM(a.jumlah_naik_mesin * 700)
-            
-        WHEN 
-            SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
-            THEN 
-                CEILING(SUM(a.total_stich * a.perkalian_tarif))
-        ELSE 
-            FLOOR(SUM(a.total_stich * a.perkalian_tarif))
-    END AS total
+            CASE 
+                WHEN SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
+                THEN CEILING(SUM(a.total_stich * a.perkalian_tarif))
+                ELSE FLOOR(SUM(a.total_stich * a.perkalian_tarif))
+            END AS total
 		FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
@@ -3919,12 +3937,14 @@ AND a.jenis = 2
                    AND DATE(created_date) BETWEEN '$tanggal' AND '$tanggal2') 
                 +
                 (SELECT 
-                    COALESCE(SUM(
-                        CASE
-                            WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
-                            ELSE a.total_stich * a.perkalian_tarif
-                        END
-                    ), 0)
+                    COALESCE(
+                        CASE 
+                            WHEN SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
+                            THEN CEILING(SUM(a.total_stich * a.perkalian_tarif))
+                            ELSE FLOOR(SUM(a.total_stich * a.perkalian_tarif))
+                        END, 
+                        0
+                    )
                  FROM kelola_mesin_bordir a
                  LEFT JOIN master_po_luar b ON b.id = a.kode_po
                  LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik

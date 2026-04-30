@@ -701,6 +701,15 @@ class Bordir extends CI_Controller {
 			$g02+=($total02);
 			$g015+=($total015);
 			$gpendapatan+=($total018+$total02);
+
+			$luar_details = $this->ReportModel->getPendapatanLuarDetail($mes['nomor'], $mes['shift'], $tanggal1, $tanggal2);
+            $dynamic = [];
+            if (!empty($luar_details)) {
+				foreach($luar_details as $ld) {
+					$dynamic[$ld['idpemilik'] . '_' . $ld['perkalian']] = $ld['total'];
+				}
+			}
+
 			$data['products'][]=array(
 				'tanggal1'=>$tanggal1,
 				'tanggal2'=>$tanggal2,
@@ -716,6 +725,7 @@ class Bordir extends CI_Controller {
 				'i'=>$i++,
 				'keterangan'=>null,
 				'dets'=>[],
+				'dynamic'=>$dynamic,
 			);
 		}
 		//pre($data['products']);
