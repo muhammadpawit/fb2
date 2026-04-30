@@ -2234,7 +2234,7 @@ AND a.jenis = 2
 		return $total;
 	}
 
-	public function total02_array($nomor,$shift,$tanggal1,$tanggal2,$pemilik){
+	public function total02_array($nomor,$shift,$tanggal1,$tanggal2,$pemilik,$perkalian=null){
 		//$total=['total'=>0,'0.2'=>0,'0.3'=>0];
 		$sql="
 		SELECT 
@@ -2243,11 +2243,11 @@ AND a.jenis = 2
 			SUM(a.jumlah_naik_mesin * 700)
             
         WHEN 
-            SUM(a.total_stich * a.laporan_perkalian_tarif) - FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif)) >= 0.5 
+            SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
             THEN 
-                CEILING(SUM(a.total_stich * a.laporan_perkalian_tarif))
+                CEILING(SUM(a.total_stich * a.perkalian_tarif))
         ELSE 
-            FLOOR(SUM(a.total_stich * a.laporan_perkalian_tarif))
+            FLOOR(SUM(a.total_stich * a.perkalian_tarif))
     END AS total
 		FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
@@ -2270,7 +2270,12 @@ AND a.jenis = 2
 		if(!empty($pemilik)){
 			$sql.=" AND c.id='".$pemilik."' ";
 		}
-		$sql.=" AND laporan_perkalian_tarif IS NOT NULL ";
+
+		if(!empty($perkalian)){
+			$sql.=" AND a.perkalian_tarif='".$perkalian."' ";
+		}
+
+		$sql.=" AND perkalian_tarif IS NOT NULL ";
 		$row=$this->GlobalModel->QueryManual($sql);
 		//pre($sql);
 		$tarif=0;
@@ -3904,7 +3909,7 @@ AND a.jenis = 2
 			
 		SELECT 
             CEIL(
-                (SELECT COALESCE(SUM(total_stich * 0.18), 0) 
+                (SELECT COALESCE(SUM(total_stich * perkalian_tarif), 0) 
                  FROM kelola_mesin_bordir 
                  WHERE hapus = 0 
                    AND jenis = 1 
@@ -3917,7 +3922,7 @@ AND a.jenis = 2
                     COALESCE(SUM(
                         CASE
                             WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
-                            ELSE a.total_stich * a.laporan_perkalian_tarif
+                            ELSE a.total_stich * a.perkalian_tarif
                         END
                     ), 0)
                  FROM kelola_mesin_bordir a

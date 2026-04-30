@@ -83,7 +83,7 @@
             $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18
             foreach ($luar as $index => $b) {
               // Ambil nilai kolom dinamis
-              $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
+              $hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik'], $b['perkalian']));
               $data = json_decode($hasil);
               $nilaiData = isset($data->data) ? $data->data : 0;
           

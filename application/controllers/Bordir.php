@@ -681,13 +681,13 @@ class Bordir extends CI_Controller {
 		$mesin=$this->GlobalModel->QueryManual($sm);
 		$data['luar']=[];
 		$data['luar']=$this->GlobalModel->QueryManual("
-		SELECT a.mesin_bordir, a.laporan_perkalian_tarif as perkalian, c.id as idpemilik, c.nama FROM kelola_mesin_bordir a
+		SELECT a.mesin_bordir, a.perkalian_tarif as perkalian, c.id as idpemilik, c.nama FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
 		WHERE a.hapus=0 AND jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  
-		AND laporan_perkalian_tarif IS NOT NULL 
+		AND perkalian_tarif IS NOT NULL 
 		$whernotin
-		GROUP BY a.laporan_perkalian_tarif, b.idpemilik order by laporan_perkalian_tarif DESC
+		GROUP BY a.perkalian_tarif, b.idpemilik order by perkalian_tarif DESC
 		");
 		
 		foreach($mesin as $mes){
@@ -1088,6 +1088,7 @@ class Bordir extends CI_Controller {
 				'mesin_bordir'=>$p['mesin_bordir'],
 				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
 				'perkalian_tarif'=>$p['perkalian_tarif'],
+				'laporan_perkalian_tarif'=>$p['perkalian_tarif'],
 				'stich'		=> $p['stich'],
 				'total_stich'=>round($p['jumlah_naik_mesin']*$p['stich']),
 				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
@@ -1116,6 +1117,7 @@ class Bordir extends CI_Controller {
 				'mesin_bordir'=>$p['mesin_bordir'],
 				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
 				'perkalian_tarif'=>$p['perkalian_tarif'],
+				'laporan_perkalian_tarif'=>$p['perkalian_tarif'],
 				'stich'		=> $p['stich'],
 				'total_stich'=>$p['total_stich'],
 				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
@@ -2027,6 +2029,7 @@ class Bordir extends CI_Controller {
 				'mesin_bordir'=>$p['mesin_bordir'],
 				'jumlah_naik_mesin'=>$p['jumlah_naik_mesin'],
 				'perkalian_tarif'=>$p['perkalian_tarif'],
+				'laporan_perkalian_tarif'=>$p['perkalian_tarif'],
 				'stich'		=> $p['stich'],
 				'total_stich'=>$p['total_stich'],
 				'total_tarif'=>round(($p['jumlah_naik_mesin']*$p['stich'])*$p['perkalian_tarif']),
