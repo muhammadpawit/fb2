@@ -38,55 +38,71 @@
 					</tr>
 					<?php } ?>
 				<?php } ?>
+			</tbody>
+			<tfoot>
 				<tr>
-					<td colspan="8"><b></b></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td colspan="8"><b>Subtotal</b></td>
+					<td colspan="8" align="right"><b>Total Pendapatan</b></td>
 					<td><b><?php echo $total?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="8"><b>Saving 5%</b></td>
+					<td colspan="8" align="right"><b>Tabungan (5%)</b></td>
 					<td><b><?php echo $saving?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="8"><b>Jumlah</b></td>
-					<td><b><?php echo $nominal?></b></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td colspan="8"><b>Total Claim</b></td>
+					<td colspan="8" align="right"><b>Potongan Claim</b></td>
 					<td><b><?php echo number_format($claim)?></b></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="8"><b>Total Yang Diterima Bersih</b></td>
-					<td><b><?php echo ($bersih)?></b></td>
+					<td colspan="8" align="right"><b>Total diterima</b></td>
+					<td><b><?php echo $bersih?></b></td>
 					<td></td>
 				</tr>
-			</tbody>
+			</tfoot>
 		</table>
 	</div>
 </div>
-<div class="row no-print">
+<div class="row">
 	<div class="col-md-12">
-		<button onclick="cetak()" class="btn btn-info btn-sm text-white">Cetak</button>
-		<button onclick="excel()" class="btn btn-info btn-sm text-white">Excel</button>
-		<a href="<?php echo $batal?>" class="btn btn-danger btn-sm text-white">Kembali</a>
+		<a href="<?php echo $batal?>" class="btn btn-danger btn-sm">Kembali</a>
+		<button type="button" class="btn btn-primary btn-sm" onclick="previewPDF('?pdf=1')"><i class="fa fa-file-pdf"></i> Preview PDF</button>
+		<a href="?pdf=1&download=1" class="btn btn-info btn-sm"><i class="fa fa-download"></i> Download PDF</a>
+		<a href="?excel=1" target="_blank" class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i> Export Excel</a>
 	</div>
 </div>
+
+<!-- Modal Preview PDF -->
+<div class="modal fade" id="modal-pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="max-width: 90%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Preview Laporan Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe id="iframe-pdf" src="" style="width: 100%; height: 75vh; border: none;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <a id="btn-download-pdf" href="" class="btn btn-primary"><i class="fa fa-download"></i> Download PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
-	
-	function cetak(){
-		window.print();
+	function previewPDF(url) {
+		$("#iframe-pdf").attr("src", url);
+		$("#btn-download-pdf").attr("href", url + "&download=1");
+		$("#modal-pdf").modal("show");
 	}
 
-	function excel(){
-		var url='?&excel=1';
-		location =url;
-	}
+	// Reset iframe src when modal is closed to save resources
+	$('#modal-pdf').on('hidden.bs.modal', function () {
+		$("#iframe-pdf").attr("src", "");
+	});
 </script>

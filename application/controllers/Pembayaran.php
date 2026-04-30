@@ -431,6 +431,17 @@ class Pembayaran extends CI_Controller {
 		$data['batal']=BASEURL.'Pembayaran/timpotong';
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/timpotong_excel',$data);
+		}else if(isset($get['pdf'])){
+			$html = $this->load->view($this->page.'gaji/timpotong_pdf', $data, true);
+			$this->load->library('pdfgenerator');
+			$filename = 'Laporan_Pembayaran_Tim_Potong_'.str_replace(' ', '_', $data['timnya']['nama']);
+			$paper = 'A4';
+			$orientation = "portrait";
+			if(isset($get['download'])){
+				$this->pdfgenerator->generate_download($html, $filename, $paper, $orientation);
+			}else{
+				$this->pdfgenerator->generate($html, $filename, $paper, $orientation);
+			}
 		}else{
 			$data['page']=$this->page.'gaji/timpotong_detail';
 			$this->load->view($this->page.'main',$data);
