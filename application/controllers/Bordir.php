@@ -48,12 +48,12 @@ class Bordir extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+			$tanggal1=date('Y-m-d',strtotime("monday last week"));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
 		}else{
-			$tanggal2=date('Y-m-d');
+			$tanggal2=date('Y-m-d',strtotime("sunday last week"));
 		}
 		if(isset($get['cat'])){
 			$cat=$get['cat'];
@@ -62,53 +62,31 @@ class Bordir extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$sql="SELECT * FROM kelolapo_buang_benang WHERE hapus=0";
-		$sql.=" AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		$buangbenang=$this->GlobalModel->QueryManual($sql);
-		foreach($buangbenang as $result){
-			$pekerja=$this->GlobalModel->getDataRow('master_karyawan_benang',array('id_master_karyawan_benang'=>$result['nama_pekerja']));
-			$data['products'][]=array(
-				'no'=>$no++,
-				'id_kelolapo_buang_benang'=>$result['id_kelolapo_buang_benang'],
-				'kode_po'=>$result['kode_po'],
-				'bagian'=>$result['bagian_buang_benang'],
-				'size'=>$result['size_buang_benang'],
-				'qty'=>$result['qty_buang_benang'],
-				'harga'=>$result['harga_buang_benan'],
-				'total'=>($result['qty_buang_benang']*$result['harga_buang_benan']),
-				'keterangan'=>$result['keterangan_buang_benang'],
-				'pekerja'=>$pekerja['nama_karyawan_benang'],
-				'nama_pekerja'=>$result['nama_pekerja'],
-				'tanggal'=>date('d/m/Y',strtotime($result['created_date'])),
+		
+		$pekerja=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_benang WHERE id_master_karyawan_benang IN(SELECT nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$data['pekerja']=[];
+		$data['rekap']=[];
+		foreach($pekerja as $p){
+			$ps=$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_buang_benang kbb WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' ");
+			$tot=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_buang_benang*harga_buang_benan) as total FROM kelolapo_buang_benang kbb WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' ");
+			$rek2=$this->GlobalModel->QueryManual("SELECT SUM(qty_buang_benang) AS total, kode_po,bagian_buang_benang,nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' GROUP BY kode_po,bagian_buang_benang ");
+			$data['pekerja'][]=array(
+				'id_pekerja'=>$p['id_master_karyawan_benang'],
+				'pekerja'=>$p['nama_karyawan_benang'],
+				'products'=>$ps,
+				'rek2'=>$rek2,
+				'total'=>$tot['total'],
+			);
+
+			$data['rekap'][]=array(
+				'id_pekerja'=>$p['id_master_karyawan_benang'],
+				'nama_karyawan_benang'=>$p['nama_karyawan_benang'],
+				'total'=>$tot['total'],
+				'totalpembulatan'=>pembulatangaji($tot['total']),
 			);
 		}
-		//$data['page']='newtheme/page/bordir/buangbenang_list';
+
 		if(isset($get['excel'])){
-			$dpekerja=[];
-			$pekerja=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_benang WHERE id_master_karyawan_benang IN(SELECT nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
-			$ps=[];
-			$tot=[];
-			foreach($pekerja as $p){
-				$ps=$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_buang_benang kbb WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' ");
-				$tot=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_buang_benang*harga_buang_benan) as total FROM kelolapo_buang_benang kbb WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' ");
-				$rek2=$this->GlobalModel->QueryManual("SELECT SUM(qty_buang_benang) AS total, kode_po,bagian_buang_benang,nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$p['id_master_karyawan_benang']."' GROUP BY kode_po,bagian_buang_benang ");
-				$data['pekerja'][]=array(
-					'pekerja'=>$p['nama_karyawan_benang'],
-					'products'=>$ps,
-					'rek2'=>$rek2,
-					'total'=>$tot['total'],
-				);
-			}
-			$rekap=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_benang WHERE id_master_karyawan_benang IN(SELECT nama_pekerja FROM kelolapo_buang_benang WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
-			$tr=0;
-			foreach($rekap as $r){
-				$tr=$this->GlobalModel->QueryManualRow("SELECT SUM(qty_buang_benang*harga_buang_benan) as total FROM kelolapo_buang_benang WHERE  hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and nama_pekerja='".$r['id_master_karyawan_benang']."' ");
-				$data['rekap'][]=array(
-					'nama_karyawan_benang'=>$r['nama_karyawan_benang'],
-					'total'=>$tr['total'],
-					'totalpembulatan'=>pembulatangaji($tr['total']),
-				);
-			}
 			$this->load->view($this->page.'bordir/buangbenangexcel',$data);	
 		}else{
 			$data['page']=$this->page.'bordir/gajibuangbenangbordir';

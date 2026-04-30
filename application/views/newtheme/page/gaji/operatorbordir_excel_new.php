@@ -48,8 +48,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<?php $h=0;?>
 			<?php foreach($karyawans as $k){?>
 			<?php 
-				//if($j%2==0){
-				if($k['shift']=='PAGI'){
+				if(isset($k['shift']) && $k['shift']=='PAGI'){
 			?>
 			<td>
 			<table border="1" style="width: 100%;border-collapse: collapse;">
@@ -157,8 +156,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 			<?php $hr=0;?>
 			<?php foreach($karyawans as $k){?>
 			<?php 
-				//if($jk%2==1){
-				if($k['shift']=='MALAM'){
+				if(isset($k['shift']) && $k['shift']=='MALAM'){
 			?>
 			<td>
 			<table border="1" style="width: 100%;border-collapse: collapse;">

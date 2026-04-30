@@ -748,6 +748,7 @@ class Gaji extends CI_Controller {
 					'tgl2'=>$data['gaji']['tanggal2'],
 					'idkaryawan' =>$r['idkaryawan'],
 					'nama'=>$r['nama'],
+					'shift'=>isset($r['shift']) ? ($r['shift']==1?'PAGI':'MALAM') : '-',
 					'totalgaji'=>$r['totalgaji'],
 					'totalbonus'=>$r['totalbonus'],
 					'totalum'=>$r['totalum'],
