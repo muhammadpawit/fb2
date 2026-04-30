@@ -226,6 +226,7 @@ class Report extends CI_Controller {
 		$listtimpotong=[];
 		$sql5 = "SELECT a.tanggal FROM gaji_timpotong a WHERE a.hapus=0 ";
 		$sql5.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$sql5.=" AND date(a.tanggal) >= '2026-04-28' ";
 		$timpotong=$this->GlobalModel->QueryManual($sql5);
 		if(!empty($timpotong)){
 			foreach($timpotong as $p){
@@ -260,15 +261,17 @@ class Report extends CI_Controller {
 			$ket=$this->ReportModel->getket($p['tanggal'],$p['bagian']);
 			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);
 			
-			$tp = $this->ReportModel->pembayarantimpotong($p['tanggal']);
-			if(!empty($tp)){
-				foreach($tp as $t){
-					$konveksi[]=array(
-						'tanggal'=>$t['tanggal'],
-						'nominal'=>$t['nominal'],
-						'bagian'=>1, // Konveksi
-						'keterangan'=>'Pembayaran Tim Potong '.$t['namatimpotong'],
-					);
+			if (strtotime($p['tanggal']) >= strtotime('2026-04-28')) {
+				$tp = $this->ReportModel->pembayarantimpotong($p['tanggal']);
+				if(!empty($tp)){
+					foreach($tp as $t){
+						$konveksi[]=array(
+							'tanggal'=>$t['tanggal'],
+							'nominal'=>$t['nominal'],
+							'bagian'=>1, // Konveksi
+							'keterangan'=>'Pembayaran Tim Potong '.$t['namatimpotong'],
+						);
+					}
 				}
 			}
 
