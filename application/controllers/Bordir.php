@@ -348,35 +348,19 @@ class Bordir extends CI_Controller {
 		$totalbonus=0;
 		$potclaim=0;
 		$potpinjaman=0;
-		$grandtotal=0;
 		foreach($data['products'] as $p){
 			if(isset($p['idkaryawan'])){
-				$sabtu=isset($p['gajisabtu'])?$p['gajisabtu']:0;
-				$minggu=isset($p['gajiminggu'])?$p['gajiminggu']:0;
-				$senin=isset($p['gajisenin'])?$p['gajisenin']:0;
-				$selasa=isset($p['gajiselasa'])?$p['gajiselasa']:0;
-				$rabu=isset($p['gajirabu'])?$p['gajirabu']:0;
-				$kamis=isset($p['gajikamis'])?$p['gajikamis']:0;
-				$jumat=isset($p['gajijumat'])?$p['gajijumat']:0;
-				//$totalgaji=($minggu+$senin+$selasa+$rabu+$kamis+$jumat+$sabtu);
-
-				$umsabtu=isset($p['umsabtu'])?$p['umsabtu']:0;
-				$umminggu=isset($p['umminggu'])?$p['umminggu']:0;
-				$umsenin=isset($p['umsenin'])?$p['umsenin']:0;
-				$umselasa=isset($p['umselasa'])?$p['umselasa']:0;
-				$umrabu=isset($p['umrabu'])?$p['umrabu']:0;
-				$umkamis=isset($p['umkamis'])?$p['umkamis']:0;
-				$umjumat=isset($p['umjumat'])?$p['umjumat']:0;
-				//$totalum=($umsabtu+$umminggu+$umsenin+$umselasa+$umrabu+$umkamis+$umjumat);
-
-				$bonussabtu=isset($p['bonussabtu'])?$p['bonussabtu']:0;
-				$bonusminggu=isset($p['bonusminggu'])?$p['bonusminggu']:0;
-				$bonussenin=isset($p['bonussenin'])?$p['bonussenin']:0;
-				$bonusselasa=isset($p['bonusselasa'])?$p['bonusselasa']:0;
-				$bonusrabu=isset($p['bonusrabu'])?$p['bonusrabu']:0;
-				$bonuskamis=isset($p['bonuskamis'])?$p['bonuskamis']:0;
-				$bonusjumat=isset($p['bonusjumat'])?$p['bonusjumat']:0;
-				//$totalbonus=($bonussabtu+$bonusminggu+$bonussenin+$bonusselasa+$bonusrabu+$bonuskamis+$bonusjumat);
+				$totalgaji=0;
+				$totalum=0;
+				$totalbonus=0;
+				$totalpot=0;
+				
+				foreach($p['det'] as $d){
+					$totalgaji+=($d['gaji']);
+					$totalum+=($d['um']);
+					$totalbonus+=($d['bonus']);
+					$totalpot+=isset($d['pot'])?$d['pot']:0;
+				}
 
 				$ig=array(
 					'idgajiopt'=>$id,
@@ -389,18 +373,15 @@ class Bordir extends CI_Controller {
 					'totalgaji'	=>$totalgaji,
 					'totalum'	     =>$totalum,
 					'totalbonus'	=>$totalbonus,
-					'potclaim'=>0,
+					'potclaim'=>$totalpot,
 					'potpinjaman'	=>0,
-					'grandtotal'	=>($totalgaji + $totalum+$totalbonus),
+					'grandtotal'	=>($totalgaji + $totalum+$totalbonus - $totalpot),
 					'hapus'=>0,
 				);
 				$this->db->insert('gaji_operator_new',$ig);
 				$idig=$this->db->insert_id();
 				foreach($p['det'] as $d){
 					/**/
-					$totalgaji+=($d['gaji']);
-					$totalum+=($d['um']);
-					$totalbonus+=($d['bonus']);
 					$ig_detail=array(
 						'idgaji'=>$idig,
 						'idkaryawan'=>$p['idkaryawan'],
@@ -416,14 +397,7 @@ class Bordir extends CI_Controller {
 						'hapus'=>0,
 					);
 					$this->db->insert('gaji_operator_detail_new',$ig_detail);
-					$up=array(
-						'totalgaji'	=>$totalgaji,
-						'totalum'	     =>$totalum,
-						'totalbonus'	=>$totalbonus,
-					);
-					//$this->db->update('gaji_operator_new',$up,array('idkaryawan'=>$p['idkaryawan']));
 				}
-				
 			}
 		}
 
