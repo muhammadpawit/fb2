@@ -56,7 +56,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="label<?php echo $p['id_pekerja']?>">Detail Gaji: <?php echo $p['pekerja']?></h4>
+        <h4 class="modal-title" id="label<?php echo $p['id_pekerja']?>">Detail Gaji: <?php echo $p['pekerja']?> (<?php echo date('d F Y', strtotime($tanggal1)) ?> - <?php echo date('d F Y', strtotime($tanggal2)) ?>)</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -237,8 +237,16 @@ class Report extends CI_Controller {
 			}
 		}
 
+		// buang benang
+		$buangbenang=[];
+		$listbuangbenang=[];
+		$listbuangbenang[]=array(
+			'tanggal'=>$data['tanggal2'],
+			'bagian'=>null,
+		);
+		
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -270,6 +278,20 @@ class Report extends CI_Controller {
 							'nominal'=>$t['nominal'],
 							'bagian'=>1, // Konveksi
 							'keterangan'=>'Pembayaran Tim Potong '.$t['namatimpotong'],
+						);
+					}
+				}
+			}
+
+			if ($p['tanggal'] == $data['tanggal2']) {
+				$bb = $this->ReportModel->pembayaranbuangbenang_perkaryawan($data['tanggal1'], $data['tanggal2']);
+				if(!empty($bb)){
+					foreach($bb as $b){
+						$konveksi[]=array(
+							'tanggal'=>$p['tanggal'],
+							'nominal'=>$b['nominal'],
+							'bagian'=>2, // Bordir
+							'keterangan'=>'Gaji Buang Benang Bordir : '.$b['nama'],
 						);
 					}
 				}
