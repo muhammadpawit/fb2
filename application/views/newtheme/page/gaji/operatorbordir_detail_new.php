@@ -16,15 +16,15 @@
 		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>
-					<tr style="background-color:yellow">
+					<tr style="background-color:#3498db; color:white">
 						<th>Nama</th>
 						<th colspan="4"><?php echo $k['nama']?></th>
 					</tr>
-					<tr style="background-color:yellow">
+					<tr style="background-color:#3498db; color:white">
 						<th>Shift</th>
 						<th colspan="4"><?php echo isset($k['shift']) ? $k['shift'] : '-' ?></th>
 					</tr>
-					<tr>
+					<tr style="background-color:#f2f2f2">
 						<th>Hari</th>
 						<th>Gaji</th>
 						<th>Bonus</th>
@@ -53,12 +53,13 @@
 							$pinjaman=$spinjaman['total'];
 						}
 
-					?>
+
+					?>						
 					<tr>
 						<td><?php echo $kd['hari']?></td>
-						<td align="right"><?php echo $kd['gaji']?></td>
-						<td align="right"><?php echo $kd['bonus']?></td>
-						<td align="right"><?php echo $kd['um']?></td>
+						<td align="right"><?php echo number_format($kd['gaji'])?></td>
+						<td align="right"><?php echo number_format($kd['bonus'])?></td>
+						<td align="right"><?php echo number_format($kd['um'])?></td>
 						<td align="right"><?php echo $kd['keterangan']?></td>
 					</tr>
 					<?php 
@@ -70,7 +71,7 @@
 					
 					<tr>
 						<td><b>Pot.Absensi</b></td>
-						<td align="right"><b><?php echo $absensi?></b></td>
+						<td align="right"><b><?php echo number_format((float)$absensi)?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -78,7 +79,7 @@
 
 					<tr>
 						<td><b>Pot.Claim</b></td>
-						<td align="right"><b><?php echo $claim?></b></td>
+						<td align="right"><b><?php echo number_format((float)$claim)?></b></td>
 						<td></td>
 						<td></td>
 						<td align="right"><?php echo !empty($claim)?$sclaim['keterangan']:'';?></td>
@@ -86,71 +87,71 @@
 
 					<tr>
 						<td><b>Pot.Pinjaman</b></td>
-						<td align="right"><b><?php echo $pinjaman?></b></td>
+						<td align="right"><b><?php echo number_format((float)$pinjaman)?></b></td>
 						<td></td>
 						<td></td>
 						<td></td>
 					</tr>
 
-					
-					<tr>
+
+					<tr style="background-color:#f2f2f2">
 						<td><b>Total</b></td>
-						<td align="right"><b><?php echo $totalgaji-$potongan['total']?></b></td>
-						<td align="right"><b><?php echo $totalbonus?></b></td>
-						<td align="right"><b><?php echo $totalum?></b></td>
+						<td align="right"><b><?php echo number_format((float)($totalgaji-$potongan['total']))?></b></td>
+						<td align="right"><b><?php echo number_format((float)$totalbonus)?></b></td>
+						<td align="right"><b><?php echo number_format((float)$totalum)?></b></td>
 						<td></td>
 					</tr>
 					
-					<tr style="background-color:yellow">
-						<td><b>Total Gaji</b></td>
-						<td colspan="4"><label><?php echo pembulatangaji(($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?></label></td>
+					<tr style="background-color:#3498db; color:white">
+						<td><b>Gaji Diterima</b></td>
+						<td colspan="4" align="center"><b><?php echo number_format((float)($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?></b></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<?php $allgaji+=pembulatangaji($totalgaji+$totalbonus+$totalum-$potongan['total']) ?>
+	<?php $allgaji+=(($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?>
 	<?php } ?>
 </div>
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
 			<table class="table table-bordered">
-				<tr>
-					<th colspan="4">Bonus Target Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
+				<tr style="background-color:#3498db; color:white">
+					<th colspan="4">Uang Makan Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
 				</tr>
-				<tr>
+				<tr style="background-color:#f2f2f2">
 					<td>Nama</td>
 					<td>Um</td>
 					<td>Bonus</td>
 					<td>Keterangan</td>
 				</tr>
 				<tr>
-					<td>Mandor Siang</td>
-					<td><?php echo $umsiang?></td>
-					<td><?php echo $bonussiang?></td>
+					<td>Mandor Pagi</td>
+					<td><?php echo number_format($umsiang)?></td>
+					<td><?php echo number_format($bonussiang)?></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>Mandor Malam</td>
-					<td><?php echo $ummalam?></td>
-					<td><?php echo $bonusmalam?></td>
+					<td><?php echo number_format($ummalam)?></td>
+					<td><?php echo number_format($bonusmalam)?></td>
 					<td></td>
 				</tr>
-				<tr>
+				<tr style="background-color:#f2f2f2">
 					<td>Jumlah</td>
-					<td><?php echo ($umsiang+$ummalam)?></td>
-					<td><?php echo ($bonusmalam+$bonussiang)?></td>
+					<td><?php echo number_format($umsiang+$ummalam)?></td>
+					<td><?php echo number_format($bonusmalam+$bonussiang)?></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>Pembayaran 30%</td>
-					<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3?></td>
+					<td align="center" colspan="2"><?php echo number_format(($bonussiang+$bonusmalam)*0.3)?></td>
 					<td></td>
 				</tr>
-				<tr>
+				<tr style="background-color:#3498db; color:white">
 					<td>Total Diterima (Rp)</td>
-					<td align="center" colspan="2"><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
+					<td align="center" colspan="2"><b><?php echo number_format(($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?></b></td>
 					<td>UM+30% (Bonus)</td>
 				</tr>
 			</table>
@@ -159,17 +160,17 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<table class="table table-bordered">
-				<tr>
+				<tr style="background-color:#f2f2f2">
 					<td>Jumlah Gaji Operator Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?></td>
-					<td><?php echo pembulatangaji($allgaji)?></td>
+					<td><b><?php echo number_format((float)$allgaji)?></b></td>
 				</tr>
 				<tr>
-					<td>Bonus target mandor + u.m (Rp)</td>
-					<td><?php echo ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)?></td>
+					<td>Uang Makan Mandor (Rp)</td>
+					<td><?php echo number_format((float)(($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)))?></td>
 				</tr>
-				<tr>
-					<td>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></td>
-					<td><?php echo pembulatangaji($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam))?></td>
+				<tr style="background-color:#3498db; color:white">
+					<td><b>Total Gaji Bordir <?php echo $gaji['tempat']==1?'Rumah':'Cipadu';?></b></td>
+					<td><b><?php echo number_format((float)($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)))?></b></td>
 				</tr>
 			</table>
 			<table class="table table-bordered">
@@ -186,7 +187,6 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<!-- <b class="besar">Catatan :</b><br> -->
 						<b class="besar">
 							1.Operator sudah sistem borongan<br>
 							2.Gaji dihitung dari Sabtu ke Jum'at<br>
@@ -199,10 +199,68 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row no-print">
+	<div class="col-md-3">
+		<div class="form-group">
+			<a href="<?php echo BASEURL?>Bordir/gajioperator" class="btn btn-danger btn-sm" style="width: 100%">Kembali</a>
+		</div>
+	</div>
 	<div class="col-md-3">
 		<div class="form-group">
 			<a href="<?php echo $excel?>" class="btn btn-success btn-sm" style="width: 100%">Excel</a>
 		</div>
 	</div>
+	<div class="col-md-3">
+		<div class="form-group">
+			<button type="button" class="btn btn-info btn-sm" style="width: 100%" onclick="showGajiBordirPdfModal()">
+				Print PDF
+			</button>
+		</div>
+	</div>
 </div>
+
+<!-- Modal PDF Preview -->
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 98%; max-width: 98%; height: 95vh; margin: 1vh auto;">
+        <div class="modal-content" style="height: 95vh;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel"><i class="fa fa-file-pdf"></i> Preview Laporan Gaji Operator Bordir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: calc(95vh - 120px);">
+                <div id="pdfLoading" style="display:flex; justify-content:center; align-items:center; height:100%;">
+                    <div style="text-align:center;">
+                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                        <p style="margin-top:10px;">Memuat PDF...</p>
+                    </div>
+                </div>
+                <iframe id="pdfIframe" style="width: 100%; height: 100%; border: none; display:none;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <a id="pdfDownloadLink" href="<?php echo BASEURL.'Bordir/operatorbordirdetail/'.$id.'?pdf=true' ?>" target="_blank" class="btn btn-success"><i class="fa fa-download"></i> Download PDF</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showGajiBordirPdfModal(){
+        var pdfUrl = '<?php echo BASEURL.'Bordir/operatorbordirdetail/'.$id.'?pdf=true' ?>';
+        $('#pdfLoading').show();
+        $('#pdfIframe').hide();
+        $('#pdfIframe').attr('src', pdfUrl);
+        $('#pdfModal').modal('show');
+        $('#pdfIframe').on('load', function(){
+            $('#pdfLoading').hide();
+            $('#pdfIframe').show();
+        });
+    }
+
+    // Reset iframe saat modal ditutup
+    $('#pdfModal').on('hidden.bs.modal', function () {
+        $('#pdfIframe').attr('src', '');
+    });
+</script>

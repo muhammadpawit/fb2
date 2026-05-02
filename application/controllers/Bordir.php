@@ -161,6 +161,7 @@ class Bordir extends CI_Controller {
 		$data['title']='Resume Gaji Karyawan Bordir Forboys';
 		$data['karyawans']=[];
 		$data['gaji']=$this->GlobalModel->getDataRow('gaji_operator',array('hapus'=>0,'id'=>$id));
+		$data['id']=$id;
 		$bonussiang=0;
 		$bonusmalam=0;
 		$umsiang=0;
@@ -202,7 +203,19 @@ class Bordir extends CI_Controller {
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/operatorbordir_excel_new',$data);
+		}elseif(isset($_GET['pdf'])){
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Laporan Gaji Operator Bordir';
+	        $file_pdf = 'Laporan_Gaji_Operator_Bordir_'.time();
+	        $paper = 'A4';
+	        $orientation = 'landscape';
+	        $html = $this->load->view($this->page.'gaji/operatorbordir_pdf',$data, true);
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
+			if(empty($data['gaji'])){
+				echo "Data Gaji Tidak Ditemukan";
+				return;
+			}
 			$data['page']=$this->page.'gaji/operatorbordir_detail_new';
 			$this->load->view($this->page.'main',$data);
 		}
