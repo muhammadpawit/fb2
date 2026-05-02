@@ -185,7 +185,7 @@
 			</td>
 			<td width="33%">
 				Disusun<br><br><br><br>
-				<b>( Tria )</b>
+				<b>( Asmia )</b>
 			</td>
 		</tr>
 	</table>

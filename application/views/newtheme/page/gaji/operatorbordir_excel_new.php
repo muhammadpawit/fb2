@@ -232,7 +232,7 @@ $uang_makan_mandor = ($umsiang+$ummalam);
 				<tr align="center">
 					<td><br><br><br><br>( SPV )</td>
 					<td><br><br><br><br>( Rasum )</td>
-					<td><br><br><br><br>( Tria )</td>
+					<td><br><br><br><br>( Asmia )</td>
 				</tr>
 			</table>
 		</td>
