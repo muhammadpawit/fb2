@@ -1,3 +1,4 @@
+<form method="post" action="<?php echo $action?>">
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
@@ -11,7 +12,7 @@
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
-			<select name="cmt" class="form-control select2bs4" data-live-search="true">
+			<select name="idcmt" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih CMT</option>
 				<?php foreach($cmt as $c){?>
 					<option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmtf?'selected':'';?>><?php echo $c['cmt_name']?></option>
@@ -31,7 +32,6 @@
 	</div>
 </div>
 <?php echo ($cm['cmt_name'])?>
-<form method="post" action="<?php echo $action?>">
 	<div class="row">
 		<div class="col-md-6">
 			<label>Pendapatan</label>
@@ -196,9 +196,6 @@
 						<td>
 							<b><?php echo number_format($totalclaim) ?></b>
 							<input type="hidden" name="total_klaim" value="<?php echo $totalclaim?>">
-							<input type="hidden" name="idcmt" value="<?php echo $cmtf?>">
-							<input type="hidden" name="tanggal1" value="<?php echo $tanggal1?>">
-							<input type="hidden" name="tanggal2" value="<?php echo $tanggal2?>">
 						</td>
 					</tr>
 				</tfoot>
@@ -327,7 +324,7 @@
 			url+='&tanggal2='+tanggal2;
 		}
 		
-		var cmt = $('select[name=\'cmt\']').val();
+		var cmt = $('select[name=\'idcmt\']').val();
 
 		if(cmt=="*"){
 			alert("cmt harus dipilih");
@@ -467,7 +464,7 @@
 			url+='&tanggal2='+tanggal2;
 		}
 		
-		var cmt = $('select[name=\'cmt\']').val();
+		var cmt = $('select[name=\'idcmt\']').val();
 
 		if(cmt=="*"){
 			alert("cmt harus dipilih");
@@ -501,7 +498,7 @@
 			url+='&tanggal2='+tanggal2;
 		}
 		
-		var cmt = $('select[name=\'cmt\']').val();
+		var cmt = $('select[name=\'idcmt\']').val();
 
 		if(cmt=="*"){
 			alert("cmt harus dipilih");
