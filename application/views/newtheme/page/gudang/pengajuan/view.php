@@ -1,3 +1,23 @@
+<style type="text/css">
+    .modal-fullscreen {
+        padding: 0 !important;
+    }
+    .modal-fullscreen .modal-dialog {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    .modal-fullscreen .modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0 !important;
+    }
+    .modal-fullscreen .modal-body {
+        overflow-y: auto;
+    }
+</style>
+
 <div class="row">
   <div class="col-md-12">
     <div class="form-group">
@@ -45,7 +65,7 @@
                 <div class="col-md-3">
                   <label>Action</label><br>
                   <button onclick="filter()" class="btn btn-info ">Filter</button>
-                  <span><a href="<?php echo $tambah?>" class="btn  btn-info">Tambah</a></span>
+                  <span><a href="#" class="btn btn-info addAjuan" data-toggle="modal" data-target="#addModal">Tambah</a></span>
                   <button onclick="excel()" class="btn btn-info ">Excel</button>
                 </div>
 </div>
@@ -181,12 +201,12 @@
                                   <?php }?>
                                     
                                     <?php if(aksesedit()==1 && $us['status']==0){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>?&acc=true" class="btn btn-warning btn-xs text-white">Edit</a>
+                                      <a href="#" class="btn btn-warning btn-xs text-white editAjuan" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#editModal">Edit</a>
                                     <?php } ?>
                                 </td>
                                 <td hidden>
                                   <?php if($us['status']==0 OR $us['status']==3){?>
-                                      <a href="<?php echo BASEURL.'Gudang/ajuanedit/'.$us['id']; ?>" class="btn btn-warning btn-xs text-white">Edit</a>
+                                      <a href="#" class="btn btn-warning btn-xs text-white editAjuan" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#editModal">Edit</a>
                                     <?php } ?>
                                 </td>                                
                                 <td>
@@ -288,6 +308,47 @@
             <div class="modal-footer">
                 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-fullscreen" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel"><i class="fa fa-edit"></i> Edit Pengajuan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <div id="editContent">
+                    <div class="text-center p-5">
+                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                        <p class="mt-3">Memuat Data Edit...</p>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-fullscreen" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #17a2b8, #117a8b);">
+                <h5 class="modal-title" id="addModalLabel"><i class="fa fa-plus-circle"></i> Tambah Pengajuan Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <div id="addContent">
+                    <div class="text-center p-5">
+                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                        <p class="mt-3">Menyiapkan Form Tambah...</p>
+                    </div>
+                 </div>
             </div>
         </div>
     </div>
@@ -480,6 +541,36 @@
               },
               error: function() {
                   $('#detailModalNota .modal-body').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
+
+        $('.editAjuan').on('click', function() {
+          var id = $(this).data('id');
+          $('#editContent').html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x"></i><p>Loading data...</p></div>');
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getAjuanEditModal',
+              method: 'GET',
+              data: { id: id },
+              success: function(response) {
+                  $('#editContent').html(response);
+              },
+              error: function() {
+                  $('#editContent').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
+              }
+          });
+        });
+
+        $('.addAjuan').on('click', function() {
+          $('#addContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-3x"></i><p class="mt-3">Menyiapkan Form Tambah...</p></div>');
+          $.ajax({
+              url: '<?php echo BASEURL; ?>Gudang/getAjuanAddModal',
+              method: 'GET',
+              success: function(response) {
+                  $('#addContent').html(response);
+              },
+              error: function() {
+                  $('#addContent').html('<p>Terjadi kesalahan, data tidak dapat ditampilkan.</p>');
               }
           });
         });

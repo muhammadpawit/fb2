@@ -4381,4 +4381,28 @@ class Gudang extends CI_Controller {
 		return isset($data['tanggal'])?$data['tanggal']:date('Y-m-d');
 	}
 
+	public function getAjuanEditModal(){
+		$kode = $this->input->get('id');
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('idpengajuan'=>$kode,'hapus'=>0));
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
+		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>41,'hapus'=>0));
+		$viewData['adminkeu']=isset($adminkeu['nama'])?$adminkeu['nama']:'';
+		$viewData['edit']=BASEURL.'Gudang/pengajuaneditallsave';
+		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
+		$get=$this->input->get();
+		if(isset($get['acc'])){
+			$viewData['editacc']=1;
+		}
+		$this->load->view('newtheme/page/gudang/pengajuan/edit_modal_body',$viewData);
+	}
+
+    public function getAjuanAddModal(){
+		$viewData['action']=BASEURL.'Gudang/pengajuansave';
+		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier',null);
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
+		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
+		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI',4=>'SUKABUMI');
+		$this->load->view('newtheme/page/gudang/pengajuan/add_modal_body',$viewData);
+	}
+
 }
