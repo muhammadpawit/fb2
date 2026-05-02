@@ -181,6 +181,29 @@ class Pembayaran extends CI_Controller {
 			$sewa=$ds['keluar'];
 		}
 		$data['sewa']=$sewa;
+
+		// claim
+		$data['claim']=[];
+		$totalclaim=0;
+		$sqlclaim="SELECT * FROM claim_sablon WHERE hapus=0 AND idcmt='".$cmt."' ";
+		$resclaim=$this->GlobalModel->querymanual($sqlclaim);
+		foreach($resclaim as $rc){
+			$potonganya=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(nominal),0) as total FROM claim_potongan_sablon_detail WHERE idclaim='".$rc['id']."' ");
+			$sisa = $rc['harga'] - $potonganya['total'];
+			if($sisa > 0){
+				$data['claim'][]=array(
+					'id'=>$rc['id'],
+					'tanggal'=>date('d-m-Y',strtotime($rc['tanggal'])),
+					'nominal'=>$rc['harga'],
+					'sisa'=>$sisa,
+					'keterangan'=>$rc['keterangan'],
+					'type' => $rc['type'] == 1 ? 'Klaim' : 'Kasbon'
+				);
+				$totalclaim+=$sisa;
+			}
+		}
+		$data['totalclaim']=$totalclaim;
+
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['cmtf']=$cmt;

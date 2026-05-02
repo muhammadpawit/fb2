@@ -125,6 +125,36 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 				</tbody>
 			</table>
 			<br>
+			<label>Potongan Klaim / Kasbon</label>
+			<table border="1" style="width: 100%;border-collapse: collapse;">
+				<thead>
+					<tr>
+						<th>Tanggal</th>
+						<th>Type</th>
+						<th>Keterangan</th>
+						<th>Nominal</th>
+						<th>Sisa Klaim</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($claim as $c){ ?>
+					<tr>
+						<td><?php echo $c['tanggal'] ?></td>
+						<td><?php echo $c['type'] ?></td>
+						<td><?php echo $c['keterangan'] ?></td>
+						<td><?php echo ($c['nominal']) ?></td>
+						<td><?php echo ($c['sisa']) ?></td>
+					</tr>
+					<?php } ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="4">Total Potongan Klaim</td>
+						<td><b><?php echo ($totalclaim) ?></b></td>
+					</tr>
+				</tfoot>
+			</table>
+			<br>
 			<?php if($cm['jenis_pembayaran']==1){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Bagi Hasil</caption>
@@ -233,7 +263,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td></td>
 						<td>Total Diterima Keseluruhan</td>
 						<td></td>
-						<td><b><?php echo ($tjml+$total_tukang_borongan)?></b></td>
+						<td><b><?php echo ($tjml+$total_tukang_borongan-$totalclaim)?></b></td>
 						<td><b><?php echo $tpo?></b></td>
 					</tr>
 				</tfoot>
