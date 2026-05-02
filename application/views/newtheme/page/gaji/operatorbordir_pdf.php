@@ -111,41 +111,32 @@
 			<td width="55%" valign="top">
 				<table class="table">
 					<tr class="header-blue">
-						<th colspan="4" align="left">Uang Makan Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
+						<th colspan="3" align="left">Uang Makan Mandor <?php echo $gaji['tempat']==1?'Rumah':'Cipadu'?> (Rp)</th>
 					</tr>
 					<tr class="header-grey">
 						<td>Nama</td>
-						<td>Um</td>
-						<td>Bonus</td>
+						<td>Uang Makan</td>
 						<td>Keterangan</td>
 					</tr>
 					<tr>
 						<td>Mandor Pagi</td>
 						<td align="right"><?php echo number_format((float)$umsiang)?></td>
-						<td align="right"><?php echo number_format((float)$bonussiang)?></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>Mandor Malam</td>
 						<td align="right"><?php echo number_format((float)$ummalam)?></td>
-						<td align="right"><?php echo number_format((float)$bonusmalam)?></td>
 						<td></td>
 					</tr>
 					<tr class="header-grey">
 						<td>Jumlah</td>
 						<td align="right"><?php echo number_format((float)($umsiang+$ummalam))?></td>
-						<td align="right"><?php echo number_format((float)($bonusmalam+$bonussiang))?></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Pembayaran 30%</td>
-						<td align="center" colspan="2"><?php echo number_format((float)(($bonussiang+$bonusmalam)*0.3))?></td>
 						<td></td>
 					</tr>
 					<tr class="grand-total-row">
 						<td>Total Diterima (Rp)</td>
-						<td align="center" colspan="2"><?php echo number_format((float)(($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)))?></td>
-						<td>UM+30% (Bonus)</td>
+						<td align="center"><b><?php echo number_format((float)($umsiang+$ummalam))?></b></td>
+						<td>UM Mandor</td>
 					</tr>
 				</table>
 			</td>
@@ -158,11 +149,11 @@
 					</tr>
 					<tr>
 						<td>Uang Makan Mandor</td>
-						<td align="right"><?php echo number_format((float)(($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)))?></td>
+						<td align="right"><?php echo number_format((float)($umsiang+$ummalam))?></td>
 					</tr>
 					<tr class="grand-total-row">
 						<td><b>TOTAL GAJI BORDIR</b></td>
-						<td align="right"><b><?php echo number_format((float)($allgaji+ ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam)))?></b></td>
+						<td align="right"><b><?php echo number_format((float)($allgaji+ ($umsiang+$ummalam)))?></b></td>
 					</tr>
 				</table>
 				

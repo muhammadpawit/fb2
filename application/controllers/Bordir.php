@@ -185,18 +185,12 @@ class Bordir extends CI_Controller {
 				);
 			}
 			//pre($data['karyawans']);
-			$bonussiang=$this->ReportModel->SumBonusOptBordir($id,1);
-			$bonusmalam=$this->ReportModel->SumBonusOptBordir($id,2);
-			$umsiang=$this->ReportModel->SumUmOptBordir($id,1);
-			$ummalam=$this->ReportModel->SumUmOptBordir($id,2);
-			$data['bonussiang']=$bonussiang;
-			$data['bonusmalam']=!empty($bonusmalam)?$bonusmalam:0;
-			//$data['umsiang']=$umsiang;
-			$data['umsiang']=0;
-			//$data['ummalam']=!empty($ummalam)?21000:0;
-			//pre(count($this->ReportModel->getMandor($id,2)));
-			$man=$this->ReportModel->getMandor_c($id,2);
-			$data['ummalam']=(21000*$man);
+			$manPagi=$this->ReportModel->getMandor_c($id,1);
+			$manMalam=$this->ReportModel->getMandor_c($id,2);
+			$data['bonussiang']=0;
+			$data['bonusmalam']=0;
+			$data['umsiang']=(21000*$manPagi);
+			$data['ummalam']=(21000*$manMalam);
 		}
 		$data['kembali']=BASEURL.'Bordir/gajioperator';
 		$data['excel']=BASEURL.'Bordir/operatorbordirdetail/'.$id.'?&excel=1';

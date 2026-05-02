@@ -164,7 +164,7 @@ foreach($karyawans as $k){
     if(!empty($pots)) $pots_total = $pots['total'];
 }
 $all_operator_net = $semuagaji - $pots_total;
-$uang_makan_mandor = ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam);
+$uang_makan_mandor = ($umsiang+$ummalam);
 ?>
 
 <table border="0" style="width: 100%">
@@ -175,15 +175,15 @@ $uang_makan_mandor = ($bonussiang+$bonusmalam)*0.3 + ($umsiang+$ummalam);
 					<th colspan="2">Uang Makan Mandor (Rp)</th>
 				</tr>
 				<tr>
-					<td>Mandor Pagi (UM + Bonus 30%)</td>
-					<td align="right"><?php echo $umsiang + ($bonussiang * 0.3) ?></td>
+					<td>Mandor Pagi</td>
+					<td align="right"><?php echo $umsiang ?></td>
 				</tr>
 				<tr>
-					<td>Mandor Malam (UM + Bonus 30%)</td>
-					<td align="right"><?php echo $ummalam + ($bonusmalam * 0.3) ?></td>
+					<td>Mandor Malam</td>
+					<td align="right"><?php echo $ummalam ?></td>
 				</tr>
 				<tr style="background-color: #f2f2f2; font-weight:bold;">
-					<td>Total Diterima Mandor</td>
+					<td>Total Uang Makan Mandor</td>
 					<td align="right"><?php echo $uang_makan_mandor ?></td>
 				</tr>
 			</table>
