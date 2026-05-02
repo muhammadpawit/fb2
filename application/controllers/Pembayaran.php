@@ -212,6 +212,10 @@ class Pembayaran extends CI_Controller {
 		//$this->load->view($this->page.'main',$data);
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/sablon_excel',$data);
+		}else if(isset($get['pdf'])){
+			$this->load->library('pdfgenerator');
+			$html = $this->load->view($this->page.'pembayaran/sablon_pdf', $data, true);
+			$this->pdfgenerator->generate($html, "Laporan_Pembayaran_Sablon", 'A4', 'portrait');
 		}else{
 			$data['page']=$this->page.'pembayaran/sablon_add';
 			$this->load->view($this->page.'main',$data);

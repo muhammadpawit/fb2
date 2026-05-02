@@ -24,7 +24,8 @@
 			<button id="klik" class="btn btn-info btn-sm text-white">Kalkulasi</button>
 			<a href="<?php echo BASEURL?>Pembayaran/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
 			<!-- <button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button> -->
-			<button id="klikexcel" class="btn btn-info btn-sm text-white">Excel</button>
+			<button id="klikexcel" class="btn btn-success btn-sm text-white"><i class="fa fa-file-excel"></i> Excel</button>
+			<button id="klikpdf" class="btn btn-danger btn-sm text-white"><i class="fa fa-file-pdf"></i> PDF</button>
 		</div>
 	</div>
 </div>
@@ -416,6 +417,40 @@
 
 	$( "#klikexcel" ).click(function(event){
 		var url='?&excel=1';
+		var tanggal1 = $('input[name=\'tanggal1\']').val();
+
+	    if (tanggal1=='') {
+	      alert("tanggal awal harus diisi");
+	      return false;
+	    }else{
+			url+='&tanggal1='+tanggal1;
+		}
+
+	    var tanggal2 = $('input[name=\'tanggal2\']').val();
+
+	    if (tanggal2=='') {
+	      alert("tanggal akhir harus diisi");
+	      return false;
+	    }else{
+			url+='&tanggal2='+tanggal2;
+		}
+		
+		var cmt = $('select[name=\'cmt\']').val();
+
+		if(cmt=="*"){
+			alert("cmt harus dipilih");
+	      return false;
+		}else{
+			url+='&cmt='+cmt;
+		}
+
+		$("#klik").prop('disabled',true);
+		$("#reset").show();
+		location=url;
+	});
+
+	$( "#klikpdf" ).click(function(event){
+		var url='?&pdf=1';
 		var tanggal1 = $('input[name=\'tanggal1\']').val();
 
 	    if (tanggal1=='') {
