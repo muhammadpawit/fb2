@@ -1654,11 +1654,11 @@ class Pembayaran extends CI_Controller {
 		if(isset($data['cmt'])){
 			if(isset($data['products'])){
 				foreach($data['products'] as $p){
-					$totalbayar+=(round($p['jumlah_pcs']/12)) * $p['harga'];
+					$totalbayar+=(round($p['jumlah_pcs']/12, 2)) * $p['harga'];
 					$ids=array(
-						'jumlah_dz'=>round($p['jumlah_pcs']/12), // qty setor
+						'jumlah_dz'=>round($p['jumlah_pcs']/12, 2), // qty setor
 						'jumlah_pcs'=>$p['jumlah_pcs'], // qty setor
-						'total'=>(round($p['jumlah_pcs']/12)) * $p['harga'],
+						'total'=>(round($p['jumlah_pcs']/12, 2)) * $p['harga'],
 						'keterangan'=>$p['keterangan'],
 					);
 					$this->db->update('pembayaran_cmt_detail',$ids,array('id'=>$p['id']));

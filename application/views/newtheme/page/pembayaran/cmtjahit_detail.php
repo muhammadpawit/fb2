@@ -171,7 +171,7 @@
                                         <input type="text" name="products[<?php echo $n?>][total]" 
                                             value="<?php echo number_format($p['total']-$p['potpertama'], 2, '.', '')?>" 
                                             class="form-control total-item"
-                                            data-dz="<?php echo $p['jumlah_dz'] ?>"
+                                            data-dz="<?php echo number_format($p['jumlah_dz'], 2, '.', '') ?>"
                                             data-harga="<?php echo $p['harga'] ?>">
                                     </td>
                                     <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
@@ -201,7 +201,7 @@
                                 <td colspan="2" align="center"><b>Total</b></td>
                                 <td align="center"><b><?php echo number_format(($potongan/12),2)?></b></td>
                                 <td align="center"><b><?php echo $potongan?></b></td>
-                                <td align="center"><b><?php echo $jmlpodz?></b></td>
+                                <td align="center"><b><?php echo number_format($jmlpodz, 2)?></b></td>
                                 <td align="center"><b><?php echo $jmlpopcs?></b></td>
                                 <td align="center"><b><span id="footer-total-dz"><?php echo number_format($jmldz, 2)?></span></b></td>
                                 <td align="center"><b><span id="footer-total-pcs"><?php echo $jmlpcs?></span></b></td>
@@ -700,7 +700,7 @@
         // Artificial delay to show animation (800ms)
         setTimeout(function() {
             $('.total-item').each(function() {
-                var dz = $(this).data('dz');
+                var dz = parseFloat($(this).data('dz')).toFixed(2);
                 var harga = $(this).data('harga');
                 var result = parseFloat(dz) * parseFloat(harga);
                 $(this).val(result.toFixed(2));
@@ -735,7 +735,7 @@
                 var pcs = parseFloat(jQuery(this).val()) || 0;
                 var harga = parseFloat(row.find('input[name*="[harga]"]').val()) || 0;
                 
-                var dz = pcs / 12;
+                var dz = parseFloat((pcs / 12).toFixed(2));
                 row.find('.row-dz').text(dz.toFixed(2));
                 
                 var totalItem = row.find('.total-item');

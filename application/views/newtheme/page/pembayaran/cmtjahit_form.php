@@ -285,9 +285,10 @@
         //alert(pcs);
         var harga=dai.find(".harga").val();
         var t=dai.find(".total").val();
-        var hasil=Number( ((pcs/12)*harga) * dataItem);
+        var dz = parseFloat((pcs/12).toFixed(2));
+        var hasil = dz * harga * dataItem;
         dai.find(".keterangan").val("Pembayaran "+Number(dataItem*100)+" %");
-        dai.find(".total").val(hasil);
+        dai.find(".total").val(hasil.toFixed(2));
         /**/
         
     });
@@ -518,9 +519,9 @@
           .done(function( data ) {
             var obj = JSON.parse(data);
             if(obj!==null){
-                var dz=Math.round(obj.qty_tot_pcs/12);
+                var dz = obj.qty_tot_pcs / 12;
                 dai.find(".jumlahDz").val(dz.toFixed(2));
-                dai.find(".dz").val(dz);
+                dai.find(".dz").val(dz.toFixed(2));
                 dai.find(".jumlahPc").val(obj.qty_tot_pcs);
                 
                 dai.find(".total").val(0);
@@ -533,9 +534,9 @@
           .done(function( data ) {
             var obj = JSON.parse(data);
             if(obj!==null){
-                var dz=Math.round(obj.qty_tot_pcs/12);
-                var total=Number(obj.cmt_job_price*dz);
-                dai.find(".dz").val(dz);
+                var dz = obj.qty_tot_pcs / 12;
+                var total = Number(obj.cmt_job_price * parseFloat(dz.toFixed(2)));
+                dai.find(".dz").val(dz.toFixed(2));
                 dai.find(".jumlahPc").val(obj.qty_tot_pcs);
                 dai.find(".harga").val(obj.cmt_job_price);
             }else{
