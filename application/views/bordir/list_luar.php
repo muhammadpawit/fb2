@@ -63,6 +63,7 @@
                             <th>Tanggal Masuk</th>
                             <th>Nama Operator</th>
                             <th>No Mesin</th>
+                            <th>Shift</th>
                             <th>Nama Po</th>
                             <th>Pemilik</th>
                             <th>Posisi Bordir</th>
@@ -83,6 +84,7 @@
                             <td><?php echo formatTanggalIndo($bod['created_date']) ?></td>
                             <td><?php echo $bod['operator'] ?></td>
                             <td><?php echo $bod['mesin'] ?></td>
+                            <td><?php echo $bod['shift'] ?></td>
                             <td><?php echo $bod['nama_po'] ?></td>
                             <td><?php echo $bod['pemilik'] ?></td>
                             <td><?php echo $bod['bagian_bordir'] ?></td>

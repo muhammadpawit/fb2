@@ -2268,6 +2268,7 @@ AND a.jenis = 2
 			SELECT 
 				c.id as idpemilik, 
 				a.perkalian_tarif as perkalian,
+				SUM(a.jumlah_naik_mesin) as qty,
 				CASE 
 					WHEN SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
 					THEN CEILING(SUM(a.total_stich * a.perkalian_tarif))
@@ -2291,6 +2292,7 @@ AND a.jenis = 2
 		$total['data']=0;
 		$sql="
 		SELECT 
+			SUM(a.jumlah_naik_mesin) as qty,
             CASE 
                 WHEN SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
                 THEN CEILING(SUM(a.total_stich * a.perkalian_tarif))
@@ -2329,6 +2331,7 @@ AND a.jenis = 2
 		if(!empty($row)){
 			foreach($row as $r){
 				$total['data']=$r['total'];
+				$total['qty']=$r['qty'];
 			}
 		}
 		return $total;

@@ -72,6 +72,10 @@
         $total_0_18 = 0;
         $total_jumlah_luar = array_fill(0, count($luar), 0); // Total untuk kolom luar
         $nilai_terhitung=[];
+        $special_rates = [
+            4 => 900, // ID Pemilik 4 Dedi: Rp 900 per Qty
+        ];
+
         foreach($products as $p) {
             echo '<tr>';
             echo '<td>Mesin ' . $p['nomesin'] . '</td>';
@@ -82,9 +86,15 @@
 
             $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18
             foreach ($luar as $index => $b) {
-              // Ambil nilai kolom dinamis dari data yang sudah disiapkan di controller
               $key = $b['idpemilik'] . '_' . $b['perkalian'];
-              $nilaiData = isset($p['dynamic'][$key]) ? $p['dynamic'][$key] : 0;
+              $dataItem = isset($p['dynamic'][$key]) ? $p['dynamic'][$key] : ['total' => 0, 'qty' => 0];
+              
+              // Cek apakah pemilik ini memiliki tarif khusus per Qty
+              if (isset($special_rates[$b['idpemilik']])) {
+                  $nilaiData = $dataItem['qty'] * $special_rates[$b['idpemilik']];
+              } else {
+                  $nilaiData = $dataItem['total'];
+              }
           
               $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
               $total_jumlah_luar[$index] += $nilaiData; // Tambahkan nilai ke total kolom luar
@@ -103,14 +113,12 @@
                 $pendapatan_total_per_mesin[$p['nomesin']] = 0;
             }
 
-            // Tambahkan pendapatan dari setiap shift
-            $pendapatan_total_per_mesin[$p['nomesin']] += $p['pendapatan'];
+            // Tambahkan pendapatan dari setiap shift (menggunakan jumlah_permesin agar sinkron)
+            $pendapatan_total_per_mesin[$p['nomesin']] += $jumlah_permesin;
 
             if ($p['shift'] == 'MALAM') {
                 // Tampilkan total pendapatan pagi + malam pada baris shift malam
-                // echo $p['nomesin'];
-                echo number_format($this->ReportModel->totalpermesin($p['nomesin'],$tanggal1,$tanggal2));
-                // echo number_format($pendapatan_total_per_mesin[$p['nomesin']]);
+                echo number_format($pendapatan_total_per_mesin[$p['nomesin']]);
                 $grand_total += $pendapatan_total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
             } else {
                 // Kosongkan kolom untuk shift "PAGI"
@@ -139,7 +147,7 @@
             }
             ?>
             <td align="right"><b><?php echo number_format($total_jumlah_per_mesin); ?></b></td>
-            <td align="right"><b><?php echo number_format($this->ReportModel->totalpermesin(null,$tanggal1,$tanggal2)); ?></b></td>
+            <td align="right"><b><?php echo number_format($grand_total); ?></b></td>
             <td></td>
         </tr>
     </tbody>

@@ -1,91 +1,83 @@
 <?php
-$namafile='Laporan_Bulanan_Bordir_'.time();
+$namafile='Laporan_Laba_Rugi_Bordir_'.date('YmdHis');
 header("Content-type: application/vnd-ms-excel");
 header("Content-Disposition: attachment; filename=".$namafile.".xls");
 ?>
-<style type="text/css">
-  @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
-  .registered {
-    font-family: 'Baskervville', serif;
-  }
-</style>
-<style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
-  .registered {
-    font-family: 'Baskervville', serif;
-  }
-</style>
-			<table border="1" style="width: 100%;border-collapse: collapse;">
-				<thead>
-					<tr>
-						<th colspan="2">Pendapatan</th>
-						<th>Rp</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td colspan="2">Pendapatan PO Dalam</td>
-						<!-- <td>:</td> -->
-						<td align="right"><?php echo $totalpendapatan?></td>
-					</tr>
-					<!-- <tr>
-						<td>Pendapatan PO 0.15</td>
-						<td>:</td>
-						<td align="right"><?php echo $p15?></td>
-					</tr> -->
-					<tr>
-						<td colspan="2">Pendapatan PO Luar / PO Homie</td>
-						<!-- <td>:</td> -->
-						<td align="right"><?php echo $totalpoluar?></td>
-					</tr>
-					<!--<tr>
-						<td colspan="2">Pendapatan PO Yuna</td>
-						<td align="right"></td>
-					</tr>-->
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2"><b>Total Pendapatan</b></td>
-						<td align="right"><b><?php echo ($totalpen)?></b></td>
-					</tr>
-				</tfoot>
-			</table>
+<table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th colspan="2" style="background-color: #e2efda; height: 30px;"><b>LAPORAN LABA - RUGI BORDIR FORBOYS</b></th>
+        </tr>
+        <tr>
+            <th colspan="2" style="background-color: #e2efda;">Periode: <?php echo date('d/m/Y', strtotime($tanggal1)); ?> - <?php echo date('d/m/Y', strtotime($tanggal2)); ?></th>
+        </tr>
+        <tr>
+            <th style="background-color: #fce4d6; width: 300px;">KATEGORI</th>
+            <th style="background-color: #fce4d6; width: 150px;">NOMINAL (RP)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- PENDAPATAN -->
+        <tr>
+            <td style="background-color: #d9e1f2;"><b>PENDAPATAN</b></td>
+            <td style="background-color: #d9e1f2;"></td>
+        </tr>
+        <tr>
+            <td>Pendapatan PO Dalam</td>
+            <td align="right"><?php echo $totalpendapatan; ?></td>
+        </tr>
+        <tr>
+            <td>Pendapatan PO Luar / PO Homie</td>
+            <td align="right"><?php echo $totalpoluar; ?></td>
+        </tr>
+        <tr style="background-color: #fff2cc;">
+            <td><b>TOTAL PENDAPATAN</b></td>
+            <td align="right"><b><?php echo $pend; ?></b></td>
+        </tr>
 
-			<table border="1" style="width: 100%;border-collapse: collapse;">
-				<thead>
-					<tr>
-						<th colspan="2">Pengeluaran</th>
-						<th>Rp</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php $totalpengeluaran=0; ?>
-					<?php foreach($pengeluarans as $p){?>
-						<?php foreach($p['detail'] as $pd){?>
-							<tr>
-								<td colspan="2" width="155"><?php echo $pd['keterangan']?></td>
-								<!-- <td>:</td> -->
-								<td align="right"><?php echo ($pd['total'])?></td>
-							</tr>
-							<?php $totalpengeluaran+=($pd['total']); ?>
-						<?php } ?>
-					<?php } ?>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2"><b>Total Pengeluaran</b></td>
-						<td align="right"><b><?php echo ($totalpengeluaran)?></b></td>
-					</tr>
-					<tr>
-						<td colspan="2"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td colspan="2"><b>Laba Produksi</b></td>
-						<td align="right"><b><?php echo ($totalpen-$totalpengeluaran)?></b></td>
-					</tr>
-					<tr>
-                        <td colspan="3" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y H:i:s'); ?></i></td>
-                    </tr>
-				</tfoot>
-			</table>
+        <!-- Jarak -->
+        <tr>
+            <td colspan="2" style="height: 20px;"></td>
+        </tr>
+
+        <!-- PENGELUARAN -->
+        <tr>
+            <td style="background-color: #f8cbad;"><b>PENGELUARAN</b></td>
+            <td style="background-color: #f8cbad;"></td>
+        </tr>
+        <tr>
+            <td>Belanja Bordir</td>
+            <td align="right"><?php echo $belanjabordir; ?></td>
+        </tr>
+        <tr>
+            <td>Gaji Karyawan Bordir</td>
+            <td align="right"><?php echo $gajibordir; ?></td>
+        </tr>
+        <tr>
+            <td>Operasional (BBM, Service, Fotokopi)</td>
+            <td align="right"><?php echo $operasional; ?></td>
+        </tr>
+        <tr>
+            <td>Service (Mesin Bordir)</td>
+            <td align="right"><?php echo $service; ?></td>
+        </tr>
+        <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service); ?>
+        <tr style="background-color: #fff2cc;">
+            <td><b>TOTAL PENGELUARAN</b></td>
+            <td align="right"><b><?php echo $totalpengeluaran; ?></b></td>
+        </tr>
+
+        <!-- Jarak -->
+        <tr>
+            <td colspan="2" style="height: 20px;"></td>
+        </tr>
+
+        <!-- SUMMARY -->
+        <tr style="background-color: #bdd7ee; height: 35px;">
+            <td style="font-size: 14px;"><b>LABA PRODUKSI (BERSIH)</b></td>
+            <td align="right" style="font-size: 14px;"><b><?php echo ($pend - $totalpengeluaran); ?></b></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<p style="font-size: 10px;"><i>Generated by Forboys Production System at <?php echo date('d-m-Y H:i:s'); ?></i></p>

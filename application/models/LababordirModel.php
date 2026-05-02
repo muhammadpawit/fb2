@@ -163,6 +163,13 @@ class LababordirModel extends CI_Model {
 				$hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
 				$data = json_decode($hasil);
 				$nilaiData = isset($data->data) ? $data->data : 0;
+				$qtyData = isset($data->qty) ? $data->qty : 0;
+
+				// Khusus ID 4 (Dedi) : Qty * 900
+				if ($b['idpemilik'] == 4) {
+					$nilaiData = $qtyData * 900;
+				}
+
 				$jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
 				$row[] = number_format($nilaiData); // Tambahkan nilai dinamis ke baris
 
@@ -192,28 +199,19 @@ class LababordirModel extends CI_Model {
 			$total_0_18 += $p['0.18'];
 		}
 
-		// Tampilkan total di footer
-		$total_footer = [];
-		// $total_footer[] = 'Total';
-		// $total_footer[] = '';
-		$total_footer[] = ($total_stich);
-		$total_footer[] = ($total_0_15);
-		$total_footer[] = ($total_0_18);
-
-		foreach($total_jumlah_luar as $total_luar) {
-			$total_footer[] = ($total_luar);
-		}
-		$total_footer['total_jumlah_per_mesin'] = ($total_jumlah_per_mesin);
-		$total_footer[] = ($grand_total);
-		// $total_footer[] = '';
-
-		// Data yang disimpan
 		$result = [
 			'data' => $data_rows,
-			'total' => $total_footer
+			'total' => [
+				'stich' => $total_stich,
+				'total_0_15' => $total_0_15,
+				'total_0_18' => $total_0_18,
+				'total_luar' => array_sum($total_jumlah_luar),
+				'total_jumlah_per_mesin' => $total_jumlah_per_mesin,
+				'grand_total' => $grand_total,
+				'luar_details' => $total_jumlah_luar
+			]
 		];
 
-		// Anda dapat mengembalikan hasil ini sesuai kebutuhan
 		return $result;
 
 	}

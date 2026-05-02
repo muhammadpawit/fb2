@@ -664,7 +664,10 @@ class Bordir extends CI_Controller {
             $dynamic = [];
             if (!empty($luar_details)) {
 				foreach($luar_details as $ld) {
-					$dynamic[$ld['idpemilik'] . '_' . $ld['perkalian']] = $ld['total'];
+					$dynamic[$ld['idpemilik'] . '_' . $ld['perkalian']] = array(
+						'total' => $ld['total'],
+						'qty'   => $ld['qty']
+					);
 				}
 			}
 
@@ -963,6 +966,7 @@ class Bordir extends CI_Controller {
 						'mandor'=>$b['mandor'],
 						'nama_po'=>$po['kode_po'],
 						'mesin'=>$b['mesin_bordir'],
+						'shift'=>$b['shift'],
 						'created_date'=>formatTanggalIndo($b['created_date']),
 						'bagian_bordir'=>$b['bagian_bordir'],
 						'size'=>$b['size'],
@@ -1208,6 +1212,7 @@ class Bordir extends CI_Controller {
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
 					'mesin'=>$b['mesin_bordir'],
+					'shift'=>$b['shift'],
 					'mandor'=>$b['mandor'],
 					'nama_po'=>$b['nama'],
 					'created_date'=>date('d F Y',strtotime($b['created_date'])),
