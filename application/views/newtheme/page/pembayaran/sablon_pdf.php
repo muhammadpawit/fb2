@@ -36,7 +36,8 @@
             padding: 6px;
         }
         table.data th {
-            background-color: #f2f2f2;
+            background-color: #3498db; /* Light Blue */
+            color: white;
             text-align: center;
             font-weight: bold;
         }
@@ -48,12 +49,21 @@
         }
         .total-row {
             font-weight: bold;
-            background-color: #f9f9f9;
+            background-color: #ebf5fb;
         }
         .grand-total {
-            background-color: #eee !important;
+            background-color: #3498db !important;
+            color: white !important;
             font-weight: bold;
             font-size: 12px;
+        }
+        .section-title {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            border-radius: 3px;
         }
         .footer {
             margin-top: 30px;
@@ -89,7 +99,7 @@
         </table>
     </div>
 
-    <h3 style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 3px;">I. PENDAPATAN</h3>
+    <div class="section-title">I. PENDAPATAN</div>
     <table class="data">
         <thead>
             <tr>
@@ -130,7 +140,7 @@
         </tfoot>
     </table>
 
-    <h3 style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 3px;">II. PENGELUARAN</h3>
+    <div class="section-title">II. PENGELUARAN</div>
     <table class="data">
         <thead>
             <tr>
@@ -169,9 +179,9 @@
         </tfoot>
     </table>
 
-    <?php $tjml = 0; foreach($rekap as $r){ $tjml += $r['jumlah']; } ?>
+    <!-- Komisi calculation handled by controller -->
 
-    <h3 style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 3px;">III. POTONGAN KLAIM / KASBON</h3>
+    <div class="section-title">III. POTONGAN KLAIM / KASBON</div>
     <table class="data">
         <thead>
             <tr>
@@ -205,7 +215,7 @@
         </tfoot>
     </table>
 
-    <h3 style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 3px;">IV. RINGKASAN PEMBAYARAN</h3>
+    <div class="section-title">IV. RINGKASAN PEMBAYARAN</div>
     <table class="data">
         <tr>
             <td width="70%">Total Upah Tukang (Harian & Borongan)</td>

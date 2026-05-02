@@ -44,7 +44,7 @@ class Pembayaran extends CI_Controller {
 			$cmt=null;
 		}
 		$sql="SELECT * FROM pembayaran_sablon WHERE hapus=0 ";
-		$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" AND date(tanggal_bayar) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		if(!empty($cmt)){
 			$sql.=" AND idcmt='".$cmt."' ";
 		}
@@ -57,15 +57,15 @@ class Pembayaran extends CI_Controller {
 			$data['products'][]=array(
 				'no'=>$no++,
 				'id'=>$result['id'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
-				'periode'=>strtolower($result['periode']),
+				'tanggal'=>date('d-m-Y',strtotime($result['tanggal_bayar'])),
+				'periode'=>isset($result['periode']) ? strtolower($result['periode']) : ($result['tanggal1'].' s/d '.$result['tanggal2']),
 				'nama'=>strtolower($cmt['cmt_name']),
-				'total'=>number_format($result['total']),
-				'potongan_bangke'=>number_format($result['potongan_bangke']),
-				'biaya_transport'=>number_format($result['biaya_transport']),
+				'potongan_bangke'=>number_format(isset($result['total_pendapatan']) ? $result['total_pendapatan'] : 0),
+				'biaya_transport'=>number_format(isset($result['total_pengeluaran']) ? $result['total_pengeluaran'] : 0),
+				'total'=>number_format(isset($result['total']) ? $result['total'] : (isset($result['total_diterima']) ? $result['total_diterima'] : 0)),
 				'keterangan'=>strtolower($result['keterangan']),
-				'detail'=>BASEURL.'Pembayaran/cmtjahitdetail/'.$result['id'],
-				'hapus'=>BASEURL.'Pembayaran/cmtjahithapus/'.$result['id'],
+				'detail'=>BASEURL.'Pembayaran/sablon_detail/'.$result['id'],
+				'hapus'=>BASEURL.'Pembayaran/sablon_hapus/'.$result['id'],
 			);
 		}
 		$data['page']=$this->page.'pembayaran/sablon_list';
@@ -299,16 +299,34 @@ class Pembayaran extends CI_Controller {
 		$post=$this->input->post();
 		// pre($post);
 		if(!empty($post)){
+			// Cek duplikasi
+			$cek = $this->GlobalModel->getdataRow('pembayaran_sablon', array(
+				'idcmt' => $post['idcmt'],
+				'tanggal1' => $post['tanggal1'],
+				'tanggal2' => $post['tanggal2'],
+				'hapus' => 0
+			));
+
+			if($cek){
+				$this->session->set_flashdata('msg', 'Gagal! Pembayaran untuk CMT dan periode tersebut sudah pernah disimpan.');
+				redirect(BASEURL.'Pembayaran/sablon');
+			}
+
 			$insert = array(
 				'tanggal1' => $post['tanggal1'],
 				'tanggal2' => $post['tanggal2'],
+				'tanggal' => date('Y-m-d'),
 				'tanggal_bayar' => date('Y-m-d'),
+				'periode' => $post['tanggal1'] . ' s/d ' . $post['tanggal2'],
 				'idcmt' => $post['idcmt'],
 				'total_pendapatan' => $post['total_pendapatan'],
 				'total_pengeluaran' => $post['total_pengeluaran'],
 				'total_sewa' => $post['sewa'],
 				'total_klaim' => $post['total_klaim'],
-				'total_diterima' => ($post['total_pendapatan'] - $post['total_pengeluaran'] - $post['sewa'] - $post['total_klaim']),
+				'total_komisi' => $post['total_komisi'],
+				'total_upah_tukang' => $post['total_upah_tukang'],
+				'total' => $post['total_diterima'],
+				'total_diterima' => $post['total_diterima'],
 				'keterangan' => 'Pembayaran Sablon periode ' . $post['tanggal1'] . ' s/d ' . $post['tanggal2'],
 				'hapus' => 0,
 				'create_date' => date('Y-m-d H:i:s')
@@ -364,8 +382,78 @@ class Pembayaran extends CI_Controller {
 			}
 
 			$this->session->set_flashdata('msg', 'Data pembayaran berhasil disimpan');
-			redirect(BASEURL.'Pembayaran/sablon_add?cmt='.$post['idcmt'].'&tanggal1='.$post['tanggal1'].'&tanggal2='.$post['tanggal2']);
+			redirect(BASEURL.'Pembayaran/sablon');
 		}
+	}
+
+	public function sablon_detail($id){
+		$data=array();
+		$data['title']='Detail Pembayaran Sablon';
+		$data['detail']=$this->GlobalModel->getdataRow('pembayaran_sablon',array('id'=>$id));
+		$data['cm']=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$data['detail']['idcmt']));
+		$data['pendapatan']=$this->GlobalModel->getdata('pembayaran_sablon_detail_po',array('idpembayaran'=>$id));
+		$data['pengeluaran']=$this->GlobalModel->getdata('pembayaran_sablon_detail_pengeluaran',array('idpembayaran'=>$id));
+		$data['claim']=$this->GlobalModel->getdata('pembayaran_sablon_detail_klaim',array('idpembayaran'=>$id));
+		
+		// Map for the existing view templates
+		$data['tanggal1'] = $data['detail']['tanggal1'];
+		$data['tanggal2'] = $data['detail']['tanggal2'];
+		$data['totalclaim'] = $data['detail']['total_klaim'];
+		$data['total_tukang_borongan'] = $data['detail']['total_upah_tukang'];
+		$data['tjml'] = $data['detail']['total_komisi'];
+		
+		// Extra info for display
+		$data['total_pendapatan'] = $data['detail']['total_pendapatan'];
+		$data['total_pengeluaran'] = $data['detail']['total_pengeluaran'];
+		$data['sewa'] = $data['detail']['total_sewa'];
+		
+		// Extra info from pendapatan
+		foreach($data['pendapatan'] as &$p){
+			$p['namapo'] = $p['kode_po'];
+		}
+
+		// Extra info from pengeluaran table
+		foreach($data['pengeluaran'] as &$p){
+			$ref = $this->GlobalModel->getdataRow('pengeluaran_sablon', array('id'=>$p['id_pengeluaran_sablon']));
+			if($ref){
+				$p['no'] = 1; // dummy for template
+				$p['belanjacat'] = $ref['belanjacat'];
+				$p['upahtukang_harian'] = $ref['upahtukang_harian'];
+				$p['upahtukang_borongan'] = $ref['upahtukang_borongan'];
+				$p['biayalain'] = $ref['biayalain'];
+				$p['tokenlistrik'] = $ref['tokenlistrik'];
+			}
+		}
+
+		// Extra info from claim table
+		foreach($data['claim'] as &$c){
+			$ref = $this->GlobalModel->getdataRow('claim_sablon', array('id'=>$c['idclaim_sablon']));
+			if($ref){
+				$c['tanggal'] = $ref['tanggal']; // raw date for view to format
+				$c['type'] = $ref['type'];
+				$c['keterangan'] = $ref['keterangan'];
+				$c['nominal'] = $ref['harga'];
+				$c['sisa'] = $c['nominal_potong']; // In detail, we show what was deducted
+			}
+		}
+
+		$get = $this->input->get();
+		if(isset($get['pdf'])){
+			$this->load->library('pdfgenerator');
+			$html = $this->load->view($this->page.'pembayaran/sablon_pdf', $data, true);
+			$this->pdfgenerator->generate($html, "Laporan_Pembayaran_Sablon_".$id, 'A4', 'portrait');
+		} else if(isset($get['excel'])){
+			$this->load->view($this->page.'pembayaran/sablon_excel', $data);
+		} else {
+			$data['page']=$this->page.'pembayaran/sablon_detail';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
+	public function sablon_hapus($id){
+		$this->db->update('pembayaran_sablon', array('hapus'=>1), array('id'=>$id));
+		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+		redirect(BASEURL.'Pembayaran/sablon');
 	}
 
 

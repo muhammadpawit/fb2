@@ -25,13 +25,11 @@
 			<button id="klik" class="btn btn-info btn-sm text-white">Kalkulasi</button>
 			<a href="<?php echo BASEURL?>Pembayaran/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
 			<!-- <button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button> -->
-			<button id="klikexcel" class="btn btn-success btn-sm text-white"><i class="fa fa-file-excel"></i> Excel</button>
-			<button id="klikpdf" class="btn btn-danger btn-sm text-white"><i class="fa fa-file-pdf"></i> PDF</button>
 			<button id="simpan" class="btn btn-primary btn-sm text-white"><i class="fa fa-save"></i> Simpan</button>
 		</div>
 	</div>
 </div>
-<?php echo ($cm['cmt_name'])?>
+<?php echo !empty($cm) ? ($cm['cmt_name']) : ''; ?>
 	<div class="row">
 		<div class="col-md-6">
 			<label>Pendapatan</label>
@@ -196,12 +194,15 @@
 						<td>
 							<b><?php echo number_format($totalclaim) ?></b>
 							<input type="hidden" name="total_klaim" value="<?php echo $totalclaim?>">
+							<input type="hidden" name="total_komisi" value="<?php echo $tjml?>">
+							<input type="hidden" name="total_upah_tukang" value="<?php echo $total_tukang_borongan?>">
+							<input type="hidden" name="total_diterima" value="<?php echo ($tjml+$total_tukang_borongan-$totalclaim)?>">
 						</td>
 					</tr>
 				</tfoot>
 			</table>
 			<br>
-			<?php if($cm['jenis_pembayaran']==1){?>
+			<?php if(!empty($cm) && $cm['jenis_pembayaran']==1){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Bagi Hasil</caption>
 			<table class="table table-bordered">
@@ -219,7 +220,7 @@
 			</table>
 			<?php } ?>
 			<br>
-			<?php if($cm['jenis_pembayaran']==2){?>
+			<?php if(!empty($cm) && $cm['jenis_pembayaran']==2){?>
 			<?php $saldo=($total-$sewa-$pengeluarantotal);?>
 			<caption>Komisi</caption>
 			<?php 
