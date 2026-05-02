@@ -84,7 +84,7 @@
                 <td><strong><?php echo $cm['cmt_name']; ?></strong></td>
                 <td width="15%">Periode</td>
                 <td width="2%">:</td>
-                <td><?php echo date('d M Y', strtotime($tanggal1)) . ' - ' . date('d M Y', strtotime($tanggal2)); ?></td>
+                <td><?php echo format_tanggal($tanggal1) . ' - ' . format_tanggal($tanggal2); ?></td>
             </tr>
         </table>
     </div>
@@ -240,7 +240,7 @@
                 </td>
                 <td></td>
                 <td>
-                    Jakarta, <?php echo date('d M Y'); ?><br>
+                    Jakarta, <?php echo format_tanggal(date('Y-m-d')); ?><br>
                     <strong>ADM Keuangan</strong>
                     <div class="signature-box"></div>
                     ( Mia )

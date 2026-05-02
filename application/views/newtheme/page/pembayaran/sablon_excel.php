@@ -12,7 +12,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 <h1>Laporan Pembayaran Sablon Forboys Production<br>
 				<?php foreach($cmt as $c){?>
 					<?php echo $c['id_cmt']==$cmtf?$c['cmt_name']:'';?>
-				<?php } ?>&nbsp;Periode : <?php echo date('d',strtotime($tanggal1)) ?> - <?php echo date('d M Y',strtotime($tanggal2)) ?>
+				<?php } ?>&nbsp;Periode : <?php echo format_tanggal($tanggal1) ?> - <?php echo format_tanggal($tanggal2) ?>
 </h1>
 
 	<div class="row">

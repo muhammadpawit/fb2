@@ -166,6 +166,7 @@ class Pembayaran extends CI_Controller {
 		foreach($res as $r){
 			$data['pengeluaran'][]=array(
 				'no'=>$p++,
+				'id'=>$r['id'],
 				'belanjacat'=>($r['belanjacat']),
 				'upahtukang_harian'=>($r['upahtukang_harian']),
 				'upahtukang_borongan'=>($r['upahtukang_borongan']),
@@ -193,7 +194,7 @@ class Pembayaran extends CI_Controller {
 			if($sisa > 0){
 				$data['claim'][]=array(
 					'id'=>$rc['id'],
-					'tanggal'=>date('d-m-Y',strtotime($rc['tanggal'])),
+					'tanggal'=>format_tanggal($rc['tanggal']),
 					'nominal'=>$rc['harga'],
 					'sisa'=>$sisa,
 					'keterangan'=>$rc['keterangan'],
@@ -295,8 +296,76 @@ class Pembayaran extends CI_Controller {
 	}
 
 	public function sablon_save(){
-		$data=$this->input->post();
-		pre($data);
+		$post=$this->input->post();
+		// pre($post);
+		if(!empty($post)){
+			$insert = array(
+				'tanggal1' => $post['tanggal1'],
+				'tanggal2' => $post['tanggal2'],
+				'tanggal_bayar' => date('Y-m-d'),
+				'idcmt' => $post['idcmt'],
+				'total_pendapatan' => $post['total_pendapatan'],
+				'total_pengeluaran' => $post['total_pengeluaran'],
+				'total_sewa' => $post['sewa'],
+				'total_klaim' => $post['total_klaim'],
+				'total_diterima' => ($post['total_pendapatan'] - $post['total_pengeluaran'] - $post['sewa'] - $post['total_klaim']),
+				'keterangan' => 'Pembayaran Sablon periode ' . $post['tanggal1'] . ' s/d ' . $post['tanggal2'],
+				'hapus' => 0,
+				'create_date' => date('Y-m-d H:i:s')
+			);
+			$this->db->insert('pembayaran_sablon', $insert);
+			$idpembayaran = $this->db->insert_id();
+
+			if(isset($post['pendapatan'])){
+				foreach($post['pendapatan'] as $p){
+					$det_po = array(
+						'idpembayaran' => $idpembayaran,
+						'id_kelolapo_kirim_setor' => $p['id_kelolapo_kirim_setor'],
+						'kode_po' => $p['namapo'],
+						'dz' => $p['dz'],
+						'pcs' => $p['pcs'],
+						'harga' => $p['harga'],
+						'total' => $p['total'],
+						'pekerjaan' => $p['pekerjaan']
+					);
+					$this->db->insert('pembayaran_sablon_detail_po', $det_po);
+				}
+			}
+
+			if(isset($post['pengeluaran'])){
+				foreach($post['pengeluaran'] as $p){
+					$det_p = array(
+						'idpembayaran' => $idpembayaran,
+						'id_pengeluaran_sablon' => $p['id'],
+						'total' => $p['total']
+					);
+					$this->db->insert('pembayaran_sablon_detail_pengeluaran', $det_p);
+				}
+			}
+
+			if(isset($post['klaim'])){
+				foreach($post['klaim'] as $k){
+					$det_klaim = array(
+						'idpembayaran' => $idpembayaran,
+						'idclaim_sablon' => $k['idclaim_sablon'],
+						'nominal_potong' => $k['nominal_potong']
+					);
+					$this->db->insert('pembayaran_sablon_detail_klaim', $det_klaim);
+
+					// Tambahkan detail potongan klaim agar saldo klaim berkurang
+					$insert_det_klaim = array(
+						'tanggal' => date('Y-m-d'),
+						'idclaim' => $k['idclaim_sablon'],
+						'nominal' => $k['nominal_potong'],
+						'hapus' => 0
+					);
+					$this->db->insert('claim_potongan_sablon_detail', $insert_det_klaim);
+				}
+			}
+
+			$this->session->set_flashdata('msg', 'Data pembayaran berhasil disimpan');
+			redirect(BASEURL.'Pembayaran/sablon_add?cmt='.$post['idcmt'].'&tanggal1='.$post['tanggal1'].'&tanggal2='.$post['tanggal2']);
+		}
 	}
 
 

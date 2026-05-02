@@ -26,6 +26,7 @@
 			<!-- <button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button> -->
 			<button id="klikexcel" class="btn btn-success btn-sm text-white"><i class="fa fa-file-excel"></i> Excel</button>
 			<button id="klikpdf" class="btn btn-danger btn-sm text-white"><i class="fa fa-file-pdf"></i> PDF</button>
+			<button id="simpan" class="btn btn-primary btn-sm text-white"><i class="fa fa-save"></i> Simpan</button>
 		</div>
 	</div>
 </div>
@@ -55,7 +56,16 @@
 						?>
 						<tr>
 							<td><?php echo $p['no']?></td>
-							<td><?php echo $p['namapo']?></td>
+							<td>
+								<?php echo $p['namapo']?>
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][id_kelolapo_kirim_setor]" value="<?php echo $p['id_kelolapo_kirim_setor']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][namapo]" value="<?php echo $p['namapo']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][dz]" value="<?php echo $p['dz']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][pcs]" value="<?php echo $p['pcs']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][harga]" value="<?php echo $p['harga']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][total]" value="<?php echo $p['total']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][pekerjaan]" value="<?php echo $p['pekerjaan']?>">
+							</td>
 							<td><?php echo number_format($p['dz'],2)?></td>
 							<td><?php echo number_format($p['pcs'])?></td>
 							<td><?php echo number_format($p['harga'])?></td>
@@ -102,7 +112,16 @@
 					<?php foreach($pengeluaran as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
-							<td><?php echo number_format($p['belanjacat'])?></td>
+							<td>
+								<?php echo number_format($p['belanjacat'])?>
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][id]" value="<?php echo $p['id']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][belanjacat]" value="<?php echo $p['belanjacat']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][upahtukang_harian]" value="<?php echo $p['upahtukang_harian']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][upahtukang_borongan]" value="<?php echo $p['upahtukang_borongan']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][biayalain]" value="<?php echo $p['biayalain']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][tokenlistrik]" value="<?php echo $p['tokenlistrik']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][total]" value="<?php echo $p['total']?>">
+							</td>
 							<td><?php echo number_format($p['upahtukang_harian'])?></td>
 							<td><?php echo number_format($p['upahtukang_borongan'])?></td>
 							<td><?php echo number_format($p['biayalain'])?></td>
@@ -139,6 +158,9 @@
 					<td><?php echo number_format($pengeluarantotal+$tjml)?></td>
 					<td><?php echo number_format($sewa)?></td>
 					<td><?php echo number_format($total-$sewa-($pengeluarantotal+$tjml))?></td>
+					<input type="hidden" name="total_pendapatan" value="<?php echo $total?>">
+					<input type="hidden" name="total_pengeluaran" value="<?php echo $pengeluarantotal+$tjml?>">
+					<input type="hidden" name="sewa" value="<?php echo $sewa?>">
 				</tbody>
 			</table>
 			<br>
@@ -160,14 +182,24 @@
 						<td><?php echo $c['type'] ?></td>
 						<td><?php echo $c['keterangan'] ?></td>
 						<td><?php echo number_format($c['nominal']) ?></td>
-						<td><?php echo number_format($c['sisa']) ?></td>
+						<td>
+							<?php echo number_format($c['sisa']) ?>
+							<input type="hidden" name="klaim[<?php echo $c['id']?>][idclaim_sablon]" value="<?php echo $c['id']?>">
+							<input type="hidden" name="klaim[<?php echo $c['id']?>][nominal_potong]" value="<?php echo $c['sisa']?>">
+						</td>
 					</tr>
 					<?php } ?>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="4">Total Potongan Klaim</td>
-						<td><b><?php echo number_format($totalclaim) ?></b></td>
+						<td>
+							<b><?php echo number_format($totalclaim) ?></b>
+							<input type="hidden" name="total_klaim" value="<?php echo $totalclaim?>">
+							<input type="hidden" name="idcmt" value="<?php echo $cmtf?>">
+							<input type="hidden" name="tanggal1" value="<?php echo $tanggal1?>">
+							<input type="hidden" name="tanggal2" value="<?php echo $tanggal2?>">
+						</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -480,6 +512,6 @@
 
 		$("#klik").prop('disabled',true);
 		$("#reset").show();
-		location=url;
+		window.open(url, '_blank');
 	});
 </script>
