@@ -19,13 +19,13 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
     <td align="center" colspan="9"><h3>Laporan Pendapatan Mesin Harian Bordir</h3></td>
   </tr>
   <tr>
-    <td align="center" colspan="9"><h3><?php echo date('d F Y',strtotime($tanggal2)) ?></h3></td>
+    <td align="center" colspan="9"><h3><?php echo formatTanggalIndo($tanggal2) ?></h3></td>
   </tr>
   <tr>
     <td colspan="9"></td>
   </tr>
   <tr>
-    <td colspan="9">Periode <?php echo date('d F Y',strtotime($tanggal1))?> - <?php echo date('d F Y',strtotime($tanggal2))?></td>
+    <td colspan="9">Periode <?php echo formatTanggalIndo($tanggal1)?> - <?php echo formatTanggalIndo($tanggal2)?></td>
   </tr>
 </table>
 <table border="1" style="border-collapse: collapse;width: 100%;">
@@ -46,25 +46,49 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
       </thead>
       <tbody>
         <?php 
-        // $total_permesin = 0;
         $total_per_mesin = [];
-        $total_pendapatan = 0;
+        $grand_total = 0; 
+        $total_jumlah_per_mesin = 0; 
+        $pendapatan_total_per_mesin = []; 
 
-        // Step 1: Hitung total per mesin untuk setiap shift pagi dan malam
-        foreach ($products as $p) {
-          if (!isset($total_per_mesin[$p['nomesin']])) {
-              $total_per_mesin[$p['nomesin']] = 0;
-          }
+        $total_stich = 0;
+        $total_0_15 = 0;
+        $total_0_18 = 0;
+        $total_jumlah_luar = array_fill(0, count($luar), 0); 
+        
+        $special_rates = [
+            4 => 900, 
+        ];
 
-          // Tambahkan pendapatan shift ke total mesin
-          $total_per_mesin[$p['nomesin']] += $p['pendapatan'];
-      }
-      
-      $j = 0;
+        foreach($products as $p){ 
+            $jumlah_permesin = $p['0.18']; 
+            $row_dynamic_values = [];
 
-        ?>
+            foreach ($luar as $index => $b) {
+                $key = $b['idpemilik'] . '_' . $b['perkalian'];
+                $dataItem = isset($p['dynamic'][$key]) ? $p['dynamic'][$key] : ['total' => 0, 'qty' => 0];
+                
+                if (isset($special_rates[$b['idpemilik']])) {
+                    $nilaiData = $dataItem['qty'] * $special_rates[$b['idpemilik']];
+                } else {
+                    $nilaiData = $dataItem['total'];
+                }
+            
+                $jumlah_permesin += $nilaiData; 
+                $total_jumlah_luar[$index] += $nilaiData; 
+                $row_dynamic_values[] = $nilaiData;
+            }
 
-        <?php foreach($products as $p){ ?>
+            if (!isset($pendapatan_total_per_mesin[$p['nomesin']])) {
+                $pendapatan_total_per_mesin[$p['nomesin']] = 0;
+            }
+            $pendapatan_total_per_mesin[$p['nomesin']] += $jumlah_permesin;
+
+            $total_stich += $p['stich'];
+            $total_0_15 += $p['0.15'];
+            $total_0_18 += $p['0.18'];
+            $total_jumlah_per_mesin += $jumlah_permesin;
+            ?>
           <tr>
             <td>Mesin <?php echo $p['nomesin']?></td>
             <td><?php echo $p['shift']?></td>
@@ -72,48 +96,43 @@ header("Content-Disposition: attachment; filename=Laporan_Pendapatan_Bordir.xls"
             <td align="right"><?php echo number_format($p['0.15']); ?></td>
             <td align="right"><?php echo number_format($p['0.18'])?></td>
 
-            <?php 
-            $jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18 saja
-            foreach($luar as $b) {
-              $key = $b['idpemilik'] . '_' . $b['perkalian'];
-              $nilaiData = isset($p['dynamic'][$key]) ? $p['dynamic'][$key] : 0;
-              $jumlah_permesin += $nilaiData; // Tambahkan nilai dinamis ke jumlah per mesin
-              ?>
-              <td align="right"><?php echo number_format($nilaiData); ?></td>
+            <?php foreach($row_dynamic_values as $val) { ?>
+              <td align="right"><?php echo number_format($val); ?></td>
             <?php } ?>
 
-            <!-- Tampilkan jumlah per mesin -->
             <td align="right"><?php echo number_format($jumlah_permesin); ?></td>
 
-            <!-- Pendapatan Per Mesin -->
             <td align="right">
             <?php 
-                    // Step 3: Hanya tampilkan total pendapatan per mesin di shift malam
-                    if ($p['shift'] == 'MALAM' && isset($total_per_mesin[$p['nomesin']])) {
-                        echo number_format($total_per_mesin[$p['nomesin']]);
-                        $grand_total += $total_per_mesin[$p['nomesin']]; // Tambahkan ke grand total
+                    if ($p['shift'] == 'MALAM') {
+                        echo number_format($pendapatan_total_per_mesin[$p['nomesin']]);
+                        $grand_total += $pendapatan_total_per_mesin[$p['nomesin']];
                     } else {
-                        echo 0;
+                        echo '';
                     }
             ?>
             </td>
-            <td><?php // Keterangan ?></td>
+            <td></td>
           </tr>
         <?php } ?>
 
-        <!-- Tampilkan total -->
         <tr>
-          <td colspan="7"><b>Total</b></td>
-          <td align="right"><b><?php echo number_format($total_permesin); ?></b></td>
+          <td colspan="2"><b>Total</b></td>
+          <td align="right"><b><?php echo number_format($total_stich); ?></b></td>
+          <td align="right"><b><?php echo number_format($total_0_15); ?></b></td>
+          <td align="right"><b><?php echo number_format($total_0_18); ?></b></td>
+          <?php 
+          foreach($total_jumlah_luar as $total_luar) {
+              echo '<td align="right"><b>' . number_format($total_luar) . '</b></td>';
+          }
+          ?>
+          <td align="right"><b><?php echo number_format($total_jumlah_per_mesin); ?></b></td>
           <td align="right"><b><?php echo number_format($grand_total); ?></b></td>
           <td></td>
         </tr>
         <tr>
-                  <td colspan="2"></td>
-                  <td colspan="8">
-                   
-                  </td>
-                </tr>
+            <td colspan="10">&nbsp;</td>
+        </tr>
                 <tr>
                   <td colspan="2"><b>Catatan :</b></td>
                   <td colspan="8">

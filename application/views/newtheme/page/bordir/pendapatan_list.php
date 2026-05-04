@@ -28,6 +28,7 @@
               <label>Action</label><br>
               <button class="btn btn-info" onclick="filter()">Filter</button>
               <button class="btn btn-info" onclick="excel()">Excel</button>
+              <button class="btn btn-info" onclick="pdf()">PDF</button>
           </div>
       </div>
 </div>
@@ -199,4 +200,64 @@
 
     location=url;
   }
+
+  function pdf(){
+    var url='?pdf=1';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    var nomesin=$("#nomesin").val();
+
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    if(nomesin!="*"){
+      url+='&nomesin='+nomesin;
+    }
+
+    $('#pdfLoading').show();
+    $('#pdfIframe').hide();
+    $('#pdfIframe').attr('src', url);
+    $('#pdfModal').modal('show');
+    
+    $('#pdfIframe').on('load', function(){
+        $('#pdfLoading').hide();
+        $('#pdfIframe').show();
+    });
+  }
+  // Reset iframe saat modal ditutup
+  $(document).ready(function(){
+      $("#pdfModal").on("hidden.bs.modal", function () {
+          $("#pdfIframe").attr("src", "");
+      });
+  });
 </script>
+<!-- Modal PDF Preview -->
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 98%; max-width: 98%; height: 95vh; margin: 1vh auto;">
+        <div class="modal-content" style="height: 95vh;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel"><i class="fa fa-file-pdf"></i> Preview Laporan Pendapatan Mesin Bordir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: calc(95vh - 120px);">
+                <div id="pdfLoading" style="display:flex; justify-content:center; align-items:center; height:100%;">
+                    <div style="text-align:center;">
+                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                        <p style="margin-top:10px;">Memuat PDF...</p>
+                    </div>
+                </div>
+                <iframe id="pdfIframe" style="width: 100%; height: 100%; border: none; display:none;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>

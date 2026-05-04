@@ -701,6 +701,14 @@ class Bordir extends CI_Controller {
 		$data['nomesin']=$nomesin;
 		if(isset($get['cetak'])){
 			$this->load->view($this->page.'bordir/pendapatan_cetak',$data);
+		}elseif(isset($get['pdf'])){
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Laporan Pendapatan Mesin Bordir';
+	        $file_pdf = 'Laporan_Pendapatan_Mesin_Bordir_'.time();
+	        $paper = 'A4';
+	        $orientation = 'landscape';
+	        $html = $this->load->view($this->page.'bordir/pendapatan_pdf',$data, true);
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
 			$data['page']=$this->page.'bordir/pendapatan_list';
 			$this->load->view($this->page.'main',$data);
