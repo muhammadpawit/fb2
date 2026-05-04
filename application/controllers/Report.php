@@ -238,12 +238,17 @@ class Report extends CI_Controller {
 		}
 
 		// buang benang
-		$buangbenang=[];
 		$listbuangbenang=[];
-		$listbuangbenang[]=array(
-			'tanggal'=>$data['tanggal2'],
-			'bagian'=>null,
-		);
+		$start_ts = strtotime($data['tanggal1']);
+		$end_ts = strtotime($data['tanggal2']);
+		for ($ts = $start_ts; $ts <= $end_ts; $ts += 86400) {
+			if (date('N', $ts) == 6) { // 6 = Sabtu (Hari Pembayaran)
+				$listbuangbenang[] = array(
+					'tanggal' => date('Y-m-d', $ts),
+					'bagian' => null,
+				);
+			}
+		}
 		
 		$merger=[];
 		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang);
@@ -283,8 +288,10 @@ class Report extends CI_Controller {
 				}
 			}
 
-			if ($p['tanggal'] == $data['tanggal2']) {
-				$bb = $this->ReportModel->pembayaranbuangbenang_perkaryawan($data['tanggal1'], $data['tanggal2']);
+			if (date('N', strtotime($p['tanggal'])) == 6) {
+				$tgl_mulai_bb = date('Y-m-d', strtotime($p['tanggal'] . ' -7 days'));
+				$tgl_akhir_bb = date('Y-m-d', strtotime($p['tanggal'] . ' -1 days'));
+				$bb = $this->ReportModel->pembayaranbuangbenang_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
 				if(!empty($bb)){
 					foreach($bb as $b){
 						$konveksi[]=array(
