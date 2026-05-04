@@ -239,9 +239,9 @@ class Report extends CI_Controller {
 
 		// buang benang
 		$listbuangbenang=[];
-		$start_ts = strtotime($data['tanggal1']);
-		$end_ts = strtotime($data['tanggal2']);
-		for ($ts = $start_ts; $ts <= $end_ts; $ts += 86400) {
+		$start_ts_bb = strtotime($data['tanggal1']);
+		$end_ts_bb = strtotime($data['tanggal2'] . ' +1 day');
+		for ($ts = $start_ts_bb; $ts <= $end_ts_bb; $ts += 86400) {
 			if (date('N', $ts) == 6) { // 6 = Sabtu (Hari Pembayaran)
 				$listbuangbenang[] = array(
 					'tanggal' => date('Y-m-d', $ts),
@@ -290,7 +290,7 @@ class Report extends CI_Controller {
 
 			if (date('N', strtotime($p['tanggal'])) == 6) {
 				$tgl_mulai_bb = date('Y-m-d', strtotime($p['tanggal'] . ' -7 days'));
-				$tgl_akhir_bb = date('Y-m-d', strtotime($p['tanggal'] . ' -1 days'));
+				$tgl_akhir_bb = $p['tanggal'];
 				$bb = $this->ReportModel->pembayaranbuangbenang_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
 				if(!empty($bb)){
 					foreach($bb as $b){

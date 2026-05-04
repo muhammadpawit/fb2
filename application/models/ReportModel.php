@@ -1719,6 +1719,7 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+
 	public function pembayaranbuangbenang_range($tanggal1, $tanggal2){
 		$sql = "SELECT SUM(a.qty_buang_benang * a.harga_buang_benan) as nominal FROM kelolapo_buang_benang a 
 				WHERE a.hapus=0 AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'";
@@ -1728,8 +1729,7 @@ class ReportModel extends CI_Model {
 	public function pembayaranbuangbenang_perkaryawan($tanggal1, $tanggal2){
 		$sql = "SELECT b.nama_karyawan_benang as nama, SUM(a.qty_buang_benang * a.harga_buang_benan) as nominal FROM kelolapo_buang_benang a 
                 JOIN master_karyawan_benang b ON b.id_master_karyawan_benang = a.nama_pekerja
-				WHERE a.hapus=0 AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'
-				AND a.created_date >= '2026-04-28'
+                WHERE a.hapus=0 AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'
                 GROUP BY a.nama_pekerja";
 		return $this->db->query($sql)->result_array();
 	}
