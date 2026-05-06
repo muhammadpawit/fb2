@@ -302,6 +302,20 @@ class Report extends CI_Controller {
 						);
 					}
 				}
+
+				if (empty($cat) || $cat == 2) {
+					$bo = $this->ReportModel->pembayarangajioperator_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					if(!empty($bo)){
+						foreach($bo as $b){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$b['nominal'],
+								'bagian'=>2, // Bordir
+								'keterangan'=>'Gaji Operator Bordir : '.$b['nama'],
+							);
+						}
+					}
+				}
 			}
 
 			$pinjaman=$this->ReportModel->pinjaman($p['tanggal']);

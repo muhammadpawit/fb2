@@ -38,16 +38,17 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php $totalgajia=0; $absensia=0; $pinjamana=0; $claima=0; ?>
+					<?php $totalgajia=0; $potongan=0; ?>
 					<?php foreach($k['details'] as $kd){ ?>
 					<?php
-						$potongan=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ");
-						$sabsensi=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=1 ");
-						if(!empty($sabsensi)) $absensia=$sabsensi['total'];
-						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total,keterangan FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
-						if(!empty($sclaim)) $claima=$sclaim['total'];
-						$spinjaman=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=2 ");
-						if(!empty($spinjaman)) $pinjamana=$spinjaman['total'];
+						$potongan=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND DATE_ADD('".$k['tgl2']."', INTERVAL 1 DAY) ");
+						$my_potongan = $this->GlobalModel->QueryManual("
+							SELECT jp.nama, SUM(po.nominal) as total, GROUP_CONCAT(po.keterangan SEPARATOR ', ') as keterangan 
+							FROM potongan_operator po
+							JOIN jenis_potongan jp ON jp.id = po.jenis_potongan
+							WHERE po.hapus=0 AND po.idkaryawan='".$k['idkaryawan']."' AND DATE(po.tanggal) BETWEEN '".$k['tgl1']."' AND DATE_ADD('".$k['tgl2']."', INTERVAL 1 DAY)
+							GROUP BY po.jenis_potongan
+						");
 					?>						
 					<tr>
 						<td><?php echo $kd['hari']?></td>
@@ -56,24 +57,16 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 					<?php $totalgajia+=$kd['gaji']; ?>
 					<?php } ?>
+					<?php foreach($my_potongan as $mp){ ?>
 					<tr>
-						<td>Pot.Absensi</td>
-						<td align="right"><?php echo $absensia?></td>
-						<td></td>
+						<td>Pot. <?php echo $mp['nama'] ?></td>
+						<td align="right"><?php echo $mp['total'] ?></td>
+						<td><?php echo $mp['keterangan'] ?></td>
 					</tr>
-					<tr>
-						<td>Pot.Claim</td>
-						<td align="right"><?php echo $claima?></td>
-						<td><?php echo !empty($claima)?$sclaim['keterangan']:'';?></td>
-					</tr>
-					<tr>
-						<td>Pot.Pinjaman</td>
-						<td align="right"><?php echo $pinjamana?></td>
-						<td></td>
-					</tr>
+					<?php } ?>
 					<tr style="background-color:#f2f2f2; font-weight:bold;">
 						<td>Gaji Diterima</td>
-						<td align="right"><?php echo ($totalgajia-($absensia+$claima+$pinjamana)) ?></td>
+						<td align="right"><?php echo ($totalgajia - (isset($potongan['total'])?$potongan['total']:0)) ?></td>
 						<td></td>
 					</tr>
 				</tbody>
@@ -104,16 +97,17 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 				</thead>
 				<tbody>
-					<?php $totalgajib=0; $absensib=0; $pinjamanb=0; $claimb=0; ?>
+					<?php $totalgajib=0; $potongan=0; ?>
 					<?php foreach($k['details'] as $kd){ ?>
 					<?php
-						$potongan=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ");
-						$sabsensi=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=1 ");
-						if(!empty($sabsensi)) $absensib=$sabsensi['total'];
-						$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total,keterangan FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
-						if(!empty($sclaim)) $claimb=$sclaim['total'];
-						$spinjaman=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=2 ");
-						if(!empty($spinjaman)) $pinjamanb=$spinjaman['total'];
+						$potongan=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND DATE_ADD('".$k['tgl2']."', INTERVAL 1 DAY) ");
+						$my_potongan = $this->GlobalModel->QueryManual("
+							SELECT jp.nama, SUM(po.nominal) as total, GROUP_CONCAT(po.keterangan SEPARATOR ', ') as keterangan 
+							FROM potongan_operator po
+							JOIN jenis_potongan jp ON jp.id = po.jenis_potongan
+							WHERE po.hapus=0 AND po.idkaryawan='".$k['idkaryawan']."' AND DATE(po.tanggal) BETWEEN '".$k['tgl1']."' AND DATE_ADD('".$k['tgl2']."', INTERVAL 1 DAY)
+							GROUP BY po.jenis_potongan
+						");
 					?>						
 					<tr>
 						<td><?php echo $kd['hari']?></td>
@@ -122,24 +116,16 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					</tr>
 					<?php $totalgajib+=$kd['gaji']; ?>
 					<?php } ?>
+					<?php foreach($my_potongan as $mp){ ?>
 					<tr>
-						<td>Pot.Absensi</td>
-						<td align="right"><?php echo $absensib?></td>
-						<td></td>
+						<td>Pot. <?php echo $mp['nama'] ?></td>
+						<td align="right"><?php echo $mp['total'] ?></td>
+						<td><?php echo $mp['keterangan'] ?></td>
 					</tr>
-					<tr>
-						<td>Pot.Claim</td>
-						<td align="right"><?php echo $claimb?></td>
-						<td><?php echo !empty($claimb)?$sclaim['keterangan']:'';?></td>
-					</tr>
-					<tr>
-						<td>Pot.Pinjaman</td>
-						<td align="right"><?php echo $pinjamanb?></td>
-						<td></td>
-					</tr>
+					<?php } ?>
 					<tr style="background-color:#f2f2f2; font-weight:bold;">
 						<td>Gaji Diterima</td>
-						<td align="right"><?php echo ($totalgajib-($absensib+$claimb+$pinjamanb)) ?></td>
+						<td align="right"><?php echo ($totalgajib - (isset($potongan['total'])?$potongan['total']:0)) ?></td>
 						<td></td>
 					</tr>
 				</tbody>
@@ -160,7 +146,8 @@ foreach($karyawans as $k){
     foreach($k['details'] as $kd){
         $semuagaji += $kd['gaji'];
     }
-    $pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND tempat='".$gaji['tempat']."'");
+    $tgl2 = date('Y-m-d', strtotime($k['tgl2'] . ' +1 day'));
+    $pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$tgl2."' AND tempat='".$gaji['tempat']."'");
     if(!empty($pots)) $pots_total = $pots['total'];
 }
 $all_operator_net = $semuagaji - $pots_total;

@@ -1734,6 +1734,49 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+	public function pembayarangajioperator_perkaryawan($tanggal1, $tanggal2){
+		$sql = "SELECT gon.idkaryawan, gon.nama, gon.tanggal1, gon.tanggal2, 
+                       SUM(godn.gaji) as tg, SUM(godn.bonus) as tb, SUM(godn.um) as tum
+                FROM gaji_operator_new gon
+                JOIN gaji_operator_detail_new godn ON godn.idgaji = gon.id
+                WHERE gon.hapus=0 AND godn.hapus=0 
+                AND DATE(gon.tanggal2) BETWEEN '$tanggal1' AND '$tanggal2'
+                AND gon.idgajiopt = (
+                    SELECT MAX(idgajiopt) 
+                    FROM gaji_operator_new gon2 
+                    WHERE gon2.idkaryawan = gon.idkaryawan 
+                    AND gon2.tanggal2 = gon.tanggal2 
+                    AND gon2.hapus = 0
+                )
+                GROUP BY gon.idkaryawan, gon.tanggal1, gon.tanggal2, gon.nama";
+		$results = $this->db->query($sql)->result_array();
+        
+        $final = [];
+        foreach($results as $r){
+            $idk = $r['idkaryawan'];
+            $tgl1 = $r['tanggal1'];
+            $tgl2_plus = date('Y-m-d', strtotime($r['tanggal2'] . ' + 1 day'));
+            
+            // Fetch dynamic deductions from potongan_operator table
+            $sql_pot = "SELECT SUM(nominal) as total FROM potongan_operator 
+                        WHERE hapus=0 AND idkaryawan='$idk' 
+                        AND DATE(tanggal) BETWEEN '$tgl1' AND '$tgl2_plus'";
+            $pot = $this->db->query($sql_pot)->row_array();
+            $total_pot = isset($pot['total']) ? (float)$pot['total'] : 0;
+            
+            $nominal = (float)$r['tg'] + (float)$r['tb'] + (float)$r['tum'] - $total_pot;
+            
+            if(!isset($final[$idk])){
+                $final[$idk] = [
+                    'nama' => $r['nama'],
+                    'nominal' => 0
+                ];
+            }
+            $final[$idk]['nominal'] += $nominal;
+        }
+		return array_values($final);
+	}
+
 	public function oprkas($tanggal,$bagian){
 		$hasil=array();
 		$sql="SELECT * FROM aruskas WHERE hapus=0 ";

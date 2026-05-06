@@ -47,20 +47,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php $totalgaji=0;$totalbonus=0;$totalum=0;$absensi=0;$pinjaman=0;$potongan=0;$claim=0;?>
+						<?php $totalgaji=0;$totalbonus=0;$totalum=0;$potongan=0;?>
 						<?php foreach($k['details'] as $kd){?>
 						<?php
-							$sql="SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' ";
+							$tgl2 = date('Y-m-d', strtotime($k['tgl2'] . ' +1 day'));
+							$sql="SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$tgl2."' ";
 							$potongan=$this->GlobalModel->QueryManualRow($sql);
 
-							$sabsensi=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=1 ");
-							if(!empty($sabsensi)) $absensi=$sabsensi['total'];
-
-							$sclaim=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total,keterangan FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=3 ");
-							if(!empty($sclaim)) $claim=$sclaim['total'];
-
-							$spinjaman=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 AND idkaryawan='".$k['idkaryawan']."' and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$k['tgl2']."' AND jenis_potongan=2 ");
-							if(!empty($spinjaman)) $pinjaman=$spinjaman['total'];
+							$my_potongan = $this->GlobalModel->QueryManual("
+								SELECT jp.nama, SUM(po.nominal) as total, GROUP_CONCAT(po.keterangan SEPARATOR ', ') as keterangan 
+								FROM potongan_operator po
+								JOIN jenis_potongan jp ON jp.id = po.jenis_potongan
+								WHERE po.hapus=0 AND po.idkaryawan='".$k['idkaryawan']."' AND DATE(po.tanggal) BETWEEN '".$k['tgl1']."' AND '".$tgl2."'
+								GROUP BY po.jenis_potongan
+							");
 						?>
 						<tr>
 							<td><?php echo $kd['hari']?></td>
@@ -75,21 +75,13 @@
 							$totalum+=($kd['um']);
 						?>
 						<?php } ?>
+						<?php foreach($my_potongan as $mp){ ?>
 						<tr>
-							<td>Pot. Absensi</td>
-							<td align="right"><?php echo number_format((float)$absensi)?></td>
-							<td colspan="3"></td>
+							<td>Pot. <?php echo $mp['nama'] ?></td>
+							<td align="right"><?php echo number_format((float)$mp['total']) ?></td>
+							<td colspan="3" style="font-size: 8px;"><?php echo $mp['keterangan'] ?></td>
 						</tr>
-						<tr>
-							<td>Pot. Claim</td>
-							<td align="right"><?php echo number_format((float)$claim)?></td>
-							<td colspan="3" style="font-size: 8px;"><?php echo !empty($claim)?$sclaim['keterangan']:'';?></td>
-						</tr>
-						<tr>
-							<td>Pot. Pinjaman</td>
-							<td align="right"><?php echo number_format((float)$pinjaman)?></td>
-							<td colspan="3"></td>
-						</tr>
+						<?php } ?>
 						<tr class="header-grey">
 							<td>Total Gaji</td>
 							<td colspan="4" align="center"><b><?php echo number_format((float)($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?></b></td>
