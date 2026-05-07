@@ -250,12 +250,11 @@ class Bordir extends CI_Controller {
 			}
 			$karyawan=$this->GlobalModel->QueryManual("SELECT * FROM master_karyawan_bordir WHERE gaji=1 AND hapus=0 AND id_master_karyawan_bordir IN(SELECT nama_operator FROM kelola_mesin_bordir WHERE hapus=0 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND mesin_bordir IN (".$mesin.") ) ");
 			$data['harian']=[];
-			$tgl2_pot = date('Y-m-d', strtotime($tanggal2 . ' +1 day'));
 			foreach($karyawan as $k){
 				$data['prods'][]=array(
 					'id'=>$k['id_master_karyawan_bordir'],
 					'nama'=>$k['nama_karyawan_bordir'],
-					'hari'=>$this->ReportModel->gaji_opt($k['id_master_karyawan_bordir'],$tanggal1,$tgl2_pot,$tempat),
+					'hari'=>$this->ReportModel->gaji_opt($k['id_master_karyawan_bordir'],$tanggal1,$tanggal2,$tempat),
 				);
 			}
 		}
@@ -331,17 +330,28 @@ class Bordir extends CI_Controller {
 		$data['page']=$this->page.'bordir/gaji_operator';
 		$this->load->view($this->page.'main',$data);
 	}
-
-
 	public function gajioperatorsave(){
 		$data=$this->input->post();
-		//pre($data);
+
+		// Jika data dikirim via JSON (untuk menghindari limit max_input_vars di PHP)
+		if(isset($data['payroll_json'])){
+			$data = json_decode($data['payroll_json'], true);
+		}
+
+		if(empty($data) || !isset($data['products'])){
+			$this->session->set_flashdata('msgt','Data Gaji Gagal Diproses. Silahkan ulangi kalkulasi.');
+			redirect(BASEURL.'Bordir/gajioperator');
+		}
+
 		$cek=$this->GlobalModel->getDataRow('gaji_operator',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'tempat'=>$data['tempat']));
 		
 		if(!empty($cek)){
 			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
 			redirect(BASEURL.'Bordir/gajioperator');	
 		}
+
+		$this->db->trans_start();
+
 		$insert=array(
 			'tanggal1'=>$data['tanggal1'],
 			'tanggal2'=>$data['tanggal2'],
@@ -363,9 +373,9 @@ class Bordir extends CI_Controller {
 				$totalpot=0;
 				
 				foreach($p['det'] as $d){
-					$totalgaji+=($d['gaji']);
-					$totalum+=($d['um']);
-					$totalbonus+=($d['bonus']);
+					$totalgaji+=isset($d['gaji'])?$d['gaji']:0;
+					$totalum+=isset($d['um'])?$d['um']:0;
+					$totalbonus+=isset($d['bonus'])?$d['bonus']:0;
 					$totalpot+=isset($d['pot'])?$d['pot']:0;
 				}
 
@@ -443,12 +453,23 @@ class Bordir extends CI_Controller {
 				$this->db->insert('gaji_operator_detail',$detail);
 			}
 		}
-		$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->session->set_flashdata('msgt','Gagal Menyimpan Data. Terjadi kesalahan pada database.');
+		} else {
+			$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+		}
+
 		redirect(BASEURL.'Bordir/gajioperator');
 	}
 
+
 	public function hapusgajioperator($id){
 		$this->db->update('gaji_operator',array('hapus'=>1),array('id'=>$id));
+		$this->db->update('gaji_operator_new',array('hapus'=>1),array('idgajiopt'=>$id));
+		$this->db->query("UPDATE gaji_operator_detail_new SET hapus=1 WHERE idgaji IN (SELECT id FROM gaji_operator_new WHERE idgajiopt='$id') ");
 		$this->session->set_flashdata('msg','Data Berhasil Di hapus');
 		redirect(BASEURL.'Bordir/gajioperator');
 	}

@@ -106,7 +106,7 @@
   </div>
 </div>
 
-<form method="post" action="<?php echo $action?>">
+<form method="post" action="<?php echo $action?>" id="payroll-form">
 <div class="filter-box no-print">
     <div class="row">
         <div class="col-md-3">
@@ -172,14 +172,16 @@
                 </thead>
                 <tbody>
                     <?php $har=0; $total_gaji_awal=0; $total_potongan_awal=0; foreach($p['hari'] as $h){?>
-                        <input type="hidden" name="products[<?php echo $i?>][idkaryawan]" value="<?php echo strtolower($p['id'])?>">
-                        <input type="hidden" name="products[<?php echo $i?>][nama_karyawan_bordir]" value="<?php echo strtolower($p['nama'])?>">
-                        <input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][hari]" value="<?php echo $h['hari']?>">
-                        <input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][bonus]" value="0">
-                        <input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="0">
-                        <input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="<?php echo $h['mandor'] ?>">
-                        <input type="hidden" name="products[<?php echo $i?>][det][<?php echo $har?>][shift]" value="<?php echo $h['shift'] ?>">
                         <tr>
+                            <td style="display:none">
+                                <input type="hidden" class="idkaryawan-input" name="products[<?php echo $i?>][idkaryawan]" value="<?php echo strtolower($p['id'])?>">
+                                <input type="hidden" class="nama-input" name="products[<?php echo $i?>][nama_karyawan_bordir]" value="<?php echo strtolower($p['nama'])?>">
+                                <input type="hidden" class="hari-input" name="products[<?php echo $i?>][det][<?php echo $har?>][hari]" value="<?php echo $h['hari']?>">
+                                <input type="hidden" class="bonus-input" name="products[<?php echo $i?>][det][<?php echo $har?>][bonus]" value="0">
+                                <input type="hidden" class="um-input" name="products[<?php echo $i?>][det][<?php echo $har?>][um]" value="0">
+                                <input type="hidden" class="mandor-input" name="products[<?php echo $i?>][det][<?php echo $har?>][mandor]" value="<?php echo $h['mandor'] ?>">
+                                <input type="hidden" class="shift-det-input" name="products[<?php echo $i?>][det][<?php echo $har?>][shift]" value="<?php echo $h['shift'] ?>">
+                            </td>
                             <td><span class="date-label"><?php echo date('d-m-Y',strtotime($h['tanggal']))?></span></td>
                             <td><?php echo $h['hari'] ?></td>
                             <td>
@@ -256,6 +258,54 @@
             return false;
         }
 
+        // BUNDLE DATA TO JSON TO BYPASS PHP max_input_vars limit (default 1000)
+        // Ini memastikan semua data karyawan terkirim meskipun jumlahnya sangat banyak.
+        var form = $('#payroll-form');
+        var formData = {
+            tanggal1: tanggal1,
+            tanggal2: tanggal2,
+            tempat: $('select[name="tempat"]').val(),
+            products: []
+        };
+
+        $('.salary-card').each(function(index) {
+            var card = $(this);
+            var product = {
+                idkaryawan: card.find('.idkaryawan-input').val(),
+                nama_karyawan_bordir: card.find('.nama-input').val(),
+                shift: card.find('select[name*="[shift]"]').val(),
+                det: []
+            };
+
+            card.find('tbody tr').each(function() {
+                var row = $(this);
+                product.det.push({
+                    hari: row.find('.hari-input').val(),
+                    gaji: row.find('.gaji-input').val(),
+                    bonus: row.find('.bonus-input').val(),
+                    um: row.find('.um-input').val(),
+                    pot: row.find('.potongan-input').val(),
+                    pinjaman: 0,
+                    keterangan: row.find('input[name*="[keterangan]"]').val(),
+                    mandor: row.find('.mandor-input').val(),
+                    shift: row.find('.shift-det-input').val()
+                });
+            });
+
+            formData.products.push(product);
+        });
+
+        // Masukkan data JSON ke satu input hidden
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'payroll_json',
+            value: JSON.stringify(formData)
+        }).appendTo(form);
+
+        // Hapus attribute 'name' dari input asli agar tidak dikirim secara individual
+        // dan tidak membentur limit max_input_vars server.
+        form.find('input, select').not('[name="payroll_json"]').removeAttr('name');
+
 		Swal({
             title: 'Sedang Menyimpan...',
             text: 'Harap tunggu sebentar',
@@ -265,7 +315,7 @@
             }
         });
 
-		$("form").submit();
+		form.submit();
 	}
 
 	function kalkulasi(){

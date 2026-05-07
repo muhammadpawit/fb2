@@ -50,9 +50,9 @@
 					?>						
 					<tr>
 						<td><?php echo $kd['hari']?></td>
-						<td align="right"><?php echo number_format($kd['gaji'])?></td>
-						<td align="right"><?php echo number_format($kd['bonus'])?></td>
-						<td align="right"><?php echo number_format($kd['um'])?></td>
+						<td align="right"><?php echo number_format((float)$kd['gaji'])?></td>
+						<td align="right"><?php echo number_format((float)$kd['bonus'])?></td>
+						<td align="right"><?php echo number_format((float)$kd['um'])?></td>
 						<td align="right"><?php echo $kd['keterangan']?></td>
 					</tr>
 					<?php 
@@ -106,22 +106,22 @@
 				</tr>
 				<tr>
 					<td>Mandor Pagi</td>
-					<td><?php echo number_format($umsiang)?></td>
+					<td><?php echo number_format((float)$umsiang)?></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>Mandor Malam</td>
-					<td><?php echo number_format($ummalam)?></td>
+					<td><?php echo number_format((float)$ummalam)?></td>
 					<td></td>
 				</tr>
 				<tr style="background-color:#f2f2f2">
 					<td>Jumlah</td>
-					<td><?php echo number_format($umsiang+$ummalam)?></td>
+					<td><?php echo number_format((float)($umsiang+$ummalam))?></td>
 					<td></td>
 				</tr>
 				<tr style="background-color:#3498db; color:white">
 					<td>Total Diterima (Rp)</td>
-					<td align="center"><b><?php echo number_format($umsiang+$ummalam)?></b></td>
+					<td align="center"><b><?php echo number_format((float)($umsiang+$ummalam))?></b></td>
 					<td>UM Mandor</td>
 				</tr>
 			</table>
@@ -149,7 +149,7 @@
 				</tr>
 				<tr>
 					<td>Mandor Pagi</td>
-					<td><?php echo json_encode($this->ReportModel->getMandor($gaji['id'],1))?></td>
+					<td><?php echo $this->ReportModel->getMandor($gaji['id'],1)?></td>
 				</tr>
 				<tr>
 					<td>Mandor Malam</td>

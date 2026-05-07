@@ -3156,18 +3156,31 @@ AND a.jenis = 2
 			$sql="SELECT COALESCE(sum(gaji),0) as total,shift,mandor,mesin_bordir as mesin FROM kelola_mesin_bordir WHERE hapus=0 ";
 			$sql.=" AND nama_operator='$idopt' AND DATE(created_date)='".$s['tanggal']."' ";
 			$d=$this->GlobalModel->QueryManualRow($sql);
+
+			$pot_nominal = 0;
 			$pot=$this->GlobalModel->QueryManualRow("SELECT COALESCE(sum(nominal),0) as total FROM potongan_operator WHERE hapus=0 AND tempat='".$tempat."' AND DATE(tanggal)='".$s['tanggal']."' AND idkaryawan='".$idopt."'");
-			if(!empty($d)){
-				$hasil[]=array(
-					'tanggal'=>date('d-m-Y',strtotime($s['tanggal'])),
-					'hari'=>hari(date('l',strtotime($s['tanggal']))),
-					'nominal'=>$d['total'],
-					'shift'=>$d['shift'],
-					'mandor'=>$d['mandor'],
-					'potongan'=>!empty($pot)?$pot['total']:0,
-					'keterangan'=>'Mesin '.$d['mesin'],
-				);
+			$pot_nominal = !empty($pot)?$pot['total']:0;
+
+			// Jika hari ini Jumat, tarik potongan hari Sabtu besoknya jika Sabtu tidak ada dalam range filter
+			if(date('l', strtotime($s['tanggal'])) == 'Friday'){
+				$besok = date('Y-m-d', strtotime($s['tanggal'] . ' + 1 day'));
+				if($besok > $tanggal2){
+					$pot_besok=$this->GlobalModel->QueryManualRow("SELECT COALESCE(sum(nominal),0) as total FROM potongan_operator WHERE hapus=0 AND tempat='".$tempat."' AND DATE(tanggal)='".$besok."' AND idkaryawan='".$idopt."'");
+					if(!empty($pot_besok)){
+						$pot_nominal += $pot_besok['total'];
+					}
+				}
 			}
+
+			$hasil[]=array(
+				'tanggal'=>date('d-m-Y',strtotime($s['tanggal'])),
+				'hari'=>hari(date('l',strtotime($s['tanggal']))),
+				'nominal'=>!empty($d['total'])?$d['total']:0,
+				'shift'=>!empty($d['shift'])?$d['shift']:'-',
+				'mandor'=>!empty($d['mandor'])?$d['mandor']:'-',
+				'potongan'=>$pot_nominal,
+				'keterangan'=>!empty($d['mesin'])?'Mesin '.$d['mesin']:'-',
+			);
 		}
 		return $hasil;
 	}
