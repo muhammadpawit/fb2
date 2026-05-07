@@ -315,6 +315,30 @@ class Report extends CI_Controller {
 							);
 						}
 					}
+
+					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'KLO');
+					if(!empty($klo)){
+						foreach($klo as $k){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$k['nominal'],
+								'bagian'=>2, // Bordir
+								'keterangan'=>'Gaji KLO : '.$k['nama'],
+							);
+						}
+					}
+
+					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'PRESSQC');
+					if(!empty($qc)){
+						foreach($qc as $q){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$q['nominal'],
+								'bagian'=>2, // Bordir
+								'keterangan'=>'Gaji Press/QC : '.$q['nama'],
+							);
+						}
+					}
 				}
 			}
 

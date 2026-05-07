@@ -327,7 +327,9 @@ class Gaji extends CI_Controller {
 	}
 
 	public function pressqcdetail($id){
+		$id = (int)$id;
 		$data=[];
+		$data['id']=$id;
 		$data['karyawans']=[];
 		$data['total']=0;
 		$details=[];
@@ -353,6 +355,8 @@ class Gaji extends CI_Controller {
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
 					'claim'=>$d['claim'],
 					'pinjaman'=>$d['pinjaman'],
+					'saving'=>isset($d['saving'])?$d['saving']:0,
+					'keluarkansaving'=>isset($d['keluarkansaving'])?$d['keluarkansaving']:0,
 				);
 			}
 		}
@@ -360,6 +364,14 @@ class Gaji extends CI_Controller {
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}elseif(isset($get['pdf']) || isset($_GET['pdf'])){
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Resume Gaji Karyawan Finishing Forboys';
+	        $file_pdf = 'Resume_Gaji_Karyawan_Finishing_Forboys_'.time();
+	        $paper = 'A4';
+	        $orientation = 'landscape';
+	        $html = $this->load->view($this->page.'gaji/finishing_pdf',$data, true);
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
 			$data['page']=$this->page.'gaji/finishing_detail';
 			$this->load->view($this->page.'main',$data);
@@ -820,7 +832,9 @@ class Gaji extends CI_Controller {
 	}
 
 	public function finishingdetail($id){
+		$id = (int)$id;
 		$data=[];
+		$data['id']=$id;
 		$data['karyawans']=[];
 		$data['total']=0;
 		$details=[];
@@ -843,6 +857,10 @@ class Gaji extends CI_Controller {
 					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+					'claim'=>$d['claim'],
+					'pinjaman'=>$d['pinjaman'],
+					'saving'=>isset($d['saving'])?$d['saving']:0,
+					'keluarkansaving'=>isset($d['keluarkansaving'])?$d['keluarkansaving']:0,
 				);
 			}
 		}
@@ -850,6 +868,14 @@ class Gaji extends CI_Controller {
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}elseif(isset($get['pdf']) || isset($_GET['pdf'])){
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Resume Gaji Karyawan Finishing Forboys';
+	        $file_pdf = 'Resume_Gaji_Karyawan_Finishing_Forboys_'.time();
+	        $paper = 'A4';
+	        $orientation = 'landscape';
+	        $html = $this->load->view($this->page.'gaji/finishing_pdf',$data, true);
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
 			$data['page']=$this->page.'gaji/finishing_detail';
 			$this->load->view($this->page.'main',$data);
@@ -1007,7 +1033,9 @@ class Gaji extends CI_Controller {
 	}
 
 	public function gajiklodetail($id){
+		$id = (int)$id;
 		$data=[];
+		$data['id']=$id;
 		$data['karyawans']=[];
 		$data['total']=0;
 		$details=[];
@@ -1042,6 +1070,14 @@ class Gaji extends CI_Controller {
 		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}elseif(isset($get['pdf']) || isset($_GET['pdf'])){
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Resume Gaji KLO Forboys';
+	        $file_pdf = 'Resume_Gaji_KLO_Forboys_'.time();
+	        $paper = 'A4';
+	        $orientation = 'landscape';
+	        $html = $this->load->view($this->page.'gaji/finishing_pdf',$data, true);
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
 			$data['page']=$this->page.'gaji/finishing_detail';
 			$this->load->view($this->page.'main',$data);

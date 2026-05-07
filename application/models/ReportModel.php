@@ -1734,6 +1734,54 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+	public function pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, $bagian){
+		$sql = "SELECT gfd.*, kh.gaji as gajiharian 
+                FROM gaji_finishing gf
+                JOIN gaji_finishing_detail gfd ON gfd.idgaji = gf.id
+                JOIN karyawan_harian kh ON kh.id = gfd.idkaryawan
+                WHERE gf.hapus=0 
+                AND gf.bagian = '$bagian'
+                AND gf.tanggal2 BETWEEN '$tanggal1' AND '$tanggal2'";
+		$results = $this->db->query($sql)->result_array();
+        
+        $final = [];
+        foreach($results as $r){
+            $idk = $r['idkaryawan'];
+            
+            $nominal = 0;
+            $g = $r['gajiharian'] / 12;
+            $nominal += round($g * $r['senin']);
+            $nominal += round($g * $r['selasa']);
+            $nominal += round($g * $r['rabu']);
+            $nominal += round($g * $r['kamis']);
+            $nominal += round($g * $r['jumat']);
+            $nominal += round($g * $r['sabtu']);
+            $nominal += ($r['minggu'] == 1 ? $r['gajiharian'] : 0);
+            $nominal += $r['lembur'];
+            $nominal += ($r['insentif'] == 1 ? $r['gajiharian'] : 0);
+            $nominal -= $r['claim'];
+            $nominal -= $r['pinjaman'];
+            
+            if (isset($r['saving'])) {
+                $nominal -= $r['saving'];
+            }
+            if (isset($r['keluarkansaving'])) {
+                $nominal += $r['keluarkansaving'];
+            }
+            
+            $nominal = pembulatangaji($nominal);
+            
+            if(!isset($final[$idk])){
+                $final[$idk] = [
+                    'nama' => $r['nama'],
+                    'nominal' => 0
+                ];
+            }
+            $final[$idk]['nominal'] += $nominal;
+        }
+		return array_values($final);
+	}
+
 	public function pembayarangajioperator_perkaryawan($tanggal1, $tanggal2){
 		$sql = "SELECT gon.idkaryawan, gon.nama, gon.tanggal1, gon.tanggal2, 
                        SUM(godn.gaji) as tg, SUM(godn.bonus) as tb, SUM(godn.um) as tum
