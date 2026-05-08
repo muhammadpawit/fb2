@@ -86,21 +86,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Senin</td><td class="text-amount"><?php echo number_format($k['senin'])?></td></tr>
-                            <tr><td>Selasa</td><td class="text-amount"><?php echo number_format($k['selasa'])?></td></tr>
-                            <tr><td>Rabu</td><td class="text-amount"><?php echo number_format($k['rabu'])?></td></tr>
-                            <tr><td>Kamis</td><td class="text-amount"><?php echo number_format($k['kamis'])?></td></tr>
-                            <tr><td>Jumat</td><td class="text-amount"><?php echo number_format($k['jumat'])?></td></tr>
-                            <tr><td>Sabtu</td><td class="text-amount"><?php echo number_format($k['sabtu'])?></td></tr>
-                            <tr><td>Minggu</td><td class="text-amount"><?php echo number_format($k['minggu'])?></td></tr>
-                            <tr class="text-income"><td>Lembur</td><td class="text-amount">+ <?php echo number_format($k['lembur'])?></td></tr>
-                            <tr class="text-income"><td>Insentif</td><td class="text-amount">+ <?php echo number_format($k['insentif'])?></td></tr>
-                            <tr class="text-danger"><td>Pot. Claim</td><td class="text-amount">- <?php echo number_format($k['claim'])?></td></tr>
-                            <tr class="text-danger"><td>Pot. Pinjaman</td><td class="text-amount">- <?php echo number_format($k['pinjaman'])?></td></tr>
-                            <tr class="text-danger"><td>Pot. Warteg</td><td class="text-amount">- <?php echo number_format($k['warteg'])?></td></tr>
+                            <tr><td>Senin</td><td class="text-amount"><?php echo number_format($k['senin'] ?? 0)?></td></tr>
+                            <tr><td>Selasa</td><td class="text-amount"><?php echo number_format($k['selasa'] ?? 0)?></td></tr>
+                            <tr><td>Rabu</td><td class="text-amount"><?php echo number_format($k['rabu'] ?? 0)?></td></tr>
+                            <tr><td>Kamis</td><td class="text-amount"><?php echo number_format($k['kamis'] ?? 0)?></td></tr>
+                            <tr><td>Jumat</td><td class="text-amount"><?php echo number_format($k['jumat'] ?? 0)?></td></tr>
+                            <tr><td>Sabtu</td><td class="text-amount"><?php echo number_format($k['sabtu'] ?? 0)?></td></tr>
+                            <tr><td>Minggu</td><td class="text-amount"><?php echo number_format($k['minggu'] ?? 0)?></td></tr>
+                            <tr class="text-income"><td>Lembur</td><td class="text-amount">+ <?php echo number_format($k['lembur'] ?? 0)?></td></tr>
+                            <tr class="text-income"><td>Insentif</td><td class="text-amount">+ <?php echo number_format($k['insentif'] ?? 0)?></td></tr>
+                            <tr class="text-danger"><td>Pot. Claim</td><td class="text-amount">- <?php echo number_format($k['claim'] ?? 0)?></td></tr>
+                            <tr class="text-danger"><td>Pot. Pinjaman</td><td class="text-amount">- <?php echo number_format($k['pinjaman'] ?? 0)?></td></tr>
+                            <tr class="text-danger"><td>Pot. Warteg</td><td class="text-amount">- <?php echo number_format($k['warteg'] ?? 0)?></td></tr>
                             
                             <?php 
-                                $sub = $k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg'];
+                                $sub = ($k['senin'] ?? 0)+($k['selasa'] ?? 0)+($k['rabu'] ?? 0)+($k['kamis'] ?? 0)+($k['jumat'] ?? 0)+($k['sabtu'] ?? 0)+($k['minggu'] ?? 0)+($k['lembur'] ?? 0)+($k['insentif'] ?? 0)-($k['claim'] ?? 0)-($k['pinjaman'] ?? 0)-($k['warteg'] ?? 0);
                                 $grand = $sub;
                                 if(isset($k['saving'])){
                                     $grand = $grand - $k['saving'] + $k['keluarkansaving'];
@@ -116,8 +116,8 @@
                             </tr>
                             
                             <?php if(isset($k['saving'])){ ?>
-                            <tr class="text-info"><td>Saving Minggu Ini</td><td class="text-amount">- <?php echo number_format($k['saving']) ?></td></tr>
-                            <tr class="text-income"><td>Keluarkan Saving</td><td class="text-amount">+ <?php echo number_format($k['keluarkansaving']) ?></td></tr>
+                            <tr class="text-info"><td>Saving Minggu Ini</td><td class="text-amount">- <?php echo number_format($k['saving'] ?? 0) ?></td></tr>
+                            <tr class="text-income"><td>Keluarkan Saving</td><td class="text-amount">+ <?php echo number_format($k['keluarkansaving'] ?? 0) ?></td></tr>
                             <?php } ?>
 
                             <tr class="row-total">
