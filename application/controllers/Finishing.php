@@ -209,6 +209,14 @@ class Finishing extends CI_Controller {
 
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'finishing/resumegaji_excel',$data);
+		}else if(isset($get['pdf'])){
+			$html =  $this->load->view($this->page.'finishing/resumegaji_pdf',$data,true);
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Resume Gaji Finishing';
+	        $file_pdf = 'Resume_Gaji_Finishing_'.time();
+	        $paper = 'A4';
+	        $orientation = "portrait";
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
 		}else{
 			$data['page']=$this->page.'finishing/resumegaji';
 			$this->load->view($this->page.'main',$data);
@@ -300,6 +308,7 @@ class Finishing extends CI_Controller {
 
 	public function gajifinishing(){
 		$data=array();
+		$data['title']='Riwayat Gaji Finishing';
 		$get=$this->input->get();
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
@@ -314,9 +323,32 @@ class Finishing extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$data['title']='Gaji Finishing';
+
+		$data['gajis'] = $this->GlobalModel->getData('gaji_finishing',array('hapus'=>0,'bagian'=>'FINISHING'));
+		$data['tambah'] = BASEURL.'Finishing/gajifinishing_add';
+		$data['page']=$this->page.'finishing/gaji_finishing_list';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function gajifinishing_add(){
+		$data=array();
+		$get=$this->input->get();
+		if(isset($get['tanggal_awal'])){
+			$tanggal1=$get['tanggal_awal'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
+		}
+
+		if(isset($get['tanggal_akhir'])){
+			$tanggal2=$get['tanggal_akhir'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("Sunday this week"));
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['title']='Kalkulasi Gaji Finishing Baru';
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
-		//$data['harian']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0,'tipe'=>1));
+		
 		$results =$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE '%FINISHING%' OR lower(bagian) LIKE '%bpo%' ");
 		foreach($results as $r){
 			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");

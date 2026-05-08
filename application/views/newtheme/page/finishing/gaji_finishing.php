@@ -118,7 +118,7 @@
         color: white;
         font-weight: 800;
     }
-    .row-total-footer td { border: none !important; padding: 12px !important; }
+    /* History Table Styling removed as it is now a separate page */
 </style>
 
 <div class="payroll-wrapper">
@@ -162,12 +162,15 @@
                 </div>
             </div>
             <div class="col-md-4 text-right">
+                <a href="<?php echo BASEURL ?>Finishing/gajifinishing" class="btn btn-modern btn-default">
+                    <i class="fa fa-arrow-left mr-1"></i> KEMBALI
+                </a>
                 <button type="button" class="btn btn-modern btn-modern-info" onclick="filter()">
                     <i class="fa fa-sync-alt mr-1"></i> KALKULASI
                 </button>
                 <?php if(isset($_GET['tanggal_awal'])){ ?>
                     <button type="button" class="btn btn-modern btn-modern-success" onclick="proses()">
-                        <i class="fa fa-save mr-1"></i> PROSES DATA
+                        <i class="fa fa-save mr-1"></i> PROSES SIMPAN
                     </button>
                 <?php } ?>
             </div>

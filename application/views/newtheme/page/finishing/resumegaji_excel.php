@@ -36,47 +36,47 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 				<tbody>
 					<tr>
 						<td>Senin</td>
-						<td align="right"><?php echo $k['senin']?></td>
+						<td align="right"><?php echo $k['senin'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Selasa</td>
-						<td align="right"><?php echo $k['selasa']?></td>
+						<td align="right"><?php echo $k['selasa'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Rabu</td>
-						<td align="right"><?php echo $k['rabu']?></td>
+						<td align="right"><?php echo $k['rabu'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Kamis</td>
-						<td align="right"><?php echo $k['kamis']?></td>
+						<td align="right"><?php echo $k['kamis'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Jumat</td>
-						<td align="right"><?php echo $k['jumat']?></td>
+						<td align="right"><?php echo $k['jumat'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Sabtu</td>
-						<td align="right"><?php echo $k['sabtu']?></td>
+						<td align="right"><?php echo $k['sabtu'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Minggu</td>
-						<td align="right"><?php echo $k['minggu']?></td>
+						<td align="right"><?php echo $k['minggu'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Lembur</td>
-						<td align="right"><?php echo $k['lembur']?></td>
+						<td align="right"><?php echo $k['lembur'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td>Insentif</td>
-						<td align="right"><?php echo $k['insentif']?></td>
+						<td align="right"><?php echo $k['insentif'] ?? 0?></td>
 					</tr>
 					<tr>
 						<td><b>Total</b></td>
-						<td align="right"><label><?php echo ($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']) ?></label></td>
+						<td align="right"><label><?php echo (($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0)) ?></label></td>
 					</tr>
 					<tr>
 						<td><b>Pembulatan</b></td>
-						<td align="right"><label><?php echo (pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif'])) ?></label></td>
+						<td align="right"><label><?php echo (pembulatangaji(($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0))) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -84,7 +84,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 	</div>
 	</td>
 	<?php
-		$total+=pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']);
+		$total+=pembulatangaji(($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0));
 
 	?>
 	<?php } ?>
@@ -149,7 +149,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 					<tr>
 						<td>Gaji</td>
 						<?php foreach($boronganmesin as $p){?>
-						<td><?php echo ($p['total'])?></td>
+						<td><?php echo ($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php if($bm==1){?>
 							<!-- <td></td>
@@ -173,7 +173,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 					<tr>
 						<td>Total</td>
 						<?php foreach($boronganmesin as $p){?>
-						<td><?php echo ($p['total'])?></td>
+						<td><?php echo ($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php if($bm==1){?>
 							<!-- <td></td>
@@ -181,23 +181,23 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 						<?php } ?>
 						<?php if(!empty($cucian)){?>
 						<?php foreach($cucian as $p){?>
-						<td><?php echo ($p['total'])?></td>
+						<td><?php echo ($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php }else{ ?>
 							<!-- <td></td> -->
 						<?php } ?>
 
 						<?php foreach($bb as $p){?>
-						<td><?php echo ($p['total'])?></td>
+						<td><?php echo ($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php foreach($pk as $p){?>
-						<td><?php echo ($p['total'])?></td>
+						<td><?php echo ($p['total'] ?? 0)?></td>
 						<?php } ?>
 					</tr>
 					<tr>
 						<td>Total Pembulatan</td>
 						<?php foreach($boronganmesin as $p){?>
-						<td><?php echo pembulatangaji($p['total'])?></td>
+						<td><?php echo pembulatangaji($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php if($bm==1){?>
 							<!-- <td></td>
@@ -205,17 +205,17 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 						<?php } ?>
 						<?php if(!empty($cucian)){?>
 						<?php foreach($cucian as $p){?>
-						<td><?php echo pembulatangaji($p['total'])?></td>
+						<td><?php echo pembulatangaji($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php }else{ ?>
 							<!-- <td></td> -->
 						<?php } ?>
 
 						<?php foreach($bb as $p){?>
-						<td><?php echo pembulatangaji($p['total'])?></td>
+						<td><?php echo pembulatangaji($p['total'] ?? 0)?></td>
 						<?php } ?>
 						<?php foreach($pk as $p){?>
-						<td><?php echo pembulatangaji($p['total'])?></td>
+						<td><?php echo pembulatangaji($p['total'] ?? 0)?></td>
 						<?php } ?>
 					</tr>
 
