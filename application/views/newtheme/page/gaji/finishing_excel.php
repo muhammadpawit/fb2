@@ -34,71 +34,71 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 						<tbody>
 							<tr>
 								<td>Senin</td>
-								<td align="right"><?php echo $k['senin']?></td>
+								<td align="right"><?php echo $k['senin'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Selasa</td>
-								<td align="right"><?php echo $k['selasa']?></td>
+								<td align="right"><?php echo $k['selasa'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Rabu</td>
-								<td align="right"><?php echo $k['rabu']?></td>
+								<td align="right"><?php echo $k['rabu'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Kamis</td>
-								<td align="right"><?php echo $k['kamis']?></td>
+								<td align="right"><?php echo $k['kamis'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Jumat</td>
-								<td align="right"><?php echo $k['jumat']?></td>
+								<td align="right"><?php echo $k['jumat'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Sabtu</td>
-								<td align="right"><?php echo $k['sabtu']?></td>
+								<td align="right"><?php echo $k['sabtu'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Minggu</td>
-								<td align="right"><?php echo $k['minggu']?></td>
+								<td align="right"><?php echo $k['minggu'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><b>Jumlah (Rp)</b></td>
-								<td align="right"><label><?php echo ($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']) ?></label></td>
-								<td><?php echo $k['lembur']?></td>
-								<td><?php echo $k['insentif']?></td>
+								<td align="right"><label><?php echo (($k['senin'] ?? 0)+($k['selasa'] ?? 0)+($k['rabu'] ?? 0)+($k['kamis'] ?? 0)+($k['jumat'] ?? 0)+($k['sabtu'] ?? 0)+($k['minggu'] ?? 0)) ?></label></td>
+								<td><?php echo $k['lembur'] ?? 0?></td>
+								<td><?php echo $k['insentif'] ?? 0?></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><b>Claim (Rp)</b></td>
-								<td colspan="4"><?php echo $k['claim']?></td>
+								<td colspan="4"><?php echo $k['claim'] ?? 0?></td>
 							</tr>
 							<tr>
 								<td><b>Pinjaman</b></td>
-								<td colspan="4"><?php echo $k['pinjaman']?></td>
+								<td colspan="4"><?php echo $k['pinjaman'] ?? 0?></td>
 							</tr>
 							<tr>
 								<td><b>Warteg</b></td>
-								<td colspan="4"><?php echo $k['warteg']?></td>
+								<td colspan="4"><?php echo $k['warteg'] ?? 0?></td>
 							</tr>
 							<tr>
 								<td><b>Total (Rp)</b></td>
@@ -151,67 +151,67 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 						<tbody>
 							<tr>
 								<td>Senin</td>
-								<td align="right"><?php echo $k['senin']?></td>
+								<td align="right"><?php echo $k['senin'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Selasa</td>
-								<td align="right"><?php echo $k['selasa']?></td>
+								<td align="right"><?php echo $k['selasa'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Rabu</td>
-								<td align="right"><?php echo $k['rabu']?></td>
+								<td align="right"><?php echo $k['rabu'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Kamis</td>
-								<td align="right"><?php echo $k['kamis']?></td>
+								<td align="right"><?php echo $k['kamis'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Jumat</td>
-								<td align="right"><?php echo $k['jumat']?></td>
+								<td align="right"><?php echo $k['jumat'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Sabtu</td>
-								<td align="right"><?php echo $k['sabtu']?></td>
+								<td align="right"><?php echo $k['sabtu'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>Minggu</td>
-								<td align="right"><?php echo $k['minggu']?></td>
+								<td align="right"><?php echo $k['minggu'] ?? 0?></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><b>Jumlah (Rp)</b></td>
-								<td align="right"><label><?php echo ($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']) ?></label></td>
-								<td><?php echo $k['lembur']?></td>
-								<td><?php echo $k['insentif']?></td>
+								<td align="right"><label><?php echo (($k['senin'] ?? 0)+($k['selasa'] ?? 0)+($k['rabu'] ?? 0)+($k['kamis'] ?? 0)+($k['jumat'] ?? 0)+($k['sabtu'] ?? 0)+($k['minggu'] ?? 0)) ?></label></td>
+								<td><?php echo $k['lembur'] ?? 0?></td>
+								<td><?php echo $k['insentif'] ?? 0?></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><b>Claim (Rp)</b></td>
-								<td colspan="4"><?php echo $k['claim']?></td>
+								<td colspan="4"><?php echo $k['claim'] ?? 0?></td>
 							</tr>
 							<tr>
 								<td><b>Pinjaman</b></td>
-								<td colspan="4"><?php echo $k['pinjaman']?></td>
+								<td colspan="4"><?php echo $k['pinjaman'] ?? 0?></td>
 							</tr>
 							<tr>
 								<td><b>Total (Rp)</b></td>
@@ -229,12 +229,12 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 					</table><br>
 				</td>
 				<?php
-					$total2+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']);
+					$total2+= (($k['senin'] ?? 0)+($k['selasa'] ?? 0)+($k['rabu'] ?? 0)+($k['kamis'] ?? 0)+($k['jumat'] ?? 0)+($k['sabtu'] ?? 0)+($k['minggu'] ?? 0)+($k['lembur'] ?? 0)+($k['insentif'] ?? 0)-($k['claim'] ?? 0)-($k['pinjaman'] ?? 0)-($k['warteg'] ?? 0));
 				?>
 				<?php } ?>
 				<?php
 					$j++;
-					$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']);
+					$total+= (($k['senin'] ?? 0)+($k['selasa'] ?? 0)+($k['rabu'] ?? 0)+($k['kamis'] ?? 0)+($k['jumat'] ?? 0)+($k['sabtu'] ?? 0)+($k['minggu'] ?? 0)+($k['lembur'] ?? 0)+($k['insentif'] ?? 0)-($k['claim'] ?? 0)-($k['pinjaman'] ?? 0)-($k['warteg'] ?? 0));
 				?>
 				<?php } ?>
 		</tr>

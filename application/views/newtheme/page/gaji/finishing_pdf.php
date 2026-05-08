@@ -45,35 +45,35 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr><td>Senin</td><td align="right"><?php echo number_format((float)$k['senin'])?></td></tr>
-							<tr><td>Selasa</td><td align="right"><?php echo number_format((float)$k['selasa'])?></td></tr>
-							<tr><td>Rabu</td><td align="right"><?php echo number_format((float)$k['rabu'])?></td></tr>
-							<tr><td>Kamis</td><td align="right"><?php echo number_format((float)$k['kamis'])?></td></tr>
-							<tr><td>Jumat</td><td align="right"><?php echo number_format((float)$k['jumat'])?></td></tr>
-							<tr><td>Sabtu</td><td align="right"><?php echo number_format((float)$k['sabtu'])?></td></tr>
-							<tr><td>Minggu</td><td align="right"><?php echo number_format((float)$k['minggu'])?></td></tr>
-							<tr><td>Lembur</td><td align="right"><?php echo number_format((float)$k['lembur'])?></td></tr>
-							<tr><td>Insentif</td><td align="right"><?php echo number_format((float)$k['insentif'])?></td></tr>
-							<tr style="color: #e74c3c;"><td>Pot. Claim</td><td align="right"><?php echo number_format((float)$k['claim'])?></td></tr>
-							<tr style="color: #e74c3c;"><td>Pot. Pinjaman</td><td align="right"><?php echo number_format((float)$k['pinjaman'])?></td></tr>
-							<tr style="color: #e74c3c;"><td>Pot. Warteg</td><td align="right"><?php echo number_format((float)$k['warteg'])?></td></tr>
+							<tr><td>Senin</td><td align="right"><?php echo number_format($k['senin'] ?? 0)?></td></tr>
+							<tr><td>Selasa</td><td align="right"><?php echo number_format($k['selasa'] ?? 0)?></td></tr>
+							<tr><td>Rabu</td><td align="right"><?php echo number_format($k['rabu'] ?? 0)?></td></tr>
+							<tr><td>Kamis</td><td align="right"><?php echo number_format($k['kamis'] ?? 0)?></td></tr>
+							<tr><td>Jumat</td><td align="right"><?php echo number_format($k['jumat'] ?? 0)?></td></tr>
+							<tr><td>Sabtu</td><td align="right"><?php echo number_format($k['sabtu'] ?? 0)?></td></tr>
+							<tr><td>Minggu</td><td align="right"><?php echo number_format($k['minggu'] ?? 0)?></td></tr>
+							<tr><td>Lembur</td><td align="right"><?php echo number_format($k['lembur'] ?? 0)?></td></tr>
+							<tr><td>Insentif</td><td align="right"><?php echo number_format($k['insentif'] ?? 0)?></td></tr>
+							<tr style="color: #e74c3c;"><td>Pot. Claim</td><td align="right"><?php echo number_format($k['claim'] ?? 0)?></td></tr>
+							<tr style="color: #e74c3c;"><td>Pot. Pinjaman</td><td align="right"><?php echo number_format($k['pinjaman'] ?? 0)?></td></tr>
+							<tr style="color: #e74c3c;"><td>Pot. Warteg</td><td align="right"><?php echo number_format($k['warteg'] ?? 0)?></td></tr>
 							<tr class="header-grey">
 								<td><b>Total</b></td>
 								<td align="right"><b><?php 
-									$subtotal = (float)$k['senin']+(float)$k['selasa']+(float)$k['rabu']+(float)$k['kamis']+(float)$k['jumat']+(float)$k['sabtu']+(float)$k['minggu']+(float)$k['lembur']+(float)$k['insentif']-(float)$k['claim']-(float)$k['pinjaman']-(float)$k['warteg'];
+									$subtotal = ($k['senin'] ?? 0)+($k['selasa'] ?? 0)+($k['rabu'] ?? 0)+($k['kamis'] ?? 0)+($k['jumat'] ?? 0)+($k['sabtu'] ?? 0)+($k['minggu'] ?? 0)+($k['lembur'] ?? 0)+($k['insentif'] ?? 0)-($k['claim'] ?? 0)-($k['pinjaman'] ?? 0)-($k['warteg'] ?? 0);
 									echo number_format($subtotal);
 								?></b></td>
 							</tr>
 							<?php if(isset($k['saving']) && $k['saving'] > 0){ ?>
-							<tr><td>Saving</td><td align="right"><?php echo number_format((float)$k['saving'])?></td></tr>
-							<tr><td>Keluarkan Saving</td><td align="right"><?php echo number_format((float)$k['keluarkansaving'])?></td></tr>
+							<tr><td>Saving</td><td align="right"><?php echo number_format($k['saving'] ?? 0)?></td></tr>
+							<tr><td>Keluarkan Saving</td><td align="right"><?php echo number_format($k['keluarkansaving'] ?? 0)?></td></tr>
 							<?php } ?>
 							<tr class="grand-total-row">
 								<td><b>Pembulatan</b></td>
 								<td align="right"><b><?php 
 									$grand = $subtotal;
 									if(isset($k['saving'])){
-										$grand = $grand - (float)$k['saving'] + (float)$k['keluarkansaving'];
+										$grand = $grand - ($k['saving'] ?? 0) + ($k['keluarkansaving'] ?? 0);
 									}
 									
 									if(function_exists('pembulatangaji')){
