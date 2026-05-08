@@ -97,9 +97,10 @@
                             <tr class="text-income"><td>Insentif</td><td class="text-amount">+ <?php echo number_format($k['insentif'])?></td></tr>
                             <tr class="text-danger"><td>Pot. Claim</td><td class="text-amount">- <?php echo number_format($k['claim'])?></td></tr>
                             <tr class="text-danger"><td>Pot. Pinjaman</td><td class="text-amount">- <?php echo number_format($k['pinjaman'])?></td></tr>
+                            <tr class="text-danger"><td>Pot. Warteg</td><td class="text-amount">- <?php echo number_format($k['warteg'])?></td></tr>
                             
                             <?php 
-                                $sub = $k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman'];
+                                $sub = $k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg'];
                                 $grand = $sub;
                                 if(isset($k['saving'])){
                                     $grand = $grand - $k['saving'] + $k['keluarkansaving'];

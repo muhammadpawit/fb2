@@ -56,10 +56,11 @@
 							<tr><td>Insentif</td><td align="right"><?php echo number_format((float)$k['insentif'])?></td></tr>
 							<tr style="color: #e74c3c;"><td>Pot. Claim</td><td align="right"><?php echo number_format((float)$k['claim'])?></td></tr>
 							<tr style="color: #e74c3c;"><td>Pot. Pinjaman</td><td align="right"><?php echo number_format((float)$k['pinjaman'])?></td></tr>
+							<tr style="color: #e74c3c;"><td>Pot. Warteg</td><td align="right"><?php echo number_format((float)$k['warteg'])?></td></tr>
 							<tr class="header-grey">
 								<td><b>Total</b></td>
 								<td align="right"><b><?php 
-									$subtotal = (float)$k['senin']+(float)$k['selasa']+(float)$k['rabu']+(float)$k['kamis']+(float)$k['jumat']+(float)$k['sabtu']+(float)$k['minggu']+(float)$k['lembur']+(float)$k['insentif']-(float)$k['claim']-(float)$k['pinjaman'];
+									$subtotal = (float)$k['senin']+(float)$k['selasa']+(float)$k['rabu']+(float)$k['kamis']+(float)$k['jumat']+(float)$k['sabtu']+(float)$k['minggu']+(float)$k['lembur']+(float)$k['insentif']-(float)$k['claim']-(float)$k['pinjaman']-(float)$k['warteg'];
 									echo number_format($subtotal);
 								?></b></td>
 							</tr>

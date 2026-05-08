@@ -97,8 +97,12 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 								<td colspan="4"><?php echo $k['pinjaman']?></td>
 							</tr>
 							<tr>
+								<td><b>Warteg</b></td>
+								<td colspan="4"><?php echo $k['warteg']?></td>
+							</tr>
+							<tr>
 								<td><b>Total (Rp)</b></td>
-								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']) ?></label></td>
+								<td align="center" colspan="4"><label><?php echo pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']) ?></label></td>
 							</tr>
 							<tr>
 							<td><b>Saving</b></td>
@@ -113,7 +117,7 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 				</td>
 				<?php
 					//$i++;
-					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
+					$total1+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']-$k['saving']+$k['keluarkansaving']);
 				?>
 
 				<?php } ?>
@@ -225,12 +229,12 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 					</table><br>
 				</td>
 				<?php
-					$total2+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
+					$total2+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']);
 				?>
 				<?php } ?>
 				<?php
 					$j++;
-					$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']);
+					$total+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']);
 				?>
 				<?php } ?>
 		</tr>
@@ -239,8 +243,8 @@ header("Content-Disposition: attachment; filename=".$filename.".xls");
 	<?php 
 		$totals=0;
 		foreach($karyawans as $k){
-			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
-			$totalpembulatan += pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['saving']+$k['keluarkansaving']);
+			$totals+=($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']-$k['saving']+$k['keluarkansaving']);
+			$totalpembulatan += pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']-$k['claim']-$k['pinjaman']-$k['warteg']-$k['saving']+$k['keluarkansaving']);
 		}
 	?>
 

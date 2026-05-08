@@ -909,6 +909,7 @@ class Gaji extends CI_Controller {
 				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
 				'bagian'=>'Harian '.$r['bagian'],
 				'detail'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'],
+				'edit'=>BASEURL.'Gaji/gajikloedit/'.$r['id'],
 				'hapus'=>BASEURL.'Gaji/gajiklohapus/'.$r['id'],
 				'excel'=>BASEURL.'Gaji/gajiklodetail/'.$r['id'].'?&excel=1',
 			);
@@ -1007,7 +1008,8 @@ class Gaji extends CI_Controller {
 					'insentif'=>isset($p['insentif'])?1:0,
 					'claim'=>$p['claim'],
 					'pinjaman'=>$p['pinjaman'],
-					'saving'=>isset($p['savings'])? $p['saving']:0,
+					'warteg'=>isset($p['warteg'])?$p['warteg']:0,
+					'saving'=>isset($p['saving'])? $p['saving']:0,
 					// 'saving'=>$saving,
 					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
 					'tanggal_saving' => date('Y-m-d'),
@@ -1016,6 +1018,77 @@ class Gaji extends CI_Controller {
 			}
 		}
 		$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+		redirect(BASEURL.'Gaji/gajiklo');
+	}
+
+	public function gajikloedit($id){
+		$data=array();
+		$data['id']=$id;
+		$data['title']='Edit Gaji KLO';
+		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('id'=>$id));
+		$results=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id,'hapus'=>0));
+		foreach($results as $r){
+			$k=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['idkaryawan']));
+			$data['harian'][]=array(
+				'iddetail'=>$r['id'],
+				'id'=>$r['idkaryawan'],
+				'nama'=>$r['nama'],
+				'gaji'=>!empty($k)?$k['gaji']:0,
+				'bagian'=>!empty($k)?$k['bagian']:'KLO',
+				'senin'=>$r['senin'],
+				'selasa'=>$r['selasa'],
+				'rabu'=>$r['rabu'],
+				'kamis'=>$r['kamis'],
+				'jumat'=>$r['jumat'],
+				'sabtu'=>$r['sabtu'],
+				'minggu'=>$r['minggu'],
+				'lembur'=>$r['lembur'],
+				'insentif'=>$r['insentif'],
+				'claim'=>$r['claim'],
+				'pinjaman'=>$r['pinjaman'],
+				'warteg'=>$r['warteg'],
+				'saving'=>$r['saving'],
+				'keluarkansaving'=>$r['keluarkansaving'],
+			);
+		}
+		$data['tanggal1']=$data['gaji']['tanggal1'];
+		$data['tanggal2']=$data['gaji']['tanggal2'];
+		$data['action']=BASEURL.'Gaji/gajikloupdate';
+		$data['page']=$this->page.'finishing/gaji_finishing_edit';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function gajikloupdate(){
+		$data=$this->input->post();
+		$id = $data['id'];
+		$update=array(
+			'tanggal1'=>$data['tanggal1'],
+			'tanggal2'=>$data['tanggal2'],
+		);
+		$this->db->update('gaji_finishing',$update,array('id'=>$id));
+		
+		foreach($data['products'] as $p){
+			if(isset($p['iddetail'])){
+				$detail=array(
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
+					'minggu'=>isset($p['minggu'])?1:0,
+					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
+					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
+					'warteg'=>isset($p['warteg'])?$p['warteg']:0,
+					'saving'=>isset($p['saving'])? $p['saving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
+				);
+				$this->db->update('gaji_finishing_detail',$detail,array('id'=>$p['iddetail']));
+			}
+		}
+		$this->session->set_flashdata('msg','Data Gaji Berhasil Di Update');
 		redirect(BASEURL.'Gaji/gajiklo');
 	}
 
@@ -1061,6 +1134,7 @@ class Gaji extends CI_Controller {
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
 					'claim'=>$d['claim'],
 					'pinjaman'=>$d['pinjaman'],
+					'warteg'=>$d['warteg'],
 					'saving'=>$d['saving'],
 					'keluarkansaving'=>$d['keluarkansaving'],
 				);
