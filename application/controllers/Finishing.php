@@ -324,7 +324,7 @@ class Finishing extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 
-		$data['gajis'] = $this->GlobalModel->getData('gaji_finishing',array('hapus'=>0,'bagian'=>'FINISHING'));
+		$data['gajis'] = $this->GlobalModel->getDataOrderBy('gaji_finishing',array('hapus'=>0,'bagian'=>'FINISHING'),'id','DESC');
 		$data['tambah'] = BASEURL.'Finishing/gajifinishing_add';
 		$data['page']=$this->page.'finishing/gaji_finishing_list';
 		$this->load->view($this->page.'main',$data);

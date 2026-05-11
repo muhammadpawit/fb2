@@ -52,13 +52,13 @@
                             <strong><?php echo date('d F Y', strtotime($g['tanggal2'])) ?></strong>
                         </td>
                         <td class="text-center">
-                            <a href="<?php echo BASEURL?>Gaji/finishing_detail/<?php echo $g['id'] ?>" class="btn btn-xs btn-warning" style="color:white;">
+                            <a href="<?php echo BASEURL?>Gaji/finishingdetail/<?php echo $g['id'] ?>" class="btn btn-xs btn-warning" style="color:white;">
                                 <i class="fa fa-eye"></i> detail
                             </a>
-                            <a href="<?php echo BASEURL?>Gaji/finishing_excel/<?php echo $g['id'] ?>" class="btn btn-xs btn-success">
+                            <a href="<?php echo BASEURL?>Gaji/finishingdetail/<?php echo $g['id'] ?>?&excel=1" class="btn btn-xs btn-success">
                                 <i class="fa fa-file-excel-o"></i> excel
                             </a>
-                            <a href="<?php echo BASEURL?>Gaji/finishing_pdf/<?php echo $g['id'] ?>" class="btn btn-xs btn-danger">
+                            <a href="<?php echo BASEURL?>Gaji/finishingdetail/<?php echo $g['id'] ?>?&pdf=1" class="btn btn-xs btn-danger">
                                 <i class="fa fa-file-pdf-o"></i> pdf
                             </a>
                         </td>

@@ -249,9 +249,30 @@ class Report extends CI_Controller {
 				);
 			}
 		}
+
+		// gaji finishing
+		$listgajifinishing=[];
+		$sql6 = "SELECT a.tanggal2 as tanggal FROM gaji_finishing a WHERE a.hapus=0 ";
+		if(!empty($cat)){
+			if($cat==1){
+				$sql6.=" AND a.bagian IN ('FINISHING','GUDANG') ";
+			}else if($cat==2){
+				$sql6.=" AND a.bagian IN ('KLO','PRESSQC') ";
+			}
+		}
+		$sql6.=" AND date(a.tanggal2) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$gajifinishing=$this->GlobalModel->QueryManual($sql6);
+		if(!empty($gajifinishing)){
+			foreach($gajifinishing as $p){
+				$listgajifinishing[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
 		
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -336,6 +357,32 @@ class Report extends CI_Controller {
 								'nominal'=>$q['nominal'],
 								'bagian'=>2, // Bordir
 								'keterangan'=>'Gaji Press/QC : '.$q['nama'],
+							);
+						}
+					}
+				}
+
+				if (empty($cat) || $cat == 1) {
+					$finishing = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'FINISHING');
+					if(!empty($finishing)){
+						foreach($finishing as $f){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$f['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji Finishing : '.$f['nama'],
+							);
+						}
+					}
+
+					$gudang = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'GUDANG');
+					if(!empty($gudang)){
+						foreach($gudang as $g){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$g['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji Gudang : '.$g['nama'],
 							);
 						}
 					}
