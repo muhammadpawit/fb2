@@ -1734,6 +1734,38 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+	public function pembayarangajiboronganmesin_perkaryawan($tanggal1, $tanggal2){
+		$sql = "SELECT b.nama as nama, SUM(a.jumlah_pendapatan*a.perkalian) as nominal FROM boronganmesin a 
+                JOIN karyawan_harian b ON b.id = a.idkaryawanharian
+                WHERE a.hapus=0 AND a.gaji=1 AND DATE(a.creted_date) BETWEEN '$tanggal1' AND '$tanggal2'
+                GROUP BY a.idkaryawanharian";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function pembayarangajicucian_perkaryawan($tanggal1, $tanggal2){
+		$sql = "SELECT b.nama as nama, SUM(a.total) as nominal FROM cucian a 
+                JOIN karyawan_harian b ON b.id = a.idkaryawan
+                WHERE a.hapus=0 AND a.jenis=1 AND DATE(a.tanggal) BETWEEN '$tanggal1' AND '$tanggal2'
+                GROUP BY a.idkaryawan";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function pembayarangajibbfinishing_perkaryawan($tanggal1, $tanggal2){
+		$sql = "SELECT b.nama as nama, SUM(a.total) as nominal FROM buang_benang_finishing a 
+                JOIN karyawan_harian b ON b.id = a.idkaryawan
+                WHERE a.hapus=0 AND a.gaji=1 AND DATE(a.tanggal) BETWEEN '$tanggal1' AND '$tanggal2'
+                GROUP BY a.idkaryawan";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function pembayarangajipacking_perkaryawan($tanggal1, $tanggal2){
+		$sql = "SELECT b.nama as nama, SUM(a.jumlah_pendapatan) as nominal FROM packing a 
+                JOIN karyawan_harian b ON b.id = a.idkaryawanharian
+                WHERE a.hapus=0 AND a.gaji=1 AND DATE(a.creted_date) BETWEEN '$tanggal1' AND '$tanggal2'
+                GROUP BY a.idkaryawanharian";
+		return $this->db->query($sql)->result_array();
+	}
+
 	public function pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, $bagian){
 		$sql = "SELECT gfd.*, kh.gaji as gajiharian 
                 FROM gaji_finishing gf

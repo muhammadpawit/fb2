@@ -386,6 +386,54 @@ class Report extends CI_Controller {
 							);
 						}
 					}
+
+					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					if(!empty($bm)){
+						foreach($bm as $b){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$b['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji Borongan Mesin : '.$b['nama'],
+							);
+						}
+					}
+
+					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					if(!empty($cuci)){
+						foreach($cuci as $b){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$b['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji Cucian : '.$b['nama'],
+							);
+						}
+					}
+
+					$bbf = $this->ReportModel->pembayarangajibbfinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					if(!empty($bbf)){
+						foreach($bbf as $b){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$b['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji BB Finishing : '.$b['nama'],
+							);
+						}
+					}
+
+					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					if(!empty($pack)){
+						foreach($pack as $b){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$b['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji Packing : '.$b['nama'],
+							);
+						}
+					}
 				}
 			}
 

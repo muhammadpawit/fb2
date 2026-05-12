@@ -218,39 +218,19 @@
 		
 		$total_harga=0;
 		$totalharga =$value;
-		$bulat=!empty($totalharga) ? substr($totalharga,-3) : 0;
-		$totalharga=!empty($totalharga) ? ceil($totalharga) : 0;
+		// $bulat=!empty($totalharga) ? substr($totalharga,-3) : 0;
+		// $totalharga=!empty($totalharga) ? ceil($totalharga) : 0;
 		
-		if ($bulat==000){
-			$total_harga=round($totalharga,-3);
-		}else if($bulat==500){
-			$total_harga=($totalharga);
-		}else if($bulat > 9 && $bulat<501){
-			$total_harga=round($totalharga,-3)+500;
-		}else{
-			$total_harga=round($totalharga,-3);
-		}
-		return $total_harga;
-		
-
-		// pembulatan gaji terbaru
-		/*$total_harga=0;
-		$totalharga =$value;
-		$bulat=substr($totalharga,-3);
-		$totalharga=ceil($totalharga);
-		
-		if ($bulat==000){
-			$total_harga=round($totalharga,-3);
-		}else if($bulat==500){
-			$total_harga=($totalharga)-500;
-			//}else if($bulat > 0 && $bulat<501){
-		}else if($bulat > 500 && $bulat <= 509){
-			$total_harga=round($totalharga,-3)-1000;
-		}else{
-			$total_harga=round($totalharga,-3);
-		}
-		return $total_harga;*/
-		
+		// if ($bulat==000){
+		// 	$total_harga=round($totalharga,-3);
+		// }else if($bulat==500){
+		// 	$total_harga=($totalharga);
+		// }else if($bulat > 9 && $bulat<501){
+		// 	$total_harga=round($totalharga,-3)+500;
+		// }else{
+		// 	$total_harga=round($totalharga,-3);
+		// }
+		return $value;
 	}
 
 	function status_oto(){
