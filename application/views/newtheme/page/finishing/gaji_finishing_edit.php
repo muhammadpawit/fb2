@@ -118,23 +118,9 @@
         color: white;
         font-weight: 800;
     }
-    .row-total-footer td { border: none !important; padding: 12px !important; }
 </style>
 
 <div class="payroll-wrapper">
-    <!-- Alert System -->
-    <div class="row">
-        <div class="col-md-12">
-            <?php if ($this->session->flashdata('msg')) { ?>
-            <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <i class="icon fa fa-check"></i> <?php echo $this->session->flashdata('msg'); ?>
-            </div>
-            <?php } ?>
-        </div>
-    </div>
-
-    <!-- Filter Section (Read Only in Edit Mode) -->
     <div class="filter-card">
         <div class="row align-items-end">
             <div class="col-md-4">
@@ -156,21 +142,20 @@
                 </div>
             </div>
             <div class="col-md-4 text-right">
+                <a href="<?php echo BASEURL ?>Finishing/gajifinishing" class="btn btn-modern btn-default">
+                    <i class="fa fa-arrow-left mr-1"></i> KEMBALI
+                </a>
                 <button type="button" class="btn btn-modern btn-modern-success" onclick="proses()">
                     <i class="fa fa-save mr-1"></i> UPDATE DATA
                 </button>
-                <a href="<?php echo BASEURL.'Gaji/gajiklo'?>" class="btn btn-modern btn-default">
-                    <i class="fa fa-arrow-left mr-1"></i> KEMBALI
-                </a>
             </div>
         </div>
     </div>
 
     <form method="post" action="<?php echo $action?>" id="formGaji">
         <input type="hidden" name="id" value="<?php echo $id?>">
-        <input type="hidden" name="tanggal1" value="<?php echo $tanggal1?>">
-        <input type="hidden" name="tanggal2" value="<?php echo $tanggal2?>">
-        
+        <input type="hidden" name="tanggal1" value="<?php echo $tanggal1?>" style="display:none">
+        <input type="hidden" name="tanggal2" value="<?php echo $tanggal2?>" style="display:none">
         <div class="row">
             <?php $i=0?>
             <?php foreach($harian as $h){?>
@@ -178,7 +163,7 @@
                 <div class="employee-box">
                     <div class="employee-box-header">
                         <input type="hidden" name="products[<?php echo $i?>][iddetail]" value="<?php echo $h['iddetail']?>">
-                        <input type="hidden" name="products[<?php echo $i?>][idkaryawan]" value="<?php echo $h['id']?>">
+                        <input type="checkbox" class="custom-checkbox-premium mr-2 employee-active-check" name="products[<?php echo $i?>][idkaryawan]" value="<?php echo strtolower($h['id'])?>" checked>
                         <h3 class="employee-title">
                             <?php echo strtoupper($h['nama'])?> 
                             <span class="badge-dept"><?php echo strtoupper($h['bagian'])?></span>
@@ -223,11 +208,11 @@
                                     <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][lembur]" value="lembur" <?php echo $h['lembur']>0?'checked':''?> class="lembur-check calc-trigger"></td>
                                     <td class="col-label">Lembur (Total)</td>
                                     <td colspan="2">
-                                        <input type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo $h['lembur']?>" class="modern-input row-success lembur-input calc-trigger">
+                                        <input type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo $h['lembur'];?>" class="modern-input row-success lembur-input calc-trigger">
                                     </td>
                                 </tr>
                                 <tr class="row-highlight">
-                                    <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][insentif]" value="insentif" <?php echo $h['insentif']>0?'checked':''?> class="insentif-check calc-trigger"></td>
+                                    <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][insentif]" value="insentif" <?php echo $h['insentif']==1?'checked':''?> class="insentif-check calc-trigger"></td>
                                     <td class="col-label">Insentif</td>
                                     <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
                                     <td class="text-center"><small class="text-muted">6 Hari Kerja</small></td>
@@ -241,6 +226,11 @@
                                     <td class="col-check"></td>
                                     <td class="col-label row-danger">Pinjaman</td>
                                     <td colspan="2"><input type="number" name="products[<?php echo $i?>][pinjaman]" value="<?php echo $h['pinjaman']?>" class="modern-input row-danger loan-input calc-trigger"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-check"></td>
+                                    <td class="col-label row-danger">Kasbon</td>
+                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_kasbon]" value="<?php echo $h['kasbon']?>" class="modern-input row-danger kasbon-input calc-trigger"></td>
                                 </tr>
                                 <tr>
                                     <td class="col-check"></td>
@@ -278,7 +268,14 @@
 
 <script type="text/javascript">
 	function proses(){
+		var tanggal1 =$("#filter_tanggal1").val();
+		var tanggal2 =$("#filter_tanggal2").val();
+		if(tanggal1===""){ alert("Tanggal awal harus diisi"); return false; }
+		if(tanggal2===""){ alert("Tanggal akhir harus diisi"); return false; }
+		
         if(confirm('Apakah Anda yakin data gaji sudah benar dan siap diupdate?')){
+            $('<input>').attr({type: 'hidden', name: 'tanggal1', value: tanggal1}).appendTo('#formGaji');
+            $('<input>').attr({type: 'hidden', name: 'tanggal2', value: tanggal2}).appendTo('#formGaji');
 		    $("#formGaji").submit();
         }
 	}
@@ -311,6 +308,7 @@
             // 4. Deductions
             total -= parseFloat($box.find('.claim-input').val()) || 0;
             total -= parseFloat($box.find('.loan-input').val()) || 0;
+            total -= parseFloat($box.find('.kasbon-input').val()) || 0;
             total -= parseFloat($box.find('.warteg-input').val()) || 0;
             total -= parseFloat($box.find('.saving-input').val()) || 0;
 

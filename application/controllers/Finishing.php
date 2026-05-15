@@ -72,13 +72,13 @@ class Finishing extends CI_Controller {
 				$data['fharian'][]=array(
 					'idkaryawan'=>$d['idkaryawan'],
 					'nama'=>strtolower($d['nama']),
-					'senin'=>$d['senin']==1?$gaji['gaji']:0,
-					'selasa'=>$d['selasa']==1?$gaji['gaji']:0,
-					'rabu'=>$d['rabu']==1?$gaji['gaji']:0,
-					'kamis'=>$d['kamis']==1?$gaji['gaji']:0,
-					'jumat'=>$d['jumat']==1?$gaji['gaji']:0,
-					'sabtu'=>$d['sabtu']==1?$gaji['gaji']:0,
-					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
+					'senin'=>round($gaji['gaji']/12*$d['senin']),
+					'selasa'=>round($gaji['gaji']/12*$d['selasa']),
+					'rabu'=>round($gaji['gaji']/12*$d['rabu']),
+					'kamis'=>round($gaji['gaji']/12*$d['kamis']),
+					'jumat'=>round($gaji['gaji']/12*$d['jumat']),
+					'sabtu'=>round($gaji['gaji']/12*$d['sabtu']),
+					'minggu'=>round($gaji['gaji']/12*$d['minggu']),
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
 					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
 				);
@@ -395,22 +395,110 @@ class Finishing extends CI_Controller {
 					'idgaji'=>$id,
 					'idkaryawan'=>$p['idkaryawan'],
 					'nama'=>$p['nama'],
-					'senin'=>isset($p['senin'])?1:0,
-					'selasa'=>isset($p['selasa'])?1:0,
-					'rabu'=>isset($p['rabu'])?1:0,
-					'kamis'=>isset($p['kamis'])?1:0,
-					'jumat'=>isset($p['jumat'])?1:0,
-					'sabtu'=>isset($p['sabtu'])?1:0,
-					'minggu'=>isset($p['minggu'])?1:0,
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
+					'minggu'=>isset($p['minggu'])?$p['minggujamkerja']:0,
 					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
-					'saving'=>isset($p['savings'])?$p['savings']:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
+					'kasbon'=>$p['jumlah_kasbon'],
+					'warteg'=>$p['warteg'],
+					'saving'=>isset($p['saving'])?$p['saving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])?$p['jumlah_keluar_saving']:0,
 					'tanggal_saving' => date('Y-m-d'),
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}
 		}
 		$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+		redirect(BASEURL.'Finishing/gajifinishing');
+	}
+
+	public function gajifinishing_hapus($id){
+		$update=array(
+			'hapus'=>1,
+		);
+		$this->db->update('gaji_finishing',$update,array('id'=>$id));
+		$this->db->update('gaji_finishing_detail',$update,array('idgaji'=>$id));
+		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
+		redirect(BASEURL.'Finishing/gajifinishing');
+	}
+
+	public function gajifinishing_edit($id){
+		$data=array();
+		$data['id']=$id;
+		$data['title']='Edit Gaji Finishing';
+		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('id'=>$id));
+		$results=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id,'hapus'=>0));
+		foreach($results as $r){
+			$k=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['idkaryawan']));
+			$data['harian'][]=array(
+				'iddetail'=>$r['id'],
+				'id'=>$r['idkaryawan'],
+				'nama'=>$r['nama'],
+				'gaji'=>!empty($k)?$k['gaji']:0,
+				'bagian'=>!empty($k)?$k['bagian']:'FINISHING',
+				'senin'=>$r['senin'],
+				'selasa'=>$r['selasa'],
+				'rabu'=>$r['rabu'],
+				'kamis'=>$r['kamis'],
+				'jumat'=>$r['jumat'],
+				'sabtu'=>$r['sabtu'],
+				'minggu'=>$r['minggu'],
+				'lembur'=>$r['lembur'],
+				'insentif'=>$r['insentif'],
+				'claim'=>$r['claim'],
+				'pinjaman'=>$r['pinjaman'],
+				'kasbon'=>$r['kasbon'],
+				'warteg'=>$r['warteg'],
+				'saving'=>$r['saving'],
+				'keluarkansaving'=>$r['keluarkansaving'],
+			);
+		}
+		$data['tanggal1']=$data['gaji']['tanggal1'];
+		$data['tanggal2']=$data['gaji']['tanggal2'];
+		$data['action']=BASEURL.'Finishing/gajifinishing_update';
+		$data['page']=$this->page.'finishing/gaji_finishing_edit';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function gajifinishing_update(){
+		$data=$this->input->post();
+		$id = $data['id'];
+		$update=array(
+			'tanggal1'=>$data['tanggal1'],
+			'tanggal2'=>$data['tanggal2'],
+		);
+		$this->db->update('gaji_finishing',$update,array('id'=>$id));
+		
+		foreach($data['products'] as $p){
+			if(isset($p['iddetail'])){
+				$detail=array(
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
+					'minggu'=>isset($p['minggu'])?$p['minggujamkerja']:0,
+					'lembur'=>isset($p['lembur'])?$p['lemburs']:0,
+					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
+					'kasbon'=>$p['jumlah_kasbon'],
+					'warteg'=>$p['warteg'],
+					'saving'=>isset($p['saving'])? $p['saving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
+				);
+				$this->db->update('gaji_finishing_detail',$detail,array('id'=>$p['iddetail']));
+			}
+		}
+		$this->session->set_flashdata('msg','Data Gaji Berhasil Di Update');
 		redirect(BASEURL.'Finishing/gajifinishing');
 	}
 

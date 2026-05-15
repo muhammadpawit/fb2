@@ -47,9 +47,9 @@
                     <tr>
                         <td class="text-center"><?php echo $n++ ?></td>
                         <td>
-                            <strong><?php echo date('d F Y', strtotime($g['tanggal1'])) ?></strong> 
+                            <strong><?php echo !empty($g['tanggal1']) ? date('d F Y', strtotime($g['tanggal1'])) : '-' ?></strong> 
                             <span class="text-muted mx-2">-</span> 
-                            <strong><?php echo date('d F Y', strtotime($g['tanggal2'])) ?></strong>
+                            <strong><?php echo !empty($g['tanggal2']) ? date('d F Y', strtotime($g['tanggal2'])) : '-' ?></strong>
                         </td>
                         <td class="text-center">
                             <a href="<?php echo BASEURL?>Gaji/finishingdetail/<?php echo $g['id'] ?>" class="btn btn-xs btn-warning" style="color:white;">
@@ -60,6 +60,12 @@
                             </a>
                             <a href="<?php echo BASEURL?>Gaji/finishingdetail/<?php echo $g['id'] ?>?&pdf=1" class="btn btn-xs btn-danger">
                                 <i class="fa fa-file-pdf-o"></i> pdf
+                            </a>
+                            <a href="<?php echo BASEURL?>Finishing/gajifinishing_edit/<?php echo $g['id'] ?>" class="btn btn-xs btn-primary">
+                                <i class="fa fa-edit"></i> edit
+                            </a>
+                            <a href="<?php echo BASEURL?>Finishing/gajifinishing_hapus/<?php echo $g['id'] ?>" class="btn btn-xs btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                <i class="fa fa-trash"></i> hapus
                             </a>
                         </td>
                     </tr>
