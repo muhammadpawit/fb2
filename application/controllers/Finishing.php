@@ -452,12 +452,12 @@ class Finishing extends CI_Controller {
 				'minggu'=>$r['minggu'],
 				'lembur'=>$r['lembur'],
 				'insentif'=>$r['insentif'],
-				'claim'=>$r['claim'],
-				'pinjaman'=>$r['pinjaman'],
-				'kasbon'=>$r['kasbon'],
-				'warteg'=>$r['warteg'],
-				'saving'=>$r['saving'],
-				'keluarkansaving'=>$r['keluarkansaving'],
+				'claim'=>isset($r['claim']) ? $r['claim'] : 0,
+				'pinjaman'=>isset($r['pinjaman']) ? $r['pinjaman'] : 0,
+				'kasbon'=>isset($r['kasbon']) ? $r['kasbon'] : 0,
+				'warteg'=>isset($r['warteg']) ? $r['warteg'] : 0,
+				'saving'=>isset($r['saving']) ? $r['saving'] : 0,
+				'keluarkansaving'=>isset($r['keluarkansaving']) ? $r['keluarkansaving'] : 0,
 			);
 		}
 		$data['tanggal1']=$data['gaji']['tanggal1'];
