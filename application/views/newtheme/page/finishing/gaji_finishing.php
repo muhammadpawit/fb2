@@ -179,7 +179,8 @@
 
     <?php if(isset($_GET['tanggal_awal'])){ ?>
     <form method="post" action="<?php echo $action?>" id="formGaji">
-        
+        <input type="hidden" name="tanggal1" value="<?php echo $tanggal1?>" style="display:none">
+        <input type="hidden" name="tanggal2" value="<?php echo $tanggal2?>" style="display:none">
         <div class="row">
             <?php $i=0?>
             <?php foreach($harian as $h){?>
