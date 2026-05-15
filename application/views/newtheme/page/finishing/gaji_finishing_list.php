@@ -1,15 +1,4 @@
 <div class="row">
-    <div class="col-md-12">
-        <?php if ($this->session->flashdata('msg')) { ?>
-        <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <i class="icon fa fa-check"></i> <?php echo $this->session->flashdata('msg'); ?>
-        </div>
-        <?php } ?>
-    </div>
-</div>
-
-<div class="row">
 	<div class="col-md-4">
 		<div class="form-group">
 			<label>Tanggal Awal</label>

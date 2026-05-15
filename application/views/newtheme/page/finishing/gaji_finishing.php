@@ -118,7 +118,116 @@
         color: white;
         font-weight: 800;
     }
-    /* History Table Styling removed as it is now a separate page */
+
+    /* Accordion Enhancements */
+    .panel-group .panel {
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border: 1px solid #d2d6de;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+
+    .panel-default > .panel-heading {
+        background: #fff;
+        padding: 0;
+        border: none;
+    }
+
+    .accordion-header-link {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        text-decoration: none !important;
+        color: #333;
+        transition: background 0.2s;
+    }
+
+    .accordion-header-link:hover {
+        background: #f9f9f9;
+    }
+
+    .accordion-header-link.collapsed .fa-chevron-down {
+        transform: rotate(-90deg);
+    }
+
+    .fa-chevron-down {
+        transition: transform 0.3s;
+        font-size: 12px;
+        color: #777;
+    }
+
+    .employee-active-check {
+        width: 22px;
+        height: 22px;
+        margin-right: 15px !important;
+        cursor: pointer;
+    }
+
+    .panel-body {
+        padding: 20px;
+        background: #fff;
+        border-top: 1px solid #f4f4f4;
+    }
+
+    .header-info {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .total-preview {
+        font-weight: 700;
+        color: #3c8dbc;
+        font-size: 14px;
+        background: #eef5f9;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }
+
+    .employee-box.unchecked {
+        opacity: 0.6;
+        filter: grayscale(0.5);
+        background: #fdfdfd;
+    }
+
+    .employee-box.unchecked .total-preview {
+        background: #eee;
+        color: #999;
+    }
+
+    .search-container {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        padding-left: 35px !important;
+        border-radius: 20px !important;
+        border: 2px solid #d2d6de !important;
+        transition: all 0.3s;
+        height: 40px !important;
+        box-shadow: none !important;
+    }
+
+    .search-input:focus {
+        border-color: #3c8dbc !important;
+        box-shadow: 0 0 8px rgba(60,141,188,0.2) !important;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        color: #aaa;
+        z-index: 5;
+    }
 </style>
 
 <div class="payroll-wrapper">
@@ -178,114 +287,137 @@
     </div>
 
     <?php if(isset($_GET['tanggal_awal'])){ ?>
+    <div class="row mb-3" style="margin-bottom: 15px;">
+        <div class="col-md-8">
+            <div class="search-container">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text" id="employeeSearch" class="form-control search-input" placeholder="Cari nama karyawan...">
+            </div>
+        </div>
+        <div class="col-md-4 text-right">
+            <button type="button" class="btn btn-sm btn-default" onclick="toggleAll(true)"><i class="fa fa-check-square"></i> PILIH SEMUA</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="toggleAll(false)"><i class="fa fa-square-o"></i> BATAL SEMUA</button>
+        </div>
+    </div>
     <form method="post" action="<?php echo $action?>" id="formGaji">
         <input type="hidden" name="tanggal1" value="<?php echo $tanggal1?>" style="display:none">
         <input type="hidden" name="tanggal2" value="<?php echo $tanggal2?>" style="display:none">
         <div class="row">
-            <?php $i=0?>
-            <?php foreach($harian as $h){?>
-            <div class="col-md-6">
-                <div class="employee-box">
-                    <div class="employee-box-header">
-                        <input type="checkbox" class="custom-checkbox-premium mr-2 employee-active-check" name="products[<?php echo $i?>][idkaryawan]" value="<?php echo strtolower($h['id'])?>" checked>
-                        <h3 class="employee-title">
-                            <?php echo strtoupper($h['nama'])?> 
-                            <span class="badge-dept"><?php echo strtoupper($h['bagian'])?></span>
-                        </h3>
-                        <input type="hidden" name="products[<?php echo $i?>][nama]" value="<?php echo strtolower($h['nama'])?>">
-                        <input type="hidden" class="base-salary-hidden" value="<?php echo $h['gaji']; ?>">
+            <div class="col-md-12">
+                <div class="panel-group" id="accordionGaji" role="tablist" aria-multiselectable="true">
+                    <?php $i=0?>
+                    <?php foreach($harian as $h){?>
+                    <div class="panel panel-default employee-box" id="box-<?php echo $i?>">
+                        <div class="panel-heading" role="tab" id="heading-<?php echo $i?>">
+                            <div class="accordion-header-link collapsed">
+                                <input type="checkbox" class="custom-checkbox-premium employee-active-check" name="products[<?php echo $i?>][idkaryawan]" value="<?php echo strtolower($h['id'])?>" checked onclick="event.stopPropagation();">
+                                
+                                <div class="header-info" role="button" data-toggle="collapse" data-parent="#accordionGaji" href="#collapse-<?php echo $i?>" aria-expanded="false">
+                                    <h3 class="employee-title">
+                                        <?php echo strtoupper($h['nama'])?> 
+                                        <span class="badge-dept"><?php echo strtoupper($h['bagian'])?></span>
+                                    </h3>
+                                </div>
+
+                                <div class="header-right">
+                                    <span class="total-preview employee-total-label">Rp 0</span>
+                                    <i class="fa fa-chevron-down" data-toggle="collapse" data-parent="#accordionGaji" href="#collapse-<?php echo $i?>"></i>
+                                </div>
+                                
+                                <input type="hidden" name="products[<?php echo $i?>][nama]" value="<?php echo strtolower($h['nama'])?>">
+                                <input type="hidden" class="base-salary-hidden" value="<?php echo $h['gaji']; ?>">
+                            </div>
+                        </div>
+                        <div id="collapse-<?php echo $i?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<?php echo $i?>">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="payroll-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-check"><i class="fa fa-check-square"></i></th>
+                                                    <th class="col-label">ITEM / HARI</th>
+                                                    <th class="text-right">RP / HARI</th>
+                                                    <th class="text-center col-input">JAM KERJA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
+                                                $days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
+                                                $labels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu'];
+                                                foreach($days as $idx => $day){
+                                                ?>
+                                                <tr class="day-row">
+                                                    <td class="col-check"><input type="checkbox" class="custom-checkbox-premium day-check calc-trigger" name="products[<?php echo $i?>][<?php echo $day?>]" value="<?php echo $labels[$idx]?>" checked></td>
+                                                    <td class="col-label"><?php echo $labels[$idx]?></td>
+                                                    <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
+                                                    <td class="col-input">
+                                                        <input type="number" name="products[<?php echo $i?>][<?php echo $day?>jamkerja]" value="12" class="modern-input hour-input calc-trigger">
+                                                    </td>
+                                                </tr>
+                                                <?php } ?>
+                                                <tr class="day-row sunday">
+                                                    <td class="col-check"><input type="checkbox" class="custom-checkbox-premium day-check calc-trigger" name="products[<?php echo $i?>][minggu]" value="Minggu"></td>
+                                                    <td class="col-label">Minggu</td>
+                                                    <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
+                                                    <td class="col-input">
+                                                        <input type="number" name="products[<?php echo $i?>][minggujamkerja]" value="0" class="modern-input hour-input calc-trigger">
+                                                    </td>
+                                                </tr>
+                                                <tr class="row-highlight">
+                                                    <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][lembur]" value="lembur" checked class="lembur-check calc-trigger"></td>
+                                                    <td class="col-label">Lembur (Total)</td>
+                                                    <td colspan="2">
+                                                        <input type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo !empty($h['lembur'])?$h['lembur']:0;?>" class="modern-input row-success lembur-input calc-trigger">
+                                                    </td>
+                                                </tr>
+                                                <tr class="row-highlight">
+                                                    <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][insentif]" value="insentif" class="insentif-check calc-trigger"></td>
+                                                    <td class="col-label">Insentif</td>
+                                                    <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
+                                                    <td class="text-center"><small class="text-muted">6 Hari Kerja</small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-check"></td>
+                                                    <td class="col-label row-danger">Pot. Claim</td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][claim]" value="0" class="modern-input row-danger claim-input calc-trigger"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-check"></td>
+                                                    <td class="col-label row-danger">Pinjaman</td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][pinjaman]" value="0" class="modern-input row-danger loan-input calc-trigger"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-check"></td>
+                                                    <td class="col-label row-danger">Kasbon</td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_kasbon]" value="0" class="modern-input row-danger kasbon-input calc-trigger"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-check"></td>
+                                                    <td class="col-label row-danger">Warteg</td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][warteg]" value="0" class="modern-input row-danger warteg-input calc-trigger"></td>
+                                                </tr>
+                                                <tr class="row-highlight">
+                                                    <td class="col-check"></td>
+                                                    <td class="col-label">Saving Minggu Ini</td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][saving]" value="0" class="modern-input text-info saving-input calc-trigger"></td>
+                                                </tr>
+                                                <tr class="row-highlight">
+                                                    <td class="col-check"></td>
+                                                    <td class="col-label">Keluarkan Saving</td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_keluar_saving]" value="<?php echo $h['saving']?>" class="modern-input row-success release-input calc-trigger"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="employee-box-body">
-                        <table class="payroll-table">
-                            <thead>
-                                <tr>
-                                    <th class="col-check"><i class="fa fa-check-square"></i></th>
-                                    <th class="col-label">ITEM / HARI</th>
-                                    <th class="text-right">RP / HARI</th>
-                                    <th class="text-center col-input">JAM KERJA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                $days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
-                                $labels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu'];
-                                foreach($days as $idx => $day){
-                                ?>
-                                <tr class="day-row">
-                                    <td class="col-check"><input type="checkbox" class="custom-checkbox-premium day-check calc-trigger" name="products[<?php echo $i?>][<?php echo $day?>]" value="<?php echo $labels[$idx]?>" checked></td>
-                                    <td class="col-label"><?php echo $labels[$idx]?></td>
-                                    <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
-                                    <td class="col-input">
-                                        <input type="number" name="products[<?php echo $i?>][<?php echo $day?>jamkerja]" value="12" class="modern-input hour-input calc-trigger">
-                                    </td>
-                                </tr>
-                                <?php } ?>
-                                <tr class="day-row sunday">
-                                    <td class="col-check"><input type="checkbox" class="custom-checkbox-premium day-check calc-trigger" name="products[<?php echo $i?>][minggu]" value="Minggu"></td>
-                                    <td class="col-label">Minggu</td>
-                                    <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
-                                    <td class="col-input">
-                                        <input type="number" name="products[<?php echo $i?>][minggujamkerja]" value="0" class="modern-input hour-input calc-trigger">
-                                    </td>
-                                </tr>
-                                <tr class="row-highlight">
-                                    <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][lembur]" value="lembur" checked class="lembur-check calc-trigger"></td>
-                                    <td class="col-label">Lembur (Total)</td>
-                                    <td colspan="2">
-                                        <input type="number" name="products[<?php echo $i?>][lemburs]" value="<?php echo !empty($h['lembur'])?$h['lembur']:0;?>" class="modern-input row-success lembur-input calc-trigger">
-                                    </td>
-                                </tr>
-                                <tr class="row-highlight">
-                                    <td class="col-check"><input type="checkbox" name="products[<?php echo $i?>][insentif]" value="insentif" class="insentif-check calc-trigger"></td>
-                                    <td class="col-label">Insentif</td>
-                                    <td class="col-salary"><?php echo number_format($h['gaji'])?></td>
-                                    <td class="text-center"><small class="text-muted">6 Hari Kerja</small></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-check"></td>
-                                    <td class="col-label row-danger">Pot. Claim</td>
-                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][claim]" value="0" class="modern-input row-danger claim-input calc-trigger"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-check"></td>
-                                    <td class="col-label row-danger">Pinjaman</td>
-                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][pinjaman]" value="0" class="modern-input row-danger loan-input calc-trigger"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-check"></td>
-                                    <td class="col-label row-danger">Kasbon</td>
-                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_kasbon]" value="0" class="modern-input row-danger kasbon-input calc-trigger"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-check"></td>
-                                    <td class="col-label row-danger">Warteg</td>
-                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][warteg]" value="0" class="modern-input row-danger warteg-input calc-trigger"></td>
-                                </tr>
-                                <tr class="row-highlight">
-                                    <td class="col-check"></td>
-                                    <td class="col-label">Saving Minggu Ini</td>
-                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][saving]" value="0" class="modern-input text-info saving-input calc-trigger"></td>
-                                </tr>
-                                <tr class="row-highlight">
-                                    <td class="col-check"></td>
-                                    <td class="col-label">Keluarkan Saving</td>
-                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_keluar_saving]" value="<?php echo $h['saving']?>" class="modern-input row-success release-input calc-trigger"></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr class="row-total-footer">
-                                    <td colspan="2">ESTIMASI DITERIMA</td>
-                                    <td colspan="2" class="text-right">
-                                        <span class="employee-total-label">Rp 0</span>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                    <?php $i++?>
+                    <?php } ?>
                 </div>
             </div>
-            <?php $i++?>
-            <?php } ?>
         </div>
     </form>
     <?php } ?>
@@ -319,6 +451,12 @@
             var $box = $(this);
             var baseSalary = parseFloat($box.find('.base-salary-hidden').val()) || 0;
             var total = 0;
+
+            // 0. Check if employee is active
+            if (!$box.find('.employee-active-check').is(':checked')) {
+                $box.find('.employee-total-label').text('Rp 0');
+                return;
+            }
 
             // 1. Daily Salaries based on attendance and hours
             $box.find('.day-row').each(function() {
@@ -357,6 +495,10 @@
         });
     }
 
+    function toggleAll(status) {
+        $('.employee-active-check').prop('checked', status).trigger('change');
+    }
+
     $(document).ready(function(){
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
@@ -369,7 +511,38 @@
             calculateAll();
         });
 
+        // Toggle visual state for employee active check
+        $(document).on('change', '.employee-active-check', function() {
+            var $box = $(this).closest('.employee-box');
+            if ($(this).is(':checked')) {
+                $box.removeClass('unchecked');
+            } else {
+                $box.addClass('unchecked');
+            }
+            calculateAll();
+        });
+
+        // Search Functionality
+        $(document).on('keyup', '#employeeSearch', function() {
+            var value = $(this).val().toLowerCase();
+            $('.employee-box').each(function() {
+                var name = $(this).find('.employee-title').text().toLowerCase();
+                if (name.indexOf(value) > -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
         // Initial calculation
         calculateAll();
+        
+        // Initial state for checkboxes
+        $('.employee-active-check').each(function() {
+            if (!$(this).is(':checked')) {
+                $(this).closest('.employee-box').addClass('unchecked');
+            }
+        });
     });
 </script>

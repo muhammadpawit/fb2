@@ -86,7 +86,7 @@ class Finishing extends CI_Controller {
 		}
 		
 		// borongan mesin
-		$prods=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) AND status_gaji=1 ");
+		$prods=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND (kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%') AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) AND status_gaji=1 ");
 		$gajim=0;
 		
 		foreach($prods as $p){
@@ -158,7 +158,7 @@ class Finishing extends CI_Controller {
 
 		// details
 
-		$borongan=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
+		$borongan=$this->GlobalModel->queryManual("SELECT * FROM karyawan_harian WHERE  status_gaji=1 AND id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND (kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%') AND DATE(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ) ");
 		$data['no']=1;
 		$data['no2']=1;
 		$data['no3']=1;
@@ -349,7 +349,7 @@ class Finishing extends CI_Controller {
 		$data['title']='Kalkulasi Gaji Finishing Baru';
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 		
-		$results =$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian LIKE '%FINISHING%' OR lower(bagian) LIKE '%bpo%' ");
+		$results =$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND status_gaji=1 AND (bagian LIKE '%FINISHING%' OR lower(bagian) LIKE '%bpo%') ");
 		foreach($results as $r){
 			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
 			$data['harian'][]=array(
