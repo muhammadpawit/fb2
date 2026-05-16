@@ -390,6 +390,9 @@ class Report extends CI_Controller {
 					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
 					if(!empty($bm)){
 						foreach($bm as $b){
+							if(trim(strtolower($b['nama'])) == 'kandar'){
+								continue;
+							}
 							$konveksi[]=array(
 								'tanggal'=>$p['tanggal'],
 								'nominal'=>$b['nominal'],
@@ -426,6 +429,9 @@ class Report extends CI_Controller {
 					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
 					if(!empty($pack)){
 						foreach($pack as $b){
+							if(trim(strtolower($b['nama'])) == 'kandar'){
+								continue;
+							}
 							$konveksi[]=array(
 								'tanggal'=>$p['tanggal'],
 								'nominal'=>$b['nominal'],

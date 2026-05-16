@@ -795,9 +795,9 @@ class Dash extends CI_Controller {
 		$gpendapatan=0;
 		$total015=0;
 		if(isset($get['cetak'])){
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0";
 		}else{
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0";
 		}
 		
 		if(!empty($nomesin)){
@@ -953,9 +953,9 @@ class Dash extends CI_Controller {
 		$gpendapatan=0;
 		$total015=0;
 		if(isset($get['cetak'])){
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0";
 		}else{
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11) ";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
 		}
 		
 		if(!empty($nomesin)){
@@ -1118,9 +1118,9 @@ class Dash extends CI_Controller {
 		$gpendapatan=0;
 		$total015=0;
 		if(isset($get['cetak'])){
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11)";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0";
 		}else{
-			$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11) ";
+			$sm="SELECT * FROM mesin_bordir WHERE id>0 ";
 		}
 		
 		if(!empty($nomesin)){
