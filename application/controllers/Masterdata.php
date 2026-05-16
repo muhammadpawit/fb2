@@ -244,6 +244,9 @@ class Masterdata extends CI_Controller {
 				'id'=>$result['id'],
 				'nama'=>$result['nama'],
 				'url'=>$result['url'],
+				'parent_id'=>$result['parent_id'],
+				'urutan'=>$result['urutan'],
+				'icon'=>$result['icon'],
 				'edit'=>BASEURL.'Masterdata/editmenu/'.$result['id'],
 				'delete'=>BASEURL.'Masterdata/hapusmenu/'.$result['id'],
 			);
@@ -279,6 +282,7 @@ class Masterdata extends CI_Controller {
 				'sub1'=>0,
 				'sub2'=>0,
 				'sub3'=>0,
+				'urutan'=>$data['urutan'],
 				'icon'=>$data['icon'],
 				'hapus'=>0
 			);
@@ -305,6 +309,7 @@ class Masterdata extends CI_Controller {
 				'sub1'=>$s1,
 				'sub2'=>$s2,
 				'sub3'=>$data['sub3'],
+				'urutan'=>$data['urutan'],
 				'icon'=>$data['icon'],
 				'hapus'=>0
 			);
@@ -315,7 +320,7 @@ class Masterdata extends CI_Controller {
 		$this->db->insert('menu',$insert);
 		$menuid=$this->db->insert_id();
 		$ia=array(
-			'userid'=>11,
+			'userid'=>callSessUser('id_user'),
 			'menuid'=>$menuid
 		);
 		$this->db->insert('usermenu',$ia);
@@ -356,6 +361,7 @@ class Masterdata extends CI_Controller {
 				'sub1'=>0,
 				'sub2'=>0,
 				'sub3'=>0,
+				'urutan'=>$data['urutan'],
 				'icon'=>$data['icon'],
 				'hapus'=>0
 			);
@@ -382,6 +388,7 @@ class Masterdata extends CI_Controller {
 				'sub1'=>$s1,
 				'sub2'=>$s2,
 				'sub3'=>$data['sub3'],
+				'urutan'=>$data['urutan'],
 				'icon'=>$data['icon'],
 				'hapus'=>0
 			);

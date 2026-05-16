@@ -15,6 +15,14 @@
 		</div>
 		<div class="col-md-4">
 			<div class="form-group">
+				<label>Urutan</label>
+				<input type="number" name="urutan" class="form-control" value="<?php echo $m['urutan']?>">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
 				<label>Group Menu</label>
 				<select name="parent_id" id="grouping" class="form-control select2bs4" data-live-search="true">
 					<option value="0">Pilih</option>
@@ -24,8 +32,6 @@
 				</select>
 			</div>
 		</div>
-	</div>
-	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
 				<label>Sub Menu 1</label>
@@ -42,6 +48,8 @@
 				</select>
 			</div>
 		</div>
+	</div>	
+	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
 				<label>Sub Menu 3</label>
@@ -50,18 +58,16 @@
 				</select>
 			</div>
 		</div>
-	</div>	
-	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="form-group">
 				<label>Icon </label><br>
-				<input type="radio" name="icon" value="fas fa-tachometer-alt" required> <i class="fas fa-tachometer-alt"></i> (Menu utama)<br>
-				<input type="radio" name="icon" value="fas fa-circle" required> <i class="fas fa-circle"></i> (Sub Menu 1)<br>
-				<input type="radio" name="icon" value="far fa-dot-circle nav-icon" required> <i class="far fa-dot-circle nav-icon"></i> (Sub Menu 2)<br>
-				<input type="radio" name="icon" value="fa fa-angle-right" required> <i class="fa fa-angle-right"></i> (Sub Menu 3)
+				<input type="radio" name="icon" value="fas fa-tachometer-alt" <?php echo $m['icon']=='fas fa-tachometer-alt'?'checked':'' ?> required> <i class="fas fa-tachometer-alt"></i> (Menu utama)<br>
+				<input type="radio" name="icon" value="fas fa-circle" <?php echo $m['icon']=='fas fa-circle'?'checked':'' ?> required> <i class="fas fa-circle"></i> (Sub Menu 1)<br>
+				<input type="radio" name="icon" value="far fa-dot-circle nav-icon" <?php echo $m['icon']=='far fa-dot-circle nav-icon'?'checked':'' ?> required> <i class="far fa-dot-circle nav-icon"></i> (Sub Menu 2)<br>
+				<input type="radio" name="icon" value="fa fa-angle-right" <?php echo $m['icon']=='fa fa-angle-right'?'checked':'' ?> required> <i class="fa fa-angle-right"></i> (Sub Menu 3)
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="form-group">
 				<button type="submit" class="btn btn-info btn-sm">Simpan</button>
 				<a href="<?php echo $kembali?>" class="btn btn-danger btn-sm text-white">Kembali</a>

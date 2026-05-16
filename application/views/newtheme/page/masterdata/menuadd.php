@@ -10,6 +10,10 @@
 				<input type="text" name="url" class="form-control" required="required">
 			</div>
 			<div class="form-group">
+				<label>Urutan</label>
+				<input type="number" name="urutan" class="form-control" value="0">
+			</div>
+			<div class="form-group">
 				<label>Icon </label><br>
 				<input type="radio" name="icon" value="fas fa-tachometer-alt" required> <i class="fas fa-tachometer-alt"></i> (Menu utama)<br>
 				<input type="radio" name="icon" value="fas fa-circle" required> <i class="fas fa-circle"></i> (Sub Menu 1)<br>

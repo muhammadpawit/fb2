@@ -24,24 +24,30 @@
 </div><br>
 <div class="row">
 	<div class="col-md-12">
-		<table class="table table-bordered" id="datatable">
+		<table class="table table-bordered table-striped" id="datatable">
 			<thead>
 				<tr>
 					<th>No</th>
 					<th>Nama Menu</th>
 					<th>Url</th>
-					<th></th>
+					<th>Parent</th>
+					<th>Urutan</th>
+					<th>Icon</th>
+					<th class="text-center">Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($menus as $m){?>
+				<?php $no=1; foreach($menus as $m){?>
 					<tr>
-						<td><?php echo $m['id']?></td>
+						<td><?php echo $no++ ?></td>
 						<td><?php echo $m['nama']?></td>
 						<td><?php echo $m['url']?></td>
-						<td>
-							<a href="<?php echo $m['edit']?>" class="badge bg-green">Edit</a>
-							<a href="<?php echo $m['delete']?>" class="badge bg-red">Hapus</a>
+						<td><?php echo $m['parent_id'] == 0 ? '<b>Root</b>' : GetName('menu', $m['parent_id']) ?></td>
+						<td><?php echo $m['urutan'] ?></td>
+						<td><i class="<?php echo $m['icon'] ?>"></i></td>
+						<td class="text-center">
+							<a href="<?php echo $m['edit']?>" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> Edit</a>
+							<a href="<?php echo $m['delete']?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah anda yakin ingin menghapus menu ini?')"><i class="fa fa-trash"></i> Hapus</a>
 						</td>
 					</tr>
 				<?php } ?>
