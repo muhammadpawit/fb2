@@ -75,6 +75,9 @@ class Formpengambilanalat extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['tambah']=$this->url.'add';
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
+		$data['action']=$this->url.'save';
 		if(isset($get['pdf'])){
 			$this->load->view($this->page.'finishing_excel',$data);
 		}else{
@@ -168,18 +171,31 @@ class Formpengambilanalat extends CI_Controller {
 	function save(){
 		$post = $this->input->post();
 		$get  = $this->input->get();
-		// pre($post);
 		if(isset($post['products'])){
-			$insert = array(
+			$data_header = array(
 				'tanggal' => $post['tanggal'],
 				'mandor' => $post['mandor'],
 				'shift' => $post['shift'],
 				'hapus' => 0,
-				'status' => 2, // status 2 belum di validasi, status 1 sudah divalidasi
-				'bagian' => isset($post['konveksi']) ? $post['konveksi']:1,
+				'status' => 2,
+				'bagian' => isset($post['konveksi']) ? $post['konveksi'] : (isset($post['finishing']) ? 3 : 1),
 			);
-			$this->db->insert('formpengambilanalat',$insert);
-			$id=$this->db->insert_id();
+
+			if(!empty($post['id'])){
+				// UPDATE
+				$id = $post['id'];
+				$this->db->where('id', $id);
+				$this->db->update('formpengambilanalat', $data_header);
+				
+				// Hapus detail lama
+				$this->db->where('idform', $id);
+				$this->db->delete('formpengambilanalat_detail');
+			} else {
+				// INSERT
+				$this->db->insert('formpengambilanalat', $data_header);
+				$id = $this->db->insert_id();
+			}
+
 			foreach($post['products'] as $p){
 				$detail=array(
 					'idform'=>$id,
@@ -190,24 +206,33 @@ class Formpengambilanalat extends CI_Controller {
 					'keterangan'=>$p['keterangan'],
 					'hapus'=>0
 				);
-				$this->db->insert('formpengambilanalat_detail',$detail);
+				$this->db->insert('formpengambilanalat_detail', $detail);
 			}
 			$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-			if(isset($post['konveksi'])){
+			if(isset($post['konveksi']) && $post['konveksi'] == 2){
 				redirect($this->url.'konveksi');
-			}else if(isset($post['finishing'])){
+			}else if(isset($post['konveksi']) && $post['konveksi'] == 3){
 				redirect($this->url.'finishing');
 			}else{
 				redirect($this->url);
 			}
 		}else{
 			$this->session->set_flashdata('gagal','Data Gagal Di Simpan. Coba beberapa saat lagi.');
-			if(isset($post['konveksi'])){
-				redirect($this->url.'konveksi');
-			}else{
-				redirect($this->url);
-			}
+			redirect($this->url);
 		}
+	}
+
+	function hapus($id){
+		$this->db->where('id',$id);
+		$this->db->update('formpengambilanalat',array('hapus'=>1));
+		$this->session->set_flashdata('msg','Data Berhasil Dihapus');
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	function get_data($id){
+		$header = $this->GlobalModel->getDataRow('formpengambilanalat', array('id' => $id));
+		$details = $this->db->query("SELECT a.*, b.nama_item FROM formpengambilanalat_detail a JOIN gudang_persediaan_item b ON b.id_persediaan=a.id_persediaan WHERE a.idform=$id AND a.hapus=0")->result_array();
+		echo json_encode(['header' => $header, 'details' => $details]);
 	}
 
 	public function konveksi(){
@@ -246,6 +271,9 @@ class Formpengambilanalat extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['tambah']=$this->url.'add?&konveksi=true';
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
+		$data['action']=$this->url.'save';
 		if(isset($get['pdf'])){
 			$this->load->view($this->page.'finishing_excel',$data);
 		}else{
@@ -290,6 +318,9 @@ class Formpengambilanalat extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['tambah']=$this->url.'add?&finishing=true';
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
+		$data['action']=$this->url.'save';
 		if(isset($get['pdf'])){
 			$this->load->view($this->page.'finishing_excel',$data);
 		}else{
