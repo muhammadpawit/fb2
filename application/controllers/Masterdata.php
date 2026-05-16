@@ -273,7 +273,6 @@ class Masterdata extends CI_Controller {
 		$data=$this->input->post();
 		//pre($data);
 		if($data['parent_id']==0){
-			$parent_id=0;
 			$insert=array(
 				'nama'=>$data['nama'],
 				'url'=>$data['url'],
@@ -288,27 +287,28 @@ class Masterdata extends CI_Controller {
 			);
 		}else{
 			$pid=$data['parent_id'];
-			$s1=$data['sub1'];
-			$s2=$data['sub2'];
-			if($data['sub1']>1 && $data['sub2']>1 ){
-				$pid=$data['sub2'];
-				$s1=0;
-				$s2=0;
-			}else if($data['sub1']>0){
-				$pid=$data['sub1'];
-			}else{
-				$pid=$data['parent_id'];
+			$s1=0; $s2=0; $s3=0;
+
+			if(isset($data['sub2']) && $data['sub2'] > 1){
+				$pid = $data['sub2'];
+				$s3 = 1;
+			} else if(isset($data['sub1']) && $data['sub1'] > 1){
+				$pid = $data['sub1'];
+				$s2 = 1;
+			} else {
+				$pid = $data['parent_id'];
+				$s1 = 1;
 			}
 
 
 			$insert=array(
 				'nama'=>$data['nama'],
 				'url'=>$data['url'],
-				'parent'=>$data['parent_id']==0?1:0,
+				'parent'=>0,
 				'parent_id'=>$pid,
 				'sub1'=>$s1,
 				'sub2'=>$s2,
-				'sub3'=>$data['sub3'],
+				'sub3'=>$s3,
 				'urutan'=>$data['urutan'],
 				'icon'=>$data['icon'],
 				'hapus'=>0
@@ -352,10 +352,9 @@ class Masterdata extends CI_Controller {
 		$data=$this->input->post();
 		//pre($data);
 		if($data['parent_id']==0){
-			$parent_id=0;
 			$insert=array(
 				'nama'=>$data['nama'],
-				//'url'=>$data['url'],
+				'url'=>$data['url'],
 				'parent'=>1,
 				'parent_id'=>0,
 				'sub1'=>0,
@@ -367,27 +366,28 @@ class Masterdata extends CI_Controller {
 			);
 		}else{
 			$pid=$data['parent_id'];
-			$s1=$data['sub1'];
-			$s2=$data['sub2'];
-			if($data['sub1']>1 && $data['sub2']>1 ){
-				$pid=$data['sub2'];
-				$s1=0;
-				$s2=0;
-			}else if($data['sub1']>1){
-				$pid=$data['sub1'];
-			}else{
-				$pid=$data['parent_id'];
+			$s1=0; $s2=0; $s3=0;
+
+			if(isset($data['sub2']) && $data['sub2'] > 1){
+				$pid = $data['sub2'];
+				$s3 = 1;
+			} else if(isset($data['sub1']) && $data['sub1'] > 1){
+				$pid = $data['sub1'];
+				$s2 = 1;
+			} else {
+				$pid = $data['parent_id'];
+				$s1 = 1;
 			}
 
 
 			$insert=array(
 				'nama'=>$data['nama'],
 				'url'=>$data['url'],
-				'parent'=>$data['parent_id']==0?1:0,
+				'parent'=>0,
 				'parent_id'=>$pid,
 				'sub1'=>$s1,
 				'sub2'=>$s2,
-				'sub3'=>$data['sub3'],
+				'sub3'=>$s3,
 				'urutan'=>$data['urutan'],
 				'icon'=>$data['icon'],
 				'hapus'=>0
