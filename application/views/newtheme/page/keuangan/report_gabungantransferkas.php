@@ -87,7 +87,7 @@
           <td><?php echo hari($hari).', '.date('d-m-Y',strtotime($p['tanggal']))?></td>
           <td></td>
           <td><?php echo !empty($p['kasmasuk']) ? number_format($p['kasmasuk']) : 0?></td>
-          <td><?php echo number_format($p['pinjaman'])?></td>
+          <td><?php echo !empty($p['pinjaman']) ? number_format($p['pinjaman']) : 0?></td>
           <td></td>
           <td><?php echo !empty($p['masukkonveksi']) ? number_format($p['masukkonveksi']):0?></td>
           <td><?php echo !empty($p['sisa_konveksi']) ? number_format($p['sisa_konveksi']):0?></td>
@@ -101,20 +101,18 @@
         </tr>
 
         <?php
+              $total_kasmasuk+=(!empty($p['kasmasuk'])?$p['kasmasuk']:0);
+              $total_cash_konveksi+=(!empty($p['masukkonveksi'])?$p['masukkonveksi']:0);
+              $total_sisa_konveksi+=(!empty($p['sisa_konveksi'])?$p['sisa_konveksi']:0);
 
-              $total_kasmasuk+=($p['kasmasuk']);
-              $total_cash_konveksi+=($p['masukkonveksi']);
-              $total_sisa_konveksi+=($p['sisa_konveksi']);
+              $total_kasmasuk_bordir+=(!empty($p['masukbordir'])?$p['masukbordir']:0);
+              $total_cash_bordir+=(!empty($p['masukbordir'])?$p['masukbordir']:0);
+              $total_sisa_bordir+=(!empty($p['sisa_bordir'])?$p['sisa_bordir']:0);
 
-              $total_kasmasuk_bordir+=($p['masukbordir']);
-              $total_cash_bordir+=($p['masukbordir']);
-              $total_sisa_bordir+=($p['sisa_bordir']);
-
-              $total_kasmasuk_sablon+=($p['masuksablon']);
-              $total_cash_sablon+=($p['masuksablon']);
-              $total_sisa_sablon+=($p['sisa_sablon']);
-              $total_pinjaman+=($p['pinjaman']);
-
+              $total_kasmasuk_sablon+=(!empty($p['masuksablon'])?$p['masuksablon']:0);
+              $total_cash_sablon+=(!empty($p['masuksablon'])?$p['masuksablon']:0);
+              $total_sisa_sablon+=(!empty($p['sisa_sablon'])?$p['sisa_sablon']:0);
+              $total_pinjaman+=(!empty($p['pinjaman'])?$p['pinjaman']:0);
             ?>
        
         <?php if($p['konveksi']){?>
