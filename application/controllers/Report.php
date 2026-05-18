@@ -255,9 +255,9 @@ class Report extends CI_Controller {
 		$sql6 = "SELECT a.tanggal2 as tanggal FROM gaji_finishing a WHERE a.hapus=0 ";
 		if(!empty($cat)){
 			if($cat==1){
-				$sql6.=" AND a.bagian IN ('FINISHING','GUDANG') ";
+				$sql6.=" AND a.bagian IN ('FINISHING','GUDANG','KLO','PRESSQC') ";
 			}else if($cat==2){
-				$sql6.=" AND a.bagian IN ('KLO','PRESSQC') ";
+				$sql6.=" AND a.bagian IN ('') ";
 			}
 		}
 		$sql6.=" AND date(a.tanggal2) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
@@ -337,29 +337,7 @@ class Report extends CI_Controller {
 						}
 					}
 
-					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'KLO');
-					if(!empty($klo)){
-						foreach($klo as $k){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$k['nominal'],
-								'bagian'=>2, // Bordir
-								'keterangan'=>'Gaji KLO : '.$k['nama'],
-							);
-						}
-					}
 
-					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'PRESSQC');
-					if(!empty($qc)){
-						foreach($qc as $q){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$q['nominal'],
-								'bagian'=>2, // Bordir
-								'keterangan'=>'Gaji Press/QC : '.$q['nama'],
-							);
-						}
-					}
 				}
 
 				if (empty($cat) || $cat == 1) {
@@ -383,6 +361,30 @@ class Report extends CI_Controller {
 								'nominal'=>$g['nominal'],
 								'bagian'=>1, // Konveksi
 								'keterangan'=>'Gaji Gudang : '.$g['nama'],
+							);
+						}
+					}
+
+					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'KLO');
+					if(!empty($klo)){
+						foreach($klo as $k){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$k['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji KLO : '.$k['nama'],
+							);
+						}
+					}
+
+					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'PRESSQC');
+					if(!empty($qc)){
+						foreach($qc as $q){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$q['nominal'],
+								'bagian'=>1, // Konveksi
+								'keterangan'=>'Gaji Press/QC : '.$q['nama'],
 							);
 						}
 					}
