@@ -2758,8 +2758,7 @@ class Gudang extends CI_Controller {
 	public function itemkelSearchId($id='')
 	{
 		$getId = $this->input->get('id');
-		// Query dari tabel persediaan atau product, biasanya quantity stok ada di product
-		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,price as harga_item, quantity FROM product where product_id='".$getId."' ");
+		$data = $this->GlobalModel->queryManualRow("SELECT id_persediaan, warna_item, ukuran_item, satuan_ukuran_item, satuan_jumlah_item, harga_item, jumlah_item as quantity FROM gudang_persediaan_item where id_persediaan='".$getId."' ");
 		echo json_encode($data);
 	}
 
