@@ -22,6 +22,7 @@
               <label>Action</label><br>
               <button onclick="filter()" class="btn btn-info btn-sm">Filter</button>
               <button onclick="excel()" class="btn btn-info btn-sm">Excel</button>
+              <button onclick="pdf()" class="btn btn-info btn-sm">PDF</button>
             </div>
   </div>
 </div>
@@ -325,6 +326,26 @@
     }
 
     location=url;
+  }
+
+  function pdf(){
+    var url='?pdf=1';
+    var tanggal1=$("#tanggal1").val();
+    var tanggal2=$("#tanggal2").val();
+    var cat=$("#cat").val();
+    if(tanggal1){
+      url+='&tanggal1='+tanggal1;
+    }
+
+    if(tanggal2){
+      url+='&tanggal2='+tanggal2;
+    }
+
+    if(cat!="*"){
+        url+='&cat='+cat;
+    }
+
+    window.open(url, '_blank');
   }
 
   function excel(){

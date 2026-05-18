@@ -472,6 +472,16 @@ class Report extends CI_Controller {
 		$data['cat']=$cat;
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'keuangan/report_gabungantransferkas_excel',$data);
+		}else if(isset($get['pdf'])){
+			$html = $this->load->view($this->page.'keuangan/report_gabungantransferkas_pdf',$data,true);
+			$this->load->library('pdfgenerator');
+			$file_pdf = "Laporan_Kas_Operasional_dan_Transferan_" . $tanggal1 . "_" . $tanggal2;
+			$paper = 'A4';
+			$orientation = "landscape";
+			$headerContent = $this->load->view('newtheme/page/pdf/header', $data, true);
+			$footerContent = null;
+			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
+			generate_pdf($this, $htmlWithHeaderFooter, $data, $file_pdf, $paper, $orientation);
 		}else{
 			$data['page']=$this->page.'keuangan/report_gabungantransferkas';
 			$this->load->view($this->page.'main',$data);
