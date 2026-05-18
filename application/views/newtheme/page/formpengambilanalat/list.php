@@ -170,7 +170,7 @@ function get_stok(select) {
     var id = $(select).find(':selected').data('item');
     var tr = $(select).closest('tr');
     tr.find('.id_persediaan').val(id);
-    $.get("<?php echo BASEURL.'gudang/itemkelSearchId' ?>", { id: id }, function(data) {
+    $.get("<?php echo BASEURL.'Gudang/itemkelSearchId' ?>", { id: id }, function(data) {
         var obj = JSON.parse(data);
         tr.find('.stok').val(obj.quantity);
         tr.find('.satuan').val(obj.satuan_jumlah_item);
