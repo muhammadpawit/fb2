@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-3">
                 <label class="font-weight-bold">DIVISI / CABANG</label>
-                <select name="kategori" class="form-control select2-add" required style="width: 100%;">
+                <select name="kategoriPengajuan" class="form-control select2-add" required style="width: 100%;">
                     <option value="">Pilih Divisi</option>
                     <?php foreach($katpeng as $id => $val): ?>
                         <option value="<?php echo $id ?>"><?php echo $val ?></option>

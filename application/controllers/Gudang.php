@@ -1922,7 +1922,16 @@ class Gudang extends CI_Controller {
 				}
 				
 			}
-			$this->db->update('pengajuan_harian_new',array('tanggal'=>$data['tanggal'],'cash'=>$cash,'transfer'=>$transfer,'status'=>$data['statusajuan']),array('id'=>$data['id']));
+			$update_parent = array(
+				'tanggal'=>$data['tanggal'],
+				'cash'=>$cash,
+				'transfer'=>$transfer,
+				'status'=>$data['statusajuan']
+			);
+			if(isset($data['kategoriPengajuan'])){
+				$update_parent['kategori'] = $data['kategoriPengajuan'];
+			}
+			$this->db->update('pengajuan_harian_new', $update_parent, array('id'=>$data['id']));
 			$msg=callSessUser('nama_user').' telah merevisi pengajuan harian';
 			push($msg);
 			// kirim_email('muchlasmuchtar25@gmail.com',callSessUser('nama_user').' telah merevisi pengajuan harian dengan nomor '.$data['id'].' ');

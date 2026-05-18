@@ -124,6 +124,23 @@
                     </tr>
                 </table>
             </div>
+            <div class="col-md-4">
+                <table class="table table-bordered">
+                    <tr>
+                        <td class="bg-light"><b>Divisi / Cabang</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="kategoriPengajuan" class="form-control" required>
+                                <option value="1" <?php echo $parent['kategori']==1?'selected':'';?>>SABLON</option>
+                                <option value="2" <?php echo $parent['kategori']==2?'selected':'';?>>BORDIR</option>
+                                <option value="3" <?php echo $parent['kategori']==3?'selected':'';?>>KONVEKSI</option>
+                                <option value="4" <?php echo $parent['kategori']==4?'selected':'';?>>SUKABUMI</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div class="table-responsive" style="min-height: 300px;">
