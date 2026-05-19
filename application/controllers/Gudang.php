@@ -1103,7 +1103,7 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('ajuan_mingguan_detail',$insert);
 			}
-			$this->db->update('ajuan_mingguan',array('keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
+			$this->db->update('ajuan_mingguan',array('tanggal'=>$data['tanggal'],'keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguan');
