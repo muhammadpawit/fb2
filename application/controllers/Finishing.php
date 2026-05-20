@@ -1741,7 +1741,7 @@ class Finishing extends CI_Controller {
 		$viewData['cucianhpp']=$this->GlobalModel->getDataRow('master_jenis_po',array('nama_jenis_po'=>$namapo));
 		$viewData['perincian'] = $this->GlobalModel->getData('gudang_item_keluar',array('idpo'=>$kodepo,'hapus'=>0));
 
-		$viewData['cmt'] =	$this->GlobalModel->getData('kelolapo_kirim_setor',array('idpo'=>$kodepo,'hapus'=>0));
+		$viewData['cmt'] =	$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND idpo='$kodepo' GROUP BY kategori_cmt, id_master_cmt");
 		// pre($viewData['cmt']);
 		$viewData['master_harga_potongan'] = $this->GlobalTwoModel->getDataRow('master_harga_potongan',array('hapus'=>0,'nama_jenis_po'=>$viewData['po']['nama_po']));
 		
@@ -1753,7 +1753,7 @@ class Finishing extends CI_Controller {
 			$polama = $this->GlobalModel->GetDataRow2('produksi_po',array('id_produksi_po'=>$po['idpolama']));
 			//pre($polama);
 			$viewData['bordirer'] = $this->db2->query('SELECT * FROM kelola_mesin_bordir WHERE idpo = "'.$polama['id_produksi_po'].'" AND hapus=0 ')->result_array();
-			$viewData['cmt'] =	$this->GlobalModel->getData2('kelolapo_kirim_setor',array('idpo'=>$polama['id_produksi_po'],'hapus'=>0));
+			$viewData['cmt'] =	$this->GlobalModel->queryManual2("SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND idpo='".$polama['id_produksi_po']."' GROUP BY kategori_cmt, id_master_cmt");
 			$viewData['perincian'] = $this->GlobalModel->getData2('gudang_item_keluar',array('idpo'=>$polama['id_produksi_po'],'hapus'=>0));
 
 			$b3	= $this->GlobalModel->QueryManualRow2("SELECT kode_po FROM konveksi_buku_potongan WHERE refpo='".$polama['kode_po']."' ");
@@ -1775,7 +1775,7 @@ class Finishing extends CI_Controller {
 			}
 		}else{
 			// $viewData['cmt'] =	$this->GlobalModel->getData('kelolapo_kirim_setor',array('idpo'=>$kodepo,'progress'=>'KIRIM','hapus'=>0,'id_master_cmt','!=85'));
-			$viewData['cmt'] =	$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND id_master_cmt NOT IN(85) AND idpo='$kodepo' ");
+			$viewData['cmt'] =	$this->GlobalModel->QueryManual("SELECT * FROM kelolapo_kirim_setor WHERE hapus=0 AND id_master_cmt NOT IN(85) AND idpo='$kodepo' GROUP BY kategori_cmt, id_master_cmt");
 			$viewData['bordirer'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir WHERE idpo = "'.$kodepo.'" AND hapus=0 ');
 			$viewData['perincian'] = $this->GlobalModel->getData('gudang_item_keluar',array('idpo'=>$kodepo,'hapus'=>0));
 			
