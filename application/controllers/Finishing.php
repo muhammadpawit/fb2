@@ -1890,8 +1890,7 @@ class Finishing extends CI_Controller {
 	        // filename dari pdf ketika didownload
 	        $file_pdf = 'Surat_Jalan_Kirim_Jahit_'.time();
 	        // setting paper
-	        // $paper = 'A4';
-	        $paper = array(0,0,900,1250);
+	        $paper = 'A4';
 	        //orientasi paper potrait / landscape
 	        $orientation = "potrait";
 	        
