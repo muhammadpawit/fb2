@@ -1152,8 +1152,8 @@
         </div>
 
         <div class="no-print mt-5 mb-5 text-center">
-            <button type="button" class="btn btn-primary btn-lg px-5 shadow-sm" data-toggle="modal" data-target="#modalCetak">
-                <i class="fa fa-print"></i> CETAK LAPORAN HPP
+            <button type="button" onclick="cetakHPP()" class="btn btn-primary btn-lg px-5 shadow-sm">
+                <i class="fa fa-file-pdf-o"></i> CETAK LAPORAN HPP
             </button>
         </div>
 
@@ -1162,37 +1162,17 @@
             <div class="modal-dialog" role="document" style="max-width: 450px; margin-top: 100px;">
                 <div class="modal-content" style="border-radius: 8px; border: none; box-shadow: 0 15px 50px rgba(0,0,0,0.2);">
                     <div class="modal-header" style="background: #1e293b; color: white; border-radius: 8px 8px 0 0; padding: 20px;">
-                        <h4 class="modal-title" style="font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Opsi Cetak Laporan</h4>
+                        <h4 class="modal-title" style="font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Cetak Laporan HPP</h4>
                         <button type="button" class="close" data-dismiss="modal" style="color: white; opacity: 0.8;">&times;</button>
                     </div>
                     <div class="modal-body text-center" style="padding: 25px;">
-                        <!-- Pemilihan Cetak -->
-                        <div id="pilihanCetak">
-                            <div style="background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px dashed #cbd5e1; margin-bottom: 25px;">
-                                <div style="font-size: 12px; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">HPP Produksi</div>
-                                <div style="font-size: 18px; font-weight: 800; color: #1e293b;"><?php echo $po['nama_hpp'] ?></div>
-                                <div style="font-size: 14px; color: #475569; margin-top: 5px; font-weight: 600;">Grand Total: Rp <?php echo number_format($grand) ?></div>
-                            </div>
+                        <!-- Pemilihan Cetak (Hidden/Removed printer choice) -->
+                        <div id="pilihanCetak" style="display: none;"></div>
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <button onclick="printsubmit()" class="btn btn-outline-dark btn-block" style="padding: 12px; font-weight: 700;">
-                                        <i class="fa fa-print fa-2x d-block mb-2"></i> PRINTER
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button onclick="showPDF()" class="btn btn-outline-info btn-block" style="padding: 12px; font-weight: 700;">
-                                        <i class="fa fa-file-pdf-o fa-2x d-block mb-2"></i> LIHAT PDF
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Preview PDF (Hidden by default) -->
+                        <!-- Preview PDF -->
                         <div id="previewPDF" style="display: none;">
-                            <div class="mb-3 text-left">
-                                <button onclick="hidePDF()" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left"></i> Kembali</button>
-                                <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-sm btn-info pull-right"><i class="fa fa-download"></i> Download</a>
+                            <div class="mb-3 text-left clearfix">
+                                <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-sm btn-info pull-right"><i class="fa fa-download"></i> Download / Print PDF</a>
                             </div>
                             <iframe src="" id="pdfFrame" style="width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 4px;"></iframe>
                         </div>
@@ -1215,6 +1195,22 @@
 
 $( document ).ready(function() {
 
+    $(window).bind('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && (event.key === 'p' || event.key === 'P' || event.keyCode === 80)) {
+            event.preventDefault();
+            if (typeof Swal !== 'undefined') {
+                Swal({
+                    title: 'Peringatan',
+                    text: 'Cetak langsung menggunakan shortcut Ctrl+P/Cmd+P dinonaktifkan pada halaman ini.',
+                    type: 'warning'
+                });
+            } else {
+                alert('Cetak langsung menggunakan shortcut Ctrl+P/Cmd+P dinonaktifkan pada halaman ini.');
+            }
+            return false;
+        }
+    });
+
     $( "#valOperation" ).keyup(function() {
 
         var value = $(this).val();
@@ -1229,25 +1225,36 @@ $( document ).ready(function() {
 
 });
 
-function showPDF() {
+function cetakHPP() {
+    // 1. Silent update of hargasatuan in background
+    var form = $('#submit');
+    $.ajax({
+        url: form.attr('action'),
+        type: 'POST',
+        data: form.serialize(),
+        success: function(response) {
+            console.log('HPP price successfully saved/updated.');
+        },
+        error: function(err) {
+            console.error('Failed to update HPP price.', err);
+        }
+    });
+
+    // 2. Open PDF preview immediately inside modal
     $('#pilihanCetak').hide();
     $('#previewPDF').show();
     $('#modalCetak .modal-dialog').addClass('modal-fullscreen');
     $('#pdfFrame').attr('src', '<?php echo $pdf ?>');
     $('#pdfFrame').css('height', '88vh');
+    $('#modalCetak').modal('show');
+}
+
+function showPDF() {
+    cetakHPP();
 }
 
 function hidePDF() {
-    $('#previewPDF').hide();
-    $('#pilihanCetak').show();
-    $('#modalCetak .modal-dialog').removeClass('modal-fullscreen');
-    $('#modalCetak .modal-dialog').attr('style', 'max-width: 450px; margin: 100px auto;');
-    $('#pdfFrame').attr('src', '');
-}
-
-function printsubmit(){
-        window.print();
-    $("#submit").submit();
+    $('#modalCetak').modal('hide');
 }
 
 $('.hpp-upload-form').on('submit', function() {

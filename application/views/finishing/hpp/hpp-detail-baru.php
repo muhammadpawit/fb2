@@ -407,3 +407,23 @@
         </table>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(window).bind('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && (event.key === 'p' || event.key === 'P' || event.keyCode === 80)) {
+            event.preventDefault();
+            if (typeof Swal !== 'undefined') {
+                Swal({
+                    title: 'Peringatan',
+                    text: 'Cetak langsung menggunakan shortcut Ctrl+P/Cmd+P dinonaktifkan pada halaman ini.',
+                    type: 'warning'
+                });
+            } else {
+                alert('Cetak langsung menggunakan shortcut Ctrl+P/Cmd+P dinonaktifkan pada halaman ini.');
+            }
+            return false;
+        }
+    });
+});
+</script>
