@@ -35,89 +35,61 @@
   }
 </style>
 <!-- Start Page content -->
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <?php if(!empty($po['gambar_po'])){ ?>
-                                    <!-- Layout with Image (4 Columns) -->
-                                    <tr>
-                                        <td colspan="4" class="text-center" style="padding: 10px; font-weight: bold; background-color: #f8fafc; font-size: 16px; letter-spacing: 1px;">
-                                            <center>HPP <?php echo strtoupper($jenis) ?></center>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%" style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">PO</td>
-                                        <td width="30%" style="padding: 6px 10px;"><?php echo $po['nama_hpp'] ?></td>
-                                        <td width="50%" colspan="2" rowspan="8" valign="middle" align="center" style="padding: 10px; background-color: #fafafa;">
-                                            <img src="<?php echo (strpos($po['gambar_po'], 'data:image') === 0) ? $po['gambar_po'] : BASEURL.$po['gambar_po'] ?>" style="max-height: 180px; max-width: 95%; height: auto; border: 1px solid #ccc; border-radius: 4px;" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">ARTIKEL</td>
-                                        <td style="padding: 6px 10px;"><?php echo $po['kode_artikel'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">JENIS</td>
-                                        <td style="padding: 6px 10px;"><?php echo $po['jenis_po'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">SIZE</td>
-                                        <td style="padding: 6px 10px;"><?php echo $pot['size_potongan'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">BAHAN</td>
-                                        <td style="padding: 6px 10px;"><?php echo isset($namabahan['nama_item_keluar']) ? $namabahan['nama_item_keluar'] : '-' ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">TIM POTONG</td>
-                                        <td style="padding: 6px 10px;"><?php echo strtoupper($timpotong ?? '-') ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">JUMLAH PO</td>
-                                        <td style="padding: 6px 10px;"><?php echo isset($pot['hasil_pieces_potongan']) ? $pot['hasil_pieces_potongan'] : 0 ?> PCS / <?php echo isset($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 0 ?> DZ</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">CMT JAHIT</td>
-                                        <td style="padding: 6px 10px;"><?php echo strtoupper($namacmt ?? '-') ?></td>
-                                    </tr>
-                                <?php } else { ?>
-                                    <!-- Layout without Image (2 Columns) -->
-                                    <tr>
-                                        <td colspan="2" class="text-center" style="padding: 10px; font-weight: bold; background-color: #f8fafc; font-size: 16px; letter-spacing: 1px;">
-                                            <center>HPP <?php echo strtoupper($jenis) ?></center>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="25%" style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">PO</td>
-                                        <td width="75%" style="padding: 6px 10px;"><?php echo $po['nama_hpp'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">ARTIKEL</td>
-                                        <td style="padding: 6px 10px;"><?php echo $po['kode_artikel'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">JENIS</td>
-                                        <td style="padding: 6px 10px;"><?php echo $po['jenis_po'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">SIZE</td>
-                                        <td style="padding: 6px 10px;"><?php echo $pot['size_potongan'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">BAHAN</td>
-                                        <td style="padding: 6px 10px;"><?php echo isset($namabahan['nama_item_keluar']) ? $namabahan['nama_item_keluar'] : '-' ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">TIM POTONG</td>
-                                        <td style="padding: 6px 10px;"><?php echo strtoupper($timpotong ?? '-') ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">JUMLAH PO</td>
-                                        <td style="padding: 6px 10px;"><?php echo isset($pot['hasil_pieces_potongan']) ? $pot['hasil_pieces_potongan'] : 0 ?> PCS / <?php echo isset($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 0 ?> DZ</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 6px 10px; font-weight: bold; background-color: #fcfcfc;">CMT JAHIT</td>
-                                        <td style="padding: 6px 10px;"><?php echo strtoupper($namacmt ?? '-') ?></td>
-                                    </tr>
-                                <?php } ?>
+                            <table style="width: 100%;">
+
+                                <tr>
+
+                                    <td colspan="3" class="text-center">
+
+                                        <center>
+                                            <h1>
+                                                HPP <?php echo $jenis?> 
+                                            </h1>
+                                        </center>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="20%">&nbsp;PO</td>
+                                    <td width="20%">&nbsp;<?php echo $po['nama_hpp'] ?></td>
+                                    <td width="40%" colspan="2" rowspan="8" valign="middle" align="center" style="padding: 5px;">
+                                       <?php if(!empty($po['gambar_po'])){?>
+                                             <img src="<?php echo (strpos($po['gambar_po'], 'data:image') === 0) ? $po['gambar_po'] : BASEURL.$po['gambar_po'] ?>" style="max-height: 100px; width: auto;"  >
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;ARTIKEL</td>
+                                    <td>&nbsp;<?php echo $po['kode_artikel'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;JENIS</td>
+                                    <td>&nbsp;<?php echo $po['jenis_po'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;SIZE</td>
+                                    <td>&nbsp;<?php echo $pot['size_potongan'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;BAHAN</td>
+                                    <td>&nbsp;<?php echo isset( $namabahan['nama_item_keluar']) ? $namabahan['nama_item_keluar']:'' ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;TIM POTONG</td>
+                                    <td>&nbsp;<?php echo strtoupper($timpotong ?? '') ?></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;JUMLAH PO</td>
+                                    <td>&nbsp;<?php echo isset( $pot['hasil_pieces_potongan'])? $pot['hasil_pieces_potongan']:0 ?> PCS / <?php echo isset( $pot['hasil_lusinan_potongan'])? $pot['hasil_lusinan_potongan']:0 ?> DZ
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;CMT JAHIT</td>
+                                    <td>&nbsp;<?php echo strtoupper($namacmt ?? '') ?></td>
+                                </tr>
+
                             </table>
 
                             <table style="width: 100%;">
