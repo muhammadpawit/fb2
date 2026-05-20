@@ -1143,7 +1143,7 @@
 
         <div class="signature-section">
             <div class="signature-wrap">
-                <div class="date">TANGGAL : <?php echo strtoupper(date('d F Y')) ?></div>
+                <div class="date">TANGGAL : <?php echo strtoupper(formatTanggalIndo(date('Y-m-d'))) ?></div>
                 <div class="date">PARAF PERSETUJUAN / ACC PIMPINAN</div>
                 <div style="height: 80px;"></div>
                 <span class="title">( H.RICKO WENDRA )</span>

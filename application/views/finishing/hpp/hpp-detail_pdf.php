@@ -902,7 +902,7 @@
                                 <tr>
                                     <td align="right" style="border: 0px solid !important; padding-right: 20px;">
                                         Persetujuan Pimpinan<br>
-                                        Tanggal : <?php echo strtoupper(date('d F Y')) ?>
+                                        Tanggal : <?php echo strtoupper(formatTanggalIndo(date('Y-m-d'))) ?>
                                         <div style="height: 50px;"></div>
                                         ( H.RICKO WENDRA )
                                     </td>
