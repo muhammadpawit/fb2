@@ -199,10 +199,14 @@
         height: 100% !important;
         border-radius: 0 !important;
         border: none !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
     .modal-fullscreen .modal-body {
-        height: calc(100vh - 120px) !important;
-        overflow-y: auto;
+        flex: 1 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        height: auto !important;
     }
 
     .btn-edit-image {
@@ -1161,24 +1165,21 @@
         <div class="modal fade" id="modalCetak" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document" style="max-width: 450px; margin-top: 100px;">
                 <div class="modal-content" style="border-radius: 8px; border: none; box-shadow: 0 15px 50px rgba(0,0,0,0.2);">
-                    <div class="modal-header" style="background: #1e293b; color: white; border-radius: 8px 8px 0 0; padding: 20px;">
-                        <h4 class="modal-title" style="font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Cetak Laporan HPP</h4>
-                        <button type="button" class="close" data-dismiss="modal" style="color: white; opacity: 0.8;">&times;</button>
+                    <div class="modal-header" style="background: #1e293b; color: white; border-radius: 8px 8px 0 0; padding: 15px 20px; display: flex !important; align-items: center !important; justify-content: space-between !important;">
+                        <h4 class="modal-title" style="font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; margin: 0; display: inline-block;">Cetak Laporan HPP</h4>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-sm btn-info" style="font-weight: 600; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); margin-right: 15px;"><i class="fa fa-download"></i> Download / Print PDF</a>
+                            <button type="button" class="close" data-dismiss="modal" style="color: white; opacity: 0.8; font-size: 28px; line-height: 1; margin: 0; padding: 0; outline: none; border: none; background: transparent;">&times;</button>
+                        </div>
                     </div>
-                    <div class="modal-body text-center" style="padding: 25px;">
+                    <div class="modal-body text-center" style="padding: 0;">
                         <!-- Pemilihan Cetak (Hidden/Removed printer choice) -->
                         <div id="pilihanCetak" style="display: none;"></div>
 
                         <!-- Preview PDF -->
-                        <div id="previewPDF" style="display: none;">
-                            <div class="mb-3 text-left clearfix">
-                                <a href="<?php echo $pdf ?>" target="_blank" class="btn btn-sm btn-info pull-right"><i class="fa fa-download"></i> Download / Print PDF</a>
-                            </div>
-                            <iframe src="" id="pdfFrame" style="width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 4px;"></iframe>
+                        <div id="previewPDF" style="display: none; width: 100%; height: 100%;">
+                            <iframe src="" id="pdfFrame" style="width: 100%; height: 100%; border: none;"></iframe>
                         </div>
-                    </div>
-                    <div class="modal-footer" style="padding: 15px; border-top: 1px solid #f1f5f9; background: #fbfbfb; border-radius: 0 0 8px 8px;">
-                        <button type="button" class="btn btn-link btn-sm text-muted" data-dismiss="modal">Tutup</button>
                     </div>
                 </div>
             </div>
@@ -1245,7 +1246,6 @@ function cetakHPP() {
     $('#previewPDF').show();
     $('#modalCetak .modal-dialog').addClass('modal-fullscreen');
     $('#pdfFrame').attr('src', '<?php echo $pdf ?>');
-    $('#pdfFrame').css('height', '88vh');
     $('#modalCetak').modal('show');
 }
 
