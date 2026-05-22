@@ -11,12 +11,13 @@ class GajiSablonModel extends CI_Model {
 		$data['prods']=[];
 		$sql		  ="SELECT a.*, 
 							CASE 
-								WHEN a.namatim = 197 THEN m.nama
-								ELSE p.kode_po
+								WHEN a.namatim = 197
+								OR a.namatim = 198
+								 THEN m.nama
+								ELSE (SELECT kode_po FROM produksi_po WHERE id_produksi_po = a.idpo)
 							END AS kode_po,
 							k.nama AS namakar
 						FROM gaji_sablon_borongan a ";
-		$sql 		  .=" LEFT JOIN produksi_po p ON p.id_produksi_po = a.idpo  ";
 		$sql 		  .=" LEFT JOIN master_po_luar m ON m.id = a.idpo  ";
 		$sql 		  .=" LEFT JOIN karyawan_harian k ON k.id = a.namatim   ";
 		$sql 		  .=" WHERE a.hapus=0 ";

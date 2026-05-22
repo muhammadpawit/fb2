@@ -265,10 +265,9 @@ class Gajisablon extends CI_Controller {
 		$data['cancel']=$this->url.'brongan';
 		$po	= $this->GlobalModel->QueryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ');
 		$data['cmt']	= $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
-		$poluar	= $this->GlobalModel->QueryManual('SELECT id as id_produksi_po, nama as kode_po FROM master_po_luar WHERE hapus=0 ');
+		$poluar	= $this->GlobalModel->QueryManual('SELECT CONCAT("LUAR_", id) as id_produksi_po, CONCAT(nama, " (LUAR)") as kode_po FROM master_po_luar WHERE hapus=0 ');
 		$data['po']=array_merge($po,$poluar);
 		// pre($data['po']);
-		$data['poluar'] = 
 		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		if(isset($get['excel'])){
 			$this->load->view('gudang/persediaan/kartustok_excel',$data);
@@ -282,17 +281,21 @@ class Gajisablon extends CI_Controller {
 		$post = $this->input->post();
 		// pre($post);
 		foreach($post['prods'] as $p){
+			$idpo = $p['kodepo'];
+			if(strpos($idpo, 'LUAR_') !== false){
+				$idpo = str_replace('LUAR_', '', $idpo);
+			}
 			$insert = array(
 				'tanggal' 	=> $post['tanggal'],
 				'idcmt' 	=> $post['idcmt'],
 				'namatim' 	=> $post['id_karyawan_harian'],
-				'idpo' 		=> $p['kodepo'],
+				'idpo' 		=> $idpo,
 				'gambar' 	=> $p['gambar'],
 				'model' 	=> $p['model'],
 				'dz' 		=> $p['lusin'],
 				'putaran' 	=> $p['putaran'],
 				'harga' 	=> $p['harga'],
-				'total' 	=> ($p['lusin']*$p['putaran']*$p['harga']),
+				'total' 	=> ((float)$p['lusin']*(float)$p['putaran']*(float)$p['harga']),
 				'hapus'		=> 0,
 			);
 			$this->db->insert('gaji_sablon_borongan',$insert);
