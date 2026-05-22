@@ -2059,6 +2059,9 @@ class Bordir extends CI_Controller {
 			if($data['mesin'] == 5 || $data['mesin']==6){
 				$persenan = 0.18;
 			}
+			if($data['mesin'] == 1 || $data['mesin'] == 3 || $data['mesin'] == 4 || $data['mesin'] == 7){
+				$persenan = 0.2;
+			}
 			$mesin = (object) array(
 				'persenan' => $persenan,
 				'kepala' => '12',

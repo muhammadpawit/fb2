@@ -43,7 +43,7 @@
 							$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$e['jenis'],'nomer_mesin'=>$e['mesin_bordir']));
 							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
 							$mesinpersenan=$mesin['persenan'];
-							if($pemilik['id']==1 && ($e['mesin_bordir'] == 3 || $e['mesin_bordir'] == 4 || $e['mesin_bordir'] == 1) ){
+							if($pemilik['id']==1 && ($e['mesin_bordir'] == 3 || $e['mesin_bordir'] == 4 || $e['mesin_bordir'] == 1 || $e['mesin_bordir'] == 7) ){
 								$mesinpersenan=0.2;
 							}
 							$gaji = ($total_stich *  $pemilik['hasil_x'] * $mesinpersenan);

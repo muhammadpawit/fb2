@@ -42,6 +42,9 @@
 							$pemilik_hasil_x = !empty($pemilik) ? $pemilik['hasil_x'] : 0;
 							$pemilik_id = !empty($pemilik) ? $pemilik['id'] : '';
 							$mesin_persenan = !empty($mesin) ? $mesin['persenan'] : 0;
+							if($pemilik_id==1 && ($e['mesin_bordir'] == 3 || $e['mesin_bordir'] == 4 || $e['mesin_bordir'] == 1 || $e['mesin_bordir'] == 7) ){
+								$mesin_persenan=0.2;
+							}
 							$total_stich =($e['jumlah_naik_mesin'] * $e['stich']);
 							$gaji = ($total_stich *  $pemilik_hasil_x * $mesin_persenan );
 						?>
