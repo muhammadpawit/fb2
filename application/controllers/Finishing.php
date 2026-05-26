@@ -2149,8 +2149,8 @@ class Finishing extends CI_Controller {
 	public function kirimcmtjahit()
 	{
 		$post = $this->input->get();
-		$data = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('idpo'=>$post['kodepo'],'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','id_master_cmt'=>$post['cmt']));
-		// /$data = $this->GlobalModel->QueryManualROw($sql);
+		$sql = "SELECT * FROM kelolapo_kirim_setor WHERE idpo='".$post['kodepo']."' AND kategori_cmt='JAHIT' AND id_master_cmt='".$post['cmt']."' AND progress IN ('KIRIM', 'SETOR')";
+		$data = $this->GlobalModel->queryManualRow($sql);
 		echo json_encode($data);
 	}
 
