@@ -6,7 +6,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Tanggal</label>
-                <input type="text" name="tanggal" class="form-control datepicker" value="<?php echo date('Y-m-d') ?>" required="required">
+                <input type="date" name="tanggal" class="form-control" value="<?php echo date('Y-m-d') ?>" required="required">
               </div>
             </div>
             <!--<div class="col-md-6">
@@ -142,5 +142,9 @@
                 $("#stok").attr("readonly",true);
             });
         });
+
+    $("form").submit(function(){
+      $(this).find('button[type="submit"]').html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...').attr('disabled', true);
+    });
 
 </script>

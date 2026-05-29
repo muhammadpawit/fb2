@@ -1,6 +1,5 @@
 <form method="post" action="<?php echo $action ?>">
   <input type="hidden" name="id" value="<?php echo $k['id']?>">
-  <input type="hidden" name="tanggal" value="<?php echo $k['tanggal']?>">
   <input type="hidden" name="jenis" value="<?php echo $k['jenis']?>">
   <div class="row">
       <div class="col-md-12">
@@ -12,7 +11,7 @@
             <td colspan="10" align="center"><b><input name="keterangan" value="<?php echo $k['keterangan2']?>" class="form-control"></b></td>
           </tr>
           <tr>
-            <td colspan="10">Tanggal : <?php echo date('d-m-Y',strtotime($k['tanggal']))?></td>
+            <td colspan="10">Tanggal : <input type="date" name="tanggal" value="<?php echo $k['tanggal']?>" class="form-control" style="width: 200px; display: inline-block;"></td>
           </tr>
           <tr>
             <!-- <td rowspan="2" style="vertical-align: middle;text-align: center;"><b>No</b></td> -->
@@ -147,6 +146,10 @@
 
         $(this).closest('tr').remove();
 
+    });
+
+    $("form").submit(function(){
+      $(this).find('button.btn-success').html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...').attr('disabled', true);
     });
 
 </script>
