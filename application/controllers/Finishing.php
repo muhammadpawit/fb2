@@ -1559,8 +1559,14 @@ class Finishing extends CI_Controller {
 				);
 				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish',$insertRincinan);
 			}
-			$this->GlobalModel->updateData('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$post['id_kelolapo_kirim_setor']),array('progress'=>'SELESAI'));
-			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+			$ks = $this->GlobalModel->getDataRow('kelolapo_kirim_setor',array('id_kelolapo_kirim_setor'=>$post['id_kelolapo_kirim_setor']));
+			if(!empty($ks)){
+				unset($ks['id_kelolapo_kirim_setor']);
+				$ks['progress'] = 'SELESAI';
+				$ks['create_date'] = date('Y-m-d',strtotime($post['tanggal_penerimaan']));
+				$ks['qty_tot_pcs'] = $jmlYangDisetor;
+				$this->GlobalModel->insertData('kelolapo_kirim_setor',$ks);
+			}			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
 			if($rijek>0){
 				$this->db->insert(
 					'rijek',
