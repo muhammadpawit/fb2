@@ -61,7 +61,7 @@
             background: radial-gradient(circle, #4895ef 0%, transparent 70%);
             opacity: 0.2;
             z-index: 0;
-            animation: float 15s infinite alternate;
+            animation: float 20s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
         }
 
         body::after {
@@ -74,18 +74,21 @@
             background: radial-gradient(circle, #f72585 0%, transparent 70%);
             opacity: 0.1;
             z-index: 0;
-            animation: float 18s infinite alternate-reverse;
+            animation: float 25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate-reverse;
         }
 
         @keyframes float {
             0% {
-                transform: translate(0, 0);
+                transform: translate(0, 0) scale(1) rotate(0deg);
             }
-            50% {
-                transform: translate(-10%, -10%);
+            33% {
+                transform: translate(-3%, 3%) scale(1.02) rotate(2deg);
+            }
+            66% {
+                transform: translate(3%, -3%) scale(0.98) rotate(-2deg);
             }
             100% {
-                transform: translate(10%, 10%);
+                transform: translate(-5%, -5%) scale(1.05) rotate(1deg);
             }
         }
 
@@ -103,13 +106,13 @@
             border-radius: 24px;
             padding: 48px 40px;
             box-shadow: var(--shadow);
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(40px) scale(0.95);
+                transform: translateY(50px) scale(0.97);
             }
             to {
                 opacity: 1;
@@ -221,17 +224,17 @@
 
         .login-method {
             display: none;
-            animation: fadeIn 0.4s ease-out;
         }
 
         .login-method.active {
             display: block;
+            animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
