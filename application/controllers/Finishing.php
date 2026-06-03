@@ -1507,7 +1507,7 @@ class Finishing extends CI_Controller {
 		if(empty($sj)){
 			$this->session->set_flashdata('gagal','Belum ada surat jalannya');
 			
-			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po'].'/'.$post['id_kelolapo_kirim_setor']);
 		}
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
@@ -1535,7 +1535,7 @@ class Finishing extends CI_Controller {
 				$lastId = $this->db->insert_id();
 			} else {
 				$this->session->set_flashdata('msg','INPUT NYA SANTAI AJA DONG, KODE PO INI SUDAH DI INPUT!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/kunti.mp3" type="audio/mpeg"></audio>');
-				redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+				redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po'].'/'.$post['id_kelolapo_kirim_setor']);
 			}
 			
 			$rijek=0;
@@ -1581,7 +1581,7 @@ class Finishing extends CI_Controller {
 		} else {
 			$this->session->set_flashdata('msg','Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
 			
-			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po'].'/'.$post['id_kelolapo_kirim_setor']);
 		}
 
 		redirect(BASEURL.'finishing/rinciansetorkaoscmt?&kode_po='.$post['idpo']);
@@ -2491,7 +2491,7 @@ class Finishing extends CI_Controller {
 		if(empty($sj)){
 			$this->session->set_flashdata('gagal','Belum ada surat jalannya');
 			
-			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+			redirect(BASEURL.'finishing/editsetoran_susulan/'.$po['kode_po']);
 		}
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
@@ -2608,7 +2608,7 @@ class Finishing extends CI_Controller {
 		if(empty($sj)){
 			$this->session->set_flashdata('gagal','Belum ada surat jalannya');
 			
-			redirect(BASEURL.'finishing/produksikaoscmt/'.$po['id_produksi_po'].'/'.$po['kode_po']);
+			redirect(BASEURL.'finishing/editsetoran_susulan_celana/'.$po['kode_po']);
 		}
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
