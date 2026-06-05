@@ -524,3 +524,4 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 $config['CI_SECRET_KEY'] = '9BYmzfRGsXit9syTRSeI6ek2mGV4b7GM';
 $config['API_URL']       = 'https://api.forboysproduction.com';
+// $config['API_URL']       = 'http://laravel12.test';

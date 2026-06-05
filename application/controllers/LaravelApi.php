@@ -115,6 +115,7 @@ class LaravelApi extends CI_Controller {
         $jenispo   = $this->input->get('jenispo')  ?: null;
         $validasi  = $this->input->get('validasi') ?: null;
         $model_po  = $this->input->get('model_po') ?: null;
+        $tahun    = $this->input->get('tahun') ?: null;
         $page      = $this->input->get('page', 1);
         $per_page  = $this->input->get('per_page', 25);
         $draw      = intval($this->input->get('draw', 1));
@@ -132,6 +133,7 @@ class LaravelApi extends CI_Controller {
             "jenispo"    => $jenispo,
             "validasi"   => $validasi,
             "model_po"   => $model_po,
+            "tahun"    => $tahun,
             "page"       => $page,
             "per_page"   => $per_page,
             "draw"       => $draw
