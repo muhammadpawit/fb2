@@ -21,15 +21,31 @@
             </select>
         </div>
     </div>
-    <div class="col-md-3">
-        <label>Validasi PO</label>
-        <select id="validasi" name="validasi">
-            <option value="*">Semua</option>
-            <option value="0">Tidak</option>
-            <option value="1">Ya</option>
-        </select>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Validasi PO</label>
+            <select id="validasi" name="validasi" class="form-control">
+                <option value="*">Semua</option>
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+            </select>
+        </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Tahun</label>
+            <select id="tahun" name="tahun" class="form-control select2bs4" data-live-search="true">
+                <option value="*">Semua</option>
+                <?php 
+                $current_year = date('Y');
+                $end_year = $current_year + 1;
+                for($y=2020; $y<=$end_year; $y++){ ?>
+                    <option value="<?php echo $y;?>" <?php echo $y==$current_year?'selected':'';?> ><?php echo $y;?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
         <div class="form-group">
             <label>Aksi</label><br>
             <button class="btn btn-info btn-sm" onclick="search_proses()">Filter</button>
@@ -102,9 +118,11 @@ $(document).ready(function () {
                 const jenispo  = $('#jenispo').val();
                 const validasi = $('#validasi').val();
                 const model_po = $('#model_po').val();
+                const tahun    = $('#tahun').val();
                 d.jenispo  = jenispo !== '*' ? jenispo : null;
                 d.validasi = validasi !== '*' ? validasi : null;
                 d.model_po = model_po !== '*' ? model_po : null;
+                d.tahun    = tahun !== '*' ? tahun : null;
                 d.page     = Math.ceil(d.start / d.length) + 1;
                 d.per_page = d.length;
                 d.draw     = d.draw;
