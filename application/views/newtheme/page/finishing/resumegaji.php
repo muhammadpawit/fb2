@@ -114,6 +114,7 @@
         .no-print { display: none !important; }
         .resumegaji-wrapper { background: #fff; padding: 0; }
         .payroll-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+        .tab-content > .tab-pane { display: block !important; opacity: 1 !important; margin-bottom: 30px; }
     }
 </style>
 
@@ -155,15 +156,59 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>&nbsp;</label><br>
-                    <button class="btn btn-primary btn-block" onclick="filtertglonly()"><i class="fa fa-filter"></i> TAMPILKAN DATA</button>
+                    <button id="btn-filter" class="btn btn-primary btn-block" onclick="showReloaderAndFilter()"><i class="fa fa-filter"></i> TAMPILKAN DATA</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="section-title">RINCIAN GAJI HARIAN</div>
+    <?php 
+    $total=0;
+    foreach($fharian as $k){
+        $total+=round(pembulatmurni($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']));
+    }
+    $t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg));
+    ?>
+
+    <!-- GRAND TOTAL -->
     <div class="row">
-        <?php $total=0;?>
+        <div class="col-md-12">
+            <div class="summary-table-container" style="background: #3c8dbc; color: white; margin-bottom: 20px;">
+                <div style="display:flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 18px; font-weight: 600;">GRAND TOTAL GAJI FINISHING</span>
+                    <span style="font-size: 24px; font-weight: 900;">Rp <?php echo number_format($total+$t2)?></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS NAV (AdminLTE/Bootstrap 3) -->
+    <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs no-print">
+            <?php if($total > 0){ ?>
+            <li class="active"><a href="#harian" data-toggle="tab"><i class="fa fa-user-circle"></i> Gaji Harian</a></li>
+            <?php } ?>
+            <li class="<?php echo ($total > 0) ? '' : 'active'; ?>"><a href="#borongan" data-toggle="tab"><i class="fa fa-cog"></i> Gaji Borongan</a></li>
+            <li><a href="#detail" data-toggle="tab"><i class="fa fa-list"></i> Detail Pekerjaan</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <?php if($total > 0){ ?>
+            <!-- TAB HARIAN -->
+            <div class="active tab-pane" id="harian">
+                <div class="section-title">RINCIAN GAJI HARIAN</div>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-12">
+                        <div class="summary-table-container" style="background: #343a40; color: white; padding: 15px;">
+                            <div style="display:flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 16px; font-weight: 600;"><i class="fa fa-calculator mr-2"></i> TOTAL GAJI HARIAN (TABEL 1)</span>
+                                <span style="font-size: 20px; font-weight: 800;">Rp <?php echo number_format($total)?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
         <?php foreach($fharian as $k){?>
         <div class="col-md-4">
             <div class="payroll-card">
@@ -174,46 +219,60 @@
                 <div class="payroll-card-body">
                     <table class="payroll-table">
                         <tbody>
-                            <tr><td>Senin</td><td class="text-amount"><?php echo number_format($k['senin'])?></td></tr>
-                            <tr><td>Selasa</td><td class="text-amount"><?php echo number_format($k['selasa'])?></td></tr>
-                            <tr><td>Rabu</td><td class="text-amount"><?php echo number_format($k['rabu'])?></td></tr>
-                            <tr><td>Kamis</td><td class="text-amount"><?php echo number_format($k['kamis'])?></td></tr>
-                            <tr><td>Jumat</td><td class="text-amount"><?php echo number_format($k['jumat'])?></td></tr>
-                            <tr><td>Sabtu</td><td class="text-amount"><?php echo number_format($k['sabtu'])?></td></tr>
-                            <tr><td>Minggu</td><td class="text-amount"><?php echo number_format($k['minggu'])?></td></tr>
-                            <tr><td>Lembur</td><td class="text-amount"><?php echo number_format($k['lembur'])?></td></tr>
-                            <tr><td>Insentif</td><td class="text-amount"><?php echo number_format($k['insentif'])?></td></tr>
+                            <tr><td>Senin</td><td class="text-amount"><?php echo empty($k['senin']) ? '' : number_format($k['senin'])?></td></tr>
+                            <tr><td>Selasa</td><td class="text-amount"><?php echo empty($k['selasa']) ? '' : number_format($k['selasa'])?></td></tr>
+                            <tr><td>Rabu</td><td class="text-amount"><?php echo empty($k['rabu']) ? '' : number_format($k['rabu'])?></td></tr>
+                            <tr><td>Kamis</td><td class="text-amount"><?php echo empty($k['kamis']) ? '' : number_format($k['kamis'])?></td></tr>
+                            <tr><td>Jumat</td><td class="text-amount"><?php echo empty($k['jumat']) ? '' : number_format($k['jumat'])?></td></tr>
+                            <tr><td>Sabtu</td><td class="text-amount"><?php echo empty($k['sabtu']) ? '' : number_format($k['sabtu'])?></td></tr>
+                            <tr><td>Minggu</td><td class="text-amount"><?php echo empty($k['minggu']) ? '' : number_format($k['minggu'])?></td></tr>
+                            <tr><td>Lembur</td><td class="text-amount"><?php echo empty($k['lembur']) ? '' : number_format($k['lembur'])?></td></tr>
+                            <tr><td>Insentif</td><td class="text-amount"><?php echo empty($k['insentif']) ? '' : number_format($k['insentif'])?></td></tr>
                             <tr class="row-highlight">
                                 <td><b>TOTAL</b></td>
-                                <td class="text-amount"><?php echo number_format($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']) ?></td>
+                                <td class="text-amount"><?php $sub = ($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0); echo empty($sub) ? '' : number_format($sub); ?></td>
                             </tr>
                             <tr class="row-total">
                                 <td><b>PEMBULATAN</b></td>
-                                <td class="text-amount"><?php echo number_format(pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif'])) ?></td>
+                                <td class="text-amount"><?php $pemb = pembulatmurni($sub); echo empty($pemb) ? '' : number_format($pemb); ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <?php $total+=round(pembulatangaji($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif'])); ?>
         </div>
         <?php } ?>
     </div>
+    </div> <!-- END TAB HARIAN -->
+    <?php } ?>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="summary-table-container" style="background: #28a745; color: white;">
-                <div style="display:flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 16px; font-weight: 600;">TOTAL GAJI HARIAN (TABEL 1)</span>
-                    <span style="font-size: 20px; font-weight: 800;">Rp <?php echo number_format($total)?></span>
+    <!-- TAB BORONGAN -->
+    <div class="<?php echo ($total > 0) ? '' : 'active '; ?>tab-pane" id="borongan">
+        <div class="section-title">SUMMARY GAJI BORONGAN & LAINNYA</div>
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-12">
+                <div class="summary-table-container" style="background: #343a40; color: white; padding: 15px;">
+                    <div style="display:flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 16px; font-weight: 600;"><i class="fa fa-calculator mr-2"></i> TOTAL GAJI BORONGAN & LAINNYA (TABEL 2)</span>
+                        <span style="font-size: 20px; font-weight: 800;">Rp <?php echo number_format($t2)?></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="section-title">SUMMARY GAJI BORONGAN & LAINNYA</div>
     <div class="row">
+        <!-- Menyamakan Tinggi Baris -->
+        <?php 
+        $valid_mesin = []; foreach($boronganmesin as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_mesin[] = ['nama' => $p['nama'], 'total' => $tot]; }
+        $valid_laundry = []; if(!empty($cucian)){ foreach($cucian as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_laundry[] = ['nama' => $p['nama'], 'total' => $tot]; } }
+        $valid_bb = []; foreach($bb as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_bb[] = ['nama' => $p['nama'], 'total' => $tot]; }
+        $valid_pk = []; foreach($pk as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_pk[] = ['nama' => $p['nama'], 'total' => $tot]; }
+
+        $max_rows = max(count($valid_mesin), count($valid_laundry), count($valid_bb), count($valid_pk));
+        ?>
+
         <!-- Borongan Mesin -->
+        <?php if(pembulatangaji($gajim) > 0){ ?>
         <div class="col-md-3">
             <div class="payroll-card" style="border-top: 3px solid #ffc107;">
                 <div class="payroll-card-header" style="background: #fffbe6;">
@@ -225,11 +284,15 @@
                             <tr><th>Nama</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
-                            <?php foreach($boronganmesin as $p){?>
-                            <tr>
-                                <td><?php echo $p['nama']?></td>
-                                <td class="text-amount"><?php echo number_format(pembulatangaji($p['total'] ?? 0))?></td>
-                            </tr>
+                            <?php for($i=0; $i<$max_rows; $i++){ ?>
+                                <?php if(isset($valid_mesin[$i])){ ?>
+                                <tr>
+                                    <td><?php echo $valid_mesin[$i]['nama']?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_mesin[$i]['total'])?></td>
+                                </tr>
+                                <?php } else { ?>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
@@ -240,8 +303,10 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
 
         <!-- Laundry -->
+        <?php if(pembulatangaji($cucians) > 0){ ?>
         <div class="col-md-3">
             <div class="payroll-card" style="border-top: 3px solid #17a2b8;">
                 <div class="payroll-card-header" style="background: #e6f7ff;">
@@ -253,13 +318,15 @@
                             <tr><th>Nama</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
-                            <?php if(!empty($cucian)){ foreach($cucian as $p){?>
-                            <tr>
-                                <td><?php echo $p['nama']?></td>
-                                <td class="text-amount"><?php echo number_format(pembulatangaji($p['total'] ?? 0))?></td>
-                            </tr>
-                            <?php } } else { ?>
-                            <tr><td colspan="2" class="text-center text-muted">Tidak ada data</td></tr>
+                            <?php for($i=0; $i<$max_rows; $i++){ ?>
+                                <?php if(isset($valid_laundry[$i])){ ?>
+                                <tr>
+                                    <td><?php echo $valid_laundry[$i]['nama']?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_laundry[$i]['total'])?></td>
+                                </tr>
+                                <?php } else { ?>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
@@ -270,8 +337,10 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
 
         <!-- Buang Benang -->
+        <?php if(pembulatangaji($bbs) > 0){ ?>
         <div class="col-md-3">
             <div class="payroll-card" style="border-top: 3px solid #6c757d;">
                 <div class="payroll-card-header" style="background: #f8f9fa;">
@@ -283,11 +352,15 @@
                             <tr><th>Nama</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
-                            <?php foreach($bb as $p){?>
-                            <tr>
-                                <td><?php echo $p['nama']?></td>
-                                <td class="text-amount"><?php echo number_format(pembulatangaji($p['total'] ?? 0))?></td>
-                            </tr>
+                            <?php for($i=0; $i<$max_rows; $i++){ ?>
+                                <?php if(isset($valid_bb[$i])){ ?>
+                                <tr>
+                                    <td><?php echo $valid_bb[$i]['nama']?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_bb[$i]['total'])?></td>
+                                </tr>
+                                <?php } else { ?>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
@@ -298,8 +371,10 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
 
         <!-- Packing -->
+        <?php if(pembulatangaji($pkg) > 0){ ?>
         <div class="col-md-3">
             <div class="payroll-card" style="border-top: 3px solid #007bff;">
                 <div class="payroll-card-header" style="background: #e7f3ff;">
@@ -311,11 +386,15 @@
                             <tr><th>Nama</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
-                            <?php foreach($pk as $p){?>
-                            <tr>
-                                <td><?php echo $p['nama']?></td>
-                                <td class="text-amount"><?php echo number_format(pembulatangaji($p['total'] ?? 0))?></td>
-                            </tr>
+                            <?php for($i=0; $i<$max_rows; $i++){ ?>
+                                <?php if(isset($valid_pk[$i])){ ?>
+                                <tr>
+                                    <td><?php echo $valid_pk[$i]['nama']?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_pk[$i]['total'])?></td>
+                                </tr>
+                                <?php } else { ?>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
@@ -326,34 +405,15 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="summary-table-container" style="background: #343a40; color: white; padding: 15px; margin-bottom: 20px;">
-                <div style="display:flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 16px; font-weight: 600;"><i class="fa fa-calculator mr-2"></i> TOTAL GAJI BORONGAN & LAINNYA (TABEL 2)</span>
-                    <span style="font-size: 20px; font-weight: 800;">
-                        Rp <?php $t2=0; echo number_format($t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg)))?>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div> <!-- END TAB BORONGAN -->
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="summary-table-container" style="background: #3c8dbc; color: white;">
-                <div style="display:flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 18px; font-weight: 600;">GRAND TOTAL GAJI FINISHING</span>
-                    <span style="font-size: 24px; font-weight: 900;">Rp <?php echo number_format($total+$t2)?></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section-title">RINCIAN DETAIL PEKERJAAN</div>
-    <div class="row">
+    <!-- TAB DETAIL -->
+    <div class="tab-pane" id="detail">
+        <div class="section-title">RINCIAN DETAIL PEKERJAAN</div>
+        <div class="row">
         <div class="col-md-6">
             <?php foreach($kancing as $p){?>
                 <?php if(!empty($p['lobangkancing']) || !empty($p['pasangkancing']) || !empty($p['tress'])){ ?>
@@ -553,6 +613,9 @@
             <?php } ?>
         </div>
     </div>
+    </div> <!-- END TAB DETAIL -->
+    </div> <!-- END TAB CONTENT -->
+    </div> <!-- END NAV-TABS-CUSTOM -->
 
     <div class="row no-print" style="margin-top: 20px; margin-bottom: 50px;">
         <div class="col-md-12 text-center">
@@ -587,4 +650,18 @@
         if(tanggal2){ url+='&tanggal2='+tanggal2; }
 		window.open(url, '_blank');
 	}
+
+    function showReloaderAndFilter() {
+        var btn = document.getElementById('btn-filter');
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> MEMUAT DATA...';
+        btn.setAttribute('disabled', 'disabled');
+
+        // Ganti isi area tab dengan animasi spinner besar
+        var tabContent = document.getElementById('resumeTabContent');
+        if(tabContent) {
+            tabContent.innerHTML = '<div class="text-center" style="padding: 80px 20px;"><i class="fa fa-spinner fa-spin fa-5x text-primary" style="color: #3c8dbc;"></i><h3 style="margin-top:20px; color:#555;">Sedang merekap gaji...</h3><p class="text-muted">Mohon tunggu sebentar, ini mungkin memakan waktu beberapa saat.</p></div>';
+        }
+
+        filtertglonly();
+    }
 </script>

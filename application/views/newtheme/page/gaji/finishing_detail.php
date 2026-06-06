@@ -105,7 +105,7 @@
                                 if(isset($k['saving'])){
                                     $grand = $grand - $k['saving'] + $k['keluarkansaving'];
                                 }
-                                $pembulatan = pembulatangaji($grand);
+                                $pembulatan = pembulatmurni($grand);
                                 $totalpembulatan += $pembulatan;
                                 $total_seluruh += $grand;
                             ?>

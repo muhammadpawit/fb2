@@ -76,8 +76,8 @@
 										$grand = $grand - ($k['saving'] ?? 0) + ($k['keluarkansaving'] ?? 0);
 									}
 									
-									if(function_exists('pembulatangaji')){
-										$pembulatan = pembulatangaji($grand);
+									if(function_exists('pembulatmurni')){
+										$pembulatan = pembulatmurni($grand);
 									} else {
 										$pembulatan = round($grand / 100) * 100;
 									}

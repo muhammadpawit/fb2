@@ -233,6 +233,25 @@
 		return $value;
 	}
 
+	function pembulatmurni($value){
+		
+		$total_harga=0;
+		// $totalharga =$value;
+		$bulat=$value%1000;
+		$totalharga=$value-$bulat;
+		
+		if ($bulat==000){
+			$total_harga=round($totalharga,-3);
+		}else if($bulat==500){
+			$total_harga=($totalharga);
+		}else if($bulat > 9 && $bulat<501){
+			$total_harga=round($totalharga,-3)+500;
+		}else{
+			$total_harga=round($totalharga,-3);
+		}
+		return $total_harga;
+	}
+
 	function status_oto(){
 		$hasil 			= null;
 		$CI =& get_instance();
