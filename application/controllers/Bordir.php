@@ -1237,8 +1237,8 @@ class Bordir extends CI_Controller {
 
 
 					$data['bordir'][]=array(
-					'pemilik'=>$pemilik['nama'],
-					'hasil_x'=>$pemilik['hasil_x'],
+					'pemilik'=>$pemilik['nama'] ?? null,
+					'hasil_x'=>$pemilik['hasil_x'] ?? null,
 					'kode_po'=>$b['kode_po'],
 					'operator'=>$b['nama_operator'],
 					'mesin'=>$b['mesin_bordir'],
@@ -2052,9 +2052,13 @@ class Bordir extends CI_Controller {
 	function getmesinDetail(){
 		$data=$this->input->post();
 		$pemilik= $this->GlobalModel->GetDataRow('master_po_luar',array('id'=>$data['po']));
-		if($pemilik['idpemilik']!=1){
-			$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$data['jenis'],'nomer_mesin'=>$data['mesin']));
-		}else{
+		$mesin=$this->GlobalModel->getDataRow('master_mesin',array('jenis'=>$data['jenis'],'nomer_mesin'=>$data['mesin']));
+		
+		if(!$mesin) {
+			$mesin = array('kepala' => '12', 'persenan' => 0.2);
+		}
+
+		if($pemilik && isset($pemilik['idpemilik']) && $pemilik['idpemilik']==1){
 			$persenan = 0.2;
 			if($data['mesin'] == 5 || $data['mesin']==6){
 				$persenan = 0.18;
@@ -2062,10 +2066,7 @@ class Bordir extends CI_Controller {
 			if($data['mesin'] == 1 || $data['mesin'] == 3 || $data['mesin'] == 4 || $data['mesin'] == 7){
 				$persenan = 0.2;
 			}
-			$mesin = (object) array(
-				'persenan' => $persenan,
-				'kepala' => '12',
-			);
+			$mesin['persenan'] = $persenan;
 		}
 		
 		echo json_encode($mesin);
