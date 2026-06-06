@@ -11,10 +11,21 @@
 			<input type="text" name="tanggal2" class="form-control datepicker" value="<?php echo $tanggal2 ?>">
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
+		<div class="form-group">
+			<label>Nama CMT</label>
+			<select name="idcmt" class="select2bs4 form-control" required>
+				<option value="*"></option>
+				<?php foreach($cmts as $k){ ?>
+					<option value="<?php echo $k['id_cmt']?>" <?php echo $k['id_cmt']==$idcmt ? 'selected':'' ?>><?php echo $k['cmt_name']?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-3">
 		<div class="form-group">
 			<label>Nama Karyawan</label>
-			<select name="id_karyawan_harian" class="select2bs4 kar" required>
+			<select name="id_karyawan_harian" class="select2bs4 kar form-control" required>
 				<option value="*"></option>
 				<?php foreach($kar as $k){ ?>
 					<option value="<?php echo $k['id']?>" data-item="<?php echo $k['id']?>" <?php echo $k['id']==$namatim ? 'selected':'' ?>><?php echo $k['nama']?></option>
@@ -23,7 +34,7 @@
 		</div>
 	</div>
 	
-	<div class="col-md-4">
+	<div class="col-md-2">
 		<div class="form-group">
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filter()">Filter</button>
@@ -41,6 +52,7 @@
 					<tr>
 						<th>No</th>
 						<th>Tanggal</th>
+						<th>Nama CMT</th>
 						<th>Nama</th>
 						<th>Kode PO</th>
 						<th>Gambar</th>
@@ -58,6 +70,7 @@
 						<tr>
 							<td><?php echo $no++?></td>
 							<td><?php echo $k['tanggal'] ?></td>
+							<td><?php echo $k['cmt_name'] ?></td>
 							<td><?php echo $k['namakar'] ?></td>
 							<td><?php echo $k['kode_po'] ?></td>
 							<td><?php echo $k['gambar'] ?></td>
@@ -75,7 +88,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="9"><b>Total</b></td>
+						<td colspan="10"><b>Total</b></td>
 						<td>
 							<b><?php echo number_format($total) ?></b>
 						</td>
@@ -106,6 +119,12 @@
 
 		if (namatim != '*') {
 		url += '&namatim=' + encodeURIComponent(namatim);
+		}
+
+		var idcmt = $('select[name=\'idcmt\']').val();
+
+		if (idcmt != '*') {
+		url += '&idcmt=' + encodeURIComponent(idcmt);
 		}
 		location =url;
 	}

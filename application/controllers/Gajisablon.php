@@ -217,16 +217,24 @@ class Gajisablon extends CI_Controller {
 		}else{
 			$namatim=null;
 		}
+		if(isset($get['idcmt'])){
+			$idcmt=$get['idcmt'];
+		}else{
+			$idcmt=null;
+		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$data['namatim']=$namatim;
+		$data['idcmt']=$idcmt;
 		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
+		$data['cmts']=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
 		$data['kartustok']=[];
 		$data['tambah']=$this->url.'addborongan';
 		$filter = array(
 			'tanggal1' => $tanggal1,
 			'tanggal2' => $tanggal2,
 			'namatim' => $namatim,
+			'idcmt' => $idcmt,
 		);
 		$data['prods'] = $this->GajiSablonModel->get($filter);
 		// pre($data['prods']);
@@ -263,11 +271,8 @@ class Gajisablon extends CI_Controller {
 		$data['prods']=[];
 		$data['action']=$this->url.'save_borongan';
 		$data['cancel']=$this->url.'brongan';
-		$po	= $this->GlobalModel->QueryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ');
 		$data['cmt']	= $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
-		$poluar	= $this->GlobalModel->QueryManual('SELECT CONCAT("LUAR_", id) as id_produksi_po, CONCAT(nama, " (LUAR)") as kode_po FROM master_po_luar WHERE hapus=0 ');
-		$data['po']=array_merge($po,$poluar);
-		// pre($data['po']);
+		$data['po']		= $this->GlobalModel->QueryManual('SELECT id as id_produksi_po, nama as kode_po FROM master_po_luar WHERE hapus=0 ');
 		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
 		if(isset($get['excel'])){
 			$this->load->view('gudang/persediaan/kartustok_excel',$data);
@@ -282,9 +287,6 @@ class Gajisablon extends CI_Controller {
 		// pre($post);
 		foreach($post['prods'] as $p){
 			$idpo = $p['kodepo'];
-			if(strpos($idpo, 'LUAR_') !== false){
-				$idpo = str_replace('LUAR_', '', $idpo);
-			}
 			$insert = array(
 				'tanggal' 	=> $post['tanggal'],
 				'idcmt' 	=> $post['idcmt'],
