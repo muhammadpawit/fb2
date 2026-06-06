@@ -314,8 +314,39 @@ class Gajisablon extends CI_Controller {
 		);
 		$this->db->update('gaji_sablon_borongan',$insert,array('id'=>$id));
 		
-		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect($this->url.'brongan');
 	}
 
+	public function editborongan($id){
+		$data=[];
+		$data['title'] = 'Edit Gaji Sablon Borongan';
+		$data['action']=$this->url.'save_edit_borongan/'.$id;
+		$data['cancel']=$this->url.'brongan';
+		$data['cmt']	= $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
+		$data['po']		= $this->GlobalModel->QueryManual('SELECT id as id_produksi_po, nama as kode_po FROM master_po_luar WHERE hapus=0 ');
+		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
+		$data['p'] = $this->GlobalModel->QueryManualRow("SELECT * FROM gaji_sablon_borongan WHERE id='$id' ");
+		$data['page']='gudang/gajisablon/borongan_edit';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	function save_edit_borongan($id){
+		$post = $this->input->post();
+		$update = array(
+			'tanggal' 	=> $post['tanggal'],
+			'idcmt' 	=> $post['idcmt'],
+			'namatim' 	=> $post['id_karyawan_harian'],
+			'idpo' 		=> $post['kodepo'],
+			'gambar' 	=> $post['gambar'],
+			'model' 	=> $post['model'],
+			'dz' 		=> $post['lusin'],
+			'putaran' 	=> $post['putaran'],
+			'harga' 	=> $post['harga'],
+			'total' 	=> ((float)$post['lusin']*(float)$post['putaran']*(float)$post['harga']),
+		);
+		$this->db->update('gaji_sablon_borongan',$update,array('id'=>$id));
+		
+		$this->session->set_flashdata('msg','Data berhasil diubah');
+		redirect($this->url.'brongan');
+	}
 }
