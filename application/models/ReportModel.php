@@ -1781,23 +1781,14 @@ class ReportModel extends CI_Model {
             $idk = $r['idkaryawan'];
             
             $nominal = 0;
-            if (strtoupper($bagian) == 'FINISHING') {
-                $nominal += ($r['senin'] == 1 ? $r['gajiharian'] : 0);
-                $nominal += ($r['selasa'] == 1 ? $r['gajiharian'] : 0);
-                $nominal += ($r['rabu'] == 1 ? $r['gajiharian'] : 0);
-                $nominal += ($r['kamis'] == 1 ? $r['gajiharian'] : 0);
-                $nominal += ($r['jumat'] == 1 ? $r['gajiharian'] : 0);
-                $nominal += ($r['sabtu'] == 1 ? $r['gajiharian'] : 0);
-            } else {
-                $g = $r['gajiharian'] / 12;
-                $nominal += round($g * $r['senin']);
-                $nominal += round($g * $r['selasa']);
-                $nominal += round($g * $r['rabu']);
-                $nominal += round($g * $r['kamis']);
-                $nominal += round($g * $r['jumat']);
-                $nominal += round($g * $r['sabtu']);
-            }
-            $nominal += ($r['minggu'] == 1 ? $r['gajiharian'] : 0);
+            $g = $r['gajiharian'] / 12;
+            $nominal += round($g * $r['senin']);
+            $nominal += round($g * $r['selasa']);
+            $nominal += round($g * $r['rabu']);
+            $nominal += round($g * $r['kamis']);
+            $nominal += round($g * $r['jumat']);
+            $nominal += round($g * $r['sabtu']);
+            $nominal += round($g * $r['minggu']);
             $nominal += $r['lembur'];
             $nominal += ($r['insentif'] == 1 ? $r['gajiharian'] : 0);
             $nominal -= $r['claim'];
@@ -1813,7 +1804,7 @@ class ReportModel extends CI_Model {
                 $nominal += $r['keluarkansaving'];
             }
             
-            $nominal = pembulatangaji($nominal);
+            $nominal = pembulatmurni($nominal);
             
             if(!isset($final[$idk])){
                 $final[$idk] = [
