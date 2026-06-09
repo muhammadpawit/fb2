@@ -234,6 +234,11 @@
 	}
 
 	function pembulatmurni($value){
+		$value = round($value);
+		$sisa = $value % 1000;
+		if ($sisa > 0 && $sisa < 500) {
+			return $value - $sisa + 500;
+		}
 		return round($value, -2);
 	}
 
