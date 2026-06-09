@@ -1774,7 +1774,8 @@ class ReportModel extends CI_Model {
                 WHERE gf.hapus=0 
                 AND gf.bagian = '$bagian'
                 AND gf.tanggal2 BETWEEN '$tanggal1' AND '$tanggal2' 
-				AND kh.penggajian = 'Transfer' ";
+				AND kh.penggajian = 'Transfer' 
+				AND gfd.hapus=0 ";
 		$results = $this->db->query($sql)->result_array();
         
         $final = [];
