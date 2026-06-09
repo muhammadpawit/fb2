@@ -1773,7 +1773,8 @@ class ReportModel extends CI_Model {
                 JOIN karyawan_harian kh ON kh.id = gfd.idkaryawan
                 WHERE gf.hapus=0 
                 AND gf.bagian = '$bagian'
-                AND gf.tanggal2 BETWEEN '$tanggal1' AND '$tanggal2'";
+                AND gf.tanggal2 BETWEEN '$tanggal1' AND '$tanggal2' 
+				AND kh.penggajian = 'Transfer' ";
 		$results = $this->db->query($sql)->result_array();
         
         $final = [];
