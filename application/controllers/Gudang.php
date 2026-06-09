@@ -653,7 +653,17 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('ajuan_mingguan_detail_seragam',$insert);
 			}
-			$this->db->update('ajuan_mingguan_seragam',array('tanggal'=>$data['tanggal'],'keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
+			$update_data = array(
+				'tanggal'=>$data['tanggal'],
+				'keterangan2'=>$data['keterangan'],
+				'ajuan_kebutuhan'=>$totalajuan,
+				'stok'=>$data['stok'],
+				'jml_ajuan'=>$totalajuan-$data['stok']
+			);
+			if (isset($data['metodebayar'])) {
+				$update_data['metodebayar'] = $data['metodebayar'];
+			}
+			$this->db->update('ajuan_mingguan_seragam',$update_data,array('id'=>$data['id']));
 		}
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Gudang/ajuanmingguanseragam');

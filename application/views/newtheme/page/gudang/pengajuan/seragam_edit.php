@@ -82,11 +82,16 @@
     <div class="col-md-6">
       <div class="form-group">
         <label>Stok</label>
+        <input type="text" name="stok" value="<?php echo $k['stok']?>" class="form-control">
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group">
-        <input type="text" name="stok" value="<?php echo $k['stok']?>" class="form-control">
+        <label>Metode Pembayaran</label>
+        <select name="metodebayar" id="metodebayar" class="form-control">
+          <option value="Transfer" <?php echo isset($k['metodebayar']) && $k['metodebayar'] == 'Transfer' ? 'selected' : ''; ?>>Transfer</option>
+          <option value="Cash" <?php echo isset($k['metodebayar']) && $k['metodebayar'] == 'Cash' ? 'selected' : ''; ?>>Cash</option>
+        </select>
       </div>
     </div>
   </div>
