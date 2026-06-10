@@ -845,6 +845,32 @@
 
                                 <?php } ?>
 
+                                <?php if(isset($biayaperpo) && is_array($biayaperpo)){?>
+
+                                    <?php foreach($biayaperpo as $b){?>
+
+                                        <tr>
+
+                                            <td><center><?php echo $no+=1?></center></td>
+
+                                            <td><?php echo $b['nama_biaya'] ?></td>
+
+                                            <td align="center">12</td>
+
+                                            <td align="center"><?php echo number_format($b['nominal']) ?></td>
+
+                                            <td align="right"><?php echo number_format($b['nominal']) ?></td>
+
+                                        </tr>
+
+                                    <?php
+                                        $total+=($b['nominal']);
+                                    ?>
+
+                                    <?php } ?>
+
+                                <?php } ?>
+
 
                                 <tr>
 
