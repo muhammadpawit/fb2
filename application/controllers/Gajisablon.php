@@ -349,4 +349,130 @@ class Gajisablon extends CI_Controller {
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect($this->url.'brongan');
 	}
+
+	// ==================== BORONGAN DALAM ====================
+
+	public function brongandalam(){
+		$data=[];
+		$data['title'] = 'Gaji Sablon Borongan Dalam ';
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d');
+		}
+		if(isset($get['namatim'])){
+			$namatim=$get['namatim'];
+		}else{
+			$namatim=null;
+		}
+		if(isset($get['idcmt'])){
+			$idcmt=$get['idcmt'];
+		}else{
+			$idcmt=null;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['namatim']=$namatim;
+		$data['idcmt']=$idcmt;
+		$data['kar']=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
+		$data['cmts']=$this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
+		$data['tambah']=$this->url.'addbrongandalam';
+		$filter = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'namatim'  => $namatim,
+			'idcmt'    => $idcmt,
+		);
+		$data['prods'] = $this->GajiSablonModel->getDalam($filter);
+		if(isset($get['excel'])){
+			$this->load->view('gudang/gajisablon/brongandalamexcel',$data);
+		}else{
+			$data['page']='gudang/gajisablon/brongandalam';
+			$this->load->view('newtheme/page/main',$data);
+		}
+	}
+
+	public function addbrongandalam(){
+		$data=[];
+		$data['title'] = 'Form Gaji Sablon Borongan Dalam ';
+		$get=$this->input->get();
+		$data['tanggal1']=isset($get['tanggal1']) ? $get['tanggal1'] : date('Y-m-d',strtotime("first day of this month"));
+		$data['tanggal2']=isset($get['tanggal2']) ? $get['tanggal2'] : date('Y-m-d');
+		$data['prods']=[];
+		$data['action']=$this->url.'save_brongandalam';
+		$data['cancel']=$this->url.'brongandalam';
+		$data['cmt']   = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
+		$data['po']    = $this->GlobalModel->QueryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ORDER BY id_produksi_po DESC ');
+		$data['kar']   = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
+		$data['page']='gudang/gajisablon/brongandalam_form';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	function save_brongandalam(){
+		$post = $this->input->post();
+		foreach($post['prods'] as $p){
+			$idpo = $p['kodepo'];
+			$insert = array(
+				'tanggal' 	=> $post['tanggal'],
+				'idcmt' 	=> $post['idcmt'],
+				'namatim' 	=> $post['id_karyawan_harian'],
+				'idpo' 		=> $idpo,
+				'gambar' 	=> $p['gambar'],
+				'model' 	=> $p['model'],
+				'dz' 		=> $p['lusin'],
+				'putaran' 	=> $p['putaran'],
+				'harga' 	=> $p['harga'],
+				'total' 	=> ((float)$p['lusin']*(float)$p['putaran']*(float)$p['harga']),
+				'jenis'		=> 'dalam',
+				'hapus'		=> 0,
+			);
+			$this->db->insert('gaji_sablon_borongan',$insert);
+		}
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->url.'brongandalam');
+	}
+
+	function hapusbrongandalam($id){
+		$this->db->update('gaji_sablon_borongan',array('hapus'=>1),array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil dihapus');
+		redirect($this->url.'brongandalam');
+	}
+
+	public function editbrongandalam($id){
+		$data=[];
+		$data['title'] = 'Edit Gaji Sablon Borongan Dalam';
+		$data['action']=$this->url.'save_edit_brongandalam/'.$id;
+		$data['cancel']=$this->url.'brongandalam';
+		$data['cmt']   = $this->GlobalModel->QueryManual("SELECT * FROM master_cmt WHERE hapus=0 and cmt_job_desk='Sablon' ");
+		$data['po']    = $this->GlobalModel->QueryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ORDER BY id_produksi_po DESC ');
+		$data['kar']   = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE LOWER(bagian) LIKE '%tukang cetak%' ");
+		$data['p']     = $this->GlobalModel->QueryManualRow("SELECT * FROM gaji_sablon_borongan WHERE id='$id' ");
+		$data['page']='gudang/gajisablon/brongandalam_edit';
+		$this->load->view('newtheme/page/main',$data);
+	}
+
+	function save_edit_brongandalam($id){
+		$post = $this->input->post();
+		$update = array(
+			'tanggal' 	=> $post['tanggal'],
+			'idcmt' 	=> $post['idcmt'],
+			'namatim' 	=> $post['id_karyawan_harian'],
+			'idpo' 		=> $post['kodepo'],
+			'gambar' 	=> $post['gambar'],
+			'model' 	=> $post['model'],
+			'dz' 		=> $post['lusin'],
+			'putaran' 	=> $post['putaran'],
+			'harga' 	=> $post['harga'],
+			'total' 	=> ((float)$post['lusin']*(float)$post['putaran']*(float)$post['harga']),
+		);
+		$this->db->update('gaji_sablon_borongan',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil diubah');
+		redirect($this->url.'brongandalam');
+	}
 }
