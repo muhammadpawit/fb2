@@ -234,12 +234,17 @@
 	}
 
 	function pembulatmurni($value){
-		$bulat = round($value, -2);
+		$bulat = floor($value);
 		$sisa = $bulat % 1000;
-		if ($sisa > 0 && $sisa < 500) {
-			return $bulat - $sisa + 500;
+		$base = $bulat - $sisa;
+
+		if ($sisa < 250) {
+			return $base;
+		} elseif ($sisa <= 500) {
+			return $base + 500;
+		} else {
+			return $base + 1000;
 		}
-		return $bulat;
 	}
 
 	function status_oto(){
