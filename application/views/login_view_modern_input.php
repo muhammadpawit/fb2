@@ -484,24 +484,39 @@
                     <span>Forboys Production</span>
                 </div>
 
-                <div class="carousel-slide active">
-                    <img src="<?php echo ASSETS; ?>images/small/img-7.jpg" alt="Suasana produksi Forboys">
-                </div>
-                <div class="carousel-slide">
-                    <img src="<?php echo ASSETS; ?>images/small/img-5.jpg" alt="Proses kerja produksi">
-                </div>
-                <div class="carousel-slide">
-                    <img src="<?php echo ASSETS; ?>images/attached-files/img-3.jpg" alt="Koordinasi operasional">
-                </div>
+                <?php if(!empty($carousels)){ ?>
+                    <?php foreach($carousels as $index => $c){ ?>
+                        <div class="carousel-slide <?php echo $index==0 ? 'active' : ''; ?>">
+                            <img src="<?php echo BASEURL; ?>assets/images/carousel/<?php echo $c['image']; ?>" alt="<?php echo $c['alt_text']; ?>">
+                        </div>
+                    <?php } ?>
+                <?php }else{ ?>
+                    <!-- Default fallback if db is empty -->
+                    <div class="carousel-slide active">
+                        <img src="<?php echo ASSETS; ?>images/small/img-7.jpg" alt="Suasana produksi Forboys">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="<?php echo ASSETS; ?>images/small/img-5.jpg" alt="Proses kerja produksi">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="<?php echo ASSETS; ?>images/attached-files/img-3.jpg" alt="Koordinasi operasional">
+                    </div>
+                <?php } ?>
 
                 <div class="carousel-content">
                     <p class="hero-copy">Pantau order, bahan, setoran, dan laporan harian tanpa harus bolak-balik tanya update. Semua dibuat lebih dekat dengan ritme kerja tim.</p>
                 </div>
 
                 <div class="carousel-dots" aria-label="Navigasi gambar">
-                    <button type="button" class="carousel-dot active" data-slide="0" aria-label="Gambar 1"></button>
-                    <button type="button" class="carousel-dot" data-slide="1" aria-label="Gambar 2"></button>
-                    <button type="button" class="carousel-dot" data-slide="2" aria-label="Gambar 3"></button>
+                    <?php if(!empty($carousels)){ ?>
+                        <?php foreach($carousels as $index => $c){ ?>
+                            <button type="button" class="carousel-dot <?php echo $index==0 ? 'active' : ''; ?>" data-slide="<?php echo $index; ?>" aria-label="Gambar <?php echo $index+1; ?>"></button>
+                        <?php } ?>
+                    <?php }else{ ?>
+                        <button type="button" class="carousel-dot active" data-slide="0" aria-label="Gambar 1"></button>
+                        <button type="button" class="carousel-dot" data-slide="1" aria-label="Gambar 2"></button>
+                        <button type="button" class="carousel-dot" data-slide="2" aria-label="Gambar 3"></button>
+                    <?php } ?>
                 </div>
             </div>
         </section>

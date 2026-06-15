@@ -34,13 +34,17 @@ class Auth extends CI_Controller {
 
     public function index() {
         $client = new Google_Client();
-        $client->setClientId('1033439670394-4rqmms9mmulf9n7aqrskb5p0b8bfm1nv.apps.googleusercontent.com'); // Ganti dengan Client ID Anda
-        $client->setClientSecret('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'); // Ganti dengan Client Secret Anda
+        $client->setClientId('YOUR_GOOGLE_CLIENT_ID'); // Ganti dengan Client ID Anda
+        $client->setClientSecret('YOUR_GOOGLE_CLIENT_SECRET'); // Ganti dengan Client Secret Anda
         $client->setRedirectUri(BASEURL.'auth/google_callback'); // Sesuaikan dengan Redirect URI Anda
         $client->addScope('email');
         $client->addScope('profile');
 
         $data['auth_url'] = $client->createAuthUrl();
+        
+        $this->load->model('GlobalModel');
+        $data['carousels'] = $this->GlobalModel->QueryManual("SELECT * FROM carousel_slide WHERE hapus=0 AND status=1 ORDER BY urutan ASC");
+        
         // $this->load->view('login_view', $data);
         $this->load->view('login_view_modern_input', $data);
     }
@@ -48,8 +52,8 @@ class Auth extends CI_Controller {
     public function google_callback() {
         
         $client = new Google_Client();
-        $client->setClientId('1033439670394-4rqmms9mmulf9n7aqrskb5p0b8bfm1nv.apps.googleusercontent.com'); // Ganti dengan Client ID Anda
-        $client->setClientSecret('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'); // Ganti dengan Client Secret Anda
+        $client->setClientId('YOUR_GOOGLE_CLIENT_ID'); // Ganti dengan Client ID Anda
+        $client->setClientSecret('YOUR_GOOGLE_CLIENT_SECRET'); // Ganti dengan Client Secret Anda
         $client->setRedirectUri(BASEURL.'auth/google_callback'); // Sesuaikan dengan Redirect URI Anda
         // pre($client);
         if (isset($_GET['code'])) {
