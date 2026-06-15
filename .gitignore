@@ -42,4 +42,4 @@ token.json
 .env
 #.htaccess
 clone_db.log
-*.log
+*.logapplication/config/google_oauth.php

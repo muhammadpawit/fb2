@@ -34,8 +34,14 @@ class Auth extends CI_Controller {
 
     public function index() {
         $client = new Google_Client();
-        $client->setClientId('YOUR_GOOGLE_CLIENT_ID'); // Ganti dengan Client ID Anda
-        $client->setClientSecret('YOUR_GOOGLE_CLIENT_SECRET'); // Ganti dengan Client Secret Anda
+        if (file_exists(APPPATH . 'config/google_oauth.php')) {
+            require_once APPPATH . 'config/google_oauth.php';
+        } else {
+            if(!defined('GOOGLE_CLIENT_ID')) define('GOOGLE_CLIENT_ID', 'YOUR_GOOGLE_CLIENT_ID');
+            if(!defined('GOOGLE_CLIENT_SECRET')) define('GOOGLE_CLIENT_SECRET', 'YOUR_GOOGLE_CLIENT_SECRET');
+        }
+        $client->setClientId(GOOGLE_CLIENT_ID);
+        $client->setClientSecret(GOOGLE_CLIENT_SECRET);
         $client->setRedirectUri(BASEURL.'auth/google_callback'); // Sesuaikan dengan Redirect URI Anda
         $client->addScope('email');
         $client->addScope('profile');
@@ -52,8 +58,14 @@ class Auth extends CI_Controller {
     public function google_callback() {
         
         $client = new Google_Client();
-        $client->setClientId('YOUR_GOOGLE_CLIENT_ID'); // Ganti dengan Client ID Anda
-        $client->setClientSecret('YOUR_GOOGLE_CLIENT_SECRET'); // Ganti dengan Client Secret Anda
+        if (file_exists(APPPATH . 'config/google_oauth.php')) {
+            require_once APPPATH . 'config/google_oauth.php';
+        } else {
+            if(!defined('GOOGLE_CLIENT_ID')) define('GOOGLE_CLIENT_ID', 'YOUR_GOOGLE_CLIENT_ID');
+            if(!defined('GOOGLE_CLIENT_SECRET')) define('GOOGLE_CLIENT_SECRET', 'YOUR_GOOGLE_CLIENT_SECRET');
+        }
+        $client->setClientId(GOOGLE_CLIENT_ID);
+        $client->setClientSecret(GOOGLE_CLIENT_SECRET);
         $client->setRedirectUri(BASEURL.'auth/google_callback'); // Sesuaikan dengan Redirect URI Anda
         // pre($client);
         if (isset($_GET['code'])) {
