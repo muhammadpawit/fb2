@@ -3,717 +3,602 @@
 <head>
     <meta charset="utf-8" />
     <title>Login - Forboys Production System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="Aplikasi Sistem Produksi untuk Forboys Production" name="description" />
     <meta content="Forboys Production" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <link rel="shortcut icon" href="<?php echo ASSETS; ?>images/favicon.ico">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --primary-light: #818cf8;
-            --accent: #ec4899;
-            --success: #10b981;
-            --danger: #ef4444;
-            --dark: #0f172a;
-            --gray-900: #1e293b;
-            --gray-700: #334155;
-            --gray-500: #64748b;
-            --gray-300: #cbd5e1;
-            --gray-100: #f1f5f9;
-            --white: #ffffff;
-            --shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 25px 60px rgba(99, 102, 241, 0.15);
+            --ink: #111827;
+            --muted: #667085;
+            --line: #d9e2ec;
+            --panel: rgba(255, 255, 255, 0.94);
+            --panel-strong: #ffffff;
+            --brand: #1267d9;
+            --brand-dark: #0b4fb4;
+            --brand-soft: #e8f2ff;
+            --mint: #1aa179;
+            --amber: #f59e0b;
+            --danger: #dc2626;
+            --radius: 18px;
+            --shadow: 0 24px 70px rgba(16, 24, 40, 0.16);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
+
+        html { min-height: 100%; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
+            margin: 0;
+            font-family: 'Inter', Arial, sans-serif;
+            color: var(--ink);
+            background:
+                linear-gradient(130deg, rgba(8, 47, 73, 0.82), rgba(18, 103, 217, 0.45)),
+                url('<?php echo ASSETS; ?>images/bg-2.jpg') center/cover no-repeat fixed;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            width: 340px;
+            height: 340px;
+            border-radius: 999px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.34;
+            filter: blur(10px);
+            animation: drift 14s ease-in-out infinite alternate;
         }
 
         body::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #4895ef 0%, transparent 70%);
-            opacity: 0.2;
-            z-index: 0;
-            animation: float 20s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+            top: -120px;
+            right: -90px;
+            background: rgba(26, 161, 121, 0.74);
         }
 
         body::after {
+            bottom: -150px;
+            left: -120px;
+            background: rgba(245, 158, 11, 0.58);
+            animation-delay: -5s;
+        }
+
+        @keyframes drift {
+            from { transform: translate3d(0, 0, 0) scale(1); }
+            to { transform: translate3d(26px, -18px, 0) scale(1.08); }
+        }
+
+        .login-shell {
+            position: relative;
+            z-index: 1;
+            width: min(1120px, calc(100% - 32px));
+            min-height: 100vh;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(360px, 440px);
+            align-items: center;
+            gap: 32px;
+            padding: 40px 0;
+        }
+
+        .hero-panel {
+            min-height: 620px;
+            border-radius: 28px;
+            padding: 24px;
+            color: #ffffff;
+            background:
+                linear-gradient(145deg, rgba(6, 34, 59, 0.74), rgba(5, 55, 96, 0.34)),
+                url('<?php echo ASSETS; ?>images/bg-1.jpg') center/cover no-repeat;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-panel::after {
             content: '';
             position: absolute;
-            bottom: -50%;
-            left: -50%;
+            inset: auto -20% -24% 32%;
+            height: 260px;
+            background: linear-gradient(90deg, rgba(26, 161, 121, 0.5), rgba(245, 158, 11, 0.42));
+            border-radius: 999px;
+            transform: rotate(-8deg);
+        }
+
+        .hero-carousel,
+        .carousel-slide,
+        .carousel-content,
+        .carousel-dots {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-carousel {
+            height: 100%;
+            min-height: 572px;
+            border-radius: 22px;
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.03);
+            transition: opacity 0.75s ease, transform 1.1s ease;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .carousel-slide img {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #f72585 0%, transparent 70%);
-            opacity: 0.1;
-            z-index: 0;
-            animation: float 25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate-reverse;
+            object-fit: cover;
+            display: block;
         }
 
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
-            33% {
-                transform: translate(-3%, 3%) scale(1.02) rotate(2deg);
-            }
-            66% {
-                transform: translate(3%, -3%) scale(0.98) rotate(-2deg);
-            }
-            100% {
-                transform: translate(-5%, -5%) scale(1.05) rotate(1deg);
-            }
+        .carousel-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(4, 19, 34, 0.2), rgba(4, 19, 34, 0.46) 48%, rgba(4, 19, 34, 0.86));
         }
 
-        /* Login Container */
-        .login-wrapper {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 440px;
+        .brand-chip {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            backdrop-filter: blur(16px);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .brand-chip img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #ffffff;
+            padding: 3px;
+        }
+
+        .carousel-content {
+            position: absolute;
+            left: 28px;
+            right: 28px;
+            bottom: 72px;
+            max-width: 560px;
+            z-index: 2;
+        }
+
+        .hero-copy {
+            max-width: 560px;
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.86);
+        }
+
+        .carousel-dots {
+            position: absolute;
+            left: 28px;
+            bottom: 28px;
+            display: inline-flex;
+            gap: 9px;
+            z-index: 2;
+        }
+
+        .carousel-dot {
+            width: 32px;
+            height: 4px;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.38);
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background: #ffffff;
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
+            width: 100%;
+            min-height: 620px;
             border-radius: 24px;
-            padding: 48px 40px;
+            padding: 30px;
+            background: var(--panel);
             box-shadow: var(--shadow);
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.97);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Logo & Brand */
-        .brand-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .brand-header img {
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
-        }
-
-        .brand-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .brand-subtitle {
-            font-size: 15px;
-            color: var(--gray-500);
-            font-weight: 500;
-        }
-
-        /* Alert */
-        .alert {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            color: #991b1b;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 24px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.72);
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .mobile-brand {
+            display: none;
             align-items: center;
             gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            animation: alertSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-bottom: 22px;
         }
 
-        @keyframes alertSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .mobile-brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
         }
 
-        .alert::before {
-            content: "⚠";
+        .mobile-brand strong {
+            display: block;
             font-size: 18px;
         }
 
-        /* Login Methods Toggle */
-        .login-methods {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 28px;
-            background: var(--gray-100);
-            padding: 6px;
-            border-radius: 12px;
+        .mobile-brand span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 13px;
         }
 
-        .method-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            color: var(--gray-700);
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
+        .card-eyebrow {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: var(--brand-soft);
+            color: var(--brand-dark);
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 16px;
         }
 
-        .method-btn svg {
+        .card-eyebrow::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--mint);
+            box-shadow: 0 0 0 5px rgba(26, 161, 121, 0.14);
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 30px;
+            line-height: 1.15;
+            font-weight: 800;
+        }
+
+        .card-copy {
+            margin: 10px 0 24px;
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 13px 14px;
+            margin-bottom: 18px;
+            border-radius: 14px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #9f1239;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .alert svg {
             width: 18px;
             height: 18px;
+            flex: 0 0 auto;
+            margin-top: 1px;
         }
 
-        .method-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .method-btn:not(.active):hover {
-            color: var(--primary);
-        }
-
-        /* Login Content */
-        .login-content {
-            position: relative;
-        }
-
-        .login-method {
-            display: none;
-        }
-
-        .login-method.active {
-            display: block;
-            animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--gray-700);
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            color: var(--gray-500);
-            pointer-events: none;
-            transition: color 0.3s;
-        }
-
-        .form-input {
+        .btn {
             width: 100%;
-            padding: 14px 16px 14px 48px;
-            border: 2px solid var(--gray-300);
-            border-radius: 12px;
-            background: white;
+            min-height: 52px;
+            border-radius: 14px;
+            border: 0;
+            font: inherit;
             font-size: 15px;
-            color: var(--dark);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-
-        .form-input:focus + .input-icon {
-            color: var(--primary);
-        }
-
-        .form-input::placeholder {
-            color: var(--gray-500);
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
+            font-weight: 800;
             cursor: pointer;
-            padding: 6px;
-            color: var(--gray-500);
-            transition: color 0.3s;
-            display: flex;
-            align-items: center;
-        }
-
-        .password-toggle:hover {
-            color: var(--primary);
-        }
-
-        .password-toggle svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .forgot-link {
-            text-align: right;
-            margin-top: 8px;
-        }
-
-        .forgot-link a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .forgot-link a:hover {
-            color: var(--primary-hover);
-        }
-
-        /* Buttons */
-        .btn-primary {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 24px;
-            position: relative;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-primary svg {
+        .btn svg {
             width: 20px;
             height: 20px;
-            transition: transform 0.3s;
-        }
-
-        .btn-primary:hover svg {
-            transform: translateX(3px);
-        }
-
-        .btn-primary.loading {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .btn-primary.loading svg {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
         }
 
         .btn-google {
-            width: 100%;
-            padding: 15px;
-            background: white;
-            color: var(--gray-700);
-            border: 2px solid var(--gray-300);
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
+            background: #ffffff;
+            color: #344054;
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 26px rgba(16, 24, 40, 0.06);
         }
 
-        .btn-google:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        .btn:hover { transform: translateY(-1px); }
+
+        .btn.loading {
+            pointer-events: none;
+            opacity: 0.78;
         }
 
-        .btn-google.loading {
-            opacity: 0.7;
-            transform: translateY(0);
+        .btn.loading .spinner { display: block; }
+
+        .btn.loading .btn-icon { display: none; }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            border: 2px solid rgba(255, 255, 255, 0.46);
+            border-top-color: #ffffff;
+            animation: spin 0.75s linear infinite;
         }
 
-        .google-icon {
-            width: 20px;
-            height: 20px;
+        .btn-google .spinner {
+            border-color: rgba(18, 103, 217, 0.18);
+            border-top-color: var(--brand);
         }
 
-        /* Welcome Text for Google Login */
-        .welcome-message {
-            text-align: center;
-            margin-bottom: 24px;
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .google-copy {
+            padding: 18px;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            background: #f8fbff;
+            border: 1px solid #e5edf5;
         }
 
-        .welcome-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 8px;
+        .google-copy h2 {
+            margin: 0 0 8px;
+            font-size: 18px;
         }
 
-        .welcome-text {
+        .google-copy p {
+            margin: 0;
+            color: var(--muted);
             font-size: 14px;
-            color: var(--gray-500);
             line-height: 1.6;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 28px;
-            padding-top: 24px;
-            border-top: 1px solid var(--gray-300);
-        }
-
-        .footer-text {
-            font-size: 13px;
-            color: var(--gray-500);
-            font-weight: 500;
-        }
-
-        /* Security Badge */
-        .security-info {
+        .secure-note {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 20px;
-            padding: 10px;
-            background: rgba(99, 102, 241, 0.05);
-            border-radius: 8px;
+            margin-top: 16px;
+            color: #526070;
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        .security-info svg {
+        .secure-note svg {
             width: 16px;
             height: 16px;
-            color: var(--primary);
+            color: var(--mint);
         }
 
-        .security-info span {
+        .card-footer {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #e5edf5;
+            color: #758195;
+            text-align: center;
             font-size: 12px;
-            color: var(--gray-600);
-            font-weight: 500;
+            font-weight: 700;
         }
 
-        /* Responsive */
-        @media (max-width: 480px) {
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 920px) {
+            body {
+                background:
+                    linear-gradient(130deg, rgba(8, 47, 73, 0.78), rgba(18, 103, 217, 0.5)),
+                    url('<?php echo ASSETS; ?>images/bg-2.jpg') center/cover no-repeat fixed;
+            }
+
+            .login-shell {
+                min-height: 100svh;
+                grid-template-columns: 1fr;
+                width: min(520px, calc(100% - 28px));
+                padding: 28px 0;
+            }
+
+            .hero-panel { display: none; }
+
+            .mobile-brand { display: flex; }
+
             .login-card {
-                padding: 36px 28px;
+                min-height: auto;
+                padding: 24px;
+                border-radius: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-shell {
+                width: calc(100% - 22px);
+                padding: 16px 0;
+                align-items: start;
+            }
+
+            .login-card {
+                padding: 20px;
                 border-radius: 20px;
             }
 
-            .brand-title {
-                font-size: 22px;
-            }
+            .card-title { font-size: 25px; }
 
-            .brand-header img {
-                height: 80px;
-            }
+            .card-copy { margin-bottom: 20px; }
 
-            .method-btn {
-                font-size: 13px;
-                padding: 10px;
-            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Animated Background -->
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
+    <main class="login-shell">
+        <section class="hero-panel" aria-label="Forboys Production">
+            <div class="hero-carousel" id="heroCarousel">
+                <div class="brand-chip">
+                    <img src="<?php echo BASEURL; ?>/assets/images/0001.png" alt="Forboys Production">
+                    <span>Forboys Production</span>
+                </div>
 
-    <!-- Login Card -->
-    <div class="login-wrapper">
-        <div class="login-card">
-            <!-- Alert -->
+                <div class="carousel-slide active">
+                    <img src="<?php echo ASSETS; ?>images/small/img-7.jpg" alt="Suasana produksi Forboys">
+                </div>
+                <div class="carousel-slide">
+                    <img src="<?php echo ASSETS; ?>images/small/img-5.jpg" alt="Proses kerja produksi">
+                </div>
+                <div class="carousel-slide">
+                    <img src="<?php echo ASSETS; ?>images/attached-files/img-3.jpg" alt="Koordinasi operasional">
+                </div>
+
+                <div class="carousel-content">
+                    <p class="hero-copy">Pantau order, bahan, setoran, dan laporan harian tanpa harus bolak-balik tanya update. Semua dibuat lebih dekat dengan ritme kerja tim.</p>
+                </div>
+
+                <div class="carousel-dots" aria-label="Navigasi gambar">
+                    <button type="button" class="carousel-dot active" data-slide="0" aria-label="Gambar 1"></button>
+                    <button type="button" class="carousel-dot" data-slide="1" aria-label="Gambar 2"></button>
+                    <button type="button" class="carousel-dot" data-slide="2" aria-label="Gambar 3"></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="login-card" aria-label="Form login">
+            <div class="mobile-brand">
+                <img src="<?php echo BASEURL; ?>/assets/images/0001.png" alt="Forboys Production">
+                <div>
+                    <strong>Forboys Production</strong>
+                    <span>Production Management System</span>
+                </div>
+            </div>
+
             <?php if ($this->session->flashdata('gagal')) { ?>
-            <div class="alert" id="alertBox">
-                <?php echo $this->session->flashdata('gagal'); ?>
+            <div class="alert" id="alertBox" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                </svg>
+                <span><?php echo $this->session->flashdata('gagal'); ?></span>
             </div>
             <?php } ?>
 
-            <!-- Brand Header -->
-            <div class="brand-header">
-                <img src="<?php echo BASEURL?>/assets/images/0001.png" alt="Forboys Production Logo" style="height: 100px; width: auto; margin: 0 auto 20px; display: block;">
-                <h1 class="brand-title">Forboys Production</h1>
-                <p class="brand-subtitle">Production Management System</p>
+            <span class="card-eyebrow">Akses sistem</span>
+            <h2 class="card-title">Selamat datang kembali</h2>
+            <p class="card-copy">Pilih metode masuk yang paling nyaman untuk melanjutkan pekerjaan Anda.</p>
+
+            <div class="google-copy">
+                <h2>Masuk lebih cepat</h2>
+                <p>Gunakan akun Google yang sudah terdaftar di sistem Forboys untuk melanjutkan tanpa mengetik password manual.</p>
             </div>
 
-            <!-- Login Method Toggle -->
-            <div class="login-methods">
-                <button class="method-btn active" data-method="email">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <span>Email</span>
-                </button>
-                <button class="method-btn" data-method="google">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor" d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.798-1.677-4.175-2.715-6.735-2.715-5.522 0-10 4.479-10 10s4.478 10 10 10c8.396 0 10-7.496 10-9.999 0-0.781-0.082-1.533-0.23-2.253h-9.77z"/>
-                    </svg>
-                    <span>Google</span>
-                </button>
+            <button class="btn btn-google" id="googleLoginBtn" type="button">
+                <span class="spinner" aria-hidden="true"></span>
+                <svg class="btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span class="btn-text">Lanjutkan dengan Google</span>
+            </button>
+
+            <div class="secure-note">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.62-4.02A11.96 11.96 0 0112 2.94a11.96 11.96 0 01-8.62 3.04A12.02 12.02 0 003 9c0 5.59 3.82 10.29 9 11.62 5.18-1.33 9-6.03 9-11.62 0-1.04-.13-2.05-.38-3.02z" />
+                </svg>
+                <span>Login aman melalui Google OAuth</span>
             </div>
 
-            <!-- Login Content -->
-            <div class="login-content">
-                <!-- Email Login Method -->
-                <div class="login-method active" id="emailMethod">
-                    <form method="POST" action="<?php echo BASEURL; ?>Auth/login" id="loginForm">
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email</label>
-                            <div class="input-wrapper">
-                                <input type="email" class="form-input" id="email" name="email" placeholder="nama@email.com" required>
-                                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="password">Password</label>
-                            <div class="input-wrapper">
-                                <input type="password" class="form-input" id="password" name="password" placeholder="Masukkan password" required>
-                                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                                <button type="button" class="password-toggle" id="togglePassword">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeIcon">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="forgot-link">
-                                <a href="<?php echo BASEURL; ?>auth/forgot-password">Lupa password?</a>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-primary" id="loginBtn">
-                            <span>Masuk ke Dashboard</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                        </button>
-                    </form>
-
-                    <div class="security-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                        <span>Koneksi aman dengan enkripsi SSL</span>
-                    </div>
-                </div>
-
-                <!-- Google Login Method -->
-                <div class="login-method" id="googleMethod">
-                    <div class="welcome-message">
-                        <h2 class="welcome-title">Selamat Datang!</h2>
-                        <p class="welcome-text">Masuk dengan akun Google Anda untuk mengakses sistem produksi dengan cepat dan aman</p>
-                    </div>
-
-                    <button class="btn-google" id="googleLoginBtn">
-                        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        <span>Lanjutkan dengan Google</span>
-                    </button>
-
-                    <div class="security-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                        <span>Login aman melalui Google OAuth</span>
-                    </div>
-                </div>
+            <div class="card-footer">
+                &copy; 2020 - <?php echo date('Y'); ?> Forboys Production
             </div>
-
-            <!-- Footer -->
-            <div class="footer">
-                <p class="footer-text">&copy; 2020 - <?php echo date('Y')?> Forboys Production</p>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script src="<?php echo ASSETS; ?>js/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Auto-hide alert
             if ($('#alertBox').length) {
                 setTimeout(function() {
-                    $('#alertBox').fadeOut(400, function() {
+                    $('#alertBox').fadeOut(350, function() {
                         $(this).remove();
                     });
                 }, 5000);
             }
 
-            // Toggle between login methods
-            $('.method-btn').on('click', function() {
-                const method = $(this).data('method');
-                
-                // Update active button
-                $('.method-btn').removeClass('active');
-                $(this).addClass('active');
-                
-                // Toggle content with animation
-                $('.login-method').removeClass('active');
-                
-                setTimeout(function() {
-                    if (method === 'email') {
-                        $('#emailMethod').addClass('active');
-                    } else {
-                        $('#googleMethod').addClass('active');
-                    }
-                }, 50);
+            var carouselIndex = 0;
+            var carouselSlides = $('.carousel-slide');
+            var carouselDots = $('.carousel-dot');
+
+            function showCarouselSlide(index) {
+                carouselIndex = index;
+                carouselSlides.removeClass('active').eq(index).addClass('active');
+                carouselDots.removeClass('active').eq(index).addClass('active');
+            }
+
+            carouselDots.on('click', function() {
+                showCarouselSlide($(this).data('slide'));
             });
 
-            // Toggle password visibility
-            $('#togglePassword').on('click', function() {
-                const passwordInput = $('#password');
-                const eyeIcon = $('#eyeIcon');
-                const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
-                
-                passwordInput.attr('type', type);
-                
-                if (type === 'text') {
-                    eyeIcon.html(`
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    `);
-                } else {
-                    eyeIcon.html(`
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    `);
-                }
-            });
+            if (carouselSlides.length > 1) {
+                setInterval(function() {
+                    showCarouselSlide((carouselIndex + 1) % carouselSlides.length);
+                }, 4500);
+            }
 
-            // Email login form submission
-            $('#loginForm').on('submit', function(e) {
-                e.preventDefault();
-                const btn = $('#loginBtn');
-                const btnText = btn.find('span');
-                const btnIcon = btn.find('svg');
-                
-                // Show loading state
-                btn.addClass('loading');
-                btn.prop('disabled', true);
-                btnText.text('Sedang Masuk...');
-                
-                // Submit form after animation
-                setTimeout(() => {
-                    this.submit();
-                }, 800);
-            });
+            $('#googleLoginBtn').on('click', function() {
+                var btn = $(this);
 
-            // Google login button
-            $('#googleLoginBtn').on('click', function(e) {
-                e.preventDefault();
-                const btn = $(this);
-                const btnText = btn.find('span');
-                
-                // Show loading state
-                btn.addClass('loading').css('pointer-events', 'none');
-                btnText.text('Menghubungkan ke Google...');
-                
-                // Add spinner
-                btn.find('svg').css('animation', 'spin 1s linear infinite');
-                
-                // Redirect to Google OAuth
+                btn.addClass('loading').prop('disabled', true);
+                btn.find('.btn-text').text('Menghubungkan...');
+
                 setTimeout(function() {
                     window.location.href = "<?php echo $auth_url; ?>";
-                }, 800);
+                }, 500);
             });
         });
     </script>
+</body>
+</html>

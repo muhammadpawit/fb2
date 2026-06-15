@@ -186,7 +186,7 @@
         </div>
         <div class="col-md-3" style="padding-top: 25px;">
             <button type="button" class="btn btn-primary btn-sm" onclick="kalkulasi()">Kalkulasi</button>
-            <?php if(isset($_GET['kalkulasi'])){?>
+            <?php if(isset($_GET['kalkulasi']) || isset($is_edit)){?>
             <button type="button" class="btn btn-success btn-sm" onclick="proses()">Simpan</button>
             <?php } ?>
             <a href="<?php echo $batal?>" class="btn btn-danger btn-sm">Batal</a>
@@ -243,8 +243,17 @@
                                     <label style="font-size: 11px;">SHIFT UTAMA:</label>
                                     <select name="products[<?php echo $i?>][shift]" class="form-control input-sm shift-main-select" required>
                                         <option value="">Pilih Shift</option>
-                                        <option value="1">PAGI</option>
-                                        <option value="2">MALAM</option>
+                                        <option value="1" <?php echo isset($p['shift']) && $p['shift']==1 ? 'selected' : '' ?>>PAGI</option>
+                                        <option value="2" <?php echo isset($p['shift']) && $p['shift']==2 ? 'selected' : '' ?>>MALAM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="font-size: 11px;">METODE PEMBAYARAN:</label>
+                                    <select name="products[<?php echo $i?>][metode_pembayaran]" class="form-control input-sm metode-pembayaran-select" required>
+                                        <option value="transfer" <?php echo isset($p['metode_pembayaran']) && $p['metode_pembayaran']=='transfer' ? 'selected' : '' ?>>Transfer</option>
+                                        <option value="cash" <?php echo isset($p['metode_pembayaran']) && $p['metode_pembayaran']=='cash' ? 'selected' : '' ?>>Cash</option>
                                     </select>
                                 </div>
                             </div>
@@ -367,6 +376,7 @@
                 idkaryawan: card.find('.employee-active-check').val(),
                 nama_karyawan_bordir: card.find('.nama-input').val(),
                 shift: card.find('.shift-main-select').val(),
+                metode_pembayaran: card.find('.metode-pembayaran-select').val(),
                 det: []
             };
 

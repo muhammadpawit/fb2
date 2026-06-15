@@ -330,6 +330,166 @@ class Bordir extends CI_Controller {
 		$data['page']=$this->page.'bordir/gaji_operator';
 		$this->load->view($this->page.'main',$data);
 	}
+	public function gajioperatoredit($id){
+		$data=[];
+		$data["title"]="Edit Gaji Operator Bordir";
+		$gaji_opt = $this->GlobalModel->getDataRow("gaji_operator", array("id" => $id, "hapus" => 0));
+		if(empty($gaji_opt)){
+			redirect(BASEURL."Bordir/gajioperator");
+		}
+		$tanggal1 = $gaji_opt["tanggal1"];
+		$tanggal2 = $gaji_opt["tanggal2"];
+		$tempat = $gaji_opt["tempat"];
+		$data["tanggal1"]=$tanggal1;
+		$data["tanggal2"]=$tanggal2;
+		$data["tempat"]=$tempat;
+		$data["idgaji"]=$id;
+		$data["is_edit"] = 1;
+		$data["prods"]=[];
+		$karyawan_terdaftar = $this->GlobalModel->QueryManual("SELECT * FROM gaji_operator_new WHERE idgajiopt='$id' AND hapus=0");
+		foreach($karyawan_terdaftar as $k){
+			$hari_data = [];
+			$k_id = $k["id"];
+			$details = $this->GlobalModel->QueryManual("SELECT * FROM gaji_operator_detail_new WHERE idgaji='$k_id' AND hapus=0 ORDER BY id ASC");
+			$dates = looping_tanggal($tanggal1, $tanggal2);
+			foreach($dates as $idx => $dt){
+				$det = isset($details[$idx]) ? $details[$idx] : null;
+				$hari_data[] = [
+					"tanggal" => $dt["tanggal"],
+					"hari" => hari(date("l", strtotime($dt["tanggal"]))),
+					"nominal" => $det ? $det["gaji"] : 0,
+					"shift" => $det ? $det["shift"] : "-",
+					"mandor" => $det ? $det["mandor"] : "-",
+					"potongan" => $det ? $det["pot_absensi"] : 0,
+					"keterangan" => $det ? $det["keterangan"] : "-",
+				];
+			}
+			$data["prods"][] = array(
+				"id" => $k["idkaryawan"],
+				"nama" => $k["nama"],
+				"shift" => $k["shift"],
+				"metode_pembayaran" => $k["metode_pembayaran"],
+				"hari" => $hari_data,
+			);
+		}
+		$data["action"]=BASEURL."Bordir/gajioperatorupdate/".$id;
+		$data["batal"]=BASEURL."Bordir/gajioperator";
+		$data["page"]=$this->page."bordir/gaji_operator_new";
+		$this->load->view($this->page."main",$data);
+	}
+
+	public function gajioperatorupdate($id){
+		$data=$this->input->post();
+		if(isset($data["payroll_json"])){
+			$data = json_decode($data["payroll_json"], true);
+		}
+		if(empty($data) || !isset($data["products"])){
+			$this->session->set_flashdata("msgt","Data Gaji Gagal Diproses.");
+			redirect(BASEURL."Bordir/gajioperator");
+		}
+		$this->db->trans_start();
+		$this->db->update("gaji_operator_new",array("hapus"=>1),array("idgajiopt"=>$id));
+		$this->db->query("UPDATE gaji_operator_detail_new SET hapus=1 WHERE idgaji IN (SELECT id FROM gaji_operator_new WHERE idgajiopt='$id') ");
+		$totalgaji=0;
+		$totalum=0;
+		$totalbonus=0;
+		$potclaim=0;
+		$potpinjaman=0;
+		foreach($data["products"] as $p){
+			if(isset($p["idkaryawan"])){
+				$totalgaji=0;
+				$totalum=0;
+				$totalbonus=0;
+				$totalpot=0;
+				foreach($p["det"] as $d){
+					$totalgaji+=isset($d["gaji"])?$d["gaji"]:0;
+					$totalum+=isset($d["um"])?$d["um"]:0;
+					$totalbonus+=isset($d["bonus"])?$d["bonus"]:0;
+					$totalpot+=isset($d["pot"])?$d["pot"]:0;
+				}
+				$ig=array(
+					"idgajiopt"=>$id,
+					"tanggal1"=>$data["tanggal1"],
+					"tanggal2"=>$data["tanggal2"],
+					"tempat"=>$data["tempat"],
+					"idkaryawan"	=>$p["idkaryawan"],
+					"nama"=>$p["nama_karyawan_bordir"],
+					"shift"=>isset($p["shift"])?$p["shift"]:"",
+					"metode_pembayaran"=>isset($p["metode_pembayaran"])?$p["metode_pembayaran"]:"transfer",
+					"totalgaji"	=>$totalgaji,
+					"totalum"	     =>$totalum,
+					"totalbonus"	=>$totalbonus,
+					"potclaim"=>$totalpot,
+					"potpinjaman"	=>0,
+					"grandtotal"	=>($totalgaji + $totalum+$totalbonus - $totalpot),
+					"hapus"=>0,
+				);
+				$this->db->insert("gaji_operator_new",$ig);
+				$idig=$this->db->insert_id();
+				foreach($p["det"] as $d){
+					$ig_detail=array(
+						"idgaji"=>$idig,
+						"idkaryawan"=>$p["idkaryawan"],
+						"hari"=>$d["hari"],
+						"gaji"=>$d["gaji"],
+						"bonus"=>$d["bonus"],
+						"um"=>$d["um"],
+						"pot_absensi"=>isset($d["pot"])?$d["pot"]:0,
+						"pot_pinjaman"=>isset($d["pinjaman"])?$d["pinjaman"]:0,
+						"keterangan"=>$d["keterangan"],
+						"shift"=>isset($p["shift"])?$p["shift"]:"",
+						"mandor"=>$d["mandor"],
+						"hapus"=>0,
+					);
+					$this->db->insert("gaji_operator_detail_new",$ig_detail);
+				}
+			}
+		}
+		$this->db->query("DELETE FROM gaji_operator_detail WHERE idgaji='$id'");
+		foreach($data["products"] as $p){
+			if(isset($p["idkaryawan"])){
+				$detail=array(
+					"idgaji"=>$id,
+					"idkaryawan"=>$p["idkaryawan"],
+					"nama"=>$p["nama_karyawan_bordir"],
+					"senin"=>isset($p["senin"])?1:0,
+					"selasa"=>isset($p["selasa"])?1:0,
+					"rabu"=>isset($p["rabu"])?1:0,
+					"kamis"=>isset($p["kamis"])?1:0,
+					"jumat"=>isset($p["jumat"])?1:0,
+					"sabtu"=>isset($p["sabtu"])?1:0,
+					"minggu"=>isset($p["minggu"])?1:0,
+					"bonus"=>isset($p["lemburs"])?$p["lemburs"]:0,
+					"um"=>isset($p["um"])?$p["um"]:0,
+					"ksenin"=>isset($p["ksenin"])?$p["ksenin"]:"-",
+					"kselasa"=>isset($p["kselasa"])?$p["kselasa"]:"-",
+					"krabu"=>isset($p["krabu"])?$p["krabu"]:"-",
+					"kkamis"=>isset($p["kkamis"])?$p["kkamis"]:"-",
+					"kjumat"=>isset($p["kjumat"])?$p["kjumat"]:"-",
+					"ksabtu"=>isset($p["ksabtu"])?$p["ksabtu"]:"-",
+					"kminggu"=>isset($p["kminggu"])?$p["kminggu"]:"-",
+					"gajisenin"=>isset($p["gajisenin"])?$p["gajisenin"]:"0",
+					"gajiselasa"=>isset($p["gajiselasa"])?$p["gajiselasa"]:"0",
+					"gajirabu"=>isset($p["gajirabu"])?$p["gajirabu"]:"0",
+					"gajikamis"=>isset($p["gajikamis"])?$p["gajikamis"]:"0",
+					"gajijumat"=>isset($p["gajijumat"])?$p["gajijumat"]:"0",
+					"gajisabtu"=>isset($p["gajisabtu"])?$p["gajisabtu"]:"0",
+					"gajiminggu"=>isset($p["gajiminggu"])?$p["gajiminggu"]:"0",
+					"kbonus"=>isset($p["kbonus"])?$p["kbonus"]:"-",
+					"kum"=>isset($p["kum"])?$p["kum"]:"-",
+				);
+				$this->db->insert("gaji_operator_detail",$detail);
+			}
+		}
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === FALSE) {
+			$this->session->set_flashdata("msgt","Gagal Menyimpan Data.");
+		} else {
+			$this->session->set_flashdata("msg","Data Berhasil Di Update");
+		}
+		redirect(BASEURL."Bordir/gajioperator");
+	}
+
 	public function gajioperatorsave(){
 		$data=$this->input->post();
 
@@ -387,6 +547,7 @@ class Bordir extends CI_Controller {
 					'idkaryawan'	=>$p['idkaryawan'],
 					'nama'=>$p['nama_karyawan_bordir'],
 					'shift'=>isset($p['shift'])?$p['shift']:'',
+					'metode_pembayaran'=>isset($p['metode_pembayaran'])?$p['metode_pembayaran']:'transfer',
 					'totalgaji'	=>$totalgaji,
 					'totalum'	     =>$totalum,
 					'totalbonus'	=>$totalbonus,

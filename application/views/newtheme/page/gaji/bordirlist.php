@@ -39,6 +39,7 @@
 						<td>
 							<a href="<?php echo $p['detail']?>" class="btn btn-warning btn-sm text-white">Detail</a>&nbsp;
 							<a href="<?php echo $p['excel']?>" class="btn btn-success btn-sm text-white">Excel</a>
+							<a href="<?php echo BASEURL.'Bordir/gajioperatoredit/'.$p['id']?>" class="btn btn-primary btn-sm text-white">Edit</a>
 							<?php if(akseshapus()==1){?>
 								<a href="<?php echo $p['hapus']?>" class="btn btn-danger btn-sm text-white" onclick="return confirm('Apakah yakin akan menghapus data ini?')">Hapus</a>
 							<?php } ?>
