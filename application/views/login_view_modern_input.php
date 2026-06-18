@@ -1,619 +1,603 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8" />
-    <title>Login - Forboys Production System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta content="Aplikasi Sistem Produksi untuk Forboys Production" name="description" />
-    <meta content="Forboys Production" name="author" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="<?php echo ASSETS; ?>images/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Forboys Production System</title>
 
-    <style>
-        :root {
-            --ink: #111827;
-            --muted: #667085;
-            --line: #d9e2ec;
-            --panel: rgba(255, 255, 255, 0.94);
-            --panel-strong: #ffffff;
-            --brand: #1267d9;
-            --brand-dark: #0b4fb4;
-            --brand-soft: #e8f2ff;
-            --mint: #1aa179;
-            --amber: #f59e0b;
-            --danger: #dc2626;
-            --radius: 18px;
-            --shadow: 0 24px 70px rgba(16, 24, 40, 0.16);
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        * { box-sizing: border-box; }
+<style>
 
-        html { min-height: 100%; }
+:root{
+    --primary:#1565d8;
+    --primary-dark:#0d4cb1;
 
-        body {
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Inter', Arial, sans-serif;
-            color: var(--ink);
-            background:
-                linear-gradient(130deg, rgba(8, 47, 73, 0.82), rgba(18, 103, 217, 0.45)),
-                url('<?php echo ASSETS; ?>images/bg-2.jpg') center/cover no-repeat fixed;
-            overflow-x: hidden;
-        }
+    --text:#101828;
+    --muted:#667085;
 
-        body::before,
-        body::after {
-            content: '';
-            position: fixed;
-            width: 340px;
-            height: 340px;
-            border-radius: 999px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.34;
-            filter: blur(10px);
-            animation: drift 14s ease-in-out infinite alternate;
-        }
+    --border:#e4e7ec;
 
-        body::before {
-            top: -120px;
-            right: -90px;
-            background: rgba(26, 161, 121, 0.74);
-        }
+    --bg:#f7f9fc;
 
-        body::after {
-            bottom: -150px;
-            left: -120px;
-            background: rgba(245, 158, 11, 0.58);
-            animation-delay: -5s;
-        }
+    --radius:24px;
 
-        @keyframes drift {
-            from { transform: translate3d(0, 0, 0) scale(1); }
-            to { transform: translate3d(26px, -18px, 0) scale(1.08); }
-        }
+    --shadow:
+        0 10px 30px rgba(16,24,40,.08),
+        0 30px 60px rgba(16,24,40,.08);
+}
 
-        .login-shell {
-            position: relative;
-            z-index: 1;
-            width: min(1120px, calc(100% - 32px));
-            min-height: 100vh;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(0, 1.05fr) minmax(360px, 440px);
-            align-items: center;
-            gap: 32px;
-            padding: 40px 0;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .hero-panel {
-            min-height: 620px;
-            border-radius: 28px;
-            padding: 24px;
-            color: #ffffff;
-            background:
-                linear-gradient(145deg, rgba(6, 34, 59, 0.74), rgba(5, 55, 96, 0.34)),
-                url('<?php echo ASSETS; ?>images/bg-1.jpg') center/cover no-repeat;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            position: relative;
-        }
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
 
-        .hero-panel::after {
-            content: '';
-            position: absolute;
-            inset: auto -20% -24% 32%;
-            height: 260px;
-            background: linear-gradient(90deg, rgba(26, 161, 121, 0.5), rgba(245, 158, 11, 0.42));
-            border-radius: 999px;
-            transform: rotate(-8deg);
-        }
+.wrapper{
+    min-height:100vh;
+    padding:24px;
+}
 
-        .hero-carousel,
-        .carousel-slide,
-        .carousel-content,
-        .carousel-dots {
-            position: relative;
-            z-index: 1;
-        }
+.container{
+    max-width:1280px;
+    margin:auto;
 
-        .hero-carousel {
-            height: 100%;
-            min-height: 572px;
-            border-radius: 22px;
-            overflow: hidden;
-            background: #0f172a;
-        }
+    display:grid;
+    grid-template-columns:1.3fr 480px;
+    gap:32px;
 
-        .carousel-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transform: scale(1.03);
-            transition: opacity 0.75s ease, transform 1.1s ease;
-        }
+    align-items:center;
+    min-height:calc(100vh - 48px);
+}
 
-        .carousel-slide.active {
-            opacity: 1;
-            transform: scale(1);
-        }
+.hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:32px;
+    min-height:720px;
+    box-shadow:var(--shadow);
+}
 
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+.slide{
+    position:absolute;
+    inset:0;
 
-        .carousel-slide::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(4, 19, 34, 0.2), rgba(4, 19, 34, 0.46) 48%, rgba(4, 19, 34, 0.86));
-        }
+    opacity:0;
+    transition:.7s ease;
+}
 
-        .brand-chip {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 2;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            backdrop-filter: blur(16px);
-            font-size: 13px;
-            font-weight: 700;
-        }
+.slide.active{
+    opacity:1;
+}
 
-        .brand-chip img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: #ffffff;
-            padding: 3px;
-        }
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-        .carousel-content {
-            position: absolute;
-            left: 28px;
-            right: 28px;
-            bottom: 72px;
-            max-width: 560px;
-            z-index: 2;
-        }
+.slide::after{
+    content:'';
 
-        .hero-copy {
-            max-width: 560px;
-            margin: 0;
-            font-size: 17px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.86);
-        }
+    position:absolute;
+    inset:0;
 
-        .carousel-dots {
-            position: absolute;
-            left: 28px;
-            bottom: 28px;
-            display: inline-flex;
-            gap: 9px;
-            z-index: 2;
-        }
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.15),
+            rgba(0,0,0,.35),
+            rgba(0,0,0,.75)
+        );
+}
 
-        .carousel-dot {
-            width: 32px;
-            height: 4px;
-            padding: 0;
-            border: 0;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.38);
-            cursor: pointer;
-        }
+.hero-content{
+    position:absolute;
 
-        .carousel-dot.active {
-            background: #ffffff;
-        }
+    left:40px;
+    right:40px;
+    bottom:40px;
 
-        .login-card {
-            width: 100%;
-            min-height: 620px;
-            border-radius: 24px;
-            padding: 30px;
-            background: var(--panel);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.72);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    z-index:10;
+    color:white;
+}
 
-        .mobile-brand {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 22px;
-        }
+.badge{
+    display:inline-flex;
 
-        .mobile-brand img {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
-        }
+    align-items:center;
+    gap:8px;
 
-        .mobile-brand strong {
-            display: block;
-            font-size: 18px;
-        }
+    padding:10px 16px;
 
-        .mobile-brand span {
-            display: block;
-            margin-top: 3px;
-            color: var(--muted);
-            font-size: 13px;
-        }
+    border-radius:999px;
 
-        .card-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 11px;
-            border-radius: 999px;
-            background: var(--brand-soft);
-            color: var(--brand-dark);
-            font-size: 12px;
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
 
-        .card-eyebrow::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--mint);
-            box-shadow: 0 0 0 5px rgba(26, 161, 121, 0.14);
-        }
+    font-size:13px;
+    font-weight:700;
 
-        .card-title {
-            margin: 0;
-            font-size: 30px;
-            line-height: 1.15;
-            font-weight: 800;
-        }
+    margin-bottom:20px;
+}
 
-        .card-copy {
-            margin: 10px 0 24px;
-            color: var(--muted);
-            line-height: 1.65;
-            font-size: 14px;
-        }
+.hero-title{
+    font-size:56px;
+    line-height:1.1;
+    font-weight:800;
 
-        .alert {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 13px 14px;
-            margin-bottom: 18px;
-            border-radius: 14px;
-            background: #fff1f2;
-            border: 1px solid #fecdd3;
-            color: #9f1239;
-            font-size: 14px;
-            font-weight: 700;
-        }
+    max-width:650px;
 
-        .alert svg {
-            width: 18px;
-            height: 18px;
-            flex: 0 0 auto;
-            margin-top: 1px;
-        }
+    margin-bottom:18px;
+}
 
-        .btn {
-            width: 100%;
-            min-height: 52px;
-            border-radius: 14px;
-            border: 0;
-            font: inherit;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
+.hero-desc{
+    font-size:18px;
+    line-height:1.8;
 
-        .btn svg {
-            width: 20px;
-            height: 20px;
-        }
+    color:rgba(255,255,255,.85);
 
-        .btn-google {
-            background: #ffffff;
-            color: #344054;
-            border: 1px solid var(--line);
-            box-shadow: 0 10px 26px rgba(16, 24, 40, 0.06);
-        }
+    max-width:600px;
+}
 
-        .btn:hover { transform: translateY(-1px); }
+.hero-stats{
+    display:flex;
+    gap:12px;
 
-        .btn.loading {
-            pointer-events: none;
-            opacity: 0.78;
-        }
+    margin-top:28px;
+}
 
-        .btn.loading .spinner { display: block; }
+.stat{
+    flex:1;
 
-        .btn.loading .btn-icon { display: none; }
+    padding:16px;
 
-        .spinner {
-            display: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 999px;
-            border: 2px solid rgba(255, 255, 255, 0.46);
-            border-top-color: #ffffff;
-            animation: spin 0.75s linear infinite;
-        }
+    border-radius:18px;
 
-        .btn-google .spinner {
-            border-color: rgba(18, 103, 217, 0.18);
-            border-top-color: var(--brand);
-        }
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(20px);
+}
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+.stat strong{
+    display:block;
+    font-size:22px;
+}
 
-        .google-copy {
-            padding: 18px;
-            margin-bottom: 16px;
-            border-radius: 16px;
-            background: #f8fbff;
-            border: 1px solid #e5edf5;
-        }
+.stat span{
+    font-size:13px;
+    opacity:.8;
+}
 
-        .google-copy h2 {
-            margin: 0 0 8px;
-            font-size: 18px;
-        }
+.dots{
+    position:absolute;
 
-        .google-copy p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
-        }
+    bottom:20px;
+    right:20px;
 
-        .secure-note {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 16px;
-            color: #526070;
-            font-size: 12px;
-            font-weight: 700;
-        }
+    display:flex;
+    gap:8px;
 
-        .secure-note svg {
-            width: 16px;
-            height: 16px;
-            color: var(--mint);
-        }
+    z-index:15;
+}
 
-        .card-footer {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #e5edf5;
-            color: #758195;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 700;
-        }
+.dot{
+    width:12px;
+    height:12px;
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.001ms !important;
-                animation-iteration-count: 1 !important;
-                scroll-behavior: auto !important;
-            }
-        }
+    border-radius:50%;
 
-        @media (max-width: 920px) {
-            body {
-                background:
-                    linear-gradient(130deg, rgba(8, 47, 73, 0.78), rgba(18, 103, 217, 0.5)),
-                    url('<?php echo ASSETS; ?>images/bg-2.jpg') center/cover no-repeat fixed;
-            }
+    background:rgba(255,255,255,.4);
+    cursor:pointer;
+}
 
-            .login-shell {
-                min-height: 100svh;
-                grid-template-columns: 1fr;
-                width: min(520px, calc(100% - 28px));
-                padding: 28px 0;
-            }
+.dot.active{
+    background:white;
+}
 
-            .hero-panel { display: none; }
+.login-area{
+    position:relative;
+}
 
-            .mobile-brand { display: flex; }
+.login-card{
+    background:white;
 
-            .login-card {
-                min-height: auto;
-                padding: 24px;
-                border-radius: 22px;
-            }
-        }
+    border-radius:32px;
 
-        @media (max-width: 480px) {
-            .login-shell {
-                width: calc(100% - 22px);
-                padding: 16px 0;
-                align-items: start;
-            }
+    padding:40px;
 
-            .login-card {
-                padding: 20px;
-                border-radius: 20px;
-            }
+    box-shadow:var(--shadow);
+}
 
-            .card-title { font-size: 25px; }
+.logo{
+    width:70px;
+    height:70px;
 
-            .card-copy { margin-bottom: 20px; }
+    border-radius:20px;
 
-        }
-    </style>
+    background:#fff;
+    border:1px solid var(--border);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin-bottom:24px;
+}
+
+.logo img{
+    width:48px;
+}
+
+.label{
+    display:inline-flex;
+
+    align-items:center;
+    gap:8px;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    background:#eef5ff;
+    color:var(--primary);
+
+    font-size:12px;
+    font-weight:700;
+}
+
+.title{
+    font-size:38px;
+    font-weight:800;
+
+    margin-top:18px;
+}
+
+.subtitle{
+    color:var(--muted);
+
+    line-height:1.8;
+
+    margin-top:12px;
+    margin-bottom:30px;
+}
+
+.info{
+    padding:18px;
+
+    border-radius:18px;
+
+    background:#f8fafc;
+
+    border:1px solid var(--border);
+
+    margin-bottom:24px;
+}
+
+.info h3{
+    margin-bottom:8px;
+    font-size:17px;
+}
+
+.info p{
+    color:var(--muted);
+    line-height:1.7;
+    font-size:14px;
+}
+
+.google-btn{
+    width:100%;
+    height:60px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    cursor:pointer;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+
+    font-size:15px;
+    font-weight:700;
+
+    transition:.25s;
+}
+
+.google-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(21,101,216,.15);
+}
+
+.google-btn svg{
+    width:22px;
+}
+
+.security{
+    margin-top:20px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+.footer{
+    margin-top:30px;
+
+    padding-top:20px;
+
+    border-top:1px solid var(--border);
+
+    text-align:center;
+
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:992px){
+
+    .container{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .hero{
+        min-height:320px;
+        border-radius:28px;
+    }
+
+    .hero-title{
+        font-size:30px;
+    }
+
+    .hero-desc{
+        font-size:14px;
+    }
+
+    .hero-content{
+        left:24px;
+        right:24px;
+        bottom:24px;
+    }
+
+    .hero-stats{
+        display:none;
+    }
+
+    .login-area{
+        margin-top:-40px;
+        z-index:20;
+    }
+
+    .login-card{
+        border-radius:28px;
+        padding:28px;
+    }
+
+    .title{
+        font-size:28px;
+    }
+}
+
+@media(max-width:576px){
+
+    .wrapper{
+        padding:14px;
+    }
+
+    .hero{
+        min-height:260px;
+    }
+
+    .hero-title{
+        font-size:24px;
+    }
+
+    .hero-desc{
+        display:none;
+    }
+
+    .login-card{
+        padding:22px;
+    }
+} 
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(21,101,216,0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
 </head>
-
 <body>
-    <main class="login-shell">
-        <section class="hero-panel" aria-label="Forboys Production">
-            <div class="hero-carousel" id="heroCarousel">
-                <div class="brand-chip">
-                    <img src="<?php echo BASEURL; ?>/assets/images/0001.png" alt="Forboys Production">
-                    <span>Forboys Production</span>
+
+<div class="wrapper">
+
+    <div class="container">
+
+        <section class="hero">
+
+            <?php if (!empty($carousels)): ?>
+                <?php $i = 0; foreach ($carousels as $c): ?>
+                    <div class="slide <?php echo ($i == 0) ? 'active' : ''; ?>">
+                        <img src="<?php echo BASEURL . 'assets/images/carousel/' . $c['image']; ?>" alt="<?php echo isset($c['alt_text']) ? $c['alt_text'] : ''; ?>">
+                    </div>
+                <?php $i++; endforeach; ?>
+            <?php else: ?>
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f">
+                </div>
+            <?php endif; ?>
+
+            <div class="hero-content">
+
+                <div class="badge">
+                    Forboys Production System
                 </div>
 
-                <?php if(!empty($carousels)){ ?>
-                    <?php foreach($carousels as $index => $c){ ?>
-                        <div class="carousel-slide <?php echo $index==0 ? 'active' : ''; ?>">
-                            <img src="<?php echo BASEURL; ?>assets/images/carousel/<?php echo $c['image']; ?>" alt="<?php echo $c['alt_text']; ?>">
-                        </div>
-                    <?php } ?>
-                <?php }else{ ?>
-                    <!-- Default fallback if db is empty -->
-                    <div class="carousel-slide active">
-                        <img src="<?php echo ASSETS; ?>images/small/img-7.jpg" alt="Suasana produksi Forboys">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="<?php echo ASSETS; ?>images/small/img-5.jpg" alt="Proses kerja produksi">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="<?php echo ASSETS; ?>images/attached-files/img-3.jpg" alt="Koordinasi operasional">
-                    </div>
-                <?php } ?>
+                <h1 class="hero-title">
+                    Kelola Produksi Lebih Cepat dan Terintegrasi
+                </h1>
 
-                <div class="carousel-content">
-                    <p class="hero-copy">Pantau order, bahan, setoran, dan laporan harian tanpa harus bolak-balik tanya update. Semua dibuat lebih dekat dengan ritme kerja tim.</p>
+                <p class="hero-desc">
+                    Pantau order, bahan baku, progress produksi,
+                    pengiriman, hingga laporan harian dalam satu sistem.
+                </p>
+
+                <div class="hero-stats">
+
+                    <div class="stat">
+                        <strong>24/7</strong>
+                        <span>Monitoring</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>100%</strong>
+                        <span>Terintegrasi</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>Realtime</strong>
+                        <span>Update Data</span>
+                    </div>
+
                 </div>
 
-                <div class="carousel-dots" aria-label="Navigasi gambar">
-                    <?php if(!empty($carousels)){ ?>
-                        <?php foreach($carousels as $index => $c){ ?>
-                            <button type="button" class="carousel-dot <?php echo $index==0 ? 'active' : ''; ?>" data-slide="<?php echo $index; ?>" aria-label="Gambar <?php echo $index+1; ?>"></button>
-                        <?php } ?>
-                    <?php }else{ ?>
-                        <button type="button" class="carousel-dot active" data-slide="0" aria-label="Gambar 1"></button>
-                        <button type="button" class="carousel-dot" data-slide="1" aria-label="Gambar 2"></button>
-                        <button type="button" class="carousel-dot" data-slide="2" aria-label="Gambar 3"></button>
-                    <?php } ?>
-                </div>
             </div>
+
+            <div class="dots">
+                <?php if (!empty($carousels)): ?>
+                    <?php for ($i = 0; $i < count($carousels); $i++): ?>
+                        <div class="dot <?php echo ($i == 0) ? 'active' : ''; ?>"></div>
+                    <?php endfor; ?>
+                <?php else: ?>
+                    <div class="dot active"></div>
+                <?php endif; ?>
+            </div>
+
         </section>
 
-        <section class="login-card" aria-label="Form login">
-            <div class="mobile-brand">
-                <img src="<?php echo BASEURL; ?>/assets/images/0001.png" alt="Forboys Production">
-                <div>
-                    <strong>Forboys Production</strong>
-                    <span>Production Management System</span>
+        <section class="login-area">
+
+            <div class="login-card">
+
+                <div class="logo">
+                    <img src="https://forboysproduction.com//assets/images/0001.png" alt="Logo">
                 </div>
+
+                <span class="label">
+                    Akses Sistem
+                </span>
+
+                <h2 class="title">
+                    Selamat Datang Kembali
+                </h2>
+
+                <p class="subtitle">
+                    Masuk ke Forboys Production System untuk
+                    melanjutkan aktivitas dan memantau operasional produksi.
+                </p>
+
+                <div class="info">
+                    <h3>Masuk dengan Google</h3>
+                    <p>
+                        Gunakan akun Google yang sudah terdaftar
+                        untuk mengakses sistem dengan aman dan cepat.
+                    </p>
+                </div>
+
+                <button type="button" class="google-btn" id="btn-login-google" onclick="loginGoogle()">
+
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+
+                    Lanjutkan dengan Google
+
+                </button>
+
+                <div class="security">
+                    🔒 Login aman menggunakan Google OAuth
+                </div>
+
+                <div class="footer">
+                    © 2020 - 2026 Forboys Production
+                </div>
+
             </div>
 
-            <?php if ($this->session->flashdata('gagal')) { ?>
-            <div class="alert" id="alertBox" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                </svg>
-                <span><?php echo $this->session->flashdata('gagal'); ?></span>
-            </div>
-            <?php } ?>
-
-            <span class="card-eyebrow">Akses sistem</span>
-            <h2 class="card-title">Selamat datang kembali</h2>
-            <p class="card-copy">Pilih metode masuk yang paling nyaman untuk melanjutkan pekerjaan Anda.</p>
-
-            <div class="google-copy">
-                <h2>Masuk lebih cepat</h2>
-                <p>Gunakan akun Google yang sudah terdaftar di sistem Forboys untuk melanjutkan tanpa mengetik password manual.</p>
-            </div>
-
-            <button class="btn btn-google" id="googleLoginBtn" type="button">
-                <span class="spinner" aria-hidden="true"></span>
-                <svg class="btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                <span class="btn-text">Lanjutkan dengan Google</span>
-            </button>
-
-            <div class="secure-note">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.62-4.02A11.96 11.96 0 0112 2.94a11.96 11.96 0 01-8.62 3.04A12.02 12.02 0 003 9c0 5.59 3.82 10.29 9 11.62 5.18-1.33 9-6.03 9-11.62 0-1.04-.13-2.05-.38-3.02z" />
-                </svg>
-                <span>Login aman melalui Google OAuth</span>
-            </div>
-
-            <div class="card-footer">
-                &copy; 2020 - <?php echo date('Y'); ?> Forboys Production
-            </div>
         </section>
-    </main>
 
-    <script src="<?php echo ASSETS; ?>js/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            if ($('#alertBox').length) {
-                setTimeout(function() {
-                    $('#alertBox').fadeOut(350, function() {
-                        $(this).remove();
-                    });
-                }, 5000);
-            }
+    </div>
 
-            var carouselIndex = 0;
-            var carouselSlides = $('.carousel-slide');
-            var carouselDots = $('.carousel-dot');
+</div>
 
-            function showCarouselSlide(index) {
-                carouselIndex = index;
-                carouselSlides.removeClass('active').eq(index).addClass('active');
-                carouselDots.removeClass('active').eq(index).addClass('active');
-            }
+<script>
 
-            carouselDots.on('click', function() {
-                showCarouselSlide($(this).data('slide'));
-            });
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.dot');
 
-            if (carouselSlides.length > 1) {
-                setInterval(function() {
-                    showCarouselSlide((carouselIndex + 1) % carouselSlides.length);
-                }, 4500);
-            }
+let current=0;
 
-            $('#googleLoginBtn').on('click', function() {
-                var btn = $(this);
+function showSlide(index){
 
-                btn.addClass('loading').prop('disabled', true);
-                btn.find('.btn-text').text('Menghubungkan...');
+    slides.forEach(s=>s.classList.remove('active'));
+    dots.forEach(d=>d.classList.remove('active'));
 
-                setTimeout(function() {
-                    window.location.href = "<?php echo $auth_url; ?>";
-                }, 500);
-            });
-        });
-    </script>
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+
+    current=index;
+}
+
+dots.forEach((dot,index)=>{
+    dot.addEventListener('click',()=>{
+        showSlide(index);
+    });
+});
+
+setInterval(()=>{
+    current=(current+1)%slides.length;
+    showSlide(current);
+},5000);
+
+function loginGoogle() {
+    const btn = document.getElementById('btn-login-google');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Memuat...';
+    window.location.href = '<?php echo $auth_url; ?>';
+}
+
+</script>
+
 </body>
 </html>
