@@ -354,7 +354,7 @@ class Report extends CI_Controller {
 						}
 					}
 					
-					$gudang = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'GUDANG');
+					$gudang = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'GUDANG');
 					if(!empty($gudang)){
 						foreach($gudang as $g){
 							$konveksi[]=array(
@@ -365,7 +365,7 @@ class Report extends CI_Controller {
 							);
 						}
 					}
-
+					
 					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'KLO');
 					if(!empty($klo)){
 						foreach($klo as $k){
