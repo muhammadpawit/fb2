@@ -366,7 +366,7 @@ class Report extends CI_Controller {
 						}
 					}
 					
-					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'KLO');
+					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal1, 'KLO');
 					if(!empty($klo)){
 						foreach($klo as $k){
 							$konveksi[]=array(
