@@ -366,7 +366,7 @@ class Report extends CI_Controller {
 						}
 					}
 					
-					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal1, 'KLO');
+					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'KLO');
 					if(!empty($klo)){
 						foreach($klo as $k){
 							$konveksi[]=array(
@@ -378,7 +378,7 @@ class Report extends CI_Controller {
 						}
 					}
 
-					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb, 'PRESSQC');
+					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'PRESSQC');
 					if(!empty($qc)){
 						foreach($qc as $q){
 							$konveksi[]=array(
@@ -390,7 +390,7 @@ class Report extends CI_Controller {
 						}
 					}
 
-					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tanggal1, $tanggal2);
 					if(!empty($bm)){
 						foreach($bm as $b){
 							if(trim(strtolower($b['nama'])) == 'kandar'){
@@ -405,7 +405,7 @@ class Report extends CI_Controller {
 						}
 					}
 
-					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tanggal1, $tanggal2);
 					if(!empty($cuci)){
 						foreach($cuci as $b){
 							$konveksi[]=array(
@@ -429,7 +429,7 @@ class Report extends CI_Controller {
 						}
 					}
 
-					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tanggal1, $tanggal2);
 					if(!empty($pack)){
 						foreach($pack as $b){
 							if(trim(strtolower($b['nama'])) == 'kandar'){
