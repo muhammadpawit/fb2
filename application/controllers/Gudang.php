@@ -761,6 +761,12 @@ class Gudang extends CI_Controller {
 			$id=$cekajuan_harian['id'];
 		}
 
+		// Hapus detail lama dari header pengajuan ini agar tidak duplikat saat acc ulang
+		$this->db->delete('pengajuan_harian_new_detail', array('idpengajuan' => $id));
+
+		// Reset cash/transfer ke 0 sebelum kalkulasi ulang
+		$this->db->update('pengajuan_harian_new', array('cash' => 0, 'transfer' => 0), array('id' => $id));
+
 		$total_cash = 0;
 		$total_transfer = 0;
 
@@ -771,12 +777,17 @@ class Gudang extends CI_Controller {
 			);
 			$this->db->update('ajuan_mingguan_seragam',$update,array('id'=>$p['id']));
 
+			// Hanya insert ke pengajuan_harian_new_detail jika jml_acc > 0
+			if (intval($p['jml_acc']) <= 0) {
+				continue;
+			}
+
 			$ajuan = $this->GlobalModel->getDataRow('ajuan_mingguan_seragam', array('id' => $p['id']));
 			$item = $this->GlobalModel->getDataRow('product', array('product_id' => $ajuan['product_id']));
 			$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $ajuan['supplier_id']));
 			
 			$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 'Transfer') ? 2 : 1; // 1 Cash, 2 Transfer
-			$nominal = $item['harga_beli'] * ($p['jml_acc']);
+			$nominal = $item['harga_beli'] * intval($p['jml_acc']);
 
 			if ($pembayaran == 1) {
 				$total_cash += $nominal;
@@ -798,11 +809,10 @@ class Gudang extends CI_Controller {
 			$this->db->insert('pengajuan_harian_new_detail',$rip);
 		}
 
-		// Update total cash/transfer in header
-		$current_harian = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $id));
+		// Update total cash/transfer di header dengan nilai yang sudah dikalkulasi ulang
 		$this->db->update('pengajuan_harian_new', array(
-			'cash' => $current_harian['cash'] + $total_cash,
-			'transfer' => $current_harian['transfer'] + $total_transfer
+			'cash' => $total_cash,
+			'transfer' => $total_transfer
 		), array('id' => $id));
 
 		$image_data = $this->input->post('image_data');
