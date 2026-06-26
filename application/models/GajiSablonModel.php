@@ -17,7 +17,7 @@ class GajiSablonModel extends CI_Model {
 		$sql 		  .=" LEFT JOIN master_po_luar m ON m.id = a.idpo  ";
 		$sql 		  .=" LEFT JOIN karyawan_harian k ON k.id = a.namatim   ";
 		$sql 		  .=" LEFT JOIN master_cmt c ON c.id_cmt = a.idcmt   ";
-		$sql 		  .=" WHERE a.hapus=0 AND a.jenis != 'dalam'";
+		$sql 		  .=" WHERE a.hapus=0 AND (a.jenis != 'dalam' OR a.jenis IS NULL OR a.jenis='')";
 		if(!empty($data['namatim'])){
 			$sql .=" AND namatim='".$data['namatim']."' ";
 		}
