@@ -52,7 +52,7 @@ public function index(){
 				'sisa'=>number_format(($p['totalpinjaman']-$p['totalpotongan'])),
 				'keterangan'=>$p['keterangan'],
 				'status'=>$p['status'],
-				'edit'=>$this->link.'pinjamankaryawanedit/'.$p['id'],
+				'edit'=>$this->link.'pinjamancmtedit/'.$p['id'],
 				'rincian'=>$this->link.'rincianpinjaman/'.$p['id'],
 			);
 		}
@@ -74,6 +74,36 @@ public function index(){
 		);
 		$this->db->insert('pinjaman_cmt',$insert);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect($this->link);
+	}
+
+	public function pinjamancmtedit($id){
+		$data=array();
+		$data['title']='Edit Pinjaman CMT';
+		$data['action']=$this->link.'pinjamancmteditsave';
+		$data['p']=$this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id));
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0));
+		$data['page']=$this->page.'edit';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function pinjamancmteditsave(){
+		$data=$this->input->post();
+		$id=$data['id'];
+		$update=array(
+			'idcmt'=>$data['idcmt'],
+			'tanggal'=>$data['tanggal'],
+			'keterangan'=>$data['keterangan'],
+		);
+		
+		$pinjaman = $this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id));
+		// Jika belum ada potongan sama sekali, boleh ubah nominal
+		if($pinjaman['totalpotongan'] == 0){
+			$update['totalpinjaman'] = $data['totalpinjaman'];
+		}
+		
+		$this->db->update('pinjaman_cmt',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect($this->link);
 	}
 
