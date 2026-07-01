@@ -232,10 +232,15 @@
             <td class="text-center">:</td>
             <td class="text-right" style="color: red;">- <?php echo number_format($totalclaim); ?></td>
         </tr>
+        <tr>
+            <td>Potongan Pinjaman</td>
+            <td class="text-center">:</td>
+            <td class="text-right" style="color: red;">- <?php echo number_format(isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0); ?></td>
+        </tr>
         <tr class="grand-total">
             <td>TOTAL YANG DITERIMA</td>
             <td class="text-center">:</td>
-            <td class="text-right">Rp <?php echo number_format($tjml + $total_tukang_borongan - $totalclaim); ?></td>
+            <td class="text-right">Rp <?php echo number_format($tjml + $total_tukang_borongan - $totalclaim - (isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0)); ?></td>
         </tr>
     </table>
 

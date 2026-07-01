@@ -1712,6 +1712,14 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+	public function pembayaran_sablon_percmt($tanggal){
+		$sql = "SELECT b.cmt_name as nama, SUM(a.total_diterima) as nominal FROM pembayaran_sablon a 
+				JOIN master_cmt b ON b.id_cmt=a.idcmt 
+				WHERE a.hapus=0 AND DATE(a.tanggal_bayar) = '$tanggal'
+				GROUP BY a.idcmt";
+		return $this->db->query($sql)->result_array();
+	}
+
 	public function pembayaranbuangbenang($tanggal){
 		$sql = "SELECT a.created_date as tanggal, SUM(a.qty_buang_benang * a.harga_buang_benan) as nominal FROM kelolapo_buang_benang a 
 				WHERE a.hapus=0 AND DATE(a.created_date) = '$tanggal'

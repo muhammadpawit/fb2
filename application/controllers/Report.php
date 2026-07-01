@@ -271,8 +271,26 @@ class Report extends CI_Controller {
 			}
 		}
 		
+		$list_sablon=[];
+		$sql_sablon = "SELECT a.tanggal_bayar as tanggal FROM pembayaran_sablon a WHERE a.hapus=0 ";
+		if(!empty($cat)){
+			if($cat!=3){
+				$sql_sablon.=" AND a.id=0 "; 
+			}
+		}
+		$sql_sablon.=" AND date(a.tanggal_bayar) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$pembayaran_sablon_dates=$this->GlobalModel->QueryManual($sql_sablon);
+		if(!empty($pembayaran_sablon_dates)){
+			foreach($pembayaran_sablon_dates as $p){
+				$list_sablon[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
+
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -440,6 +458,20 @@ class Report extends CI_Controller {
 								'nominal'=>$b['nominal'],
 								'bagian'=>1, // Konveksi
 								'keterangan'=>'Gaji Packing : '.$b['nama'],
+							);
+						}
+					}
+				}
+
+				if (empty($cat) || $cat == 3) {
+					$sablon = $this->ReportModel->pembayaran_sablon_percmt($tanggal1);
+					if(!empty($sablon)){
+						foreach($sablon as $s){
+							$konveksi[]=array(
+								'tanggal'=>$p['tanggal'],
+								'nominal'=>$s['nominal'],
+								'bagian'=>3, // Sablon
+								'keterangan'=>'Pembayaran Sablon : '.$s['nama'],
 							);
 						}
 					}

@@ -62,8 +62,9 @@ class Pembayaran extends CI_Controller {
 				'nama'=>strtolower($cmt['cmt_name']),
 				'potongan_bangke'=>number_format(isset($result['total_pendapatan']) ? $result['total_pendapatan'] : 0),
 				'biaya_transport'=>number_format(isset($result['total_pengeluaran']) ? $result['total_pengeluaran'] : 0),
-				'total'=>number_format(isset($result['total']) ? $result['total'] : (isset($result['total_diterima']) ? $result['total_diterima'] : 0)),
+				'total'=>number_format(isset($result['total_diterima']) ? $result['total_diterima'] : (isset($result['total']) ? $result['total'] : 0)),
 				'keterangan'=>strtolower($result['keterangan']),
+				'edit'=>BASEURL.'Pembayaran/sablon_edit/'.$result['id'],
 				'detail'=>BASEURL.'Pembayaran/sablon_detail/'.$result['id'],
 				'hapus'=>BASEURL.'Pembayaran/sablon_hapus/'.$result['id'],
 			);
@@ -210,6 +211,8 @@ class Pembayaran extends CI_Controller {
 		$data['cmtf']=$cmt;
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['pinjaman']=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmtf']."' AND hapus=0 AND status IN (1,2) ");
+
 		//$this->load->view($this->page.'main',$data);
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'pembayaran/sablon_excel',$data);
@@ -312,11 +315,14 @@ class Pembayaran extends CI_Controller {
 				redirect(BASEURL.'Pembayaran/sablon');
 			}
 
+			$potongan_pinjaman = isset($post['potongan_pinjaman']) ? $post['potongan_pinjaman'] : 0;
+			$total_diterima = $post['total_diterima'] - $potongan_pinjaman;
+
 			$insert = array(
 				'tanggal1' => $post['tanggal1'],
 				'tanggal2' => $post['tanggal2'],
-				'tanggal' => date('Y-m-d'),
-				'tanggal_bayar' => date('Y-m-d'),
+				'tanggal' => $post['tanggal1'],
+				'tanggal_bayar' => $post['tanggal1'],
 				'periode' => $post['tanggal1'] . ' s/d ' . $post['tanggal2'],
 				'idcmt' => $post['idcmt'],
 				'total_pendapatan' => $post['total_pendapatan'],
@@ -325,14 +331,42 @@ class Pembayaran extends CI_Controller {
 				'total_klaim' => $post['total_klaim'],
 				'total_komisi' => $post['total_komisi'],
 				'total_upah_tukang' => $post['total_upah_tukang'],
+				'potongan_pinjaman' => $potongan_pinjaman,
 				'total' => $post['total_diterima'],
-				'total_diterima' => $post['total_diterima'],
+				'total_diterima' => $total_diterima,
 				'keterangan' => 'Pembayaran Sablon periode ' . $post['tanggal1'] . ' s/d ' . $post['tanggal2'],
 				'hapus' => 0,
 				'create_date' => date('Y-m-d H:i:s')
 			);
 			$this->db->insert('pembayaran_sablon', $insert);
 			$idpembayaran = $this->db->insert_id();
+
+			if($potongan_pinjaman > 0){
+				$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$post['idcmt']."' AND status NOT IN (3) AND hapus=0 ");
+				if(!empty($cek)){
+					$insert_pot_pinjaman=array(
+						'idcmt'=>$post['idcmt'],
+						'idpinjaman'=>$cek['id'],
+						'tanggal'=>$post['tanggal1'],
+						'totalpotongan'=>$potongan_pinjaman,
+						'sisa'=>($cek['totalpinjaman']-$cek['totalpotongan']-$potongan_pinjaman),
+						'keterangan'=>'Potongan Pinjaman tanggal '.$post['tanggal1']. ' s/d '.$post['tanggal2'],
+						'hapus'=>0,
+						'idpembayaran'=>$idpembayaran,
+					);
+					$this->db->insert('potongan_pinjaman_cmt',$insert_pot_pinjaman);
+
+					$cek2=$this->GlobalModel->QueryManualRow("SELECT SUM(totalpotongan) as totalpotongan FROM potongan_pinjaman_cmt WHERE idcmt='".$post['idcmt']."' AND hapus=0 AND idpinjaman='".$cek['id']."' ");
+
+					if(!empty($cek2)){
+						if($cek2['totalpotongan']==$cek['totalpinjaman']){
+							$this->db->update('pinjaman_cmt',array('status'=>3,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+						}else{
+							$this->db->update('pinjaman_cmt',array('status'=>2,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+						}
+					}
+				}
+			}
 
 			if(isset($post['pendapatan'])){
 				foreach($post['pendapatan'] as $p){
@@ -450,7 +484,114 @@ class Pembayaran extends CI_Controller {
 		}
 	}
 
+	public function sablon_edit($id){
+		$data=array();
+		$data['title']='Edit Pembayaran CMT Sablon';
+		$data['action']=BASEURL.'Pembayaran/sablon_edit_save';
+		$data['detail']=$this->GlobalModel->getdataRow('pembayaran_sablon',array('id'=>$id));
+		$data['cm']=$this->GlobalModel->getdataRow('master_cmt',array('id_cmt'=>$data['detail']['idcmt']));
+		$data['pendapatan']=$this->GlobalModel->getdata('pembayaran_sablon_detail_po',array('idpembayaran'=>$id));
+		$data['pengeluaran']=$this->GlobalModel->getdata('pembayaran_sablon_detail_pengeluaran',array('idpembayaran'=>$id));
+		$data['claim']=$this->GlobalModel->getdata('pembayaran_sablon_detail_klaim',array('idpembayaran'=>$id));
+		
+		$data['tanggal1'] = $data['detail']['tanggal1'];
+		$data['tanggal2'] = $data['detail']['tanggal2'];
+		$data['totalclaim'] = $data['detail']['total_klaim'];
+		$data['total_tukang_borongan'] = $data['detail']['total_upah_tukang'];
+		$data['tjml'] = $data['detail']['total_komisi'];
+		
+		$data['total_pendapatan'] = $data['detail']['total_pendapatan'];
+		$data['total_pengeluaran'] = $data['detail']['total_pengeluaran'];
+		$data['sewa'] = $data['detail']['total_sewa'];
+		
+		$no_po = 1;
+		foreach($data['pendapatan'] as &$p){
+			$p['namapo'] = $p['kode_po'];
+			$p['no'] = $no_po++; 
+			if(!empty($p['pekerjaan'])){
+				$job=$this->GlobalModel->getDataRow('master_job',array('hapus'=>0,'id'=>$p['pekerjaan']));
+				$p['ket']=!empty($job)?$job['nama_job']:null;
+			} else {
+				$p['ket'] = null;
+			}
+		}
+
+		$no_peng = 1;
+		foreach($data['pengeluaran'] as &$p){
+			$ref = $this->GlobalModel->getdataRow('pengeluaran_sablon', array('id'=>$p['id_pengeluaran_sablon']));
+			if($ref){
+				$p['no'] = $no_peng++;
+				$p['belanjacat'] = $ref['belanjacat'];
+				$p['upahtukang_harian'] = $ref['upahtukang_harian'];
+				$p['upahtukang_borongan'] = $ref['upahtukang_borongan'];
+				$p['biayalain'] = $ref['biayalain'];
+				$p['tokenlistrik'] = $ref['tokenlistrik'];
+			}
+		}
+
+		foreach($data['claim'] as &$c){
+			$ref = $this->GlobalModel->getdataRow('claim_sablon', array('id'=>$c['idclaim_sablon']));
+			if($ref){
+				$c['tanggal'] = $ref['tanggal'];
+				$c['type'] = $ref['type'];
+				$c['keterangan'] = $ref['keterangan'];
+				$c['nominal'] = $ref['harga'];
+				$c['sisa'] = $c['nominal_potong'];
+			}
+		}
+		
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
+		$data['cmtf']=$data['detail']['idcmt'];
+		$data['pinjaman']=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmtf']."' AND hapus=0 AND status IN (1,2) ");
+
+
+		// Dummy rekap to avoid error in view
+		$data['rekap'] = [];
+
+		$data['page']=$this->page.'pembayaran/sablon_edit';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function sablon_edit_save(){
+		$post = $this->input->post();
+		if(!empty($post)){
+			$id = $post['id'];
+			$potongan_pinjaman = isset($post['potongan_pinjaman']) ? $post['potongan_pinjaman'] : 0;
+			$total_diterima = $post['total_diterima'] - $potongan_pinjaman;
+
+			$update = array(
+				'tanggal1' => $post['tanggal1'],
+				'tanggal2' => $post['tanggal2'],
+				'periode' => $post['tanggal1'] . ' s/d ' . $post['tanggal2'],
+				'idcmt' => $post['idcmt'],
+				'total_pendapatan' => $post['total_pendapatan'],
+				'total_pengeluaran' => $post['total_pengeluaran'],
+				'total_sewa' => $post['sewa'],
+				'total_klaim' => $post['total_klaim'],
+				'total_komisi' => $post['total_komisi'],
+				'total_upah_tukang' => $post['total_upah_tukang'],
+				'potongan_pinjaman' => $potongan_pinjaman,
+				'total' => $post['total_diterima'],
+				'total_diterima' => $total_diterima,
+			);
+			if(isset($post['keterangan'])){
+				$update['keterangan'] = $post['keterangan'];
+			}
+			$this->db->update('pembayaran_sablon', $update, array('id'=>$id));
+			$this->session->set_flashdata('msg', 'Data berhasil diedit');
+			redirect(BASEURL.'Pembayaran/sablon');
+		}
+	}
+
 	public function sablon_hapus($id){
+		$potonganPinjaman = $this->GlobalModel->GetdataRow('potongan_pinjaman_cmt',array('idpembayaran' => $id, 'hapus' => 0));
+		if(!empty($potonganPinjaman)){
+			// kembalikan totalpotongan di tabel utama pinjaman
+			$this->db->query("UPDATE pinjaman_cmt SET status=2, totalpotongan=totalpotongan-'".$potonganPinjaman['totalpotongan']."' WHERE id='".$potonganPinjaman['idpinjaman']."' ");
+			// hapus history potongan ini
+			$this->db->update('potongan_pinjaman_cmt',array('hapus'=>1), array('id'=>$potonganPinjaman['id']));
+		}
+
 		$this->db->update('pembayaran_sablon', array('hapus'=>1), array('id'=>$id));
 		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
 		redirect(BASEURL.'Pembayaran/sablon');

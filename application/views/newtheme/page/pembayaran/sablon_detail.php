@@ -160,9 +160,13 @@
                 <td>Potongan Klaim</td>
                 <td style="color:red"><b>- <?php echo number_format($totalclaim) ?></b></td>
             </tr>
+            <tr>
+                <td>Potongan Pinjaman</td>
+                <td style="color:red"><b>- <?php echo number_format(isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0) ?></b></td>
+            </tr>
             <tr style="background-color: #f2f2f2; font-size: 18px;">
                 <td><strong>TOTAL DITERIMA KESELURUHAN</strong></td>
-                <td><strong>Rp <?php echo number_format($total_tukang_borongan + $tjml - $totalclaim) ?></strong></td>
+                <td><strong>Rp <?php echo number_format($total_tukang_borongan + $tjml - $totalclaim - (isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0)) ?></strong></td>
             </tr>
         </table>
     </div>

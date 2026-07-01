@@ -263,7 +263,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 					<td></td>
 						<td>Total Diterima Keseluruhan</td>
 						<td></td>
-						<td><b><?php echo ($tjml+$total_tukang_borongan-$totalclaim)?></b></td>
+						<td><b><?php echo ($tjml+$total_tukang_borongan-$totalclaim - (isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0))?></b></td>
 						<td><b><?php echo $tpo?></b></td>
 					</tr>
 				</tfoot>

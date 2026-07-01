@@ -1,4 +1,5 @@
 <form method="post" action="<?php echo $action?>">
+<input type="hidden" name="id" value="<?php echo $detail['id']?>">
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
@@ -208,7 +209,7 @@
 				<tr>
 					<td>Nominal Pinjaman (Sisa: Rp <?php echo number_format($pinjaman['totalpinjaman'] - $pinjaman['totalpotongan']) ?>)</td>
 					<td>
-						<input type="number" name="potongan_pinjaman" id="potongan_pinjaman" class="form-control" value="0" max="<?php echo ($pinjaman['totalpinjaman'] - $pinjaman['totalpotongan']) ?>">
+						<input type="number" name="potongan_pinjaman" id="potongan_pinjaman" class="form-control" value="<?php echo isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0 ?>" max="<?php echo ($pinjaman['totalpinjaman'] - $pinjaman['totalpotongan'] + (isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0)) ?>">
 					</td>
 				</tr>
 			</table>
@@ -302,7 +303,7 @@
 					<td></td>
 						<td>Total Diterima Keseluruhan</td>
 						<td></td>
-						<td><b id="display_total_diterima"><?php echo number_format($tjml+$total_tukang_borongan-$totalclaim)?></b></td>
+						<td><b id="display_total_diterima"><?php echo number_format($tjml+$total_tukang_borongan-$totalclaim - (isset($detail['potongan_pinjaman']) ? $detail['potongan_pinjaman'] : 0))?></b></td>
 						<td><b><?php echo $tpo?></b></td>
 					</tr>
 				</tfoot>
