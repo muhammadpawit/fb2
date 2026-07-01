@@ -211,7 +211,7 @@ class Pembayaran extends CI_Controller {
 		$data['cmtf']=$cmt;
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['kodepo']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['pinjaman']=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmtf']."' AND hapus=0 AND status IN (1,2) ");
+		$data['pinjaman']=$this->GlobalModel->QueryManual("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmtf']."' AND hapus=0 AND status IN (1,2) ");
 
 		//$this->load->view($this->page.'main',$data);
 		if(isset($get['excel'])){
@@ -315,7 +315,15 @@ class Pembayaran extends CI_Controller {
 				redirect(BASEURL.'Pembayaran/sablon');
 			}
 
-			$potongan_pinjaman = isset($post['potongan_pinjaman']) ? $post['potongan_pinjaman'] : 0;
+			$potongan_pinjaman_arr = isset($post['potongan_pinjaman']) ? $post['potongan_pinjaman'] : array();
+			$potongan_pinjaman = 0;
+			if(is_array($potongan_pinjaman_arr)){
+				foreach($potongan_pinjaman_arr as $val){
+					$potongan_pinjaman += (int)$val;
+				}
+			} else {
+				$potongan_pinjaman = (int)$potongan_pinjaman_arr;
+			}
 			$total_diterima = $post['total_diterima'] - $potongan_pinjaman;
 
 			$insert = array(
@@ -341,28 +349,32 @@ class Pembayaran extends CI_Controller {
 			$this->db->insert('pembayaran_sablon', $insert);
 			$idpembayaran = $this->db->insert_id();
 
-			if($potongan_pinjaman > 0){
-				$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$post['idcmt']."' AND status NOT IN (3) AND hapus=0 ");
-				if(!empty($cek)){
-					$insert_pot_pinjaman=array(
-						'idcmt'=>$post['idcmt'],
-						'idpinjaman'=>$cek['id'],
-						'tanggal'=>$post['tanggal1'],
-						'totalpotongan'=>$potongan_pinjaman,
-						'sisa'=>($cek['totalpinjaman']-$cek['totalpotongan']-$potongan_pinjaman),
-						'keterangan'=>'Potongan Pinjaman tanggal '.$post['tanggal1']. ' s/d '.$post['tanggal2'],
-						'hapus'=>0,
-						'idpembayaran'=>$idpembayaran,
-					);
-					$this->db->insert('potongan_pinjaman_cmt',$insert_pot_pinjaman);
+			if(is_array($potongan_pinjaman_arr) && !empty($potongan_pinjaman_arr)){
+				foreach($potongan_pinjaman_arr as $id_pinjaman => $nominal_potong){
+					if($nominal_potong > 0){
+						$cek = $this->GlobalModel->getDataRow('pinjaman_cmt', array('id' => $id_pinjaman));
+						if(!empty($cek)){
+							$insert_pot_pinjaman=array(
+								'idcmt'=>$post['idcmt'],
+								'idpinjaman'=>$cek['id'],
+								'tanggal'=>$post['tanggal1'],
+								'totalpotongan'=>$nominal_potong,
+								'sisa'=>($cek['totalpinjaman']-$cek['totalpotongan']-$nominal_potong),
+								'keterangan'=>'Potongan Pinjaman tanggal '.$post['tanggal1']. ' s/d '.$post['tanggal2'],
+								'hapus'=>0,
+								'idpembayaran'=>$idpembayaran,
+							);
+							$this->db->insert('potongan_pinjaman_cmt',$insert_pot_pinjaman);
 
-					$cek2=$this->GlobalModel->QueryManualRow("SELECT SUM(totalpotongan) as totalpotongan FROM potongan_pinjaman_cmt WHERE idcmt='".$post['idcmt']."' AND hapus=0 AND idpinjaman='".$cek['id']."' ");
+							$cek2=$this->GlobalModel->QueryManualRow("SELECT SUM(totalpotongan) as totalpotongan FROM potongan_pinjaman_cmt WHERE idcmt='".$post['idcmt']."' AND hapus=0 AND idpinjaman='".$cek['id']."' ");
 
-					if(!empty($cek2)){
-						if($cek2['totalpotongan']==$cek['totalpinjaman']){
-							$this->db->update('pinjaman_cmt',array('status'=>3,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
-						}else{
-							$this->db->update('pinjaman_cmt',array('status'=>2,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+							if(!empty($cek2)){
+								if($cek2['totalpotongan']==$cek['totalpinjaman']){
+									$this->db->update('pinjaman_cmt',array('status'=>3,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+								}else{
+									$this->db->update('pinjaman_cmt',array('status'=>2,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+								}
+							}
 						}
 					}
 				}
@@ -542,7 +554,7 @@ class Pembayaran extends CI_Controller {
 		
 		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'SABLON'));
 		$data['cmtf']=$data['detail']['idcmt'];
-		$data['pinjaman']=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmtf']."' AND hapus=0 AND status IN (1,2) ");
+		$data['pinjaman']=$this->GlobalModel->QueryManual("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmtf']."' AND hapus=0 AND status IN (1,2) ");
 
 
 		// Dummy rekap to avoid error in view
@@ -556,7 +568,16 @@ class Pembayaran extends CI_Controller {
 		$post = $this->input->post();
 		if(!empty($post)){
 			$id = $post['id'];
-			$potongan_pinjaman = isset($post['potongan_pinjaman']) ? $post['potongan_pinjaman'] : 0;
+			
+			$potongan_pinjaman_arr = isset($post['potongan_pinjaman']) ? $post['potongan_pinjaman'] : array();
+			$potongan_pinjaman = 0;
+			if(is_array($potongan_pinjaman_arr)){
+				foreach($potongan_pinjaman_arr as $val){
+					$potongan_pinjaman += (int)$val;
+				}
+			} else {
+				$potongan_pinjaman = (int)$potongan_pinjaman_arr;
+			}
 			$total_diterima = $post['total_diterima'] - $potongan_pinjaman;
 
 			$update = array(
@@ -584,12 +605,14 @@ class Pembayaran extends CI_Controller {
 	}
 
 	public function sablon_hapus($id){
-		$potonganPinjaman = $this->GlobalModel->GetdataRow('potongan_pinjaman_cmt',array('idpembayaran' => $id, 'hapus' => 0));
-		if(!empty($potonganPinjaman)){
-			// kembalikan totalpotongan di tabel utama pinjaman
-			$this->db->query("UPDATE pinjaman_cmt SET status=2, totalpotongan=totalpotongan-'".$potonganPinjaman['totalpotongan']."' WHERE id='".$potonganPinjaman['idpinjaman']."' ");
-			// hapus history potongan ini
-			$this->db->update('potongan_pinjaman_cmt',array('hapus'=>1), array('id'=>$potonganPinjaman['id']));
+		$potongans = $this->GlobalModel->getData('potongan_pinjaman_cmt',array('idpembayaran' => $id, 'hapus' => 0));
+		if(!empty($potongans)){
+			foreach($potongans as $potonganPinjaman){
+				// kembalikan totalpotongan di tabel utama pinjaman
+				$this->db->query("UPDATE pinjaman_cmt SET status=2, totalpotongan=totalpotongan-'".$potonganPinjaman['totalpotongan']."' WHERE id='".$potonganPinjaman['idpinjaman']."' ");
+				// hapus history potongan ini
+				$this->db->update('potongan_pinjaman_cmt',array('hapus'=>1), array('id'=>$potonganPinjaman['id']));
+			}
 		}
 
 		$this->db->update('pembayaran_sablon', array('hapus'=>1), array('id'=>$id));

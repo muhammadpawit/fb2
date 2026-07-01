@@ -205,12 +205,17 @@
 			<?php if(isset($pinjaman) && !empty($pinjaman)){ ?>
 			<label>Potongan Pinjaman</label>
 			<table class="table table-bordered">
+				<?php foreach($pinjaman as $pj){ ?>
 				<tr>
-					<td>Nominal Pinjaman (Sisa: Rp <?php echo number_format($pinjaman['totalpinjaman'] - $pinjaman['totalpotongan']) ?>)</td>
+					<td style="width: 50px; text-align: center;">
+						<input type="checkbox" class="pinjaman-check" data-id="<?php echo $pj['id']?>">
+					</td>
+					<td>Nominal Pinjaman (Tgl <?php echo date('d-m-Y',strtotime($pj['tanggal']))?>, Sisa: Rp <?php echo number_format($pj['totalpinjaman'] - $pj['totalpotongan']) ?>)</td>
 					<td>
-						<input type="number" name="potongan_pinjaman" id="potongan_pinjaman" class="form-control" value="0" max="<?php echo ($pinjaman['totalpinjaman'] - $pinjaman['totalpotongan']) ?>">
+						<input type="number" name="potongan_pinjaman[<?php echo $pj['id']?>]" id="input_pinjaman_<?php echo $pj['id']?>" class="form-control pinjaman-input" value="0" max="<?php echo ($pj['totalpinjaman'] - $pj['totalpotongan']) ?>" disabled>
 					</td>
 				</tr>
+				<?php } ?>
 			</table>
 			<br>
 			<?php } ?>
@@ -313,14 +318,34 @@
 </form>
 <script type="text/javascript">
 	
-	$('#potongan_pinjaman').on('input', function() {
-		var base_total = parseInt($('#base_total_diterima').val()) || 0;
-		var pot = parseInt($(this).val()) || 0;
-		var max = parseInt($(this).attr('max')) || 0;
-		if (pot > max) {
-			pot = max;
-			$(this).val(pot);
+	$('.pinjaman-check').on('change', function() {
+		var id = $(this).data('id');
+		var input = $('#input_pinjaman_' + id);
+		if($(this).is(':checked')) {
+			input.prop('disabled', false);
+			var max = parseInt(input.attr('max')) || 0;
+			input.val(max);
+		} else {
+			input.prop('disabled', true);
+			input.val(0);
 		}
+		$('.pinjaman-input').trigger('input');
+	});
+
+	$('.pinjaman-input').on('input', function() {
+		var base_total = parseInt($('#base_total_diterima').val()) || 0;
+		var pot = 0;
+		$('.pinjaman-input').each(function(){
+			if (!$(this).prop('disabled')) {
+				var val = parseInt($(this).val()) || 0;
+				var max = parseInt($(this).attr('max')) || 0;
+				if (val > max) {
+					val = max;
+					$(this).val(val);
+				}
+				pot += val;
+			}
+		});
 		var final_total = base_total - pot;
 		$('#display_total_diterima').text(new Intl.NumberFormat('en-US').format(final_total));
 	});
