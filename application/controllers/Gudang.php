@@ -705,7 +705,7 @@ class Gudang extends CI_Controller {
 		$item = $this->GlobalModel->getDataRow('product', array('product_id' => $ajuan['product_id']));
 		$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $ajuan['supplier_id']));
 		
-		$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 'Transfer') ? 2 : 1; // 1 Cash, 2 Transfer
+		$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 2) ? 2 : 1; // 1 Cash, 2 Transfer
 		$nominal = $item['harga_beli'] * ($post['jml_acc']);
 
 		$rip=array(
@@ -786,7 +786,7 @@ class Gudang extends CI_Controller {
 			$item = $this->GlobalModel->getDataRow('product', array('product_id' => $ajuan['product_id']));
 			$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $ajuan['supplier_id']));
 			
-			$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 'Transfer') ? 2 : 1; // 1 Cash, 2 Transfer
+			$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 2) ? 2 : 1; // 1 Cash, 2 Transfer
 			$nominal = $item['harga_beli'] * intval($p['jml_acc']);
 
 			if ($pembayaran == 1) {

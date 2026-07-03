@@ -56,6 +56,7 @@
                   <th>Jumlah Ajuan</th>
                   <th>Jumlah ACC</th>
                   <th>Acc Satuan</th>
+                  <th>Metode Bayar</th>
                   <th>Keterangan</th>
                   <th></th>
                 </tr>
@@ -74,6 +75,7 @@
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']=='0' ? $p['jml_ajuan'] : $p['jml_acc']?>"></td>
                       <td><input type="text" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo $p['jml_acc']=='0' ? $p['jml_ajuan'] : $p['jml_acc']?>"></td>
+                      <td><?php echo $p['metodebayar'] == 1 ? 'Cash' : 'Transfer'; ?></td>
                       <td><input type="hidden" name="prods[<?php echo $i ?>][keterangan]" value="<?php echo $p['keterangan2']?>"><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         <a href="<?php echo $p['detail']?>?&spv=true" class="btn btn-warning btn-xs text-white">Detail</a>

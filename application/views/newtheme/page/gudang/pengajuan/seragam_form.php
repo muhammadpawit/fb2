@@ -75,8 +75,8 @@
               <div class="form-group">
                 <label>Metode Pembayaran</label>
                 <select name="metodebayar" id="metodebayar" class="form-control">
-                  <option value="Transfer">Transfer</option>
-                  <option value="Cash">Cash</option>
+                  <option value="2">Transfer</option>
+                  <option value="1">Cash</option>
                 </select>
               </div>
             </div>

@@ -89,8 +89,8 @@
       <div class="form-group">
         <label>Metode Pembayaran</label>
         <select name="metodebayar" id="metodebayar" class="form-control">
-          <option value="Transfer" <?php echo isset($k['metodebayar']) && $k['metodebayar'] == 'Transfer' ? 'selected' : ''; ?>>Transfer</option>
-          <option value="Cash" <?php echo isset($k['metodebayar']) && $k['metodebayar'] == 'Cash' ? 'selected' : ''; ?>>Cash</option>
+          <option value="2" <?php echo isset($k['metodebayar']) && $k['metodebayar'] == 2 ? 'selected' : ''; ?>>Transfer</option>
+          <option value="1" <?php echo isset($k['metodebayar']) && $k['metodebayar'] == 1 ? 'selected' : ''; ?>>Cash</option>
         </select>
       </div>
     </div>
