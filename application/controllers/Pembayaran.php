@@ -1716,7 +1716,8 @@ class Pembayaran extends CI_Controller {
 						$totaldz+=($p['jumlah_pcs']/12);
 					}
 				}
-				$sbt="SELECT * FROM harga_transport WHERE dz1<='".$totaldz."' AND '".$totaldz."' <=dz2 ";
+				$sbt="SELECT * FROM harga_transport WHERE dz1<='".round($totaldz)."' AND '".round($totaldz)."' <=dz2 ";
+				// pre($sbt);
 				$tripke1=0;
 				if(isset($data['pot_transport'])){
 					$tripke1=$transport[1];
