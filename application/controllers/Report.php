@@ -288,6 +288,25 @@ class Report extends CI_Controller {
 				);	
 			}
 		}
+		
+
+		$list_cmtjahit=[];
+		$sql_cmtjahit = "SELECT a.tanggal as tanggal FROM pembayaran_cmt a WHERE a.hapus=0 ";
+		if(!empty($cat)){
+			if($cat!=1){ // CMT Jahit goes to Konveksi (1)
+				$sql_cmtjahit.=" AND a.id=0 "; 
+			}
+		}
+		$sql_cmtjahit.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+		$pembayaran_cmtjahit_dates=$this->GlobalModel->QueryManual($sql_cmtjahit);
+		if(!empty($pembayaran_cmtjahit_dates)){
+			foreach($pembayaran_cmtjahit_dates as $p){
+				$list_cmtjahit[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
 
 		$list_kasbon=[];
 		$sql_kasbon = "SELECT a.tanggal as tanggal FROM kasbon a WHERE a.hapus=0 ";
@@ -306,7 +325,7 @@ class Report extends CI_Controller {
 		}
 
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_kasbon);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -480,7 +499,7 @@ class Report extends CI_Controller {
 				}
 
 				if (empty($cat) || $cat == 3) {
-					$sablon = $this->ReportModel->pembayaran_sablon_percmt($tanggal1);
+					$sablon = $this->ReportModel->pembayaran_sablon_percmt($p['tanggal']);
 					if(!empty($sablon)){
 						foreach($sablon as $s){
 							$konveksi[]=array(
@@ -490,6 +509,20 @@ class Report extends CI_Controller {
 								'keterangan'=>'Pembayaran Sablon : '.$s['nama'],
 							);
 						}
+					}
+				}
+			}
+			
+			if (empty($cat) || $cat == 1) {
+				$cmtjahit = $this->ReportModel->pembayaran_cmtjahit_percmt($p['tanggal'], $cat);
+				if(!empty($cmtjahit)){
+					foreach($cmtjahit as $s){
+						$konveksi[]=array(
+							'tanggal'=>$p['tanggal'],
+							'nominal'=>$s['nominal'],
+							'bagian'=>1, // Konveksi
+							'keterangan'=>'Pembayaran CMT Jahit : '.$s['nama'],
+						);
 					}
 				}
 			}

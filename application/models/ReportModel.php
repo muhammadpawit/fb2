@@ -1720,6 +1720,20 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+	public function pembayaran_cmtjahit_percmt($tanggal, $cat=null){
+		$sql = "SELECT b.cmt_name as nama, SUM(a.total) as nominal FROM pembayaran_cmt a 
+				JOIN master_cmt b ON b.id_cmt=a.idcmt 
+				WHERE a.hapus=0 AND DATE(a.tanggal) = '$tanggal'";
+		
+		if (!empty($cat)) {
+			// As per how $cat works, maybe it's not strictly filtering by bagian for cmt jahit, 
+			// but we can add filter if needed. cmt jahit usually part of konveksi (1)
+		}
+		
+		$sql .= " GROUP BY a.idcmt";
+		return $this->db->query($sql)->result_array();
+	}
+
 	public function pembayaranbuangbenang($tanggal){
 		$sql = "SELECT a.created_date as tanggal, SUM(a.qty_buang_benang * a.harga_buang_benan) as nominal FROM kelolapo_buang_benang a 
 				WHERE a.hapus=0 AND DATE(a.created_date) = '$tanggal'
