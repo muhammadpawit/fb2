@@ -496,6 +496,7 @@ class Report extends CI_Controller {
 
 			// Kasbon Karyawan
 			$sql_kasbon_detail = "SELECT k.nominal_request as nominal, kar.nama, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '".$p['tanggal']."'";
+			$sql_kasbon_detail .=" AND kar.id NOT IN (34)";
 			if (!empty($cat)) {
 				$sql_kasbon_detail .= " AND k.bagian = '$cat'";
 			}
