@@ -1289,7 +1289,7 @@ class Kelolapo extends CI_Controller {
 				}
 
 			$this->session->set_flashdata('msg','Data berhasil diubah');
-			redirect(BASEURL.'kelolapo/bukupotongan?&kode_po='.$explode[1]);
+			redirect(BASEURL.'kelolapo/bukupotongan?&kode_po='.$idpo['id_produksi_po']);
 	}
 
 	public function bukupotonganDelete($value='')
