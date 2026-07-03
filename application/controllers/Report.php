@@ -289,8 +289,24 @@ class Report extends CI_Controller {
 			}
 		}
 
+		$list_kasbon=[];
+		$sql_kasbon = "SELECT a.tanggal as tanggal FROM kasbon a WHERE a.hapus=0 ";
+		if(!empty($cat)){
+			$sql_kasbon.=" AND a.bagian='$cat' ";
+		}
+		$sql_kasbon.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
+		$kasbon_dates=$this->GlobalModel->QueryManual($sql_kasbon);
+		if(!empty($kasbon_dates)){
+			foreach($kasbon_dates as $p){
+				$list_kasbon[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
+
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_kasbon);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -475,6 +491,23 @@ class Report extends CI_Controller {
 							);
 						}
 					}
+				}
+			}
+
+			// Kasbon Karyawan
+			$sql_kasbon_detail = "SELECT k.nominal_request as nominal, kar.nama, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '".$p['tanggal']."'";
+			if (!empty($cat)) {
+				$sql_kasbon_detail .= " AND k.bagian = '$cat'";
+			}
+			$kasbon_detail = $this->GlobalModel->QueryManual($sql_kasbon_detail);
+			if(!empty($kasbon_detail)){
+				foreach($kasbon_detail as $kd){
+					$konveksi[]=array(
+						'tanggal'=>$p['tanggal'],
+						'nominal'=>$kd['nominal'],
+						'bagian'=>$kd['bagian'],
+						'keterangan'=>'Kasbon Karyawan : '.$kd['nama'],
+					);
 				}
 			}
 
