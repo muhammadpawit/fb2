@@ -1,3 +1,4 @@
+<form method="post" action="<?php echo $action?>">
 <div class="row">
 	<div class="col-md-3">
 		<div class="form-group">
@@ -11,7 +12,7 @@
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
-			<select name="cmt" class="form-control select2bs4" data-live-search="true">
+			<select name="idcmt" class="form-control select2bs4" data-live-search="true">
 				<option value="*">Pilih CMT</option>
 				<?php foreach($cmt as $c){?>
 					<option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmtf?'selected':'';?>><?php echo $c['cmt_name']?></option>
@@ -22,14 +23,13 @@
 	<div class="col-md-3">
 		<div class="form-group">
 			<button id="klik" class="btn btn-info btn-sm text-white">Kalkulasi</button>
-			<a href="<?php echo base_url()?>Pembayaran/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
-			<!-- <button id="simpan" class="btn btn-success btn-sm text-white">Simpan</button> -->
+			<a href="<?php echo base_url()?>Sablonluar/sablon_add" class="btn btn-danger btn-sm text-white" id="reset" style="display: none">Reset</a>
+			<button id="simpan" class="btn btn-primary btn-sm text-white"><i class="fa fa-save"></i> Simpan</button>
 			<button id="klikexcel" class="btn btn-info btn-sm text-white">Excel</button>
 		</div>
 	</div>
 </div>
 <?php echo isset($cm)?($cm['cmt_name']):'';?>
-<form method="post" action="<?php echo $action?>">
 	<div class="row">
 		<div class="col-md-6">
 			<label>Pendapatan</label>
@@ -54,7 +54,16 @@
 						?>
 						<tr>
 							<td><?php echo $p['no']?></td>
-							<td><?php echo $p['namapo']?></td>
+							<td>
+								<?php echo $p['namapo']?>
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][id_kelolapo_kirim_setor]" value="<?php echo isset($p['id_kelolapo_kirim_setor']) ? $p['id_kelolapo_kirim_setor'] : 0?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][namapo]" value="<?php echo $p['namapo']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][dz]" value="<?php echo $p['dz']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][pcs]" value="<?php echo $p['pcs']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][harga]" value="<?php echo $p['harga']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][total]" value="<?php echo $p['total']?>">
+								<input type="hidden" name="pendapatan[<?php echo $p['no']?>][pekerjaan]" value="<?php echo $p['pekerjaan']?>">
+							</td>
 							<td><?php echo number_format($p['dz'],2)?></td>
 							<td><?php echo number_format($p['pcs'])?></td>
 							<td><?php echo number_format($p['harga'])?></td>
@@ -105,7 +114,16 @@
 					<?php foreach($pengeluaran as $p){?>
 						<tr>
 							<td><?php echo $p['no']?></td>
-							<td><?php echo number_format($p['belanjacat'])?></td>
+							<td>
+								<?php echo number_format($p['belanjacat'])?>
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][id]" value="<?php echo isset($p['id']) ? $p['id'] : 0?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][belanjacat]" value="<?php echo $p['belanjacat']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][upahtukang_harian]" value="<?php echo $p['upahtukang_harian']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][upahtukang_borongan]" value="<?php echo $p['upahtukang_borongan']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][biayalain]" value="<?php echo $p['biayalain']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][tokenlistrik]" value="<?php echo $p['tokenlistrik']?>">
+								<input type="hidden" name="pengeluaran[<?php echo $p['no']?>][total]" value="<?php echo $p['total']?>">
+							</td>
 							<td><?php echo number_format($p['upahtukang_harian'])?></td>
 							<td><?php echo number_format($p['upahtukang_borongan'])?></td>
 							<td><?php echo number_format($p['biayalain'])?></td>
@@ -144,6 +162,9 @@
 					<td><?php echo number_format($pengeluarantotal+$komisi)?></td>
 					<td><?php echo number_format($sewa)?></td>
 					<td><?php echo number_format($total-$sewa-$pengeluarantotal-$komisi)?></td>
+					<input type="hidden" name="total_pendapatan" value="<?php echo $total?>">
+					<input type="hidden" name="total_pengeluaran" value="<?php echo $pengeluarantotal+$komisi?>">
+					<input type="hidden" name="sewa" value="<?php echo $sewa?>">
 				</tbody>
 			</table>
 			<br>
@@ -215,7 +236,9 @@
 						<td><b></b></td>
 						<td></td>
 						<td><b><?php echo number_format($pot,2)?></b></td>
-						<td><b><?php echo $pot_ket?></b></td>
+						<td><b><?php echo $pot_ket?></b>
+							<input type="hidden" name="total_klaim" value="<?php echo $pot?>">
+						</td>
 					</tr>
 					<tr>
 						<td><b>Total Diterima</b></td>
@@ -227,6 +250,25 @@
 				</tfoot>
 			</table>
 			<?php } ?>
+
+			<?php if(isset($pinjaman) && !empty($pinjaman)){ ?>
+			<label>Potongan Pinjaman</label>
+			<table class="table table-bordered">
+				<?php foreach($pinjaman as $pj){ ?>
+				<tr>
+					<td style="width: 50px; text-align: center;">
+						<input type="checkbox" class="pinjaman-check" data-id="<?php echo $pj['id']?>">
+					</td>
+					<td>Nominal Pinjaman (Tgl <?php echo date('d-m-Y',strtotime($pj['tanggal']))?>, Sisa: Rp <?php echo number_format($pj['totalpinjaman'] - $pj['totalpotongan']) ?>)</td>
+					<td>
+						<input type="number" name="potongan_pinjaman[<?php echo $pj['id']?>]" id="input_pinjaman_<?php echo $pj['id']?>" class="form-control pinjaman-input" value="0" max="<?php echo ($pj['totalpinjaman'] - $pj['totalpotongan']) ?>" disabled>
+					</td>
+				</tr>
+				<?php } ?>
+			</table>
+			<br>
+			<?php } ?>
+			
 			<caption></caption>
 			<table class="table table-bordered">
 				<thead>
@@ -258,7 +300,12 @@
 					</tr>
 					<tr>
 						<td colspan="2"><b>Total Yang Diterima</b></td>
-						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml-$pot) ?></b></td>
+						<td>
+							<b id="display_total_diterima"><?php echo number_format($biayatukang+$biayalain+$tjml-$pot) ?></b>
+							<input type="hidden" name="total_komisi" value="<?php echo $tjml?>">
+							<input type="hidden" name="total_upah_tukang" value="<?php echo $biayatukang?>">
+							<input type="hidden" name="total_diterima" id="base_total_diterima" value="<?php echo ($biayatukang+$biayalain+$tjml-$pot)?>">
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -267,7 +314,40 @@
 </form>
 <script type="text/javascript">
 	
+	$('.pinjaman-check').on('change', function() {
+		var id = $(this).data('id');
+		var input = $('#input_pinjaman_' + id);
+		if($(this).is(':checked')) {
+			input.prop('disabled', false);
+			var max = parseInt(input.attr('max')) || 0;
+			input.val(max);
+		} else {
+			input.prop('disabled', true);
+			input.val(0);
+		}
+		$('.pinjaman-input').trigger('input');
+	});
+
+	$('.pinjaman-input').on('input', function() {
+		var base_total = parseInt($('#base_total_diterima').val()) || 0;
+		var pot = 0;
+		$('.pinjaman-input').each(function(){
+			if (!$(this).prop('disabled')) {
+				var val = parseInt($(this).val()) || 0;
+				var max = parseInt($(this).attr('max')) || 0;
+				if (val > max) {
+					val = max;
+					$(this).val(val);
+				}
+				pot += val;
+			}
+		});
+		var final_total = base_total - pot;
+		$('#display_total_diterima').text(new Intl.NumberFormat('en-US').format(final_total));
+	});
+
 	$( "#simpan" ).click(function(event){
+		event.preventDefault();
 		$("form").submit();
 	});
 
@@ -291,7 +371,7 @@
 			url+='&tanggal2='+tanggal2;
 		}
 		
-		var cmt = $('select[name=\'cmt\']').val();
+		var cmt = $('select[name=\'idcmt\']').val();
 
 		if(cmt=="*"){
 			alert("cmt harus dipilih");
@@ -431,7 +511,7 @@
 			url+='&tanggal2='+tanggal2;
 		}
 		
-		var cmt = $('select[name=\'cmt\']').val();
+		var cmt = $('select[name=\'idcmt\']').val();
 
 		if(cmt=="*"){
 			alert("cmt harus dipilih");

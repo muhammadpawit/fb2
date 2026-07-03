@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12 text-right">
-		<a href="<?php echo BASEURL?>Pembayaran/sablon" class="btn btn-info btn-sm text-white">Kembali</a>
+		<a href="<?php echo isset($kembali) ? $kembali : BASEURL.'Pembayaran/sablon' ?>" class="btn btn-info btn-sm text-white">Kembali</a>
 		<a href="?&excel=1" class="btn btn-success btn-sm text-white"><i class="fa fa-file-excel"></i> Excel</a>
 		<a href="?&pdf=1" target="_blank" class="btn btn-danger btn-sm text-white"><i class="fa fa-file-pdf"></i> PDF</a>
 	</div>
