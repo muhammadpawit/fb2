@@ -280,31 +280,31 @@
 				</thead>	
 				<tbody>
 					<tr>
-						<td>1</td>
+						<td><input type="checkbox" class="komponen-check" data-id="upahtukang" value="<?php echo $biayatukang ?>" checked> 1</td>
 						<td>Biaya Upah Tukang</td>
 						<td><?php echo number_format($biayatukang) ?></td>
 					</tr>
 					<tr>
-						<td>2</td>
+						<td><input type="checkbox" class="komponen-check" data-id="komisi" value="<?php echo $tjml-$pot ?>" checked> 2</td>
 						<td>Komisi</td>
 						<td><?php echo number_format($tjml-$pot) ?></td>
 					</tr>
 					<tr>
-						<td>3</td>
+						<td><input type="checkbox" class="komponen-check" data-id="biayalain" value="<?php echo $biayalain ?>"> 3</td>
 						<td>Biaya Lain-lain</td>
 						<td><?php echo number_format($biayalain) ?></td>
 					</tr>
 					<tr>
 						<td colspan="2"><b>Jumlah</b></td>
-						<td><b><?php echo number_format($biayatukang+$biayalain+$tjml-$pot) ?></b></td>
+						<td><b id="display_jumlah"><?php echo number_format($biayatukang+$tjml-$pot) ?></b></td>
 					</tr>
 					<tr>
 						<td colspan="2"><b>Total Yang Diterima</b></td>
 						<td>
-							<b id="display_total_diterima"><?php echo number_format($biayatukang+$biayalain+$tjml-$pot) ?></b>
-							<input type="hidden" name="total_komisi" value="<?php echo $tjml?>">
-							<input type="hidden" name="total_upah_tukang" value="<?php echo $biayatukang?>">
-							<input type="hidden" name="total_diterima" id="base_total_diterima" value="<?php echo ($biayatukang+$biayalain+$tjml-$pot)?>">
+							<b id="display_total_diterima"><?php echo number_format($biayatukang+$tjml-$pot) ?></b>
+							<input type="hidden" name="total_komisi" id="input_total_komisi" value="<?php echo $tjml?>">
+							<input type="hidden" name="total_upah_tukang" id="input_total_upahtukang" value="<?php echo $biayatukang?>">
+							<input type="hidden" name="total_diterima" id="base_total_diterima" value="<?php echo ($biayatukang+$tjml-$pot)?>">
 						</td>
 					</tr>
 				</tbody>
@@ -328,7 +328,7 @@
 		$('.pinjaman-input').trigger('input');
 	});
 
-	$('.pinjaman-input').on('input', function() {
+	function updateTotalDiterima() {
 		var base_total = parseInt($('#base_total_diterima').val()) || 0;
 		var pot = 0;
 		$('.pinjaman-input').each(function(){
@@ -344,6 +344,33 @@
 		});
 		var final_total = base_total - pot;
 		$('#display_total_diterima').text(new Intl.NumberFormat('en-US').format(final_total));
+	}
+
+	$('.pinjaman-input').on('input', updateTotalDiterima);
+
+	$('.komponen-check').on('change', function() {
+		var total = 0;
+		var upahtukang = 0;
+		var komisi = 0;
+		
+		$('.komponen-check:checked').each(function() {
+			var val = parseInt($(this).val()) || 0;
+			total += val;
+			
+			if($(this).data('id') == 'upahtukang'){
+				upahtukang = val;
+			}
+			if($(this).data('id') == 'komisi'){
+				komisi = <?php echo $tjml ?>;
+			}
+		});
+		
+		$('#display_jumlah').text(new Intl.NumberFormat('en-US').format(total));
+		$('#base_total_diterima').val(total);
+		$('#input_total_komisi').val(komisi);
+		$('#input_total_upahtukang').val(upahtukang);
+		
+		updateTotalDiterima();
 	});
 
 	$( "#simpan" ).click(function(event){
