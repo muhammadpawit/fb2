@@ -309,9 +309,17 @@ class Report extends CI_Controller {
 		}
 
 		$list_kasbon=[];
-		$sql_kasbon = "SELECT a.tanggal as tanggal FROM kasbon a WHERE a.hapus=0 ";
+		$sql_kasbon = "SELECT a.tanggal as tanggal FROM kasbon a LEFT JOIN karyawan kar ON a.idkaryawan = kar.id WHERE a.hapus=0 ";
 		if(!empty($cat)){
-			$sql_kasbon.=" AND a.bagian='$cat' ";
+			if($cat == 1) { // Konveksi
+				$sql_kasbon .= " AND kar.divisi IN (2, 15)";
+			} else if($cat == 2) { // Bordir
+				$sql_kasbon .= " AND kar.divisi IN (1, 16)";
+			} else if($cat == 3) { // Sablon
+				$sql_kasbon .= " AND kar.divisi IN (3, 17)";
+			} else {
+				$sql_kasbon .= " AND a.bagian = '$cat'";
+			}
 		}
 		$sql_kasbon.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
 		$kasbon_dates=$this->GlobalModel->QueryManual($sql_kasbon);
@@ -529,18 +537,31 @@ class Report extends CI_Controller {
 			}
 
 			// Kasbon Karyawan
-			$sql_kasbon_detail = "SELECT k.nominal_request as nominal, kar.nama, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '".$p['tanggal']."'";
+			$sql_kasbon_detail = "SELECT k.nominal_request as nominal, kar.nama, kar.divisi, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '".$p['tanggal']."'";
 			$sql_kasbon_detail .=" AND kar.id NOT IN (34)";
 			if (!empty($cat)) {
-				$sql_kasbon_detail .= " AND k.bagian = '$cat'";
+				if($cat == 1) { // Konveksi
+					$sql_kasbon_detail .= " AND kar.divisi IN (2, 15)";
+				} else if($cat == 2) { // Bordir
+					$sql_kasbon_detail .= " AND kar.divisi IN (1, 16)";
+				} else if($cat == 3) { // Sablon
+					$sql_kasbon_detail .= " AND kar.divisi IN (3, 17)";
+				} else {
+					$sql_kasbon_detail .= " AND k.bagian = '$cat'";
+				}
 			}
 			$kasbon_detail = $this->GlobalModel->QueryManual($sql_kasbon_detail);
 			if(!empty($kasbon_detail)){
 				foreach($kasbon_detail as $kd){
+					$bagian_karyawan = $kd['bagian'];
+					if(in_array($kd['divisi'], [2, 15])) $bagian_karyawan = 1;
+					else if(in_array($kd['divisi'], [1, 16])) $bagian_karyawan = 2;
+					else if(in_array($kd['divisi'], [3, 17])) $bagian_karyawan = 3;
+
 					$konveksi[]=array(
 						'tanggal'=>$p['tanggal'],
 						'nominal'=>$kd['nominal'],
-						'bagian'=>$kd['bagian'],
+						'bagian'=>$bagian_karyawan,
 						'keterangan'=>'Kasbon Karyawan : '.$kd['nama'],
 					);
 				}
