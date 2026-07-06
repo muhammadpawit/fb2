@@ -874,8 +874,9 @@ class Finishing extends CI_Controller {
 				'keterangan'	=>	$post['keterangan'][$key],
 				'gaji'=>1,
 				'kategori'	=>	$post['kategoriBorongan'],
-				'creted_date'=>isset($data['creted_date'])?$data['creted_date']:date('Y-m-d'),
+				'creted_date'=>isset($post['creted_date'])?$post['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
+				'masuk_gajian'=>isset($post['masuk_gajian'])?$post['masuk_gajian']:'Ya',
 			);
 			$this->GlobalModel->insertData('packing',$insertData);
 		}

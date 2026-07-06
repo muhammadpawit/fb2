@@ -23,6 +23,13 @@
                                         <?php } ?>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label>Masuk Gajian</label><br>
+                                    <select name="masuk_gajian" class="form-control select2bs4" required>
+                                        <option value="Ya" selected>Ya</option>
+                                        <option value="Tidak">Tidak</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <table class="table table-bordered" id="item_table">
