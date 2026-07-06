@@ -119,6 +119,7 @@ body {
 .login-area {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: #f8f9fa;
@@ -136,19 +137,19 @@ body {
 }
 
 .logo {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 20px auto;
-    border-radius: 16px;
-    background: white;
-    border: 1px solid #e4e7ec;
+    width: auto;
+    height: auto;
+    margin: 0 auto 30px auto;
+    background: transparent;
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .logo img {
-    width: 40px;
+    max-width: 200px;
+    height: auto;
 }
 
 .label {
@@ -235,6 +236,13 @@ body {
     border-top: 1px solid #e4e7ec;
     font-size: 12px;
     color: #667085;
+}
+
+.version {
+    margin-top: 24px;
+    font-size: 13px;
+    color: #98a2b3;
+    font-weight: 500;
 }
 
 @media(max-width: 992px) {
@@ -358,19 +366,6 @@ body {
                     <img src="https://forboysproduction.com//assets/images/0001.png" alt="Logo">
                 </div>
 
-                <span class="label">
-                    Akses Sistem
-                </span>
-
-                <h2 class="title">
-                    Selamat Datang Kembali
-                </h2>
-
-                <p class="subtitle">
-                    Masuk ke Forboys Production System untuk
-                    melanjutkan aktivitas dan memantau operasional produksi.
-                </p>
-
                 <div class="info">
                     <h3>Masuk dengan Google</h3>
                     <p>
@@ -400,6 +395,10 @@ body {
                     © 2020 - 2026 Forboys Production
                 </div>
 
+            </div>
+
+            <div class="version">
+                Versi 2.1.1.0
             </div>
 
         </section>
