@@ -1059,6 +1059,7 @@ class Finishing extends CI_Controller {
 				'creted_date'	=>	isset($post['creted_date'])?$post['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
 				'perkalian'=>isset($post['perkalian'][$key])?$post['perkalian'][$key]:1,
+				'masuk_gajian'=>isset($post['masuk_gajian'])?$post['masuk_gajian']:'Ya',
 			);
 			$this->GlobalModel->insertData('boronganmesin',$insertData);
 		}

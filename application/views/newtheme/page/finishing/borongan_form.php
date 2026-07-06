@@ -15,6 +15,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label>Masuk Gajian</label>
+                                    <select name="masuk_gajian" class="form-control select2bs4" required>
+                                        <option value="Ya" selected>Ya</option>
+                                        <option value="Tidak">Tidak</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>Kategori</label>
                                     <select class="form-control select2bs4" name="kategoriBorongan" data-live-search="true">
                                         <option value="LOBANG KANCING" <?php echo $jenis==1?'selected':'disabled';?>>LOBANG KANCING</option>
