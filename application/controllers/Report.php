@@ -498,17 +498,18 @@ class Report extends CI_Controller {
 					}
 				}
 
-				if (empty($cat) || $cat == 3) {
-					$sablon = $this->ReportModel->pembayaran_sablon_percmt($p['tanggal']);
-					if(!empty($sablon)){
-						foreach($sablon as $s){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$s['nominal'],
-								'bagian'=>3, // Sablon
-								'keterangan'=>'Pembayaran Sablon : '.$s['nama'],
-							);
-						}
+			}
+			
+			if (empty($cat) || $cat == 3) {
+				$sablon = $this->ReportModel->pembayaran_sablon_percmt($p['tanggal']);
+				if(!empty($sablon)){
+					foreach($sablon as $s){
+						$konveksi[]=array(
+							'tanggal'=>$p['tanggal'],
+							'nominal'=>$s['nominal'],
+							'bagian'=>3, // Sablon
+							'keterangan'=>'Pembayaran Sablon : '.$s['nama'],
+						);
 					}
 				}
 			}
