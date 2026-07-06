@@ -140,46 +140,60 @@
                         </thead>
                         <tbody>
                             <?php $n=1;$jmlpodz=0;$jmlpopcs=0;$jmldz=0;$jmlpcs=0;$total=0;$potongan=0;?>
-                            <?php foreach($products as $p){?>
-                                <?php
-                                    $potongan+=($p['potongan']);
-                                    $jmlpodz+=($p['jumlah_po_dz']);
-                                    $jmlpopcs+=($p['jumlah_po_pcs']);
-                                    $jmldz+=($p['jumlah_dz']);
-                                    $jmlpcs+=($p['jumlah_pcs']);
-                                    //$total+=($p['jumlah_dz']*$p['harga']);
-                                    $total+=($p['total']-$p['potpertama']);
-                                ?>
+                            <?php foreach($groupedData as $nama_po => $items){ ?>
                                 <tr>
-                                    <td>
-                                        <?php echo $n?>
-                                        <input type="hidden" name="products[<?php echo $n?>][id]" value="<?php echo $p['id'] ?>"/>
-                                    </td>
-                                    <td><?php echo strtoupper($p['kode_po'])?></td>
-                                    <td align="center"><?php echo number_format(($p['potongan']/12),2)?></td>
-                                    <td align="center"><?php echo $p['potongan']?></td>
-                                    <td align="center"><?php echo number_format($p['jumlah_po_dz'],2)?></td>
-                                    <td align="center"><?php echo $p['jumlah_po_pcs']?></td>
-                                    <td align="center"><span class="row-dz"><?php echo number_format($p['jumlah_dz'], 2)?></span></td>
-                                    <td align="center">
-                                        <input type="text" name="products[<?php echo $n?>][jumlah_pcs]" value="<?php echo $p['jumlah_pcs'] ?>" class="form-control jumlah-pcs-input">
-                                        <input type="hidden" name="products[<?php echo $n?>][harga]" value="<?php echo $p['harga'] ?>" class="form-control">
-                                    </td>
-                                    <td align="center"><?php echo ($p['trans']==1)?'Ya':'Tidak';?></td>
-                                    <td align="center"><?php echo number_format($p['harga'])?></td>
-                                    <td align="center">
-                                        <input type="text" name="products[<?php echo $n?>][total]" 
-                                            value="<?php echo number_format($p['total']-$p['potpertama'], 2, '.', '')?>" 
-                                            class="form-control total-item"
-                                            data-dz="<?php echo number_format($p['jumlah_dz'], 2, '.', '') ?>"
-                                            data-harga="<?php echo $p['harga'] ?>">
-                                    </td>
-                                    <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
-                                        <input type="hidden" name="products[<?php echo $n?>][keterangan]" value="<?php echo strtolower($p['keterangan'])?>" class="form-control">
-                                        <?php echo strtolower($p['keterangan'])?>
-                                    </td>
+                                    <td colspan="12" style="background-color: #f4f4f4;"><b><?php echo strtoupper($nama_po); ?></b></td>
                                 </tr>
-                                <?php $n++;?>
+                                <?php foreach($items as $p){?>
+                                    <?php
+                                        $potongan+=($p['potongan']);
+                                        $jmlpodz+=($p['jumlah_po_dz']);
+                                        $jmlpopcs+=($p['jumlah_po_pcs']);
+                                        $jmldz+=($p['jumlah_dz']);
+                                        $jmlpcs+=($p['jumlah_pcs']);
+                                        //$total+=($p['jumlah_dz']*$p['harga']);
+                                        $total+=($p['total']-$p['potpertama']);
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $n?>
+                                            <input type="hidden" name="products[<?php echo $n?>][id]" value="<?php echo $p['id'] ?>"/>
+                                        </td>
+                                        <td><?php echo strtoupper($p['kode_po'])?></td>
+                                        <td align="center"><?php echo number_format(($p['potongan']/12),2)?></td>
+                                        <td align="center"><?php echo $p['potongan']?></td>
+                                        <td align="center"><?php echo number_format($p['jumlah_po_dz'],2)?></td>
+                                        <td align="center"><?php echo $p['jumlah_po_pcs']?></td>
+                                        <td align="center"><span class="row-dz"><?php echo number_format($p['jumlah_dz'], 2)?></span></td>
+                                        <td align="center">
+                                            <input type="text" name="products[<?php echo $n?>][jumlah_pcs]" value="<?php echo $p['jumlah_pcs'] ?>" class="form-control jumlah-pcs-input">
+                                            <input type="hidden" name="products[<?php echo $n?>][harga]" value="<?php echo $p['harga'] ?>" class="form-control">
+                                        </td>
+                                        <td align="center"><?php echo ($p['trans']==1)?'Ya':'Tidak';?></td>
+                                        <td align="center"><?php echo number_format($p['harga'])?></td>
+                                        <td align="center">
+                                            <input type="text" name="products[<?php echo $n?>][total]" 
+                                                value="<?php echo number_format($p['total']-$p['potpertama'], 2, '.', '')?>" 
+                                                class="form-control total-item"
+                                                data-dz="<?php echo number_format($p['jumlah_dz'], 2, '.', '') ?>"
+                                                data-harga="<?php echo $p['harga'] ?>">
+                                        </td>
+                                        <td style="background-color: <?php echo strtolower($p['keterangan'])=='pembayaran 80 %' ? 'yellow':'#5cfaa1' ?>;">
+                                            <?php 
+                                            $current_pct = 100;
+                                            if (preg_match('/(\d+)\s*%/', $p['keterangan'], $matches)) {
+                                                $current_pct = (int)$matches[1];
+                                            }
+                                            ?>
+                                            <select name="products[<?php echo $n?>][keterangan]" class="form-control" style="min-width: 140px;">
+                                                <?php for($pct=0; $pct<=100; $pct+=5) { ?>
+                                                    <option value="Pembayaran <?php echo $pct; ?> %" <?php echo $current_pct == $pct ? 'selected' : ''; ?>>Pembayaran <?php echo $pct; ?>%</option>
+                                                <?php } ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <?php $n++;?>
+                                <?php }?>
                             <?php }?>
                                 <?php for($j=0;$j<1;$j++){?>
                                     <tr>
@@ -700,9 +714,16 @@
         // Artificial delay to show animation (800ms)
         setTimeout(function() {
             $('.total-item').each(function() {
+                var row = $(this).closest('tr');
                 var dz = parseFloat($(this).data('dz')).toFixed(2);
                 var harga = $(this).data('harga');
-                var result = parseFloat(dz) * parseFloat(harga);
+                var ket = row.find('select[name*="[keterangan]"]').val() || '';
+                var multiplier = 1;
+                var match = ket.match(/(\d+)\s*%/);
+                if (match) {
+                    multiplier = parseInt(match[1], 10) / 100;
+                }
+                var result = parseFloat(dz) * parseFloat(harga) * multiplier;
                 $(this).val(result.toFixed(2));
             });
 
@@ -741,7 +762,14 @@
                 var totalItem = row.find('.total-item');
                 totalItem.data('dz', dz);
                 
-                var total = dz * harga;
+                var ket = row.find('select[name*="[keterangan]"]').val() || '';
+                var multiplier = 1;
+                var match = ket.match(/(\d+)\s*%/);
+                if (match) {
+                    multiplier = parseInt(match[1], 10) / 100;
+                }
+
+                var total = dz * harga * multiplier;
                 totalItem.val(total.toFixed(2));
                 
                 totalPcs += pcs;
@@ -776,8 +804,8 @@
             updateAllCalculations();
         });
 
-        // Event for correction total
-        jQuery(document).on('input change', '.total-item', function() {
+        // Event for correction total and select
+        jQuery(document).on('input change', '.total-item, select[name*="[keterangan]"]', function() {
             updateAllCalculations();
         });
 

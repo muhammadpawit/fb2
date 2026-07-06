@@ -2003,11 +2003,18 @@ class Pembayaran extends CI_Controller {
 		if(isset($data['cmt'])){
 			if(isset($data['products'])){
 				foreach($data['products'] as $p){
-					$totalbayar+=(round($p['jumlah_pcs']/12, 2)) * $p['harga'];
+					$multiplier = 1;
+					$ket = strtolower($p['keterangan'] ?? '');
+					if (preg_match('/(\d+)\s*%/', $ket, $matches)) {
+						$multiplier = (int)$matches[1] / 100;
+					}
+					
+					$item_total = (round($p['jumlah_pcs']/12, 2)) * $p['harga'] * $multiplier;
+					$totalbayar += $item_total;
 					$ids=array(
 						'jumlah_dz'=>round($p['jumlah_pcs']/12, 2), // qty setor
 						'jumlah_pcs'=>$p['jumlah_pcs'], // qty setor
-						'total'=>(round($p['jumlah_pcs']/12, 2)) * $p['harga'],
+						'total'=>$item_total,
 						'keterangan'=>$p['keterangan'],
 					);
 					$this->db->update('pembayaran_cmt_detail',$ids,array('id'=>$p['id']));
