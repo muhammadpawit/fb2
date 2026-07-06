@@ -332,8 +332,24 @@ class Report extends CI_Controller {
 			}
 		}
 
+		$list_um_security=[];
+		$sql_um_security = "SELECT a.tanggal as tanggal FROM um_security a WHERE a.hapus=0 ";
+		if(!empty($cat)){
+			$sql_um_security.=" AND a.tempat='$cat' ";
+		}
+		$sql_um_security.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
+		$um_security_dates=$this->GlobalModel->QueryManual($sql_um_security);
+		if(!empty($um_security_dates)){
+			foreach($um_security_dates as $p){
+				$list_um_security[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
+
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon,$list_um_security);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -563,6 +579,23 @@ class Report extends CI_Controller {
 						'nominal'=>$kd['nominal'],
 						'bagian'=>$bagian_karyawan,
 						'keterangan'=>'Kasbon Karyawan : '.$kd['nama'],
+					);
+				}
+			}
+
+			// Uang Makan Security
+			$sql_um_sec_detail = "SELECT k.nominal, kar.nama, u.tempat as bagian FROM um_security_detail k LEFT JOIN um_security u ON k.idum = u.id LEFT JOIN karyawan kar ON k.nama = kar.id WHERE u.hapus=0 AND k.hapus=0 AND DATE(u.tanggal) = '".$p['tanggal']."'";
+			if (!empty($cat)) {
+				$sql_um_sec_detail .= " AND u.tempat = '$cat'";
+			}
+			$um_sec_detail = $this->GlobalModel->QueryManual($sql_um_sec_detail);
+			if(!empty($um_sec_detail)){
+				foreach($um_sec_detail as $umd){
+					$konveksi[]=array(
+						'tanggal'=>$p['tanggal'],
+						'nominal'=>$umd['nominal'],
+						'bagian'=>$umd['bagian'],
+						'keterangan'=>'Uang Makan Security : '.$umd['nama'],
 					);
 				}
 			}
