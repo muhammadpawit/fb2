@@ -15,6 +15,7 @@
                   <th>Tanggal</th>
                   <th>Nama Karyawan</th>
                   <th>Bagian</th>
+                  <th>Jenis</th>
                   <th>Jumlah Kasbon</th>
                   <th>Keterangan</th>
                   <th align="right"><a class="btn btn-info btn-sm text-white" onclick="addkasbon()"><i class="fa fa-plus"></i></a></th>
@@ -59,6 +60,7 @@
     html+='<td><span class="tgl"></span></td>';
     html+='<td><select name="products['+i+'][idkaryawan]" class="form-control select2 select2bs4 karyawan" required data-live-search="true" style="width:100%"><option value="">Pilih</option><?php foreach($karyawan as $k){?><option value="<?php echo $k['id']?>"><?php echo strtolower($k['nama'])?></option><?php } ?></select></td>';
     html+='<td><span class="bagian"></span><input type="hidden" name="products['+i+'][bagian]" class="bag"/></td>';
+    html+='<td><select name="products['+i+'][jenis_pembayaran]" class="form-control" required><option value="Transfer" selected>Transfer</option><option value="Cash">Cash</option></select></td>';
     html+='<td><input type="number" name="products['+i+'][jumlah]" class="form-control jumlah"></td>';
     html+='<td><input type="text" name="products['+i+'][keterangan]" class="form-control keterangan"></td>';
     html+='<td><i class="fa fa-trash remove"></i></td>';

@@ -1136,6 +1136,7 @@ class Keuangan extends CI_Controller {
 					'status'=>1,
 					'hapus'=>0,
 					'keterangan' => $p['keterangan'],
+					'jenis_pembayaran' => isset($p['jenis_pembayaran']) ? $p['jenis_pembayaran'] : 'Transfer',
 				);
 				$this->db->insert('kasbon',$insert);
 			}
@@ -1175,6 +1176,7 @@ class Keuangan extends CI_Controller {
 				'status'=>$result['status'],
 				'terbilang' => terbilang($result['nominal_request']),
 				'keterangan' => $result['keterangan'],
+				'jenis_pembayaran' => isset($result['jenis_pembayaran']) ? $result['jenis_pembayaran'] : 'Transfer',
 			);
 		}
 		$data['total']=($total);
@@ -1536,6 +1538,7 @@ class Keuangan extends CI_Controller {
 				'status'=>$result['status'],
 				'terbilang' => terbilang($result['nominal_request']),
 				'keterangan' => $result['keterangan'],
+				'jenis_pembayaran' => isset($result['jenis_pembayaran']) ? $result['jenis_pembayaran'] : 'Transfer',
 			);
 		}
 		
@@ -1581,9 +1584,12 @@ class Keuangan extends CI_Controller {
 		foreach($post['products'] as $p){
 			$update = array(
 				'nominal_request' => $p['nominal'],
-				'nominal_acc' => $p['nominal']
+				'nominal_acc' => $p['nominal'],
 			);
-			if($p['nominal_old']!=$p['nominal']){
+			if (isset($p['jenis_pembayaran'])) {
+				$update['jenis_pembayaran'] = $p['jenis_pembayaran'];
+			}
+			if($p['nominal_old']!=$p['nominal'] || isset($p['jenis_pembayaran'])){
 				$perubahan = array(
 					'karyawan'	=> $p['karyawan'],
 					'nominal_lama' => $p['nominal_old'],

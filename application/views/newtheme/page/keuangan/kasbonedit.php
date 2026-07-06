@@ -17,6 +17,7 @@
                   <th>Tanggal</th>
                   <th>Nama Karyawan</th>
                   <th>Bagian</th>
+                  <th>Jenis</th>
                   <th>Jumlah Kasbon</th>
                   <th>Jumlah Di ACC</th>
                   <th>Keterangan</th>
@@ -29,6 +30,12 @@
                       <td><input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $d['id']?>"><?php echo !empty($d['tanggal']) ? formatTanggalIndo($d['tanggal']) : ''?></td>
                       <td><?php echo $d['nama'];?></td>
                       <td><?php echo $d['divisi'];?></td>
+                      <td>
+                        <select name="products[<?php echo $i?>][jenis_pembayaran]" class="form-control">
+                          <option value="Transfer" <?php echo (strtolower($d['jenis_pembayaran']) == 'transfer' ? 'selected' : ''); ?>>Transfer</option>
+                          <option value="Cash" <?php echo (strtolower($d['jenis_pembayaran']) == 'cash' ? 'selected' : ''); ?>>Cash</option>
+                        </select>
+                      </td>
                       <td>Rp. 
                         <input type="number" name="products[<?php echo $i?>][nominal]" value="<?php echo ($d['nominal']);?>" class="form-control">
                         <input type="hidden" name="products[<?php echo $i?>][karyawan]" value="<?php echo ($d['nama']);?>" class="form-control">
@@ -41,7 +48,7 @@
                   <?php } ?>
                 </form>
                 <tr>
-                  <td colspan="3" align="center"><label>Total</label></td>
+                  <td colspan="4" align="center"><label>Total</label></td>
                   <td>Rp.&nbsp;<?php echo number_format($ajuan)?></td>
                   <td>Rp.&nbsp;<?php echo number_format($total)?></td>
                   <td></td>
