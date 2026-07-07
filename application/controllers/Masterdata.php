@@ -122,7 +122,7 @@ class Masterdata extends CI_Controller {
 		$data['halaman']	=$page;
 		if(strtolower($page)=='lobangkancing' || strtolower($page)=='pasangkancing' || strtolower($page)=='buangbenang' 
 		|| strtolower($page)=='cucian_finishing' || strtolower($page)=='pasang_kancing' ){
-			$where =' AND idjenis IN(1) ';
+			// $where =' AND idjenis IN(1) ';
 		}else if( strtolower($page)=='tress' ){
 			$where =' ';
 		}
