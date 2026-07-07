@@ -2589,7 +2589,7 @@ class Finishing extends CI_Controller {
 	public function editsave_susulan_celana($value='')
 	{
 		$post = $this->input->post();
-		pre($post);
+		// pre($post);
 		$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$post['idpo']));
 		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor',array('hapus'=>0,'kategori_cmt'=>'JAHIT','progress'=>'KIRIM','idpo'=>$post['idpo']));
 		$pcs = 0;
