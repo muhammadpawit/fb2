@@ -176,4 +176,21 @@
     });
 }
 
+function hitungTotal(id) {
+    var insentif = parseFloat($('#insentif_' + id).val()) || 0;
+    var potongan = parseFloat($('#potongan_' + id).val()) || 0;
+    var tambahan = parseFloat($('#tambahan_' + id).val()) || 0;
+    
+    var totalDiterima = insentif - potongan + tambahan;
+    if (totalDiterima < 0) totalDiterima = 0;
+    
+    $('#total_' + id).val(totalDiterima);
+    
+    // Hitung grand total
+    var grandTotal = 0;
+    $('.total-diterima').each(function() {
+        grandTotal += parseFloat($(this).val()) || 0;
+    });
+    $('#grand_total').val(grandTotal);
+}
 </script>

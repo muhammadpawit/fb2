@@ -265,13 +265,13 @@ class Insentifsecurity extends CI_Controller {
 			echo '<tr>';
 			echo '<td>'.$no.' <input type="hidden" name="products['.$k['id'].'][karyawan_id]" class="form-control" value="'.$k['id'].'" readonly> </td>';
 			echo '<td>'.$k['nama'].'</td>';
-			echo '<td><input type="text" name="products['.$k['id'].'][insentif]" class="form-control" value="'.$insentif.'" readonly></td>';
+			echo '<td><input type="text" name="products['.$k['id'].'][insentif]" id="insentif_'.$k['id'].'" class="form-control" value="'.$insentif.'" readonly></td>';
 			$potongan = $this->InsentifModel->totalpotongan($k['id'],$post['tanggal1'],$post['tanggal2']);
-			echo '<td><input type="text" name="products['.$k['id'].'][potongan]" class="form-control" value="'.$potongan.'" readonly></td>';
+			echo '<td><input type="text" name="products['.$k['id'].'][potongan]" id="potongan_'.$k['id'].'" class="form-control" value="'.$potongan.'" readonly></td>';
 			$uang_tambahan = $this->tambahan($potongan);
-			echo '<td><input type="text" name="products['.$k['id'].'][uang_tambahan]" class="form-control" value="'.$uang_tambahan.'" readonly></td>';
+			echo '<td><input type="number" name="products['.$k['id'].'][uang_tambahan]" id="tambahan_'.$k['id'].'" class="form-control" value="'.$uang_tambahan.'" onkeyup="hitungTotal(\''.$k['id'].'\')" oninput="hitungTotal(\''.$k['id'].'\')" onchange="hitungTotal(\''.$k['id'].'\')"></td>';
 			$total_diterima = $insentif - $potongan + $uang_tambahan;
-			echo '<td><input type="text" name="products['.$k['id'].'][total_diterima]" class="form-control" value="'.(($total_diterima > 0) ? $total_diterima : 0).'" readonly></td>';
+			echo '<td><input type="text" name="products['.$k['id'].'][total_diterima]" id="total_'.$k['id'].'" class="form-control total-diterima" value="'.(($total_diterima > 0) ? $total_diterima : 0).'" readonly></td>';
 			echo '<td><input type="text" name="products['.$k['id'].'][keterangan]" class="form-control" value="'.(($total_diterima < 0) ? $total_diterima : null).'"></td>';
 			echo '</tr>';
 			$no++;
@@ -283,15 +283,32 @@ class Insentifsecurity extends CI_Controller {
 		echo "<tfoot>";
 		echo "<tr>";
 		echo "<td colspan='5' align='center'><b>Total</b></td>";
-		echo '<td><b><input type="text" name="total" class="form-control" value="'.$total.'" readonly></b></td>';
+		echo '<td><b><input type="text" name="total" id="grand_total" class="form-control" value="'.$total.'" readonly></b></td>';
 		echo "<td></td>";
 		echo "</tr>";
 		echo "</tfoot>";
 		echo '</table>';
 		echo '<button type="submit" class="btn btn-primary">Simpan</button>&nbsp;';
 		echo '<a href="'.$this->url.'pdf/'.$post['tanggal1'].'/'.$post['tanggal2'].'" target="_blank" class="btn btn-warning">Print</a>';
-		echo '</table>';
 		echo '</form>';
+		echo '<script>
+		function hitungTotal(id) {
+			var insentif = parseFloat($("#insentif_" + id).val()) || 0;
+			var potongan = parseFloat($("#potongan_" + id).val()) || 0;
+			var tambahan = parseFloat($("#tambahan_" + id).val()) || 0;
+			
+			var totalDiterima = insentif - potongan + tambahan;
+			if (totalDiterima < 0) totalDiterima = 0;
+			
+			$("#total_" + id).val(totalDiterima);
+			
+			var grandTotal = 0;
+			$(".total-diterima").each(function() {
+				grandTotal += parseFloat($(this).val()) || 0;
+			});
+			$("#grand_total").val(grandTotal);
+		}
+		</script>';
 	}
 
 	function tambahan($total){
@@ -365,9 +382,17 @@ class Insentifsecurity extends CI_Controller {
 		$html .= "<tbody>";
 	
 		foreach ($kar as $k) {
-			$potongan = $this->InsentifModel->totalpotongan($k['id'], $tanggal1, $tanggal2);
-			$uang_tambahan = $this->tambahan($potongan);
-			$total_diterima = $insentif - $potongan + $uang_tambahan;
+			$cek_rekap = $this->db->get_where('rekapinsentif_security', array('tanggal1'=>$tanggal1, 'tanggal2'=>$tanggal2, 'karyawan_id'=>$k['id']))->row_array();
+			if ($cek_rekap) {
+				$potongan = $cek_rekap['potongan'];
+				$uang_tambahan = $cek_rekap['uang_tambahan'];
+				$total_diterima = $cek_rekap['total_diterima'];
+			} else {
+				$potongan = $this->InsentifModel->totalpotongan($k['id'], $tanggal1, $tanggal2);
+				$uang_tambahan = $this->tambahan($potongan);
+				$total_diterima = $insentif - $potongan + $uang_tambahan;
+			}
+
 	
 			$html .= '<tr>';
 			$html .= '<td align="center">' . $no . '</td>';
