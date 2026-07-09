@@ -60,7 +60,9 @@
 												</td>
 												<td><?php echo $k['keterangan']?></td>
 												<td>
+													<?php if(akseshapus()==1) {?>
 													<a href="<?php echo BASEURL.'Setorancmt/hapusdetail/'.$k['id'].'/'.$kirim['id']; ?>" class="btn btn-danger btn-sm" onclick="return hapusRincian(this);"><i class="fa fa-trash"></i></a>
+													<?php } ?>
 												</td>
 											</tr>
 											<?php $no++;?>
