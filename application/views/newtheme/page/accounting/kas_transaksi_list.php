@@ -16,6 +16,7 @@
               <th>Tanggal</th>
               <th>No. Transaksi</th>
               <th>Akun Kas/Bank</th>
+              <th>Lawan Transaksi</th>
               <th>Tipe</th>
               <th>Total</th>
               <th>Keterangan</th>
@@ -29,15 +30,17 @@
                 <td><?php echo date('d/m/Y', strtotime($r['tanggal'])) ?></td>
                 <td><?php echo $r['no_transaksi'] ?></td>
                 <td><?php echo $r['nama_kas'] ?></td>
+                <td><?php echo $r['nama_lawan'] ?></td>
                 <td>
-                  <span class="badge <?php echo $r['tipe'] == 'MASUK' ? 'bg-green' : 'bg-red' ?>">
+                  <span class="badge <?php echo $r['tipe'] == 'MASUK' ? 'badge-success' : 'badge-danger' ?>">
                     <?php echo $r['tipe'] ?>
                   </span>
                 </td>
                 <td align="right"><?php echo number_format($r['total'], 2) ?></td>
                 <td><?php echo $r['keterangan'] ?></td>
-                <td>
-                  <a href="<?php echo BASEURL.'Manajemenkasbank/masuk_keluar_delete/'.$r['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus transaksi ini?')"><i class="fa fa-trash"></i></a>
+                <td class="text-center">
+                  <a href="<?php echo BASEURL.'Manajemenkasbank/masuk_keluar_edit/'.$r['id'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                  <a href="<?php echo BASEURL.'Manajemenkasbank/masuk_keluar_delete/'.$r['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus transaksi ini? Jurnal terkait juga akan dihapus.')"><i class="fa fa-trash"></i></a>
                 </td>
               </tr>
               <?php endforeach; ?>

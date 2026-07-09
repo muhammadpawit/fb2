@@ -150,17 +150,16 @@ class Bukubesar extends CI_Controller {
     public function jurnalumum_detail($id) {
         $data = [];
         $data['title'] = 'Detail Jurnal Umum';
-        $data['header'] = $this->GlobalModel->getDataRow('acc_jurnal', ['id' => $id]);
+        $data['jurnal'] = $this->GlobalModel->getDataRow('acc_jurnal', ['id' => $id]);
         $data['details'] = $this->db->query("
-            SELECT d.*, c.kode_akun, c.nama_akun
-            FROM acc_jurnal_detail d
-            JOIN acc_coa c ON c.id = d.id_akun
-            WHERE d.id_jurnal = $id
+            SELECT d.*, c.kode_akun, c.nama_akun 
+            FROM acc_jurnal_detail d 
+            JOIN acc_coa c ON c.id = d.id_akun 
+            WHERE d.id_jurnal = '$id'
         ")->result_array();
         $data['page'] = $this->page.'jurnal_detail';
         $this->load->view($this->layout, $data);
     }
-
     public function saldoawal() {
         $data = [];
         $data['title'] = 'Saldo Awal Akun';

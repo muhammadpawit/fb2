@@ -59,6 +59,43 @@ class Aset extends CI_Controller {
         redirect(BASEURL.'Aset/daftar_aset');
     }
 
+    public function daftar_aset_edit($id) {
+        $data = [];
+        $data['title'] = 'Edit Aset Tetap';
+        $data['aset'] = $this->GlobalModel->getDataRow('acc_aset_tetap', ['id' => $id]);
+        $data['akun_aset'] = $this->db->query("SELECT * FROM acc_coa WHERE kode_akun LIKE '14%' AND is_header=0 AND hapus=0")->result_array();
+        $data['akun_beban'] = $this->db->query("SELECT * FROM acc_coa WHERE kode_akun LIKE '5%' AND is_header=0 AND hapus=0")->result_array();
+        $data['action'] = BASEURL.'Aset/daftar_aset_update';
+        $data['batal'] = BASEURL.'Aset/daftar_aset';
+        $data['page'] = $this->page.'aset_tetap_form';
+        $this->load->view($this->layout, $data);
+    }
+
+    public function daftar_aset_update() {
+        $post = $this->input->post();
+        $update = [
+            'nama_aset' => $post['nama_aset'],
+            'kode_aset' => $post['kode_aset'],
+            'tgl_perolehan' => $post['tgl_perolehan'],
+            'harga_perolehan' => $post['harga_perolehan'],
+            'masa_manfaat' => $post['masa_manfaat'],
+            'residu' => $post['residu'],
+            'id_akun_aset' => $post['id_akun_aset'],
+            'id_akun_akum_susut' => $post['id_akun_akum_susut'],
+            'id_akun_beban_susut' => $post['id_akun_beban_susut'],
+            'metode' => $post['metode']
+        ];
+        $this->GlobalModel->updateData('acc_aset_tetap', ['id' => $post['id']], $update);
+        $this->session->set_flashdata('msg', 'Aset berhasil diupdate');
+        redirect(BASEURL.'Aset/daftar_aset');
+    }
+
+    public function daftar_aset_delete($id) {
+        $this->GlobalModel->updateData('acc_aset_tetap', ['id' => $id], ['hapus' => 1]);
+        $this->session->set_flashdata('msg', 'Aset berhasil dihapus');
+        redirect(BASEURL.'Aset/daftar_aset');
+    }
+
     public function penyusutan_aset() {
         $data = [];
         $data['title'] = 'Penyusutan Aset';

@@ -172,7 +172,15 @@
 
                                             <td><?php echo htmlspecialchars($tem['supplier']); ?></td>
                                             <?php } ?>
-                                            <td><?php echo htmlspecialchars($tem['keterangan']); ?></td>
+                                            <td>
+                                                <?php echo htmlspecialchars($tem['keterangan']); ?>
+                                                <?php if(!empty($tem['id_pembelian'])): ?>
+                                                    <br><span style="color: <?php echo ($tem['status_pembayaran'] == 1) ? 'green' : 'orange' ?>; font-weight: bold; font-size: 10px;">
+                                                        [<?php echo ($tem['status_pembayaran'] == 1) ? 'LUNAS' : 'DITAGIHKAN' ?>]
+                                                    </span>
+                                                    <br><small style="font-size:9px; color:#555;"><?php echo $tem['no_invoice'] ?></small>
+                                                <?php endif; ?>
+                                            </td>
                                             <?php if($parent['status']!=1){?>
                                             <td><span class="no-print"><?php echo htmlspecialchars($tem['komentar'])?></span></td>
                                             <?php } ?>
@@ -279,7 +287,15 @@
                                             <td><?php echo htmlspecialchars($tem['supplier']); ?></td>
                                             <?php } ?>
 
-                                            <td><?php echo htmlspecialchars($tem['keterangan']); ?></td>
+                                            <td>
+                                                <?php echo htmlspecialchars($tem['keterangan']); ?>
+                                                <?php if(!empty($tem['id_pembelian'])): ?>
+                                                    <br><span style="color: <?php echo ($tem['status_pembayaran'] == 1) ? 'green' : 'orange' ?>; font-weight: bold; font-size: 10px;">
+                                                        [<?php echo ($tem['status_pembayaran'] == 1) ? 'LUNAS' : 'DITAGIHKAN' ?>]
+                                                    </span>
+                                                    <br><small style="font-size:9px; color:#555;"><?php echo $tem['no_invoice'] ?></small>
+                                                <?php endif; ?>
+                                            </td>
                                             <?php if($parent['status']!=1){?>
                                             <td><span class="no-print"><?php echo htmlspecialchars($tem['komentar'])?></span></td>
                                             <?php } ?>

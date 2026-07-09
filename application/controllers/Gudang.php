@@ -1791,9 +1791,17 @@ class Gudang extends CI_Controller {
 	}
 
 	public function pengajuancetak($kode=''){
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>1,'idpengajuan'=>$kode,'hapus'=>0));
-		$viewData['item_cash'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>1,'idpengajuan'=>$kode,'hapus'=>0));
-		$viewData['item_tf'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('pembayaran'=>2,'idpengajuan'=>$kode,'hapus'=>0));
+		$query = "
+			SELECT d.*, pd.id_pembelian, p.status as status_pembayaran, p.no_invoice 
+			FROM pengajuan_harian_new_detail d 
+			LEFT JOIN acc_pembelian_detail pd ON pd.id_pengajuan_detail = d.id 
+			LEFT JOIN acc_pembelian p ON p.id = pd.id_pembelian AND p.hapus = 0
+			WHERE d.idpengajuan = '$kode' AND d.hapus = 0 
+		";
+
+		$viewData['item'] = $this->db->query($query . " AND d.pembayaran = 1")->result_array();
+		$viewData['item_cash'] = $this->db->query($query . " AND d.pembayaran = 1")->result_array();
+		$viewData['item_tf'] = $this->db->query($query . " AND d.pembayaran = 2")->result_array();
 
 		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
 		$viewData['mingguan'] = !empty($viewData['parent']['from_mingguan']) ? 'MINGGUAN':'HARIAN';
