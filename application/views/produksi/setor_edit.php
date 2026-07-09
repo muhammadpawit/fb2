@@ -44,6 +44,7 @@
 												<th>Nama PO</th>
 												<th>Jumlah PO (pcs)</th>
 												<th>Keterangan</th>
+												<th>Aksi</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -58,6 +59,9 @@
 														class="form-control text-right jumlah-po">
 												</td>
 												<td><?php echo $k['keterangan']?></td>
+												<td>
+													<a href="<?php echo BASEURL.'Setorancmt/hapusdetail/'.$k['id'].'/'.$kirim['id']; ?>" class="btn btn-danger btn-sm" onclick="return hapusRincian(this);"><i class="fa fa-trash"></i></a>
+												</td>
 											</tr>
 											<?php $no++;?>
 										<?php } ?>
@@ -104,5 +108,15 @@ function hitungTotal() {
         total += val;
     });
     document.getElementById('totalDisplay').innerText = total;
+}
+
+function hapusRincian(element) {
+    if(confirm('Apakah Anda yakin ingin menghapus rincian PO ini?')) {
+        element.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+        element.classList.add('disabled');
+        element.style.pointerEvents = 'none';
+        return true;
+    }
+    return false;
 }
 </script>

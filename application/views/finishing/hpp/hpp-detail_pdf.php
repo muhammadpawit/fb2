@@ -766,25 +766,17 @@
                                 <?php endforeach ?>
 
                                 <?php foreach ($packing as $key => $mesin): ?>
-
+                                    <?php $mesin['harga_dz'] = 12000; ?>
                                     <tr>
-
                                         <td><center><?php echo $no+=1?></center></td>
-
-                                        <td><?php echo strtoupper((empty($mesin['keterangan']))?"Packing":'Packing') ?></td>
-
+                                        <td><?php echo strtoupper((empty($mesin['keterangan']) || trim($mesin['keterangan']) == '-') ? "Packing" : $mesin['keterangan']) ?></td>
                                         <td align="center"><?php //echo $mesin['jumlah_pcs'] ?></td>
-
                                         <td align="center"><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
-
                                         <td align="right"><?php echo number_format($mesin['harga_dz']) ?></td>
-
                                     </tr>
-
                                     <?php
                                         $total+=($mesin['harga_dz']);
                                     ?>
-
                                 <?php endforeach ?>
 
                                 <?php foreach ($cucian as $key => $mesin): ?>

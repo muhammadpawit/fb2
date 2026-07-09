@@ -132,7 +132,7 @@ class Setorancmt extends CI_Controller {
 		$data['cetak']=BASEURL.'setorcmt/kirimcmtcetak/'.$id.'/1';
 		$data['excel']=BASEURL.'setorcmt/kirimcmtcetak/'.$id.'/2';
 		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
-		$kirims=$this->GlobalModel->getData('setorcmt_detail',array('idsetor'=>$id));
+		$kirims=$this->GlobalModel->getData('setorcmt_detail',array('idsetor'=>$id, 'hapus'=>0));
 		$job=null;
 		$data['kirims']=[];
 		foreach($kirims as $k){
@@ -395,8 +395,43 @@ class Setorancmt extends CI_Controller {
 			'idsetor'=>$id,
 		);
 		$this->db->update('setorcmt_detail',$update,$where2);
+		
+		// Soft delete from kelolapo_kirim_setor
+		$this->db->where('kode_nota_cmt', $id);
+		$this->db->where('kategori_cmt', 'JAHIT');
+		$this->db->update('kelolapo_kirim_setor', array('hapus'=>1));
+
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Setorancmt');
+	}
+
+	public function hapusdetail($id_detail, $id_setoran){
+		$d=$this->GlobalModel->getDataRow('setorcmt_detail',array('id'=>$id_detail));
+		if(!empty($d)){
+			$sql="UPDATE kirimcmt SET totalsetor=totalsetor-".$d['totalsetor']." WHERE id='".$d['idkirim']."' AND hapus=0 ";
+			$this->db->query($sql);
+
+			$sql2="UPDATE kirimcmt_detail SET totalsetor=totalsetor-".$d['totalsetor']." WHERE idkirim='".$d['idkirim']."' AND kode_po='".$d['kode_po']."' AND hapus=0 ";
+			$this->db->query($sql2);
+			
+			$sql3="UPDATE setorcmt SET totalsetor=totalsetor-".$d['totalsetor']." WHERE id='".$id_setoran."' AND hapus=0 ";
+			$this->db->query($sql3);
+
+			$update=array('hapus'=>1);
+			$where=array(
+				'id'=>$id_detail,
+			);
+			$this->db->update('setorcmt_detail',$update,$where);
+
+			// Soft delete from kelolapo_kirim_setor
+			$this->db->where('kode_nota_cmt', $id_setoran);
+			$this->db->where('idpo', $d['kode_po']);
+			$this->db->where('kategori_cmt', 'JAHIT');
+			$this->db->update('kelolapo_kirim_setor', array('hapus'=>1));
+		}
+		
+		$this->session->set_flashdata('msg','Rincian PO berhasil dihapus');
+		redirect(BASEURL.'Setorancmt/editsetoran/'.$id_setoran);
 	}
 
 	public function caripo(){
@@ -440,7 +475,7 @@ class Setorancmt extends CI_Controller {
 		$data['cetak']=BASEURL.'setorcmt/kirimcmtcetak/'.$id.'/1';
 		$data['excel']=BASEURL.'setorcmt/kirimcmtcetak/'.$id.'/2';
 		$data['kirim']=$this->GlobalModel->getDataRow('setorcmt',array('id'=>$id));
-		$kirims=$this->GlobalModel->getData('setorcmt_detail',array('idsetor'=>$id));
+		$kirims=$this->GlobalModel->getData('setorcmt_detail',array('idsetor'=>$id, 'hapus'=>0));
 		$job=null;
 		$data['kirims']=[];
 		foreach($kirims as $k){

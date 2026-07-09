@@ -44,3 +44,4 @@ token.json
 clone_db.log
 *.log
 application/config/google_oauth.php
+assets/images/*
