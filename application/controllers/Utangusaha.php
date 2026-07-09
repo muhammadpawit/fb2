@@ -328,6 +328,18 @@ class Utangusaha extends CI_Controller {
             GROUP BY s.id
         ")->result_array();
         $data['page'] = $this->page.'report_utang';
-        $this->load->view($this->layout, $data);
+        
+        $get = $this->input->get();
+        if (isset($get['pdf'])) {
+            $html = $this->load->view($this->page.'report_utang_pdf', $data, true);
+            $this->load->library('pdfgenerator');
+            $this->data['title_pdf'] = 'Laporan Buku Tambahan Utang';
+            $file_pdf = 'Laporan_Buku_Utang_'.time();
+            $paper = 'A4';
+            $orientation = "portrait";
+            $this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+        } else {
+            $this->load->view($this->layout, $data);
+        }
     }
 }

@@ -3,6 +3,9 @@
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Buku Tambahan Utang</h3>
+        <div class="card-tools">
+          <a href="<?php echo BASEURL.'Utangusaha/report_invoice?pdf=true' ?>" class="btn btn-danger btn-sm" target="_blank"><i class="fa fa-file-pdf"></i> Cetak PDF</a>
+        </div>
       </div>
       <div class="card-body">
         <table class="table table-bordered">
