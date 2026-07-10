@@ -3427,15 +3427,33 @@ class Gudang extends CI_Controller {
 		$data=$this->input->post();
 		//pre($data);
 		foreach($data['prods'] as $p){
+			$where=array(
+				'id_item_keluar' => $p['id_item_keluar'],
+			);
+			
+			$old = $this->db->get_where('gudang_bahan_keluar', $where)->row_array();
+
 			$update=array(
 				'harga_item' => $p['harga_item'],
 				'bahan_kategori' => $p['bahan_kategori'],
 				'jumlah_item_keluar'=>$p['jumlah_item_keluar'],
+				'ukuran_item_keluar'=>isset($p['ukuran_item_keluar']) ? $p['ukuran_item_keluar'] : $old['ukuran_item_keluar'],
 			);
-			$where=array(
-				'id_item_keluar' => $p['id_item_keluar'],
-			);
+			
 			$this->db->update('gudang_bahan_keluar',$update,$where);
+
+			if ($old) {
+				$diff_qty = $old['jumlah_item_keluar'] - $p['jumlah_item_keluar'];
+				$diff_ukuran = $old['ukuran_item_keluar'] - $update['ukuran_item_keluar'];
+
+				if ($diff_qty != 0 || $diff_ukuran != 0) {
+					$prod = $this->db->get_where('product', array('nama' => $old['nama_item_keluar'], 'hapus' => 0))->row_array();
+					if ($prod) {
+						$this->db->query("UPDATE product SET ukuran_item=ukuran_item + (".$diff_ukuran."), quantity=quantity + (".$diff_qty.") WHERE product_id='".$prod['product_id']."' ");
+						$this->db->query("UPDATE gudang_persediaan_item SET ukuran_item=ukuran_item + (".$diff_ukuran."), jumlah_item=jumlah_item + (".$diff_qty.") WHERE id_persediaan='".$prod['product_id']."' ");
+					}
+				}
+			}
 		}
 		$this->session->set_flashdata('msg','Data berhasil di edit');
 		redirect(BASEURL.'Gudang/pengeluaranbahan?&kode_po='.$data['kode_po']);

@@ -59,7 +59,7 @@
 
                                         <td>
 
-                                            <b><?php echo $item['ukuran_item_keluar'] ?> <?php echo $item['satuan_item_keluar'] ?></b> 
+                                            <input type="text" class="form-control" name="prods[<?php echo $no?>][ukuran_item_keluar]" value="<?php echo $item['ukuran_item_keluar'] ?>"> <b><?php echo $item['satuan_item_keluar'] ?></b> 
 
                                         </td>
 
