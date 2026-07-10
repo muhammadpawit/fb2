@@ -21,9 +21,9 @@
             <?php foreach($results as $r): ?>
             <tr>
               <td><?php echo $r['nama_supplier'] ?></td>
-              <td align="right"><?php echo number_format($r['total_hutang'], 2) ?></td>
-              <td align="right"><?php echo number_format($r['total_bayar'], 2) ?></td>
-              <td align="right"><?php echo number_format($r['total_hutang'] - $r['total_bayar'], 2) ?></td>
+              <td align="right"><?php echo number_format($r['total_hutang'] ?? 0, 2) ?></td>
+              <td align="right"><?php echo number_format($r['total_bayar'] ?? 0, 2) ?></td>
+              <td align="right"><?php echo number_format(($r['total_hutang'] ?? 0) - ($r['total_bayar'] ?? 0), 2) ?></td>
             </tr>
             <?php endforeach; ?>
           </tbody>

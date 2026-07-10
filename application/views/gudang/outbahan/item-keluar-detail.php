@@ -63,11 +63,11 @@
 
                                         </td>
 
-                                        <td><input type="text" class="form-control" name="prods[<?php echo $no?>][jumlah_item_keluar]" value="<?php echo $item['jumlah_item_keluar'] ?>"> <?php echo $item['satuan_jumlah_keluar'] ?></td>
+                                        <td><input type="text" class="form-control kalkulasi_jumlah" name="prods[<?php echo $no?>][jumlah_item_keluar]" value="<?php echo $item['jumlah_item_keluar'] ?>"> <?php echo $item['satuan_jumlah_keluar'] ?></td>
 
                                         <td>
                                             <input type="hidden" class="form-control" name="prods[<?php echo $no?>][id_item_keluar]" value="<?php echo $item['id_item_keluar']?>">
-                                            <input type="number" class="form-control" name="prods[<?php echo $no?>][harga_item]" value="<?php echo $item['harga_item']?>">
+                                            <input type="number" class="form-control kalkulasi_harga" name="prods[<?php echo $no?>][harga_item]" value="<?php echo $item['harga_item']?>">
                                             <input type="hidden" class="form-control" name="kode_po" value="<?php echo $project['kode_po']?>">
                                         </td>
 
@@ -78,7 +78,7 @@
 
                                          ?>
 
-                                        <td class="text-right"><?php echo number_format($total) ?></td>
+                                        <td class="text-right row_total"><?php echo number_format($total) ?></td>
 
                                     </tr>
                                     <?php $no++;?>
@@ -87,7 +87,7 @@
                                     
                                     <tr>
                                         <td colspan="6" align="center"><b>Total</b></td>
-                                        <td align="right"><b><?php echo number_format($totals) ?></b></td>
+                                        <td align="right"><b id="grand_total"><?php echo number_format($totals) ?></b></td>
                                     </tr>
                                     </tbody>
 
@@ -123,4 +123,25 @@
     function update(){
         $("form").submit();
     }
+
+    $(document).ready(function(){
+        function calculateTotal() {
+            var grandTotal = 0;
+            $("tbody tr").each(function(){
+                var jumlah = parseFloat($(this).find('.kalkulasi_jumlah').val()) || 0;
+                var harga = parseFloat($(this).find('.kalkulasi_harga').val()) || 0;
+                
+                if ($(this).find('.kalkulasi_jumlah').length > 0) {
+                    var total = jumlah * harga;
+                    $(this).find('.row_total').text(new Intl.NumberFormat('en-US').format(total));
+                    grandTotal += total;
+                }
+            });
+            $("#grand_total").text(new Intl.NumberFormat('en-US').format(grandTotal));
+        }
+
+        $(document).on('input', '.kalkulasi_jumlah, .kalkulasi_harga', function(){
+            calculateTotal();
+        });
+    });
 </script>
