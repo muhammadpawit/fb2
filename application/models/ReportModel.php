@@ -4203,8 +4203,16 @@ AND a.jenis = 2
 		WHERE hapus=0 AND supplier_id='$spid' AND MONTH(tanggal)='$bulan' AND YEAR(tanggal)='$tahun' ";
 		$query = $this->GlobalModel->QueryManualRow($sql);
 		if(isset($query['total'])){
-			$hasil=$query['total'];
+			$hasil += $query['total'];
 		}
+
+		$sql2=" SELECT COALESCE(SUM(total_bayar),0) as total from acc_pembayaran_utang 
+		WHERE hapus=0 AND id_supplier='$spid' AND MONTH(tanggal)='$bulan' AND YEAR(tanggal)='$tahun' ";
+		$query2 = $this->GlobalModel->QueryManualRow($sql2);
+		if(isset($query2['total'])){
+			$hasil += $query2['total'];
+		}
+
 		return $hasil;
 	}
 	public function get_monitoring_kirimgudang_stat($id_jenis,$tgl1,$tgl2){

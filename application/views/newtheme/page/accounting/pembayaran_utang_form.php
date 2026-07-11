@@ -7,7 +7,7 @@
       </div>
       <div class="form-group">
         <label>No. Bayar</label>
-        <input type="text" name="no_bayar" class="form-control" required>
+        <input type="text" name="no_bayar" class="form-control" value="<?php echo isset($pembayaran) ? $pembayaran['no_bayar'] : $auto_bayar ?>" readonly required>
       </div>
       <div class="form-group">
         <label>Supplier</label>

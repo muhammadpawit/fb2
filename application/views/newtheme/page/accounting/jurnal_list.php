@@ -58,7 +58,11 @@
               <td align="right"><?php echo number_format((float)$r['total_kredit'], 2) ?></td>
               <td>
                 <a href="<?php echo BASEURL.'Bukubesar/jurnalumum_detail/'.$r['id'] ?>" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail</a>
-                <a href="<?php echo BASEURL.'Bukubesar/jurnalumum_delete/'.$r['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus jurnal ini?')"><i class="fa fa-trash"></i></a>
+                <?php if(empty($r['ref'])): ?>
+                  <a href="<?php echo BASEURL.'Bukubesar/jurnalumum_delete/'.$r['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus jurnal ini?')"><i class="fa fa-trash"></i></a>
+                <?php else: ?>
+                  <span class="badge badge-warning" title="Jurnal Otomatis (Tidak bisa dihapus manual)">Auto</span>
+                <?php endif; ?>
               </td>
             </tr>
             <?php endforeach; ?>

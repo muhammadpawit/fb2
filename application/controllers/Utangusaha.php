@@ -46,6 +46,18 @@ class Utangusaha extends CI_Controller {
         $data = [];
         $data['title'] = 'Tambah Tagihan Pembelian';
         $data['supplier'] = $this->GlobalModel->getData('master_supplier', ['hapus' => 0]);
+        
+        // Generate Auto Invoice
+        $today = date('Ymd');
+        $last_inv = $this->db->query("SELECT no_invoice FROM acc_pembelian WHERE no_invoice LIKE 'INV-AP-$today-%' ORDER BY id DESC LIMIT 1")->row_array();
+        if ($last_inv) {
+            $num = (int) substr($last_inv['no_invoice'], -3);
+            $next_num = str_pad($num + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $next_num = '001';
+        }
+        $data['auto_invoice'] = "INV-AP-$today-$next_num";
+
         $data['action'] = BASEURL.'Utangusaha/invoice_save';
         $data['batal'] = BASEURL.'Utangusaha/invoice';
         $data['page'] = $this->page.'pembelian_form';
@@ -69,12 +81,16 @@ class Utangusaha extends CI_Controller {
         
         // Simpan detail dari pengajuan jika ada yang diceklis
         if (isset($post['id_pengajuan_detail']) && is_array($post['id_pengajuan_detail'])) {
-            foreach ($post['id_pengajuan_detail'] as $key => $id_detail) {
+            foreach ($post['id_pengajuan_detail'] as $key => $id_raw) {
                 $detail = [
                     'id_pembelian' => $id_pembelian,
-                    'id_pengajuan_detail' => $id_detail,
                     'nominal' => $post['nominal_pengajuan'][$key]
                 ];
+                if(strpos($id_raw, 'pengajuan_') !== false) {
+                    $detail['id_pengajuan_detail'] = str_replace('pengajuan_', '', $id_raw);
+                } else if(strpos($id_raw, 'penerimaan_') !== false) {
+                    $detail['id_penerimaan_detail'] = str_replace('penerimaan_', '', $id_raw);
+                }
                 $this->db->insert('acc_pembelian_detail', $detail);
             }
         }
@@ -93,7 +109,17 @@ class Utangusaha extends CI_Controller {
         $data['page'] = $this->page.'pembelian_form';
         
         // Let's pass the already checked items to the view so they can be re-checked or managed
-        $data['checked_details'] = $this->GlobalModel->getData('acc_pembelian_detail', ['id_pembelian' => $id]);
+        $details = $this->GlobalModel->getData('acc_pembelian_detail', ['id_pembelian' => $id]);
+        $checked = [];
+        foreach($details as $d) {
+            if(!empty($d['id_pengajuan_detail'])) {
+                $checked[] = 'pengajuan_'.$d['id_pengajuan_detail'];
+            }
+            if(!empty($d['id_penerimaan_detail'])) {
+                $checked[] = 'penerimaan_'.$d['id_penerimaan_detail'];
+            }
+        }
+        $data['checked_details'] = $checked;
         
         $this->load->view($this->layout, $data);
     }
@@ -116,12 +142,16 @@ class Utangusaha extends CI_Controller {
         // Hapus detail lama, masukkan yang baru jika ada
         $this->db->delete('acc_pembelian_detail', ['id_pembelian' => $id_pembelian]);
         if (isset($post['id_pengajuan_detail']) && is_array($post['id_pengajuan_detail'])) {
-            foreach ($post['id_pengajuan_detail'] as $key => $id_detail) {
+            foreach ($post['id_pengajuan_detail'] as $key => $id_raw) {
                 $detail = [
                     'id_pembelian' => $id_pembelian,
-                    'id_pengajuan_detail' => $id_detail,
                     'nominal' => $post['nominal_pengajuan'][$key]
                 ];
+                if(strpos($id_raw, 'pengajuan_') !== false) {
+                    $detail['id_pengajuan_detail'] = str_replace('pengajuan_', '', $id_raw);
+                } else if(strpos($id_raw, 'penerimaan_') !== false) {
+                    $detail['id_penerimaan_detail'] = str_replace('penerimaan_', '', $id_raw);
+                }
                 $this->db->insert('acc_pembelian_detail', $detail);
             }
         }
@@ -145,14 +175,20 @@ class Utangusaha extends CI_Controller {
         $supplier = $this->db->query("SELECT nama FROM master_supplier WHERE id = '$id_supplier'")->row_array();
         $nama_supplier = $supplier ? $this->db->escape_str($supplier['nama']) : '';
 
-        $exclude_sql = "AND d.id NOT IN (SELECT id_pengajuan_detail FROM acc_pembelian_detail WHERE id_pengajuan_detail IS NOT NULL";
+        $exclude_pengajuan = "AND d.id NOT IN (SELECT id_pengajuan_detail FROM acc_pembelian_detail WHERE id_pengajuan_detail IS NOT NULL";
         if (!empty($id_pembelian)) {
-            $exclude_sql .= " AND id_pembelian != '$id_pembelian'";
+            $exclude_pengajuan .= " AND id_pembelian != '$id_pembelian'";
         }
-        $exclude_sql .= ")";
+        $exclude_pengajuan .= ")";
 
-        $query = $this->db->query("
-            SELECT d.*, p.tanggal 
+        $exclude_penerimaan = "AND pd.id NOT IN (SELECT id_penerimaan_detail FROM acc_pembelian_detail WHERE id_penerimaan_detail IS NOT NULL";
+        if (!empty($id_pembelian)) {
+            $exclude_penerimaan .= " AND id_pembelian != '$id_pembelian'";
+        }
+        $exclude_penerimaan .= ")";
+
+        $query_pengajuan = $this->db->query("
+            SELECT CONCAT('pengajuan_', d.id) as id, d.id as original_id, p.tanggal, d.nama_item, d.jumlah, d.satuan, d.pembayaran, d.harga 
             FROM pengajuan_harian_new_detail d 
             JOIN pengajuan_harian_new p ON p.id = d.idpengajuan 
             WHERE (d.supplier = '$id_supplier' OR d.supplier = '$nama_supplier') 
@@ -160,10 +196,31 @@ class Utangusaha extends CI_Controller {
             AND d.hapus = 0 
             AND p.hapus = 0
             AND DATE(p.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'
-            $exclude_sql
+            $exclude_pengajuan
         ")->result_array();
+
+        $query_penerimaan = $this->db->query("
+            SELECT CONCAT('penerimaan_', pd.id) as id, pd.id as original_id, pi.tanggal, pd.nama as nama_item, 
+            CASE WHEN pi.jenis = 1 THEN pd.ukuran ELSE pd.jumlah END as jumlah, 
+            CASE WHEN pi.jenis = 1 THEN pd.satuanukuran ELSE pd.satuanJml END as satuan, 
+            CASE 
+                WHEN pi.tipepembayaran = 'Cash' THEN 1 
+                WHEN pi.tipepembayaran = 'Transfer' THEN 2 
+                ELSE 3
+            END as pembayaran, 
+            pd.harga 
+            FROM penerimaan_item_detail pd 
+            JOIN penerimaan_item pi ON pi.id = pd.penerimaan_item_id 
+            WHERE pi.supplier = '$id_supplier'
+            AND pd.hapus = 0 
+            AND pi.hapus = 0
+            AND DATE(pi.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'
+            $exclude_penerimaan
+        ")->result_array();
+
+        $merged = array_merge($query_pengajuan, $query_penerimaan);
         
-        echo json_encode($query);
+        echo json_encode($merged);
     }
 
     public function invoice_payment() {
@@ -186,6 +243,17 @@ class Utangusaha extends CI_Controller {
         $data['title'] = 'Tambah Pembayaran Utang';
         $data['supplier'] = $this->GlobalModel->getData('master_supplier', ['hapus' => 0]);
         
+        // Generate Auto No Bayar
+        $today = date('Ymd');
+        $last_pay = $this->db->query("SELECT no_bayar FROM acc_pembayaran_utang WHERE no_bayar LIKE 'PAY-AP-$today-%' ORDER BY id DESC LIMIT 1")->row_array();
+        if ($last_pay) {
+            $num = (int) substr($last_pay['no_bayar'], -3);
+            $next_num = str_pad($num + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $next_num = '001';
+        }
+        $data['auto_bayar'] = "PAY-AP-$today-$next_num";
+
         $data['kas'] = $this->db->query("SELECT * FROM acc_coa WHERE (kode_akun LIKE '11%' OR nama_akun LIKE '%Kas%' OR nama_akun LIKE '%Bank%') AND hapus=0")->result_array();
         $data['action'] = BASEURL.'Utangusaha/invoice_payment_save';
         $data['batal'] = BASEURL.'Utangusaha/invoice_payment';

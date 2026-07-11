@@ -1622,6 +1622,10 @@ class Keuangan extends CI_Controller {
 		$data['perminggu']=[];
 		$total=0;
 		$periode = $this->ReportModel->periode();
+		if (isset($_GET['tahun'])) {
+			$periode['tahun'] = $_GET['tahun'];
+		}
+		$data['tahun'] = $periode['tahun'];
 		$months = [
 			1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
 			5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug',
@@ -1641,6 +1645,58 @@ class Keuangan extends CI_Controller {
 			$bulan[] = date('M Y', $timestamp);
 		}
 
+		// Fetch all required data upfront to avoid N+1 queries
+		$tagihan_map = [];
+		$sql_tagihan = "SELECT a.supplier, MONTH(a.tanggal) as bulan, YEAR(a.tanggal) as tahun, SUM(b.ukuran*b.harga) as total 
+			FROM penerimaan_item a 
+			JOIN penerimaan_item_detail b ON a.id=b.penerimaan_item_id 
+			WHERE a.hapus=0 AND b.hapus=0 AND a.jenis=1 AND a.tipepembayaran='Tempo' 
+			GROUP BY a.supplier, YEAR(a.tanggal), MONTH(a.tanggal)";
+		foreach($this->db->query($sql_tagihan)->result_array() as $row) {
+			if (!isset($tagihan_map[$row['tahun']][$row['bulan']])) $tagihan_map[$row['tahun']][$row['bulan']] = [];
+			$tagihan_map[$row['tahun']][$row['bulan']][$row['supplier']] = $row['total'];
+		}
+
+		$bayar_map = [];
+		$sql_bayar1 = "SELECT supplier_id as supplier, MONTH(tanggal) as bulan, YEAR(tanggal) as tahun, SUM(nominal) as total 
+			FROM supplier_giro WHERE hapus=0 GROUP BY supplier_id, YEAR(tanggal), MONTH(tanggal)";
+		foreach($this->db->query($sql_bayar1)->result_array() as $row) {
+			if (!isset($bayar_map[$row['tahun']][$row['bulan']][$row['supplier']])) {
+				$bayar_map[$row['tahun']][$row['bulan']][$row['supplier']] = 0;
+			}
+			$bayar_map[$row['tahun']][$row['bulan']][$row['supplier']] += $row['total'];
+		}
+
+		$sql_bayar2 = "SELECT id_supplier as supplier, MONTH(tanggal) as bulan, YEAR(tanggal) as tahun, SUM(total_bayar) as total 
+			FROM acc_pembayaran_utang WHERE hapus=0 GROUP BY id_supplier, YEAR(tanggal), MONTH(tanggal)";
+		foreach($this->db->query($sql_bayar2)->result_array() as $row) {
+			if (!isset($bayar_map[$row['tahun']][$row['bulan']][$row['supplier']])) {
+				$bayar_map[$row['tahun']][$row['bulan']][$row['supplier']] = 0;
+			}
+			$bayar_map[$row['tahun']][$row['bulan']][$row['supplier']] += $row['total'];
+		}
+
+		// Filter supplier yang punya nominal saja
+		$active_suppliers = [];
+		foreach ($data['supplier'] as $s) {
+			$has_nominal = false;
+			foreach ($bulan as $val) {
+				$t = explode(" ", $val);
+				$monthNum = date('n', strtotime("1 " . $val));
+				$year = $t[1];
+				if (isset($tagihan_map[$year][$monthNum][$s['id']]) && $tagihan_map[$year][$monthNum][$s['id']] > 0) {
+					$has_nominal = true; break;
+				}
+				if (isset($bayar_map[$year][$monthNum][$s['id']]) && $bayar_map[$year][$monthNum][$s['id']] > 0) {
+					$has_nominal = true; break;
+				}
+			}
+			if ($has_nominal) {
+				$active_suppliers[] = $s;
+			}
+		}
+		$data['supplier'] = $active_suppliers;
+
 		// Loop bulan dan isi supplier per bulan
 		$data['prods'] = [];
 		foreach ($bulan as $val) {
@@ -1651,14 +1707,16 @@ class Keuangan extends CI_Controller {
 			// Loop supplier
 			$suppliers = [];
 			foreach ($data['supplier'] as $s) {
+				$spid = $s['id'];
+				$tot_tagihan = isset($tagihan_map[$year][$monthNum][$spid]) ? $tagihan_map[$year][$monthNum][$spid] : 0;
+				$tot_bayar = isset($bayar_map[$year][$monthNum][$spid]) ? $bayar_map[$year][$monthNum][$spid] : 0;
+
 				$suppliers[] = [
-					'id_supplier' => $s['id'], // sesuaikan dengan kolom tabel
+					'id_supplier' => $spid,
 					'nama_supplier' => strtolower($s['nama']),
-					'total' => $this->ReportModel->getTagihanSupplier($s['id'], $monthNum, $year), // misal nanti kamu isi nilai tagihan
-					'totaldibayar' => $this->ReportModel->getTotalPembayaranSupplier($s['id'], $monthNum, $year),
-					'sisa' => ( $this->ReportModel->getTagihanSupplier($s['id'], $monthNum, $year) -
-								$this->ReportModel->getTotalPembayaranSupplier($s['id'], $monthNum, $year)
-							),
+					'total' => $tot_tagihan,
+					'totaldibayar' => $tot_bayar,
+					'sisa' => ($tot_tagihan - $tot_bayar),
 				];
 			}
 

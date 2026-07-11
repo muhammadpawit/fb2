@@ -24,7 +24,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>No. Invoice Vendor</label>
-                <input type="text" name="no_invoice" class="form-control" value="<?php echo isset($tagihan) ? $tagihan['no_invoice'] : '' ?>" required>
+                <input type="text" name="no_invoice" class="form-control" value="<?php echo isset($tagihan) ? $tagihan['no_invoice'] : $auto_invoice ?>" readonly required>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@
       $('.selectpicker').selectpicker('refresh');
     }
 
-    let checked_details = <?php echo isset($checked_details) ? json_encode(array_column($checked_details, 'id_pengajuan_detail')) : '[]' ?>;
+    let checked_details = <?php echo isset($checked_details) ? json_encode($checked_details) : '[]' ?>;
 
     function loadPengajuan() {
       let id_supplier = $('select[name="id_supplier"]').val();

@@ -1,3 +1,28 @@
+<form method="get" action="<?php echo BASEURL.'Keuangan/tagihanbahan' ?>">
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>Filter Tahun:</label>
+			<select name="tahun" class="form-control">
+				<?php 
+					$start_year = 2020;
+					$curr_year = date('Y') + 1;
+					for($i = $start_year; $i <= $curr_year; $i++){
+						$selected = ($i == $tahun) ? 'selected' : '';
+						echo "<option value='$i' $selected>$i</option>";
+					}
+				?>
+			</select>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label>&nbsp;</label><br>
+			<button type="submit" class="btn btn-info">Filter</button>
+		</div>
+	</div>
+</div>
+</form>
 <div class="row">
 	<div class="col-md-12">
 		<table class="table table-bordered table-hover">
@@ -46,7 +71,7 @@
 							}
 						}
 					?>
-						<td align="right" style="color:#91240c">
+						<td align="right">
 							<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
 						</td>
 					<?php endforeach; ?>
@@ -87,7 +112,11 @@
 							}
 						?>
 							<td align="right">
-								<?php echo $totalSupplier > 0 ? number_format($totalSupplier, 0, ',', '.') : ''; ?>
+								<?php if ($totalSupplier > 0): ?>
+									<span style="color: red; font-weight: bold; font-size: 1.3em;">
+										<?php echo number_format($totalSupplier, 0, ',', '.'); ?>
+									</span>
+								<?php endif; ?>
 							</td>
 						<?php endforeach; ?>
 					</tr>
