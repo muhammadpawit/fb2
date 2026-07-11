@@ -138,33 +138,28 @@ header("Content-Disposition: attachment; filename=Nota_Kirim_Gudang.xls");
                                                             $po=$this->GlobalModel->getdataRow('produksi_po',array('id_produksi_po'=>$gudang['kode_po']));
                                                             ?>
                                                         <tr>
-                                                            <td><?php echo $no++?></td>
-                                                            <td><?php echo $gudang['artikel_po'] ?></td>
-                                                            <td><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
-                                                            <td>
+                                                            <td valign="top"><center><?php echo $no++?></center></td>
+                                                            <td valign="top"><?php echo $gudang['artikel_po'] ?></td>
+                                                            <td valign="top"><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
+                                                            <td valign="top">
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>
                                                                         <?php foreach ($rinci as $key => $detail): ?>
-                                                                        <p><?php echo $detail['rincian_size'] ?> : <?php echo $detail['rincian_lusin'] ?> DZ - <?php echo $detail['rincian_piece'] ?> PC</p>
+                                                                        <?php echo $detail['rincian_size'] ?> : <?php echo $detail['rincian_lusin'] ?> DZ - <?php echo $detail['rincian_piece'] ?> PC<br style="mso-data-placement:same-cell;">
                                                                         <?php endforeach ?>
                                                                     <?php endif ?>
                                                                 <?php endforeach ?>
-                                                                
-
-
                                                             </td>
-                                                            <td>Rp. <?php echo number_format($gudang['harga_satuan']) ?></td>
+                                                            <td valign="top">Rp. <?php echo number_format($gudang['harga_satuan']) ?></td>
                                                             <?php  $jumlah += $gudang['jumlah_piece_diterima'];?>
-                                                            <td><?php echo $gudang['jumlah_piece_diterima'] ?></td>
-                                                            <td><?php $total += $gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']; echo number_format($gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']) ?></td>
-                                                            <td>
-                                <?php echo $gudang['keterangan'] ?>
+                                                            <td valign="top"><?php echo $gudang['jumlah_piece_diterima'] ?></td>
+                                                            <td valign="top"><?php $total += $gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']; echo number_format($gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']) ?></td>
+                                                            <td valign="top">
+                                                                <?php echo !empty($gudang['keterangan']) ? $gudang['keterangan'].'<br style="mso-data-placement:same-cell;">' : '' ?>
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>
                                                                         <?php foreach ($rinci as $key => $detail): ?>
-
-                                                                        <p><?php echo $detail['katerangan_gudang_rincian'] ?></p>
-                                                                        
+                                                                        <?php echo !empty($detail['katerangan_gudang_rincian']) ? $detail['katerangan_gudang_rincian'].'<br style="mso-data-placement:same-cell;">' : '' ?>
                                                                         <?php endforeach ?>
                                                                     <?php endif ?>
                                                                 <?php endforeach ?>
@@ -175,24 +170,20 @@ header("Content-Disposition: attachment; filename=Nota_Kirim_Gudang.xls");
                                                             <td colspan="6">G.TOTAL</td>
                                                             <td><?php echo number_format($total) ?></td>
                                                             <td></td>
+                                                        <tr><td colspan="8" style="border: none; height: 30px;"></td></tr>
+                                                        <tr style="text-align: center; background-color: #f8f9fa;">
+                                                            <td colspan="2"><b>PIC Gudang Tanah Abang</b></td>
+                                                            <td colspan="2"><b>PIC Gudang H Sholeh</b></td>
+                                                            <td colspan="2"><b>Adm Finishing</b></td>
+                                                            <td colspan="1"><b>Driver</b></td>
+                                                            <td colspan="1"><b>Security</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
+                                                            <td colspan="2" valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
+                                                            <td colspan="2" valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
+                                                            <td colspan="1" valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
+                                                            <td colspan="1" valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
                                                         </tr>
                                                     </tbody>
-                                                </table>
-
-
-                                            <div class="ttd">
-                                              <table class="table table-bordered" border="1">
-                                                <tr style="text-align: center;">
-                                                    <td width="100px"><b>PIC Gudang</b></td>
-                                                    <td width="100px"><b>Adm Finishing</b></td>
-                                                    <td width="100px"><b>Driver</b></td>
-                                                    <td width="100px"><b>Security</b></td>
-                                                </tr>
-                                                <tr>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                    <td valign="bottom" align="center" style="height: 100px">( nama jelas dan ttd )</td>
-                                                </tr>
-                                            </table>
-                                            </div>                                                
+                                                </table>                                                

@@ -85,33 +85,28 @@
                                                             $po=$this->GlobalModel->getdataRow('produksi_po',array('id_produksi_po'=>$gudang['kode_po']));
                                                             ?>
                                                         <tr>
-                                                            <td><?php echo $no++?></td>
-                                                            <td><?php echo $gudang['artikel_po'] ?></td>
-                                                            <td><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
-                                                            <td>
+                                                            <td style="vertical-align: top;"><?php echo $no++?></td>
+                                                            <td style="vertical-align: top;"><?php echo $gudang['artikel_po'] ?></td>
+                                                            <td style="vertical-align: top;"><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
+                                                            <td style="vertical-align: top;">
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>
                                                                         <?php foreach ($rinci as $key => $detail): ?>
-                                                                        <p><?php echo $detail['rincian_size'] ?> : <?php echo $detail['rincian_lusin'] ?> DZ - <?php echo $detail['rincian_piece'] ?> PC</p>
+                                                                        <?php echo $detail['rincian_size'] ?> : <?php echo $detail['rincian_lusin'] ?> DZ - <?php echo $detail['rincian_piece'] ?> PC<br>
                                                                         <?php endforeach ?>
                                                                     <?php endif ?>
                                                                 <?php endforeach ?>
-                                                                
-
-
                                                             </td>
-                                                            <td>Rp. <?php echo number_format($gudang['harga_satuan']) ?></td>
+                                                            <td style="vertical-align: top;">Rp. <?php echo number_format($gudang['harga_satuan']) ?></td>
                                                             <?php  $jumlah += $gudang['jumlah_piece_diterima'];?>
-                                                            <td><?php echo $gudang['jumlah_piece_diterima'] ?></td>
-                                                            <td><?php $total += $gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']; echo number_format($gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']) ?></td>
-                                                            <td>
-																<?php echo $gudang['keterangan'] ?>
+                                                            <td style="vertical-align: top;"><?php echo $gudang['jumlah_piece_diterima'] ?></td>
+                                                            <td style="vertical-align: top;"><?php $total += $gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']; echo number_format($gudang['harga_satuan'] * $gudang['jumlah_piece_diterima']) ?></td>
+                                                            <td style="vertical-align: top;">
+																<?php echo !empty($gudang['keterangan']) ? $gudang['keterangan'].'<br>' : '' ?>
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>
                                                                         <?php foreach ($rinci as $key => $detail): ?>
-
-                                                                        <p><?php echo $detail['katerangan_gudang_rincian'] ?></p>
-                                                                        
+                                                                        <?php echo !empty($detail['katerangan_gudang_rincian']) ? $detail['katerangan_gudang_rincian'].'<br>' : '' ?>
                                                                         <?php endforeach ?>
                                                                     <?php endif ?>
                                                                 <?php endforeach ?>
@@ -129,14 +124,18 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <table class="table table-bordered">
-                                                <tr style="text-align: center;">
-                                                    <td width="100px"><b>PIC Gudang</b></td>
-                                                    <td width="100px"><b>Adm Finishing</b></td>
-                                                    <td width="100px"><b>Driver</b></td>
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered" style="width: 100%;">
+                                                <tr style="text-align: center; background-color: #f8f9fa;">
+                                                    <td width="20%"><b>PIC Gudang Tanah Abang</b></td>
+                                                    <td width="20%"><b>PIC Gudang H Sholeh</b></td>
+                                                    <td width="20%"><b>Adm Finishing</b></td>
+                                                    <td width="20%"><b>Driver</b></td>
+                                                    <td width="20%"><b>Security</b></td>
                                                 </tr>
                                                 <tr>
+                                                    <td style="height: 100px"></td>
+                                                    <td style="height: 100px"></td>
                                                     <td style="height: 100px"></td>
                                                     <td style="height: 100px"></td>
                                                     <td style="height: 100px"></td>
