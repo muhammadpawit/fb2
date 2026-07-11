@@ -63,7 +63,7 @@
             <table class="table table-bordered" id="listp">
                 <thead>
                     <tr>
-                        <th>Nama PO</th>
+                        <th style="width: 35%;">Nama PO</th>
                         <th>Serian</th>
                         <th>Stok</th>
                         <th>Harga</th>
@@ -95,7 +95,7 @@
         
         html ='';
         html +='<tr>';
-        html +='<td><select class="select2bs4" name="products['+i+'][id_po]"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id']?>" data-item="<?php echo $p['id'] ?>"><?php echo $p['kode_po']?> <?php echo $p['serian']?> <?php echo $p['id_size']?></option><?php }?></select></td>';
+        html +='<td><select class="select2bs4" name="products['+i+'][id_po]" style="width:100%"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id']?>" data-item="<?php echo $p['id'] ?>"><?php echo $p['kode_po']?> <?php echo isset($p['serian']) ? $p['serian'] : ''?> <?php echo isset($p['id_size']) ? $p['id_size'] : ''?></option><?php }?></select></td>';
         html +='<td><span class="id_size"></span></td>';
         html +='<td><span class="stok"></span></td>';
         html +='<td><input type="text" name="products['+i+'][harga]" class="harga" onkeyUp="hitung('+i+')" required></td>';

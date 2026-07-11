@@ -38,6 +38,9 @@ class OnlineModel extends CI_Model {
 		$this->db->insert('master_po_online',$insert);
 		$last_id = $this->db->insert_id();
 		foreach($data['products'] as $p){
+			if(empty($p['id_serian']) || empty($p['pcs']) || $p['pcs'] <= 0){
+				continue;
+			}
 			for($i=$p['id_size_from']; $i<=$p['id_size_to']; $i++){
 				$detail=array(
 					'id_master_po_online' => $last_id,
@@ -70,6 +73,19 @@ class OnlineModel extends CI_Model {
 		}
 		$this->db->update('master_po_online',array('pcs'=>$pcs),array('id'=>$data['id']));
 		return $update;
+	}
+
+	public function getDataPenjualanStok(){
+		$query =
+		"SELECT a.id,a.id_master_po_online,a.id_serian,a.pcs,b.harga,c.kode_po,
+		b.harga, c.kode_po,d.nama as serian, a.id_size as id_size 
+		FROM master_po_online_detail a 
+		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
+		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
+		LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
+		WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
+		";
+		return $this->db->query($query)->result_array();
 	}
 
 	public function getDataStok(){

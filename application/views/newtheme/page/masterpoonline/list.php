@@ -14,6 +14,7 @@
                         <th>No</th>
                         <th>Kode PO</th>
                         <th>CMT</th>
+                        <th>Size</th>
                         <th>Dz</th>
                         <th>Pcs</th>
                         <th>Action</th>
@@ -26,6 +27,16 @@
                             <td><?php echo $no++?></td>
                             <td><?php echo $c['kode_po']?></td>
                             <td><?php echo $c['namacmt']?></td>
+                            <td>
+                                <?php 
+                                    $sizes = $this->db->query("SELECT id_size FROM master_po_online_detail WHERE id_master_po_online='".$c['id']."' AND hapus=0 GROUP BY id_size")->result_array();
+                                    $size_arr = array();
+                                    foreach($sizes as $s) {
+                                        $size_arr[] = $s['id_size'];
+                                    }
+                                    echo implode(', ', $size_arr);
+                                ?>
+                            </td>
                             <td><?php echo number_format($c['pcs']/12,2)?></td>
                             <td><?php echo number_format($c['pcs'])?></td>
                             <td>

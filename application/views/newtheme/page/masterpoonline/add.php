@@ -14,7 +14,8 @@
     <div class="col-md-12">
         <div class="form-group">
             <label for="">Pilih CMT</label>
-            <select name="id_cmt" class="form-control select2bs4" required>
+            <input type="hidden" name="id_cmt" id="hidden_id_cmt">
+            <select id="select_id_cmt" class="form-control select2bs4" disabled required>
                 <option value="">Pilih</option>
                 <?php foreach($cmt as $c){ ?>
                     <option value="<?php echo $c['id_cmt']?>"><?php echo $c['cmt_name']?></option>
@@ -45,7 +46,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <label>Rincian PO</label>
+            <label>Rincian PO (Dari Finishing)</label>
+            <div id="rincian_po_finishing"></div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Rincian PO Online</label>
         </div>
     </div>
     <div class="col-md-12">
@@ -54,10 +61,10 @@
                 <thead>
                     <tr>
                         <th width="35%">Serian Warna</th>
-                        <th width="35%">Size Dari</th>
-                        <th width="35%">Size Sampai</th>
-                        <th width="10">
-                            <a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="add()"><i class="fa fa-plus"></i></a>
+                        <th width="30%">Size</th>
+                        <th width="30%">Qty (Pcs)</th>
+                        <th width="5%">
+                            <a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="add_empty()"><i class="fa fa-plus"></i></a>
                         </th>
                     </tr>
                 </thead>
@@ -77,20 +84,35 @@
 </form>
 <script>
     var i=0;
-    function add(){
-        
+    function add_empty(){
+        add_size('');
+    }
+
+    function add_size(size_val){
         html ='';
         html +='<tr>';
         html +='<td><select class="select2bs4" name="products['+i+'][id_serian]" style="width:100%"><option value="">Pilih</option><?php foreach($serian as $p){?><option value="<?php echo $p['id']?>"><?php echo $p['nama']?></option><?php }?></select></td>';
-        html +='<td><select class="select2bs4" name="products['+i+'][id_size_from]" style="width:100%"><option value="">Pilih</option><?php for($i=1; $i<=12;$i++){?><option value="<?php echo $i?>" <?php echo $i==1?'selected':''; ?>><?php echo $i?></option><?php }?></select></td>';
-        html +='<td><select class="select2bs4" name="products['+i+'][id_size_to]" style="width:100%"><option value="">Pilih</option><?php for($i=1; $i<=12;$i++){?><option value="<?php echo $i?>" <?php echo $i==12?'selected':''; ?>><?php echo $i?></option><?php }?></select></td>';
-        // html +='<td><input type="text" name="products['+i+'][pcs]" required></td>';
+        
+        if (size_val !== '') {
+            html +='<td><input type="text" class="form-control" value="'+size_val+'" readonly>';
+            html +='<input type="hidden" name="products['+i+'][id_size_from]" value="'+size_val+'">';
+            html +='<input type="hidden" name="products['+i+'][id_size_to]" value="'+size_val+'"></td>';
+        } else {
+            html +='<td><select class="select2bs4" name="products['+i+'][id_size_from]" style="width:100%"><option value="">Pilih</option><?php for($x=1; $x<=12;$x++){?><option value="<?php echo $x?>"><?php echo $x?></option><?php }?></select>';
+            html +='<input type="hidden" name="products['+i+'][id_size_to]" class="size_to_sync"></td>';
+        }
+
+        html +='<td><input type="number" class="form-control" name="products['+i+'][pcs]" value="0" min="0"></td>';
         html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td>';
-        html +='<tr>';
+        html +='</tr>';
         i++;
         $("#listp tbody").append(html);
         $('.select2bs4').select2();
         
+        // Sync id_size_to if id_size_from changes (for manual add)
+        $('select[name="products['+(i-1)+'][id_size_from]"]').on('change', function(){
+            $(this).siblings('.size_to_sync').val($(this).val());
+        });
     }
 
     function hitung(i) {
@@ -114,5 +136,69 @@
 
     $(document).on('click', '.remove', function(){
         $(this).closest('tr').remove();
+    });
+
+    $(document).ready(function(){
+        $('select[name="id_po"]').on('change', function(){
+            var id_po = $(this).val();
+            if(id_po != ''){
+                $('#rincian_po_finishing').html('Loading...');
+                $.ajax({
+                    url: '<?php echo BASEURL?>Finishing/detail_setoran_modal/'+id_po,
+                    type: 'GET',
+                    success: function(data){
+                        $('#rincian_po_finishing').html(data);
+                    },
+                    error: function(){
+                        $('#rincian_po_finishing').html('Gagal mengambil data');
+                    }
+                });
+                $.ajax({
+                    url: '<?php echo BASEURL?>Finishing/detail_setoran_json/'+id_po,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data){
+                        $("#listp tbody").empty();
+                        
+                        // Set CMT and make it readonly
+                        if(data.id_cmt){
+                            $('#select_id_cmt').val(data.id_cmt).trigger('change');
+                            $('#hidden_id_cmt').val(data.id_cmt);
+                        } else {
+                            $('#select_id_cmt').val('').trigger('change');
+                            $('#hidden_id_cmt').val('');
+                        }
+
+                        if(data.items && data.items.length > 0){
+                            data.items.forEach(function(item){
+                                var size_str = item.rincian_size;
+                                var parts = size_str.split('-');
+                                if(parts.length == 2){
+                                    var start = parseInt(parts[0].trim());
+                                    var end = parseInt(parts[1].trim());
+                                    if(!isNaN(start) && !isNaN(end)){
+                                        for(var s = start; s <= end; s++){
+                                            add_size(s);
+                                        }
+                                    }
+                                } else {
+                                    var s = parseInt(size_str.trim());
+                                    if(!isNaN(s)){
+                                        add_size(s);
+                                    } else if (size_str.trim() != '') {
+                                        add_size(size_str.trim());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }else{
+                $('#rincian_po_finishing').html('');
+                $("#listp tbody").empty();
+                $('#select_id_cmt').val('').trigger('change');
+                $('#hidden_id_cmt').val('');
+            }
+        });
     });
 </script>

@@ -87,7 +87,7 @@ class Penjualan extends CI_Controller {
 		$data['marketplace']=$this->PenjualanModel->getDataMarketplace();
 		// pre($data['marketplace']);
 		// $data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['po']=$this->OnlineModel->getDataStok();
+		$data['po']=$this->OnlineModel->getDataPenjualanStok();
 		// pre($data['po']);
 		$data['action'] = $this->url.'insert';
 		if(isset($get['excel'])){

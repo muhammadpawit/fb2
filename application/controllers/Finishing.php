@@ -1284,6 +1284,31 @@ class Finishing extends CI_Controller {
 		$this->load->view('kelolapo/rinciansetor/rincian-setor-detail-modal', $data);
 	}
 
+	public function detail_setoran_json($idpo)
+	{
+		$setor = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$idpo));
+		$items = [];
+		$id_cmt = '';
+		if(!empty($setor)){
+			$items = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish', array('id_kelolapo_rincian_setor_cmt' => $setor['id_kelolapo_rincian_setor_cmt']));
+			$nama_cmt = $setor['nama_cmt'];
+			$cmt = $this->GlobalModel->queryManualRow("SELECT id_cmt FROM master_cmt WHERE cmt_name = '".$nama_cmt."' AND hapus=0 LIMIT 1");
+			if(!empty($cmt)){
+				$id_cmt = $cmt['id_cmt'];
+			}
+		}
+
+		if(empty($id_cmt)){
+			$kks = $this->GlobalModel->queryManualRow("SELECT id_master_cmt FROM kelolapo_kirim_setor WHERE idpo='".$idpo."' AND kategori_cmt='JAHIT' ORDER BY id_kelolapo_kirim_setor DESC LIMIT 1");
+			$id_cmt = !empty($kks) ? $kks['id_master_cmt'] : '';
+		}
+		
+		echo json_encode(array(
+			'items' => $items,
+			'id_cmt' => $id_cmt
+		));
+	}
+
 	public function edit_setoran_modal($idpo)
 	{
 		$viewData['poProd']	= $this->GlobalModel->queryManualRow('SELECT kks.*, pp.id_proggresion_po FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.idpo=pp.id_produksi_po JOIN konveksi_buku_potongan kbp ON kks.idpo=kbp.idpo WHERE (kks.progress="'.'FINISHING'.'" OR  kks.progress="'.'SELESAI'.'") AND kks.idpo="'.$idpo.'"');

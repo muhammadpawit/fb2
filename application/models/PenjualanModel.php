@@ -13,7 +13,7 @@ class PenjualanModel extends CI_Model {
 		"SELECT a.*,b.nama as namacustomer,  b.no_hp, c.nama as marketplace FROM penjualan_online a 
 		LEFT JOIN customer b ON b.id=a.customer_id
 		LEFT JOIN marketplace c ON c.id=a.marketplace_id
-		WHERE a.hapus=0 ";
+		WHERE a.hapus=0 order by a.id desc";
 		return $this->db->query($query)->result_array();
 	}
 
