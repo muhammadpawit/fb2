@@ -356,27 +356,30 @@ class Insentifsecurity extends CI_Controller {
 	public function pdf($tanggal1,$tanggal2) {
 		$this->load->library('pdfgenerator');
 	
-		// Sample data retrieval
 		$no = 1;
 		$insentif = 200000;
 		$total = 0;
 
-		
-		// Sample database query to retrieve employees
 		$kar = $this->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 AND jabatan IN (10,46) ORDER BY nama ASC');
 	
-		// Start building the HTML content
-		$html = '<center><h2>Rekap Penilaian Insentif Security</h2></center>';
-		$html .= '<table border="1" style="width:100%; border-collapse:collapse;padding:5px">';
+		$html = '<style>
+			body { font-family: Arial, sans-serif; font-size: 11px; }
+			.table-data { width: 100%; border-collapse: collapse; }
+			.table-data th, .table-data td { border: 1px solid black; padding: 5px; }
+			h2 { font-size: 16px; font-weight: bold; margin-bottom: 20px; }
+		</style>';
+		$html .= '<center><h2><u>REKAPAN PENILAIAN INSENTIF SECURITY</u></h2></center>';
+		$html .= '<table class="table-data">';
 		$html .= "<thead>";
 		$html .= "<tr>";
-		$html .= "<th>No</th>";
-		$html .= "<th>Nama</th>";
-		$html .= "<th>Insentif</th>";
-		$html .= "<th>Potongan</th>";
-		$html .= "<th>Uang Tambahan</th>";
-		$html .= "<th>Total Yang Diterima</th>";
-		$html .= "<th>Ket</th>";
+		$html .= "<th>NO</th>";
+		$html .= "<th>NAMA</th>";
+		$html .= "<th>INSENTIF (RP)</th>";
+		$html .= "<th>POTONGAN (RP)</th>";
+		$html .= "<th>POTONGAN POS KOSONG</th>";
+		$html .= "<th>UANG TAMBAHAN (RP)</th>";
+		$html .= "<th>TOTAL YANG DITERIMA (RP)</th>";
+		$html .= "<th>KETERANGAN</th>";
 		$html .= "</tr>";
 		$html .= "</thead>";
 		$html .= "<tbody>";
@@ -392,14 +395,18 @@ class Insentifsecurity extends CI_Controller {
 				$uang_tambahan = $this->tambahan($potongan);
 				$total_diterima = $insentif - $potongan + $uang_tambahan;
 			}
-
 	
 			$html .= '<tr>';
 			$html .= '<td align="center">' . $no . '</td>';
-			$html .= '<td>&nbsp;' . $k['nama'] . '</td>';
+			$nama = strtoupper($k['nama']);
+			if(strpos($nama, 'PAK') === false) {
+				$nama = 'PAK ' . $nama;
+			}
+			$html .= '<td align="center">' . $nama . '</td>';
 			$html .= '<td align="center">' . number_format($insentif) . '</td>';
 			$html .= '<td align="center">' . number_format($potongan) . '</td>';
-			$html .= '<td align="center">' . number_format($uang_tambahan) . '</td>';
+			$html .= '<td></td>'; 
+			$html .= '<td align="center">' . (($uang_tambahan > 0) ? number_format($uang_tambahan) : '') . '</td>';
 			$html .= '<td align="center">' . ( ($total_diterima > 0 ) ? number_format($total_diterima) : 0 ) . '</td>';
 			$html .= '<td>' . ( ($total_diterima < 0 ) ? number_format($total_diterima) : null ) . '</td>';
 			$html .= '</tr>';
@@ -412,45 +419,53 @@ class Insentifsecurity extends CI_Controller {
 		$html .= "</tbody>";
 		$html .= "<tfoot>";
 		$html .= "<tr>";
-		$html .= "<td colspan='5' align='center'><b>Total</b></td>";
+		$html .= "<td colspan='6' align='center'><b>TOTAL</b></td>";
 		$html .= '<td align="center"><b>' . number_format($total) . '</b></td>';
 		$html .= "<td></td>";
 		$html .= "</tr>";
 		$html .= "</tfoot>";
 		$html .= '</table>';
 
-		// Additional content below the table
-		$html .= '<div style="margin-top: 20px; text-align: left; padding-left:500px;">'; // Changed to left alignment with padding
-		$html .= 'Jakarta, ' . date('d F Y', strtotime($tanggal2 . ' +1 day')) . ' <br>';
+		$bulan = array(
+			1 => 'Januari',
+			'Februari',
+			'Maret',
+			'April',
+			'Mei',
+			'Juni',
+			'Juli',
+			'Agustus',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+		);
+		
+		$tgl = date('d', strtotime($tanggal2 . ' +1 day'));
+		$bln = $bulan[(int)date('m', strtotime($tanggal2 . ' +1 day'))];
+		$thn = date('Y', strtotime($tanggal2 . ' +1 day'));
+		$tanggal_format = $tgl . ' ' . $bln . ' ' . $thn;
+
+		$html .= '<div style="margin-top: 20px; text-align: center; padding-left: 300px;">';
+		$html .= 'Jakarta, ' . $tanggal_format . '<br>';
 		$html .= '</div>';
-		$html .= '<div style="margin-top: 20px; text-align: left; padding-left: 300px;">';
-		$html .= '<div style="margin-top: 20px;">'; // Add some margin to the top
-		$html .= '<table style="width: 100%; border: none;">'; // No border for this table
+		$html .= '<div style="margin-top: 20px;">'; 
+		$html .= '<table style="width: 100%; border: none;">'; 
 		$html .= '<tr>';
-		$html .= '<td style="text-align: center;">Disetujui Oleh:<br>SPV</td>'; // Left side
-		$html .= '<td style="text-align: center;">Dibuat Oleh:<br>Adm Keu</td>'; // Right side
+		$html .= '<td style="text-align: center;">Di setujui oleh :<br><br><br><br><br>SPV</td>'; 
+		$html .= '<td style="text-align: center;">Di buat oleh :<br><br><br><br><br>ADM KEU</td>'; 
 		$html .= '</tr>';
 		$html .= '<tr>';
 		$html .= '<td style="text-align: center;"><br><br><br>(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>';
-		$html .= '<td style="text-align: center;"><br><br><br>(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>';
+		$html .= '<td style="text-align: center;"><br><br><br>( Mia Melia )</td>';
 		$html .= '</tr>';
 		$html .= '</table>';
 		$html .= '</div>';
-		// Footer
-		$html .= '<div style="position: absolute; bottom: 0; width: 100%; text-align: left;font-size:13px;">';
-		$html .= '<i class="registered">Registered by Forboys Production System ' . date('d-m-Y H:i:s') . '</i>';
-		$html .= '</div>';
 
-
-		
-		// pre($html);
-		// Prepare PDF parameters
-		$file_pdf = 'rekap_insentif_karyawan_' . date('YmdHis') . '.pdf'; // PDF file name
-		$paper = 'A4'; // Paper size
-		$orientation = 'portrait'; // Orientation
+		$file_pdf = 'rekap_insentif_karyawan_' . date('YmdHis') . '.pdf'; 
+		$paper = 'A4'; 
+		$orientation = 'portrait'; 
 	
-		// Run the pdf generator
 		$this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
 	}
-	
 }
