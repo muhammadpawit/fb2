@@ -2111,6 +2111,10 @@ class Gudang extends CI_Controller {
 				'text'=>'Detail',
 				'href'=>BASEURL.'Gudang/penerimaanitemdetail/'.$result['id'],
 			);
+			$action[]=array(
+				'text'=>'Edit',
+				'href'=>BASEURL.'Gudang/penerimaanitem_edit/'.$result['id'],
+			);
 
 			$action[]=array(
 				'text'=>'Ajukan Perubahan harga',
@@ -2425,6 +2429,99 @@ class Gudang extends CI_Controller {
 		$this->db->update('request_harga',array('status'=>1),array('id'=>$post['idrequest']));
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'gudang/penerimaanitemdetail_ubahharga/'.$post['id']);
+	}
+
+	public function penerimaanitem_edit($id) {
+		$data = array();
+		$data['title'] = 'Edit Penerimaan Item Masuk';
+		$data['action'] = BASEURL.'Gudang/penerimaanitem_editsave';
+		$data['results'] = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
+		$data['products'] = $this->GlobalModel->getData('penerimaan_item_detail', array('penerimaan_item_id' => $id, 'hapus' => 0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		$data['page'] = 'gudang/penerimaanitem/edit';
+		$this->load->view('newtheme/page/main', $data);
+	}
+
+	public function penerimaanitem_editsave() {
+		$data = $this->input->post();
+		$id = $data['id']; // id_penerimaan_item
+		
+		$parent = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
+		$old_products = $this->GlobalModel->getData('penerimaan_item_detail', array('penerimaan_item_id' => $id, 'hapus' => 0));
+
+		// Revert old stock
+		if($parent['jenis'] != 5) {
+			foreach($old_products as $op) {
+				$this->db->query("UPDATE product set ukuran_item =ukuran_item-'".$op['ukuran']."', quantity = quantity-'".$op['jumlah']."' WHERE product_id='".$op['id_persediaan']."' ");
+				$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'".$op['ukuran']."', jumlah_item = jumlah_item-'".$op['jumlah']."' WHERE id_persediaan='".$op['id_persediaan']."' ");
+			}
+		}
+
+		// Delete old products
+		$this->db->delete('penerimaan_item_detail', array('penerimaan_item_id' => $id));
+
+		// Update Parent
+		$update_parent = array(
+			'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+			'supplier' => $data['supplier'],
+			'nosj' => $data['nosj'],
+			'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
+			'jenis' => $data['jenis'],
+			'tipepembayaran' => $data['tipepembayaran']
+		);
+		$this->db->update('penerimaan_item', $update_parent, array('id' => $id));
+
+		// Insert new products and apply stock
+		if(isset($data['products']) && !empty($data['products'])){
+			foreach($data['products'] as $p){
+				$itd = array(
+					'penerimaan_item_id' => $id,
+					'id_persediaan' => $p['id_persediaan'],
+					'nama' => $p['nama'],
+					'ukuran' => $p['ukuran'],
+					'satuanukuran' => isset($p['satuanukuran']) ? $p['satuanukuran'] : '',
+					'jumlah' => $p['jumlah'],
+					'satuanJml' => isset($p['satuanJml']) ? $p['satuanJml'] : '',
+					'harga' => $p['harga'],
+					'keterangan' => $p['keterangan'],
+					'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+					'jenis' => $data['jenis'],
+					'hapus' => 0
+				);
+				$this->db->insert('penerimaan_item_detail', $itd);
+
+				if($data['jenis'] == 5){
+					$kartustok=array(
+						'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
+						'idproduct'=>$p['id_persediaan'],
+						'nama'=>$p['nama'],
+						'saldomasuk_uk'=>$p['jumlah'],
+						'saldomasuk_qty'=>0,
+						'harga'=>$p['harga'],
+						'sisa_qty'=>$p['jumlah'],
+						'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+					);
+					$this->db->insert('kartustok_product',$kartustok);
+				}else{
+					$kartustok=array(
+						'tanggal'=>date('Y-m-d'),
+						'idproduct'=>$p['id_persediaan'],
+						'nama'=>$p['nama'],
+						'saldomasuk_uk'=>$p['ukuran'],
+						'saldomasuk_qty'=>$p['jumlah'],
+						'harga'=>$p['harga'],
+						'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+					);
+					kartustok($kartustok,1);
+					$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', harga_beli='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
+					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+				}
+			}
+		}
+
+		$this->session->set_flashdata('msg', 'Data Berhasil Diubah');
+		redirect(BASEURL.'gudang/penerimaanitem');
 	}
 
 	public function penerimaanitem_hapus($id){

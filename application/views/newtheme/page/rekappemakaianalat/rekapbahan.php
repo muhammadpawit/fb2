@@ -45,17 +45,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $no=1;?>
 					<?php foreach($alat as $p){?>
 						<tr>
 							<td><?php echo $no++;?></td>
 							<td><?php echo $p['nama']?></td>
-							<?php foreach($p['po'] as $o){?>
+							<?php foreach($p['po'] as $o){
+								$yard = isset($usage_map[strtolower($p['nama'])][$o['nama_jenis_po']]['yard']) ? number_format($usage_map[strtolower($p['nama'])][$o['nama_jenis_po']]['yard'],2) : '0.00';
+								$roll = isset($usage_map[strtolower($p['nama'])][$o['nama_jenis_po']]['roll']) ? number_format($usage_map[strtolower($p['nama'])][$o['nama_jenis_po']]['roll'],2) : '0.00';
+							?>
 								<td>
 									<table>
 										<tr>
-											<td><?php echo $this->ReportModel->sum_jumlah_bahan_used_po($p['nama'],$o['nama_jenis_po'],$tanggal1,$tanggal2)['yard']; ?> yard</td>
-											<td><?php echo $this->ReportModel->sum_jumlah_bahan_used_po($p['nama'],$o['nama_jenis_po'],$tanggal1,$tanggal2)['roll']; ?> roll</td>
+											<td><?php echo $yard; ?> yard</td>
+											<td><?php echo $roll; ?> roll</td>
 										</tr>
 									</table>
 								</td>
@@ -64,6 +66,9 @@
 					<?php } ?>
 				</tbody>
 			</table>
+			<div class="mt-3">
+				<?php echo isset($pagination) ? $pagination : ''; ?>
+			</div>
 		</div>
 	</div>
 </div>

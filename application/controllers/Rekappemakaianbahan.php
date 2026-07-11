@@ -69,17 +69,90 @@ class Rekappemakaianbahan extends CI_Controller {
 		}
 
 		$data['alat']=[];
-		$sql="SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND nama_item IN(SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0) ";
-		$sql.=" ORDER BY nama_item ";
+		// Revert to IN for total count to avoid massive Cartesian join overhead
+		$jumlah_data = $this->GlobalModel->QueryManualRow("SELECT COUNT(*) as total FROM gudang_persediaan_item WHERE hapus=0 AND nama_item IN(SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0)");
+		
+		$this->load->library('pagination');
+		$config['base_url'] = BASEURL.'Rekappemakaianbahan?tanggal1='.$tanggal1.'&tanggal2='.$tanggal2.'&bag='.$bag;
+		$config['total_rows'] = isset($jumlah_data['total']) ? $jumlah_data['total'] : 0;
+		$config['per_page'] = 10;
+		$config['page_query_string'] = TRUE;
+		$config['query_string_segment'] = 'page';
+		
+		$config['full_tag_open'] = '<nav><ul class="pagination">';
+		$config['full_tag_close'] = '</ul></nav>';
+		$config['num_tag_open'] = '<li class="page-item">';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = '&raquo;';
+		$config['next_tag_open'] = '<li class="page-item">';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = '&laquo;';
+		$config['prev_tag_open'] = '<li class="page-item">';
+		$config['prev_tag_close'] = '</li>';
+		$config['attributes'] = array('class' => 'page-link');
+
+		// Prevent PHP 8.1+ deprecation warning in CI Pagination (ctype_digit null)
+		if (!isset($_GET['page'])) {
+			$_GET['page'] = 0;
+		}
+
+		$this->pagination->initialize($config);
+		$from = $this->input->get('page') ? (int)$this->input->get('page') : 0;
+		$data['pagination'] = $this->pagination->create_links();
+		$data['no'] = $from + 1;
+
+		// Revert to IN for the items query
+		$sql="SELECT * FROM gudang_persediaan_item WHERE hapus=0 AND nama_item IN(SELECT nama_item_keluar FROM gudang_bahan_keluar WHERE hapus=0) ORDER BY nama_item LIMIT ".$config['per_page']." OFFSET ".$from;
 		$results=$this->GlobalModel->QueryManual($sql);
+		
+		// Optimize: run query once instead of inside loop
+		$po_list = $this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE status=1 ORDER BY nama_jenis_po ");
+		
+		$item_names = [];
 		foreach($results as $row){
-			$po=$this->GlobalModel->QueryManual("SELECT * FROM master_jenis_po WHERE status=1 ORDER BY nama_jenis_po ");
+			$item_names[] = "'".$this->db->escape_str(strtolower($row['nama_item']))."'";
 			$data['alat'][]=array(
 				'id'=>$row['id_persediaan'],
 				'nama'=>strtolower($row['nama_item']),
-				'po'=>$po,
+				'po'=>$po_list,
 			);
 		}
+
+		$usage_map = [];
+		// initialize map
+		foreach($results as $row) {
+			$item = strtolower($row['nama_item']);
+			foreach($po_list as $po) {
+				$usage_map[$item][$po['nama_jenis_po']] = ['yard' => 0, 'roll' => 0];
+			}
+		}
+
+		if (!empty($item_names)) {
+			$item_names_str = implode(",", $item_names);
+			$sql_usage = "SELECT lower(nama_item_keluar) as item, kode_po, SUM(ukuran_item_keluar) as yard, SUM(jumlah_item_keluar) as roll FROM gudang_bahan_keluar WHERE hapus=0 ";
+			if(!empty($tanggal1)){
+				$sql_usage.="AND DATE(created_date) BETWEEN '$tanggal1' AND '$tanggal2'  ";
+			}
+			$sql_usage.=" AND lower(nama_item_keluar) IN ($item_names_str) ";
+			$sql_usage .= " GROUP BY lower(nama_item_keluar), kode_po ";
+			
+			$usage_results = $this->GlobalModel->QueryManual($sql_usage);
+			foreach($usage_results as $u) {
+				$item = strtolower($u['item']);
+				$kode_po = $u['kode_po'];
+				foreach($po_list as $po) {
+					$nama_po = $po['nama_jenis_po'];
+					if(strpos($kode_po, $nama_po) === 0) { // similar to LIKE 'PO%'
+						$usage_map[$item][$nama_po]['yard'] += $u['yard'];
+						$usage_map[$item][$nama_po]['roll'] += $u['roll'];
+					}
+				}
+			}
+		}
+		$data['usage_map'] = $usage_map;
+
 
 
 		$data['tambah']=$this->url.'add';
