@@ -88,6 +88,32 @@ class OnlineModel extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}
 
+	public function getDataPenjualanStokGrouped(){
+		$query =
+		"SELECT a.id_master_po_online, a.id_serian, c.kode_po, d.nama as serian
+		FROM master_po_online_detail a 
+		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
+		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
+		LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
+		WHERE a.hapus=0 AND b.hapus=0 AND a.pcs > 0 
+		GROUP BY a.id_master_po_online, a.id_serian
+		";
+		return $this->db->query($query)->result_array();
+	}
+
+	public function getPoSizes($id_master_po_online, $id_serian){
+		$query =
+		"SELECT a.id, a.pcs, b.harga, c.kode_po, d.nama as serian, e.nama as id_size
+		FROM master_po_online_detail a 
+		LEFT JOIN master_po_online b ON b.id = a.id_master_po_online
+		LEFT JOIN produksi_po c ON c.id_produksi_po=b.id_po
+		LEFT JOIN master_po_online_serian d ON d.id=a.id_serian
+		LEFT JOIN size_po_online e ON e.id = a.id_size
+		WHERE a.hapus=0 AND b.hapus=0 AND a.id_master_po_online='$id_master_po_online' AND a.id_serian='$id_serian' AND a.pcs > 0 
+		";
+		return $this->db->query($query)->result_array();
+	}
+
 	public function getDataStok(){
 		$hasil = [];
 		// $query =

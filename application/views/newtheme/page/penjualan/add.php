@@ -95,7 +95,7 @@
         
         html ='';
         html +='<tr>';
-        html +='<td><select class="select2bs4" name="products['+i+'][id_po]" style="width:100%"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id']?>" data-item="<?php echo $p['id'] ?>"><?php echo $p['kode_po']?> <?php echo isset($p['serian']) ? $p['serian'] : ''?> <?php echo isset($p['id_size']) ? $p['id_size'] : ''?></option><?php }?></select></td>';
+        html +='<td><select class="select2bs4 selectpo" style="width:100%"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id_master_po_online']?>-<?php echo $p['id_serian']?>"><?php echo $p['kode_po']?> <?php echo isset($p['serian']) ? $p['serian'] : ''?></option><?php }?></select></td>';
         html +='<td><span class="id_size"></span></td>';
         html +='<td><span class="stok"></span></td>';
         html +='<td><input type="text" name="products['+i+'][harga]" class="harga" onkeyUp="hitung('+i+')" required></td>';
@@ -109,25 +109,37 @@
         $('.select2bs4').select2();
 
         // Mengaktifkan Ajax saat pemilihan diubah
-        $(".select2bs4").on("change", function() {
+        $(".selectpo").on("change", function() {
             var selectedValue = $(this).val();
-            var dataItem = $(this).find(':selected').data('item');
+            if(!selectedValue) return;
+            var parts = selectedValue.split("-");
+            var id_master = parts[0];
+            var id_serian = parts[1];
             var dai = $(this).closest('tr');
 
             // Ganti URL dengan URL sebenarnya Anda
-            var url = "<?php echo BASEURL?>Masterpoonline/getPo?id=" + selectedValue;
+            var url = "<?php echo BASEURL?>Masterpoonline/getPoSizes?id_master_po_online=" + id_master + "&id_serian=" + id_serian;
 
             $.ajax({
                 type: "GET",
                 url: url,
                 success: function(data) {
-                    // console.log(response);
                     var obj = JSON.parse(data);
-                    console.log(obj);
-                    dai.find(".id_size").html(obj.serian+' '+obj.id_size);
-                    dai.find(".stok").html(obj.pcs);
-                    dai.find(".harga").val(obj.harga);
-                    // dai.find(".harga").attr("readonly",true);
+                    dai.remove();
+                    obj.forEach(function(item) {
+                        var newHtml = '<tr>';
+                        newHtml += '<td><input type="hidden" name="products['+i+'][id_po]" value="'+item.id+'">' + item.kode_po + ' ' + (item.serian ? item.serian : '') + '</td>';
+                        newHtml += '<td><span class="id_size">' + (item.id_size ? item.id_size : '') + '</span></td>';
+                        newHtml += '<td><span class="stok">' + item.pcs + '</span></td>';
+                        newHtml += '<td><input type="text" name="products['+i+'][harga]" class="harga" value="'+item.harga+'" onkeyup="hitung('+i+')" required></td>';
+                        newHtml += '<td><input type="text" name="products['+i+'][quantity]" autocomplete="off" onkeyup="hitung('+i+')" required></td>';
+                        newHtml += '<td><input type="text" name="products['+i+'][discount]" autocomplete="off" onkeyup="hitung('+i+')" value="0" required></td>';
+                        newHtml += '<td><input type="text" name="products['+i+'][jumlah]" required></td>';
+                        newHtml += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td>';
+                        newHtml += '</tr>';
+                        $("#listp tbody").append(newHtml);
+                        i++;
+                    });
                 },
             });
         });

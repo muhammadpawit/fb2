@@ -348,8 +348,20 @@ class Report extends CI_Controller {
 			}
 		}
 
+		$list_insentif_security=[];
+		$sql_insentif_security = "SELECT DATE_ADD(a.tanggal2, INTERVAL 1 DAY) as tanggal FROM rekapinsentif_security a WHERE DATE_ADD(a.tanggal2, INTERVAL 1 DAY) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY a.tanggal2 ";
+		$insentif_security_dates=$this->GlobalModel->QueryManual($sql_insentif_security);
+		if(!empty($insentif_security_dates)){
+			foreach($insentif_security_dates as $p){
+				$list_insentif_security[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
+
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon,$list_um_security);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon,$list_um_security,$list_insentif_security);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -597,6 +609,22 @@ class Report extends CI_Controller {
 						'bagian'=>$umd['bagian'],
 						'keterangan'=>'Uang Makan Security : '.$umd['nama'],
 					);
+				}
+			}
+
+			// Insentif Security
+			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE DATE_ADD(k.tanggal2, INTERVAL 1 DAY) = '".$p['tanggal']."'";
+			$insentif_sec_detail = $this->GlobalModel->QueryManual($sql_insentif_sec_detail);
+			if(!empty($insentif_sec_detail)){
+				foreach($insentif_sec_detail as $isd){
+					if ($isd['nominal'] > 0) {
+						$konveksi[]=array(
+							'tanggal'=>$p['tanggal'],
+							'nominal'=>$isd['nominal'],
+							'bagian'=>1,
+							'keterangan'=>'Insentif Security : '.$isd['nama'],
+						);
+					}
 				}
 			}
 

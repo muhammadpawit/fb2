@@ -101,6 +101,14 @@ class Masterpoonline extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	function getPoSizes(){
+		$get = $this->input->get();
+		$id_master_po_online  = $get['id_master_po_online'];
+		$id_serian = $get['id_serian'];
+		$data = $this->OnlineModel->getPoSizes($id_master_po_online, $id_serian);
+		echo json_encode($data);
+	}
+
 	function terima(){
 		// $input = $this->input->post();
 		// pre($input);
