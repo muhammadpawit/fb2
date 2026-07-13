@@ -349,7 +349,7 @@ class Report extends CI_Controller {
 		}
 
 		$list_insentif_security=[];
-		$sql_insentif_security = "SELECT DATE_ADD(a.tanggal2, INTERVAL 1 DAY) as tanggal FROM rekapinsentif_security a WHERE DATE_ADD(a.tanggal2, INTERVAL 1 DAY) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY a.tanggal2 ";
+		$sql_insentif_security = "SELECT a.tanggal2 as tanggal FROM rekapinsentif_security a WHERE a.tanggal2 BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY a.tanggal2 ";
 		$insentif_security_dates=$this->GlobalModel->QueryManual($sql_insentif_security);
 		if(!empty($insentif_security_dates)){
 			foreach($insentif_security_dates as $p){
@@ -613,7 +613,7 @@ class Report extends CI_Controller {
 			}
 
 			// Insentif Security
-			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE DATE_ADD(k.tanggal2, INTERVAL 1 DAY) = '".$p['tanggal']."'";
+			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE k.tanggal2 = '".$p['tanggal']."'";
 			$insentif_sec_detail = $this->GlobalModel->QueryManual($sql_insentif_sec_detail);
 			if(!empty($insentif_sec_detail)){
 				foreach($insentif_sec_detail as $isd){

@@ -441,9 +441,9 @@ class Insentifsecurity extends CI_Controller {
 			'Desember'
 		);
 		
-		$tgl = date('d', strtotime($tanggal2 . ' +1 day'));
-		$bln = $bulan[(int)date('m', strtotime($tanggal2 . ' +1 day'))];
-		$thn = date('Y', strtotime($tanggal2 . ' +1 day'));
+		$tgl = date('d', strtotime($tanggal2));
+		$bln = $bulan[(int)date('m', strtotime($tanggal2))];
+		$thn = date('Y', strtotime($tanggal2));
 		$tanggal_format = $tgl . ' ' . $bln . ' ' . $thn;
 
 		$html .= '<div style="margin-top: 20px; text-align: center; padding-left: 300px;">';
