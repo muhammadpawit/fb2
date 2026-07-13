@@ -13,6 +13,14 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Harga</label>
+                <input type="number" class="form-control" name="harga" value="<?php echo $prods['harga'] ?>" min="1" required>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-xs-12 table-responsive">
             <table class="table table-borderless table-hover">
                 <thead>
@@ -27,7 +35,7 @@
                     <?php foreach($products as $p){ ?>
                         <?php $serian = $this->GlobalModel->getDataRow('master_po_online_serian',array('id'=>$p['id_serian'])); ?>
                     <tr>
-                        <td><?php echo $prods['kode_po']?> <?php echo $serian['nama']?> Size <?php echo $p['id_size']?></td>
+                        <td><?php echo $prods['kode_po']?> <?php echo isset($serian['nama']) ? $serian['nama'] : ''?> Size <?php echo $p['id_size']?></td>
                         <td>
                             <select name="prods[<?php echo $i?>][id_serian]" id="id_serian" class="form-control select2bs4">
                                 <option value="">Pilih</option>

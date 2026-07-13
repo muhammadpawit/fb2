@@ -35,7 +35,7 @@
                     <?php foreach($products as $p){ ?>
                         <?php $serian = $this->GlobalModel->getDataRow('master_po_online_serian',array('id'=>$p['id_serian'])); ?>
                     <tr>
-                        <td><?php echo $prods['kode_po']?> <?php echo $serian['nama']?> Size <?php echo $p['id_size']?></td>
+                        <td><?php echo $prods['kode_po']?> <?php echo isset($serian['nama']) ? $serian['nama'] : ''?> Size <?php echo $p['id_size']?></td>
                         <td><?php echo number_format($prods['harga']) ?></td>
                         <td>
                             <input type="hidden" name="prods[<?php echo $i?>][id]" value="<?php echo $p['id'] ?>">

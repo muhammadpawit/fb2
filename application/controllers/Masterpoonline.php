@@ -233,4 +233,16 @@ class Masterpoonline extends CI_Controller {
 			redirect($this->url);
 		}
 	}
+
+	function hapus($id){
+		$save = $this->db->update('master_po_online', array('hapus'=>1), array('id'=>$id));
+		$this->db->update('master_po_online_detail', array('hapus'=>1), array('id_master_po_online'=>$id));
+		if($save){
+			$this->session->set_flashdata('msg','Data berhasil dihapus');
+			redirect($this->url);
+		}else{
+			$this->session->set_flashdata('gagal','Data gagal dihapus');
+			redirect($this->url);
+		}
+	}
 }

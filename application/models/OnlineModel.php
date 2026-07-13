@@ -38,14 +38,14 @@ class OnlineModel extends CI_Model {
 		$this->db->insert('master_po_online',$insert);
 		$last_id = $this->db->insert_id();
 		foreach($data['products'] as $p){
-			if(empty($p['id_serian']) || empty($p['pcs']) || $p['pcs'] <= 0){
+			if(empty($p['pcs']) || $p['pcs'] <= 0){
 				continue;
 			}
 			for($i=$p['id_size_from']; $i<=$p['id_size_to']; $i++){
 				$detail=array(
 					'id_master_po_online' => $last_id,
 					'id_size'			  => $i,
-					'id_serian'			  => $p['id_serian'],
+					'id_serian'			  => isset($p['id_serian']) && $p['id_serian'] !== '' ? $p['id_serian'] : 0,
 					'pcs'				  => isset($p['pcs']) ? $p['pcs']:0,
 					'hapus'			      => 0,
 				);
@@ -255,6 +255,9 @@ class OnlineModel extends CI_Model {
 	}
 
 	function updateDetail($data){
+		if(isset($data['harga'])){
+			$this->db->update('master_po_online', array('harga' => $data['harga']), array('id' => $data['id']));
+		}
 		foreach($data['prods'] as $p){
 			
 			$update = array(

@@ -38,7 +38,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label>Harga</label>
-            <input type="number" class="form-control" name="harga" value="0">
+            <input type="number" class="form-control" name="harga" value="" min="1" required>
         </div>
     </div>
     
