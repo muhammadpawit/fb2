@@ -162,6 +162,7 @@ class Utangusaha extends CI_Controller {
 
     public function invoice_delete($id) {
         $this->GlobalModel->updateData('acc_pembelian', ['id' => $id], ['hapus' => 1]);
+        $this->GlobalModel->updateData('acc_pembelian_detail', ['id_pembelian' => $id], ['hapus' => 1]);
         $this->session->set_flashdata('msg', 'Tagihan berhasil dihapus');
         redirect(BASEURL.'Utangusaha/invoice');
     }
@@ -181,7 +182,7 @@ class Utangusaha extends CI_Controller {
         }
         $exclude_pengajuan .= ")";
 
-        $exclude_penerimaan = "AND pd.id NOT IN (SELECT id_penerimaan_detail FROM acc_pembelian_detail WHERE id_penerimaan_detail IS NOT NULL";
+        $exclude_penerimaan = "AND pd.id NOT IN (SELECT id_penerimaan_detail FROM acc_pembelian_detail WHERE id_penerimaan_detail IS NOT NULL AND hapus=0";
         if (!empty($id_pembelian)) {
             $exclude_penerimaan .= " AND id_pembelian != '$id_pembelian'";
         }
@@ -212,6 +213,7 @@ class Utangusaha extends CI_Controller {
             FROM penerimaan_item_detail pd 
             JOIN penerimaan_item pi ON pi.id = pd.penerimaan_item_id 
             WHERE pi.supplier = '$id_supplier'
+            AND pi.tipepembayaran = 'Tempo'
             AND pd.hapus = 0 
             AND pi.hapus = 0
             AND DATE(pi.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'

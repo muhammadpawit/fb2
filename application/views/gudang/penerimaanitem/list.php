@@ -51,6 +51,15 @@
     </select>
   </div>
   <div class="col-md-2">
+    <label for="">Jenis Pembayaran</label>
+    <select name="tipepembayaran" id="tipepembayaran" class="form-control select2bs4">
+      <option value="*">Semua</option>
+      <option value="Cash" <?php echo isset($tipepembayaran) && $tipepembayaran=='Cash'?'selected':'';?>>Cash</option>
+      <option value="Transfer" <?php echo isset($tipepembayaran) && $tipepembayaran=='Transfer'?'selected':'';?>>Transfer</option>
+      <option value="Tempo" <?php echo isset($tipepembayaran) && $tipepembayaran=='Tempo'?'selected':'';?>>Tempo</option>
+    </select>
+  </div>
+  <div class="col-md-2">
     <div class="form-group">
       <label>Aksi</label><br>
       <button onclick="filters()" class="btn btn-info btn-sm">Filter</button>
@@ -160,9 +169,14 @@
     var tanggal2=$("#tanggal2").val();
     var cat=$("#cat").val();
     var status_pembayaran=$("#status_pembayaran").val();
+    var tipepembayaran=$("#tipepembayaran").val();
 
     if(status_pembayaran!='*'){
       url+='&status_pembayaran='+status_pembayaran;
+    }
+
+    if(tipepembayaran!='*'){
+      url+='&tipepembayaran='+tipepembayaran;
     }
 
     if(tanggal1){
@@ -191,6 +205,10 @@
     var url='?excel=1';
     var tanggal1=$("#tanggal1").val();
     var tanggal2=$("#tanggal2").val();
+    var cat=$("#cat").val();
+    var status_pembayaran=$("#status_pembayaran").val();
+    var tipepembayaran=$("#tipepembayaran").val();
+
     if(tanggal1){
       url+='&tanggal1='+tanggal1;
     }
@@ -199,6 +217,17 @@
       url+='&tanggal2='+tanggal2;
     }
 
+    if(cat!="*"){
+        url+='&cat='+cat;
+    }
+
+    if(status_pembayaran!='*'){
+      url+='&status_pembayaran='+status_pembayaran;
+    }
+
+    if(tipepembayaran!='*'){
+      url+='&tipepembayaran='+tipepembayaran;
+    }
 
     var filter_status = $('select[name=\'supplier_id\']').val();
 
