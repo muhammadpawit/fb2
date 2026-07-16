@@ -238,8 +238,27 @@ class Masterdata extends CI_Controller {
 		$data=[];
 		$data['title']='Daftar Menu';
 		$results=$this->GlobalModel->getData('menu',array('hapus'=>0));
-		//pre($results);
+		
+		$menuMap = [];
+        foreach($results as $r) {
+            $menuMap[$r['id']] = $r;
+        }
+
 		foreach($results as $result){
+            $currId = $result['parent_id'];
+            $lokasi = [];
+            while($currId != 0 && isset($menuMap[$currId])) {
+                $lokasi[] = $menuMap[$currId]['nama'];
+                $currId = $menuMap[$currId]['parent_id'];
+            }
+            $lokasi_str = '';
+            if(count($lokasi) > 0){
+                $lokasi = array_reverse($lokasi);
+                $lokasi_str = implode(' > ', $lokasi);
+            } else {
+                $lokasi_str = 'Menu Utama';
+            }
+
 			$data['menus'][]=array(
 				'id'=>$result['id'],
 				'nama'=>$result['nama'],
@@ -247,6 +266,7 @@ class Masterdata extends CI_Controller {
 				'parent_id'=>$result['parent_id'],
 				'urutan'=>$result['urutan'],
 				'icon'=>$result['icon'],
+				'lokasi'=>$lokasi_str,
 				'edit'=>BASEURL.'Masterdata/editmenu/'.$result['id'],
 				'delete'=>BASEURL.'Masterdata/hapusmenu/'.$result['id'],
 			);
@@ -339,9 +359,48 @@ class Masterdata extends CI_Controller {
 		$data['title']='Edit Menu';
 		$data['m']=$this->GlobalModel->GetDataRow('menu',array('id'=>$id));
 		$data['parent']=$this->GlobalModel->getData('menu',array('hapus'=>0,'parent'=>1));
-		$data['sub1']=$this->GlobalModel->getData('menu',array('hapus'=>0,'sub1'=>1));
-		$data['sub2']=$this->GlobalModel->getData('menu',array('hapus'=>0,'sub2'=>1));
-		$data['sub3']=$this->GlobalModel->getData('menu',array('hapus'=>0,'sub3'=>1));
+		
+        $m = $data['m'];
+        $group_id = 0;
+        $sub1_id = 0;
+        $sub2_id = 0;
+
+        if ($m['sub1'] == 1) {
+            $group_id = $m['parent_id'];
+        } elseif ($m['sub2'] == 1) {
+            $sub1_id = $m['parent_id'];
+            $parent1 = $this->GlobalModel->GetDataRow('menu',array('id'=>$sub1_id));
+            if($parent1) $group_id = $parent1['parent_id'];
+        } elseif ($m['sub3'] == 1) {
+            $sub2_id = $m['parent_id'];
+            $parent2 = $this->GlobalModel->GetDataRow('menu',array('id'=>$sub2_id));
+            if($parent2) {
+                $sub1_id = $parent2['parent_id'];
+                $parent1 = $this->GlobalModel->GetDataRow('menu',array('id'=>$sub1_id));
+                if($parent1) $group_id = $parent1['parent_id'];
+            }
+        }
+
+        $data['group_id'] = $group_id;
+        $data['sub1_id'] = $sub1_id;
+        $data['sub2_id'] = $sub2_id;
+
+        // Fetch the options for the dropdowns based on the selected IDs
+        $data['sub1_options'] = [];
+        if ($group_id > 0) {
+            $data['sub1_options'] = $this->GlobalModel->QueryManual("SELECT * FROM menu WHERE hapus=0 AND parent_id='".$group_id."' ORDER BY nama ");
+        }
+
+        $data['sub2_options'] = [];
+        if ($sub1_id > 0) {
+            $data['sub2_options'] = $this->GlobalModel->QueryManual("SELECT * FROM menu WHERE hapus=0 AND parent_id='".$sub1_id."' ORDER BY nama ");
+        }
+
+        $data['sub3_options'] = [];
+        if ($sub2_id > 0) {
+            $data['sub3_options'] = $this->GlobalModel->QueryManual("SELECT * FROM menu WHERE hapus=0 AND parent_id='".$sub2_id."' ORDER BY nama ");
+        }
+
 		$data['kembali']=BASEURL.'masterdata/menu';
 		$data['action']=BASEURL.'Masterdata/editmenu_save';
 		$data['page']=$this->page.'masterdata/menu_edit';
@@ -1584,7 +1643,11 @@ class Masterdata extends CI_Controller {
 					'href' => BASEURL.'Masterdata/userhapus/'.$u['id_user'],
 				);
 			}
-			
+			$batas_waktu = null;
+			$cek_batas = $this->GlobalModel->queryManualRow("SELECT batas FROM aksesdata WHERE waktu IS NOT NULL AND user_id='".$u['id_user']."' limit 1 ");
+			if(!empty($cek_batas)){
+				$batas_waktu = $cek_batas['batas'];
+			}
 			
 			$viewData['user'][]=array(
 				'id_user'=>$u['id_user'],
@@ -1595,6 +1658,7 @@ class Masterdata extends CI_Controller {
 				'foto'=>$u['foto'],
 				'jabatan_user'=>null,
 				'action'=>$action,
+				'batas_waktu' => $batas_waktu,
 			);
 		}
 		//$viewData['jabatan']=flagJabatan();

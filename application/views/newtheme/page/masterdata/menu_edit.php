@@ -27,7 +27,7 @@
 				<select name="parent_id" id="grouping" class="form-control select2bs4" data-live-search="true">
 					<option value="0">Pilih</option>
 					<?php foreach($parent as $p){?>
-						<option value="<?php echo $p['id']?>" <?php echo $m['parent_id']==$p['id']?'selected':'';?>><?php echo $p['nama']?></option>
+						<option value="<?php echo $p['id']?>" <?php echo $group_id==$p['id']?'selected':'';?>><?php echo $p['nama']?></option>
 					<?php } ?>
 				</select>
 			</div>
@@ -37,6 +37,9 @@
 				<label>Sub Menu 1</label>
 				<select name="sub1" id="sub1" class="form-control" data-live-search="true">
 					<option value="0">Pilih</option>
+					<?php foreach($sub1_options as $opt){ ?>
+						<option value="<?php echo $opt['id']?>" <?php echo $sub1_id == $opt['id'] ? 'selected' : ''; ?>><?php echo $opt['nama']?></option>
+					<?php } ?>
 				</select>
 			</div>
 		</div>
@@ -45,6 +48,9 @@
 				<label>Sub Menu 2</label>
 				<select name="sub2" id="sub2" class="form-control" data-live-search="true">
 					<option value="0">Pilih</option>
+					<?php foreach($sub2_options as $opt){ ?>
+						<option value="<?php echo $opt['id']?>" <?php echo $sub2_id == $opt['id'] ? 'selected' : ''; ?>><?php echo $opt['nama']?></option>
+					<?php } ?>
 				</select>
 			</div>
 		</div>
@@ -55,6 +61,9 @@
 				<label>Sub Menu 3</label>
 				<select name="sub3" id="sub3" class="form-control" data-live-search="true">
 					<option value="0">Pilih</option>
+					<?php foreach($sub3_options as $opt){ ?>
+						<option value="<?php echo $opt['id']?>" <?php echo ($m['sub3'] == 1 && $m['parent_id'] == $opt['id']) ? 'selected' : ''; ?>><?php echo $opt['nama']?></option>
+					<?php } ?>
 				</select>
 			</div>
 		</div>

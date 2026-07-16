@@ -30,7 +30,7 @@
 					<th>No</th>
 					<th>Nama Menu</th>
 					<th>Url</th>
-					<th>Parent</th>
+					<th>Lokasi</th>
 					<th>Urutan</th>
 					<th>Icon</th>
 					<th class="text-center">Aksi</th>
@@ -42,7 +42,7 @@
 						<td><?php echo $no++ ?></td>
 						<td><?php echo $m['nama']?></td>
 						<td><?php echo $m['url']?></td>
-						<td><?php echo $m['parent_id'] == 0 ? '<b>Root</b>' : GetName('menu', $m['parent_id']) ?></td>
+						<td><?php echo $m['lokasi'] ?></td>
 						<td><?php echo $m['urutan'] ?></td>
 						<td><i class="<?php echo $m['icon'] ?>"></i></td>
 						<td class="text-center">

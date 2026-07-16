@@ -27,6 +27,7 @@
                   <th>Image</th>
                   <th>Nama User</th>
                   <th>Status</th>
+                  <th>Batas Waktu</th>
                   <th width="100"></th>
                   <th width="100"></th>
                   <th width="100"></th>
@@ -40,6 +41,7 @@
                                 <td><img src="<?php echo $us['foto'] ?>" width="100px" height="100px"></td>
                                 <td><?php echo $us['nama_user'] ?></td>
                                 <td><?php echo $us['status_user']==1?'Aktif':'Non-aktif'; ?></td>
+                                <td><?php echo !empty($us['batas_waktu']) ? date('d-m-Y H:i:s', strtotime($us['batas_waktu'])) : '-'; ?></td>
                                 <?php foreach ($us['action'] as $action) { ?>
                                   <td width="100">
                                    
