@@ -42,18 +42,19 @@
         </tr>
       </thead>
       <tbody>
-        <?php $no=1; $total=0; foreach($pendapatan as $p){ ?>
+        <?php $no=1; $total=0; $total_dz_all=0; foreach($pendapatan as $p){ ?>
           <tr>
             <td><?php echo $no++ ?></td>
             <td><?php echo $p['jenis_po'] ?></td>
             <td><?php echo number_format($p['total_dz'], 2) ?></td>
             <td>Rp. <?php echo number_format($p['total_pendapatan']) ?></td>
           </tr>
-        <?php $total += $p['total_pendapatan']; } ?>
+        <?php $total += $p['total_pendapatan']; $total_dz_all += $p['total_dz']; } ?>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3" class="text-right"><b>Total</b></td>
+          <td colspan="2" class="text-right"><b>Total</b></td>
+          <td><b><?php echo number_format($total_dz_all, 2) ?></b></td>
           <td><b>Rp. <?php echo number_format($total) ?></b></td>
         </tr>
       </tfoot>
