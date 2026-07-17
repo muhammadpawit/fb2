@@ -46,15 +46,23 @@
             <div class="col-md-12">
               <h4>Daftar Item Disetujui (Gudang/Pengajuan)</h4>
               <div class="row mb-2">
-                <div class="col-md-4">
+                <div class="col-md-3">
                    <label>Filter Tanggal Awal</label>
                    <input type="date" id="filter_tgl_awal" class="form-control" value="<?php echo date('Y-m-01'); ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                    <label>Filter Tanggal Akhir</label>
                    <input type="date" id="filter_tgl_akhir" class="form-control" value="<?php echo date('Y-m-t'); ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                   <label>Sumber Data</label>
+                   <select id="filter_sumber" class="form-control">
+                     <option value="semua">Semua</option>
+                     <option value="pengajuan">Pengajuan Harian</option>
+                     <option value="penerimaan">Penerimaan Gudang</option>
+                   </select>
+                </div>
+                <div class="col-md-3">
                    <label>&nbsp;</label><br>
                    <button type="button" class="btn btn-info" id="btn-filter-pengajuan">Tampilkan Data</button>
                 </div>
@@ -65,6 +73,7 @@
                     <tr>
                       <th><input type="checkbox" id="checkAll"> Pilih</th>
                       <th>Tanggal</th>
+                      <th>Sumber</th>
                       <th>Nama Item</th>
                       <th>Qty</th>
                       <th>Metode Transfer</th>
@@ -73,7 +82,7 @@
                   </thead>
                   <tbody id="list-pengajuan">
                     <tr>
-                      <td colspan="6" class="text-center">Silakan pilih supplier terlebih dahulu</td>
+                      <td colspan="7" class="text-center">Silakan pilih supplier terlebih dahulu</td>
                     </tr>
                   </tbody>
                 </table>
@@ -83,7 +92,7 @@
 
           <div class="form-group">
             <label>Total Nominal</label>
-            <input type="number" step="0.01" name="total" class="form-control" value="<?php echo isset($tagihan) ? $tagihan['total'] : '' ?>" required>
+            <input type="number" step="0.01" name="total" class="form-control" value="<?php echo isset($tagihan) ? $tagihan['total'] : '' ?>" required readonly>
           </div>
           <div class="form-group">
             <label>Keterangan</label>
@@ -114,9 +123,11 @@
       let tgl_awal = $('#filter_tgl_awal').val();
       let tgl_akhir = $('#filter_tgl_akhir').val();
       let id_pembelian = $('input[name="id"]').val() || '';
+      let sumber_data = $('#filter_sumber').val();
       
       if(id_supplier) {
-        $('#list-pengajuan').html('<tr><td colspan="6" class="text-center">Loading...</td></tr>');
+        $('#checkAll').prop('checked', false);
+        $('#list-pengajuan').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>');
         $.ajax({
           url: '<?php echo BASEURL ?>Utangusaha/get_approved_pengajuan',
           type: 'POST',
@@ -124,7 +135,8 @@
             id_supplier: id_supplier,
             tgl_awal: tgl_awal,
             tgl_akhir: tgl_akhir,
-            id_pembelian: id_pembelian
+            id_pembelian: id_pembelian,
+            sumber_data: sumber_data
           },
           dataType: 'json',
           success: function(res) {
@@ -132,8 +144,9 @@
             if(res.length > 0) {
               $.each(res, function(i, item) {
                 let metode = item.pembayaran == 1 ? 'Cash' : (item.pembayaran == 2 ? 'Transfer' : '-');
-                let nominal = Math.ceil(parseFloat(item.harga) * parseFloat(item.jumlah));
+                let nominal = Math.round(parseFloat(item.harga) * parseFloat(item.jumlah));
                 let dateStr = item.tanggal ? item.tanggal.substring(0, 10) : '-';
+                let sumberStr = item.sumber ? item.sumber : '-';
                 
                 let isChecked = checked_details.includes(item.id) || checked_details.includes(item.id.toString()) ? 'checked' : '';
                 let isDisabled = isChecked ? '' : 'disabled';
@@ -141,6 +154,7 @@
                 html += '<tr>';
                 html += '<td><input type="checkbox" class="cek-item" name="id_pengajuan_detail[]" value="'+item.id+'" '+isChecked+'></td>';
                 html += '<td>'+dateStr+'</td>';
+                html += '<td>'+sumberStr+'</td>';
                 html += '<td>'+item.nama_item+'</td>';
                 html += '<td>'+item.jumlah+' '+item.satuan+'</td>';
                 html += '<td>'+metode+'</td>';
@@ -150,14 +164,14 @@
                 html += '</tr>';
               });
             } else {
-              html = '<tr><td colspan="6" class="text-center">Tidak ada item yang disetujui untuk supplier dan periode ini</td></tr>';
+              html = '<tr><td colspan="7" class="text-center">Tidak ada item yang disetujui untuk supplier dan periode ini</td></tr>';
             }
             $('#list-pengajuan').html(html);
             kalkulasiTotal();
           }
         });
       } else {
-        $('#list-pengajuan').html('<tr><td colspan="6" class="text-center">Silakan pilih supplier terlebih dahulu</td></tr>');
+        $('#list-pengajuan').html('<tr><td colspan="7" class="text-center">Silakan pilih supplier terlebih dahulu</td></tr>');
         kalkulasiTotal();
       }
     }

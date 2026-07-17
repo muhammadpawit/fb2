@@ -172,6 +172,7 @@ class Utangusaha extends CI_Controller {
         $tgl_awal = $this->input->post('tgl_awal');
         $tgl_akhir = $this->input->post('tgl_akhir');
         $id_pembelian = $this->input->post('id_pembelian');
+        $sumber_data = $this->input->post('sumber_data');
         
         $supplier = $this->db->query("SELECT nama FROM master_supplier WHERE id = '$id_supplier'")->row_array();
         $nama_supplier = $supplier ? $this->db->escape_str($supplier['nama']) : '';
@@ -188,40 +189,46 @@ class Utangusaha extends CI_Controller {
         }
         $exclude_penerimaan .= ")";
 
-        $query_pengajuan = $this->db->query("
-            SELECT CONCAT('pengajuan_', d.id) as id, d.id as original_id, p.tanggal, d.nama_item, d.jumlah, d.satuan, d.pembayaran, d.harga 
-            FROM pengajuan_harian_new_detail d 
-            JOIN pengajuan_harian_new p ON p.id = d.idpengajuan 
-            WHERE (d.supplier = '$id_supplier' OR d.supplier = '$nama_supplier') 
-            AND p.status = 1 
-            AND d.hapus = 0 
-            AND p.hapus = 0
-            AND DATE(p.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'
-            $exclude_pengajuan
-        ")->result_array();
+        $merged = [];
 
-        $query_penerimaan = $this->db->query("
-            SELECT CONCAT('penerimaan_', pd.id) as id, pd.id as original_id, pi.tanggal, pd.nama as nama_item, 
-            CASE WHEN pi.jenis = 1 THEN pd.ukuran ELSE pd.jumlah END as jumlah, 
-            CASE WHEN pi.jenis = 1 THEN pd.satuanukuran ELSE pd.satuanJml END as satuan, 
-            CASE 
-                WHEN pi.tipepembayaran = 'Cash' THEN 1 
-                WHEN pi.tipepembayaran = 'Transfer' THEN 2 
-                ELSE 3
-            END as pembayaran, 
-            pd.harga 
-            FROM penerimaan_item_detail pd 
-            JOIN penerimaan_item pi ON pi.id = pd.penerimaan_item_id 
-            WHERE pi.supplier = '$id_supplier'
-            AND pi.tipepembayaran = 'Tempo'
-            AND pd.hapus = 0 
-            AND pi.hapus = 0
-            AND DATE(pi.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'
-            $exclude_penerimaan
-        ")->result_array();
+        if (empty($sumber_data) || $sumber_data == 'semua' || $sumber_data == 'pengajuan') {
+            $query_pengajuan = $this->db->query("
+                SELECT CONCAT('pengajuan_', d.id) as id, d.id as original_id, p.tanggal, d.nama_item, d.jumlah, d.satuan, d.pembayaran, d.harga, 'Pengajuan Harian' as sumber
+                FROM pengajuan_harian_new_detail d 
+                JOIN pengajuan_harian_new p ON p.id = d.idpengajuan 
+                WHERE (d.supplier = '$id_supplier' OR d.supplier = '$nama_supplier') 
+                AND p.status = 1 
+                AND d.hapus = 0 
+                AND p.hapus = 0
+                AND DATE(p.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'
+                $exclude_pengajuan
+            ")->result_array();
+            $merged = array_merge($merged, $query_pengajuan);
+        }
 
-        $merged = array_merge($query_pengajuan, $query_penerimaan);
-        
+        if (empty($sumber_data) || $sumber_data == 'semua' || $sumber_data == 'penerimaan') {
+            $query_penerimaan = $this->db->query("
+                SELECT CONCAT('penerimaan_', pd.id) as id, pd.id as original_id, pi.tanggal, pd.nama as nama_item, 
+                CASE WHEN pi.jenis = 1 THEN pd.ukuran ELSE pd.jumlah END as jumlah, 
+                CASE WHEN pi.jenis = 1 THEN pd.satuanukuran ELSE pd.satuanJml END as satuan, 
+                CASE 
+                    WHEN pi.tipepembayaran = 'Cash' THEN 1 
+                    WHEN pi.tipepembayaran = 'Transfer' THEN 2 
+                    ELSE 3
+                END as pembayaran, 
+                pd.harga, 'Penerimaan Gudang' as sumber
+                FROM penerimaan_item_detail pd 
+                JOIN penerimaan_item pi ON pi.id = pd.penerimaan_item_id 
+                WHERE pi.supplier = '$id_supplier'
+                AND pi.tipepembayaran = 'Tempo'
+                AND pd.hapus = 0 
+                AND pi.hapus = 0
+                AND DATE(pi.tanggal) BETWEEN '$tgl_awal' AND '$tgl_akhir'
+                $exclude_penerimaan
+            ")->result_array();
+            $merged = array_merge($merged, $query_penerimaan);
+        }
+
         echo json_encode($merged);
     }
 
