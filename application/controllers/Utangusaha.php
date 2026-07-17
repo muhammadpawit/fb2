@@ -124,6 +124,50 @@ class Utangusaha extends CI_Controller {
         $this->load->view($this->layout, $data);
     }
 
+    public function invoice_detail($id) {
+        $data = [];
+        $data['title'] = 'Rincian Tagihan Pembelian';
+        $data['tagihan'] = $this->db->query("
+            SELECT p.*, s.nama as nama_supplier
+            FROM acc_pembelian p
+            JOIN master_supplier s ON s.id = p.id_supplier
+            WHERE p.id = '$id'
+        ")->row_array();
+        
+        $data['batal'] = BASEURL.'Utangusaha/invoice';
+        $data['page'] = $this->page.'pembelian_detail';
+
+        $details = $this->db->query("
+            SELECT d.*, 
+            CASE 
+                WHEN d.id_pengajuan_detail IS NOT NULL THEN (SELECT nama_item FROM pengajuan_harian_new_detail WHERE id = d.id_pengajuan_detail)
+                WHEN d.id_penerimaan_detail IS NOT NULL THEN (SELECT nama FROM penerimaan_item_detail WHERE id = d.id_penerimaan_detail)
+            END as nama_item,
+            CASE 
+                WHEN d.id_pengajuan_detail IS NOT NULL THEN (SELECT jumlah FROM pengajuan_harian_new_detail WHERE id = d.id_pengajuan_detail)
+                WHEN d.id_penerimaan_detail IS NOT NULL THEN (SELECT CASE WHEN pi.jenis = 1 THEN pd.ukuran ELSE pd.jumlah END FROM penerimaan_item_detail pd JOIN penerimaan_item pi ON pi.id = pd.penerimaan_item_id WHERE pd.id = d.id_penerimaan_detail)
+            END as jumlah,
+            CASE 
+                WHEN d.id_pengajuan_detail IS NOT NULL THEN (SELECT satuan FROM pengajuan_harian_new_detail WHERE id = d.id_pengajuan_detail)
+                WHEN d.id_penerimaan_detail IS NOT NULL THEN (SELECT CASE WHEN pi.jenis = 1 THEN pd.satuanukuran ELSE pd.satuanJml END FROM penerimaan_item_detail pd JOIN penerimaan_item pi ON pi.id = pd.penerimaan_item_id WHERE pd.id = d.id_penerimaan_detail)
+            END as satuan,
+            CASE 
+                WHEN d.id_pengajuan_detail IS NOT NULL THEN 'Pengajuan Harian'
+                WHEN d.id_penerimaan_detail IS NOT NULL THEN 'Penerimaan Gudang'
+            END as sumber,
+            CASE 
+                WHEN d.id_pengajuan_detail IS NOT NULL THEN (SELECT p.tanggal FROM pengajuan_harian_new_detail pd JOIN pengajuan_harian_new p ON p.id = pd.idpengajuan WHERE pd.id = d.id_pengajuan_detail)
+                WHEN d.id_penerimaan_detail IS NOT NULL THEN (SELECT pi.tanggal FROM penerimaan_item_detail pcd JOIN penerimaan_item pi ON pi.id = pcd.penerimaan_item_id WHERE pcd.id = d.id_penerimaan_detail)
+            END as tanggal_item
+            FROM acc_pembelian_detail d
+            WHERE d.id_pembelian = '$id' AND d.hapus = 0
+        ")->result_array();
+        
+        $data['details'] = $details;
+        
+        $this->load->view($this->layout, $data);
+    }
+
     public function invoice_update() {
         $post = $this->input->post();
         $id_pembelian = $post['id'];
