@@ -247,7 +247,12 @@ class Masterdata extends CI_Controller {
 		foreach($results as $result){
             $currId = $result['parent_id'];
             $lokasi = [];
+            $visited = [];
             while($currId != 0 && isset($menuMap[$currId])) {
+                if (in_array($currId, $visited)) {
+                    break; // Mencegah infinite loop jika ada parent_id yang saling berulang (circular reference)
+                }
+                $visited[] = $currId;
                 $lokasi[] = $menuMap[$currId]['nama'];
                 $currId = $menuMap[$currId]['parent_id'];
             }
