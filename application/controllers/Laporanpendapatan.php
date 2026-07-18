@@ -32,7 +32,7 @@ class Laporanpendapatan extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1 = $get['tanggal1'];
 		}else{
-			$tanggal1 = date('Y-m-d',strtotime("monday -3 weeks"));
+			$tanggal1 = date('Y-m-d',strtotime("first day of this month"));
 		}
 
 		if(isset($get['tanggal2'])){
