@@ -97,6 +97,62 @@
                 </a>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#9C27B0 !important;color: white">
+                <div class="inner">
+                <h3><?php echo $ajuan_mingguan['kemeja']; ?></h3>
+                <p >Ajuan Kirim Kemeja (Belum ACC)</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-file-text"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Gudang/ajuanmingguan_kemeja?spv=true' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#FF9800 !important;color: white">
+                <div class="inner">
+                <h3><?php echo $ajuan_mingguan['kaos']; ?></h3>
+                <p >Ajuan Kirim Kaos (Belum ACC)</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-file-text"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Gudang/ajuanmingguan?spv=true' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#009688 !important;color: white">
+                <div class="inner">
+                <h3><?php echo $ajuan_mingguan['seragam']; ?></h3>
+                <p >Ajuan PO Seragam (Belum ACC)</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-file-text"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Gudang/ajuanmingguanseragam' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#607D8B !important;color: white">
+                <div class="inner">
+                <h3><?php echo $ajuan_mingguan['celana']; ?></h3>
+                <p >Ajuan Kirim Celana (Belum ACC)</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-file-text"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Gudang/ajuanmingguancelana' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 </div>
 <hr>
 <div class="row">

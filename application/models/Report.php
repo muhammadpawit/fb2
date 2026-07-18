@@ -374,4 +374,33 @@ class Report extends CI_Model {
 		$data = $this->GlobalModel->QueryManualRow($sql);
 		return !empty($data) ? (int)$data['total'] : 0;
 	}
+
+	/**
+	 * Get counts of unapproved Ajuan Mingguan (jml_acc = 0)
+	 * Returns an array with counts for kemeja, kaos, seragam, and celana.
+	 */
+	function ajuanMingguanCount(){
+		// Kemeja
+		$sqlKemeja = "SELECT COUNT(*) as total FROM ajuan_mingguan_kemeja WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$dataKemeja = $this->GlobalModel->QueryManualRow($sqlKemeja);
+		
+		// Kaos (typeajuan = 'alat-alat')
+		$sqlKaos = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='alat-alat' AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$dataKaos = $this->GlobalModel->QueryManualRow($sqlKaos);
+		
+		// Seragam
+		$sqlSeragam = "SELECT COUNT(*) as total FROM ajuan_mingguan_seragam WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$dataSeragam = $this->GlobalModel->QueryManualRow($sqlSeragam);
+		
+		// Celana (typeajuan = 'celana')
+		$sqlCelana = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$dataCelana = $this->GlobalModel->QueryManualRow($sqlCelana);
+		
+		return [
+			'kemeja' => !empty($dataKemeja) ? (int)$dataKemeja['total'] : 0,
+			'kaos' => !empty($dataKaos) ? (int)$dataKaos['total'] : 0,
+			'seragam' => !empty($dataSeragam) ? (int)$dataSeragam['total'] : 0,
+			'celana' => !empty($dataCelana) ? (int)$dataCelana['total'] : 0,
+		];
+	}
 }

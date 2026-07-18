@@ -611,6 +611,8 @@ class Dash extends CI_Controller {
 		// Form pengambilan alat waiting validation (status 2)
 		$data['formalat_menunggu'] = $this->Report->formAlatMenungguCount();
 		
+		$data['ajuan_mingguan'] = $this->Report->ajuanMingguanCount();
+		
 		$data['id_user']=$user['id_user'];
 		// borongan finishing
 		$data['buangBenang'] 	= $this->Report->BuangBenang('count');
