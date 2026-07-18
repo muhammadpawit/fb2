@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Masuk Gajian</label><br>
-                                    <select name="masuk_gajian" class="form-control select2bs4" required>
+                                    <select name="masuk_gajian" id="masuk_gajian" class="form-control select2bs4" required>
                                         <option value="Ya" selected>Ya</option>
                                         <option value="Tidak">Tidak</option>
                                     </select>
@@ -58,6 +58,27 @@
                     </form>
 <script type="text/javascript">
 $(document).ready(function(){
+    $(document).on('change', 'select[name="idkaryawanharian"]', function(){
+        var nama_karyawan = $(this).find('option:selected').text().toLowerCase();
+        
+        $('#hidden_masuk_gajian').remove(); // bersihkan hidden input jika ada
+
+        if(nama_karyawan.includes('kandar')){
+            $('#masuk_gajian').val('Tidak').trigger('change');
+            $('#masuk_gajian').prop('disabled', true);
+            
+            // Tambahkan hidden input agar value 'Tidak' tetap dikirim karena select disabled tidak mengirim value
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'hidden_masuk_gajian',
+                name: 'masuk_gajian',
+                value: 'Tidak'
+            }).insertAfter('#masuk_gajian');
+        } else {
+            $('#masuk_gajian').prop('disabled', false);
+        }
+    });
+
     $(document).on('click', '.addborongan', function(){
         var html = '';
         html += '<tr>';
