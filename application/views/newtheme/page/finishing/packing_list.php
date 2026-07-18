@@ -38,6 +38,7 @@
 							<tr>
 								<th>Tanggal</th>
 								<th>Nama PO</th>
+								<th>Nama Karyawan</th>
 								<th>Jml dz</th>
 								<th>Harga dz</th>
 								<th>Total</th>
@@ -51,6 +52,7 @@
 							<tr>
 								<td><?php echo formatTanggalIndo($p['creted_date'])?></td>
 								<td><?php echo strtoupper($p['nama_po']) ?></td>
+								<td><?php echo strtoupper($p['nama_karyawan']) ?></td>
 								<td><?php echo $p['jumlah_dz']?></td>
 								<td><?php echo $p['harga_dz'] ?></td>
 								<td><?php echo number_format($p['jumlah_pendapatan']) ?></td>

@@ -828,9 +828,9 @@ class Finishing extends CI_Controller {
 		}
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
-		$sql="SELECT * FROM packing WHERE hapus=0 ";
-		$sql.=" AND date(creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		$sql.=" ORDER BY creted_date DESC ";
+		$sql="SELECT p.*, k.nama as nama_karyawan FROM packing p LEFT JOIN karyawan_harian k ON k.id=p.idkaryawanharian WHERE p.hapus=0 ";
+		$sql.=" AND date(p.creted_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql.=" ORDER BY p.creted_date DESC ";
 		$data['products']=$this->GlobalModel->queryManual($sql);
 		$data['no']=1;
 		$data['title']='Borongan Packing';
