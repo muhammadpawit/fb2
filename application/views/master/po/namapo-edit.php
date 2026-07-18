@@ -35,6 +35,12 @@
 				</select>
 			</div>
 		</div>
+		<div class="col-md-12">
+			<div class="form-group">
+				<label>Perkalian Pendapatan Finishing</label>
+				<input type="text" name="perkalian_pendapatan_finishing" value="<?php echo $p['perkalian_pendapatan_finishing']?>" class="form-control">
+			</div>
+		</div>
 		<div class="col-md-6">
 			<div class="form-group">
 				<input type="submit" name="simpan" class="btn btn-success btn-full full" value="Simpan">

@@ -47,9 +47,14 @@ class Laporanpendapatan extends CI_Controller {
 		$sql = "SELECT 
 					COALESCE(pr.nama_po, p.nama_po) as jenis_po, 
 					SUM(p.jumlah_dz) as total_dz, 
-					SUM(p.jumlah_pendapatan) as total_pendapatan 
+					COALESCE(MAX(mjp.perkalian_pendapatan_finishing), 0) as nominal_perkalian,
+					IF(COALESCE(MAX(mjp.perkalian_pendapatan_finishing), 0) > 0, 
+						SUM(p.jumlah_dz) * MAX(mjp.perkalian_pendapatan_finishing), 
+						SUM(p.jumlah_pendapatan)
+					) as total_pendapatan 
 				FROM packing p 
 				LEFT JOIN produksi_po pr ON pr.kode_po = p.nama_po 
+				LEFT JOIN master_jenis_po mjp ON mjp.nama_jenis_po = COALESCE(pr.nama_po, p.nama_po)
 				WHERE p.hapus=0 AND DATE(p.creted_date) BETWEEN '$tanggal1' AND '$tanggal2' 
 				GROUP BY COALESCE(pr.nama_po, p.nama_po) 
 				ORDER BY total_pendapatan DESC";

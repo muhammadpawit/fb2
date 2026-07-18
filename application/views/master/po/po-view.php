@@ -51,6 +51,7 @@
                             <th>Type</th>
                             <th>Tampilkan Di laporan</th>
                             <th>PO online</th>
+                            <th>Perkalian Pendapatan Finishing</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -61,6 +62,7 @@
                                 <td><?php echo $sat['idjenis']==1?'Kemeja':'Kaos' ?></td>
                                 <td><?php echo $sat['tampil']==1?'Ya':'Tidak' ?></td>
                                 <td><?php echo $sat['online'] ?></td>
+                                <td><?php echo $sat['perkalian_pendapatan_finishing'] ?></td>
                                 <td>
                                     <a href="<?php echo BASEURL.'Masterdata/editnamapo/'.$sat['id_jenis_po'] ?>" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></a>
                                 </td>

@@ -24,6 +24,10 @@
                             <label>Kode Artikel</label>
                             <input type="text" value="0" class="form-control" name="artikel_jenis_po" required>
                         </div>
+                        <div class="form-group">
+                            <label>Perkalian Pendapatan Finishing</label>
+                            <input type="text" class="form-control" name="perkalian_pendapatan_finishing">
+                        </div>
                         <button type="submit" class="btn btn-info btn-sm text-white">Simpan</button>
                    </form>
 

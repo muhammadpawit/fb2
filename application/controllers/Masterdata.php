@@ -2116,6 +2116,7 @@ class Masterdata extends CI_Controller {
 			'idjenis'=>$post['idjenis'],
 			'tampil'=>$post['tampil'],
 			'online'=>$post['online'],
+			'perkalian_pendapatan_finishing'=>$post['perkalian_pendapatan_finishing'],
 		);
 		$where=array(
 			'id_jenis_po'=>$post['id_jenis_po'],
@@ -2159,6 +2160,7 @@ class Masterdata extends CI_Controller {
 			'tampil'  => 1,
 
 			'status'=>1,
+			'perkalian_pendapatan_finishing' => $post['perkalian_pendapatan_finishing'],
 
 		);
 

@@ -38,6 +38,7 @@
           <th>No</th>
           <th>Jenis PO</th>
           <th>Total Dz</th>
+          <th>Nominal Perkalian</th>
           <th>Total Pendapatan</th>
         </tr>
       </thead>
@@ -47,6 +48,7 @@
             <td><?php echo $no++ ?></td>
             <td><?php echo $p['jenis_po'] ?></td>
             <td><?php echo number_format($p['total_dz'], 2) ?></td>
+            <td><?php echo number_format($p['nominal_perkalian'], 2) ?></td>
             <td>Rp. <?php echo number_format($p['total_pendapatan']) ?></td>
           </tr>
         <?php $total += $p['total_pendapatan']; $total_dz_all += $p['total_dz']; } ?>
@@ -55,6 +57,7 @@
         <tr>
           <td colspan="2" class="text-right"><b>Total</b></td>
           <td><b><?php echo number_format($total_dz_all, 2) ?></b></td>
+          <td></td>
           <td><b>Rp. <?php echo number_format($total) ?></b></td>
         </tr>
       </tfoot>
