@@ -152,11 +152,22 @@ class Laporanpendapatan extends CI_Controller {
 			}
 			$anakBorongan = pembulatangaji($gajim) + pembulatangaji($cucians) + pembulatangaji($bbs) + pembulatangaji($pkg);
 			
-			// Tabung gas = 0 for now
+			// Tabung gas
 			$tabungGas = 0;
+			$namaTabungGas = '';
+			$gas = $this->GlobalModel->queryManualRow("SELECT SUM(nominal) as total, GROUP_CONCAT(DISTINCT keterangan SEPARATOR ', ') as ket FROM pengeluaran_finishing WHERE hapus=0 AND DATE(tanggal) BETWEEN '".$w1."' AND '".$w2."' AND lower(keterangan) LIKE '%tabung gas%' ");
+			if(!empty($gas) && $gas['total'] > 0){
+				$tabungGas = $gas['total'];
+				if(!empty($gas['ket'])) {
+					$namaTabungGas = $gas['ket'];
+				}
+			}
 			
-			// Get the week number for tabung gas label
+			// Get the week number for tabung gas label fallback
 			$weekNum = date('W', strtotime($w1));
+			if(empty($namaTabungGas)){
+				$namaTabungGas = 'Tabung Gas ';
+			}
 			
 			$allWeeks[] = array(
 				'label' => $week['label'],
@@ -166,6 +177,7 @@ class Laporanpendapatan extends CI_Controller {
 				'anak_harian' => $anakHarian,
 				'anak_borongan' => $anakBorongan,
 				'tabung_gas' => $tabungGas,
+				'nama_tabung_gas' => $namaTabungGas,
 				'week_num' => $weekNum,
 			);
 		}

@@ -96,7 +96,7 @@
             
             // Calculate pengeluaran items for this week
             $pengeluaran = array();
-            $pengeluaran[] = array('label' => 'Tabung Gas ' . $week['week_num'], 'nominal' => $week['tabung_gas']);
+            $pengeluaran[] = array('label' => $week['nama_tabung_gas'], 'nominal' => $week['tabung_gas']);
             $pengeluaran[] = array('label' => 'Anak Harian', 'nominal' => $week['anak_harian']);
             $pengeluaran[] = array('label' => 'Anak Borongan', 'nominal' => $week['anak_borongan']);
             
