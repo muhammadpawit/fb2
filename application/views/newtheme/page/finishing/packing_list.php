@@ -58,11 +58,17 @@
 								<td><?php echo number_format($p['jumlah_pendapatan']) ?></td>
 								<td><?php echo $p['keterangan'] ?></td>
 								<td>
+									<?php 
+									$is_kandar = (stripos($p['nama_karyawan'], 'kandar') !== false);
+									$link_no = $is_kandar ? '#' : BASEURL.'Finishing/gajipackingno/'.$p['id'];
+									$link_yes = $is_kandar ? '#' : BASEURL.'Finishing/gajipackingyes/'.$p['id'];
+									$disabled_class = $is_kandar ? 'disabled' : '';
+									?>
 									<?php if($p['gaji']==1){?>
-										<a href="<?php echo BASEURL ?>Finishing/gajipackingno/<?php echo $p['id'] ?>" class="btn btn-success btn-xs"> <i class="fa fa-check"></i> </a>
+										<a href="<?php echo $link_no ?>" class="btn btn-success btn-xs <?php echo $disabled_class; ?>" <?php echo $is_kandar ? 'onclick="return false;"' : ''; ?>> <i class="fa fa-check"></i> </a>
 									<?php } ?>
 									<?php if($p['gaji']==2){?>
-										<a href="<?php echo BASEURL ?>Finishing/gajipackingyes/<?php echo $p['id'] ?>" class="btn btn-danger btn-xs"> <i class="fa fa-window-close"></i> </a>
+										<a href="<?php echo $link_yes ?>" class="btn btn-danger btn-xs <?php echo $disabled_class; ?>" <?php echo $is_kandar ? 'onclick="return false;"' : ''; ?>> <i class="fa fa-window-close"></i> </a>
 									<?php } ?>
 								</td>
 								<td>
