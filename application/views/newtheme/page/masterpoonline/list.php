@@ -40,7 +40,7 @@
                             <td><?php echo number_format($c['pcs']/12,2)?></td>
                             <td><?php echo number_format($c['pcs'])?></td>
                             <td>
-                              <a href="<?php echo $link ?>detail/<?php echo $c['id']?>" class="btn btn-xs btn-info">Terima QTY</a>
+                              <a href="<?php echo $link ?>detail/<?php echo $c['id']?>" class="btn btn-xs btn-info">Detail</a>
                               <a href="<?php echo $link ?>edit/<?php echo $c['id']?>" class="btn btn-xs btn-warning">Edit</a>
                               <a href="<?php echo $link ?>hapus/<?php echo $c['id']?>" class="btn btn-xs btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Hapus</a>
                             </td>

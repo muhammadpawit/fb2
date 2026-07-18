@@ -27,29 +27,42 @@ class OnlineModel extends CI_Model {
 	}
 
 	function insert($data){
+		$total_pcs = 0;
+		if(isset($data['products'])){
+			foreach($data['products'] as $p){
+				if(empty($p['pcs']) || $p['pcs'] <= 0) continue;
+				for($i=$p['id_size_from']; $i<=$p['id_size_to']; $i++){
+					$total_pcs += $p['pcs'];
+				}
+			}
+		}
+
 		$insert = array(
 			'id_po' => $data['id_po'],
 			'id_cmt' => $data['id_cmt'],
 			'harga' => $data['harga'],
-			'dz' => isset($data['dz']) ? $data['dz']:0,
-			'pcs' => isset($data['pcs']) ? $data['pcs']:0,
+			'dz' => $total_pcs / 12,
+			'pcs' => $total_pcs,
 			'hapus' =>0,
 		);
 		$this->db->insert('master_po_online',$insert);
 		$last_id = $this->db->insert_id();
-		foreach($data['products'] as $p){
-			if(empty($p['pcs']) || $p['pcs'] <= 0){
-				continue;
-			}
-			for($i=$p['id_size_from']; $i<=$p['id_size_to']; $i++){
-				$detail=array(
-					'id_master_po_online' => $last_id,
-					'id_size'			  => $i,
-					'id_serian'			  => isset($p['id_serian']) && $p['id_serian'] !== '' ? $p['id_serian'] : 0,
-					'pcs'				  => isset($p['pcs']) ? $p['pcs']:0,
-					'hapus'			      => 0,
-				);
-				$this->db->insert('master_po_online_detail',$detail);
+		
+		if(isset($data['products'])){
+			foreach($data['products'] as $p){
+				if(empty($p['pcs']) || $p['pcs'] <= 0){
+					continue;
+				}
+				for($i=$p['id_size_from']; $i<=$p['id_size_to']; $i++){
+					$detail=array(
+						'id_master_po_online' => $last_id,
+						'id_size'			  => $i,
+						'id_serian'			  => isset($p['id_serian']) && $p['id_serian'] !== '' ? $p['id_serian'] : 0,
+						'pcs'				  => isset($p['pcs']) ? $p['pcs']:0,
+						'hapus'			      => 0,
+					);
+					$this->db->insert('master_po_online_detail',$detail);
+				}
 			}
 		}
 		if($last_id>0){
