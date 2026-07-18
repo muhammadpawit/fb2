@@ -583,7 +583,7 @@ class Dash extends CI_Controller {
 		$data['menipis']=[];
 		// pre($data['pendingkirimsudahpotong']);
 		$data['pendingkirimsudahpotong']=[];
-		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
+		$data['popending'] = $this->Report->popendingCount();
 
 		$bulan=$this->ReportModel->month();
 		$data['bulan']=json_encode($bulan);
@@ -598,18 +598,18 @@ class Dash extends CI_Controller {
 		$data['update']=date('d F Y',strtotime($update['created_date']));
 
 
-		$data['countpendingpo'] = count($this->Report->Pendingpo());
+		$data['countpendingpo'] = $this->Report->PendingpoCount();
 
 		$data['countpacking']  = $this->Report->packing('count');
 
 		
-		$data['countpenerimaancmtmingguini']  = count($this->Report->penerimaancmtmingguini());
+		$data['countpenerimaancmtmingguini']  = $this->Report->penerimaancmtmingguini('count');
 		
-		$data['ajuanharian'] =count($this->Report->ajuanharian());
-		$data['harian'] =$this->Report->ajuanharian();
+		$data['harian'] = $this->Report->ajuanharian();
+		$data['ajuanharian'] = count($data['harian']);
 		
 		// Form pengambilan alat waiting validation (status 2)
-		$data['formalat_menunggu'] = $this->GlobalModel->queryManual("SELECT * FROM formpengambilanalat WHERE hapus=0 AND status=2 AND bagian=2 ORDER BY id DESC");
+		$data['formalat_menunggu'] = $this->Report->formAlatMenungguCount();
 		
 		$data['id_user']=$user['id_user'];
 		// borongan finishing

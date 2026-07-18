@@ -2160,42 +2160,51 @@ class ReportModel extends CI_Model {
     $bulanList = $this->month();
     $totalBulan = count($bulanList);
 
-    $sql = "SELECT * FROM master_jenis_po 
+    // Build date range for the entire period
+    $startTimestamp = mktime(0, 0, 0, $periode['bulan'], 1, $periode['tahun']);
+    $endTimestamp = mktime(0, 0, 0, $periode['bulan'] + $totalBulan - 1, 1, $periode['tahun']);
+    $startDate = date('Y-m-01', $startTimestamp);
+    $endDate = date('Y-m-t', $endTimestamp); // last day of last month
+
+    // Get all jenis po
+    $sqlJenis = "SELECT * FROM master_jenis_po 
             WHERE status = 1 AND tampil = 1 
             GROUP BY idjenis";
-    $po = $this->db->query($sql)->result_array();
+    $po = $this->db->query($sqlJenis)->result_array();
+
+    // Single query: get ALL lusin data grouped by idjenis + year-month
+    $sqlAll = "
+        SELECT mjp.idjenis, 
+               YEAR(kbp.created_date) as tahun, 
+               MONTH(kbp.created_date) as bulan,
+               COALESCE(SUM(hasil_lusinan_potongan), 0) AS dz
+        FROM konveksi_buku_potongan kbp
+        JOIN produksi_po po ON po.id_produksi_po = kbp.idpo
+        LEFT JOIN master_jenis_po mjp ON po.nama_po = mjp.nama_jenis_po
+        WHERE po.hapus = 0
+        AND mjp.idjenis IS NOT NULL
+        AND kbp.created_date >= '{$startDate}'
+        AND kbp.created_date <= '{$endDate} 23:59:59'
+        GROUP BY mjp.idjenis, YEAR(kbp.created_date), MONTH(kbp.created_date)
+    ";
+    $allData = $this->db->query($sqlAll)->result_array();
+
+    // Index the results: dataMap[idjenis][YYYY-MM] = dz
+    $dataMap = [];
+    foreach ($allData as $row) {
+        $key = $row['tahun'] . '-' . str_pad($row['bulan'], 2, '0', STR_PAD_LEFT);
+        $dataMap[$row['idjenis']][$key] = $row['dz'];
+    }
 
     foreach ($po as $p) {
-
-        $lusin[$p['nama_jenis_po']] = [];
+        $lusins = [];
 
         for ($i = 0; $i < $totalBulan; $i++) {
+            $timestamp = mktime(0, 0, 0, $periode['bulan'] + $i, 1, $periode['tahun']);
+            $key = date('Y-m', $timestamp);
 
-            $timestamp = mktime(
-                0, 0, 0,
-                $periode['bulan'] + $i,
-                1,
-                $periode['tahun']
-            );
-
-            $bulan = date('n', $timestamp);
-            $tahun = date('Y', $timestamp);
-
-            $sql = "
-                SELECT SUM(hasil_lusinan_potongan) AS dz
-                FROM konveksi_buku_potongan kbp
-                JOIN produksi_po po ON po.id_produksi_po = kbp.idpo
-                LEFT JOIN master_jenis_po mjp ON po.nama_po = mjp.nama_jenis_po
-                WHERE po.hapus = 0
-                AND mjp.idjenis = '{$p['idjenis']}'
-                AND MONTH(kbp.created_date) = '{$bulan}'
-                AND YEAR(kbp.created_date) = '{$tahun}'
-            ";
-
-            $d = $this->db->query($sql)->row_array();
-
-            $lusin[$p['nama_jenis_po']][] =
-                $d['dz'] == null ? 0 : number_format($d['dz'], 2, '.', '');
+            $dz = isset($dataMap[$p['idjenis']][$key]) ? $dataMap[$p['idjenis']][$key] : 0;
+            $lusins[] = $dz == 0 ? 0 : number_format($dz, 2, '.', '');
         }
 
         // penamaan TETAP
@@ -2210,7 +2219,7 @@ class ReportModel extends CI_Model {
         // 🚨 RETURN TIDAK DIUBAH
         $hasil[] = array(
             'namapo' => $je,
-            'lusin'  => $lusin[$p['nama_jenis_po']],
+            'lusin'  => $lusins,
         );
     }
 

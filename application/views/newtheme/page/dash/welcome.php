@@ -86,7 +86,7 @@
         <div class="col-md-3">
             <div class="small-box" style="background-color:#E91E63 !important;color: white">
                 <div class="inner">
-                <h3><?php echo count($formalat_menunggu); ?></h3>
+                <h3><?php echo $formalat_menunggu; ?></h3>
                 <p >Form Alat Menunggu Validasi</p>
                 </div>
                 <div class="icon">
