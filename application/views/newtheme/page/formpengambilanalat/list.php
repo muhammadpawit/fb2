@@ -11,14 +11,36 @@
             <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2;?>" class="datepicker form-control">
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Status</label>
+            <select name="status" id="status" class="form-control">
+                <option value="">Semua</option>
+                <option value="2" <?php echo isset($status_filter) && $status_filter == '2' ? 'selected' : ''; ?>>Menunggu Validasi</option>
+                <option value="1" <?php echo isset($status_filter) && $status_filter == '1' ? 'selected' : ''; ?>>Tervalidasi</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
         <div class="form-group">
             <label for="">Aksi</label><br>
-            <button onclick="filtertglonly()" class="btn btn-sm btn-primary">Filter</button>
+            <button onclick="filterstatus()" class="btn btn-sm btn-primary">Filter</button>
             <button type="button" class="btn btn-sm btn-primary" onclick="add_data()">Tambah</button>
         </div>
     </div>
 </div>
+<script>
+function filterstatus(){
+    var tgl1 = $("#tanggal1").val();
+    var tgl2 = $("#tanggal2").val();
+    var status = $("#status").val();
+    var url = "?tanggal1=" + tgl1 + "&tanggal2=" + tgl2;
+    if(status !== '') {
+        url += "&status=" + status;
+    }
+    location.href = url;
+}
+</script>
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">

@@ -1280,7 +1280,16 @@ class Finishing extends CI_Controller {
 	public function detail_setoran_modal($idpo)
 	{
 		$setor = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt',array('idpo'=>$idpo));
-		$data['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish', array('id_kelolapo_rincian_setor_cmt' => $setor['id_kelolapo_rincian_setor_cmt']));
+		if (!empty($setor)) {
+			$data['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish', array('id_kelolapo_rincian_setor_cmt' => $setor['id_kelolapo_rincian_setor_cmt']));
+		} else {
+			$setor = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('idpo'=>$idpo));
+			if (!empty($setor)) {
+				$data['items'] = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana', array('id_kelolapo_rincian_setor_cmt' => $setor['id_kelolapo_rincian_setor_cmt']));
+			} else {
+				$data['items'] = [];
+			}
+		}
 		$this->load->view('kelolapo/rinciansetor/rincian-setor-detail-modal', $data);
 	}
 
@@ -1295,6 +1304,16 @@ class Finishing extends CI_Controller {
 			$cmt = $this->GlobalModel->queryManualRow("SELECT id_cmt FROM master_cmt WHERE cmt_name = '".$nama_cmt."' AND hapus=0 LIMIT 1");
 			if(!empty($cmt)){
 				$id_cmt = $cmt['id_cmt'];
+			}
+		} else {
+			$setor = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana',array('idpo'=>$idpo));
+			if(!empty($setor)){
+				$items = $this->GlobalModel->getData('kelolapo_rincian_setor_cmt_finish_celana', array('id_kelolapo_rincian_setor_cmt' => $setor['id_kelolapo_rincian_setor_cmt']));
+				$nama_cmt = $setor['nama_cmt'];
+				$cmt = $this->GlobalModel->queryManualRow("SELECT id_cmt FROM master_cmt WHERE cmt_name = '".$nama_cmt."' AND hapus=0 LIMIT 1");
+				if(!empty($cmt)){
+					$id_cmt = $cmt['id_cmt'];
+				}
 			}
 		}
 
@@ -2136,6 +2155,13 @@ class Finishing extends CI_Controller {
 			$query .=" RIGHT JOIN produksi_po p ON p.id_produksi_po=krs.idpo ";
 			$query .=" WHERE p.id_produksi_po='".$post['kodepo']."' ";
 			$data = $this->GlobalModel->queryManualRow($query);
+		}
+		
+		$potongan = $this->GlobalModel->getDataRow('konveksi_buku_potongan', array('kode_po' => $post['kodepo']));
+		if(!empty($potongan)){
+			$data['potongan_pcs'] = $potongan['hasil_pieces_potongan'];
+		} else {
+			$data['potongan_pcs'] = 0;
 		}
 		
 		// Rincian Size

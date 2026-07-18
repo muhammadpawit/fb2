@@ -2121,15 +2121,16 @@ class Gudang extends CI_Controller {
 				'text'=>'Detail',
 				'href'=>BASEURL.'Gudang/penerimaanitemdetail/'.$result['id'],
 			);
-			$action[]=array(
-				'text'=>'Edit',
-				'href'=>BASEURL.'Gudang/penerimaanitem_edit/'.$result['id'],
-			);
+			
+			// $action[]=array(
+			// 	'text'=>'Edit',
+			// 	'href'=>BASEURL.'Gudang/penerimaanitem_edit/'.$result['id'],
+			// );
 
-			$action[]=array(
-				'text'=>'Ajukan Perubahan harga',
-				'href'=>BASEURL.'Gudang/penerimaanitemdetail_ubahharga/'.$result['id'],
-			);
+			// $action[]=array(
+			// 	'text'=>'Ajukan Perubahan harga',
+			// 	'href'=>BASEURL.'Gudang/penerimaanitemdetail_ubahharga/'.$result['id'],
+			// );
 
 
 			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));

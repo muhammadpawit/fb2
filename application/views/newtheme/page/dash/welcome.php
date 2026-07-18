@@ -23,6 +23,7 @@
     </div>
 </div>
 <?php } ?>
+
 <div class="row">
         <div class="col-md-3">
             <div class="small-box bg-aqua" style="background-color:#3c8dbc !important;color: white">
@@ -82,6 +83,20 @@
             </div>
         </div>
         <?php } ?>
+        <div class="col-md-3">
+            <div class="small-box" style="background-color:#E91E63 !important;color: white">
+                <div class="inner">
+                <h3><?php echo count($formalat_menunggu); ?></h3>
+                <p >Form Alat Menunggu Validasi</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-wrench"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Formpengambilanalat/konveksi?status=2' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 </div>
 <hr>
 <div class="row">

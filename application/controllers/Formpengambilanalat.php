@@ -55,7 +55,18 @@ class Formpengambilanalat extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
 		}
 		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0  and bagian=1";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		if(isset($get['status']) && $get['status'] == '2'){
+			// hiraukan tanggal jika status 2
+		} else {
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		
+		if(isset($get['status']) && $get['status'] != ''){
+			$sql.=" AND status='".$get['status']."' ";
+			$data['status_filter'] = $get['status'];
+		}else{
+			$data['status_filter'] = '';
+		}
 		$sql.=" ORDER BY id DESC";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
@@ -251,7 +262,18 @@ class Formpengambilanalat extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
 		}
 		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0 and bagian=2 ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		if(isset($get['status']) && $get['status'] == '2'){
+			// hiraukan tanggal jika status 2
+		} else {
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		
+		if(isset($get['status']) && $get['status'] != ''){
+			$sql.=" AND status='".$get['status']."' ";
+			$data['status_filter'] = $get['status'];
+		}else{
+			$data['status_filter'] = '';
+		}
 		$sql.=" ORDER BY id DESC";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
@@ -298,7 +320,18 @@ class Formpengambilanalat extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
 		}
 		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0 and bagian=3 ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		if(isset($get['status']) && $get['status'] == '2'){
+			// hiraukan tanggal jika status 2
+		} else {
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}
+		
+		if(isset($get['status']) && $get['status'] != ''){
+			$sql.=" AND status='".$get['status']."' ";
+			$data['status_filter'] = $get['status'];
+		}else{
+			$data['status_filter'] = '';
+		}
 		$sql.=" ORDER BY id DESC";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;

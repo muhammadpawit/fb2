@@ -607,9 +607,11 @@ class Dash extends CI_Controller {
 		
 		$data['ajuanharian'] =count($this->Report->ajuanharian());
 		$data['harian'] =$this->Report->ajuanharian();
+		
+		// Form pengambilan alat waiting validation (status 2)
+		$data['formalat_menunggu'] = $this->GlobalModel->queryManual("SELECT * FROM formpengambilanalat WHERE hapus=0 AND status=2 AND bagian=2 ORDER BY id DESC");
+		
 		$data['id_user']=$user['id_user'];
-
-
 		// borongan finishing
 		$data['buangBenang'] 	= $this->Report->BuangBenang('count');
 		$data['Cucian'] 		= $this->Report->Cucian('count');

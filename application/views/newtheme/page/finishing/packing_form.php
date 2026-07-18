@@ -35,6 +35,7 @@
                                 <table class="table table-bordered" id="item_table">
                                     <tr>
                                         <th>Nama PO</th>
+                                        <th>Dz Potongan</th>
                                         <th>Jumlah DZ</th>
                                         <!-- <th>Jumlah Titik</th> -->
                                         <th>Harga Per DZ</th>
@@ -83,6 +84,7 @@ $(document).ready(function(){
         var html = '';
         html += '<tr>';
         html += '<td width="300"><select type="text" class="form-control selectpicker kodepo" name="kodepo[]" data-size="4" data-live-search="true" data-title="Pilih item" required><option value="">Pilih PO</option><?php foreach ($kodepo as $key => $po) { ?><option value="<?php echo $po['id_produksi_po'] ?>" data-item="<?php echo $po['kode_po'] ?>"><?php echo $po['nama_po'].' '.$po['kode_po'] ?></option><?php } ?></select></td>';
+        html += '<td><input type="text" class="form-control dz_potongan" readonly></td>';
         html += '<td><input type="text" class="form-control jumlahPc" name="jumlahpcs[]"  required ></td>';
         //html += '<td><input type="number" class="form-control jumlahtitik"  name="jumlahtitik[]" required ></td>';
         html += '<td><input type="number" class="form-control jumlah" name="pricePerTitik[]" required ></td>';
@@ -106,6 +108,7 @@ $(document).ready(function(){
             var obj = JSON.parse(data);
             console.log(obj);
             dai.find(".jumlahPc").val(Math.round(obj.jumlah_pcs_po/12));
+            dai.find(".dz_potongan").val((obj.potongan_pcs/12).toFixed(2));
         });
     });
     $(document).on('change', '.selectpicker', function(e){
