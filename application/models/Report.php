@@ -398,11 +398,21 @@ class Report extends CI_Model {
 		$sqlCelana = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
 		$dataCelana = $this->GlobalModel->QueryManualRow($sqlCelana);
 		
+		// Bordir (bagian = 1)
+		$sqlBordir = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=1 AND (acc_ajuan = 0 OR acc_ajuan IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		$dataBordir = $this->GlobalModel->QueryManualRow($sqlBordir);
+
+		// Konveksi (bagian = 2)
+		$sqlKonveksi = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=2 AND (acc_ajuan = 0 OR acc_ajuan IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		$dataKonveksi = $this->GlobalModel->QueryManualRow($sqlKonveksi);
+
 		return [
 			'kemeja' => !empty($dataKemeja) ? (int)$dataKemeja['total'] : 0,
 			'kaos' => !empty($dataKaos) ? (int)$dataKaos['total'] : 0,
 			'seragam' => !empty($dataSeragam) ? (int)$dataSeragam['total'] : 0,
 			'celana' => !empty($dataCelana) ? (int)$dataCelana['total'] : 0,
+			'bordir' => !empty($dataBordir) ? (int)$dataBordir['total'] : 0,
+			'konveksi' => !empty($dataKonveksi) ? (int)$dataKonveksi['total'] : 0,
 		];
 	}
 }

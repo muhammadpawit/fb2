@@ -212,6 +212,34 @@
                 </a>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="small-box small-box-custom">
+                <div class="inner">
+                <h3><?php echo $ajuan_mingguan['bordir']; ?></h3>
+                <p >Ajuan Alat Bordir (Belum ACC)</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-file-text"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Ajuanalatalat/1?spv=true' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="small-box small-box-custom">
+                <div class="inner">
+                <h3><?php echo $ajuan_mingguan['konveksi']; ?></h3>
+                <p >Ajuan Alat Konveksi (Belum ACC)</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-file-text"></i>
+                </div>
+                <a href="<?php echo BASEURL.'Ajuanalatalat/2?spv=true' ?>" class="small-box-footer">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
 </div>
 <hr>
 <div class="row">
