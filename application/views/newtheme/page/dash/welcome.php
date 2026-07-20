@@ -1,3 +1,62 @@
+<style>
+  .small-box-custom {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-top: 4px solid #3c8dbc !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+    color: #1e293b !important;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 20px;
+  }
+  .small-box-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(60, 141, 188, 0.15), 0 4px 6px -2px rgba(60, 141, 188, 0.05) !important;
+  }
+  .small-box-custom .inner {
+    padding: 16px 16px 12px 16px !important;
+  }
+  .small-box-custom .inner h3 {
+    color: #0f172a !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    margin: 0 0 4px 0 !important;
+    white-space: nowrap;
+  }
+  .small-box-custom .inner p {
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+  }
+  .small-box-custom .icon {
+    color: rgba(60, 141, 188, 0.18) !important;
+    top: 5px !important;
+    right: 15px !important;
+    font-size: 60px !important;
+    transition: all 0.2s ease-in-out;
+  }
+  .small-box-custom:hover .icon {
+    font-size: 65px !important;
+    color: rgba(60, 141, 188, 0.35) !important;
+  }
+  .small-box-custom .small-box-footer {
+    background-color: #f8fafc !important;
+    color: #3c8dbc !important;
+    border-top: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    padding: 8px 0 !important;
+    display: block;
+    text-align: center;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .small-box-custom .small-box-footer:hover {
+    background-color: #3c8dbc !important;
+    color: #ffffff !important;
+  }
+</style>
 
 <?php if(!empty($request)){?>
 <div class="row">
@@ -26,7 +85,7 @@
 
 <div class="row">
         <div class="col-md-3">
-            <div class="small-box bg-aqua" style="background-color:#3c8dbc !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $countpendingpo ?> PO</h3>
                 <p >Belum dikirim ke gudang,Produksi > 1 bulan</p>
@@ -40,7 +99,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#f39c12 !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $countpacking ?> PO</h3>
                 <p >Selesai Packing</p>
@@ -54,7 +113,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#00a65a !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
                 <p >Setoran CMT minggu ini</p>
@@ -69,7 +128,7 @@
         </div>
         <?php if($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35 ){ ?>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#f56954 !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $ajuanharian ?></h3>
                 <p >Pengajuan Harian Belum Disetujui</p>
@@ -84,7 +143,7 @@
         </div>
         <?php } ?>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#E91E63 !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $formalat_menunggu; ?></h3>
                 <p >Form Alat Menunggu Validasi</p>
@@ -98,7 +157,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#9C27B0 !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $ajuan_mingguan['kemeja']; ?></h3>
                 <p >Ajuan Kirim Kemeja (Belum ACC)</p>
@@ -112,7 +171,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#FF9800 !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $ajuan_mingguan['kaos']; ?></h3>
                 <p >Ajuan Kirim Kaos (Belum ACC)</p>
@@ -126,7 +185,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#009688 !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $ajuan_mingguan['seragam']; ?></h3>
                 <p >Ajuan PO Seragam (Belum ACC)</p>
@@ -140,7 +199,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="small-box" style="background-color:#607D8B !important;color: white">
+            <div class="small-box small-box-custom">
                 <div class="inner">
                 <h3><?php echo $ajuan_mingguan['celana']; ?></h3>
                 <p >Ajuan Kirim Celana (Belum ACC)</p>
@@ -159,7 +218,7 @@
 
     <!-- Buang Benang -->
     <div class="col-md-3">
-        <div class="small-box" style="background-color:#026AA7;color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $buangBenang ?> PO</h3>
                 <p>Buang Benang</p>
@@ -175,7 +234,7 @@
 
     <!-- Cucian -->
     <div class="col-md-3">
-        <div class="small-box" style="background-color:#D97706;color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $Cucian ?> PO</h3>
                 <p>Cucian</p>
@@ -191,7 +250,7 @@
 
     <!-- Lubang Kancing -->
     <div class="col-md-2">
-        <div class="small-box" style="background-color:#059669;color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $lk ?> PO</h3>
                 <p>Lubang Kancing</p>
@@ -207,7 +266,7 @@
 
     <!-- Pasang Kancing -->
     <div class="col-md-2">
-        <div class="small-box" style="background-color:#605ca8;color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $pk ?> PO</h3>
                 <p>Pasang Kancing</p>
@@ -223,7 +282,7 @@
 
     <!-- Tress (Obras) -->
     <div class="col-md-2">
-        <div class="small-box" style="background-color:#d81b60;color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $tress ?> PO</h3>
                 <p>Tress</p>
@@ -241,7 +300,7 @@
 
 <div class="row">
     <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color:#475569; color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $sablonKirim ?> PO</h3>
                 <p>Pengiriman Sablon Minggu ini</p>
@@ -256,7 +315,7 @@
     </div>
 
      <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color:#475569; color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $sablonSetor ?> PO</h3>
                 <p>Setoran Sablon Minggu ini</p>
@@ -271,7 +330,7 @@
     </div>
 
     <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color:#7c3aed; color:white;">
+        <div class="small-box small-box-custom">
             <div class="inner">
                 <h3><?php echo $countpoCmt ?> PO</h3>
                 <p>PO Masih di CMT</p>

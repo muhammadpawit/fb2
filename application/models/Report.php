@@ -380,20 +380,22 @@ class Report extends CI_Model {
 	 * Returns an array with counts for kemeja, kaos, seragam, and celana.
 	 */
 	function ajuanMingguanCount(){
+		$senin = date('Y-m-d', strtotime('monday this week'));
+
 		// Kemeja
-		$sqlKemeja = "SELECT COUNT(*) as total FROM ajuan_mingguan_kemeja WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$sqlKemeja = "SELECT COUNT(*) as total FROM ajuan_mingguan_kemeja WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
 		$dataKemeja = $this->GlobalModel->QueryManualRow($sqlKemeja);
 		
 		// Kaos (typeajuan = 'alat-alat')
-		$sqlKaos = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='alat-alat' AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$sqlKaos = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='alat-alat' AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
 		$dataKaos = $this->GlobalModel->QueryManualRow($sqlKaos);
 		
 		// Seragam
-		$sqlSeragam = "SELECT COUNT(*) as total FROM ajuan_mingguan_seragam WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$sqlSeragam = "SELECT COUNT(*) as total FROM ajuan_mingguan_seragam WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
 		$dataSeragam = $this->GlobalModel->QueryManualRow($sqlSeragam);
 		
 		// Celana (typeajuan = 'celana')
-		$sqlCelana = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' AND (jml_acc = 0 OR jml_acc IS NULL)";
+		$sqlCelana = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
 		$dataCelana = $this->GlobalModel->QueryManualRow($sqlCelana);
 		
 		return [
