@@ -1849,7 +1849,6 @@ class ReportModel extends CI_Model {
                 WHERE gon.hapus=0 AND godn.hapus=0 
                 AND gon.metode_pembayaran = 'transfer' 
                 AND DATE(gon.tanggal2) BETWEEN '$tanggal1' AND '$tanggal2'
-                AND gon.idkaryawan NOT IN (115,144,147)
                 AND gon.idgajiopt = (
                     SELECT MAX(idgajiopt) 
                     FROM gaji_operator_new gon2 
