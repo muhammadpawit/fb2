@@ -613,7 +613,7 @@ class Report extends CI_Controller {
 			}
 
 			// Insentif Security
-			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE k.tanggal_lap_keu_akhir = '".$p['tanggal']."'";
+			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE k.hapus=0 AND k.tanggal_lap_keu_akhir = '".$p['tanggal']."'";
 			$insentif_sec_detail = $this->GlobalModel->QueryManual($sql_insentif_sec_detail);
 			if(!empty($insentif_sec_detail)){
 				foreach($insentif_sec_detail as $isd){
