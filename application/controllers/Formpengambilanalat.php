@@ -47,7 +47,8 @@ class Formpengambilanalat extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime('first day of previous month'));
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-d',strtotime('first day of previous month'));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -254,7 +255,8 @@ class Formpengambilanalat extends CI_Controller {
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
-			$tanggal1=date('Y-m-d',strtotime('first day of previous month'));
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-d',strtotime('first day of previous month'));
 		}
 		if(isset($get['tanggal2'])){
 			$tanggal2=$get['tanggal2'];
@@ -262,11 +264,7 @@ class Formpengambilanalat extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
 		}
 		$sql="SELECT * FROM formpengambilanalat WHERE hapus=0 and bagian=2 ";
-		if(isset($get['status']) && $get['status'] == '2'){
-			// hiraukan tanggal jika status 2
-		} else {
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}
+		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		
 		if(isset($get['status']) && $get['status'] != ''){
 			$sql.=" AND status='".$get['status']."' ";

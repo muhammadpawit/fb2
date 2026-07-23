@@ -64,6 +64,15 @@ class Ajuanalatalat extends CI_Controller {
 		if(isset($get['spv'])){
 			$spv=$get['spv'];
 			$url.='&spv='.$spv;
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+			$tanggal2=date('Y-m-d');
+			if(isset($get['tanggal1'])){
+				$tanggal1=$get['tanggal1'];
+			}
+			if(isset($get['tanggal2'])){
+				$tanggal2=$get['tanggal2'];
+			}
 		}else{
 			$spv=null;
 		}	
@@ -75,6 +84,7 @@ class Ajuanalatalat extends CI_Controller {
 			'tanggal1'=>$tanggal1,
 			'tanggal2'=>$tanggal2,
 			'bagian'=>$id,
+			'spv'=>$spv,
 		);
 		$data['prods']=$this->AjuanalatModel->getshow($filter);
 		//pre($data['prods']);

@@ -186,6 +186,9 @@ class AjuanalatModel extends CI_Model {
 		if(!empty($data['tanggal1'])){
 			$sql.=" AND DATE(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
 		}
+		if(!empty($data['spv'])){
+			$sql.=" AND a.acc_ajuan=0 ";
+		}
 		$sql .=" AND a.bagian='".$data['bagian']."' ";
 		$sql.=" ORDER BY a.id DESC ";
 		$result=$this->GlobalModel->QueryManual($sql);

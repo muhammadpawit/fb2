@@ -193,7 +193,7 @@
                 <div class="icon">
                 <i class="fa fa-file-text"></i>
                 </div>
-                <a href="<?php echo BASEURL.'Gudang/ajuanmingguanseragam' ?>" class="small-box-footer">
+                <a href="<?php echo BASEURL.'Gudang/ajuanmingguanseragam?spv=true' ?>" class="small-box-footer">
                     Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -207,7 +207,7 @@
                 <div class="icon">
                 <i class="fa fa-file-text"></i>
                 </div>
-                <a href="<?php echo BASEURL.'Gudang/ajuanmingguancelana' ?>" class="small-box-footer">
+                <a href="<?php echo BASEURL.'Gudang/ajuanmingguan_celana?spv=true' ?>" class="small-box-footer">
                     Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>

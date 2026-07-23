@@ -370,7 +370,10 @@ class Report extends CI_Model {
 	 * Uses COUNT(*) instead of fetching all rows
 	 */
 	function formAlatMenungguCount(){
-		$sql = "SELECT COUNT(*) as total FROM formpengambilanalat WHERE hapus=0 AND status=2 AND bagian=2";
+		$periode = $this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+		$periodeAwal = !empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+		$periodeAkhir = date('Y-m-d');
+		$sql = "SELECT COUNT(*) as total FROM formpengambilanalat WHERE hapus=0 AND status=2 AND bagian=2 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$data = $this->GlobalModel->QueryManualRow($sql);
 		return !empty($data) ? (int)$data['total'] : 0;
 	}
@@ -380,30 +383,32 @@ class Report extends CI_Model {
 	 * Returns an array with counts for kemeja, kaos, seragam, and celana.
 	 */
 	function ajuanMingguanCount(){
-		$senin = date('Y-m-d', strtotime('monday this week'));
+		$periode = $this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+		$periodeAwal = !empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+		$periodeAkhir = date('Y-m-d');
 
-		// Kemeja
-		$sqlKemeja = "SELECT COUNT(*) as total FROM ajuan_mingguan_kemeja WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		// Samakan filter count dashboard dengan halaman tujuan mode SPV.
+		$sqlKemeja = "SELECT COUNT(*) as total FROM ajuan_mingguan_kemeja WHERE hapus=0 AND jml_acc=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataKemeja = $this->GlobalModel->QueryManualRow($sqlKemeja);
 		
-		// Kaos (typeajuan = 'alat-alat')
-		$sqlKaos = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='alat-alat' AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		// Kaos
+		$sqlKaos = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan != 'celana' AND jml_acc=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataKaos = $this->GlobalModel->QueryManualRow($sqlKaos);
 		
 		// Seragam
-		$sqlSeragam = "SELECT COUNT(*) as total FROM ajuan_mingguan_seragam WHERE hapus=0 AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		$sqlSeragam = "SELECT COUNT(*) as total FROM ajuan_mingguan_seragam WHERE hapus=0 AND jml_acc=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataSeragam = $this->GlobalModel->QueryManualRow($sqlSeragam);
 		
-		// Celana (typeajuan = 'celana')
-		$sqlCelana = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' AND (jml_acc = 0 OR jml_acc IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		// Celana
+		$sqlCelana = "SELECT COUNT(*) as total FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' AND jml_acc=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataCelana = $this->GlobalModel->QueryManualRow($sqlCelana);
 		
 		// Bordir (bagian = 1)
-		$sqlBordir = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=1 AND (acc_ajuan = 0 OR acc_ajuan IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		$sqlBordir = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=1 AND acc_ajuan=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataBordir = $this->GlobalModel->QueryManualRow($sqlBordir);
 
 		// Konveksi (bagian = 2)
-		$sqlKonveksi = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=2 AND (acc_ajuan = 0 OR acc_ajuan IS NULL) AND DATE(tanggal) >= '{$senin}'";
+		$sqlKonveksi = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=2 AND acc_ajuan=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataKonveksi = $this->GlobalModel->QueryManualRow($sqlKonveksi);
 
 		return [

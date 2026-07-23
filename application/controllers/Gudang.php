@@ -134,18 +134,14 @@ class Gudang extends CI_Controller {
 		}
 
 		if(isset($get['spv'])){
-			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
-			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
-			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+			$tanggal2=date('Y-m-d');
 			if(isset($get['tanggal1'])){
 				$tanggal1=$get['tanggal1'];
-			}else{
-				//$tanggal1=date('Y-m-d',strtotime("Monday of this week"));
 			}
 			if(isset($get['tanggal2'])){
 				$tanggal2=$get['tanggal2'];
-			}else{
-				//$tanggal2=date('Y-m-d');
 			}
 		}
 		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacckemeja';
@@ -156,7 +152,11 @@ class Gudang extends CI_Controller {
 		$data['products']=array();
 		$data['n']=1;
 		$sql="SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		if(isset($get['spv'])){
+			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}else{
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		}
 		if(!empty($cat)){
 			$sql.=" AND jenis='".$cat."' ";
 		}
@@ -217,18 +217,14 @@ class Gudang extends CI_Controller {
 		}
 
 		if(isset($get['spv'])){
-			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan != 'celana'  AND jml_acc=0 ORDER BY id DESC LIMIT 1 ");
-			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
-			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+			$tanggal2=date('Y-m-d');
 			if(isset($get['tanggal1'])){
 				$tanggal1=$get['tanggal1'];
-			}else{
-				//$tanggal1=date('Y-m-d',strtotime("Monday of this week"));
 			}
 			if(isset($get['tanggal2'])){
 				$tanggal2=$get['tanggal2'];
-			}else{
-				//$tanggal2=date('Y-m-d');
 			}
 		}
 		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
@@ -482,11 +478,9 @@ class Gudang extends CI_Controller {
 		}
 
 		if(isset($get['spv'])){
-			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan_seragam WHERE hapus=0 AND jml_acc=0 ORDER BY id DESC LIMIT 1 ");
-			if(!empty($cek)){
-				$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
-				$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
-			}
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+			$tanggal2=date('Y-m-d');
 			if(isset($get['tanggal1'])){
 				$tanggal1=$get['tanggal1'];
 			}
@@ -3940,18 +3934,14 @@ class Gudang extends CI_Controller {
 		}
 
 		if(isset($get['spv'])){
-			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' ORDER BY id DESC LIMIT 1 ");
-			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
-			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
+			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
+			$tanggal2=date('Y-m-d');
 			if(isset($get['tanggal1'])){
 				$tanggal1=$get['tanggal1'];
-			}else{
-				//$tanggal1=date('Y-m-d',strtotime("Monday of this week"));
 			}
 			if(isset($get['tanggal2'])){
 				$tanggal2=$get['tanggal2'];
-			}else{
-				//$tanggal2=date('Y-m-d');
 			}
 		}
 		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
@@ -3962,7 +3952,11 @@ class Gudang extends CI_Controller {
 		$data['products']=array();
 		$data['n']=1;
 		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		if(isset($get['spv'])){
+			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		}else{
+			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		}
 		if(!empty($cat)){
 			$sql.=" AND jenis='".$cat."' ";
 		}
