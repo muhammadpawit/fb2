@@ -405,7 +405,7 @@
                                                 <tr class="row-highlight">
                                                     <td class="col-check"></td>
                                                     <td class="col-label">Keluarkan Saving</td>
-                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_keluar_saving]" value="<?php echo $h['saving']?>" class="modern-input row-success release-input calc-trigger"></td>
+                                                    <td colspan="2"><input type="number" name="products[<?php echo $i?>][jumlah_keluar_saving]" value="<?php echo isset($h['saving']) ? $h['saving'] : 0; ?>" class="modern-input row-success release-input calc-trigger"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
