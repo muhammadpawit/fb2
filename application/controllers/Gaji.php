@@ -63,7 +63,7 @@ class Gaji extends CI_Controller {
 				'bagian'=>'Gudang',
 				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
 				'detail'=>BASEURL.'Gaji/gudangdetail/'.$r['id'],
-				'hapus'=>BASEURL.'Gaji/pressqchapus/'.$r['id'],
+				'hapus'=>BASEURL.'Gaji/gudang_hapus/'.$r['id'],
 				'excel'=>BASEURL.'Gaji/gudangdetail/'.$r['id'].'?&excel=1',
 			);
 			$no++;
@@ -74,13 +74,14 @@ class Gaji extends CI_Controller {
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/finishing_excel',$data);
 		}else{
-			$data['page']=$this->page.'gaji/pressqc';
+			$data['page']=$this->page.'gudang/list';
 			$this->load->view($this->page.'main',$data);
 		}
 	}
 
 	public function gudangdetail($id){
 		$data=[];
+		$data['id']=$id;
 		$data['title']='Gaji Karyawan Gudang Forboys';
 		$data['karyawans']=[];
 		$data['total']=0;
@@ -109,11 +110,10 @@ class Gaji extends CI_Controller {
 			}
 		}
 		$data['kembali']=BASEURL.'Gaji/gudang';
-		$get=$this->input->get();
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/finishing_excel',$data);
 		}else{
-			$data['page']=$this->page.'gaji/finishing_detail';
+			$data['page']=$this->page.'gudang/gudang_detail';
 			$this->load->view($this->page.'main',$data);
 		}
 	}
@@ -149,18 +149,18 @@ class Gaji extends CI_Controller {
 			);
 		}
 		$data['action']=BASEURL.'Gaji/gudang_save';
-		$data['page']=$this->page.'finishing/gaji_finishing';
+		$data['page']=$this->page.'gudang/gaji_gudang';
 		$this->load->view($this->page.'main',$data);
 	}
 
 	public function gudang_save(){
 		$data=$this->input->post();
 		//pre($data);
-		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'bagian'=>'GUDANG'));
+		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'bagian'=>'GUDANG','hapus'=>0));
 		//pre($data);
 		if(!empty($cek)){
 			$this->session->set_flashdata('msgt','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
-			redirect(BASEURL.'Finishing/gajifinishing');	
+			redirect(BASEURL.'Gaji/gudang');	
 		}
 		$insert=array(
 			'tanggal1'=>$data['tanggal1'],
@@ -185,11 +185,29 @@ class Gaji extends CI_Controller {
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>isset($p['claim'])?$p['claim']:0,
+					'pinjaman'=>isset($p['pinjaman'])?$p['pinjaman']:0,
+					'kasbon'=>isset($p['jumlah_kasbon'])?$p['jumlah_kasbon']:0,
+					'warteg'=>isset($p['warteg'])?$p['warteg']:0,
+					'saving'=>isset($p['saving'])?$p['saving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])?$p['jumlah_keluar_saving']:0,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}
 		}
 		$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+		redirect(BASEURL.'Gaji/gudang');
+	}
+
+	public function gudang_hapus($id){
+		$update=array(
+			'hapus'=>1
+		);
+		$where=array(
+			'id'=>$id
+		);
+		$this->db->update('gaji_finishing',$update,$where);
+		$this->session->set_flashdata('msg',' Berhasil Di Hapus');
 		redirect(BASEURL.'Gaji/gudang');
 	}
 
@@ -304,8 +322,12 @@ class Gaji extends CI_Controller {
 					'minggu'=>isset($p['minggu'])?1:0,
 					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
 					'insentif'=>isset($p['insentif'])?1:0,
-					'claim'=>$p['claim'],
-					'pinjaman'=>$p['pinjaman'],
+					'claim'=>isset($p['claim'])?$p['claim']:0,
+					'pinjaman'=>isset($p['pinjaman'])?$p['pinjaman']:0,
+					'kasbon'=>isset($p['jumlah_kasbon'])?$p['jumlah_kasbon']:0,
+					'warteg'=>isset($p['warteg'])?$p['warteg']:0,
+					'saving'=>isset($p['saving'])?$p['saving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])?$p['jumlah_keluar_saving']:0,
 				);
 				$this->db->insert('gaji_finishing_detail',$detail);
 			}

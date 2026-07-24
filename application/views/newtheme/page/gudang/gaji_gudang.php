@@ -271,7 +271,7 @@
                 </div>
             </div>
             <div class="col-md-4 text-right">
-                <a href="<?php echo BASEURL ?>Finishing/gajifinishing" class="btn btn-modern btn-default">
+                <a href="<?php echo BASEURL ?>Gaji/gudang" class="btn btn-modern btn-default">
                     <i class="fa fa-arrow-left mr-1"></i> KEMBALI
                 </a>
                 <button type="button" class="btn btn-modern btn-modern-info" onclick="filter()">
