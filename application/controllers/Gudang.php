@@ -1,8 +1,9 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set("Asia/Jakarta");
 
-class Gudang extends CI_Controller {
+class Gudang extends CI_Controller
+{
 
 	public $layout;
 	public $page;
@@ -26,644 +27,663 @@ class Gudang extends CI_Controller {
 	public $bg_success;
 	public $bg_info;
 	public $image_lib;
-	
-	function __construct() {
+
+	function __construct()
+	{
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
-		$this->page='newtheme/page/';
-		$this->url=BASEURL.'Gudang/penerimaanitem';
-		$this->login 		= BASEURL.'login';
-		$this->bg_warning='#f39c12';
-		$this->bg_danger='#dd4b39';
-		$this->bg_success='#00a65a';
-		$this->bg_info='#00c0ef';
+		$this->page = 'newtheme/page/';
+		$this->url = BASEURL . 'Gudang/penerimaanitem';
+		$this->login 		= BASEURL . 'login';
+		$this->bg_warning = '#f39c12';
+		$this->bg_danger = '#dd4b39';
+		$this->bg_success = '#00a65a';
+		$this->bg_info = '#00c0ef';
 		$this->auth 	= $this->session->userdata('id_user');
-		if(empty($this->auth)) {redirect($this->login);}
-	}
-
-	public function kartustok($id){
-		$data=[];
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
-		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
-		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
-		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		
-		$data['kartustok']=[];
-		$data['p'] = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('hapus'=>0,'id_persediaan'=>$id));
-		$sql="SELECT * FROM kartustok_product WHERE hapus=0 AND idproduct='".$id."' ";
-		if(!empty($tanggal1)){
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
-		}
-		$sql.=" ORDER BY tanggal ASC ";
-		$data['kartustok']=$this->GlobalModel->queryManual($sql);
-
-		if(isset($get['excel'])){
-			$this->load->view('gudang/persediaan/kartustok_excel',$data);
-		}else{
-			$data['page']='gudang/persediaan/kartustok';
-		$this->load->view('newtheme/page/main',$data);
+		if (empty($this->auth)) {
+			redirect($this->login);
 		}
 	}
 
-	public function editbahankeluar($id){
-		$data=[];
-		$data['title']='Edit PO Bahan Keluar';
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['details']=$this->GlobalModel->getDataRow('gudang_bahan_keluar',array('id_item_keluar'=>$id,'hapus'=>0));
-		$data['page']=$this->page.'gudang/editbahankeluar';
-		$data['action']=BASEURL.'Gudang/editbahankeluarsave';
-		$data['batal']=BASEURL.'Gudang/pengeluaranbahan';
-		$this->load->view($this->page.'main',$data);
+	public function kartustok($id)
+	{
+		$data = [];
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("first day of this month"));
+		}
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
+		}
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
+		}
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+
+		$data['kartustok'] = [];
+		$data['p'] = $this->GlobalModel->getDataRow('gudang_persediaan_item', array('hapus' => 0, 'id_persediaan' => $id));
+		$sql = "SELECT * FROM kartustok_product WHERE hapus=0 AND idproduct='" . $id . "' ";
+		if (!empty($tanggal1)) {
+			$sql .= " AND date(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'";
+		}
+		$sql .= " ORDER BY tanggal ASC ";
+		$data['kartustok'] = $this->GlobalModel->queryManual($sql);
+
+		if (isset($get['excel'])) {
+			$this->load->view('gudang/persediaan/kartustok_excel', $data);
+		} else {
+			$data['page'] = 'gudang/persediaan/kartustok';
+			$this->load->view('newtheme/page/main', $data);
+		}
 	}
 
-	public function editbahankeluarsave(){
-		$data=$this->input->post();
-		$po=$this->GlobalModel->getDataRow('produksi_po',array('hapus'=>0,'id_produksi_po'=>$data['kode_po']));
-		$update=array(
-			'idpo'=>$po['id_produksi_po'],
-			'kode_po'=>$po['kode_po'],
+	public function editbahankeluar($id)
+	{
+		$data = [];
+		$data['title'] = 'Edit PO Bahan Keluar';
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$data['details'] = $this->GlobalModel->getDataRow('gudang_bahan_keluar', array('id_item_keluar' => $id, 'hapus' => 0));
+		$data['page'] = $this->page . 'gudang/editbahankeluar';
+		$data['action'] = BASEURL . 'Gudang/editbahankeluarsave';
+		$data['batal'] = BASEURL . 'Gudang/pengeluaranbahan';
+		$this->load->view($this->page . 'main', $data);
+	}
+
+	public function editbahankeluarsave()
+	{
+		$data = $this->input->post();
+		$po = $this->GlobalModel->getDataRow('produksi_po', array('hapus' => 0, 'id_produksi_po' => $data['kode_po']));
+		$update = array(
+			'idpo' => $po['id_produksi_po'],
+			'kode_po' => $po['kode_po'],
 		);
-		$this->db->update('gudang_bahan_keluar',$update,array('id_item_keluar'=>$data['id']));
-		$this->session->set_flashdata('msg','Data berhasil diubah');
-		redirect(BASEURL.'Gudang/pengeluaranbahan?&kode_po='.$data['kode_po']);
+		$this->db->update('gudang_bahan_keluar', $update, array('id_item_keluar' => $data['id']));
+		$this->session->set_flashdata('msg', 'Data berhasil diubah');
+		redirect(BASEURL . 'Gudang/pengeluaranbahan?&kode_po=' . $data['kode_po']);
 	}
 
-	public function cekalatkeluar(){
-		$get=$this->input->get();
-		$cek=$this->GlobalModel->getDataRow('gudang_item_keluar',array('hapus'=>0,'kode_po'=>$get['kode_po']));
-		if(!empty($cek)){
+	public function cekalatkeluar()
+	{
+		$get = $this->input->get();
+		$cek = $this->GlobalModel->getDataRow('gudang_item_keluar', array('hapus' => 0, 'kode_po' => $get['kode_po']));
+		if (!empty($cek)) {
 			echo "ok";
-		}else{
+		} else {
 			echo "false";
 		}
 	}
 
-	function ajuanmingguan_kemeja(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO Kemeja ';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+	function ajuanmingguan_kemeja()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Kemeja ';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("monday this week"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
 
-		if(isset($get['spv'])){
-			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
-			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
-			$tanggal2=date('Y-m-d');
-			if(isset($get['tanggal1'])){
-				$tanggal1=$get['tanggal1'];
+		if (isset($get['spv'])) {
+			$periode = $this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1 = !empty($periode) ? $periode['tahun'] . '-' . str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT) . '-01' : date('Y-m-01');
+			$tanggal2 = date('Y-m-d');
+			if (isset($get['tanggal1'])) {
+				$tanggal1 = $get['tanggal1'];
 			}
-			if(isset($get['tanggal2'])){
-				$tanggal2=$get['tanggal2'];
+			if (isset($get['tanggal2'])) {
+				$tanggal2 = $get['tanggal2'];
 			}
 		}
-		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacckemeja';
+		$data['accAjuan'] = BASEURL . 'Gudang/ajuanmingguanacckemeja';
 		//pre($data['acc_ajuan_mingguan']);
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		$data['products']=array();
-		$data['n']=1;
-		$sql="SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0";
-		if(isset($get['spv'])){
-			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}else{
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		$data['products'] = array();
+		$data['n'] = 1;
+		$sql = "SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0";
+		if (isset($get['spv'])) {
+			$sql .= " AND jml_acc=0 AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
+		} else {
+			$sql .= " AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'";
 		}
-		if(!empty($cat)){
-			$sql.=" AND jenis='".$cat."' ";
+		if (!empty($cat)) {
+			$sql .= " AND jenis='" . $cat . "' ";
 		}
-		$sql.=" ORDER BY jml_acc ASC ";
-		
-		$results=$this->GlobalModel->queryManual($sql);
-		foreach($results as $result){
-			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
-			$data['products'][]=array(
-				'id'=>$result['id'],
-				'tanggal'=>$result['tanggal'],
-				'kebutuhan'=>''.$result['kebutuhan'],
+		$sql .= " ORDER BY jml_acc ASC ";
+
+		$results = $this->GlobalModel->queryManual($sql);
+		foreach ($results as $result) {
+			$satuan = $this->GlobalModel->GetDataRow('product', array('hapus' => 0, 'nama' => $result['kebutuhan']));
+			$data['products'][] = array(
+				'id' => $result['id'],
+				'tanggal' => $result['tanggal'],
+				'kebutuhan' => '' . $result['kebutuhan'],
 				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
-				'jml_ajuan'=>$result['jml_ajuan'],
-				'jml_acc'=>$result['jml_acc'],
-				'keterangan'=>$result['keterangan'],
-				'keterangan2'=>$result['keterangan2'],
-				'edit'=>BASEURL.'Gudang/ajuanmingguaneditkemeja/'.$result['id'],
-				'detail'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'],
-				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemeja/'.$result['id'],
-				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemejaadmin/'.$result['id'],
-				'excel'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'].'?&excel=1',
-				'stok'=>$result['stok'],
-				'acc_satuan'=> $result['acc_satuan'],
+				'jml_ajuan' => $result['jml_ajuan'],
+				'jml_acc' => $result['jml_acc'],
+				'keterangan' => $result['keterangan'],
+				'keterangan2' => $result['keterangan2'],
+				'edit' => BASEURL . 'Gudang/ajuanmingguaneditkemeja/' . $result['id'],
+				'detail' => BASEURL . 'Gudang/ajuanmingguandetailkemeja/' . $result['id'],
+				'batal' => BASEURL . 'Gudang/ajuanmingguandetailbatalkemeja/' . $result['id'],
+				'bataladmin' => BASEURL . 'Gudang/ajuanmingguandetailbatalkemejaadmin/' . $result['id'],
+				'excel' => BASEURL . 'Gudang/ajuanmingguandetailkemeja/' . $result['id'] . '?&excel=1',
+				'stok' => $result['stok'],
+				'acc_satuan' => $result['acc_satuan'],
 			);
 		}
-		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguankemeja_excel_all';
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambahkemeja';
-		if(isset($get['spv'])){
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv_kemeja';
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		$data['urlexcel'] = BASEURL . 'Gudang/ajuanmingguankemeja_excel_all';
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambahkemeja';
+		if (isset($get['spv'])) {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list_spv_kemeja';
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list';
 		}
 		//pre($data['products']);
-		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
-		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
-		$this->load->view($this->page.'main',$data);
+		$data['acc_ajuan_mingguan'] = $this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='" . $tanggal1 . "' ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal'] : null;
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguan(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO Kaos ';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-14 days"));
+	public function ajuanmingguan()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Kaos ';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-14 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
 
-		if(isset($get['spv'])){
-			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
-			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
-			$tanggal2=date('Y-m-d');
-			if(isset($get['tanggal1'])){
-				$tanggal1=$get['tanggal1'];
+		if (isset($get['spv'])) {
+			$periode = $this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1 = !empty($periode) ? $periode['tahun'] . '-' . str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT) . '-01' : date('Y-m-01');
+			$tanggal2 = date('Y-m-d');
+			if (isset($get['tanggal1'])) {
+				$tanggal1 = $get['tanggal1'];
 			}
-			if(isset($get['tanggal2'])){
-				$tanggal2=$get['tanggal2'];
+			if (isset($get['tanggal2'])) {
+				$tanggal2 = $get['tanggal2'];
 			}
 		}
-		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
+		$data['accAjuan'] = BASEURL . 'Gudang/ajuanmingguanacc';
 		//pre($data['acc_ajuan_mingguan']);
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		$data['products']=array();
-		$data['n']=1;
-		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan != 'celana' ";
-		if(isset($get['spv'])){
-			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}else{
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		$data['products'] = array();
+		$data['n'] = 1;
+		$sql = "SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan != 'celana' ";
+		if (isset($get['spv'])) {
+			$sql .= " AND jml_acc=0 AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
+		} else {
+			$sql .= " AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'";
 		}
-		
-		if(!empty($cat)){
-			$sql.=" AND jenis='".$cat."' ";
+
+		if (!empty($cat)) {
+			$sql .= " AND jenis='" . $cat . "' ";
 		}
-		$sql.=" ORDER BY id DESC ";
-		
-		$results=$this->GlobalModel->queryManual($sql);
-		foreach($results as $result){
-			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
-			$data['products'][]=array(
-				'id'=>$result['id'],
-				'tanggal'=>formatTanggalIndo($result['tanggal']),
-				'kebutuhan'=>''.$result['kebutuhan'],
+		$sql .= " ORDER BY id DESC ";
+
+		$results = $this->GlobalModel->queryManual($sql);
+		foreach ($results as $result) {
+			$satuan = $this->GlobalModel->GetDataRow('product', array('hapus' => 0, 'nama' => $result['kebutuhan']));
+			$data['products'][] = array(
+				'id' => $result['id'],
+				'tanggal' => formatTanggalIndo($result['tanggal']),
+				'kebutuhan' => '' . $result['kebutuhan'],
 				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
-				'jml_ajuan'=>$result['jml_ajuan'],
-				'jml_acc'=>$result['jml_acc'],
-				'keterangan'=>$result['keterangan'],
-				'keterangan2'=>$result['keterangan2'],
-				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
-				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
-				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatal/'.$result['id'],
-				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbataladmin/'.$result['id'],
-				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
-				'stok'=>$result['stok'],
+				'jml_ajuan' => $result['jml_ajuan'],
+				'jml_acc' => $result['jml_acc'],
+				'keterangan' => $result['keterangan'],
+				'keterangan2' => $result['keterangan2'],
+				'edit' => BASEURL . 'Gudang/ajuanmingguanedit/' . $result['id'],
+				'detail' => BASEURL . 'Gudang/ajuanmingguandetail/' . $result['id'],
+				'batal' => BASEURL . 'Gudang/ajuanmingguandetailbatal/' . $result['id'],
+				'bataladmin' => BASEURL . 'Gudang/ajuanmingguandetailbataladmin/' . $result['id'],
+				'excel' => BASEURL . 'Gudang/ajuanmingguandetail/' . $result['id'] . '?&excel=1',
+				'stok' => $result['stok'],
 				'acc_satuan' => $result['acc_satuan'],
 				'accsatuan'	 => $satuan['accsatuan'],
 				'metodebayar'	=> $result['metodebayar'],
 			);
 		}
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
-		if(isset($get['spv'])){
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv';
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambah';
+		if (isset($get['spv'])) {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list_spv';
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list';
 		}
 		//pre($data['products']);
-		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguan_excel_all';
-		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
-		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
-		$this->load->view($this->page.'main',$data);
+		$data['urlexcel'] = BASEURL . 'Gudang/ajuanmingguan_excel_all';
+		$data['acc_ajuan_mingguan'] = $this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='" . $tanggal1 . "' ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal'] : null;
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguankemeja(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO Kemeja ';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+	public function ajuanmingguankemeja()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Kemeja ';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("monday this week"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
 
-		if(isset($get['spv'])){
-			$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
-			$tanggal1 =date('Y-m-d',strtotime($cek['tanggal']));
-			$tanggal2 =date('Y-m-d',strtotime($cek['tanggal']));
-			if(isset($get['tanggal1'])){
-				$tanggal1=$get['tanggal1'];
-			}else{
+		if (isset($get['spv'])) {
+			$cek = $this->GlobalModel->QueryManualRow("SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0 ORDER BY id DESC LIMIT 1 ");
+			$tanggal1 = date('Y-m-d', strtotime($cek['tanggal']));
+			$tanggal2 = date('Y-m-d', strtotime($cek['tanggal']));
+			if (isset($get['tanggal1'])) {
+				$tanggal1 = $get['tanggal1'];
+			} else {
 				//$tanggal1=date('Y-m-d',strtotime("Monday of this week"));
 			}
-			if(isset($get['tanggal2'])){
-				$tanggal2=$get['tanggal2'];
-			}else{
+			if (isset($get['tanggal2'])) {
+				$tanggal2 = $get['tanggal2'];
+			} else {
 				//$tanggal2=date('Y-m-d');
 			}
 		}
-		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacckemeja';
+		$data['accAjuan'] = BASEURL . 'Gudang/ajuanmingguanacckemeja';
 		//pre($data['acc_ajuan_mingguan']);
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		$data['products']=array();
-		$data['n']=1;
-		$sql="SELECT * FROM ajuan_mingguan_kemejakemeja WHERE hapus=0";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
-		if(!empty($cat)){
-			$sql.=" AND jenis='".$cat."' ";
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		$data['products'] = array();
+		$data['n'] = 1;
+		$sql = "SELECT * FROM ajuan_mingguan_kemejakemeja WHERE hapus=0";
+		$sql .= " AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'";
+		if (!empty($cat)) {
+			$sql .= " AND jenis='" . $cat . "' ";
 		}
-		$sql.=" ORDER BY id DESC ";
-		
-		$results=$this->GlobalModel->queryManual($sql);
-		foreach($results as $result){
-			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
-			$data['products'][]=array(
-				'id'=>$result['id'],
-				'tanggal'=>$result['tanggal'],
-				'kebutuhan'=>''.$result['kebutuhan'],
+		$sql .= " ORDER BY id DESC ";
+
+		$results = $this->GlobalModel->queryManual($sql);
+		foreach ($results as $result) {
+			$satuan = $this->GlobalModel->GetDataRow('product', array('hapus' => 0, 'nama' => $result['kebutuhan']));
+			$data['products'][] = array(
+				'id' => $result['id'],
+				'tanggal' => $result['tanggal'],
+				'kebutuhan' => '' . $result['kebutuhan'],
 				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
-				'jml_ajuan'=>$result['jml_ajuan'],
-				'jml_acc'=>$result['jml_acc'],
-				'keterangan'=>$result['keterangan'],
-				'keterangan2'=>$result['keterangan2'],
-				'edit'=>BASEURL.'Gudang/ajuanmingguaneditkemeja/'.$result['id'],
-				'detail'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'],
-				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemeja/'.$result['id'],
-				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalkemejaadmin/'.$result['id'],
-				'excel'=>BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$result['id'].'?&excel=1',
-				'stok'=>$result['stok'],
+				'jml_ajuan' => $result['jml_ajuan'],
+				'jml_acc' => $result['jml_acc'],
+				'keterangan' => $result['keterangan'],
+				'keterangan2' => $result['keterangan2'],
+				'edit' => BASEURL . 'Gudang/ajuanmingguaneditkemeja/' . $result['id'],
+				'detail' => BASEURL . 'Gudang/ajuanmingguandetailkemeja/' . $result['id'],
+				'batal' => BASEURL . 'Gudang/ajuanmingguandetailbatalkemeja/' . $result['id'],
+				'bataladmin' => BASEURL . 'Gudang/ajuanmingguandetailbatalkemejaadmin/' . $result['id'],
+				'excel' => BASEURL . 'Gudang/ajuanmingguandetailkemeja/' . $result['id'] . '?&excel=1',
+				'stok' => $result['stok'],
 			);
 		}
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
-		if(isset($get['spv'])){
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv_kemeja';
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambah';
+		if (isset($get['spv'])) {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list_spv_kemeja';
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list';
 		}
 		//pre($data['products']);
-		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
-		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
-		$this->load->view($this->page.'main',$data);
+		$data['acc_ajuan_mingguan'] = $this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='" . $tanggal1 . "' ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal'] : null;
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguankemeja_excel_all(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO Kemeja';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+	public function ajuanmingguankemeja_excel_all()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Kemeja';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("first day of this month"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
 
-		$data['products']=array();
-		$data['prods']=[];
-		$data['n']=1;
-		$date=looping_tanggal($tanggal1,$tanggal2);
-		$ajuan=[];
-		foreach($date as $d){
+		$data['products'] = array();
+		$data['prods'] = [];
+		$data['n'] = 1;
+		$date = looping_tanggal($tanggal1, $tanggal2);
+		$ajuan = [];
+		foreach ($date as $d) {
 			//$ajuan=$this->GlobalModel->Getdata('ajuan_mingguan',array('hapus'=>0,'tanggal'=>$d['tanggal']));
-			$sql="SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0 AND DATE(tanggal)='".$d['tanggal']."' ";
-			if(!empty($cat)){
-				$sql.=" AND jenis='".$cat."' ";
+			$sql = "SELECT * FROM ajuan_mingguan_kemeja WHERE hapus=0 AND DATE(tanggal)='" . $d['tanggal'] . "' ";
+			if (!empty($cat)) {
+				$sql .= " AND jenis='" . $cat . "' ";
 			}
-			$ajuan=$this->GlobalModel->queryManual($sql);
-			
-			$data['prods'][]=array(
-				'tanggal'=>$d['tanggal'],
-				'ajuan'=>$ajuan,
+			$ajuan = $this->GlobalModel->queryManual($sql);
+
+			$data['prods'][] = array(
+				'tanggal' => $d['tanggal'],
+				'ajuan' => $ajuan,
 			);
-		}		
+		}
 		//pre($data['prods']);
-		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
-		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
-		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all_kemeja',$data);
+		$data['acc_ajuan_mingguan'] = $this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal'] : null;
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambah';
+		$this->load->view($this->page . 'gudang/pengajuan/mingguan_excel_all_kemeja', $data);
 	}
 
-	public function ajuanmingguan_excel_all(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+	public function ajuanmingguan_excel_all()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("first day of this month"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
 
-		$data['products']=array();
-		$data['prods']=[];
-		$data['n']=1;
-		$date=looping_tanggal($tanggal1,$tanggal2);
-		$ajuan=[];
-		foreach($date as $d){
+		$data['products'] = array();
+		$data['prods'] = [];
+		$data['n'] = 1;
+		$date = looping_tanggal($tanggal1, $tanggal2);
+		$ajuan = [];
+		foreach ($date as $d) {
 			//$ajuan=$this->GlobalModel->Getdata('ajuan_mingguan',array('hapus'=>0,'tanggal'=>$d['tanggal']));
-			$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND DATE(tanggal)='".$d['tanggal']."' ";
-			if(!empty($cat)){
-				$sql.=" AND jenis='".$cat."' ";
+			$sql = "SELECT * FROM ajuan_mingguan WHERE hapus=0 AND DATE(tanggal)='" . $d['tanggal'] . "' ";
+			if (!empty($cat)) {
+				$sql .= " AND jenis='" . $cat . "' ";
 			}
-			$ajuan=$this->GlobalModel->queryManual($sql);
-			
-			$data['prods'][]=array(
-				'tanggal'=>$d['tanggal'],
-				'ajuan'=>$ajuan,
+			$ajuan = $this->GlobalModel->queryManual($sql);
+
+			$data['prods'][] = array(
+				'tanggal' => $d['tanggal'],
+				'ajuan' => $ajuan,
 			);
-		}		
+		}
 		//pre($data['prods']);
-		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
-		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah';
-		$this->load->view($this->page.'gudang/pengajuan/mingguan_excel_all',$data);
+		$data['acc_ajuan_mingguan'] = $this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal'] : null;
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambah';
+		$this->load->view($this->page . 'gudang/pengajuan/mingguan_excel_all', $data);
 	}
 
-	public function ajuanmingguanseragam(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO Seragam ';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-14 days"));
+	public function ajuanmingguanseragam()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Seragam ';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-14 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
-		}
-
-		if(isset($get['spv'])){
-			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
-			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
-			$tanggal2=date('Y-m-d');
-			if(isset($get['tanggal1'])){
-				$tanggal1=$get['tanggal1'];
-			}
-			if(isset($get['tanggal2'])){
-				$tanggal2=$get['tanggal2'];
-			}
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
 
-		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanaccseragam';
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		$data['products']=array();
-		$data['n']=1;
-		$sql="SELECT * FROM ajuan_mingguan_seragam WHERE hapus=0 ";
-		
-		if(isset($get['spv'])){
-			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}else{
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		if (isset($get['spv'])) {
+			$periode = $this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1 = !empty($periode) ? $periode['tahun'] . '-' . str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT) . '-01' : date('Y-m-01');
+			$tanggal2 = date('Y-m-d');
+			if (isset($get['tanggal1'])) {
+				$tanggal1 = $get['tanggal1'];
+			}
+			if (isset($get['tanggal2'])) {
+				$tanggal2 = $get['tanggal2'];
+			}
 		}
-		
-		if(!empty($cat)){
-			$sql.=" AND jenis='".$cat."' ";
+
+		$data['accAjuan'] = BASEURL . 'Gudang/ajuanmingguanaccseragam';
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		$data['products'] = array();
+		$data['n'] = 1;
+		$sql = "SELECT * FROM ajuan_mingguan_seragam WHERE hapus=0 ";
+
+		if (isset($get['spv'])) {
+			$sql .= " AND jml_acc=0 AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
+		} else {
+			$sql .= " AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'";
 		}
-		$sql.=" ORDER BY id DESC ";
-		
-		$results=$this->GlobalModel->queryManual($sql);
-		foreach($results as $result){
-			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
-			$data['products'][]=array(
-				'id'=>$result['id'],
-				'tanggal'=>formatTanggalIndo($result['tanggal']),
-				'kebutuhan'=>''.$result['kebutuhan'],
+
+		if (!empty($cat)) {
+			$sql .= " AND jenis='" . $cat . "' ";
+		}
+		$sql .= " ORDER BY id DESC ";
+
+		$results = $this->GlobalModel->queryManual($sql);
+		foreach ($results as $result) {
+			$satuan = $this->GlobalModel->GetDataRow('product', array('hapus' => 0, 'nama' => $result['kebutuhan']));
+			$data['products'][] = array(
+				'id' => $result['id'],
+				'tanggal' => formatTanggalIndo($result['tanggal']),
+				'kebutuhan' => '' . $result['kebutuhan'],
 				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
-				'jml_ajuan'=>$result['jml_ajuan'],
-				'jml_acc'=>$result['jml_acc'],
-				'keterangan'=>$result['keterangan'],
-				'keterangan2'=>$result['keterangan2'],
-				'edit'=>BASEURL.'Gudang/ajuanmingguaneditseragam/'.$result['id'],
-				'detail'=>BASEURL.'Gudang/ajuanmingguandetailseragam/'.$result['id'],
-				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatalseragam/'.$result['id'],
-				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbatalseragamadmin/'.$result['id'],
-				'excel'=>BASEURL.'Gudang/ajuanmingguandetailseragam/'.$result['id'].'?&excel=1',
-				'stok'=>$result['stok'],
+				'jml_ajuan' => $result['jml_ajuan'],
+				'jml_acc' => $result['jml_acc'],
+				'keterangan' => $result['keterangan'],
+				'keterangan2' => $result['keterangan2'],
+				'edit' => BASEURL . 'Gudang/ajuanmingguaneditseragam/' . $result['id'],
+				'detail' => BASEURL . 'Gudang/ajuanmingguandetailseragam/' . $result['id'],
+				'batal' => BASEURL . 'Gudang/ajuanmingguandetailbatalseragam/' . $result['id'],
+				'bataladmin' => BASEURL . 'Gudang/ajuanmingguandetailbatalseragamadmin/' . $result['id'],
+				'excel' => BASEURL . 'Gudang/ajuanmingguandetailseragam/' . $result['id'] . '?&excel=1',
+				'stok' => $result['stok'],
 				'acc_satuan' => $result['acc_satuan'],
 				'metodebayar' => $result['metodebayar'],
 			);
 		}
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambahseragam';
-		if(isset($get['spv'])){
-			$data['page']=$this->page.'gudang/pengajuan/seragam_list_spv';
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/seragam_list';
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambahseragam';
+		if (isset($get['spv'])) {
+			$data['page'] = $this->page . 'gudang/pengajuan/seragam_list_spv';
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/seragam_list';
 		}
-		$this->load->view($this->page.'main',$data);
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguantambahseragam(){
-		$data=array();
-		$data['title']='Form Ajuan Alat-alat Kirim PO Seragam';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansaveseragam';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguanseragam';
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0)) ?? [];
-		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0)) ?? [];
-		$data['page']=$this->page.'gudang/pengajuan/seragam_form';
-		$this->load->view($this->page.'main',$data);
+	public function ajuanmingguantambahseragam()
+	{
+		$data = array();
+		$data['title'] = 'Form Ajuan Alat-alat Kirim PO Seragam';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansaveseragam';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguanseragam';
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0)) ?? [];
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0)) ?? [];
+		$data['page'] = $this->page . 'gudang/pengajuan/seragam_form';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguansaveseragam(){
-		$data=$this->input->post();
-		if(isset($data['products'])){
-			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
-			$am=array(
-				'tanggal'=>$data['tanggal'],
-				'jenis'=>$data['jenis'],
-				'kebutuhan'=>$item['nama'],
+	public function ajuanmingguansaveseragam()
+	{
+		$data = $this->input->post();
+		if (isset($data['products'])) {
+			$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $data['kebutuhan']));
+			$am = array(
+				'tanggal' => $data['tanggal'],
+				'jenis' => $data['jenis'],
+				'kebutuhan' => $item['nama'],
 				'product_id' => $item['product_id'],
-				'ajuan_kebutuhan'=>0,
-				'stok'=>$data['stok'],
-				'jml_ajuan'=>0,
-				'keterangan'=>'kebutuhan '.$item['nama'],
-				'keterangan2'=>$data['keterangan2'],
-				'supplier_id'=>$data['supplier_id'],
-				'metodebayar'=>$data['metodebayar'],
+				'ajuan_kebutuhan' => 0,
+				'stok' => $data['stok'],
+				'jml_ajuan' => 0,
+				'keterangan' => 'kebutuhan ' . $item['nama'],
+				'keterangan2' => $data['keterangan2'],
+				'supplier_id' => $data['supplier_id'],
+				'metodebayar' => $data['metodebayar'],
 			);
-			$this->db->insert('ajuan_mingguan_seragam',$am);
-			$id=$this->db->insert_id();
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$id,
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+			$this->db->insert('ajuan_mingguan_seragam', $am);
+			$id = $this->db->insert_id();
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $id,
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail_seragam',$insert);
+				$this->db->insert('ajuan_mingguan_detail_seragam', $insert);
 			}
-			$this->db->update('ajuan_mingguan_seragam',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+			$this->db->update('ajuan_mingguan_seragam', array('ajuan_kebutuhan' => $totalajuan, 'jml_ajuan' => $totalajuan - $data['stok']), array('id' => $id));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguanseragam');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguanseragam');
 	}
 
-	public function ajuanmingguandetailseragam($id){
-		$data=array();
-		$data['n']=1;
-		$data['title']='Detail Ajuan Alat-alat Kirim PO Seragam';
-		$data['action']=BASEURL.'Gudang/ajuanmingguanaccseragam';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguanseragam';
-		$data['excel']=BASEURL.'Gudang/ajuanmingguandetailseragam/'.$id.'?&excel=1';
-		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan_seragam',array('hapus'=>0,'id'=>$id));
-		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail_seragam',array('hapus'=>0,'idajuan'=>$id));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['acc']=BASEURL.'Gudang/ajuanmingguanaccseragam';
-		$get=$this->input->get();		
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/seragam_detail';
-			$this->load->view($this->page.'main',$data);
+	public function ajuanmingguandetailseragam($id)
+	{
+		$data = array();
+		$data['n'] = 1;
+		$data['title'] = 'Detail Ajuan Alat-alat Kirim PO Seragam';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguanaccseragam';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguanseragam';
+		$data['excel'] = BASEURL . 'Gudang/ajuanmingguandetailseragam/' . $id . '?&excel=1';
+		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan_seragam', array('hapus' => 0, 'id' => $id));
+		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail_seragam', array('hapus' => 0, 'idajuan' => $id));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['acc'] = BASEURL . 'Gudang/ajuanmingguanaccseragam';
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/mingguan_detail_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/seragam_detail';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function ajuanmingguaneditseragam($id){
-		$data=array();
-		$data['n']=1;
-		$data['title']='Edit Ajuan Alat-alat Kirim PO Seragam';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansave_editseragam';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguanseragam';
-		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan_seragam',array('hapus'=>0,'id'=>$id));
-		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail_seragam',array('hapus'=>0,'idajuan'=>$id));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['page']=$this->page.'gudang/pengajuan/seragam_edit';
-		$this->load->view($this->page.'main',$data);
+	public function ajuanmingguaneditseragam($id)
+	{
+		$data = array();
+		$data['n'] = 1;
+		$data['title'] = 'Edit Ajuan Alat-alat Kirim PO Seragam';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansave_editseragam';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguanseragam';
+		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan_seragam', array('hapus' => 0, 'id' => $id));
+		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail_seragam', array('hapus' => 0, 'idajuan' => $id));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['page'] = $this->page . 'gudang/pengajuan/seragam_edit';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguansave_editseragam(){
-		$data=$this->input->post();
-		if(isset($data['products'])){
-			$this->db->update('ajuan_mingguan_detail_seragam',array('hapus'=>1),array('idajuan'=>$data['id']));
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$data['id'],
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+	public function ajuanmingguansave_editseragam()
+	{
+		$data = $this->input->post();
+		if (isset($data['products'])) {
+			$this->db->update('ajuan_mingguan_detail_seragam', array('hapus' => 1), array('idajuan' => $data['id']));
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $data['id'],
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail_seragam',$insert);
+				$this->db->insert('ajuan_mingguan_detail_seragam', $insert);
 			}
 			$update_data = array(
-				'tanggal'=>$data['tanggal'],
-				'keterangan2'=>$data['keterangan'],
-				'ajuan_kebutuhan'=>$totalajuan,
-				'stok'=>$data['stok'],
-				'jml_ajuan'=>$totalajuan-$data['stok']
+				'tanggal' => $data['tanggal'],
+				'keterangan2' => $data['keterangan'],
+				'ajuan_kebutuhan' => $totalajuan,
+				'stok' => $data['stok'],
+				'jml_ajuan' => $totalajuan - $data['stok']
 			);
 			if (isset($data['metodebayar'])) {
 				$update_data['metodebayar'] = $data['metodebayar'];
 			}
-			$this->db->update('ajuan_mingguan_seragam',$update_data,array('id'=>$data['id']));
+			$this->db->update('ajuan_mingguan_seragam', $update_data, array('id' => $data['id']));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguanseragam');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguanseragam');
 	}
 
-	public function ajuanmingguanaccseragam(){
+	public function ajuanmingguanaccseragam()
+	{
 		$post = $this->input->post();
 		$update = array(
 			'jml_acc' => $post['jml_acc'],
@@ -672,48 +692,48 @@ class Gudang extends CI_Controller {
 		$where = array(
 			'id' => $post['id'],
 		);
-		$this->db->update('ajuan_mingguan_seragam',$update,$where);
-		
-		$cat=3; 
-		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".date('Y-m-d')."' AND hapus=0 ");
-		
-		if(empty($cekajuan_harian)){
-			$ip=array(
-				'kategori'=>$cat,
-				'cash'=>0,
-				'transfer'=>0,
-				'status'=>1,
-				'hapus'=>0,
-				'tanggal'=>date('Y-m-d'),
-				'keterangan'=>'',
-				'dibuat'=>date('Y-m-d H:i:s'),
+		$this->db->update('ajuan_mingguan_seragam', $update, $where);
+
+		$cat = 3;
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='" . $cat . "' AND from_alat IS NOT NULL AND DATE(tanggal)='" . date('Y-m-d') . "' AND hapus=0 ");
+
+		if (empty($cekajuan_harian)) {
+			$ip = array(
+				'kategori' => $cat,
+				'cash' => 0,
+				'transfer' => 0,
+				'status' => 1,
+				'hapus' => 0,
+				'tanggal' => date('Y-m-d'),
+				'keterangan' => '',
+				'dibuat' => date('Y-m-d H:i:s'),
 				'from_alat' => TRUE
 			);
-			$this->db->insert('pengajuan_harian_new',$ip);
-			$id=$this->db->insert_id();
-		}else{
-			$id=$cekajuan_harian['id'];
+			$this->db->insert('pengajuan_harian_new', $ip);
+			$id = $this->db->insert_id();
+		} else {
+			$id = $cekajuan_harian['id'];
 		}
 
 		$ajuan = $this->GlobalModel->getDataRow('ajuan_mingguan_seragam', array('id' => $post['id']));
 		$item = $this->GlobalModel->getDataRow('product', array('product_id' => $ajuan['product_id']));
 		$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $ajuan['supplier_id']));
-		
+
 		$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 2) ? 2 : 1; // 1 Cash, 2 Transfer
 		$nominal = $item['harga_beli'] * ($post['jml_acc']);
 
-		$rip=array(
-			'idpengajuan'=>$id,
-			'nama_item'=>$item['nama'],
-			'jumlah'=>$post['jml_acc'],
-			'satuan'=>$item['satuan'],
-			'harga'=>$item['harga_beli'],
-			'pembayaran'=>$pembayaran, 
-			'supplier'=>isset($supplier['nama'])?$supplier['nama']:'',
-			'keterangan'=>$ajuan['keterangan2'],
-			'status'=>1
+		$rip = array(
+			'idpengajuan' => $id,
+			'nama_item' => $item['nama'],
+			'jumlah' => $post['jml_acc'],
+			'satuan' => $item['satuan'],
+			'harga' => $item['harga_beli'],
+			'pembayaran' => $pembayaran,
+			'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+			'keterangan' => $ajuan['keterangan2'],
+			'status' => 1
 		);
-		$this->db->insert('pengajuan_harian_new_detail',$rip);
+		$this->db->insert('pengajuan_harian_new_detail', $rip);
 
 		// Update total cash/transfer in header
 		$current_harian = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $id));
@@ -728,31 +748,32 @@ class Gudang extends CI_Controller {
 			$this->db->update('pengajuan_harian_new', array('paraf' => $image_data), array('id' => $id));
 		}
 
-		$this->session->set_flashdata('msg','Data berhasil di acc');
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
 		echo "successfully";
 	}
 
-	public function ajuanmingguanaccseragamall(){
+	public function ajuanmingguanaccseragamall()
+	{
 		$post = $this->input->post();
-		$cat=3; 
-		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".date('Y-m-d')."' AND hapus=0 ");
-		
-		if(empty($cekajuan_harian)){
-			$ip=array(
-				'kategori'=>$cat,
-				'cash'=>0,
-				'transfer'=>0,
-				'status'=>1,
-				'hapus'=>0,
-				'tanggal'=>date('Y-m-d'),
-				'keterangan'=>'',
-				'dibuat'=>date('Y-m-d H:i:s'),
+		$cat = 3;
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='" . $cat . "' AND from_alat IS NOT NULL AND DATE(tanggal)='" . date('Y-m-d') . "' AND hapus=0 ");
+
+		if (empty($cekajuan_harian)) {
+			$ip = array(
+				'kategori' => $cat,
+				'cash' => 0,
+				'transfer' => 0,
+				'status' => 1,
+				'hapus' => 0,
+				'tanggal' => date('Y-m-d'),
+				'keterangan' => '',
+				'dibuat' => date('Y-m-d H:i:s'),
 				'from_alat' => TRUE
 			);
-			$this->db->insert('pengajuan_harian_new',$ip);
-			$id=$this->db->insert_id();
-		}else{
-			$id=$cekajuan_harian['id'];
+			$this->db->insert('pengajuan_harian_new', $ip);
+			$id = $this->db->insert_id();
+		} else {
+			$id = $cekajuan_harian['id'];
 		}
 
 		// Hapus detail lama dari header pengajuan ini agar tidak duplikat saat acc ulang
@@ -764,12 +785,12 @@ class Gudang extends CI_Controller {
 		$total_cash = 0;
 		$total_transfer = 0;
 
-		foreach($post['prods'] as $p){
+		foreach ($post['prods'] as $p) {
 			$update = array(
 				'jml_acc' => $p['jml_acc'],
 				'acc_satuan' => $p['acc_satuan'],
 			);
-			$this->db->update('ajuan_mingguan_seragam',$update,array('id'=>$p['id']));
+			$this->db->update('ajuan_mingguan_seragam', $update, array('id' => $p['id']));
 
 			// Hanya insert ke pengajuan_harian_new_detail jika jml_acc > 0
 			if (intval($p['jml_acc']) <= 0) {
@@ -779,7 +800,7 @@ class Gudang extends CI_Controller {
 			$ajuan = $this->GlobalModel->getDataRow('ajuan_mingguan_seragam', array('id' => $p['id']));
 			$item = $this->GlobalModel->getDataRow('product', array('product_id' => $ajuan['product_id']));
 			$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $ajuan['supplier_id']));
-			
+
 			$pembayaran = (isset($ajuan['metodebayar']) && $ajuan['metodebayar'] == 2) ? 2 : 1; // 1 Cash, 2 Transfer
 			$nominal = $item['harga_beli'] * intval($p['jml_acc']);
 
@@ -789,18 +810,18 @@ class Gudang extends CI_Controller {
 				$total_transfer += $nominal;
 			}
 
-			$rip=array(
-				'idpengajuan'=>$id,
-				'nama_item'=>$item['nama'],
-				'jumlah'=>$p['jml_acc'],
-				'satuan'=>$item['satuan'],
-				'harga'=>$item['harga_beli'],
-				'pembayaran'=>$pembayaran, 
-				'supplier'=>isset($supplier['nama'])?$supplier['nama']:'',
-				'keterangan'=>$ajuan['keterangan2'],
-				'status'=>1
+			$rip = array(
+				'idpengajuan' => $id,
+				'nama_item' => $item['nama'],
+				'jumlah' => $p['jml_acc'],
+				'satuan' => $item['satuan'],
+				'harga' => $item['harga_beli'],
+				'pembayaran' => $pembayaran,
+				'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+				'keterangan' => $ajuan['keterangan2'],
+				'status' => 1
 			);
-			$this->db->insert('pengajuan_harian_new_detail',$rip);
+			$this->db->insert('pengajuan_harian_new_detail', $rip);
 		}
 
 		// Update total cash/transfer di header dengan nilai yang sudah dikalkulasi ulang
@@ -814,260 +835,275 @@ class Gudang extends CI_Controller {
 			$this->db->update('pengajuan_harian_new', array('paraf' => $image_data), array('id' => $id));
 		}
 
-		$this->session->set_flashdata('msg','Data berhasil di acc');
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
 		echo "successfully";
 	}
 
-	function ajuanmingguandetailbatalseragam($id){
-		$this->db->update('ajuan_mingguan_seragam',array('hapus'=>1),array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
-		redirect(BASEURL.'Gudang/ajuanmingguanseragam');
+	function ajuanmingguandetailbatalseragam($id)
+	{
+		$this->db->update('ajuan_mingguan_seragam', array('hapus' => 1), array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
+		redirect(BASEURL . 'Gudang/ajuanmingguanseragam');
 	}
 
-	function ajuanmingguandetailbatalseragamadmin($id){
-		$this->db->update('ajuan_mingguan_seragam',array('hapus'=>1),array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
-		redirect(BASEURL.'Gudang/ajuanmingguanseragam');
+	function ajuanmingguandetailbatalseragamadmin($id)
+	{
+		$this->db->update('ajuan_mingguan_seragam', array('hapus' => 1), array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
+		redirect(BASEURL . 'Gudang/ajuanmingguanseragam');
 	}
 
-	public function ajuanmingguandetailkemeja($id){
-		$data=array();
-		$data['n']=1;
-		$data['title']='Detail Ajuan Alat-alat Kirim Kemeja';
-		$get=$this->input->get();
-		$url='';
-		if(isset($get['spv'])){
-			$url='?&spv=true';
+	public function ajuanmingguandetailkemeja($id)
+	{
+		$data = array();
+		$data['n'] = 1;
+		$data['title'] = 'Detail Ajuan Alat-alat Kirim Kemeja';
+		$get = $this->input->get();
+		$url = '';
+		if (isset($get['spv'])) {
+			$url = '?&spv=true';
 		}
-		$data['action']=BASEURL.'Gudang/ajuanmingguansavekemeja';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_kemeja'.$url;
-		$data['excel']=BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$id.'?&excel=1';
-		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan_kemeja',array('hapus'=>0,'id'=>$id));
-		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail_kemeja',array('hapus'=>0,'idajuan'=>$id));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['acc']=BASEURL.'Gudang/ajuanmingguanacckemeja';
-		$get=$this->input->get();		
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_detail';
-			$this->load->view($this->page.'main',$data);
-		}
-	}
-
-	public function ajuanmingguandetail($id){
-		$data=array();
-		$data['n']=1;
-		$data['title']='Detail Ajuan Alat-alat Kirim PO';
-		$get=$this->input->get();
-		$url='';
-		if(isset($get['spv'])){
-			$url='?&spv=true';
-		}
-		$data['action']=BASEURL.'Gudang/ajuanmingguansave';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan'.$url;
-		$data['excel']=BASEURL.'Gudang/ajuanmingguandetail/'.$id.'?&excel=1';
-		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan',array('hapus'=>0,'id'=>$id));
-		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail',array('hapus'=>0,'idajuan'=>$id));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['acc']=BASEURL.'Gudang/ajuanmingguanacc';
-		$get=$this->input->get();		
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_detail';
-			$this->load->view($this->page.'main',$data);
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansavekemeja';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan_kemeja' . $url;
+		$data['excel'] = BASEURL . 'Gudang/ajuanmingguandetailkemeja/' . $id . '?&excel=1';
+		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan_kemeja', array('hapus' => 0, 'id' => $id));
+		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail_kemeja', array('hapus' => 0, 'idajuan' => $id));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['acc'] = BASEURL . 'Gudang/ajuanmingguanacckemeja';
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/mingguan_detail_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_detail';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function ajuanmingguanedit($id){
-		$data=array();
-		$data['n']=1;
-		$data['title']='Edit Ajuan Alat-alat Kirim PO';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansave_edit';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
-		$data['excel']=BASEURL.'Gudang/ajuanmingguandetail/'.$id.'?&excel=1';
-		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan',array('hapus'=>0,'id'=>$id));
-		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail',array('hapus'=>0,'idajuan'=>$id));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['acc']=BASEURL.'Gudang/ajuanmingguanacc';
-		$get=$this->input->get();		
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_edit';
-			$this->load->view($this->page.'main',$data);
+	public function ajuanmingguandetail($id)
+	{
+		$data = array();
+		$data['n'] = 1;
+		$data['title'] = 'Detail Ajuan Alat-alat Kirim PO';
+		$get = $this->input->get();
+		$url = '';
+		if (isset($get['spv'])) {
+			$url = '?&spv=true';
+		}
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansave';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan' . $url;
+		$data['excel'] = BASEURL . 'Gudang/ajuanmingguandetail/' . $id . '?&excel=1';
+		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan', array('hapus' => 0, 'id' => $id));
+		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail', array('hapus' => 0, 'idajuan' => $id));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['acc'] = BASEURL . 'Gudang/ajuanmingguanacc';
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/mingguan_detail_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_detail';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function ajuanmingguaneditkemeja($id){
-		$data=array();
-		$data['n']=1;
-		$data['title']='Edit Ajuan Alat-alat Kirim Kemeja';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansave_editkemeja';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_kemeja';
-		$data['excel']=BASEURL.'Gudang/ajuanmingguandetailkemeja/'.$id.'?&excel=1';
-		$data['k']=$this->GlobalModel->getDataRow('ajuan_mingguan_kemeja',array('hapus'=>0,'id'=>$id));
-		$data['kd']=$this->GlobalModel->getData('ajuan_mingguan_detail_kemeja',array('hapus'=>0,'idajuan'=>$id));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['acc']=BASEURL.'Gudang/ajuanmingguanacc_kemeja';
-		$get=$this->input->get();		
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/mingguan_detail_excel',$data);
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_edit';
-			$this->load->view($this->page.'main',$data);
+	public function ajuanmingguanedit($id)
+	{
+		$data = array();
+		$data['n'] = 1;
+		$data['title'] = 'Edit Ajuan Alat-alat Kirim PO';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansave_edit';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan';
+		$data['excel'] = BASEURL . 'Gudang/ajuanmingguandetail/' . $id . '?&excel=1';
+		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan', array('hapus' => 0, 'id' => $id));
+		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail', array('hapus' => 0, 'idajuan' => $id));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['acc'] = BASEURL . 'Gudang/ajuanmingguanacc';
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/mingguan_detail_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_edit';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function ajuanmingguantambah(){
-		$data=array();
-		$data['title']='Form Ajuan Alat-alat Kirim PO';
-		$data['typeajuan']	='alat-alat';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansave';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan';
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
-		$data['page']=$this->page.'gudang/pengajuan/mingguan_form';
-		$this->load->view($this->page.'main',$data);
+	public function ajuanmingguaneditkemeja($id)
+	{
+		$data = array();
+		$data['n'] = 1;
+		$data['title'] = 'Edit Ajuan Alat-alat Kirim Kemeja';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansave_editkemeja';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan_kemeja';
+		$data['excel'] = BASEURL . 'Gudang/ajuanmingguandetailkemeja/' . $id . '?&excel=1';
+		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan_kemeja', array('hapus' => 0, 'id' => $id));
+		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail_kemeja', array('hapus' => 0, 'idajuan' => $id));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['acc'] = BASEURL . 'Gudang/ajuanmingguanacc_kemeja';
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/mingguan_detail_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_edit';
+			$this->load->view($this->page . 'main', $data);
+		}
 	}
 
-	public function ajuanmingguantambahkemeja(){
-		$data=array();
-		$data['title']='Form Ajuan Alat-alat Kirim PO Kemeja';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansavekemeja';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_kemeja';
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
-		$data['page']=$this->page.'gudang/pengajuan/mingguan_form_kemeja';
-		$this->load->view($this->page.'main',$data);
+	public function ajuanmingguantambah()
+	{
+		$data = array();
+		$data['title'] = 'Form Ajuan Alat-alat Kirim PO';
+		$data['typeajuan']	= 'alat-alat';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansave';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan';
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['page'] = $this->page . 'gudang/pengajuan/mingguan_form';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguansavekemeja(){
-		$data=$this->input->post();
+	public function ajuanmingguantambahkemeja()
+	{
+		$data = array();
+		$data['title'] = 'Form Ajuan Alat-alat Kirim PO Kemeja';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansavekemeja';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan_kemeja';
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['page'] = $this->page . 'gudang/pengajuan/mingguan_form_kemeja';
+		$this->load->view($this->page . 'main', $data);
+	}
+
+	public function ajuanmingguansavekemeja()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		if(isset($data['products'])){
-			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
-			$am=array(
-				'tanggal'=>$data['tanggal'],
-				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
-				'kebutuhan'=>$item['nama'],
+		if (isset($data['products'])) {
+			$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $data['kebutuhan']));
+			$am = array(
+				'tanggal' => $data['tanggal'],
+				'jenis' => $data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
+				'kebutuhan' => $item['nama'],
 				'product_id' => $item['product_id'],
 				// 'ajuan_kebutuhan'=>$data['ajuan_kebutuhan'],
-				'ajuan_kebutuhan'=>0,
-				'stok'=>$data['stok_skb'],
+				'ajuan_kebutuhan' => 0,
+				'stok' => $data['stok_skb'],
 				//'jml_ajuan'=>$data['jml_ajuan'],
-				'jml_ajuan'=>0,
-				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
-				'keterangan2'=>$data['keterangan2'],
-				'supplier_id'=>$data['supplier_id'],
+				'jml_ajuan' => 0,
+				'keterangan' => 'kebutuhan ' . $data['kebutuhan'],
+				'keterangan2' => $data['keterangan2'],
+				'supplier_id' => $data['supplier_id'],
 				//'keterangan'=>$data['keterangan'],
 			);
-			$this->db->insert('ajuan_mingguan_kemeja',$am);
-			$id=$this->db->insert_id();
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$id,
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
+			$this->db->insert('ajuan_mingguan_kemeja', $am);
+			$id = $this->db->insert_id();
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $id,
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
 					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
 					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail_kemeja',$insert);
+				$this->db->insert('ajuan_mingguan_detail_kemeja', $insert);
 			}
-			$this->db->update('ajuan_mingguan_kemeja',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok_skb']),array('id'=>$id));
+			$this->db->update('ajuan_mingguan_kemeja', array('ajuan_kebutuhan' => $totalajuan, 'jml_ajuan' => $totalajuan - $data['stok_skb']), array('id' => $id));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguan_kemeja');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan_kemeja');
 	}
 
-	public function ajuanmingguansave(){
-		$data=$this->input->post();
+	public function ajuanmingguansave()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		if(isset($data['products'])){
-			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
-			$am=array(
-				'tanggal'=>$data['tanggal'],
-				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
-				'kebutuhan'=>$item['nama'],
+		if (isset($data['products'])) {
+			$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $data['kebutuhan']));
+			$am = array(
+				'tanggal' => $data['tanggal'],
+				'jenis' => $data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
+				'kebutuhan' => $item['nama'],
 				'product_id' => $item['product_id'],
 				// 'ajuan_kebutuhan'=>$data['ajuan_kebutuhan'],
-				'ajuan_kebutuhan'=>0,
-				'stok'=>$data['stok'],
+				'ajuan_kebutuhan' => 0,
+				'stok' => $data['stok'],
 				//'jml_ajuan'=>$data['jml_ajuan'],
-				'jml_ajuan'=>0,
-				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
-				'keterangan2'=>$data['keterangan2'],
-				'supplier_id'=>$data['supplier_id'],
-				'metodebayar'=>isset($data['metodebayar']) ? $data['metodebayar'] : null,
+				'jml_ajuan' => 0,
+				'keterangan' => 'kebutuhan ' . $data['kebutuhan'],
+				'keterangan2' => $data['keterangan2'],
+				'supplier_id' => $data['supplier_id'],
+				'metodebayar' => isset($data['metodebayar']) ? $data['metodebayar'] : null,
 				//'keterangan'=>$data['keterangan'],
 			);
-			$this->db->insert('ajuan_mingguan',$am);
-			$id=$this->db->insert_id();
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$id,
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
+			$this->db->insert('ajuan_mingguan', $am);
+			$id = $this->db->insert_id();
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $id,
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
 					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
 					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail',$insert);
+				$this->db->insert('ajuan_mingguan_detail', $insert);
 			}
-			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+			$this->db->update('ajuan_mingguan', array('ajuan_kebutuhan' => $totalajuan, 'jml_ajuan' => $totalajuan - $data['stok']), array('id' => $id));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguan');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan');
 	}
 
-	function ajuanmingguandetailbatal($id){
-		$this->db->update('ajuan_mingguan',array('hapus'=>1),array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
-		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+	function ajuanmingguandetailbatal($id)
+	{
+		$this->db->update('ajuan_mingguan', array('hapus' => 1), array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan?&spv=true');
 	}
 
-	function ajuanmingguandetailbataladmin($id){
-		$this->db->update('ajuan_mingguan',array('hapus'=>1),array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
-		redirect(BASEURL.'Gudang/ajuanmingguan');
+	function ajuanmingguandetailbataladmin($id)
+	{
+		$this->db->update('ajuan_mingguan', array('hapus' => 1), array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan');
 	}
 
-	function ajuanmingguandetailbatalkemeja($id){
-		$this->db->update('ajuan_mingguan_kemeja',array('hapus'=>1),array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
-		redirect(BASEURL.'Gudang/ajuanmingguankemeja?&spv=true');
+	function ajuanmingguandetailbatalkemeja($id)
+	{
+		$this->db->update('ajuan_mingguan_kemeja', array('hapus' => 1), array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
+		redirect(BASEURL . 'Gudang/ajuanmingguankemeja?&spv=true');
 	}
 
-	function ajuanmingguandetailbatalkemejaadmin($id){
-		$this->db->update('ajuan_mingguan_kemeja',array('hapus'=>1),array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dibatalkan');
-		redirect(BASEURL.'Gudang/Ajuanmingguan_kemeja');
+	function ajuanmingguandetailbatalkemejaadmin($id)
+	{
+		$this->db->update('ajuan_mingguan_kemeja', array('hapus' => 1), array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
+		redirect(BASEURL . 'Gudang/Ajuanmingguan_kemeja');
 	}
 
-	public function ajuanmingguansave_edit(){
-		$data=$this->input->post();
+	public function ajuanmingguansave_edit()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		if(isset($data['products'])){
+		if (isset($data['products'])) {
 			/*
 			$am=array(
 				'tanggal'=>$data['tanggal'],
@@ -1097,612 +1133,617 @@ class Gudang extends CI_Controller {
 			}
 			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
 			*/
-			$this->db->update('ajuan_mingguan_detail',array('hapus'=>1),array('idajuan'=>$data['id']));
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$data['id'],
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
+			$this->db->update('ajuan_mingguan_detail', array('hapus' => 1), array('idajuan' => $data['id']));
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $data['id'],
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
 					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
 					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail',$insert);
+				$this->db->insert('ajuan_mingguan_detail', $insert);
 			}
-			$this->db->update('ajuan_mingguan',array('tanggal'=>$data['tanggal'],'keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok'],'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$data['id']));
+			$this->db->update('ajuan_mingguan', array('tanggal' => $data['tanggal'], 'keterangan2' => $data['keterangan'], 'ajuan_kebutuhan' => $totalajuan, 'stok' => $data['stok'], 'jml_ajuan' => $totalajuan - $data['stok']), array('id' => $data['id']));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguan');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan');
 	}
 
-	public function ajuanmingguansave_editkemeja(){
-		$data=$this->input->post();
+	public function ajuanmingguansave_editkemeja()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		if(isset($data['products'])){
-			
-			$this->db->update('ajuan_mingguan_detail_kemeja',array('hapus'=>1),array('idajuan'=>$data['id']));
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$data['id'],
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
+		if (isset($data['products'])) {
+
+			$this->db->update('ajuan_mingguan_detail_kemeja', array('hapus' => 1), array('idajuan' => $data['id']));
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $data['id'],
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
 					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
 					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail_kemeja',$insert);
+				$this->db->insert('ajuan_mingguan_detail_kemeja', $insert);
 			}
-			$this->db->update('ajuan_mingguan_kemeja',array('keterangan2'=>$data['keterangan'],'ajuan_kebutuhan'=>$totalajuan,'stok'=>$data['stok_skb'],'jml_ajuan'=>$totalajuan-$data['stok_skb']),array('id'=>$data['id']));
+			$this->db->update('ajuan_mingguan_kemeja', array('keterangan2' => $data['keterangan'], 'ajuan_kebutuhan' => $totalajuan, 'stok' => $data['stok_skb'], 'jml_ajuan' => $totalajuan - $data['stok_skb']), array('id' => $data['id']));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguan_kemeja');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan_kemeja');
 	}
 
-	public function barangkeluar($jenis){
-		$data=array();
-		if($jenis==1){
-			$data['title']="Barang Keluar Harian Bordir";
-		}else if($jenis==2){
-			$data['title']="Barang Keluar Harian Konveksi";
-		}else{
-			$data['title']="Bahan Keluar harian";
+	public function barangkeluar($jenis)
+	{
+		$data = array();
+		if ($jenis == 1) {
+			$data['title'] = "Barang Keluar Harian Bordir";
+		} else if ($jenis == 2) {
+			$data['title'] = "Barang Keluar Harian Konveksi";
+		} else {
+			$data['title'] = "Bahan Keluar harian";
 		}
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['kode_po'])){
-			$kode_po=$get['kode_po'];
-		}else{
-			$kode_po=null;
-		}
-
-		if(isset($get['id_bahan'])){
-			$id_bahan=$get['id_bahan'];
-		}else{
-			$id_bahan=null;
+		if (isset($get['kode_po'])) {
+			$kode_po = $get['kode_po'];
+		} else {
+			$kode_po = null;
 		}
 
-		$data['persediaan']= $this->GlobalModel->Getdata('product',array('hapus'=>0));
-		$sql="SELECT * FROM barangkeluar_harian  ";
-		if(!empty($id_bahan)){
-			$sql .=" LEFT JOIN barangkeluar_harian_detail ON barangkeluar_harian_detail.idbarangkeluar=barangkeluar_harian.id ";
-			$sql .=" WHERE barangkeluar_harian.hapus=0 AND barangkeluar_harian_detail.id_persediaan='".$id_bahan."' ";
-		}else{
-			$sql .=" WHERE hapus=0 ";
+		if (isset($get['id_bahan'])) {
+			$id_bahan = $get['id_bahan'];
+		} else {
+			$id_bahan = null;
 		}
-		
-		if(!empty($id_bahan)){
 
-		}else{
-			if(!empty($tanggal1)){
-				$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$data['persediaan'] = $this->GlobalModel->Getdata('product', array('hapus' => 0));
+		$sql = "SELECT * FROM barangkeluar_harian  ";
+		if (!empty($id_bahan)) {
+			$sql .= " LEFT JOIN barangkeluar_harian_detail ON barangkeluar_harian_detail.idbarangkeluar=barangkeluar_harian.id ";
+			$sql .= " WHERE barangkeluar_harian.hapus=0 AND barangkeluar_harian_detail.id_persediaan='" . $id_bahan . "' ";
+		} else {
+			$sql .= " WHERE hapus=0 ";
+		}
+
+		if (!empty($id_bahan)) {
+		} else {
+			if (!empty($tanggal1)) {
+				$sql .= " AND date(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
 			}
 		}
 
-		if(!empty($kode_po)){
-			$sql.=" AND kode_po='".$kode_po."' ";
+		if (!empty($kode_po)) {
+			$sql .= " AND kode_po='" . $kode_po . "' ";
 		}
 
-		if(!empty($jenis)){
-			$sql.=" AND barangkeluar_harian.jenis='".$jenis."' ";
+		if (!empty($jenis)) {
+			$sql .= " AND barangkeluar_harian.jenis='" . $jenis . "' ";
 		}
 
-		$sql.=" ORDER BY barangkeluar_harian.id DESC";
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['kode_po']=$kode_po;
-		$data['jenis']=$jenis;
-		$data['products']=array();
-		$details=array();
-		$data['tambah']=BASEURL.'Gudang/barangkeluartambah/'.$jenis;
-		$products=$this->GlobalModel->queryManual($sql);
+		$sql .= " ORDER BY barangkeluar_harian.id DESC";
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['kode_po'] = $kode_po;
+		$data['jenis'] = $jenis;
+		$data['products'] = array();
+		$details = array();
+		$data['tambah'] = BASEURL . 'Gudang/barangkeluartambah/' . $jenis;
+		$products = $this->GlobalModel->queryManual($sql);
 		//$products=$this->GlobalModel->getData('barangkeluar_harian',array('hapus'=>0,'jenis'=>$jenis));
-		$no=1;
-		$bagian=null;
-		foreach($products as $p){
-			$bagian=$this->GlobalModel->GetDataRow('bagian_pengambilan',array('id'=>$p['bagian']));
-			$details=$this->GlobalModel->getData('barangkeluar_harian_detail',array('hapus'=>0,'idbarangkeluar'=>$p['id']));
-			$data['products'][]=array(
-				'no'=>$no++,
-				'id'=>$p['id'],
-				'tanggal'=>date('d-m-Y',strtotime($p['tanggal'])),
-				'kode_po'=>$p['kode_po'],
-				'keterangan'=>$p['keterangan'],
-				'jenis'=>$p['jenis'],
-				'details'=>$details,
-				'edit'=>BASEURL.'barangkeluaredit/'.$p['id'],
-				'bagian'=>!empty($bagian['nama'])?$bagian['nama']:'-',
-				'pengambil'=>$p['pengambil'],
-				'gudang'=>$p['gudang'],
-				'othapus'=>akseshapus(),
+		$no = 1;
+		$bagian = null;
+		foreach ($products as $p) {
+			$bagian = $this->GlobalModel->GetDataRow('bagian_pengambilan', array('id' => $p['bagian']));
+			$details = $this->GlobalModel->getData('barangkeluar_harian_detail', array('hapus' => 0, 'idbarangkeluar' => $p['id']));
+			$data['products'][] = array(
+				'no' => $no++,
+				'id' => $p['id'],
+				'tanggal' => date('d-m-Y', strtotime($p['tanggal'])),
+				'kode_po' => $p['kode_po'],
+				'keterangan' => $p['keterangan'],
+				'jenis' => $p['jenis'],
+				'details' => $details,
+				'edit' => BASEURL . 'barangkeluaredit/' . $p['id'],
+				'bagian' => !empty($bagian['nama']) ? $bagian['nama'] : '-',
+				'pengambil' => $p['pengambil'],
+				'gudang' => $p['gudang'],
+				'othapus' => akseshapus(),
 			);
 		}
-		
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'barangkeluar/barangkeluar_excel',$data);
-		}else{
 
-			$data['page']=$this->page.'barangkeluar/barangkeluar_list';
-			$this->load->view($this->page.'main',$data);
-		
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'barangkeluar/barangkeluar_excel', $data);
+		} else {
+
+			$data['page'] = $this->page . 'barangkeluar/barangkeluar_list';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function barangkeluartambah($jenis){
-		$title='sadasd';
-		$data=array();
-		if($jenis==1){
-			$title="Bordir";
-			$data['fromajuanbordir']=true;
-		}else if($jenis==2){
-			$title="Konveksi";
-			$data['fromajuanbordir']=true;
-		}else{
-			$title='Bahan Keluar Harian';
+	public function barangkeluartambah($jenis)
+	{
+		$title = 'sadasd';
+		$data = array();
+		if ($jenis == 1) {
+			$title = "Bordir";
+			$data['fromajuanbordir'] = true;
+		} else if ($jenis == 2) {
+			$title = "Konveksi";
+			$data['fromajuanbordir'] = true;
+		} else {
+			$title = 'Bahan Keluar Harian';
 		}
-		$data['jenis']=$jenis;
-		$data['title']=$title;
-		$data['forms']=[];
+		$data['jenis'] = $jenis;
+		$data['title'] = $title;
+		$data['forms'] = [];
 		//pre($data);
-		$data['action']=BASEURL.'Gudang/barangkeluarsave/'.$jenis;
-		$data['cancel']=BASEURL.'Gudang/barangkeluar/'.$jenis;
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
+		$data['action'] = BASEURL . 'Gudang/barangkeluarsave/' . $jenis;
+		$data['cancel'] = BASEURL . 'Gudang/barangkeluar/' . $jenis;
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
 		//$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		$data['barang'] = $this->GlobalModel->QueryManual("SELECT * FROM gudang_persediaan_item WHERE hapus=0 ORDER BY nama_item ASC ");
-		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$data['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
-		$data['bagian']=$this->GlobalModel->getData('bagian_pengambilan',array());
-		$data['forms'] = $this->GlobalModel->getData('formpengambilanalat',array('hapus'=>0,'status'=>2));
-		$data['page']=$this->page.'barangkeluar/barangkeluar_form';
-		$this->load->view($this->page.'main',$data);
+		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$data['proggres'] = $this->GlobalModel->getData('proggresion_po', NULL);
+		$data['bagian'] = $this->GlobalModel->getData('bagian_pengambilan', array());
+		$data['forms'] = $this->GlobalModel->getData('formpengambilanalat', array('hapus' => 0, 'status' => 2));
+		$data['page'] = $this->page . 'barangkeluar/barangkeluar_form';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function barangkeluarsave(){
-		$data=$this->input->post();
+	public function barangkeluarsave()
+	{
+		$data = $this->input->post();
 		// pre($data);
-		if(isset($data['products'])){
-			$insert=array(
-				'tanggal'=>$data['tanggal'],
-				'kode_po'=>$data['kode_po'],
-				'keterangan'=>$data['keterangan'],
-				'jenis'=>$data['jenis'],
-				'bagian'=>$data['bagian'],
-				'pengambil'=>$data['pengambil'],
-				'gudang'=>$data['gudang'],
-				'hapus'=>0
+		if (isset($data['products'])) {
+			$insert = array(
+				'tanggal' => $data['tanggal'],
+				'kode_po' => $data['kode_po'],
+				'keterangan' => $data['keterangan'],
+				'jenis' => $data['jenis'],
+				'bagian' => $data['bagian'],
+				'pengambil' => $data['pengambil'],
+				'gudang' => $data['gudang'],
+				'hapus' => 0
 			);
-			$this->db->insert('barangkeluar_harian',$insert);
-			$id=$this->db->insert_id();
-			foreach($data['products'] as $p){
-				$curqty=$this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$p['id_persediaan']));
-				$kartustok=array(
-						'tanggal'=>date('Y-m-d'),
-						'idproduct'=>$p['id_persediaan'],
-						'nama'=>$p['nama'],
-						'saldomasuk_uk'=>$p['ukuran'],
-						'saldomasuk_qty'=>$p['jumlah'],
-						'harga'=>$p['harga'],
-						'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
-					);
-				kartustok($kartustok,2);
-				if(!empty($curqty)){
-					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item-'".$p['ukuran']."', jumlah_item=jumlah_item-'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
-				}
-				$curqtyproduct=$this->GlobalModel->getDataRow('product',array('product_id'=>$p['id_persediaan']));
-				if(!empty($curqtyproduct)){
-					$this->db->query("UPDATE product set ukuran_item=ukuran_item-'".$p['ukuran']."', quantity=quantity-'".$p['jumlah']."' WHERE product_id='".$p['id_persediaan']."' ");
-				}
-				$detail=array(
-					'idbarangkeluar'=>$id,
-					'id_persediaan'=>$p['id_persediaan'],
-					'nama'=>$p['nama'],
-					'warna'=>$p['warna'],
-					'ukuran'=>$p['ukuran'],
-					'satuan_ukuran'=>$p['satuanUkran'],
-					'jumlah'=>$p['jumlah'],
-					'satuanJml'=>$p['satuanJml'],
-					'harga'=>$p['harga'],
-					'hapus'=>0,
-					'tanggal'=>$data['tanggal'],
-					'jenis'=>$data['jenis'],
+			$this->db->insert('barangkeluar_harian', $insert);
+			$id = $this->db->insert_id();
+			foreach ($data['products'] as $p) {
+				$curqty = $this->GlobalModel->getDataRow('gudang_persediaan_item', array('id_persediaan' => $p['id_persediaan']));
+				$kartustok = array(
+					'tanggal' => date('Y-m-d'),
+					'idproduct' => $p['id_persediaan'],
+					'nama' => $p['nama'],
+					'saldomasuk_uk' => $p['ukuran'],
+					'saldomasuk_qty' => $p['jumlah'],
+					'harga' => $p['harga'],
+					'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
 				);
-				$this->db->insert('barangkeluar_harian_detail',$detail);
+				kartustok($kartustok, 2);
+				if (!empty($curqty)) {
+					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item-'" . $p['ukuran'] . "', jumlah_item=jumlah_item-'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
+				}
+				$curqtyproduct = $this->GlobalModel->getDataRow('product', array('product_id' => $p['id_persediaan']));
+				if (!empty($curqtyproduct)) {
+					$this->db->query("UPDATE product set ukuran_item=ukuran_item-'" . $p['ukuran'] . "', quantity=quantity-'" . $p['jumlah'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
+				}
+				$detail = array(
+					'idbarangkeluar' => $id,
+					'id_persediaan' => $p['id_persediaan'],
+					'nama' => $p['nama'],
+					'warna' => $p['warna'],
+					'ukuran' => $p['ukuran'],
+					'satuan_ukuran' => $p['satuanUkran'],
+					'jumlah' => $p['jumlah'],
+					'satuanJml' => $p['satuanJml'],
+					'harga' => $p['harga'],
+					'hapus' => 0,
+					'tanggal' => $data['tanggal'],
+					'jenis' => $data['jenis'],
+				);
+				$this->db->insert('barangkeluar_harian_detail', $detail);
 			}
-			user_activity(callSessUser('id_user'),1,' Input barang / bahan keluar harian dengan id '.$id);
+			user_activity(callSessUser('id_user'), 1, ' Input barang / bahan keluar harian dengan id ' . $id);
 
-			if(isset($data['id_form'])){
-				$this->db->update('formpengambilanalat',array('status'=>1),array('id'=>$data['id_form']));
-				user_activity(callSessUser('id_user'),1,' memvalidasi ajuan formpengambilanalat dengan  id '.$data['id_form']);
+			if (isset($data['id_form'])) {
+				$this->db->update('formpengambilanalat', array('status' => 1), array('id' => $data['id_form']));
+				user_activity(callSessUser('id_user'), 1, ' memvalidasi ajuan formpengambilanalat dengan  id ' . $data['id_form']);
 			}
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'Gudang/barangkeluar/'.$data['jenis']);	
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+			redirect(BASEURL . 'Gudang/barangkeluar/' . $data['jenis']);
 		}
 	}
 
-	public function barangkeluarhapus($id,$id2,$jenis){
-		
+	public function barangkeluarhapus($id, $id2, $jenis)
+	{
+
 		//$this->db->query("UPDATE barangkeluar_harian SET hapus=1 WHERE id='$id' ");
 		$this->db->query("UPDATE barangkeluar_harian_detail SET hapus=1 WHERE id='$id2' ");
-		$p=$this->GlobalModel->getDataRow('barangkeluar_harian_detail',array('id'=>$id2));
-		$kartustok=array(
-			'tanggal'=>date('Y-m-d'),
-			'idproduct'=>$p['id_persediaan'],
-			'nama'=>$p['nama'],
-			'saldomasuk_uk'=>$p['ukuran'],
-			'saldomasuk_qty'=>$p['jumlah'],
-			'harga'=>$p['harga'],
-			'keterangan'=>'Pembatalan barang keluar harian oleh '.callSessUser('nama_user'),
+		$p = $this->GlobalModel->getDataRow('barangkeluar_harian_detail', array('id' => $id2));
+		$kartustok = array(
+			'tanggal' => date('Y-m-d'),
+			'idproduct' => $p['id_persediaan'],
+			'nama' => $p['nama'],
+			'saldomasuk_uk' => $p['ukuran'],
+			'saldomasuk_qty' => $p['jumlah'],
+			'harga' => $p['harga'],
+			'keterangan' => 'Pembatalan barang keluar harian oleh ' . callSessUser('nama_user'),
 		);
-		kartustok($kartustok,1);
-		$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+'".$p['ukuran']."', jumlah_item=jumlah_item+'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
-		$this->db->query("UPDATE product set ukuran_item=ukuran_item+'".$p['ukuran']."', quantity=quantity+'".$p['jumlah']."' WHERE product_id='".$p['id_persediaan']."' ");
-		$this->session->set_flashdata('msg','Data berhasil dihapus');
-		redirect(BASEURL.'Gudang/barangkeluar/'.$jenis);	
+		kartustok($kartustok, 1);
+		$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+'" . $p['ukuran'] . "', jumlah_item=jumlah_item+'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
+		$this->db->query("UPDATE product set ukuran_item=ukuran_item+'" . $p['ukuran'] . "', quantity=quantity+'" . $p['jumlah'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
+		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+		redirect(BASEURL . 'Gudang/barangkeluar/' . $jenis);
 	}
 
-	public function absensigudang(){
-		$data=array();
-		$data['title']="Daftar Absensi Karyawan Gudang";
-		$data['products']=array();
-		$data['n']=1;
-		$data['tambah']=BASEURL.'Gudang/absensigudangadd';
-		$data['action']=BASEURL.'Gudang/absensigudangsave';
-		$data['actionkaryawan']=BASEURL.'Gudang/karyawangudangsave';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of this month"));
+	public function absensigudang()
+	{
+		$data = array();
+		$data['title'] = "Daftar Absensi Karyawan Gudang";
+		$data['products'] = array();
+		$data['n'] = 1;
+		$data['tambah'] = BASEURL . 'Gudang/absensigudangadd';
+		$data['action'] = BASEURL . 'Gudang/absensigudangsave';
+		$data['actionkaryawan'] = BASEURL . 'Gudang/karyawangudangsave';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("first day of this month"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
-		$sql="SELECT * FROM absensi WHERE hapus=0 ";
-		$sql.=" AND date(tanggal) BETWEEN '$tanggal1' AND '$tanggal2' ";
-		$sql.=" ORDER BY id DESC";
-		$results=$this->GlobalModel->queryManual($sql);
-		$s=null;
-		$date=date('Y-m-d');
-		$masuk='#28a745!important';
-		foreach($results as $r){
-			$s=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['nama']));
-			if($date==$r['tanggal']){
-				$action=BASEURL.'Gudang/absenpulang/'.$r['id'];
-			}else{
-				$action=null;
+		$sql = "SELECT * FROM absensi WHERE hapus=0 ";
+		$sql .= " AND date(tanggal) BETWEEN '$tanggal1' AND '$tanggal2' ";
+		$sql .= " ORDER BY id DESC";
+		$results = $this->GlobalModel->queryManual($sql);
+		$s = null;
+		$date = date('Y-m-d');
+		$masuk = '#28a745!important';
+		foreach ($results as $r) {
+			$s = $this->GlobalModel->getDataRow('karyawan_harian', array('id' => $r['nama']));
+			if ($date == $r['tanggal']) {
+				$action = BASEURL . 'Gudang/absenpulang/' . $r['id'];
+			} else {
+				$action = null;
 			}
 
-			if($r['jam_masuk']<'08:00:01'){
-				$masuk='#28a745!important';
-			}else if($r['jam_masuk']>'08:00:00' && $r['jam_masuk']<'17:00:00'){
-				$masuk='#d85555';
-			}else{
-				$masuk='#d85555';
+			if ($r['jam_masuk'] < '08:00:01') {
+				$masuk = '#28a745!important';
+			} else if ($r['jam_masuk'] > '08:00:00' && $r['jam_masuk'] < '17:00:00') {
+				$masuk = '#d85555';
+			} else {
+				$masuk = '#d85555';
 			}
-			$data['products'][]=array(
-				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-				'nama'=>strtolower($s['nama']),
-				'jam_masuk'=>$r['jam_masuk'],
-				'jam_keluar'=>$r['jam_keluar'],
-				'keterangan'=>$r['keterangan'],
-				'action'=>$action,
-				'bg'=>$masuk,
+			$data['products'][] = array(
+				'tanggal' => date('d-m-Y', strtotime($r['tanggal'])),
+				'nama' => strtolower($s['nama']),
+				'jam_masuk' => $r['jam_masuk'],
+				'jam_keluar' => $r['jam_keluar'],
+				'keterangan' => $r['keterangan'],
+				'action' => $action,
+				'bg' => $masuk,
 			);
 		}
-		$data['divisi'] = $this->GlobalModel->getData('divisi',array('hapus'=>0));
-		$data['karyawan'] = $this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
-		$data['page']=$this->page.'absensi/list';
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$this->load->view($this->page.'main',$data);
+		$data['divisi'] = $this->GlobalModel->getData('divisi', array('hapus' => 0));
+		$data['karyawan'] = $this->GlobalModel->getData('karyawan_harian', array('hapus' => 0));
+		$data['page'] = $this->page . 'absensi/list';
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function absensigudangadd(){
-		$data=array();
-		$data['title']="Form Absensi Karyawan Gudang";
-		$data['products']=array();
-		$data['n']=1;
-		$data['action']=BASEURL.'Gudang/absensigudangsave';
-		$data['cancel']=BASEURL.'Gudang/absensigudang';
-		$this->load->view($this->page.'main',$data);
+	public function absensigudangadd()
+	{
+		$data = array();
+		$data['title'] = "Form Absensi Karyawan Gudang";
+		$data['products'] = array();
+		$data['n'] = 1;
+		$data['action'] = BASEURL . 'Gudang/absensigudangsave';
+		$data['cancel'] = BASEURL . 'Gudang/absensigudang';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function absensigudangsave(){
-		$date=date_create();
-		$tgl= date_format($date,"H:i:s");
-		$data=$this->input->post();
-		$insert=array(
-			'tanggal'=>$data['tanggal'],
-			'bagian'=>$data['bagian'],
-			'nama'=>$data['nama'],
-			'jam_masuk'=>$tgl,
-			'jam_keluar'=>null,
-			'keterangan'=>$data['keterangan'],
-			'hapus'=>0,
-			'tglinput'=>date('Y-m-d H:i:s'),
+	public function absensigudangsave()
+	{
+		$date = date_create();
+		$tgl = date_format($date, "H:i:s");
+		$data = $this->input->post();
+		$insert = array(
+			'tanggal' => $data['tanggal'],
+			'bagian' => $data['bagian'],
+			'nama' => $data['nama'],
+			'jam_masuk' => $tgl,
+			'jam_keluar' => null,
+			'keterangan' => $data['keterangan'],
+			'hapus' => 0,
+			'tglinput' => date('Y-m-d H:i:s'),
 		);
-		$cek=$this->GlobalModel->getDataRow('absensi',array('nama'=>$data['nama'],'tanggal'=>$data['tanggal']));
-		if(empty($cek)){
-			$this->db->insert('absensi',$insert);
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-		}else{
-			$this->session->set_flashdata('msgt','Data sudah ada');
+		$cek = $this->GlobalModel->getDataRow('absensi', array('nama' => $data['nama'], 'tanggal' => $data['tanggal']));
+		if (empty($cek)) {
+			$this->db->insert('absensi', $insert);
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		} else {
+			$this->session->set_flashdata('msgt', 'Data sudah ada');
 		}
-		redirect(BASEURL.'Gudang/absensigudang');
+		redirect(BASEURL . 'Gudang/absensigudang');
 	}
 
-	public function absenpulang($id){
-		$date=date_create();
-		$tgl= date_format($date,"H:i:s");
-		$data=$this->input->post();
-		$insert=array(
-			'jam_keluar'=>$tgl,
+	public function absenpulang($id)
+	{
+		$date = date_create();
+		$tgl = date_format($date, "H:i:s");
+		$data = $this->input->post();
+		$insert = array(
+			'jam_keluar' => $tgl,
 		);
-		$this->db->update('absensi',$insert,array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/absensigudang');
+		$this->db->update('absensi', $insert, array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/absensigudang');
 	}
 
-	public function karyawangudangsave(){
-		$data=$this->input->post();
-		$insert=array(
-			'nama'=>$data['nama'],
-			'bagian'=>$data['bagian'],
-			'tipe'=>$data['tipe'],
-			'gaji'=>0,
-			'perminggu'=>0,
-			'hapus'=>0,
+	public function karyawangudangsave()
+	{
+		$data = $this->input->post();
+		$insert = array(
+			'nama' => $data['nama'],
+			'bagian' => $data['bagian'],
+			'tipe' => $data['tipe'],
+			'gaji' => 0,
+			'perminggu' => 0,
+			'hapus' => 0,
 		);
-		$this->db->insert('karyawan_harian',$insert);
-		$this->session->set_flashdata('msg','Data Berhasil Di Simpan');
-		redirect(BASEURL.'Gudang/absensigudang');
+		$this->db->insert('karyawan_harian', $insert);
+		$this->session->set_flashdata('msg', 'Data Berhasil Di Simpan');
+		redirect(BASEURL . 'Gudang/absensigudang');
 	}
 
-	public function pengajuan(){
-		$data=array();
-		
-		$data['products']=array();
-		$data['n']=1;
-		
-		$user=user();
-		$setujui=0;
-		if(isset($user['id_user'])){
-			$data['setujui']=akses($user['id_user'],3);
-		}
-		$data['id_user']=$user['id_user'];
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
-		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
-		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
-		}
-		$last=$this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE hapus=0 ORDER BY tanggal DESC limit 1 ");
-		$sql="SELECT * FROM pengajuan_harian_new WHERE hapus=0 ";
-		$tgl2= empty($tanggal2)?date('Y-m-d'):$tanggal2;
-		if(!empty($tanggal1)){
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tgl2."' ";
-		}else{
-			$sql.=" AND date(tanggal)='".$last['tanggal']."' ";
-		}
-		if(!empty($cat)){
-			$sql.=" AND kategori='".$cat."' ";
-		}else{
-			if(isset($get['list_skb'])){
-				$sql.=" AND kategori IN (4) ";
-			}else{
-				
-			}
-		}
-		$sql.=" ORDER BY id DESC ";
-		if( isset($get['tanggal1']) OR isset($get['cat']) ){
+	public function pengajuan()
+	{
+		$data = array();
 
-		}else{
-			$sql.="LIMIT 10";
+		$data['products'] = array();
+		$data['n'] = 1;
+
+		$user = user();
+		$setujui = 0;
+		if (isset($user['id_user'])) {
+			$data['setujui'] = akses($user['id_user'], 3);
 		}
-		$data['harian'] =$this->db->query($sql)->result_array();
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/view_excel',$data);
-		}else{
-			if(!isset($get['list_skb'])){
-				$data['title']='Pengajuan';
-				$data['tambah']=BASEURL.'Gudang/pengajuanadd';
-				$data['page']=$this->page.'gudang/pengajuan/view';		
-				$this->load->view($this->page.'main',$data);
-			}else{
-				$data['title']='Pengajuan Sukabumi (Non-pembelian)';
-				$data['page']=$this->page.'gudang/pengajuan/list_ajuan_skb';
-				$data['tambah']=BASEURL.'Gudang/pengajuanadd?&sukabumi=true';
-				$this->load->view($this->page.'main',$data);
+		$data['id_user'] = $user['id_user'];
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("monday this week"));
+		}
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
+		}
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
+		}
+		$last = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE hapus=0 ORDER BY tanggal DESC limit 1 ");
+		$sql = "SELECT * FROM pengajuan_harian_new WHERE hapus=0 ";
+		$tgl2 = empty($tanggal2) ? date('Y-m-d') : $tanggal2;
+		if (!empty($tanggal1)) {
+			$sql .= " AND date(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tgl2 . "' ";
+		} else {
+			$sql .= " AND date(tanggal)='" . $last['tanggal'] . "' ";
+		}
+		if (!empty($cat)) {
+			$sql .= " AND kategori='" . $cat . "' ";
+		} else {
+			if (isset($get['list_skb'])) {
+				$sql .= " AND kategori IN (4) ";
+			} else {
 			}
-			
+		}
+		$sql .= " ORDER BY id DESC ";
+		if (isset($get['tanggal1']) or isset($get['cat'])) {
+		} else {
+			$sql .= "LIMIT 10";
+		}
+		$data['harian'] = $this->db->query($sql)->result_array();
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/view_excel', $data);
+		} else {
+			if (!isset($get['list_skb'])) {
+				$data['title'] = 'Pengajuan';
+				$data['tambah'] = BASEURL . 'Gudang/pengajuanadd';
+				$data['page'] = $this->page . 'gudang/pengajuan/view';
+				$this->load->view($this->page . 'main', $data);
+			} else {
+				$data['title'] = 'Pengajuan Sukabumi (Non-pembelian)';
+				$data['page'] = $this->page . 'gudang/pengajuan/list_ajuan_skb';
+				$data['tambah'] = BASEURL . 'Gudang/pengajuanadd?&sukabumi=true';
+				$this->load->view($this->page . 'main', $data);
+			}
 		}
 	}
 
-	public function pengajuanmanajer(){
-		$data=array();
-		
-		$data['products']=array();
-		$data['n']=1;
-		
-		$user=user();
-		$setujui=0;
-		if(isset($user['id_user'])){
-			$data['setujui']=akses($user['id_user'],3);
-		}
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
-		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
-		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
-		}
-		$last=$this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE hapus=0 ORDER BY tanggal DESC limit 1 ");
-		$sql="SELECT * FROM pengajuan_harian_new WHERE hapus=0 ";
-		$tgl2= empty($tanggal2)?date('Y-m-d'):$tanggal2;
-		if(!empty($tanggal1)){
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tgl2."' ";
-		}else{
-			$sql.=" AND date(tanggal)='".$last['tanggal']."' ";
-		}
-		if(!empty($cat)){
-			$sql.=" AND kategori='".$cat."' ";
-		}else{
-			if(isset($get['list_skb'])){
-				$sql.=" AND kategori IN (4) ";
-			}else{
-				
-			}
-		}
-		$sql.=" ORDER BY id DESC ";
-		if( isset($get['tanggal1']) OR isset($get['cat']) ){
+	public function pengajuanmanajer()
+	{
+		$data = array();
 
-		}else{
-			$sql.="LIMIT 10";
+		$data['products'] = array();
+		$data['n'] = 1;
+
+		$user = user();
+		$setujui = 0;
+		if (isset($user['id_user'])) {
+			$data['setujui'] = akses($user['id_user'], 3);
 		}
-		$data['harian'] =$this->db->query($sql)->result_array();
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'gudang/pengajuan/view_excel',$data);
-		}else{
-			if(!isset($get['list_skb'])){
-				$data['title']='Pengajuan';
-				$data['tambah']=BASEURL.'Gudang/pengajuanadd';
-				$data['page']=$this->page.'gudang/pengajuan/manajer';		
-				$this->load->view($this->page.'main',$data);
-			}else{
-				$data['title']='Pengajuan Sukabumi (Non-pembelian)';
-				$data['page']=$this->page.'gudang/pengajuan/list_ajuan_skb';
-				$data['tambah']=BASEURL.'Gudang/pengajuanadd?&sukabumi=true';
-				$this->load->view($this->page.'main',$data);
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("monday this week"));
+		}
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
+		}
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
+		}
+		$last = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE hapus=0 ORDER BY tanggal DESC limit 1 ");
+		$sql = "SELECT * FROM pengajuan_harian_new WHERE hapus=0 ";
+		$tgl2 = empty($tanggal2) ? date('Y-m-d') : $tanggal2;
+		if (!empty($tanggal1)) {
+			$sql .= " AND date(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tgl2 . "' ";
+		} else {
+			$sql .= " AND date(tanggal)='" . $last['tanggal'] . "' ";
+		}
+		if (!empty($cat)) {
+			$sql .= " AND kategori='" . $cat . "' ";
+		} else {
+			if (isset($get['list_skb'])) {
+				$sql .= " AND kategori IN (4) ";
+			} else {
 			}
-			
+		}
+		$sql .= " ORDER BY id DESC ";
+		if (isset($get['tanggal1']) or isset($get['cat'])) {
+		} else {
+			$sql .= "LIMIT 10";
+		}
+		$data['harian'] = $this->db->query($sql)->result_array();
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'gudang/pengajuan/view_excel', $data);
+		} else {
+			if (!isset($get['list_skb'])) {
+				$data['title'] = 'Pengajuan';
+				$data['tambah'] = BASEURL . 'Gudang/pengajuanadd';
+				$data['page'] = $this->page . 'gudang/pengajuan/manajer';
+				$this->load->view($this->page . 'main', $data);
+			} else {
+				$data['title'] = 'Pengajuan Sukabumi (Non-pembelian)';
+				$data['page'] = $this->page . 'gudang/pengajuan/list_ajuan_skb';
+				$data['tambah'] = BASEURL . 'Gudang/pengajuanadd?&sukabumi=true';
+				$this->load->view($this->page . 'main', $data);
+			}
 		}
 	}
 
 	public function pengajuanadd()
 	{
 		$get = $this->input->get();
-		if(isset($get['sukabumi'])){
-			$data['sukabumi']='ya';
-		}else{
-			$data['sukabumi']='tidak';
+		if (isset($get['sukabumi'])) {
+			$data['sukabumi'] = 'ya';
+		} else {
+			$data['sukabumi'] = 'tidak';
 		}
-		$viewData['title']='Form Ajuan Belanja ';
-		$viewData['action']=BASEURL.'Gudang/pengajuansave';
-		$viewData['batal']=BASEURL.'Gudang/pengajuan';
-		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier',null);
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
+		$viewData['title'] = 'Form Ajuan Belanja ';
+		$viewData['action'] = BASEURL . 'Gudang/pengajuansave';
+		$viewData['batal'] = BASEURL . 'Gudang/pengajuan';
+		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier', null);
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$viewData['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
 
-		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI',4=>'SUKABUMI');
-		if(isset($get['sukabumi'])){
-			$viewData['batal']=BASEURL.'Gudang/pengajuan?&list_skb';
-			if(isset($get['list'])){
-				$page='newtheme/page/gudang/pengajuan/list_ajuan_skb';
-			}else{
-				$page='newtheme/page/gudang/pengajuan/list_ajuan_skb_form';
+		$viewData['katpeng'] = array(1 => 'SABLON', 2 => 'BORDIR', 3 => 'KONVEKSI', 4 => 'SUKABUMI');
+		if (isset($get['sukabumi'])) {
+			$viewData['batal'] = BASEURL . 'Gudang/pengajuan?&list_skb';
+			if (isset($get['list'])) {
+				$page = 'newtheme/page/gudang/pengajuan/list_ajuan_skb';
+			} else {
+				$page = 'newtheme/page/gudang/pengajuan/list_ajuan_skb_form';
 			}
-			
-		}else{
-			$page='newtheme/page/gudang/pengajuan/tambah';
+		} else {
+			$page = 'newtheme/page/gudang/pengajuan/tambah';
 		}
-		$viewData['page']=$page;
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['page'] = $page;
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function setujuiajuan($id){
-		$url='';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$url.='&tanggal1='.$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-31 days"));
+	public function setujuiajuan($id)
+	{
+		$url = '';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$url .= '&tanggal1=' . $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-31 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$url.='&tanggal2='.$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$url .= '&tanggal2=' . $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		$this->db->update('pengajuan_harian_new',array('status'=>1),array('id'=>$id));
-		$this->db->update('pengajuan_harian_new_detail',array('komentar'=>null),array('idpengajuan'=>$id));
-		user_activity(callSessUser('id_user'),1,' menyetujui pengajuan dengan id ajuan '.$id);
-		$this->session->set_flashdata('msg','Data berhasil disetujui');
-		redirect(BASEURL.'Gudang/pengajuan'.$url);
+		$this->db->update('pengajuan_harian_new', array('status' => 1), array('id' => $id));
+		$this->db->update('pengajuan_harian_new_detail', array('komentar' => null), array('idpengajuan' => $id));
+		user_activity(callSessUser('id_user'), 1, ' menyetujui pengajuan dengan id ajuan ' . $id);
+		$this->session->set_flashdata('msg', 'Data berhasil disetujui');
+		redirect(BASEURL . 'Gudang/pengajuan' . $url);
 	}
 
-	public function ajuanhapus($id){
-		$url='';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$url.='&tanggal1='.$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-31 days"));
+	public function ajuanhapus($id)
+	{
+		$url = '';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$url .= '&tanggal1=' . $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-31 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$url.='&tanggal2='.$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$url .= '&tanggal2=' . $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		$this->db->update('pengajuan_harian_new',array('hapus'=>1),array('id'=>$id));
-		user_activity(callSessUser('id_user'),1,' menghapus pengajuan dengan id ajuan '.$id);
-		$this->session->set_flashdata('msg','Data berhasil dihapus');
-		redirect(BASEURL.'Gudang/pengajuan'.$url);
+		$this->db->update('pengajuan_harian_new', array('hapus' => 1), array('id' => $id));
+		user_activity(callSessUser('id_user'), 1, ' menghapus pengajuan dengan id ajuan ' . $id);
+		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+		redirect(BASEURL . 'Gudang/pengajuan' . $url);
 	}
 
 
@@ -1712,79 +1753,78 @@ class Gudang extends CI_Controller {
 	{
 
 		$data = $this->input->post();
-		$cash=0;
-		$transfer=0;
-		if(isset($data['products'])){
-			$ip=array(
-				'kategori'=>$data['kategoriPengajuan'],
-				'cash'=>0,
-				'transfer'=>0,
-				'status'=>0,
-				'hapus'=>0,
-				'tanggal'=>$data['tanggal'],
-				'keterangan'=>$data['keterangan'],
-				'dibuat'=>date('Y-m-d H:i:s'),
+		$cash = 0;
+		$transfer = 0;
+		if (isset($data['products'])) {
+			$ip = array(
+				'kategori' => $data['kategoriPengajuan'],
+				'cash' => 0,
+				'transfer' => 0,
+				'status' => 0,
+				'hapus' => 0,
+				'tanggal' => $data['tanggal'],
+				'keterangan' => $data['keterangan'],
+				'dibuat' => date('Y-m-d H:i:s'),
 			);
-			$this->db->insert('pengajuan_harian_new',$ip);
-			$id=$this->db->insert_id();
-			foreach($data['products'] as $p){
-				if($p['pembayaran']==1){
-					$cash+=($p['harga']*$p['jumlah']);
+			$this->db->insert('pengajuan_harian_new', $ip);
+			$id = $this->db->insert_id();
+			foreach ($data['products'] as $p) {
+				if ($p['pembayaran'] == 1) {
+					$cash += ($p['harga'] * $p['jumlah']);
 				}
 
-				if($p['pembayaran']==2){
-					$transfer+=($p['harga']*$p['jumlah']);
+				if ($p['pembayaran'] == 2) {
+					$transfer += ($p['harga'] * $p['jumlah']);
 				}
-				$rip=array(
-					'idpengajuan'=>$id,
-					'nama_item'=>$p['nama_item'],
-					'jumlah'=>$p['jumlah'],
-					'satuan'=>$p['satuan'],
-					'harga'=>$p['harga'],
-					'pembayaran'=>$p['pembayaran'],
-					'supplier'=>$p['supplier'],
-					'keterangan'=>$p['keterangan'],
-					'status'=>0
+				$rip = array(
+					'idpengajuan' => $id,
+					'nama_item' => $p['nama_item'],
+					'jumlah' => $p['jumlah'],
+					'satuan' => $p['satuan'],
+					'harga' => $p['harga'],
+					'pembayaran' => $p['pembayaran'],
+					'supplier' => $p['supplier'],
+					'keterangan' => $p['keterangan'],
+					'status' => 0
 				);
-				$this->db->insert('pengajuan_harian_new_detail',$rip);
+				$this->db->insert('pengajuan_harian_new_detail', $rip);
 			}
 
-			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
-			$peng=null;
-			if($data['kategoriPengajuan']==1){
-				$peng='SABLON';
-			}else if($data['kategoriPengajuan']==2){
-				$peng="BORDIR";
-			}else{
-				$peng='KONVEKSI';
+			$this->db->update('pengajuan_harian_new', array('cash' => $cash, 'transfer' => $transfer), array('id' => $id));
+			$peng = null;
+			if ($data['kategoriPengajuan'] == 1) {
+				$peng = 'SABLON';
+			} else if ($data['kategoriPengajuan'] == 2) {
+				$peng = "BORDIR";
+			} else {
+				$peng = 'KONVEKSI';
 			}
-			$notify=array(
-				'type'=>'Pengajuan Harian '.$peng,
-				'tables'=>'pengajuan_harian_new',
-				'tablesid'=>$id,
-				'oleh'=>callSessUser('nama_user'),
-				'status'=>0,
-				'tanggal'=>date('Y-m-d H:i:s'),
-				'url'=>'Gudang/pengajuandetail/'.$id,
+			$notify = array(
+				'type' => 'Pengajuan Harian ' . $peng,
+				'tables' => 'pengajuan_harian_new',
+				'tablesid' => $id,
+				'oleh' => callSessUser('nama_user'),
+				'status' => 0,
+				'tanggal' => date('Y-m-d H:i:s'),
+				'url' => 'Gudang/pengajuandetail/' . $id,
 			);
-			user_activity(callSessUser('id_user'),1,' Input pengajuan harian dengan id '.$id);
-			$this->db->insert('notifikasi',$notify);
-			$msg=callSessUser('nama_user').' telah membuat ajuan harian';
+			user_activity(callSessUser('id_user'), 1, ' Input pengajuan harian dengan id ' . $id);
+			$this->db->insert('notifikasi', $notify);
+			$msg = callSessUser('nama_user') . ' telah membuat ajuan harian';
 			push($msg);
-			
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
 
-			if($data['kategoriPengajuan']==4){
-				redirect(BASEURL.'Gudang/pengajuan?&list_skb=4&cat=4');
-			}else{
-				redirect(BASEURL.'Gudang/pengajuan');
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+
+			if ($data['kategoriPengajuan'] == 4) {
+				redirect(BASEURL . 'Gudang/pengajuan?&list_skb=4&cat=4');
+			} else {
+				redirect(BASEURL . 'Gudang/pengajuan');
 			}
-			
 		}
-
 	}
 
-	public function pengajuancetak($kode=''){
+	public function pengajuancetak($kode = '')
+	{
 		$query = "
 			SELECT d.*, pd.id_pembelian, p.status as status_pembayaran, p.no_invoice 
 			FROM pengajuan_harian_new_detail d 
@@ -1797,30 +1837,29 @@ class Gudang extends CI_Controller {
 		$viewData['item_cash'] = $this->db->query($query . " AND d.pembayaran = 1")->result_array();
 		$viewData['item_tf'] = $this->db->query($query . " AND d.pembayaran = 2")->result_array();
 
-		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
-		$viewData['mingguan'] = !empty($viewData['parent']['from_mingguan']) ? 'MINGGUAN':'HARIAN';
-		$adminkeu=null;
-		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>24));
-		$viewData['adminkeu']=$adminkeu['nama'];
-		$adminskb =$this->GlobalModel->getDataRow('user',array('location'=>'Sukabumi','status_user'=>1));
-		$viewData['adminskb']=!empty($adminskb) ? strtolower($adminskb['nama_user']):'';
-		$viewData['action']=BASEURL.'Gudang/pengajuan';
-		$viewData['menyetujui']=0;
-		$ttd		 = $this->GlobalModel->GetDataRow('user',array('bagian_user'=>1));
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $kode));
+		$viewData['mingguan'] = !empty($viewData['parent']['from_mingguan']) ? 'MINGGUAN' : 'HARIAN';
+		$adminkeu = null;
+		$adminkeu = $this->GlobalModel->getDataRow('karyawan', array('jabatan' => 24));
+		$viewData['adminkeu'] = $adminkeu['nama'];
+		$adminskb = $this->GlobalModel->getDataRow('user', array('location' => 'Sukabumi', 'status_user' => 1));
+		$viewData['adminskb'] = !empty($adminskb) ? strtolower($adminskb['nama_user']) : '';
+		$viewData['action'] = BASEURL . 'Gudang/pengajuan';
+		$viewData['menyetujui'] = 0;
+		$ttd		 = $this->GlobalModel->GetDataRow('user', array('bagian_user' => 1));
 		$viewData['ttd'] = $ttd['ttd'];
-		$get=$this->input->get();
-		if(isset($get['excel'])){
-			if(isset($get['sukabumiforjkt'])){
-				$this->load->view('newtheme/page/gudang/pengajuan/cetak_exceljktskb',$viewData);
-			}else{
-				$this->load->view('newtheme/page/gudang/pengajuan/cetak_excel',$viewData);
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			if (isset($get['sukabumiforjkt'])) {
+				$this->load->view('newtheme/page/gudang/pengajuan/cetak_exceljktskb', $viewData);
+			} else {
+				$this->load->view('newtheme/page/gudang/pengajuan/cetak_excel', $viewData);
 			}
-			
-		}else{
-			if(isset($get['sukabumiforjkt'])){
-				$viewData['page']='newtheme/page/gudang/pengajuan/cetakskbjkt';
-			}else{
-				if(isset($get['pdf'])){
+		} else {
+			if (isset($get['sukabumiforjkt'])) {
+				$viewData['page'] = 'newtheme/page/gudang/pengajuan/cetakskbjkt';
+			} else {
+				if (isset($get['pdf'])) {
 					$html = $this->load->view('newtheme/page/gudang/pengajuan/cetak_pdf', $viewData, true);
 					$this->load->library('pdfgenerator');
 					$this->data['title_pdf'] = 'Pengajuan Harian ';
@@ -1831,389 +1870,392 @@ class Gudang extends CI_Controller {
 
 					// HTML Header (optional)
 					$headerContent = $this->load->view('newtheme/page/pdf/header', $viewData, true);
-					$footerContent =null;
+					$footerContent = null;
 					$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
 					$this->pdfgenerator->generate($htmlWithHeaderFooter, $this->data['title_pdf'], $paper, $orientation);
 					return;
-				}else{
-					$viewData['page']='newtheme/page/gudang/pengajuan/cetak';
+				} else {
+					$viewData['page'] = 'newtheme/page/gudang/pengajuan/cetak';
 				}
 			}
-			
-			$this->load->view('newtheme/page/main',$viewData);
+
+			$this->load->view('newtheme/page/main', $viewData);
 		}
 	}
 
-	public function pengajuanharga($kode=''){
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('idpengajuan'=>$kode));
+	public function pengajuanharga($kode = '')
+	{
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail', array('idpengajuan' => $kode));
 
-		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
-		$adminkeu=null;
-		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>24));
-		$viewData['adminkeu']=$adminkeu['nama'];
-		$viewData['menyetujui']=0;
-		$viewData['edit']=BASEURL.'Gudang/pengajuanhargasave';
-		$viewData['page']='newtheme/page/gudang/pengajuan/harga';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $kode));
+		$adminkeu = null;
+		$adminkeu = $this->GlobalModel->getDataRow('karyawan', array('jabatan' => 24));
+		$viewData['adminkeu'] = $adminkeu['nama'];
+		$viewData['menyetujui'] = 0;
+		$viewData['edit'] = BASEURL . 'Gudang/pengajuanhargasave';
+		$viewData['page'] = 'newtheme/page/gudang/pengajuan/harga';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function pengajuanhargasave(){
-		$data=$this->input->post();
-		$cash=0;
-		$transfer=0;
-		if(isset($data['products'])){
-			foreach($data['products'] as $p){
-				if($p['pembayaran']==1){
-					$cash+=($p['harga']*$p['jumlah']);
+	public function pengajuanhargasave()
+	{
+		$data = $this->input->post();
+		$cash = 0;
+		$transfer = 0;
+		if (isset($data['products'])) {
+			foreach ($data['products'] as $p) {
+				if ($p['pembayaran'] == 1) {
+					$cash += ($p['harga'] * $p['jumlah']);
 				}
 
-				if($p['pembayaran']==2){
-					$transfer+=($p['harga']*$p['jumlah']);
+				if ($p['pembayaran'] == 2) {
+					$transfer += ($p['harga'] * $p['jumlah']);
 				}
 
-				$update=array(
-					'jumlah'=>$p['jumlah'],
-					'harga'=>$p['harga'],
-					'pembayaran'=>$p['pembayaran'],
+				$update = array(
+					'jumlah' => $p['jumlah'],
+					'harga' => $p['harga'],
+					'pembayaran' => $p['pembayaran'],
 				);
-				$this->db->update('pengajuan_harian_new_detail',$update,array('id'=>$p['id']));
+				$this->db->update('pengajuan_harian_new_detail', $update, array('id' => $p['id']));
 			}
-			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$data['id']));
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'Gudang/pengajuan');
+			$this->db->update('pengajuan_harian_new', array('cash' => $cash, 'transfer' => $transfer), array('id' => $data['id']));
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+			redirect(BASEURL . 'Gudang/pengajuan');
 		}
 	}
-	public function ajuanedit($kode=''){
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('idpengajuan'=>$kode,'hapus'=>0));
+	public function ajuanedit($kode = '')
+	{
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail', array('idpengajuan' => $kode, 'hapus' => 0));
 
-		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
-		$adminkeu=null;
-		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>41,'hapus'=>0));
-		$viewData['adminkeu']=$adminkeu['nama'];
-		$viewData['menyetujui']=0;
-		$viewData['edit']=BASEURL.'Gudang/pengajuaneditallsave';
-		$viewData['page']='newtheme/page/gudang/pengajuan/editall';
-		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
-		$get=$this->input->get();
-		if(isset($get['acc'])){
-			$viewData['editacc']=1;
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $kode));
+		$adminkeu = null;
+		$adminkeu = $this->GlobalModel->getDataRow('karyawan', array('jabatan' => 41, 'hapus' => 0));
+		$viewData['adminkeu'] = $adminkeu['nama'];
+		$viewData['menyetujui'] = 0;
+		$viewData['edit'] = BASEURL . 'Gudang/pengajuaneditallsave';
+		$viewData['page'] = 'newtheme/page/gudang/pengajuan/editall';
+		$viewData['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$get = $this->input->get();
+		if (isset($get['acc'])) {
+			$viewData['editacc'] = 1;
 		}
 		//pre($get);
-		$this->load->view('newtheme/page/main',$viewData);
+		$this->load->view('newtheme/page/main', $viewData);
 	}
-	public function pengajuaneditallsave(){
-		$data=$this->input->post();
-		$pengajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('id'=>$data['id']));
-		$cash=0;
-		$transfer=0;
-		$status=($pengajuan['kategori']==4)?1:0; // 0 diajukan, 1 disetujui
-		if(isset($data['editacc'])){
+	public function pengajuaneditallsave()
+	{
+		$data = $this->input->post();
+		$pengajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new', array('id' => $data['id']));
+		$cash = 0;
+		$transfer = 0;
+		$status = ($pengajuan['kategori'] == 4) ? 1 : 0; // 0 diajukan, 1 disetujui
+		if (isset($data['editacc'])) {
 			// $status=1; // request jika edit maka perlu acc ulang, 24 Oktober 2022
 		}
 		//pre($data);
-		if(isset($data['products'])){
-			foreach($data['products'] as $p){
-				if($p['hapus']==1){
-
-				}else{
-					if($p['pembayaran']==1){
-						$cash+=($p['harga']*$p['jumlah']);
+		if (isset($data['products'])) {
+			foreach ($data['products'] as $p) {
+				if ($p['hapus'] == 1) {
+				} else {
+					if ($p['pembayaran'] == 1) {
+						$cash += ($p['harga'] * $p['jumlah']);
 					}
 
-					if($p['pembayaran']==2){
-						$transfer+=($p['harga']*$p['jumlah']);
-					}	
-				}			
-
-				$update=array(
-					'nama_item'=>$p['nama_item'],
-					'jumlah'=>$p['jumlah'],
-					'satuan'=>$p['satuan'],
-					'harga'=>$p['harga'],
-					'pembayaran'=>$p['pembayaran'],
-					'supplier'=>$p['supplier'],
-					'keterangan'=>$p['keterangan'],
-					'status'=>$data['statusajuan'],
-					'hapus'=>isset($p['hapus'])?$p['hapus']:0,
-					'idpengajuan'=>$data['id'],
-				);
-				if(isset($p['id'])){
-					$this->db->update('pengajuan_harian_new_detail',$update,array('id'=>$p['id']));	
-				}else{
-					$this->db->insert('pengajuan_harian_new_detail',$update);
+					if ($p['pembayaran'] == 2) {
+						$transfer += ($p['harga'] * $p['jumlah']);
+					}
 				}
-				
+
+				$update = array(
+					'nama_item' => $p['nama_item'],
+					'jumlah' => $p['jumlah'],
+					'satuan' => $p['satuan'],
+					'harga' => $p['harga'],
+					'pembayaran' => $p['pembayaran'],
+					'supplier' => $p['supplier'],
+					'keterangan' => $p['keterangan'],
+					'status' => $data['statusajuan'],
+					'hapus' => isset($p['hapus']) ? $p['hapus'] : 0,
+					'idpengajuan' => $data['id'],
+				);
+				if (isset($p['id'])) {
+					$this->db->update('pengajuan_harian_new_detail', $update, array('id' => $p['id']));
+				} else {
+					$this->db->insert('pengajuan_harian_new_detail', $update);
+				}
 			}
 			$update_parent = array(
-				'tanggal'=>$data['tanggal'],
-				'cash'=>$cash,
-				'transfer'=>$transfer,
-				'status'=>$data['statusajuan']
+				'tanggal' => $data['tanggal'],
+				'cash' => $cash,
+				'transfer' => $transfer,
+				'status' => $data['statusajuan']
 			);
-			if(isset($data['kategoriPengajuan'])){
+			if (isset($data['kategoriPengajuan'])) {
 				$update_parent['kategori'] = $data['kategoriPengajuan'];
 			}
-			$this->db->update('pengajuan_harian_new', $update_parent, array('id'=>$data['id']));
-			$msg=callSessUser('nama_user').' telah merevisi pengajuan harian';
+			$this->db->update('pengajuan_harian_new', $update_parent, array('id' => $data['id']));
+			$msg = callSessUser('nama_user') . ' telah merevisi pengajuan harian';
 			push($msg);
 			// kirim_email('muchlasmuchtar25@gmail.com',callSessUser('nama_user').' telah merevisi pengajuan harian dengan nomor '.$data['id'].' ');
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'Gudang/pengajuan');
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+			redirect(BASEURL . 'Gudang/pengajuan');
 		}
 	}
-	public function pengajuandetail($kode=''){
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('idpengajuan'=>$kode));
+	public function pengajuandetail($kode = '')
+	{
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail', array('idpengajuan' => $kode));
 
-		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
-		$adminkeu=null;
-		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>24));
-		$viewData['adminkeu']=$adminkeu['nama'];
-		$user=user();
-		$setujui=0;
-		if(isset($user['id_user'])){
-			$setujui=akses($user['id_user'],3);
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $kode));
+		$adminkeu = null;
+		$adminkeu = $this->GlobalModel->getDataRow('karyawan', array('jabatan' => 24));
+		$viewData['adminkeu'] = $adminkeu['nama'];
+		$user = user();
+		$setujui = 0;
+		if (isset($user['id_user'])) {
+			$setujui = akses($user['id_user'], 3);
 		}
-		$viewData['menyetujui']=$setujui;
-		$viewData['action']=BASEURL.'Gudang/komentarsave';
-		$viewData['page']='newtheme/page/gudang/pengajuan/detail';
-		$this->load->view('newtheme/page/main',$viewData);
-
+		$viewData['menyetujui'] = $setujui;
+		$viewData['action'] = BASEURL . 'Gudang/komentarsave';
+		$viewData['page'] = 'newtheme/page/gudang/pengajuan/detail';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function komentarsave(){
-		$data=$this->input->post();
+	public function komentarsave()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		$this->db->update('pengajuan_harian_new',array('status'=>3),array('id'=>$data['idpengajuan']));
+		$this->db->update('pengajuan_harian_new', array('status' => 3), array('id' => $data['idpengajuan']));
 
 
-		if(isset($data['products'])){
-			foreach($data['products'] as $p){
-				$update=array(
-					'komentar'=>$p['komentar'],
+		if (isset($data['products'])) {
+			foreach ($data['products'] as $p) {
+				$update = array(
+					'komentar' => $p['komentar'],
 				);
-				$this->db->update('pengajuan_harian_new_detail',$update,array('id'=>$p['id']));
+				$this->db->update('pengajuan_harian_new_detail', $update, array('id' => $p['id']));
 			}
-			$kategori='';
-			if($data['kategori']==1){
-				$kategori='Sablon';
-			}else if($data['kategori']==2){
-				$kategori='Bordir';
-			}else{
-				$kategori='Konveksi';
+			$kategori = '';
+			if ($data['kategori'] == 1) {
+				$kategori = 'Sablon';
+			} else if ($data['kategori'] == 2) {
+				$kategori = 'Bordir';
+			} else {
+				$kategori = 'Konveksi';
 			}
-			$pesan='Sdr ibu Ulpah, Pak '.callSessUser('nama_user').' telah mengomentari pengajuan harian '.$kategori.' tanggal '.date('d F Y',strtotime($data['tanggal'])).' .silahkan perbaiki segera';
+			$pesan = 'Sdr ibu Ulpah, Pak ' . callSessUser('nama_user') . ' telah mengomentari pengajuan harian ' . $kategori . ' tanggal ' . date('d F Y', strtotime($data['tanggal'])) . ' .silahkan perbaiki segera';
 			// kirim_email('ulfahcahayaag@gmail.com',$pesan);
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			if($data['kategori']==4){
-				redirect(BASEURL.'Gudang/pengajuan?&list_skb&cat=4');
-			}else{
-				redirect(BASEURL.'Gudang/pengajuan');
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+			if ($data['kategori'] == 4) {
+				redirect(BASEURL . 'Gudang/pengajuan?&list_skb&cat=4');
+			} else {
+				redirect(BASEURL . 'Gudang/pengajuan');
 			}
-			
 		}
 	}
 
 
-	public function detailpengajuan($kode='')
+	public function detailpengajuan($kode = '')
 
 	{
 
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian',array('kode_pengajuan'=>$kode));
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian', array('kode_pengajuan' => $kode));
 
-		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_parent',array('kode_pengajuan'=>$kode));
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_parent', array('kode_pengajuan' => $kode));
 
 		// pre($viewData);
 
 		$this->load->view('global/header');
 
-		$this->load->view('pengajuan/harian/detail',$viewData);
+		$this->load->view('pengajuan/harian/detail', $viewData);
 
 		$this->load->view('global/footer');
-
 	}
 
 
 	public function penerimaanitem()
 	{
 		// jenis 1 bahan, 2 alat-alat
-		$data=array();
-		$data['title']='Penerimaan Item';
-		$data['url']=BASEURL.'Gudang/penerimaanitem';
-		$data['tambah']=BASEURL.'Gudang/penerimaanitemadd';
-		$data['items']=array();
-		$setujui=0;
-		if(isset($user['id_user'])){
-			$data['setujui']=akses($user['id_user'],3);
+		$data = array();
+		$data['title'] = 'Penerimaan Item';
+		$data['url'] = BASEURL . 'Gudang/penerimaanitem';
+		$data['tambah'] = BASEURL . 'Gudang/penerimaanitemadd';
+		$data['items'] = array();
+		$setujui = 0;
+		if (isset($user['id_user'])) {
+			$data['setujui'] = akses($user['id_user'], 3);
 		}
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
-		if(isset($get['supplier'])){
-			$sups=$get['supplier'];
-		}else{
-			$sups=null;
-		}
-
-		if(isset($get['status_pembayaran'])){
-			$status_pembayaran=$get['status_pembayaran'];
-		}else{
-			$status_pembayaran=null;
+		if (isset($get['supplier'])) {
+			$sups = $get['supplier'];
+		} else {
+			$sups = null;
 		}
 
-		if(isset($get['tipepembayaran'])){
-			$tipepembayaran=$get['tipepembayaran'];
-		}else{
-			$tipepembayaran=null;
+		if (isset($get['status_pembayaran'])) {
+			$status_pembayaran = $get['status_pembayaran'];
+		} else {
+			$status_pembayaran = null;
 		}
 
-		$sql='SELECT * FROM penerimaan_item WHERE hapus=0 ';
-
-		if(!empty($tanggal1)){
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}
-		if(!empty($cat)){
-			$sql.=" AND jenis='".$cat."' ";
+		if (isset($get['tipepembayaran'])) {
+			$tipepembayaran = $get['tipepembayaran'];
+		} else {
+			$tipepembayaran = null;
 		}
 
-		if(!empty($sups)){
-			$sql.=" AND supplier='".$sups."' ";
+		$sql = 'SELECT * FROM penerimaan_item WHERE hapus=0 ';
+
+		if (!empty($tanggal1)) {
+			$sql .= " AND date(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
+		}
+		if (!empty($cat)) {
+			$sql .= " AND jenis='" . $cat . "' ";
 		}
 
-		if(!empty($status_pembayaran)){
-			$sql.=" AND status_pembayaran='".$status_pembayaran."' ";
+		if (!empty($sups)) {
+			$sql .= " AND supplier='" . $sups . "' ";
 		}
 
-		if(!empty($tipepembayaran)){
-			$sql.=" AND tipepembayaran='".$tipepembayaran."' ";
+		if (!empty($status_pembayaran)) {
+			$sql .= " AND status_pembayaran='" . $status_pembayaran . "' ";
 		}
 
-		if(!empty($cat) OR empty(!$sups)){
-			
-		}else{
-			$sql.=" AND date(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		if (!empty($tipepembayaran)) {
+			$sql .= " AND tipepembayaran='" . $tipepembayaran . "' ";
 		}
-		$sql.=" ORDER BY id DESC";
+
+		if (!empty($cat) or empty(!$sups)) {
+		} else {
+			$sql .= " AND date(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
+		}
+		$sql .= " ORDER BY id DESC";
 		$resutls = $this->GlobalModel->queryManual($sql);
-		$data['supplier']=$this->GlobalModel->getData('master_supplier',array('hapus'=>0));
-		$data['n']=1;
-		foreach($resutls as $result){
-			$action=array();
-			$action[]=array(
-				'text'=>'Detail',
-				'href'=>BASEURL.'Gudang/penerimaanitemdetail/'.$result['id'],
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['n'] = 1;
+		foreach ($resutls as $result) {
+			$action = array();
+			$action[] = array(
+				'text' => 'Detail',
+				'href' => BASEURL . 'Gudang/penerimaanitemdetail/' . $result['id'],
 			);
-			
+
 			// $action[]=array(
 			// 	'text'=>'Edit',
 			// 	'href'=>BASEURL.'Gudang/penerimaanitem_edit/'.$result['id'],
 			// );
 
-			// $action[]=array(
-			// 	'text'=>'Ajukan Perubahan harga',
-			// 	'href'=>BASEURL.'Gudang/penerimaanitemdetail_ubahharga/'.$result['id'],
-			// );
+			if (isset($this->auth) && $this->auth == 11) {
+				$action[] = array(
+					'text' => 'Ajukan Perubahan harga',
+					'href' => BASEURL . 'Gudang/penerimaanitemdetail_ubahharga/' . $result['id'],
+				);
+			}
 
 
-			$supplier=$this->GlobalModel->getDataRow('master_supplier',array('id'=>$result['supplier']));
-			$products=$this->GlobalModel->getData('penerimaan_item_detail',array('hapus'=>0,'penerimaan_item_id'=>$result['id']));
-			$data['items'][]=array(
-				'id'=>$result['id'],
-				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
-				'nosj'=>$result['nosj'],
-				'keterangan'=>$result['keterangan'],
-				'supplier'=>empty($supplier)?'':$supplier['nama'],
-				'jenis'=>$result['jenis'],
-				'tipepembayaran'=>$result['tipepembayaran'],
+			$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $result['supplier']));
+			$products = $this->GlobalModel->getData('penerimaan_item_detail', array('hapus' => 0, 'penerimaan_item_id' => $result['id']));
+			$data['items'][] = array(
+				'id' => $result['id'],
+				'tanggal' => date('d-m-Y', strtotime($result['tanggal'])),
+				'nosj' => $result['nosj'],
+				'keterangan' => $result['keterangan'],
+				'supplier' => empty($supplier) ? '' : $supplier['nama'],
+				'jenis' => $result['jenis'],
+				'tipepembayaran' => $result['tipepembayaran'],
 				'total'	=> $this->total($result['id']),
-				'action'=>$action,
-				'prods'=>$products,
+				'action' => $action,
+				'prods' => $products,
 			);
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		$data['suppliers_id']=$sups;
-		$data['status_pembayaran']=$status_pembayaran;
-		$data['tipepembayaran']=$tipepembayaran;
-		if(isset($get['excel'])){
-			$this->load->view('gudang/penerimaanitem/excel',$data);
-		}else{
-			$data['page']='gudang/penerimaanitem/list';
-			$this->load->view('newtheme/page/main',$data);
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		$data['suppliers_id'] = $sups;
+		$data['status_pembayaran'] = $status_pembayaran;
+		$data['tipepembayaran'] = $tipepembayaran;
+		if (isset($get['excel'])) {
+			$this->load->view('gudang/penerimaanitem/excel', $data);
+		} else {
+			$data['page'] = 'gudang/penerimaanitem/list';
+			$this->load->view('newtheme/page/main', $data);
 		}
-
 	}
 
-	function total($id){
-		$hasil =0;
+	function total($id)
+	{
+		$hasil = 0;
 
 
 		return $hasil;
 	}
 
-	function validasi($id){
-				$update = array(
-					'validasi' =>1,
-				);
-				$where = array(
-					'id' => $id,
-				);
-				$this->db->update('penerimaan_item_detail',$update,$where);
-				$this->session->set_flashdata('msg','Data berhasil disimpan');
-				user_activity(callSessUser('id_user'),1,' validasi penerimaan item detail dengan id '.$id);
-				redirect(BASEURL.'gudang/penerimaanitem');
+	function validasi($id)
+	{
+		$update = array(
+			'validasi' => 1,
+		);
+		$where = array(
+			'id' => $id,
+		);
+		$this->db->update('penerimaan_item_detail', $update, $where);
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		user_activity(callSessUser('id_user'), 1, ' validasi penerimaan item detail dengan id ' . $id);
+		redirect(BASEURL . 'gudang/penerimaanitem');
 	}
 
 	public function penerimaanitemadd()
 
 	{
-		$data=array();
-		$data['title']='Form Penerimaan Item Masuk';
-		$data['i']=0;
-		$data['url']=BASEURL.'Gudang/penerimaanitem';
-		$data['action']=BASEURL.'Gudang/penerimaanitemsave';
-		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
-		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
+		$data = array();
+		$data['title'] = 'Form Penerimaan Item Masuk';
+		$data['i'] = 0;
+		$data['url'] = BASEURL . 'Gudang/penerimaanitem';
+		$data['action'] = BASEURL . 'Gudang/penerimaanitemsave';
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item', array('hapus' => 0));
+		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
 		// $this->load->view('global/header');
 		// $this->load->view('gudang/penerimaanitem/form',$data);
 		// $this->load->view('global/footer');
-		$data['page']='gudang/penerimaanitem/form';
-		$this->load->view('newtheme/page/main',$data);
-
+		$data['page'] = 'gudang/penerimaanitem/form';
+		$this->load->view('newtheme/page/main', $data);
 	}
 
-	public function penerimaanitemsave(){
-		$data=$this->input->post();
+	public function penerimaanitemsave()
+	{
+		$data = $this->input->post();
 		// pre($_FILES['lampiran']['name']);
-		if(isset($data['products'])){
-			if(!empty($data['products'])){
-				$it=array(
-					'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
-					'supplier'=>$data['supplier'],
-					'nosj'=>$data['nosj'],
-					'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
-					'jenis'=>$data['jenis'],
-					'tipepembayaran'=>$data['tipepembayaran'],
-					'hapus'=>0
+		if (isset($data['products'])) {
+			if (!empty($data['products'])) {
+				$it = array(
+					'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+					'supplier' => $data['supplier'],
+					'nosj' => $data['nosj'],
+					'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
+					'jenis' => $data['jenis'],
+					'tipepembayaran' => $data['tipepembayaran'],
+					'hapus' => 0
 				);
-				$this->db->insert('penerimaan_item',$it);
-				$id=$this->db->insert_id();
+				$this->db->insert('penerimaan_item', $it);
+				$id = $this->db->insert_id();
 
-				if(isset($_FILES['lampiran']['name'])){
+				if (isset($_FILES['lampiran']['name'])) {
 					// Konfigurasi upload
 					$config['upload_path'] = './uploads/lampiran/';
 					$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2234,7 +2276,7 @@ class Gudang extends CI_Controller {
 					$this->upload->do_upload('lampiran');
 
 					// Mendapatkan nama file yang diunggah
-					$fileName = $config['upload_path'].$this->upload->data('file_name');
+					$fileName = $config['upload_path'] . $this->upload->data('file_name');
 
 					// Mendapatkan tipe file yang diunggah
 					$fileType = $this->upload->data('file_type');
@@ -2259,70 +2301,70 @@ class Gudang extends CI_Controller {
 						$compressedFileName = $fileName;
 					}
 
-					$this->db->update('penerimaan_item',array('lampiran'=>$compressedFileName),array('id'=>$id));
+					$this->db->update('penerimaan_item', array('lampiran' => $compressedFileName), array('id' => $id));
 					// Menghapus file asli
 					unlink($fileName);
 				}
 
-				
 
-				foreach($data['products'] as $p){
-					$itd=array(
-						'penerimaan_item_id'=>$id,
-						'id_persediaan'=>$p['id_persediaan'],
-						'nama'=>$p['nama'],
-						'ukuran'=>$p['ukuran'],
-						'satuanukuran'=>$p['satuanukuran'],
-						'jumlah'=>$p['jumlah'],
-						'satuanJml'=>$p['satuanJml'],
-						'harga'=>$p['harga'],
-						'keterangan'=>$p['keterangan'],
-						'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
-						'jenis'=>$data['jenis'],
-						'hapus'=>0
+
+				foreach ($data['products'] as $p) {
+					$itd = array(
+						'penerimaan_item_id' => $id,
+						'id_persediaan' => $p['id_persediaan'],
+						'nama' => $p['nama'],
+						'ukuran' => $p['ukuran'],
+						'satuanukuran' => $p['satuanukuran'],
+						'jumlah' => $p['jumlah'],
+						'satuanJml' => $p['satuanJml'],
+						'harga' => $p['harga'],
+						'keterangan' => $p['keterangan'],
+						'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+						'jenis' => $data['jenis'],
+						'hapus' => 0
 					);
-					$this->db->insert('penerimaan_item_detail',$itd);					
-					if($data['jenis']==5){
-						$kartustok=array(
-							'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
-							'idproduct'=>$p['id_persediaan'],
-							'nama'=>$p['nama'],
-							'saldomasuk_uk'=>$p['jumlah'],
-							'saldomasuk_qty'=>0,
-							'harga'=>$p['harga'],
-							'sisa_qty'=>$p['jumlah'],
-							'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+					$this->db->insert('penerimaan_item_detail', $itd);
+					if ($data['jenis'] == 5) {
+						$kartustok = array(
+							'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+							'idproduct' => $p['id_persediaan'],
+							'nama' => $p['nama'],
+							'saldomasuk_uk' => $p['jumlah'],
+							'saldomasuk_qty' => 0,
+							'harga' => $p['harga'],
+							'sisa_qty' => $p['jumlah'],
+							'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
 						);
-						
-						$this->db->insert('kartustok_product',$kartustok);
-					}else{
-						$kartustok=array(
-							'tanggal'=>date('Y-m-d'),
-							'idproduct'=>$p['id_persediaan'],
-							'nama'=>$p['nama'],
-							'saldomasuk_uk'=>$p['ukuran'],
-							'saldomasuk_qty'=>$p['jumlah'],
-							'harga'=>$p['harga'],
-							'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+
+						$this->db->insert('kartustok_product', $kartustok);
+					} else {
+						$kartustok = array(
+							'tanggal' => date('Y-m-d'),
+							'idproduct' => $p['id_persediaan'],
+							'nama' => $p['nama'],
+							'saldomasuk_uk' => $p['ukuran'],
+							'saldomasuk_qty' => $p['jumlah'],
+							'harga' => $p['harga'],
+							'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
 						);
-						kartustok($kartustok,1);
-						$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', harga_beli='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
-						$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+						kartustok($kartustok, 1);
+						$this->db->query("UPDATE product set ukuran_item=ukuran_item+" . $p['ukuran'] . ",quantity=quantity+'" . $p['jumlah'] . "', harga_beli='" . $p['harga'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
+						$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+" . $p['ukuran'] . ", jumlah_item=jumlah_item+'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
 					}
-					
 				}
-				$this->session->set_flashdata('msg','Data berhasil disimpan');
-				user_activity(callSessUser('id_user'),1,' penerimaan item dengan id '.$id);
-				redirect(BASEURL.'gudang/penerimaanitem');
+				$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+				user_activity(callSessUser('id_user'), 1, ' penerimaan item dengan id ' . $id);
+				redirect(BASEURL . 'gudang/penerimaanitem');
 			}
 		}
 	}
 
-	public function penerimaanitemsave_image(){
-		$data=$this->input->post();
-		$post=$this->input->post();
+	public function penerimaanitemsave_image()
+	{
+		$data = $this->input->post();
+		$post = $this->input->post();
 		// pre($_FILES['lampiran']['name']);
-		if(isset($_FILES['lampiran']['name'])){
+		if (isset($_FILES['lampiran']['name'])) {
 			// Konfigurasi upload
 			$config['upload_path'] = './uploads/lampiran/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2343,7 +2385,7 @@ class Gudang extends CI_Controller {
 			$this->upload->do_upload('lampiran');
 
 			// Mendapatkan nama file yang diunggah
-			$fileName = $config['upload_path'].$this->upload->data('file_name');
+			$fileName = $config['upload_path'] . $this->upload->data('file_name');
 
 			// Mendapatkan tipe file yang diunggah
 			$fileType = $this->upload->data('file_type');
@@ -2368,44 +2410,47 @@ class Gudang extends CI_Controller {
 				$compressedFileName = $fileName;
 			}
 
-			$this->db->update('penerimaan_item',array('lampiran'=>$compressedFileName),array('id'=>$post['id']));
+			$this->db->update('penerimaan_item', array('lampiran' => $compressedFileName), array('id' => $post['id']));
 			// Menghapus file asli
 			unlink($fileName);
 
-			$this->session->set_flashdata('msg','Data berhasil disimpan');
-			redirect(BASEURL.'gudang/penerimaanitemdetail/'.$post['id']);
-		}else{
-			$this->session->set_flashdata('gagal','Data Gagal disimpan');
-			redirect(BASEURL.'gudang/penerimaanitemdetail/'.$post['id']);
+			$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+			redirect(BASEURL . 'gudang/penerimaanitemdetail/' . $post['id']);
+		} else {
+			$this->session->set_flashdata('gagal', 'Data Gagal disimpan');
+			redirect(BASEURL . 'gudang/penerimaanitemdetail/' . $post['id']);
 		}
 	}
 
-	public function penerimaanitemdetail($id){
-		$data=array();
-		$results=array();
-		$products=array();
-		$data['results']=$this->GlobalModel->getDataRow('penerimaan_item',array('id'=>$id));
-		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id,'hapus'=>0));
-		$data['action']=BASEURL.'Gudang/penerimaanitemsave_image';
-		$data['page']='gudang/penerimaanitem/detail';
-		$this->load->view('newtheme/page/main',$data);
+	public function penerimaanitemdetail($id)
+	{
+		$data = array();
+		$results = array();
+		$products = array();
+		$data['results'] = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
+		$data['products'] = $this->GlobalModel->getData('penerimaan_item_detail', array('penerimaan_item_id' => $id, 'hapus' => 0));
+		$data['action'] = BASEURL . 'Gudang/penerimaanitemsave_image';
+		$data['page'] = 'gudang/penerimaanitem/detail';
+		$this->load->view('newtheme/page/main', $data);
 	}
 
-	public function penerimaanitemdetail_ubahharga($id){
-		$data=array();
-		$data['title'] ='Ubah Harga Penerimaan ';
-		$data['ubahharga'] =1;
-		$results=array();
-		$products=array();
-		$data['cek']=$this->GlobalModel->getDataRow('request_harga',array('id_penerimaan'=>$id));
-		$data['results']=$this->GlobalModel->getDataRow('penerimaan_item',array('id'=>$id));
-		$data['products']=$this->GlobalModel->getData('penerimaan_item_detail',array('penerimaan_item_id'=>$id));
-		$data['request_harga'] = !empty($data['cek'])?BASEURL.'Gudang/acc_harga':BASEURL.'Gudang/request_harga';
-		$data['page']='gudang/penerimaanitem/detail';
-		$this->load->view('newtheme/page/main',$data);
+	public function penerimaanitemdetail_ubahharga($id)
+	{
+		$data = array();
+		$data['title'] = 'Ubah Harga Penerimaan ';
+		$data['ubahharga'] = 1;
+		$results = array();
+		$products = array();
+		$data['cek'] = $this->GlobalModel->getDataRow('request_harga', array('id_penerimaan' => $id));
+		$data['results'] = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
+		$data['products'] = $this->GlobalModel->getData('penerimaan_item_detail', array('penerimaan_item_id' => $id));
+		$data['request_harga'] = !empty($data['cek']) ? BASEURL . 'Gudang/acc_harga' : BASEURL . 'Gudang/request_harga';
+		$data['page'] = 'gudang/penerimaanitem/detail';
+		$this->load->view('newtheme/page/main', $data);
 	}
 
-	public function request_harga(){
+	public function request_harga()
+	{
 		$post 	= $this->input->post();
 		$insert = array(
 			'id_penerimaan' => $post['id'],
@@ -2414,53 +2459,56 @@ class Gudang extends CI_Controller {
 			'oleh'			=> callSessUser('nama_user'),
 			'status'		=> 0,
 		);
-		$this->db->insert('request_harga',$insert);
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'gudang/penerimaanitemdetail_ubahharga/'.$post['id']);
+		$this->db->insert('request_harga', $insert);
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'gudang/penerimaanitemdetail_ubahharga/' . $post['id']);
 	}
 
-	public function acc_harga(){
+	public function acc_harga()
+	{
 		$post 	= $this->input->post();
 		//pre($post);
-		foreach($post['prods'] as $p ){
+		foreach ($post['prods'] as $p) {
 			$update = array(
 				'harga' => $p['harga'],
 			);
 			$where = array(
 				'id' => $p['id'],
 			);
-			$this->db->update('penerimaan_item_detail',$update,$where);
+			$this->db->update('penerimaan_item_detail', $update, $where);
 		}
 
-		$this->db->update('request_harga',array('status'=>1),array('id'=>$post['idrequest']));
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'gudang/penerimaanitemdetail_ubahharga/'.$post['id']);
+		$this->db->update('request_harga', array('status' => 1), array('id' => $post['idrequest']));
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'gudang/penerimaanitemdetail_ubahharga/' . $post['id']);
 	}
 
-	public function penerimaanitem_edit($id) {
+	public function penerimaanitem_edit($id)
+	{
 		$data = array();
 		$data['title'] = 'Edit Penerimaan Item Masuk';
-		$data['action'] = BASEURL.'Gudang/penerimaanitem_editsave';
+		$data['action'] = BASEURL . 'Gudang/penerimaanitem_editsave';
 		$data['results'] = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
 		$data['products'] = $this->GlobalModel->getData('penerimaan_item_detail', array('penerimaan_item_id' => $id, 'hapus' => 0));
-		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
-		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item', array('hapus' => 0));
 		$data['page'] = 'gudang/penerimaanitem/edit';
 		$this->load->view('newtheme/page/main', $data);
 	}
 
-	public function penerimaanitem_editsave() {
+	public function penerimaanitem_editsave()
+	{
 		$data = $this->input->post();
 		$id = $data['id']; // id_penerimaan_item
-		
+
 		$parent = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
 		$old_products = $this->GlobalModel->getData('penerimaan_item_detail', array('penerimaan_item_id' => $id, 'hapus' => 0));
 
 		// Revert old stock
-		if($parent['jenis'] != 5) {
-			foreach($old_products as $op) {
-				$this->db->query("UPDATE product set ukuran_item =ukuran_item-'".$op['ukuran']."', quantity = quantity-'".$op['jumlah']."' WHERE product_id='".$op['id_persediaan']."' ");
-				$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'".$op['ukuran']."', jumlah_item = jumlah_item-'".$op['jumlah']."' WHERE id_persediaan='".$op['id_persediaan']."' ");
+		if ($parent['jenis'] != 5) {
+			foreach ($old_products as $op) {
+				$this->db->query("UPDATE product set ukuran_item =ukuran_item-'" . $op['ukuran'] . "', quantity = quantity-'" . $op['jumlah'] . "' WHERE product_id='" . $op['id_persediaan'] . "' ");
+				$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'" . $op['ukuran'] . "', jumlah_item = jumlah_item-'" . $op['jumlah'] . "' WHERE id_persediaan='" . $op['id_persediaan'] . "' ");
 			}
 		}
 
@@ -2479,8 +2527,8 @@ class Gudang extends CI_Controller {
 		$this->db->update('penerimaan_item', $update_parent, array('id' => $id));
 
 		// Insert new products and apply stock
-		if(isset($data['products']) && !empty($data['products'])){
-			foreach($data['products'] as $p){
+		if (isset($data['products']) && !empty($data['products'])) {
+			foreach ($data['products'] as $p) {
 				$itd = array(
 					'penerimaan_item_id' => $id,
 					'id_persediaan' => $p['id_persediaan'],
@@ -2497,74 +2545,75 @@ class Gudang extends CI_Controller {
 				);
 				$this->db->insert('penerimaan_item_detail', $itd);
 
-				if($data['jenis'] == 5){
-					$kartustok=array(
-						'tanggal'=>isset($data['tanggal'])?$data['tanggal']:date('Y-m-d'),
-						'idproduct'=>$p['id_persediaan'],
-						'nama'=>$p['nama'],
-						'saldomasuk_uk'=>$p['jumlah'],
-						'saldomasuk_qty'=>0,
-						'harga'=>$p['harga'],
-						'sisa_qty'=>$p['jumlah'],
-						'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+				if ($data['jenis'] == 5) {
+					$kartustok = array(
+						'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+						'idproduct' => $p['id_persediaan'],
+						'nama' => $p['nama'],
+						'saldomasuk_uk' => $p['jumlah'],
+						'saldomasuk_qty' => 0,
+						'harga' => $p['harga'],
+						'sisa_qty' => $p['jumlah'],
+						'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
 					);
-					$this->db->insert('kartustok_product',$kartustok);
-				}else{
-					$kartustok=array(
-						'tanggal'=>date('Y-m-d'),
-						'idproduct'=>$p['id_persediaan'],
-						'nama'=>$p['nama'],
-						'saldomasuk_uk'=>$p['ukuran'],
-						'saldomasuk_qty'=>$p['jumlah'],
-						'harga'=>$p['harga'],
-						'keterangan'=>isset($data['keterangan'])?$data['keterangan']:'-',
+					$this->db->insert('kartustok_product', $kartustok);
+				} else {
+					$kartustok = array(
+						'tanggal' => date('Y-m-d'),
+						'idproduct' => $p['id_persediaan'],
+						'nama' => $p['nama'],
+						'saldomasuk_uk' => $p['ukuran'],
+						'saldomasuk_qty' => $p['jumlah'],
+						'harga' => $p['harga'],
+						'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
 					);
-					kartustok($kartustok,1);
-					$this->db->query("UPDATE product set ukuran_item=ukuran_item+".$p['ukuran'].",quantity=quantity+'".$p['jumlah']."', harga_beli='".$p['harga']."' WHERE product_id='".$p['id_persediaan']."' ");
-					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+".$p['ukuran'].", jumlah_item=jumlah_item+'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
+					kartustok($kartustok, 1);
+					$this->db->query("UPDATE product set ukuran_item=ukuran_item+" . $p['ukuran'] . ",quantity=quantity+'" . $p['jumlah'] . "', harga_beli='" . $p['harga'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
+					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+" . $p['ukuran'] . ", jumlah_item=jumlah_item+'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
 				}
 			}
 		}
 
 		$this->session->set_flashdata('msg', 'Data Berhasil Diubah');
-		redirect(BASEURL.'gudang/penerimaanitem');
+		redirect(BASEURL . 'gudang/penerimaanitem');
 	}
 
-	public function penerimaanitem_hapus($id){
-		$p=$this->GlobalModel->GetDataRow('penerimaan_item_detail',array('hapus'=>0,'id'=>$id));
+	public function penerimaanitem_hapus($id)
+	{
+		$p = $this->GlobalModel->GetDataRow('penerimaan_item_detail', array('hapus' => 0, 'id' => $id));
 		// pre($p);
-		$kartustok=array(
-				'tanggal'=>date('Y-m-d H:i:s'),
-				'idproduct'=>$p['id_persediaan'],
-				'nama'=>$p['nama'],
-				'saldomasuk_uk'=>$p['ukuran'],
-				'saldomasuk_qty'=>$p['jumlah'],
-				'harga'=>0,
-				'keterangan'=>'Pembatalan Penerimaan item masuk oleh '.callSessUser('nama_user'),
-			);
-			kartustok($kartustok,2);
-		$this->db->query("UPDATE product set ukuran_item =ukuran_item-'".$p['ukuran']."', quantity = quantity-'".$p['jumlah']."' WHERE product_id='".$p['id_persediaan']."' ");
-			$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'".$p['ukuran']."', jumlah_item = jumlah_item-'".$p['jumlah']."' WHERE id_persediaan='".$p['id_persediaan']."' ");
-		$this->db->update('penerimaan_item_detail',array('hapus'=>1),array('id'=>$id));
-		user_activity(callSessUser('id_user'),1,' menghapus penerimaan dengan id '.$id);
-		$this->session->set_flashdata('msg','Data Berhasil Di Hapus');
+		$kartustok = array(
+			'tanggal' => date('Y-m-d H:i:s'),
+			'idproduct' => $p['id_persediaan'],
+			'nama' => $p['nama'],
+			'saldomasuk_uk' => $p['ukuran'],
+			'saldomasuk_qty' => $p['jumlah'],
+			'harga' => 0,
+			'keterangan' => 'Pembatalan Penerimaan item masuk oleh ' . callSessUser('nama_user'),
+		);
+		kartustok($kartustok, 2);
+		$this->db->query("UPDATE product set ukuran_item =ukuran_item-'" . $p['ukuran'] . "', quantity = quantity-'" . $p['jumlah'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
+		$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'" . $p['ukuran'] . "', jumlah_item = jumlah_item-'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
+		$this->db->update('penerimaan_item_detail', array('hapus' => 1), array('id' => $id));
+		user_activity(callSessUser('id_user'), 1, ' menghapus penerimaan dengan id ' . $id);
+		$this->session->set_flashdata('msg', 'Data Berhasil Di Hapus');
 		redirect($this->url);
 	}
 
 	public function itemmasuk()
 	{
 		$viewData['item'] = $this->GlobalModel->queryManual('SELECT DISTINCT kode_transfer,contact_supplier,nama_supplier,created_date FROM gudang_item_masuk');
-		
+
 		$this->load->view('global/header');
-		$this->load->view('gudang/receiving/receiving-view',$viewData);
+		$this->load->view('gudang/receiving/receiving-view', $viewData);
 		$this->load->view('global/footer');
 	}
 
 	public function itemmasuktambah()
 	{
-		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang',null);
+		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang', null);
 		$this->load->view('global/header');
-		$this->load->view('gudang/receiving/receiving-tambah',$viewData);
+		$this->load->view('gudang/receiving/receiving-tambah', $viewData);
 		$this->load->view('global/footer');
 	}
 
@@ -2585,7 +2634,7 @@ class Gudang extends CI_Controller {
 				'contact_supplier'	=>	$post['contact_supp'],
 				'harga_item_masuk'			=> $post['hargaItem'][$key]
 			);
-			$this->GlobalModel->insertData('gudang_item_masuk',$dataInserted);
+			$this->GlobalModel->insertData('gudang_item_masuk', $dataInserted);
 
 			$dataInsertPersediaan = array(
 				'nama_item'				=> $nama,
@@ -2600,34 +2649,34 @@ class Gudang extends CI_Controller {
 				'contact_supplier' => $post['contact_supp'],
 				'harga_item'			=> $post['hargaItem'][$key]
 			);
-			$this->GlobalModel->insertData('gudang_persediaan_item',$dataInsertPersediaan);
+			$this->GlobalModel->insertData('gudang_persediaan_item', $dataInsertPersediaan);
 		}
-		
-		$this->session->set_flashdata('msg','Data berhasil ditambah');
-		redirect(BASEURL.'gudang/itemmasuk');
+
+		$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+		redirect(BASEURL . 'gudang/itemmasuk');
 	}
 
 	public function itemmasukedit($id)
 	{
-		$viewData['item'] = $this->GlobalModel->getData('gudang_item_masuk',array('kode_transfer'=>$id));
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		
+		$viewData['item'] = $this->GlobalModel->getData('gudang_item_masuk', array('kode_transfer' => $id));
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+
 		$this->load->view('global/header');
-		$this->load->view('gudang/receiving/receiving-edit',$viewData);
+		$this->load->view('gudang/receiving/receiving-edit', $viewData);
 		$this->load->view('global/footer');
 	}
 
 	public function deleteItemPerSatu()
 	{
 		$postId = $this->input->post('id');
-		$data = $this->GlobalModel->getData('gudang_item_masuk',array('id_item_masuk'=>$postId));
-		$dataInserted=array(
+		$data = $this->GlobalModel->getData('gudang_item_masuk', array('id_item_masuk' => $postId));
+		$dataInserted = array(
 			'notif_name'		=> 'item keluar di hapus',
 			'notif_desc'		=>	json_encode($data),
 			'notif_create_date'	=>	date('Y-m-d')
 		);
-		$this->GlobalModel->insertData('alert_notif',$dataInserted);
-		$this->GlobalModel->deleteData('gudang_item_masuk',array('id_item_masuk'=>$postId));
+		$this->GlobalModel->insertData('alert_notif', $dataInserted);
+		$this->GlobalModel->deleteData('gudang_item_masuk', array('id_item_masuk' => $postId));
 	}
 
 	public function itemmasukeditOnUpdate()
@@ -2635,27 +2684,26 @@ class Gudang extends CI_Controller {
 		$post = $this->input->post();
 
 		foreach ($post['nama'] as $key => $nama) {
-			$carId = $this->GlobalModel->getDataRow('gudang_item_masuk',array('id_item_masuk'=>$post['id'][$key]));
+			$carId = $this->GlobalModel->getDataRow('gudang_item_masuk', array('id_item_masuk' => $post['id'][$key]));
 			if (isset($carId)) {
-				
+
 				$dataInserted = array(
-				'nama_item_masuk' 		=>	$nama,
-				'warna_item_masuk' 		=>	$post['warna'][$key],
-				'ukuran_item_masuk' 	=>	$post['ukuran'][$key],
-				'satuan_item_masuk' 	=>	$post['satuanUkran'][$key],
-				'jumlah_item_masuk' 	=>	$post['jumlah'][$key],
-				'satuan_jumlah_item' 	=>	$post['satuanJml'][$key],
-				'created_date' 			=>	date('Y-m-d'),
-				'nama_supplier' 		=>	$post['nama_supplier'],
-				'kode_transfer' 		=>	$post['kodeTf'],
-				'contact_supplier'	=>	$post['contact_supp'],
-				'harga_item_masuk'			=> $post['hargaItem'][$key]
+					'nama_item_masuk' 		=>	$nama,
+					'warna_item_masuk' 		=>	$post['warna'][$key],
+					'ukuran_item_masuk' 	=>	$post['ukuran'][$key],
+					'satuan_item_masuk' 	=>	$post['satuanUkran'][$key],
+					'jumlah_item_masuk' 	=>	$post['jumlah'][$key],
+					'satuan_jumlah_item' 	=>	$post['satuanJml'][$key],
+					'created_date' 			=>	date('Y-m-d'),
+					'nama_supplier' 		=>	$post['nama_supplier'],
+					'kode_transfer' 		=>	$post['kodeTf'],
+					'contact_supplier'	=>	$post['contact_supp'],
+					'harga_item_masuk'			=> $post['hargaItem'][$key]
 				);
 				$where = array(
 					'id_item_masuk' => $post['id'][$key]
 				);
-				$this->GlobalModel->updateData('gudang_item_masuk',$where,$dataInserted);
-
+				$this->GlobalModel->updateData('gudang_item_masuk', $where, $dataInserted);
 			} else {
 
 				$dataInserted = array(
@@ -2671,7 +2719,7 @@ class Gudang extends CI_Controller {
 					'contact_supplier'			=>	$post['contact_supp'],
 					'harga_item_masuk'			=> $post['hargaItem'][$key]
 				);
-				$this->GlobalModel->insertData('gudang_item_masuk',$dataInserted);
+				$this->GlobalModel->insertData('gudang_item_masuk', $dataInserted);
 				$dataInsertPersediaan = array(
 					'nama_item'				=> $nama,
 					'warna_item'			=> $post['warna'][$key],
@@ -2685,32 +2733,30 @@ class Gudang extends CI_Controller {
 					'contact_supplier'		=> $post['contact_supp'],
 					'harga_item'			=> $post['hargaItem'][$key]
 				);
-				$this->GlobalModel->insertData('gudang_persediaan_item',$dataInsertPersediaan);
-
+				$this->GlobalModel->insertData('gudang_persediaan_item', $dataInsertPersediaan);
 			}
-			
 		}
-		$this->session->set_flashdata('msg','Data berhasil ditambah kode TF "'.$post['kodeTf'].'"');
-		redirect(BASEURL.'gudang/itemmasuk');
+		$this->session->set_flashdata('msg', 'Data berhasil ditambah kode TF "' . $post['kodeTf'] . '"');
+		redirect(BASEURL . 'gudang/itemmasuk');
 	}
 
-	public function itemmasukDelete($id='')
+	public function itemmasukDelete($id = '')
 	{
-		$this->GlobalModel->deleteData('gudang_item_masuk',array('id_item_masuk'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil di hapus');
-		redirect(BASEURL.'gudang/itemmasuk');
+		$this->GlobalModel->deleteData('gudang_item_masuk', array('id_item_masuk' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil di hapus');
+		redirect(BASEURL . 'gudang/itemmasuk');
 	}
 
 	public function itemmasukupdate()
 	{
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',null);
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item', null);
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
 		$this->load->view('global/header');
-		$this->load->view('gudang/receiving/receiving-tambah-update',$viewData);
+		$this->load->view('gudang/receiving/receiving-tambah-update', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function itemmasukupdateMasukOnCreate($value='')
+	public function itemmasukupdateMasukOnCreate($value = '')
 	{
 		$post = $this->input->post();
 
@@ -2718,7 +2764,7 @@ class Gudang extends CI_Controller {
 			$where = array(
 				'id_persediaan' => $post['id'][$key]
 			);
-			$dataId = $this->GlobalModel->getDataRow('gudang_persediaan_item',$where);
+			$dataId = $this->GlobalModel->getDataRow('gudang_persediaan_item', $where);
 
 			if (empty($dataId['jumlah_item'])) {
 				$jumlahItem = $post['jumlah'][$key];
@@ -2739,8 +2785,8 @@ class Gudang extends CI_Controller {
 				'contact_supplier'	=>	$post['contact_supp'],
 				'harga_item_masuk'			=> $post['harga'][$key]
 			);
-			
-			$this->GlobalModel->insertData('gudang_item_masuk',$dataInserted);
+
+			$this->GlobalModel->insertData('gudang_item_masuk', $dataInserted);
 
 			$dataUpdate = array(
 				'nama_item'				=> $nama,
@@ -2756,155 +2802,155 @@ class Gudang extends CI_Controller {
 				'harga_item'			=> $post['harga'][$key]
 			);
 			$where = array(
-					'id_persediaan' => $post['id'][$key]
-				);
+				'id_persediaan' => $post['id'][$key]
+			);
 
-			$this->GlobalModel->updateData('gudang_persediaan_item',$where,$dataUpdate);
+			$this->GlobalModel->updateData('gudang_persediaan_item', $where, $dataUpdate);
 		}
 
-		$this->session->set_flashdata('msg','Data berhasil di tambah kode transfer "'.$post['kodeTF'].'" ');
-		redirect(BASEURL.'gudang/itemmasuk');
+		$this->session->set_flashdata('msg', 'Data berhasil di tambah kode transfer "' . $post['kodeTF'] . '" ');
+		redirect(BASEURL . 'gudang/itemmasuk');
 	}
 
 	public function pengeluaranalat()
 	{
-		$item=array();
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		$item = array();
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['kode_po'])){
-			$kode_po=$get['kode_po'];
-		}else{
-			$kode_po=null;
+		if (isset($get['kode_po'])) {
+			$kode_po = $get['kode_po'];
+		} else {
+			$kode_po = null;
 		}
-		$viewData['tanggal1']=$tanggal1;
-		$viewData['tanggal2']=$tanggal2;
-		$viewData['title']='Pengeluaran Alat';
-		$sql='SELECT gudang_item_keluar.*, p.kode_po as kodepo FROM gudang_item_keluar
+		$viewData['tanggal1'] = $tanggal1;
+		$viewData['tanggal2'] = $tanggal2;
+		$viewData['title'] = 'Pengeluaran Alat';
+		$sql = 'SELECT gudang_item_keluar.*, p.kode_po as kodepo FROM gudang_item_keluar
 		 INNER JOIN produksi_po p ON p.id_produksi_po=gudang_item_keluar.idpo
 		 WHERE p.hapus=0 AND gudang_item_keluar.hapus=0 ';
-		if(!empty($kode_po)){
-			$sql.=" AND idpo='".$kode_po."' ";
-		}else{
-			$sql.=" AND date(gudang_item_keluar.created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		if (!empty($kode_po)) {
+			$sql .= " AND idpo='" . $kode_po . "' ";
+		} else {
+			$sql .= " AND date(gudang_item_keluar.created_date) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
 		}
 
-		$sql.=" LIMIT 30 ";
+		$sql .= " LIMIT 30 ";
 		$item = $this->GlobalModel->queryManual($sql);
-		$viewData['item']=[];
-		$user=user();
-		$hapus=0;
-		if(isset($user['id_user'])){
-			$hapus=akses($user['id_user'],2);
+		$viewData['item'] = [];
+		$user = user();
+		$hapus = 0;
+		if (isset($user['id_user'])) {
+			$hapus = akses($user['id_user'], 2);
 		}
-		foreach($item as $i){
-			$action=array();
-			$action[]=array(
-				'text'=>'Detail / Edit ',
-				'href'=>BASEURL.'gudang/itemkeluarDetail/'.$i['idpo'],
+		foreach ($item as $i) {
+			$action = array();
+			$action[] = array(
+				'text' => 'Detail / Edit ',
+				'href' => BASEURL . 'gudang/itemkeluarDetail/' . $i['idpo'],
 				'bg' => $this->bg_warning,
 			);
-			if($hapus==1){
-				$action[]=array(
-					'text'=>'Hapus',
-					'href'=>BASEURL.'gudang/itemkeluarDelete/'.$i['id_item_keluar'],
+			if ($hapus == 1) {
+				$action[] = array(
+					'text' => 'Hapus',
+					'href' => BASEURL . 'gudang/itemkeluarDelete/' . $i['id_item_keluar'],
 					'bg' => $this->bg_danger,
 				);
 			}
-			$viewData['item'][] =array(
-				'created_date'=>formatTanggalIndo($i['created_date']),
-				'nama_penerima'=>$i['nama_penerima'],
-				'kode_po'=>$i['kodepo'],
-				'faktur_no'=>$i['faktur_no'],
-				'nama_item_keluar'=>$i['nama_item_keluar'],
-				'action'=>$action,
-				'edit'=>BASEURL.'Gudang/pengeluaranalatedit/'.$i['idpo'],
+			$viewData['item'][] = array(
+				'created_date' => formatTanggalIndo($i['created_date']),
+				'nama_penerima' => $i['nama_penerima'],
+				'kode_po' => $i['kodepo'],
+				'faktur_no' => $i['faktur_no'],
+				'nama_item_keluar' => $i['nama_item_keluar'],
+				'action' => $action,
+				'edit' => BASEURL . 'Gudang/pengeluaranalatedit/' . $i['idpo'],
 			);
-			
 		}
-		$viewData['tambah']=BASEURL.'gudang/itemkeluartambah';
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$viewData['page']='gudang/outbound/item-keluar-view';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['tambah'] = BASEURL . 'gudang/itemkeluartambah';
+		$viewData['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$viewData['page'] = 'gudang/outbound/item-keluar-view';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function pengeluaranalatedit($id="")
+	public function pengeluaranalatedit($id = "")
 	{
-		$viewData['cmt'] = $this->GlobalModel->getData('master_cmt',array('hapus' => 0));
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('idpo' => $id));
-		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po' => $viewData['barang'][0]['idpo']));
-		$viewData['action']=BASEURL.'Gudang/editcmtoutbarang';
-		$viewData['page']='gudang/outbound/editcmt';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['cmt'] = $this->GlobalModel->getData('master_cmt', array('hapus' => 0));
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar', array('idpo' => $id));
+		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $viewData['barang'][0]['idpo']));
+		$viewData['action'] = BASEURL . 'Gudang/editcmtoutbarang';
+		$viewData['page'] = 'gudang/outbound/editcmt';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function editcmtoutbarang(){
-		$data=$this->input->post();
-    	$update=array(
-    		'nama_penerima'=>$data['nama_penerima'],
-    		'tujuan_item'=>$data['tujuan_item'],
-    		'kode_po'=>$data['kode_po'],
-    	);
-    	$this->db->update('gudang_item_keluar',$update,array('idpo'=>$data['kode_po']));
-    	$this->session->set_flashdata('msg','Data berhasil diubah');
-		redirect(BASEURL.'gudang/pengeluaranalat');
+	public function editcmtoutbarang()
+	{
+		$data = $this->input->post();
+		$update = array(
+			'nama_penerima' => $data['nama_penerima'],
+			'tujuan_item' => $data['tujuan_item'],
+			'kode_po' => $data['kode_po'],
+		);
+		$this->db->update('gudang_item_keluar', $update, array('idpo' => $data['kode_po']));
+		$this->session->set_flashdata('msg', 'Data berhasil diubah');
+		redirect(BASEURL . 'gudang/pengeluaranalat');
 	}
 
 	public function itemkeluar()
 	{
-		redirect(BASEURL.'Gudang/pengeluaranalat');
+		redirect(BASEURL . 'Gudang/pengeluaranalat');
 		$viewData['item'] = $this->GlobalModel->queryManual('SELECT DISTINCT faktur_no,created_date,nama_penerima FROM gudang_item_keluar');
 		$this->load->view('global/header');
-		$this->load->view('newtheme/page/main',$viewData);
+		$this->load->view('newtheme/page/main', $viewData);
 		$this->load->view('global/footer');
 	}
 
 	public function itemkeluartambah()
 	{
-		$viewData['title']='Pengeluaran alat-alat';
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
-		$viewData['page']='gudang/outbound/item_keluar_tambah';
-		$viewData['kembali']=BASEURL.'Gudang/Pengeluaranalat';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['title'] = 'Pengeluaran alat-alat';
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item', array('hapus' => 0));
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po', NULL);
+		$viewData['page'] = 'gudang/outbound/item_keluar_tambah';
+		$viewData['kembali'] = BASEURL . 'Gudang/Pengeluaranalat';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function itemkeluarSearchId($id='')
+	public function itemkeluarSearchId($id = '')
 	{
 		$getId = $this->input->get('id');
 		// $data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
-		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,price as harga_item, quantity FROM product where product_id='".$getId."' ");
+		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,price as harga_item, quantity FROM product where product_id='" . $getId . "' ");
 		echo json_encode($data);
 	}
 
-	public function itemkelSearchId($id='')
+	public function itemkelSearchId($id = '')
 	{
 		$getId = $this->input->get('id');
-		$data = $this->GlobalModel->queryManualRow("SELECT id_persediaan, warna_item, ukuran_item, satuan_ukuran_item, satuan_jumlah_item, harga_item, jumlah_item as quantity FROM gudang_persediaan_item where id_persediaan='".$getId."' ");
+		$data = $this->GlobalModel->queryManualRow("SELECT id_persediaan, warna_item, ukuran_item, satuan_ukuran_item, satuan_jumlah_item, harga_item, jumlah_item as quantity FROM gudang_persediaan_item where id_persediaan='" . $getId . "' ");
 		echo json_encode($data);
 	}
 
-	public function itemSearchPenerimaan($id='')
+	public function itemSearchPenerimaan($id = '')
 	{
 		$getId = $this->input->get('id');
 		// $data = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=>$getId));
-		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,harga_beli as harga_item, quantity FROM product where product_id='".$getId."' ");
+		$data = $this->GlobalModel->queryManualRow("SELECT product_id as id_persediaan,warna_item,ukuran_item,satuan_ukuran_item,satuan as satuan_jumlah_item,harga_beli as harga_item, quantity FROM product where product_id='" . $getId . "' ");
 		echo json_encode($data);
 	}
 
-	public function cariproduct($id='')
+	public function cariproduct($id = '')
 	{
 		$getId = $this->input->get('id');
-		$data = $this->GlobalModel->getDataRow('product',array('product_id'=>$getId));
+		$data = $this->GlobalModel->getDataRow('product', array('product_id' => $getId));
 		echo json_encode($data);
 	}
 
@@ -2912,163 +2958,164 @@ class Gudang extends CI_Controller {
 	{
 		$post = $this->input->post();
 		$viewData['post'] = $post;
-		$viewData['page']='gudang/outbound/print-out';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['page'] = 'gudang/outbound/print-out';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function itemkeluarDetail($id="")
+	public function itemkeluarDetail($id = "")
 	{
-		$viewData['title']='Surat Jalan Alat Keluar';
-		$viewData['update']=BASEURL.'Gudang/editalat_save';
-		$viewData['batal']=BASEURL.'Gudang/Pengeluaranalat';
-		$viewData['lampiran']=BASEURL.'Gudang/lampiran_save';
-		$viewData['l']=[];
-		$viewData['l'] = $this->GlobalModel->getDataRow('lampiran_alat',array('kode_po' => $id));
+		$viewData['title'] = 'Surat Jalan Alat Keluar';
+		$viewData['update'] = BASEURL . 'Gudang/editalat_save';
+		$viewData['batal'] = BASEURL . 'Gudang/Pengeluaranalat';
+		$viewData['lampiran'] = BASEURL . 'Gudang/lampiran_save';
+		$viewData['l'] = [];
+		$viewData['l'] = $this->GlobalModel->getDataRow('lampiran_alat', array('kode_po' => $id));
 		// $viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('hapus'=>0,'idpo' => $id));
 		$viewData['barang'] = $this->GlobalModel->QueryManual(
 			"
 			SELECT a.*, p.harga_skb FROM gudang_item_keluar a LEFT JOIN product p on p.product_id=a.id_persediaan
 
-			WHERE a.idpo='".$id."' AND a.hapus=0
+			WHERE a.idpo='" . $id . "' AND a.hapus=0
 			"
 		);
-		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po' => $id));
-		$viewData['excel']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&excel=true';
+		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $id));
+		$viewData['excel'] = BASEURL . 'Gudang/itemkeluarDetail/' . $id . '?&excel=true';
 		// $viewData['cetak']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&cetak=true&pdf=true';
-		$viewData['cetak']=BASEURL.'Gudang/itemkeluarDetail/'.$id.'?&pdf=true';
-		$get=$this->input->get();
-		if(isset($get['excel'])){
-			$this->load->view('gudang/outbound/item-keluar-detail_excel',$viewData);
-		}else if(isset($get['cetak'])){
-			$viewData['page']='gudang/outbound/item-keluar-detail-cetak';
-			$this->load->view('newtheme/page/main',$viewData);	
-		}else if(isset($get['pdf'])){
-			
-			$html =  $this->load->view('gudang/outbound/item-keluar-detail-cetak-pdf',$viewData,true);
+		$viewData['cetak'] = BASEURL . 'Gudang/itemkeluarDetail/' . $id . '?&pdf=true';
+		$get = $this->input->get();
+		if (isset($get['excel'])) {
+			$this->load->view('gudang/outbound/item-keluar-detail_excel', $viewData);
+		} else if (isset($get['cetak'])) {
+			$viewData['page'] = 'gudang/outbound/item-keluar-detail-cetak';
+			$this->load->view('newtheme/page/main', $viewData);
+		} else if (isset($get['pdf'])) {
+
+			$html =  $this->load->view('gudang/outbound/item-keluar-detail-cetak-pdf', $viewData, true);
 			$this->load->library('pdfgenerator');
-	        $file_pdf = isset($data['title']) ? $data['title'] : $viewData['title'];
-	        $paper = 'A4';
-	        $orientation = "potrait";	        
+			$file_pdf = isset($data['title']) ? $data['title'] : $viewData['title'];
+			$paper = 'A4';
+			$orientation = "potrait";
 			$headerContent = $this->load->view('newtheme/page/pdf/header', isset($data) ? $data : $viewData, true);
-			$footerContent =null;
+			$footerContent = null;
 			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
-			generate_pdf($this, $htmlWithHeaderFooter, isset($data) ? $data : $viewData, $file_pdf, $paper , $orientation);
-		}else{
-			$viewData['page']='gudang/outbound/item-keluar-detail';
-			$this->load->view('newtheme/page/main',$viewData);	
+			generate_pdf($this, $htmlWithHeaderFooter, isset($data) ? $data : $viewData, $file_pdf, $paper, $orientation);
+		} else {
+			$viewData['page'] = 'gudang/outbound/item-keluar-detail';
+			$this->load->view('newtheme/page/main', $viewData);
 		}
 	}
 
-	public function lampiran_save(){
-		$data=$this->input->post();
+	public function lampiran_save()
+	{
+		$data = $this->input->post();
 		$config['upload_path']          = './assets/lampiran/';
-	    $config['allowed_types']        = 'gif|jpg|png|jpeg';
-	    $this->load->library('upload', $config);
-		
-		if(!empty($_FILES['lampiran']['name'])){
-	        $this->upload->do_upload('lampiran');
-	        $imageGambar = $this->upload->data('file_name');
-	        $up=array(
-	        	'tglkirim'=>$data['tglkirim'],
-	        	'kode_po'=>$data['kode_po'],
-	        	'foto'=>$imageGambar,
-	        );
-	        $this->db->insert('lampiran_alat',$up);
-			$this->session->set_flashdata('msg','Data berhasil di edit');
-		}else{
-			$this->session->set_flashdata('gagal','Data gagal di edit. lampiran tidak ada');
+		$config['allowed_types']        = 'gif|jpg|png|jpeg';
+		$this->load->library('upload', $config);
+
+		if (!empty($_FILES['lampiran']['name'])) {
+			$this->upload->do_upload('lampiran');
+			$imageGambar = $this->upload->data('file_name');
+			$up = array(
+				'tglkirim' => $data['tglkirim'],
+				'kode_po' => $data['kode_po'],
+				'foto' => $imageGambar,
+			);
+			$this->db->insert('lampiran_alat', $up);
+			$this->session->set_flashdata('msg', 'Data berhasil di edit');
+		} else {
+			$this->session->set_flashdata('gagal', 'Data gagal di edit. lampiran tidak ada');
 		}
-		redirect(BASEURL.'Gudang/itemkeluarDetail/'.$data['id_produksi_po']);
+		redirect(BASEURL . 'Gudang/itemkeluarDetail/' . $data['id_produksi_po']);
 	}
 
-	public function editalat_save(){
-		$data=$this->input->post();
+	public function editalat_save()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		foreach($data['prods'] as $p){
-			$update=array(
-				'created_date'=>$data['tanggal'],
-				'jumlah_item_keluar'=>$p['jumlah_item_keluar'],
+		foreach ($data['prods'] as $p) {
+			$update = array(
+				'created_date' => $data['tanggal'],
+				'jumlah_item_keluar' => $p['jumlah_item_keluar'],
 				'harga_item' => $p['harga_item'],
-				'jumlah_item_perlusin'=>$p['jumlah_item_perlusin'],
+				'jumlah_item_perlusin' => $p['jumlah_item_perlusin'],
 			);
-			$where=array(
+			$where = array(
 				'id_item_keluar' => $p['id_item_keluar'],
 			);
-			$this->db->update('gudang_item_keluar',$update,$where);
+			$this->db->update('gudang_item_keluar', $update, $where);
 		}
-		$this->session->set_flashdata('msg','Data berhasil di edit');
-		redirect(BASEURL.'Gudang/pengeluaranalat');
+		$this->session->set_flashdata('msg', 'Data berhasil di edit');
+		redirect(BASEURL . 'Gudang/pengeluaranalat');
 	}
 
 	public function itemkeluarOnCreate()
 	{
 		$post = $this->input->post();
 		// pre($post);
-		$ex = explode("-",$post['namaPo']);
-		$dataInput = $this->GlobalModel->getDataRow('gudang_item_keluar',array('idpo' => $ex[0]));
+		$ex = explode("-", $post['namaPo']);
+		$dataInput = $this->GlobalModel->getDataRow('gudang_item_keluar', array('idpo' => $ex[0]));
 		//pre($dataInput);
 		//if (empty($dataInput)) {
 
-			foreach ($post['nama'] as $key => $nama) {
-				$persediaan = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=> $post['id'][$key]));
-				
-				$dataInsertPersediaan = array(
-					'jumlah_item' 	=>	($persediaan['jumlah_item']-$post['jumlah'][$key]),
-					'ukuran_item'=>(($persediaan['ukuran_item']-$post['ukuran'][$key])),
-				);
+		foreach ($post['nama'] as $key => $nama) {
+			$persediaan = $this->GlobalModel->getDataRow('gudang_persediaan_item', array('id_persediaan' => $post['id'][$key]));
 
-				$dataInsertPersediaanP = array(
-					'quantity' 	=>	($persediaan['jumlah_item']-$post['jumlah'][$key]),
-					'ukuran_item'=>(($persediaan['ukuran_item']-$post['ukuran'][$key])),
-				);
-					$kartustok=array(
-						'tanggal'=>date('Y-m-d'),
-						'idproduct'=>$post['id'][$key],
-						'nama'=>$nama,
-						'saldomasuk_uk'=>$post['ukuran'][$key],
-						'saldomasuk_qty'=>$post['jumlah'][$key],
-						'harga'=>$post['harga'][$key],
-						'keterangan'=>'Pengeluaran alat untuk PO '.$post['namaPo'],
-					);
-					kartustok($kartustok,2);
-
-					$this->GlobalModel->updateData('gudang_persediaan_item',array('id_persediaan'=>$post['id'][$key]),$dataInsertPersediaan);
-					$this->GlobalModel->updateData('product',array('product_id'=>$post['id'][$key]),$dataInsertPersediaanP);
-
-					$dataInserted = array(
-						'id_persediaan'			=>  $post['id_persediaan'][$key],
-						'nama_item_keluar' 		=>	$nama,
-						'kode_po'				=>	null,
-						'idpo'					=>  $ex[0],
-						'warna_item_keluar' 	=>	$post['warna'][$key],
-						'ukuran_item_keluar' 	=>	$post['ukuran'][$key],
-						'satuan_item_keluar' 	=>	$post['satuanUkran'][$key],
-						'jumlah_item_keluar' 	=>	$post['jumlah'][$key],
-						'satuan_jumlah_keluar' 	=>	$post['satuanJml'][$key],
-						'created_date' 			=>	isset($post['tanggal'])?$post['tanggal']:date('Y-m-d'),
-						'nama_penerima' 		=>	$post['namaPenerima'],
-						'faktur_no' 			=>	$post['noFaktur'].'TRF'.$post['namaPo'],
-						'tujuan_item'			=>	$post['tujuanItem'],
-						'harga_item'			=> 	$post['harga'][$key],
-						'jumlah_item_perlusin'	=>	$post['itemPerlusin'][$key]
-					);
-					$this->GlobalModel->insertData('gudang_item_keluar',$dataInserted);
-					$insert_id = $this->db->insert_id();
-
-			}
-
-			$insertFaktur = array(
-				'no_faktur'		=> $post['noFaktur'],
-				'nama_penerima' => $post['namaPenerima'],
-				'tujuan_item'	=> $post['tujuanItem'],
-				'kode_po'		=> $ex[0],
-				'create_date'	=> date('Y-m-d')
+			$dataInsertPersediaan = array(
+				'jumlah_item' 	=> ($persediaan['jumlah_item'] - $post['jumlah'][$key]),
+				'ukuran_item' => (($persediaan['ukuran_item'] - $post['ukuran'][$key])),
 			);
-			$this->GlobalModel->insertData('gudang_out_po',$insertFaktur);
 
-			$this->session->set_flashdata('msg','Data berhasil ditambah');
-		
-			redirect(BASEURL.'gudang/pengeluaranalat');
+			$dataInsertPersediaanP = array(
+				'quantity' 	=> ($persediaan['jumlah_item'] - $post['jumlah'][$key]),
+				'ukuran_item' => (($persediaan['ukuran_item'] - $post['ukuran'][$key])),
+			);
+			$kartustok = array(
+				'tanggal' => date('Y-m-d'),
+				'idproduct' => $post['id'][$key],
+				'nama' => $nama,
+				'saldomasuk_uk' => $post['ukuran'][$key],
+				'saldomasuk_qty' => $post['jumlah'][$key],
+				'harga' => $post['harga'][$key],
+				'keterangan' => 'Pengeluaran alat untuk PO ' . $post['namaPo'],
+			);
+			kartustok($kartustok, 2);
+
+			$this->GlobalModel->updateData('gudang_persediaan_item', array('id_persediaan' => $post['id'][$key]), $dataInsertPersediaan);
+			$this->GlobalModel->updateData('product', array('product_id' => $post['id'][$key]), $dataInsertPersediaanP);
+
+			$dataInserted = array(
+				'id_persediaan'			=>  $post['id_persediaan'][$key],
+				'nama_item_keluar' 		=>	$nama,
+				'kode_po'				=>	null,
+				'idpo'					=>  $ex[0],
+				'warna_item_keluar' 	=>	$post['warna'][$key],
+				'ukuran_item_keluar' 	=>	$post['ukuran'][$key],
+				'satuan_item_keluar' 	=>	$post['satuanUkran'][$key],
+				'jumlah_item_keluar' 	=>	$post['jumlah'][$key],
+				'satuan_jumlah_keluar' 	=>	$post['satuanJml'][$key],
+				'created_date' 			=>	isset($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'),
+				'nama_penerima' 		=>	$post['namaPenerima'],
+				'faktur_no' 			=>	$post['noFaktur'] . 'TRF' . $post['namaPo'],
+				'tujuan_item'			=>	$post['tujuanItem'],
+				'harga_item'			=> 	$post['harga'][$key],
+				'jumlah_item_perlusin'	=>	$post['itemPerlusin'][$key]
+			);
+			$this->GlobalModel->insertData('gudang_item_keluar', $dataInserted);
+			$insert_id = $this->db->insert_id();
+		}
+
+		$insertFaktur = array(
+			'no_faktur'		=> $post['noFaktur'],
+			'nama_penerima' => $post['namaPenerima'],
+			'tujuan_item'	=> $post['tujuanItem'],
+			'kode_po'		=> $ex[0],
+			'create_date'	=> date('Y-m-d')
+		);
+		$this->GlobalModel->insertData('gudang_out_po', $insertFaktur);
+
+		$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+
+		redirect(BASEURL . 'gudang/pengeluaranalat');
 
 		/*}else{
 
@@ -3076,17 +3123,16 @@ class Gudang extends CI_Controller {
 			redirect(BASEURL.'gudang/pengeluaranalat');
 
 		}*/
-
 	}
 
-	public function itemkeluarEdit($id='')
+	public function itemkeluarEdit($id = '')
 	{
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar',array('faktur_no'=>$id));
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',NULL);
-		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_item_keluar', array('faktur_no' => $id));
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$viewData['po'] = $this->GlobalModel->getData('produksi_po', NULL);
+		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po', NULL);
 		$this->load->view('global/header');
-		$this->load->view('gudang/outbound/item_keluar_edit',$viewData);
+		$this->load->view('gudang/outbound/item_keluar_edit', $viewData);
 		$this->load->view('global/footer');
 	}
 
@@ -3111,150 +3157,152 @@ class Gudang extends CI_Controller {
 			$where = array(
 				'id_item_keluar' => $post['id'][$key]
 			);
-			$this->GlobalModel->updateData('gudang_item_keluar',$where,$dataInserted);
+			$this->GlobalModel->updateData('gudang_item_keluar', $where, $dataInserted);
 		}
-		$this->session->set_flashdata('msg','Data berhasil di edit');
-		redirect(BASEURL.'gudang/itemkeluar');
+		$this->session->set_flashdata('msg', 'Data berhasil di edit');
+		redirect(BASEURL . 'gudang/itemkeluar');
 	}
 
-	
-	
 
-	public function itemkeluarDelete($id='')
+
+
+	public function itemkeluarDelete($id = '')
 	{
 		//$this->GlobalModel->deleteData('gudang_item_keluar',array('id_item_keluar'=>$id));
-		$data = $this->GlobalModel->getDataRow('gudang_item_keluar',array('id_item_keluar'=>$id));
-		$kartustok=array(
-			'tanggal'=>date('Y-m-d'),
-			'idproduct'=>$data['id_persediaan'],
-			'nama'=>$data['nama'],
-			'saldomasuk_uk'=>0,
-			'saldomasuk_qty'=>$data['jumlah_item_keluar'],
-			'harga'=>$data['harga'],
-			'keterangan'=>'Pembatalan alat keluar PO '.$data['kode_po'],
+		$data = $this->GlobalModel->getDataRow('gudang_item_keluar', array('id_item_keluar' => $id));
+		$kartustok = array(
+			'tanggal' => date('Y-m-d'),
+			'idproduct' => $data['id_persediaan'],
+			'nama' => $data['nama'],
+			'saldomasuk_uk' => 0,
+			'saldomasuk_qty' => $data['jumlah_item_keluar'],
+			'harga' => $data['harga'],
+			'keterangan' => 'Pembatalan alat keluar PO ' . $data['kode_po'],
 		);
-		kartustok($kartustok,1);
+		kartustok($kartustok, 1);
 		//pre($data);
 		$update = array(
-			'hapus' =>1
+			'hapus' => 1
 		);
 		$where = array(
 			'id_item_keluar' => $id
 		);
-		$this->db->update('gudang_item_keluar',$update,$where);
-		$this->db->query("UPDATE gudang_persediaan_item SET jumlah_item=jumlah_item+'".$data['jumlah_item_keluar']."' WHERE id_persediaan='".$data['id_persediaan']."' ");
-		$this->db->query("UPDATE product SET quantity=quantity+'".$data['jumlah_item_keluar']."' WHERE product_id='".$data['id_persediaan']."' ");
-		$this->session->set_flashdata('msg','Data berhasil di delete');
-		redirect(BASEURL.'gudang/itemkeluar');
+		$this->db->update('gudang_item_keluar', $update, $where);
+		$this->db->query("UPDATE gudang_persediaan_item SET jumlah_item=jumlah_item+'" . $data['jumlah_item_keluar'] . "' WHERE id_persediaan='" . $data['id_persediaan'] . "' ");
+		$this->db->query("UPDATE product SET quantity=quantity+'" . $data['jumlah_item_keluar'] . "' WHERE product_id='" . $data['id_persediaan'] . "' ");
+		$this->session->set_flashdata('msg', 'Data berhasil di delete');
+		redirect(BASEURL . 'gudang/itemkeluar');
 	}
 
 
 	public function persediaanstok()
 	{
-		$url='';
-		$get=$this->input->get();
-		if(isset($get['product_id'])){
-			$product_id=$get['product_id'];
-			$url.="&product_id=".$product_id;
-		}else{
-			$product_id=null;			
+		$url = '';
+		$get = $this->input->get();
+		if (isset($get['product_id'])) {
+			$product_id = $get['product_id'];
+			$url .= "&product_id=" . $product_id;
+		} else {
+			$product_id = null;
 		}
-		if(isset($get['jenis'])){
-			$jenis=$get['jenis'];
-			$url.="&jenis=".$jenis;
+		if (isset($get['jenis'])) {
+			$jenis = $get['jenis'];
+			$url .= "&jenis=" . $jenis;
 			//$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0,'jenis'=>$jenis));
-		}else{
-			$jenis=null;
+		} else {
+			$jenis = null;
 			//$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		}
 
-		if(isset($get['kategori'])){
-			$kategori=$get['kategori'];
-			$url.="&kategori=".$kategori;
+		if (isset($get['kategori'])) {
+			$kategori = $get['kategori'];
+			$url .= "&kategori=" . $kategori;
 			//$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0,'jenis'=>$jenis));
-		}else{
-			$kategori=null;
+		} else {
+			$kategori = null;
 			//$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
 		}
 
-		if(isset($get['product_id'])){
-			$product_id=$get['product_id'];
-			$url.="&product_id=".$product_id;
-		}else{
-			$product_id=null;
+		if (isset($get['product_id'])) {
+			$product_id = $get['product_id'];
+			$url .= "&product_id=" . $product_id;
+		} else {
+			$product_id = null;
 		}
 
-		$viewData['product_id']=$product_id;
-		$viewData['product'] = $this->GlobalModel->getDataOrderBy('product',array('hapus'=>0),'nama','ASC');
-		$viewData['kategories'] = $this->GlobalModel->getDataOrderBy('kategori_barang',array('hapus'=>0),'nama','ASC');
-		$viewData['kategori']=$kategori;
+		$viewData['product_id'] = $product_id;
+		$viewData['product'] = $this->GlobalModel->getDataOrderBy('product', array('hapus' => 0), 'nama', 'ASC');
+		$viewData['kategories'] = $this->GlobalModel->getDataOrderBy('kategori_barang', array('hapus' => 0), 'nama', 'ASC');
+		$viewData['kategori'] = $kategori;
 
-		$viewData['title']='Persediaan Stok';
-		$sql="SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
-		if(!empty($jenis)){
-			$sql.=" AND p.jenis='".$jenis."'";
+		$viewData['title'] = 'Persediaan Stok';
+		$sql = "SELECT gpi.* FROM gudang_persediaan_item gpi JOIN product p ON(p.product_id=gpi.id_persediaan) WHERE gpi.hapus=0 ";
+		if (!empty($jenis)) {
+			$sql .= " AND p.jenis='" . $jenis . "'";
 		}
-		if(!empty($kategori)){
-			$sql.=" AND p.kategori='".$kategori."'";
+		if (!empty($kategori)) {
+			$sql .= " AND p.kategori='" . $kategori . "'";
 		}
-		if(!empty($product_id)){
-			$sql.=" AND p.product_id='".$product_id."'";
+		if (!empty($product_id)) {
+			$sql .= " AND p.product_id='" . $product_id . "'";
 		}
-		$sql .=" ORDER BY nama_item asc ";
-		$viewData['persediaan']=$this->GlobalModel->queryManual($sql);
-		$viewData['excel']=BASEURL.'Gudang/persediaanstok?&excel=true'.$url;
-		if(isset($get['excel'])){
-			$this->load->view('gudang/persediaan/persediaan-excel',$viewData);
-		}else{
-			$viewData['page']='gudang/persediaan/persediaan-view';
-			$this->load->view('newtheme/page/main',$viewData);
+		$sql .= " ORDER BY nama_item asc ";
+		$viewData['persediaan'] = $this->GlobalModel->queryManual($sql);
+		$viewData['excel'] = BASEURL . 'Gudang/persediaanstok?&excel=true' . $url;
+		if (isset($get['excel'])) {
+			$this->load->view('gudang/persediaan/persediaan-excel', $viewData);
+		} else {
+			$viewData['page'] = 'gudang/persediaan/persediaan-view';
+			$this->load->view('newtheme/page/main', $viewData);
 		}
 	}
 
-	function nolin($id){
+	function nolin($id)
+	{
 		$update = array(
-			'ukuran_item' =>0,
-			'quantity'    =>0,
+			'ukuran_item' => 0,
+			'quantity'    => 0,
 		);
-		$post = $this->GlobalModel->getDataRow('product',array('product_id'=>$id));
-		$kartustok=array(
-			'tanggal'=>date('Y-m-d'),
-			'idproduct'=>$id,
-			'nama'=>$post['nama'],
-			'saldomasuk_uk'=>0,
-			'saldomasuk_qty'=>0,
-			'harga'=>0,
-			'keterangan'=>'Nolin Produk oleh '.callSessUser('nama_user'),
+		$post = $this->GlobalModel->getDataRow('product', array('product_id' => $id));
+		$kartustok = array(
+			'tanggal' => date('Y-m-d'),
+			'idproduct' => $id,
+			'nama' => $post['nama'],
+			'saldomasuk_uk' => 0,
+			'saldomasuk_qty' => 0,
+			'harga' => 0,
+			'keterangan' => 'Nolin Produk oleh ' . callSessUser('nama_user'),
 		);
-		kartustok($kartustok,2);
-		$this->db->update('product',$update,array('product_id'=>$id));
-		$this->db->update('gudang_persediaan_item',array('ukuran_item'=>0,'jumlah_item'=>0),array('id_persediaan'=>$id));
-		redirect(BASEURL.'/Gudang/persediaanstok');
+		kartustok($kartustok, 2);
+		$this->db->update('product', $update, array('product_id' => $id));
+		$this->db->update('gudang_persediaan_item', array('ukuran_item' => 0, 'jumlah_item' => 0), array('id_persediaan' => $id));
+		redirect(BASEURL . '/Gudang/persediaanstok');
 	}
 
 
 	public function persediaan()
 	{
-		redirect(BASEURL.'Gudang/persediaanstok');
-		$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item',null);
+		redirect(BASEURL . 'Gudang/persediaanstok');
+		$viewData['persediaan'] = $this->GlobalModel->getData('gudang_persediaan_item', null);
 		$this->load->view('global/header');
-		$this->load->view('gudang/persediaan/persediaan-view',$viewData);
+		$this->load->view('gudang/persediaan/persediaan-view', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function persediaanhapus($id){
-		$this->db->update('gudang_persediaan_item',array('hapus'=>1),array('id_persediaan'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dihapus');
-		redirect(BASEURL.'Gudang/persediaanstok');
+	public function persediaanhapus($id)
+	{
+		$this->db->update('gudang_persediaan_item', array('hapus' => 1), array('id_persediaan' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+		redirect(BASEURL . 'Gudang/persediaanstok');
 	}
 
-	public function persediaanedit($id='')
+	public function persediaanedit($id = '')
 	{
-		$viewData['persediaan'] = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan' => $id));
-		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang',null);
-		
+		$viewData['persediaan'] = $this->GlobalModel->getDataRow('gudang_persediaan_item', array('id_persediaan' => $id));
+		$viewData['satuan']	= $this->GlobalModel->getData('master_satuan_barang', null);
+
 		$this->load->view('global/header');
-		$this->load->view('gudang/persediaan/persediaan-edit',$viewData);
+		$this->load->view('gudang/persediaan/persediaan-edit', $viewData);
 		$this->load->view('global/footer');
 	}
 
@@ -3276,156 +3324,155 @@ class Gudang extends CI_Controller {
 				'harga_item'			=> $post['hargaItem'][$key]
 			);
 			$where = array(
-					'id_persediaan' => $post['id'][$key]
-				);
-			$this->GlobalModel->updateData('gudang_persediaan_item',$where,$dataInsertPersediaan);
+				'id_persediaan' => $post['id'][$key]
+			);
+			$this->GlobalModel->updateData('gudang_persediaan_item', $where, $dataInsertPersediaan);
 		}
-		
-		$this->session->set_flashdata('msg','Data berhasil ditambah');
-		redirect(BASEURL.'gudang/persediaan');
+
+		$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+		redirect(BASEURL . 'gudang/persediaan');
 	}
 
 
 	public function outbahan()
 	{
-		$item=array();
-		$item=$this->GlobalModel->queryManual('SELECT * FROM gudang_bahan_keluar WHERE hapus=0');
-		$user=user();
-		$hapus=0;
-		$viewData['item']=array();
-		if(isset($user['id_user'])){
-			$hapus=akses($user['id_user'],2);
+		$item = array();
+		$item = $this->GlobalModel->queryManual('SELECT * FROM gudang_bahan_keluar WHERE hapus=0');
+		$user = user();
+		$hapus = 0;
+		$viewData['item'] = array();
+		if (isset($user['id_user'])) {
+			$hapus = akses($user['id_user'], 2);
 		}
-		foreach($item as $i){
-			$action=array();
-			$action[]=array(
-				'text'=>'Detail',
-				'href'=>BASEURL.'gudang/outbahanDetail/'.$i['faktur_no'],
+		foreach ($item as $i) {
+			$action = array();
+			$action[] = array(
+				'text' => 'Detail',
+				'href' => BASEURL . 'gudang/outbahanDetail/' . $i['faktur_no'],
 			);
-			if($hapus==1){
-				$action[]=array(
-					'text'=>'Hapus',
-					'href'=>BASEURL.'gudang/outbahanHapus/'.$i['id_item_keluar'],
+			if ($hapus == 1) {
+				$action[] = array(
+					'text' => 'Hapus',
+					'href' => BASEURL . 'gudang/outbahanHapus/' . $i['id_item_keluar'],
 				);
 			}
-			$viewData['item'][] =array(
-				'created_date'=>$i['created_date'],
-				'nama_item_keluar'=>$i['nama_item_keluar'],
-				'bahan_kategori'=>$i['bahan_kategori'],
-				'kode_po'=>$i['kode_po'],
-				'faktur_no'=>$i['faktur_no'],
-				'id_item_keluar'=>$i['id_item_keluar'],
-				'action'=>$action,
+			$viewData['item'][] = array(
+				'created_date' => $i['created_date'],
+				'nama_item_keluar' => $i['nama_item_keluar'],
+				'bahan_kategori' => $i['bahan_kategori'],
+				'kode_po' => $i['kode_po'],
+				'faktur_no' => $i['faktur_no'],
+				'id_item_keluar' => $i['id_item_keluar'],
+				'action' => $action,
 			);
-			
-		}	
+		}
 		$this->load->view('global/header');
-		$this->load->view('gudang/outbahan/item-keluar-view',$viewData);
+		$this->load->view('gudang/outbahan/item-keluar-view', $viewData);
 		$this->load->view('global/footer');
 	}
 
 	public function pengeluaranbahan()
 	{
-		$item=array();
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+		$item = array();
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
 
-		if(isset($get['kode_po'])){
-			$kode_po=$get['kode_po'];
-		}else{
-			$kode_po=null;
+		if (isset($get['kode_po'])) {
+			$kode_po = $get['kode_po'];
+		} else {
+			$kode_po = null;
 		}
-		$viewData['tanggal1']=$tanggal1;
-		$viewData['tanggal2']=$tanggal2;
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$viewData['title']='Pemakaian Bahan';
-		$sql='SELECT * FROM gudang_bahan_keluar WHERE hapus=0';
-		if(!empty($kode_po)){
-			$sql.=" AND idpo='".$kode_po."'";
-		}else{
-			$sql.=" AND date(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  ";
+		$viewData['tanggal1'] = $tanggal1;
+		$viewData['tanggal2'] = $tanggal2;
+		$viewData['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$viewData['title'] = 'Pemakaian Bahan';
+		$sql = 'SELECT * FROM gudang_bahan_keluar WHERE hapus=0';
+		if (!empty($kode_po)) {
+			$sql .= " AND idpo='" . $kode_po . "'";
+		} else {
+			$sql .= " AND date(created_date) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'  ";
 		}
-		$sql.=" ORDER BY id_item_keluar DESC ";
-		$sql.=" LIMIT 30 ";
-		$item=$this->GlobalModel->queryManual($sql);
-		$user=user();
-		$hapus=0;
-		$viewData['item']=array();
-		if(isset($user['id_user'])){
-			$hapus=akses($user['id_user'],2);
+		$sql .= " ORDER BY id_item_keluar DESC ";
+		$sql .= " LIMIT 30 ";
+		$item = $this->GlobalModel->queryManual($sql);
+		$user = user();
+		$hapus = 0;
+		$viewData['item'] = array();
+		if (isset($user['id_user'])) {
+			$hapus = akses($user['id_user'], 2);
 		}
-		foreach($item as $i){
-			$po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$i['idpo']));
-			$action=array();
-			$action[]=array(
-				'text'=>'Detail / Edit',
-				'href'=>BASEURL.'gudang/outbahanDetail/'.$i['idpo'],
+		foreach ($item as $i) {
+			$po = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $i['idpo']));
+			$action = array();
+			$action[] = array(
+				'text' => 'Detail / Edit',
+				'href' => BASEURL . 'gudang/outbahanDetail/' . $i['idpo'],
 				'bg' => $this->bg_warning,
 			);
-			if(aksesedit()==1){
-				$action[]=array(
-					'text'=>'Edit (Ganti Nama PO)',
-					'href'=>BASEURL.'Gudang/editbahankeluar/'.$i['id_item_keluar'],
-					'bg' =>'dark',
+			if (aksesedit() == 1) {
+				$action[] = array(
+					'text' => 'Edit (Ganti Nama PO)',
+					'href' => BASEURL . 'Gudang/editbahankeluar/' . $i['id_item_keluar'],
+					'bg' => 'dark',
 				);
 			}
-			
-			if($hapus==1){
-				$action[]=array(
-					'text'=>'Hapus',
-					'href'=>BASEURL.'gudang/outbahanHapus/'.$i['id_item_keluar'],
+
+			if ($hapus == 1) {
+				$action[] = array(
+					'text' => 'Hapus',
+					'href' => BASEURL . 'gudang/outbahanHapus/' . $i['id_item_keluar'],
 					'bg' => $this->bg_danger,
 				);
 			}
-			$viewData['item'][] =array(
-				'created_date'=>$i['created_date'],
-				'nama_item_keluar'=>$i['nama_item_keluar'],
-				'bahan_kategori'=>$i['bahan_kategori'],
-				'kode_po'=>$po['kode_po'],
-				'faktur_no'=>$i['faktur_no'],
-				'id_item_keluar'=>$i['id_item_keluar'],
-				'action'=>$action,
+			$viewData['item'][] = array(
+				'created_date' => $i['created_date'],
+				'nama_item_keluar' => $i['nama_item_keluar'],
+				'bahan_kategori' => $i['bahan_kategori'],
+				'kode_po' => $po['kode_po'],
+				'faktur_no' => $i['faktur_no'],
+				'id_item_keluar' => $i['id_item_keluar'],
+				'action' => $action,
 			);
-			
-		}	
-		$viewData['tambah']=BASEURL.'gudang/outbahantambah';
-		$viewData['page']='gudang/outbahan/item-keluar-view';
-		$this->load->view('newtheme/page/main',$viewData);
+		}
+		$viewData['tambah'] = BASEURL . 'gudang/outbahantambah';
+		$viewData['page'] = 'gudang/outbahan/item-keluar-view';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	
+
 	public function outbahantambah()
 	{
-		$viewData['title']='Form Pemakaian bahan';
-		$viewData['lockdouble']=settings('lockdouble');
-		$viewData['batal']=BASEURL.'Gudang/Pengeluaranbahan';
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item',array('hapus'=>0));
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
-		$viewData['page']='gudang/outbahan/item_keluar_tambah';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['title'] = 'Form Pemakaian bahan';
+		$viewData['lockdouble'] = settings('lockdouble');
+		$viewData['batal'] = BASEURL . 'Gudang/Pengeluaranbahan';
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_persediaan_item', array('hapus' => 0));
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po', NULL);
+		$viewData['page'] = 'gudang/outbahan/item_keluar_tambah';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function itemkeluarpo(){
-		$data=$this->input->get();
-		$cek=$this->GlobalModel->getDataRow('gudang_bahan_keluar',array('kode_po'=>$data['kode_po']));
-		if(!empty($cek)){
+	public function itemkeluarpo()
+	{
+		$data = $this->input->get();
+		$cek = $this->GlobalModel->getDataRow('gudang_bahan_keluar', array('kode_po' => $data['kode_po']));
+		if (!empty($cek)) {
 			echo "False";
-		}else{
+		} else {
 			echo "OK";
 		}
 	}
@@ -3435,60 +3482,60 @@ class Gudang extends CI_Controller {
 
 		$post = $this->input->post();
 		//pre($post);
-		$dataInput = $this->GlobalModel->getDataRow('gudang_bahan_keluar',array('kode_po' => $post['namaPo']));
+		$dataInput = $this->GlobalModel->getDataRow('gudang_bahan_keluar', array('kode_po' => $post['namaPo']));
 
 		//if (empty($dataInput)) {
 
-			foreach ($post['nama'] as $key => $nama) {
-				$persediaan = $this->GlobalModel->getDataRow('gudang_persediaan_item',array('id_persediaan'=> $post['id'][$key]));
-				
-					$dataInsertPersediaan = array(
-						'jumlah_item' 	=>	($persediaan['jumlah_item']-$post['jumlah'][$key]),
-						'ukuran_item'	=> ($persediaan['ukuran_item']-$post['ukuran'][$key])
-					);
-					//$this->GlobalModel->updateData('gudang_persediaan_item',array('id_persediaan'=>$post['id'][$key]),$dataInsertPersediaan);
-					$idpo=$this->GlobalModel->getDataRow('produksi_po',array('kode_po'=>$post['namaPo']));
-					$dataInserted = array(
-						'nama_item_keluar' 		=>	$nama,
-						'kode_po'				=>	$post['namaPo'],
-						'warna_item_keluar' 	=>	$post['warna'][$key],
-						'ukuran_item_keluar' 	=>	$post['ukuran'][$key],
-						'satuan_item_keluar' 	=>	$post['satuanUkran'][$key],
-						'jumlah_item_keluar' 	=>	$post['jumlah'][$key],
-						'satuan_jumlah_keluar' 	=>	$post['satuanJml'][$key],
-						'created_date' 			=>	date('Y-m-d'),
-						'faktur_no' 			=>	$post['noFaktur'].'TRF'.$post['namaPo'],
-						'tujuan_item'			=>	$post['tujuanItem'],
-						'harga_item'			=> 	$post['harga'][$key],
-						'bahan_kategori'		=>  $post['bahanUntuk'][$key],
-						'idpo'					=> $idpo['id_produksi_po'],
-					);
-					$this->GlobalModel->insertData('gudang_bahan_keluar',$dataInserted);
-					$insert_id = $this->db->insert_id();
-					$kartustok=array(
-						'tanggal'=>date('Y-m-d'),
-						'idproduct'=>$post['id'][$key],
-						'nama'=>$nama,
-						'saldomasuk_uk'=>0,
-						'saldomasuk_qty'=>$post['jumlah'][$key],
-						'harga'=>$post['harga'][$key],
-						'keterangan'=>isset($post['keterangan'])?$post['keterangan']:'-',
-					);
-					//kartustok($kartustok,2);
-					//$this->db->query(" UPDATE product set ukuran_item=ukuran_item-".$post['ukuran'][$key].", quantity=quantity-".$post['jumlah'][$key]." WHERE product_id=".$post['id'][$key]." ");
-			}
+		foreach ($post['nama'] as $key => $nama) {
+			$persediaan = $this->GlobalModel->getDataRow('gudang_persediaan_item', array('id_persediaan' => $post['id'][$key]));
 
-			$insertFaktur = array(
-				'no_faktur'		=> $post['noFaktur'],
-				'tujuan_item'	=> $post['tujuanItem'],
-				'kode_po'		=> $post['namaPo'],
-				'create_date'	=> date('Y-m-d')
+			$dataInsertPersediaan = array(
+				'jumlah_item' 	=> ($persediaan['jumlah_item'] - $post['jumlah'][$key]),
+				'ukuran_item'	=> ($persediaan['ukuran_item'] - $post['ukuran'][$key])
 			);
-			$this->GlobalModel->insertData('gudang_out_po',$insertFaktur);
+			//$this->GlobalModel->updateData('gudang_persediaan_item',array('id_persediaan'=>$post['id'][$key]),$dataInsertPersediaan);
+			$idpo = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $post['namaPo']));
+			$dataInserted = array(
+				'nama_item_keluar' 		=>	$nama,
+				'kode_po'				=>	$post['namaPo'],
+				'warna_item_keluar' 	=>	$post['warna'][$key],
+				'ukuran_item_keluar' 	=>	$post['ukuran'][$key],
+				'satuan_item_keluar' 	=>	$post['satuanUkran'][$key],
+				'jumlah_item_keluar' 	=>	$post['jumlah'][$key],
+				'satuan_jumlah_keluar' 	=>	$post['satuanJml'][$key],
+				'created_date' 			=>	date('Y-m-d'),
+				'faktur_no' 			=>	$post['noFaktur'] . 'TRF' . $post['namaPo'],
+				'tujuan_item'			=>	$post['tujuanItem'],
+				'harga_item'			=> 	$post['harga'][$key],
+				'bahan_kategori'		=>  $post['bahanUntuk'][$key],
+				'idpo'					=> $idpo['id_produksi_po'],
+			);
+			$this->GlobalModel->insertData('gudang_bahan_keluar', $dataInserted);
+			$insert_id = $this->db->insert_id();
+			$kartustok = array(
+				'tanggal' => date('Y-m-d'),
+				'idproduct' => $post['id'][$key],
+				'nama' => $nama,
+				'saldomasuk_uk' => 0,
+				'saldomasuk_qty' => $post['jumlah'][$key],
+				'harga' => $post['harga'][$key],
+				'keterangan' => isset($post['keterangan']) ? $post['keterangan'] : '-',
+			);
+			//kartustok($kartustok,2);
+			//$this->db->query(" UPDATE product set ukuran_item=ukuran_item-".$post['ukuran'][$key].", quantity=quantity-".$post['jumlah'][$key]." WHERE product_id=".$post['id'][$key]." ");
+		}
 
-			$this->session->set_flashdata('msg','Data berhasil ditambah');
-			
-			redirect(BASEURL.'gudang/pengeluaranbahan');
+		$insertFaktur = array(
+			'no_faktur'		=> $post['noFaktur'],
+			'tujuan_item'	=> $post['tujuanItem'],
+			'kode_po'		=> $post['namaPo'],
+			'create_date'	=> date('Y-m-d')
+		);
+		$this->GlobalModel->insertData('gudang_out_po', $insertFaktur);
+
+		$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+
+		redirect(BASEURL . 'gudang/pengeluaranbahan');
 		/*}else{
 			$this->session->set_flashdata('msgt','Data Gagal ditambah. Karena sudah pernah input sebelumnya');
 			
@@ -3496,54 +3543,56 @@ class Gudang extends CI_Controller {
 		}*/
 	}
 
-	public function outbahanHapus($id=null){
-		$update=array(
-			'hapus'=>1,
+	public function outbahanHapus($id = null)
+	{
+		$update = array(
+			'hapus' => 1,
 		);
-		$this->db->update('gudang_bahan_keluar',$update,array('id_item_keluar'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil dihapus');
-		redirect(BASEURL.'gudang/pengeluaranbahan');
+		$this->db->update('gudang_bahan_keluar', $update, array('id_item_keluar' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+		redirect(BASEURL . 'gudang/pengeluaranbahan');
 	}
 
 	public function outbahanOnPrint()
 	{
 		$post = $this->input->post();
 		$viewData['post'] = $post;
-		$viewData['page']='gudang/outbahan/print-out';
-		$this->load->view('newtheme/page/main',$viewData);
+		$viewData['page'] = 'gudang/outbahan/print-out';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function outbahanDetail($id="")
+	public function outbahanDetail($id = "")
 	{
-		$po=$this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$id));
-		$eid=$this->GlobalModel->getDataRow('gudang_bahan_keluar',array('idpo' => $po['id_produksi_po'],'hapus'=>0));
-		$id=$eid['faktur_no'];
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_bahan_keluar',array('idpo' => $po['id_produksi_po'],'hapus'=>0));
-		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po',array('kode_po' => $viewData['barang'][0]['kode_po']));
-		$viewData['title']='Detail ';
-		$viewData['page']='gudang/outbahan/item-keluar-detail';
-		$viewData['update']=BASEURL.'Gudang/simpaneditbahankeluar';
-		$this->load->view('newtheme/page/main',$viewData);
+		$po = $this->GlobalModel->GetDataRow('produksi_po', array('id_produksi_po' => $id));
+		$eid = $this->GlobalModel->getDataRow('gudang_bahan_keluar', array('idpo' => $po['id_produksi_po'], 'hapus' => 0));
+		$id = $eid['faktur_no'];
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_bahan_keluar', array('idpo' => $po['id_produksi_po'], 'hapus' => 0));
+		$viewData['project'] = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $viewData['barang'][0]['kode_po']));
+		$viewData['title'] = 'Detail ';
+		$viewData['page'] = 'gudang/outbahan/item-keluar-detail';
+		$viewData['update'] = BASEURL . 'Gudang/simpaneditbahankeluar';
+		$this->load->view('newtheme/page/main', $viewData);
 	}
 
-	public function simpaneditbahankeluar(){
-		$data=$this->input->post();
+	public function simpaneditbahankeluar()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		foreach($data['prods'] as $p){
-			$where=array(
+		foreach ($data['prods'] as $p) {
+			$where = array(
 				'id_item_keluar' => $p['id_item_keluar'],
 			);
-			
+
 			$old = $this->db->get_where('gudang_bahan_keluar', $where)->row_array();
 
-			$update=array(
+			$update = array(
 				'harga_item' => $p['harga_item'],
 				'bahan_kategori' => $p['bahan_kategori'],
-				'jumlah_item_keluar'=>$p['jumlah_item_keluar'],
-				'ukuran_item_keluar'=>isset($p['ukuran_item_keluar']) ? $p['ukuran_item_keluar'] : $old['ukuran_item_keluar'],
+				'jumlah_item_keluar' => $p['jumlah_item_keluar'],
+				'ukuran_item_keluar' => isset($p['ukuran_item_keluar']) ? $p['ukuran_item_keluar'] : $old['ukuran_item_keluar'],
 			);
-			
-			$this->db->update('gudang_bahan_keluar',$update,$where);
+
+			$this->db->update('gudang_bahan_keluar', $update, $where);
 
 			if ($old) {
 				$diff_qty = $old['jumlah_item_keluar'] - $p['jumlah_item_keluar'];
@@ -3552,26 +3601,26 @@ class Gudang extends CI_Controller {
 				if ($diff_qty != 0 || $diff_ukuran != 0) {
 					$prod = $this->db->get_where('product', array('nama' => $old['nama_item_keluar'], 'hapus' => 0))->row_array();
 					if ($prod) {
-						$this->db->query("UPDATE product SET ukuran_item=ukuran_item + (".$diff_ukuran."), quantity=quantity + (".$diff_qty.") WHERE product_id='".$prod['product_id']."' ");
-						$this->db->query("UPDATE gudang_persediaan_item SET ukuran_item=ukuran_item + (".$diff_ukuran."), jumlah_item=jumlah_item + (".$diff_qty.") WHERE id_persediaan='".$prod['product_id']."' ");
+						$this->db->query("UPDATE product SET ukuran_item=ukuran_item + (" . $diff_ukuran . "), quantity=quantity + (" . $diff_qty . ") WHERE product_id='" . $prod['product_id'] . "' ");
+						$this->db->query("UPDATE gudang_persediaan_item SET ukuran_item=ukuran_item + (" . $diff_ukuran . "), jumlah_item=jumlah_item + (" . $diff_qty . ") WHERE id_persediaan='" . $prod['product_id'] . "' ");
 					}
 				}
 			}
 		}
-		$this->session->set_flashdata('msg','Data berhasil di edit');
-		redirect(BASEURL.'Gudang/pengeluaranbahan?&kode_po='.$data['kode_po']);
+		$this->session->set_flashdata('msg', 'Data berhasil di edit');
+		redirect(BASEURL . 'Gudang/pengeluaranbahan?&kode_po=' . $data['kode_po']);
 	}
 
-	
 
-	public function outbahanEdit($id='')
+
+	public function outbahanEdit($id = '')
 	{
-		$viewData['barang'] = $this->GlobalModel->getData('gudang_bahan_keluar',array('faktur_no'=>$id));
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['po'] = $this->GlobalModel->getData('produksi_po',NULL);
-		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po',NULL);
+		$viewData['barang'] = $this->GlobalModel->getData('gudang_bahan_keluar', array('faktur_no' => $id));
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$viewData['po'] = $this->GlobalModel->getData('produksi_po', NULL);
+		$viewData['proggres'] = $this->GlobalModel->getData('proggresion_po', NULL);
 		$this->load->view('global/header');
-		$this->load->view('gudang/outbahan/item_keluar_edit',$viewData);
+		$this->load->view('gudang/outbahan/item_keluar_edit', $viewData);
 		$this->load->view('global/footer');
 	}
 
@@ -3594,77 +3643,82 @@ class Gudang extends CI_Controller {
 			$where = array(
 				'id_item_keluar' => $post['id'][$key]
 			);
-			$this->GlobalModel->updateData('gudang_bahan_keluar',$where,$dataInserted);
+			$this->GlobalModel->updateData('gudang_bahan_keluar', $where, $dataInserted);
 		}
-		$this->session->set_flashdata('msg','Data berhasil di edit');
-		redirect(BASEURL.'gudang/outbahah');
+		$this->session->set_flashdata('msg', 'Data berhasil di edit');
+		redirect(BASEURL . 'gudang/outbahah');
 	}
 
-	
-	public function outbahanDelete($id='')
+
+	public function outbahanDelete($id = '')
 	{
-		$this->GlobalModel->deleteData('gudang_bahan_keluar',array('id_item_keluar'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil di delete');
-		redirect(BASEURL.'gudang/outbahah');
+		$this->GlobalModel->deleteData('gudang_bahan_keluar', array('id_item_keluar' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil di delete');
+		redirect(BASEURL . 'gudang/outbahah');
 	}
 
-	function ajuanmingguanacc(){
+	function ajuanmingguanacc()
+	{
 		$post = $this->input->post();
 		//pre($post);
-		$update =array(
-				'jml_acc'=>$post['jml_acc']
+		$update = array(
+			'jml_acc' => $post['jml_acc']
 		);
-		$where = array('id'=>$post['id']);
-		$this->db->update('ajuan_mingguan',$update,$where);
-		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+		$where = array('id' => $post['id']);
+		$this->db->update('ajuan_mingguan', $update, $where);
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
+		redirect(BASEURL . 'Gudang/ajuanmingguan?&spv=true');
 	}
 
-	function ajuanmingguanacckemeja(){
+	function ajuanmingguanacckemeja()
+	{
 		$post = $this->input->post();
 		//pre($post);
-		$update =array(
-				'jml_acc'=>$post['jml_acc']
+		$update = array(
+			'jml_acc' => $post['jml_acc']
 		);
-		$where = array('id'=>$post['id']);
-		$this->db->update('ajuan_mingguan_kemeja',$update,$where);
-		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguankemeja?&spv=true');
+		$where = array('id' => $post['id']);
+		$this->db->update('ajuan_mingguan_kemeja', $update, $where);
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
+		redirect(BASEURL . 'Gudang/ajuanmingguankemeja?&spv=true');
 	}
 
-	function getjsonajuanmingguan(){
+	function getjsonajuanmingguan()
+	{
 		$post = $this->input->post('data_id');
-		$data = $this->GlobalModel->getDataRow('ajuan_mingguan',array('id'=>$post));
-		$html='';
+		$data = $this->GlobalModel->getDataRow('ajuan_mingguan', array('id' => $post));
+		$html = '';
 
-		$html.='<form method="POST" action="'.BASEURL.'Gudang/ajuanmingguanacc">';
-		$html.='<input type="hidden" name="id" value="'.$post.'">';
-		$html.='<p>Nama Ajuan : '.$data['kebutuhan'].'</p>';
-		$html.='<p>Jumlah Ajuan : '.$data['jml_ajuan'].'</p>';
-		$html.='<p>Acc Ajuan : <input type="text" name="jml_acc" class="form-control" value="'.$data['jml_acc'].'"></p>';
-		$html.='<br>';
-		$html.='<button class="btn btn-success btn-sm full">Acc</button>';
-		$html.='</form>';
+		$html .= '<form method="POST" action="' . BASEURL . 'Gudang/ajuanmingguanacc">';
+		$html .= '<input type="hidden" name="id" value="' . $post . '">';
+		$html .= '<p>Nama Ajuan : ' . $data['kebutuhan'] . '</p>';
+		$html .= '<p>Jumlah Ajuan : ' . $data['jml_ajuan'] . '</p>';
+		$html .= '<p>Acc Ajuan : <input type="text" name="jml_acc" class="form-control" value="' . $data['jml_acc'] . '"></p>';
+		$html .= '<br>';
+		$html .= '<button class="btn btn-success btn-sm full">Acc</button>';
+		$html .= '</form>';
 		echo $html;
 	}
 
-	function getjsonajuanmingguankemeja(){
+	function getjsonajuanmingguankemeja()
+	{
 		$post = $this->input->post('data_id');
-		$data = $this->GlobalModel->getDataRow('ajuan_mingguan',array('id'=>$post));
-		$html='';
+		$data = $this->GlobalModel->getDataRow('ajuan_mingguan', array('id' => $post));
+		$html = '';
 
-		$html.='<form method="POST" action="'.BASEURL.'Gudang/ajuanmingguanacckemeja">';
-		$html.='<input type="hidden" name="id" value="'.$post.'">';
-		$html.='<p>Nama Ajuan : '.$data['kebutuhan'].'</p>';
-		$html.='<p>Jumlah Ajuan : '.$data['jml_ajuan'].'</p>';
-		$html.='<p>Acc Ajuan : <input type="text" name="jml_acc" class="form-control" value="'.$data['jml_acc'].'"></p>';
-		$html.='<br>';
-		$html.='<button class="btn btn-success btn-sm full">Acc</button>';
-		$html.='</form>';
+		$html .= '<form method="POST" action="' . BASEURL . 'Gudang/ajuanmingguanacckemeja">';
+		$html .= '<input type="hidden" name="id" value="' . $post . '">';
+		$html .= '<p>Nama Ajuan : ' . $data['kebutuhan'] . '</p>';
+		$html .= '<p>Jumlah Ajuan : ' . $data['jml_ajuan'] . '</p>';
+		$html .= '<p>Acc Ajuan : <input type="text" name="jml_acc" class="form-control" value="' . $data['jml_acc'] . '"></p>';
+		$html .= '<br>';
+		$html .= '<button class="btn btn-success btn-sm full">Acc</button>';
+		$html .= '</form>';
 		echo $html;
 	}
 
-	function acc_ajuan_mingguan(){
+	function acc_ajuan_mingguan()
+	{
 		$post = $this->input->post();
 		//pre($post);
 		$update = array(
@@ -3673,129 +3727,130 @@ class Gudang extends CI_Controller {
 		$where = array(
 			'id' => $post['id'],
 		);
-		$this->db->update('ajuan_mingguan',$update,$where);
-		$cat=3; // kategori untuk ajuan harian bagian konveksi
-		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		$this->db->update('ajuan_mingguan', $update, $where);
+		$cat = 3; // kategori untuk ajuan harian bagian konveksi
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='" . $cat . "' AND from_alat IS NOT NULL AND DATE(tanggal)='" . $post['tanggal'] . "' AND hapus=0 ");
 		//pre($cekajuan_harian);
 		//pre();
-		if(empty($cekajuan_harian)){
-			$ip=array(
-				'kategori'=>$cat,
-				'cash'=>0,
-				'transfer'=>0,
-				'status'=>1,
-				'hapus'=>0,
-				'tanggal'=>date('Y-m-d'),
-				'keterangan'=>'',
-				'dibuat'=>date('Y-m-d H:i:s'),
+		if (empty($cekajuan_harian)) {
+			$ip = array(
+				'kategori' => $cat,
+				'cash' => 0,
+				'transfer' => 0,
+				'status' => 1,
+				'hapus' => 0,
+				'tanggal' => date('Y-m-d'),
+				'keterangan' => '',
+				'dibuat' => date('Y-m-d H:i:s'),
 				'from_alat' => TRUE
 			);
-			$this->db->insert('pengajuan_harian_new',$ip);
-			$id=$this->db->insert_id();
-			$transfer=0;
-			$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$post['id']));
-			$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-			$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-			$transfer=($item['harga_beli']*$p['jml_acc']);
-			$rip=array(
-					'idpengajuan'=>$id,
-					'nama_item'=>$item['nama'],
-					'jumlah'=>$p['jml_acc'],
-					'satuan'=>$item['satuan'],
-					'harga'=>$item['harga_beli'],
-					'pembayaran'=>2, // transfer
-					'supplier'=>$supplier['nama'],
-					'keterangan'=>$p['keterangan'],
-					'status'=>1,
-					'from_alat' => $p['id']
+			$this->db->insert('pengajuan_harian_new', $ip);
+			$id = $this->db->insert_id();
+			$transfer = 0;
+			$p = $this->GlobalModel->GetDataRow('ajuan_mingguan', array('id' => $post['id']));
+			$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $p['product_id']));
+			$supplier = $this->GlobalModel->GetDataRow('master_supplier', array('id' => $p['supplier_id']));
+			$transfer = ($item['harga_beli'] * $p['jml_acc']);
+			$rip = array(
+				'idpengajuan' => $id,
+				'nama_item' => $item['nama'],
+				'jumlah' => $p['jml_acc'],
+				'satuan' => $item['satuan'],
+				'harga' => $item['harga_beli'],
+				'pembayaran' => 2, // transfer
+				'supplier' => $supplier['nama'],
+				'keterangan' => $p['keterangan'],
+				'status' => 1,
+				'from_alat' => $p['id']
 			);
-			$this->db->insert('pengajuan_harian_new_detail',$rip);
-			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
-		}else{
-			$id=$cekajuan_harian['id'];
-			
-			$transfer=0;
-			$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$post['id']));
-			$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-			$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-			$transfer=($item['harga_beli']*$p['jml_acc']);
-			$rip=array(
-					'idpengajuan'=>$id,
-					'nama_item'=>$item['nama'],
-					'jumlah'=>$p['jml_acc'],
-					'satuan'=>$item['satuan'],
-					'harga'=>$item['harga_beli'],
-					'pembayaran'=>2, // transfer
-					'supplier'=>$supplier['nama'],
-					'keterangan'=>$p['keterangan'],
-					'status'=>1,
-					'from_alat' => $p['id']
+			$this->db->insert('pengajuan_harian_new_detail', $rip);
+			$this->db->update('pengajuan_harian_new', array('cash' => 0, 'transfer' => $transfer), array('id' => $id));
+		} else {
+			$id = $cekajuan_harian['id'];
+
+			$transfer = 0;
+			$p = $this->GlobalModel->GetDataRow('ajuan_mingguan', array('id' => $post['id']));
+			$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $p['product_id']));
+			$supplier = $this->GlobalModel->GetDataRow('master_supplier', array('id' => $p['supplier_id']));
+			$transfer = ($item['harga_beli'] * $p['jml_acc']);
+			$rip = array(
+				'idpengajuan' => $id,
+				'nama_item' => $item['nama'],
+				'jumlah' => $p['jml_acc'],
+				'satuan' => $item['satuan'],
+				'harga' => $item['harga_beli'],
+				'pembayaran' => 2, // transfer
+				'supplier' => $supplier['nama'],
+				'keterangan' => $p['keterangan'],
+				'status' => 1,
+				'from_alat' => $p['id']
 			);
-			$this->db->insert('pengajuan_harian_new_detail',$rip);
-			
-			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+			$this->db->insert('pengajuan_harian_new_detail', $rip);
+
+			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'" . $transfer . "' WHERE id='" . $id . "' ");
 		}
-		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
+		redirect(BASEURL . 'Gudang/ajuanmingguan?&spv=true');
 	}
 
-	function acc_ajuan_mingguan_all(){
+	function acc_ajuan_mingguan_all()
+	{
 		$post = $this->input->post();
-		foreach($post['prods'] as $pr){
+		foreach ($post['prods'] as $pr) {
 			$update = array(
 				'jml_acc' => $pr['jml_acc'],
-				'acc_satuan'=> $pr['acc_satuan'],
+				'acc_satuan' => $pr['acc_satuan'],
 			);
 			$where = array(
 				'id' => $pr['id'],
 			);
-			$this->db->update('ajuan_mingguan',$update,$where);
+			$this->db->update('ajuan_mingguan', $update, $where);
 		}
-		$cat=3;
+		$cat = 3;
 		$cekajuan_harian = null;
-		if(empty($cekajuan_harian)){
-			$ip=array(
-				'kategori'=>$cat,
-				'cash'=>0,
-				'transfer'=>0,
-				'status'=>1,
-				'hapus'=>0,
-				'tanggal'=>date('Y-m-d'),
-				'keterangan'=>'',
-				'dibuat'=>date('Y-m-d H:i:s'),
+		if (empty($cekajuan_harian)) {
+			$ip = array(
+				'kategori' => $cat,
+				'cash' => 0,
+				'transfer' => 0,
+				'status' => 1,
+				'hapus' => 0,
+				'tanggal' => date('Y-m-d'),
+				'keterangan' => '',
+				'dibuat' => date('Y-m-d H:i:s'),
 				'from_alat' => TRUE
 			);
-			$this->db->insert('pengajuan_harian_new',$ip);
-			$id=$this->db->insert_id();
-			$transfer=0;
-			$cash=0;
-			foreach($post['prods'] as $pr){
-				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan',array('id'=>$pr['id']));
-				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
+			$this->db->insert('pengajuan_harian_new', $ip);
+			$id = $this->db->insert_id();
+			$transfer = 0;
+			$cash = 0;
+			foreach ($post['prods'] as $pr) {
+				$p = $this->GlobalModel->GetDataRow('ajuan_mingguan', array('id' => $pr['id']));
+				$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $p['product_id']));
+				$supplier = $this->GlobalModel->GetDataRow('master_supplier', array('id' => $p['supplier_id']));
 				$acc = !empty($pr['acc_satuan']) ? $pr['acc_satuan'] : $pr['jml_acc'];
-				if(isset($pr['metodebayar'])){
-					if($pr['metodebayar']=='Transfer'){
-						$transfer+=($item['harga_beli']*$acc);
-					}else{
-						$cash+=($item['harga_beli']*$acc);
+				if (isset($pr['metodebayar'])) {
+					if ($pr['metodebayar'] == 'Transfer') {
+						$transfer += ($item['harga_beli'] * $acc);
+					} else {
+						$cash += ($item['harga_beli'] * $acc);
 					}
 				}
-				$rip=array(
-						'idpengajuan'=>$id,
-						'nama_item'=>$item['nama'],
-						'jumlah'=>$acc,
-						'satuan'=>$item['satuan'],
-						'harga'=>$item['harga_beli'],
-						'pembayaran'=> ($pr['metodebayar']=='Cash') ? 1 : 2,
-						'supplier'=>$supplier['nama'],
-						'keterangan'=>$p['keterangan2'],
-						'status'=>1,
-						'from_alat' => $p['id']
+				$rip = array(
+					'idpengajuan' => $id,
+					'nama_item' => $item['nama'],
+					'jumlah' => $acc,
+					'satuan' => $item['satuan'],
+					'harga' => $item['harga_beli'],
+					'pembayaran' => ($pr['metodebayar'] == 'Cash') ? 1 : 2,
+					'supplier' => $supplier['nama'],
+					'keterangan' => $p['keterangan2'],
+					'status' => 1,
+					'from_alat' => $p['id']
 				);
-				$this->db->insert('pengajuan_harian_new_detail',$rip);
+				$this->db->insert('pengajuan_harian_new_detail', $rip);
 			}
-			$this->db->update('pengajuan_harian_new',array('cash'=>$cash,'transfer'=>$transfer),array('id'=>$id));
+			$this->db->update('pengajuan_harian_new', array('cash' => $cash, 'transfer' => $transfer), array('id' => $id));
 			$image_data = $this->input->post('image_data');
 			if (!empty($image_data)) {
 				$update = array(
@@ -3805,271 +3860,277 @@ class Gudang extends CI_Controller {
 				$where = array(
 					'id' => $id,
 				);
-				$this->db->update('pengajuan_harian_new',$update,$where);
+				$this->db->update('pengajuan_harian_new', $update, $where);
 			} else {
 				echo 'Failed to save signature.';
 			}
-		}else{
-			$this->session->set_flashdata('gagal','Data gagal di tersimpan ke ajuan harian.');
-			redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+		} else {
+			$this->session->set_flashdata('gagal', 'Data gagal di tersimpan ke ajuan harian.');
+			redirect(BASEURL . 'Gudang/ajuanmingguan?&spv=true');
 		}
 		echo $id;
 	}
-	function acc_ajuan_mingguan_allkemeja(){
+	function acc_ajuan_mingguan_allkemeja()
+	{
 		$post = $this->input->post();
 		//pre($post);
-		foreach($post['prods'] as $pr){
+		foreach ($post['prods'] as $pr) {
 			$update = array(
 				'jml_acc' => $pr['jml_acc'],
-				'acc_satuan'=> $pr['acc_satuan'],
+				'acc_satuan' => $pr['acc_satuan'],
 			);
 			$where = array(
 				'id' => $pr['id'],
 			);
-			$this->db->update('ajuan_mingguan_kemeja',$update,$where);
+			$this->db->update('ajuan_mingguan_kemeja', $update, $where);
 		}
-		$cat=3; // kategori untuk ajuan harian bagian konveksi
-		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='".$cat."' AND from_alat IS NOT NULL AND DATE(tanggal)='".$post['tanggal']."' AND hapus=0 ");
+		$cat = 3; // kategori untuk ajuan harian bagian konveksi
+		$cekajuan_harian = $this->GlobalModel->QueryManualRow("SELECT * FROM pengajuan_harian_new WHERE kategori='" . $cat . "' AND from_alat IS NOT NULL AND DATE(tanggal)='" . $post['tanggal'] . "' AND hapus=0 ");
 		//pre($cekajuan_harian);
 		//pre();
-		if(empty($cekajuan_harian)){
-			$ip=array(
-				'kategori'=>$cat,
-				'cash'=>0,
-				'transfer'=>0,
-				'status'=>1,
-				'hapus'=>0,
-				'tanggal'=>date('Y-m-d'),
-				'keterangan'=>'',
-				'dibuat'=>date('Y-m-d H:i:s'),
+		if (empty($cekajuan_harian)) {
+			$ip = array(
+				'kategori' => $cat,
+				'cash' => 0,
+				'transfer' => 0,
+				'status' => 1,
+				'hapus' => 0,
+				'tanggal' => date('Y-m-d'),
+				'keterangan' => '',
+				'dibuat' => date('Y-m-d H:i:s'),
 				'from_alat' => TRUE
 			);
-			$this->db->insert('pengajuan_harian_new',$ip);
-			$id=$this->db->insert_id();
-			$transfer=0;
-			foreach($post['prods'] as $pr){
-				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan_kemeja',array('id'=>$pr['id']));
-				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-				$transfer+=($item['harga_beli']*$pr['jml_acc']);
-				$rip=array(
-						'idpengajuan'=>$id,
-						'nama_item'=>$item['nama'],
-						'jumlah'=>$pr['jml_acc'],
-						'satuan'=>$item['satuan'],
-						'harga'=>$item['harga_beli'],
-						'pembayaran'=>2, // transfer
-						'supplier'=>$supplier['nama'],
-						'keterangan'=>$p['keterangan'],
-						'status'=>1,
-						'from_alat' => $p['id']
+			$this->db->insert('pengajuan_harian_new', $ip);
+			$id = $this->db->insert_id();
+			$transfer = 0;
+			foreach ($post['prods'] as $pr) {
+				$p = $this->GlobalModel->GetDataRow('ajuan_mingguan_kemeja', array('id' => $pr['id']));
+				$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $p['product_id']));
+				$supplier = $this->GlobalModel->GetDataRow('master_supplier', array('id' => $p['supplier_id']));
+				$transfer += ($item['harga_beli'] * $pr['jml_acc']);
+				$rip = array(
+					'idpengajuan' => $id,
+					'nama_item' => $item['nama'],
+					'jumlah' => $pr['jml_acc'],
+					'satuan' => $item['satuan'],
+					'harga' => $item['harga_beli'],
+					'pembayaran' => 2, // transfer
+					'supplier' => $supplier['nama'],
+					'keterangan' => $p['keterangan'],
+					'status' => 1,
+					'from_alat' => $p['id']
 				);
-				$this->db->insert('pengajuan_harian_new_detail',$rip);
+				$this->db->insert('pengajuan_harian_new_detail', $rip);
 			}
-			$this->db->update('pengajuan_harian_new',array('cash'=>0,'transfer'=>$transfer),array('id'=>$id));
-		}else{
-			$id=$cekajuan_harian['id'];
-			
-			$transfer=0;
-			foreach($post['prods'] as $pr){
-				$p=$this->GlobalModel->GetDataRow('ajuan_mingguan_kemeja',array('id'=>$pr['id']));
-				$item=$this->GlobalModel->GetDataRow('product',array('product_id'=>$p['product_id']));
-				$supplier=$this->GlobalModel->GetDataRow('master_supplier',array('id'=>$p['supplier_id']));
-				$transfer=($item['harga_beli']*$p['jml_acc']);
-				$rip=array(
-						'nama_item'=>$item['nama'],
-						'jumlah'=>$p['jml_acc'],
-						'satuan'=>$item['satuan'],
-						'harga'=>$item['harga_beli'],
-						'pembayaran'=>2, // transfer
-						'supplier'=>$supplier['nama'],
-						'keterangan'=>$p['keterangan'],
-						'status'=>1,
-						'from_alat' => $p['id']
+			$this->db->update('pengajuan_harian_new', array('cash' => 0, 'transfer' => $transfer), array('id' => $id));
+		} else {
+			$id = $cekajuan_harian['id'];
+
+			$transfer = 0;
+			foreach ($post['prods'] as $pr) {
+				$p = $this->GlobalModel->GetDataRow('ajuan_mingguan_kemeja', array('id' => $pr['id']));
+				$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $p['product_id']));
+				$supplier = $this->GlobalModel->GetDataRow('master_supplier', array('id' => $p['supplier_id']));
+				$transfer = ($item['harga_beli'] * $p['jml_acc']);
+				$rip = array(
+					'nama_item' => $item['nama'],
+					'jumlah' => $p['jml_acc'],
+					'satuan' => $item['satuan'],
+					'harga' => $item['harga_beli'],
+					'pembayaran' => 2, // transfer
+					'supplier' => $supplier['nama'],
+					'keterangan' => $p['keterangan'],
+					'status' => 1,
+					'from_alat' => $p['id']
 				);
 				$wu = array(
 					'from_alat' => $p['id']
 				);
-				$this->db->update('pengajuan_harian_new_detail',$rip, $wu);
+				$this->db->update('pengajuan_harian_new_detail', $rip, $wu);
 			}
 
 			//pre($id);
-			
-			
-			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'".$transfer."' WHERE id='".$id."' ");
+
+
+			$this->db->query("UPDATE pengajuan_harian_new SET transfer=transfer+'" . $transfer . "' WHERE id='" . $id . "' ");
 		}
-		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguan_kemeja?&spv=true');
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
+		redirect(BASEURL . 'Gudang/ajuanmingguan_kemeja?&spv=true');
 	}
 
-	function acc_ajuan_mingguan_batal(){
+	function acc_ajuan_mingguan_batal()
+	{
 		$post = $this->input->post();
 		//pre($post);
 		$insert = array(
 			'tanggal'	=> $post['tanggal']
 		);
-		$this->db->delete('acc_ajuan_mingguan',$insert);
-		$this->session->set_flashdata('msg','Data berhasil di acc');
-		redirect(BASEURL.'Gudang/ajuanmingguan?&spv=true');
+		$this->db->delete('acc_ajuan_mingguan', $insert);
+		$this->session->set_flashdata('msg', 'Data berhasil di acc');
+		redirect(BASEURL . 'Gudang/ajuanmingguan?&spv=true');
 	}
 
-	public function ajuanmingguan_celana(){
-		$data=array();
-		$data['title']='Ajuan Alat-alat Kirim PO Kaos ';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("monday this week"));
+	public function ajuanmingguan_celana()
+	{
+		$data = array();
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Kaos ';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("monday this week"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
 
-		if(isset($get['spv'])){
-			$periode=$this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
-			$tanggal1=!empty($periode) ? $periode['tahun'].'-'.str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT).'-01' : date('Y-m-01');
-			$tanggal2=date('Y-m-d');
-			if(isset($get['tanggal1'])){
-				$tanggal1=$get['tanggal1'];
+		if (isset($get['spv'])) {
+			$periode = $this->GlobalModel->QueryManualRow("SELECT bulan, tahun FROM periodeproduksi LIMIT 1");
+			$tanggal1 = !empty($periode) ? $periode['tahun'] . '-' . str_pad($periode['bulan'], 2, '0', STR_PAD_LEFT) . '-01' : date('Y-m-01');
+			$tanggal2 = date('Y-m-d');
+			if (isset($get['tanggal1'])) {
+				$tanggal1 = $get['tanggal1'];
 			}
-			if(isset($get['tanggal2'])){
-				$tanggal2=$get['tanggal2'];
+			if (isset($get['tanggal2'])) {
+				$tanggal2 = $get['tanggal2'];
 			}
 		}
-		$data['accAjuan']=BASEURL.'Gudang/ajuanmingguanacc';
+		$data['accAjuan'] = BASEURL . 'Gudang/ajuanmingguanacc';
 		//pre($data['acc_ajuan_mingguan']);
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		$data['products']=array();
-		$data['n']=1;
-		$sql="SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' ";
-		if(isset($get['spv'])){
-			$sql.=" AND jml_acc=0 AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		}else{
-			$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'";
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		$data['products'] = array();
+		$data['n'] = 1;
+		$sql = "SELECT * FROM ajuan_mingguan WHERE hapus=0 AND typeajuan='celana' ";
+		if (isset($get['spv'])) {
+			$sql .= " AND jml_acc=0 AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
+		} else {
+			$sql .= " AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'";
 		}
-		if(!empty($cat)){
-			$sql.=" AND jenis='".$cat."' ";
+		if (!empty($cat)) {
+			$sql .= " AND jenis='" . $cat . "' ";
 		}
-		$sql.=" ORDER BY id DESC ";
-		
-		$results=$this->GlobalModel->queryManual($sql);
-		foreach($results as $result){
-			$satuan = $this->GlobalModel->GetDataRow('product',array('hapus'=>0,'nama'=>$result['kebutuhan']));
-			$data['products'][]=array(
-				'id'=>$result['id'],
-				'tanggal'=>$result['tanggal'],
-				'kebutuhan'=>''.$result['kebutuhan'],
+		$sql .= " ORDER BY id DESC ";
+
+		$results = $this->GlobalModel->queryManual($sql);
+		foreach ($results as $result) {
+			$satuan = $this->GlobalModel->GetDataRow('product', array('hapus' => 0, 'nama' => $result['kebutuhan']));
+			$data['products'][] = array(
+				'id' => $result['id'],
+				'tanggal' => $result['tanggal'],
+				'kebutuhan' => '' . $result['kebutuhan'],
 				'satuan' => !empty($satuan) ? $satuan['satuan'] : '',
-				'jml_ajuan'=>$result['jml_ajuan'],
-				'jml_acc'=>$result['jml_acc'],
-				'keterangan'=>$result['keterangan'],
-				'keterangan2'=>$result['keterangan2'],
-				'edit'=>BASEURL.'Gudang/ajuanmingguanedit/'.$result['id'],
-				'detail'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'],
-				'batal'=>BASEURL.'Gudang/ajuanmingguandetailbatal/'.$result['id'],
-				'bataladmin'=>BASEURL.'Gudang/ajuanmingguandetailbataladmin/'.$result['id'],
-				'excel'=>BASEURL.'Gudang/ajuanmingguandetail/'.$result['id'].'?&excel=1',
-				'stok'=>$result['stok'],
+				'jml_ajuan' => $result['jml_ajuan'],
+				'jml_acc' => $result['jml_acc'],
+				'keterangan' => $result['keterangan'],
+				'keterangan2' => $result['keterangan2'],
+				'edit' => BASEURL . 'Gudang/ajuanmingguanedit/' . $result['id'],
+				'detail' => BASEURL . 'Gudang/ajuanmingguandetail/' . $result['id'],
+				'batal' => BASEURL . 'Gudang/ajuanmingguandetailbatal/' . $result['id'],
+				'bataladmin' => BASEURL . 'Gudang/ajuanmingguandetailbataladmin/' . $result['id'],
+				'excel' => BASEURL . 'Gudang/ajuanmingguandetail/' . $result['id'] . '?&excel=1',
+				'stok' => $result['stok'],
 				'acc_satuan' => $result['acc_satuan'],
 				'accsatuan'	 => $satuan['accsatuan'],
 				'metodebayar'	=> $result['metodebayar'],
 			);
 		}
-		$data['tambah']=BASEURL.'Gudang/ajuanmingguantambah_celana';
-		if(isset($get['spv'])){
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list_spv';
-		}else{
-			$data['page']=$this->page.'gudang/pengajuan/mingguan_list';
+		$data['tambah'] = BASEURL . 'Gudang/ajuanmingguantambah_celana';
+		if (isset($get['spv'])) {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list_spv';
+		} else {
+			$data['page'] = $this->page . 'gudang/pengajuan/mingguan_list';
 		}
 		//pre($data['products']);
-		$data['urlexcel']=BASEURL.'Gudang/ajuanmingguan_excel_all';
-		$data['acc_ajuan_mingguan']=$this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='".$tanggal1."' ORDER BY tanggal DESC LIMIT 1");
-		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal']:null;
-		$this->load->view($this->page.'main',$data);
+		$data['urlexcel'] = BASEURL . 'Gudang/ajuanmingguan_excel_all';
+		$data['acc_ajuan_mingguan'] = $this->GlobalModel->QueryManualRow("SELECT tanggal FROM acc_ajuan_mingguan WHERE DATE(tanggal)='" . $tanggal1 . "' ORDER BY tanggal DESC LIMIT 1");
+		$data['tgl_diacc']	= !empty($data['acc_ajuan_mingguan']) ? $data['acc_ajuan_mingguan']['tanggal'] : null;
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguantambah_celana(){
-		$data=array();
-		$data['title']='Form Ajuan Alat-alat Kirim PO Celana';
-		$data['typeajuan']	='alat-alat';
-		$data['action']=BASEURL.'Gudang/ajuanmingguansave_celana';
-		$data['cancel']=BASEURL.'Gudang/ajuanmingguan_celana';
-		$data['po']=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		$data['products']=$this->GlobalModel->getData('product',array('hapus'=>0));
-		$data['supplier'] = $this->GlobalModel->getData('master_supplier',array('hapus'=>0));
-		$data['page']=$this->page.'gudang/pengajuan/mingguan_form';
-		$this->load->view($this->page.'main',$data);
+	public function ajuanmingguantambah_celana()
+	{
+		$data = array();
+		$data['title'] = 'Form Ajuan Alat-alat Kirim PO Celana';
+		$data['typeajuan']	= 'alat-alat';
+		$data['action'] = BASEURL . 'Gudang/ajuanmingguansave_celana';
+		$data['cancel'] = BASEURL . 'Gudang/ajuanmingguan_celana';
+		$data['po'] = $this->GlobalModel->getData('produksi_po', array('hapus' => 0));
+		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['page'] = $this->page . 'gudang/pengajuan/mingguan_form';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	public function ajuanmingguansave_celana(){
-		$data=$this->input->post();
+	public function ajuanmingguansave_celana()
+	{
+		$data = $this->input->post();
 		//pre($data);
-		if(isset($data['products'])){
-			$item = $this->GlobalModel->GetDataRow('product',array('product_id'=>$data['kebutuhan']));
-			$am=array(
-				'tanggal'=>$data['tanggal'],
-				'jenis'=>$data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
-				'kebutuhan'=>$item['nama'],
+		if (isset($data['products'])) {
+			$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $data['kebutuhan']));
+			$am = array(
+				'tanggal' => $data['tanggal'],
+				'jenis' => $data['jenis'], // 1 konveksi, 2 bordir, 3 sablon
+				'kebutuhan' => $item['nama'],
 				'product_id' => $item['product_id'],
 				// 'ajuan_kebutuhan'=>$data['ajuan_kebutuhan'],
-				'ajuan_kebutuhan'=>0,
-				'stok'=>$data['stok'],
+				'ajuan_kebutuhan' => 0,
+				'stok' => $data['stok'],
 				//'jml_ajuan'=>$data['jml_ajuan'],
-				'jml_ajuan'=>0,
-				'keterangan'=>'kebutuhan '.$data['kebutuhan'],
-				'keterangan2'=>$data['keterangan2'],
-				'supplier_id'=>$data['supplier_id'],
-				'metodebayar'=>isset($data['metodebayar']) ? $data['metodebayar'] : null,
+				'jml_ajuan' => 0,
+				'keterangan' => 'kebutuhan ' . $data['kebutuhan'],
+				'keterangan2' => $data['keterangan2'],
+				'supplier_id' => $data['supplier_id'],
+				'metodebayar' => isset($data['metodebayar']) ? $data['metodebayar'] : null,
 				'typeajuan' => 'celana',
 				//'keterangan'=>$data['keterangan'],
 			);
-			$this->db->insert('ajuan_mingguan',$am);
-			$id=$this->db->insert_id();
-			$totalajuan=0;
-			foreach($data['products'] as $p){
-				$totalajuan+=($p['jumlah_po']*$p['jml_pcs']);
-				$insert=array(
-					'idajuan'=>$id,
-					'tanggal'=>$data['tanggal'],
-					'tanggal2'=>$data['tanggal'],
-					'kode_po'=>$p['kode_po'],
-					'jumlah_po'=>$p['jumlah_po'],
-					'rincian_po'=>$p['rincian_po'],
+			$this->db->insert('ajuan_mingguan', $am);
+			$id = $this->db->insert_id();
+			$totalajuan = 0;
+			foreach ($data['products'] as $p) {
+				$totalajuan += ($p['jumlah_po'] * $p['jml_pcs']);
+				$insert = array(
+					'idajuan' => $id,
+					'tanggal' => $data['tanggal'],
+					'tanggal2' => $data['tanggal'],
+					'kode_po' => $p['kode_po'],
+					'jumlah_po' => $p['jumlah_po'],
+					'rincian_po' => $p['rincian_po'],
 					// 'jml_pcs'=>str_replace(",", ".", $p['jml_pcs']),
 					// 'jml_dz'=>str_replace(",", ".", $p['jml_dz']),
-					'jml_pcs'=>$p['jml_pcs'],
-					'jml_dz'=>$p['jml_dz'],
-					'keterangan'=>$p['keterangan'],
-					'hapus'=>0,
+					'jml_pcs' => $p['jml_pcs'],
+					'jml_dz' => $p['jml_dz'],
+					'keterangan' => $p['keterangan'],
+					'hapus' => 0,
 				);
-				$this->db->insert('ajuan_mingguan_detail',$insert);
+				$this->db->insert('ajuan_mingguan_detail', $insert);
 			}
-			$this->db->update('ajuan_mingguan',array('ajuan_kebutuhan'=>$totalajuan,'jml_ajuan'=>$totalajuan-$data['stok']),array('id'=>$id));
+			$this->db->update('ajuan_mingguan', array('ajuan_kebutuhan' => $totalajuan, 'jml_ajuan' => $totalajuan - $data['stok']), array('id' => $id));
 		}
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/ajuanmingguan_celana');
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/ajuanmingguan_celana');
 	}
 
-	function getRealisasiDetail(){
+	function getRealisasiDetail()
+	{
 		$id = $this->input->get('id');
-		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new', array('hapus' => 0, 'id' => $id));
 		echo '
 			<div class="row">
 
 			<div class="col-lg-6 col-xs-6">
 				<div class="small-box bg-aqua">
 				<div class="inner">
-				<h3>Rp. '.number_format($ajuan['cash']).'</h3>
+				<h3>Rp. ' . number_format($ajuan['cash']) . '</h3>
 				<p>Cash</p>
 				</div>
 				<div class="icon">
@@ -4083,7 +4144,7 @@ class Gudang extends CI_Controller {
 			<div class="col-lg-6 col-xs-6">
 				<div class="small-box bg-yellow">
 				<div class="inner">
-				<h3>Rp. '.number_format($ajuan['transfer']).'</h3>
+				<h3>Rp. ' . number_format($ajuan['transfer']) . '</h3>
 				<p>Transfer</p>
 				</div>
 				<div class="icon">
@@ -4097,25 +4158,25 @@ class Gudang extends CI_Controller {
 			</div>
 		';
 		echo '<hr>';
-		echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		echo '<form method="POST" action="' . BASEURL . 'Gudang/realisasi_save">';
 		echo '<div claass="card-header">
 			<h2>
 				Detail Realisasi Penerimaan 
 			</h2>
 		</div>';
-		echo '<input type="hidden" name="id" value="'.$id.'">  <input type="hidden" name="ajuancash" value="'.$ajuan['cash'].'">	';
+		echo '<input type="hidden" name="id" value="' . $id . '">  <input type="hidden" name="ajuancash" value="' . $ajuan['cash'] . '">	';
 		echo '<div class="row">';
 		echo '<div class="col-md-4">';
 		echo 'Cash : <br>';
-		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'">';
+		echo '<input type="number" class="form-control" name="diterima_cash" value="' . $ajuan['diterima_cash'] . '">';
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Transfer : <br>';
-		echo '<input type="number" class="form-control" name="diterima_tf" value="'.$ajuan['diterima_tf'].'"  required>';
+		echo '<input type="number" class="form-control" name="diterima_tf" value="' . $ajuan['diterima_tf'] . '"  required>';
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Sisa Cash : <br>';
-		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  readonly>';
+		echo '<input type="number" class="form-control" name="sisa_cash" value="' . $ajuan['sisa_cash'] . '"  readonly>';
 		echo '</div><br><br>';
 		// echo '
 		// 		<div class="row">
@@ -4138,16 +4199,17 @@ class Gudang extends CI_Controller {
 		echo '</form>';
 	}
 
-	function getRealisasiDetailmanajer(){
+	function getRealisasiDetailmanajer()
+	{
 		$id = $this->input->get('id');
-		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new', array('hapus' => 0, 'id' => $id));
 		echo '
 			<div class="row">
 
 			<div class="col-lg-6 col-xs-6">
 				<div class="small-box bg-aqua">
 				<div class="inner">
-				<h3>Rp. '.number_format($ajuan['cash']).'</h3>
+				<h3>Rp. ' . number_format($ajuan['cash']) . '</h3>
 				<p>Cash</p>
 				</div>
 				<div class="icon">
@@ -4161,7 +4223,7 @@ class Gudang extends CI_Controller {
 			<div class="col-lg-6 col-xs-6">
 				<div class="small-box bg-yellow">
 				<div class="inner">
-				<h3>Rp. '.number_format($ajuan['transfer']).'</h3>
+				<h3>Rp. ' . number_format($ajuan['transfer']) . '</h3>
 				<p>Transfer</p>
 				</div>
 				<div class="icon">
@@ -4175,25 +4237,25 @@ class Gudang extends CI_Controller {
 			</div>
 		';
 		echo '<hr>';
-		echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
+		echo '<form method="POST" action="' . BASEURL . 'Gudang/realisasi_save">';
 		echo '<div claass="card-header">
 			<h2>
 				Detail Realisasi Penerimaan 
 			</h2>
 		</div>';
-		echo '<input type="hidden" name="id" value="'.$id.'">	';
+		echo '<input type="hidden" name="id" value="' . $id . '">	';
 		echo '<div class="row">';
 		echo '<div class="col-md-4">';
 		echo 'Cash : <br>';
-		echo '<input type="number" class="form-control" name="diterima_cash" value="'.$ajuan['diterima_cash'].'" required>';
+		echo '<input type="number" class="form-control" name="diterima_cash" value="' . $ajuan['diterima_cash'] . '" required>';
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Transfer : <br>';
-		echo '<input type="number" class="form-control" name="diterima_tf" value="'.$ajuan['diterima_tf'].'"  readonly>';
+		echo '<input type="number" class="form-control" name="diterima_tf" value="' . $ajuan['diterima_tf'] . '"  readonly>';
 		echo '</div>';
 		echo '<div class="col-md-4">';
 		echo 'Sisa Cash : <br>';
-		echo '<input type="number" class="form-control" name="sisa_cash" value="'.$ajuan['sisa_cash'].'"  readonly>';
+		echo '<input type="number" class="form-control" name="sisa_cash" value="' . $ajuan['sisa_cash'] . '"  readonly>';
 		echo '</div><br><br>';
 		// echo '
 		// 		<div class="row">
@@ -4216,33 +4278,35 @@ class Gudang extends CI_Controller {
 		echo '</form>';
 	}
 
-	function realisasi_save(){
+	function realisasi_save()
+	{
 		$post = $this->input->post();
 		$update = array(
 			'diterima_cash' => $post['diterima_cash'],
 			'diterima_tf' => $post['diterima_tf'],
-			'sisa_cash' => $post['ajuancash']-$post['diterima_cash'],
+			'sisa_cash' => $post['ajuancash'] - $post['diterima_cash'],
 		);
 		$where = array(
-			'id'=> $post['id']
+			'id' => $post['id']
 		);
-		$this->db->update('pengajuan_harian_new',$update,$where);
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
-		redirect(BASEURL.'Gudang/pengajuan');
+		$this->db->update('pengajuan_harian_new', $update, $where);
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL . 'Gudang/pengajuan');
 	}
 
 
-	function getRealisasiDetailTtd(){
+	function getRealisasiDetailTtd()
+	{
 		$id = $this->input->get('id');
-		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
-		$detail = $this->GlobalModel->GetData('pengajuan_harian_new_detail',array('hapus'=>0,'idpengajuan'=>$id));
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new', array('hapus' => 0, 'id' => $id));
+		$detail = $this->GlobalModel->GetData('pengajuan_harian_new_detail', array('hapus' => 0, 'idpengajuan' => $id));
 		echo '
 			<div class="row">
 
 			<div class="col-lg-6 col-xs-6">
 				<div class="small-box bg-aqua">
 				<div class="inner">
-				<h3>Rp. '.number_format($ajuan['cash']).'</h3>
+				<h3>Rp. ' . number_format($ajuan['cash']) . '</h3>
 				<p>Cash</p>
 				</div>
 				<div class="icon">
@@ -4256,7 +4320,7 @@ class Gudang extends CI_Controller {
 			<div class="col-lg-6 col-xs-6">
 				<div class="small-box bg-yellow">
 				<div class="inner">
-				<h3>Rp. '.number_format($ajuan['transfer']).'</h3>
+				<h3>Rp. ' . number_format($ajuan['transfer']) . '</h3>
 				<p>Transfer</p>
 				</div>
 				<div class="icon">
@@ -4271,11 +4335,11 @@ class Gudang extends CI_Controller {
 		';
 		echo '<hr>';
 		// echo '<form method="POST" action="'.BASEURL.'Gudang/realisasi_save">';
-		echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
+		echo '<input type="hidden" name="idajuan" id="idajuan" value="' . $ajuan['id'] . '">';
 		echo '<div class="card-header">
 			 <div id="signature-pad" style="width: 100%; min-width: 300px; height: 300px; min-height: 300px; border: 1px solid #000; background-color: #fff;"></div>
 		</div>';
-		
+
 		echo '<br><br>';
 		echo '<h3>Rincian Pengajuan</h3>';
 		echo '<table class="table table-bordered">';
@@ -4286,14 +4350,14 @@ class Gudang extends CI_Controller {
 		echo '<th>Harga Satuan</th>';
 		echo '<th>Total Harga</th>';
 		echo '</tr>';
-		foreach($detail as $d){
-		echo '<tr>';
-		echo '<td>'.$d['nama_item'].'</td>';
-		echo '<td>'.$d['jumlah'].'</td>';
-		echo '<td>'.$d['satuan'].'</td>';
-		echo '<td align="right">'.number_format($d['harga']).'</td>';
-		echo '<td align="right">'.number_format(($d['jumlah']*$d['harga'])).'</td>';
-		echo '</tr>';
+		foreach ($detail as $d) {
+			echo '<tr>';
+			echo '<td>' . $d['nama_item'] . '</td>';
+			echo '<td>' . $d['jumlah'] . '</td>';
+			echo '<td>' . $d['satuan'] . '</td>';
+			echo '<td align="right">' . number_format($d['harga']) . '</td>';
+			echo '<td align="right">' . number_format(($d['jumlah'] * $d['harga'])) . '</td>';
+			echo '</tr>';
 		}
 		echo '</table>';
 		// echo '<div class="row">
@@ -4306,29 +4370,31 @@ class Gudang extends CI_Controller {
 		// echo '</form>';
 	}
 
-	function ttdsaveBuhj(){
+	function ttdsaveBuhj()
+	{
 		$post = $this->input->post();
-        $image_data = $this->input->post('image_data');
-		
-        if (!empty($image_data)) {
+		$image_data = $this->input->post('image_data');
+
+		if (!empty($image_data)) {
 			$update = array(
 				'ttdBuHj' => $image_data,
 			);
 			$where = array(
 				'id' => $post['id'],
 			);
-			$this->db->update('pengajuan_harian_new',$update,$where);
-            echo 'Signature saved successfully!';
-        } else {
-            echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
-        }
+			$this->db->update('pengajuan_harian_new', $update, $where);
+			echo 'Signature saved successfully!';
+		} else {
+			echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
+		}
 	}
 
-	public function ttdsave() {
+	public function ttdsave()
+	{
 		$post = $this->input->post();
-        $image_data = $this->input->post('image_data');
+		$image_data = $this->input->post('image_data');
 
-        if (!empty($image_data)) {
+		if (!empty($image_data)) {
 			$update = array(
 				'paraf' => $image_data,
 				'status' => 1,
@@ -4337,22 +4403,24 @@ class Gudang extends CI_Controller {
 			$where = array(
 				'id' => $post['id'],
 			);
-			$this->db->update('pengajuan_harian_new',$update,$where);
-            echo 'Signature saved successfully!';
-        } else {
-            echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
-        }
-    }
-
-	function getiD(){
-		$id = $this->input->get('id');
-		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new',array('hapus'=>0,'id'=>$id));
-		echo $ajuan['id'];
-		// echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
-		
+			$this->db->update('pengajuan_harian_new', $update, $where);
+			echo 'Signature saved successfully!';
+		} else {
+			echo 'Failed to save signature. image_data is empty. POST keys: ' . implode(', ', array_keys($this->input->post()));
+		}
 	}
 
-	function uploadnota(){
+	function getiD()
+	{
+		$id = $this->input->get('id');
+		$ajuan = $this->GlobalModel->GetDataRow('pengajuan_harian_new', array('hapus' => 0, 'id' => $id));
+		echo $ajuan['id'];
+		// echo '<input type="hidden" name="idajuan" id="idajuan" value="'.$ajuan['id'].'">';
+
+	}
+
+	function uploadnota()
+	{
 		$data = $this->input->post();
 		$config['upload_path']   = './uploads/nota/';
 		$config['allowed_types'] = 'gif|jpg|png|jpeg|pdf';
@@ -4387,146 +4455,150 @@ class Gudang extends CI_Controller {
 				];
 				$this->db->update('pengajuan_harian_new', $up, ['id' => $data['idnota']]);
 
-				user_activity(callSessUser('id_user'), 1, ' upload nota belanja ajuan dengan id '.$data['idnota']);
+				user_activity(callSessUser('id_user'), 1, ' upload nota belanja ajuan dengan id ' . $data['idnota']);
 				$this->session->set_flashdata('msg', 'Data berhasil disimpan');
-				redirect(BASEURL.'Gudang/pengajuan');
+				redirect(BASEURL . 'Gudang/pengajuan');
 			} else {
 				$this->session->set_flashdata('gagal', $this->upload->display_errors());
-				redirect(BASEURL.'Gudang/pengajuan');
+				redirect(BASEURL . 'Gudang/pengajuan');
 			}
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal disimpan');
-			redirect(BASEURL.'Gudang/pengajuan');
+			$this->session->set_flashdata('gagal', 'Data gagal disimpan');
+			redirect(BASEURL . 'Gudang/pengajuan');
 		}
 	}
 
 
-	public function warningstok(){
-		$data['title']='Warning Stok';
-		$user=user();
-		$setujui=0;
-		if(isset($user['id_user'])){
-			$setujui=akses($user['id_user'],3);
+	public function warningstok()
+	{
+		$data['title'] = 'Warning Stok';
+		$user = user();
+		$setujui = 0;
+		if (isset($user['id_user'])) {
+			$setujui = akses($user['id_user'], 3);
 		}
-		$data['setujui']=$setujui;
-		$njo=1;
-		$data['request']=[];
-		$sql="SELECT * FROM user_request WHERE hapus=0 and status=0 ";
-		$sql.=" ORDER BY id DESC ";
-		$results=$this->GlobalModel->queryManual($sql);
-		$oto=null;
-		foreach($results as $r){
-			$data['request'][]=array(
-				'no'=>$njo++,
-				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
-				'nama'=>strtolower($r['nama']),
-				'keterangan'=>strtolower($r['keterangan']),
-				'setujui'=>BASEURL.'User/accreq/'.$r['aksestable'].'/'.$r['userid'].'/'.$r['id'],
-				'status'=>$r['status']==1?'sudah diproses':'belum diproses',
+		$data['setujui'] = $setujui;
+		$njo = 1;
+		$data['request'] = [];
+		$sql = "SELECT * FROM user_request WHERE hapus=0 and status=0 ";
+		$sql .= " ORDER BY id DESC ";
+		$results = $this->GlobalModel->queryManual($sql);
+		$oto = null;
+		foreach ($results as $r) {
+			$data['request'][] = array(
+				'no' => $njo++,
+				'tanggal' => date('d-m-Y', strtotime($r['tanggal'])),
+				'nama' => strtolower($r['nama']),
+				'keterangan' => strtolower($r['keterangan']),
+				'setujui' => BASEURL . 'User/accreq/' . $r['aksestable'] . '/' . $r['userid'] . '/' . $r['id'],
+				'status' => $r['status'] == 1 ? 'sudah diproses' : 'belum diproses',
 			);
 		}
-		
-		$data['warning_atas']=[];
+
+		$data['warning_atas'] = [];
 		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
-		$warning_atas=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND spesial_warning=1 ORDER BY nama ");
-		foreach($warning_atas as $m){
-			
-			$last_masuk = $this->last_masuk($m['id']); 
-			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
+		$warning_atas = $this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND spesial_warning=1 ORDER BY nama ");
+		foreach ($warning_atas as $m) {
+
+			$last_masuk = $this->last_masuk($m['id']);
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='" . $m['id'] . "' AND status IN ('terpakai') ");
 			$data['warning_atas'][] = array(
 				'nama'			=> $m['nama'],
-				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
+				'quantity'		=> !empty($sum_qty) ? $sum_qty['total'] : 0,
 				'variabel_pengirimanpo' => $m['variabel_pengirimanpo'],
 				'dz'			=> $m['rata_rata_dz'],
-				'pcs'			=> $m['rata_rata_dz']*12,
-				'keseluruhan'			=> ($m['variabel_pengirimanpo'] * ($m['rata_rata_dz']*12)),
+				'pcs'			=> $m['rata_rata_dz'] * 12,
+				'keseluruhan'			=> ($m['variabel_pengirimanpo'] * ($m['rata_rata_dz'] * 12)),
 				'satuan'		=> $m['satuan'],
 			);
 		}
 
 
-		$data['menipis']=[];
+		$data['menipis'] = [];
 		//$menipis=$this->GlobalModel->QueryManual("SELECT * FROM product WHERE hapus=0 AND quantity < minstok ORDER BY nama ASC");
-		$menipis=$this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
-		foreach($menipis as $m){
-			
-			$last_masuk = $this->last_masuk($m['id']); 
-			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='".$m['id']."' AND status IN ('terpakai') ");
+		$menipis = $this->GlobalModel->QueryManual("SELECT * FROM kategori_barang WHERE hapus=0 AND in_warning=1 ORDER BY nama ");
+		foreach ($menipis as $m) {
+
+			$last_masuk = $this->last_masuk($m['id']);
+			$sum_qty     = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(quantity),0) as total FROM product WHERE kategori='" . $m['id'] . "' AND status IN ('terpakai') ");
 			$data['menipis'][] = array(
 				'nama'			=> $m['nama'],
-				'quantity'		=> !empty($sum_qty) ? $sum_qty['total']:0,
+				'quantity'		=> !empty($sum_qty) ? $sum_qty['total'] : 0,
 				'minstok'		=> !empty($last_masuk) ? $last_masuk['total'] : 0,
 				'satuan'		=> $m['satuan'],
 			);
 		}
 
 		// po pending 1 bulan dari potongan
-		
+
 		// pre($data['pendingkirimsudahpotong']);
-		$data['pendingkirimsudahpotong']=[];
-		$data['reqharga']=$this->GlobalModel->getData('request_harga',array('status'=>0));
-		$data['popending'] = ($this->ReportModel->BeredarPo(null,'SABLON')+$this->ReportModel->BeredarPo(null,'BORDIR')+$this->ReportModel->KLOPo('kaos'));
-		$data['page']=$this->page.'/dash/warningstok';
-		$this->load->view($this->page.'main',$data);
+		$data['pendingkirimsudahpotong'] = [];
+		$data['reqharga'] = $this->GlobalModel->getData('request_harga', array('status' => 0));
+		$data['popending'] = ($this->ReportModel->BeredarPo(null, 'SABLON') + $this->ReportModel->BeredarPo(null, 'BORDIR') + $this->ReportModel->KLOPo('kaos'));
+		$data['page'] = $this->page . '/dash/warningstok';
+		$this->load->view($this->page . 'main', $data);
 	}
 
-	function last_masuk($id){
-		$data=[];
+	function last_masuk($id)
+	{
+		$data = [];
 		$lasttgl = $this->last_masuk_tgl($id);
-		$qry ="SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
+		$qry = "SELECT COALESCE(SUM(a.jumlah),0) as total FROM penerimaan_item_detail a
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
-			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' ";
-			if($id==16){
-				//$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
-			}else{
-				//$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
-			}
-			$qry .=" AND DATE(a.tanggal)='".$lasttgl."' ";
-			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='" . $id . "' ";
+		if ($id == 16) {
+			//$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+		} else {
+			//$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+		}
+		$qry .= " AND DATE(a.tanggal)='" . $lasttgl . "' ";
+		$qry .= " ORDER BY a.tanggal DESC LIMIT 1 ";
 		$data = $this->GlobalModel->QueryManualRow($qry);
 		return $data;
 	}
 
-	function last_masuk_tgl($id){
-		$data=[];
-		$qry ="SELECT a.tanggal FROM penerimaan_item_detail a
+	function last_masuk_tgl($id)
+	{
+		$data = [];
+		$qry = "SELECT a.tanggal FROM penerimaan_item_detail a
 			 LEFT JOIN product b on b.product_id=a.id_persediaan
 			 INNER JOIN penerimaan_item c ON c.id=a.penerimaan_item_id
-			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='".$id."' 
+			 WHERE a.jenis NOT IN (5,6) AND a.hapus=0 AND b.hapus=0 AND b.kategori='" . $id . "' 
 			 AND c.keterangan LIKE '%BARANG MASUK%'
 			 ";
-			// if($id==16){
-			// 	$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
-			// }else{
-			// 	$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
-			// }
-			$qry .=" ORDER BY a.tanggal DESC LIMIT 1 ";
+		// if($id==16){
+		// 	$qry .=" AND MONTH(a.tanggal)='".date('n',strtotime("-1 month"))."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+		// }else{
+		// 	$qry .=" AND MONTH(a.tanggal)='".date('n')."' AND YEAR(a.tanggal)='".date('Y')."'  ";
+		// }
+		$qry .= " ORDER BY a.tanggal DESC LIMIT 1 ";
 		$data = $this->GlobalModel->QueryManualRow($qry);
-		return isset($data['tanggal'])?$data['tanggal']:date('Y-m-d');
+		return isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d');
 	}
 
-	public function getAjuanEditModal(){
+	public function getAjuanEditModal()
+	{
 		$kode = $this->input->get('id');
-		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail',array('idpengajuan'=>$kode,'hapus'=>0));
-		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new',array('id'=>$kode));
-		$adminkeu=$this->GlobalModel->getDataRow('karyawan',array('jabatan'=>41,'hapus'=>0));
-		$viewData['adminkeu']=isset($adminkeu['nama'])?$adminkeu['nama']:'';
-		$viewData['edit']=BASEURL.'Gudang/pengajuaneditallsave';
-		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
-		$get=$this->input->get();
-		if(isset($get['acc'])){
-			$viewData['editacc']=1;
+		$viewData['item'] = $this->GlobalModel->getData('pengajuan_harian_new_detail', array('idpengajuan' => $kode, 'hapus' => 0));
+		$viewData['parent'] = $this->GlobalModel->getDataRow('pengajuan_harian_new', array('id' => $kode));
+		$adminkeu = $this->GlobalModel->getDataRow('karyawan', array('jabatan' => 41, 'hapus' => 0));
+		$viewData['adminkeu'] = isset($adminkeu['nama']) ? $adminkeu['nama'] : '';
+		$viewData['edit'] = BASEURL . 'Gudang/pengajuaneditallsave';
+		$viewData['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$get = $this->input->get();
+		if (isset($get['acc'])) {
+			$viewData['editacc'] = 1;
 		}
-		$this->load->view('newtheme/page/gudang/pengajuan/edit_modal_body',$viewData);
+		$this->load->view('newtheme/page/gudang/pengajuan/edit_modal_body', $viewData);
 	}
 
-    public function getAjuanAddModal(){
-		$viewData['action']=BASEURL.'Gudang/pengajuansave';
-		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier',null);
-		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang',null);
-		$viewData['products'] = $this->GlobalModel->getData('product',array('hapus'=>0));
-		$viewData['katpeng']=array(1=>'SABLON',2=>'BORDIR',3=>'KONVEKSI',4=>'SUKABUMI');
-		$this->load->view('newtheme/page/gudang/pengajuan/add_modal_body',$viewData);
+	public function getAjuanAddModal()
+	{
+		$viewData['action'] = BASEURL . 'Gudang/pengajuansave';
+		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier', null);
+		$viewData['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
+		$viewData['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$viewData['katpeng'] = array(1 => 'SABLON', 2 => 'BORDIR', 3 => 'KONVEKSI', 4 => 'SUKABUMI');
+		$this->load->view('newtheme/page/gudang/pengajuan/add_modal_body', $viewData);
 	}
-
 }
