@@ -1,4 +1,19 @@
-<form action="<?php echo $action ?>" method="POST">
+<style>
+    #listp th,
+    #listp td {
+        border-color: #333 !important;
+        vertical-align: middle;
+    }
+    #listp th {
+        text-align: center;
+        white-space: nowrap;
+    }
+    #listp input.form-control-sm {
+        min-width: 90px;
+        text-align: right;
+    }
+</style>
+<form action="<?php echo $action ?>" method="POST" id="form-penjualan">
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
@@ -63,9 +78,10 @@
             <table class="table table-bordered" id="listp">
                 <thead>
                     <tr>
-                        <th style="width: 35%;">Nama PO</th>
-                        <th>Serian</th>
-                        <th>Stok</th>
+                        <th style="width: 50px;">No</th>
+                        <th style="width: 25%;">Nama PO</th>
+                        <th>serian/size</th>
+                        <th>stok po(Kodi)</th>
                         <th>Harga</th>
                         <th>Quantity</th>
                         <th>Discount</th>
@@ -76,6 +92,23 @@
                     </tr>
                 </thead>
                 <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="7" class="text-right">Subtotal</th>
+                        <th><input type="text" id="subtotal_penjualan" class="form-control form-control-sm text-right" value="0" readonly></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th colspan="7" class="text-right">Biaya Pengiriman</th>
+                        <th><input type="text" id="biaya_pengiriman_display" class="form-control form-control-sm text-right" value="0" readonly></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th colspan="7" class="text-right">Grand Total</th>
+                        <th><input type="text" id="grand_total_penjualan" class="form-control form-control-sm text-right" value="0" readonly></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -91,81 +124,131 @@
 </form>
 <script>
     var i=0;
+    var groupNo=1;
+
+    function numberOnly(value) {
+        return parseFloat(String(value || '0').replace(/[^0-9.-]/g, '')) || 0;
+    }
+
     function add(){
         
         html ='';
-        html +='<tr>';
-        html +='<td><select class="select2bs4 selectpo" style="width:100%"><option value="">Pilih</option><?php foreach($po as $p){?><option value="<?php echo $p['id_master_po_online']?>-<?php echo $p['id_serian']?>"><?php echo $p['kode_po']?> <?php echo isset($p['serian']) ? $p['serian'] : ''?></option><?php }?></select></td>';
-        html +='<td><span class="id_size"></span></td>';
-        html +='<td><span class="stok"></span></td>';
-        html +='<td><input type="text" name="products['+i+'][harga]" class="harga" onkeyUp="hitung('+i+')" required></td>';
-        html +='<td><input type="text" name="products['+i+'][quantity]" autocomplete="off" onkeyUp="hitung('+i+')" required></td>';
-        html +='<td><input type="text" name="products['+i+'][discount]" autocomplete="off" onkeyUp="hitung('+i+')" value="0" required></td>';
-        html +='<td><input type="text" name="products['+i+'][jumlah]" required></td>';
-        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td>';
-        html +='<tr>';
-        i++;
+        html +='<tr class="select-row">';
+        html +='<td></td>';
+        html +='<td colspan="7"><select class="select2bs4 selectpo" style="width:100%"><option value="">Pilih Nama PO / Serian</option><?php foreach($po as $p){?><option value="<?php echo $p['id_master_po_online']?>-<?php echo $p['id_serian']?>"><?php echo $p['kode_po']?> <?php echo isset($p['serian']) ? $p['serian'] : ''?></option><?php }?></select></td>';
+        html += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove-group"><span class="fa fa-trash"></span></button></td>';
+        html +='</tr>';
         $("#listp tbody").append(html);
         $('.select2bs4').select2();
-
-        // Mengaktifkan Ajax saat pemilihan diubah
-        $(".selectpo").on("change", function() {
-            var selectedValue = $(this).val();
-            if(!selectedValue) return;
-            var parts = selectedValue.split("-");
-            var id_master = parts[0];
-            var id_serian = parts[1];
-            var dai = $(this).closest('tr');
-
-            // Ganti URL dengan URL sebenarnya Anda
-            var url = "<?php echo BASEURL?>Masterpoonline/getPoSizes?id_master_po_online=" + id_master + "&id_serian=" + id_serian;
-
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function(data) {
-                    var obj = JSON.parse(data);
-                    dai.remove();
-                    obj.forEach(function(item) {
-                        var newHtml = '<tr>';
-                        newHtml += '<td><input type="hidden" name="products['+i+'][id_po]" value="'+item.id+'">' + item.kode_po + ' ' + (item.serian ? item.serian : '') + '</td>';
-                        newHtml += '<td><span class="id_size">' + (item.id_size ? item.id_size : '') + '</span></td>';
-                        newHtml += '<td><span class="stok">' + item.pcs + '</span></td>';
-                        newHtml += '<td><input type="text" name="products['+i+'][harga]" class="harga" value="'+item.harga+'" onkeyup="hitung('+i+')" required></td>';
-                        newHtml += '<td><input type="text" name="products['+i+'][quantity]" autocomplete="off" onkeyup="hitung('+i+')" required></td>';
-                        newHtml += '<td><input type="text" name="products['+i+'][discount]" autocomplete="off" onkeyup="hitung('+i+')" value="0" required></td>';
-                        newHtml += '<td><input type="text" name="products['+i+'][jumlah]" required></td>';
-                        newHtml += '<td><button type="button" name="btnRemove" class="btn btn-danger btn-xs remove"><span class="fa fa-trash"></span></button></td>';
-                        newHtml += '</tr>';
-                        $("#listp tbody").append(newHtml);
-                        i++;
-                    });
-                },
-            });
-        });
         
     }
 
     function hitung(i) {
-        // Ambil nilai harga, quantity, dan discount
-        var harga = $('input[name="products[' + i + '][harga]"]').val();
-        var quantity = $('input[name="products[' + i + '][quantity]"]').val();
-        var discount = $('input[name="products[' + i + '][discount]"]').val();
-
-        // Konversi nilai menjadi bilangan bulat
-        harga = parseFloat(harga);
-        quantity = parseFloat(quantity);
-        discount = parseFloat(discount);
-
-        // Hitung jumlah
+        var harga = numberOnly($('input[name="products[' + i + '][harga]"]').val());
+        var quantityInput = $('input[name="products[' + i + '][quantity]"]');
+        var quantity = numberOnly(quantityInput.val());
+        var discount = numberOnly($('input[name="products[' + i + '][discount]"]').val());
+        var stok = numberOnly(quantityInput.data('stok'));
+        if(stok > 0 && quantity > stok) {
+            alert('Quantity tidak boleh melebihi stok');
+            quantity = stok;
+            quantityInput.val(stok);
+        }
         var jumlah = (harga * quantity) - discount;
-
-        // Tampilkan hasil perhitungan di input "jumlah"
         $('input[name="products[' + i + '][jumlah]"]').val(jumlah);
+        updateGrandTotal();
     }
 
+    function updateGrandTotal() {
+        var subtotal = 0;
+        $('input[name$="[jumlah]"]').each(function(){
+            subtotal += numberOnly($(this).val());
+        });
+
+        var biayaPengiriman = numberOnly($('input[name="biaya_pengiriman"]').val());
+        $('#subtotal_penjualan').val(subtotal.toLocaleString('id-ID'));
+        $('#biaya_pengiriman_display').val(biayaPengiriman.toLocaleString('id-ID'));
+        $('#grand_total_penjualan').val((subtotal + biayaPengiriman).toLocaleString('id-ID'));
+    }
+
+    $(document).on("change", ".selectpo", function() {
+        var selectedValue = $(this).val();
+        if(!selectedValue) return;
+
+        var parts = selectedValue.split("-");
+        var id_master = parts[0];
+        var id_serian = parts[1];
+        var dai = $(this).closest('tr');
+        var url = "<?php echo BASEURL?>Masterpoonline/getPoSizes?id_master_po_online=" + id_master + "&id_serian=" + id_serian;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function(data) {
+                var obj = JSON.parse(data || '[]');
+                if(obj.length < 1) {
+                    alert('Stok PO tidak tersedia');
+                    return;
+                }
+
+                var currentGroup = groupNo++;
+                var groupClass = 'sale-group-' + currentGroup;
+                var rowspan = obj.length;
+                var groupHtml = '';
+
+                obj.forEach(function(item, index) {
+                    var row = i++;
+                    var namaPo = item.kode_po + (item.serian ? ' ' + item.serian : '');
+
+                    groupHtml += '<tr class="'+groupClass+'">';
+                    if(index === 0) {
+                        groupHtml += '<td rowspan="'+rowspan+'" class="text-center align-middle">'+currentGroup+'</td>';
+                        groupHtml += '<td rowspan="'+rowspan+'" class="text-center align-middle">'+namaPo+'</td>';
+                    }
+                    groupHtml += '<td class="text-center">';
+                    groupHtml += '<input type="hidden" name="products['+row+'][id_po]" value="'+item.id+'">';
+                    groupHtml += '<input type="hidden" name="products['+row+'][size]" value="'+(item.id_size || '')+'">';
+                    groupHtml += (item.id_size ? item.id_size : '');
+                    groupHtml += '</td>';
+                    groupHtml += '<td class="text-center">'+item.pcs+'</td>';
+                    groupHtml += '<td><input type="number" name="products['+row+'][harga]" class="form-control form-control-sm harga" value="'+item.harga+'" onkeyup="hitung('+row+')" required></td>';
+                    groupHtml += '<td><input type="number" name="products['+row+'][quantity]" class="form-control form-control-sm" autocomplete="off" data-stok="'+item.pcs+'" max="'+item.pcs+'" onkeyup="hitung('+row+')" required></td>';
+                    groupHtml += '<td><input type="number" name="products['+row+'][discount]" class="form-control form-control-sm" autocomplete="off" onkeyup="hitung('+row+')" value="0" required></td>';
+                    groupHtml += '<td><input type="number" name="products['+row+'][jumlah]" class="form-control form-control-sm" readonly required></td>';
+                    if(index === 0) {
+                        groupHtml += '<td rowspan="'+rowspan+'" class="text-center align-middle"><button type="button" class="btn btn-danger btn-xs remove-group" data-group="'+groupClass+'"><span class="fa fa-trash"></span></button></td>';
+                    }
+                    groupHtml += '</tr>';
+                });
+
+                dai.replaceWith(groupHtml);
+            },
+        });
+    });
 
     $(document).on('click', '.remove', function(){
         $(this).closest('tr').remove();
+    });
+
+    $(document).on('click', '.remove-group', function(){
+        var group = $(this).data('group');
+        if(group) {
+            $('.'+group).remove();
+        } else {
+            $(this).closest('tr').remove();
+        }
+        updateGrandTotal();
+    });
+
+    $('#form-penjualan').on('submit', function(e){
+        if($('input[name$="[id_po]"]').length < 1) {
+            alert('Rincian PO harus diisi');
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $(document).on('keyup change', 'input[name="biaya_pengiriman"], input[name$="[harga]"], input[name$="[quantity]"], input[name$="[discount]"]', function(){
+        updateGrandTotal();
     });
 </script>
