@@ -2254,6 +2254,7 @@ class Gudang extends CI_Controller
 				d.jumlah,
 				d.satuan,
 				d.harga,
+				d.pembayaran,
 				d.keterangan,
 				d.supplier,
 				p.product_id AS id_persediaan,

@@ -264,6 +264,11 @@
         dai.find(".idpersediaan").val(obj.id_persediaan || '');
         dai.find(".idpengajuandetail").val(obj.id);
         dai.find('input[name$="[keterangan]"]').val(obj.keterangan || '-');
+        if (obj.pembayaran == 1) {
+            $("#tipepembayaran").val("Cash").trigger("change");
+        } else if (obj.pembayaran == 2) {
+            $("#tipepembayaran").val("Transfer").trigger("change");
+        }
         var rowIndex = ($(this).attr('name').match(/products\[(\d+)\]/) || [])[1];
         updatetotal(rowIndex);
     });
