@@ -265,7 +265,7 @@ class Insentifsecurity extends CI_Controller {
 			echo '<tr>';
 			echo '<td>'.$no.' <input type="hidden" name="products['.$k['id'].'][karyawan_id]" class="form-control" value="'.$k['id'].'" readonly> </td>';
 			echo '<td>'.$k['nama'].'</td>';
-			echo '<td><input type="text" name="products['.$k['id'].'][insentif]" id="insentif_'.$k['id'].'" class="form-control" value="'.$insentif.'" readonly></td>';
+			echo '<td><input type="number" name="products['.$k['id'].'][insentif]" id="insentif_'.$k['id'].'" class="form-control" value="'.$insentif.'" onkeyup="hitungTotal(\''.$k['id'].'\')" oninput="hitungTotal(\''.$k['id'].'\')" onchange="hitungTotal(\''.$k['id'].'\')"></td>';
 			$potongan = $this->InsentifModel->totalpotongan($k['id'],$post['tanggal1'],$post['tanggal2']);
 			echo '<td><input type="text" name="products['.$k['id'].'][potongan]" id="potongan_'.$k['id'].'" class="form-control" value="'.$potongan.'" readonly></td>';
 			$uang_tambahan = $this->tambahan($potongan);
