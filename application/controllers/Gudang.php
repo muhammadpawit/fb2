@@ -44,6 +44,7 @@ class Gudang extends CI_Controller
 		if (empty($this->auth)) {
 			redirect($this->login);
 		}
+		$this->ensurePenerimaanAjuanColumns();
 	}
 
 	public function kartustok($id)
@@ -2219,9 +2220,65 @@ class Gudang extends CI_Controller
 		redirect(BASEURL . 'gudang/penerimaanitem');
 	}
 
+	private function ensurePenerimaanAjuanColumns()
+	{
+		if (!$this->db->field_exists('status_penerimaan', 'pengajuan_harian_new_detail')) {
+			$this->db->query("ALTER TABLE pengajuan_harian_new_detail ADD status_penerimaan TINYINT(1) NULL DEFAULT NULL COMMENT '0 belum diterima, 1 sudah diterima'");
+			$this->db->query("UPDATE pengajuan_harian_new_detail SET status_penerimaan = 1 WHERE status_penerimaan IS NULL");
+			$this->db->query("ALTER TABLE pengajuan_harian_new_detail MODIFY status_penerimaan TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0 belum diterima, 1 sudah diterima'");
+		}
+
+		if (!$this->db->field_exists('id_pengajuan_detail', 'penerimaan_item_detail')) {
+			$this->db->query("ALTER TABLE penerimaan_item_detail ADD id_pengajuan_detail INT(9) NULL DEFAULT NULL");
+		}
+	}
+
+	public function get_pengajuan_harian_penerimaan()
+	{
+		$this->ensurePenerimaanAjuanColumns();
+
+		$supplier_id = $this->input->get('supplier');
+		$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $supplier_id, 'hapus' => 0));
+		if (empty($supplier)) {
+			echo json_encode(array());
+			return;
+		}
+
+		$supplier_name = $this->db->escape(strtolower(trim($supplier['nama'])));
+		$sql = "
+			SELECT
+				d.id,
+				d.idpengajuan,
+				h.tanggal,
+				d.nama_item,
+				d.jumlah,
+				d.satuan,
+				d.harga,
+				d.keterangan,
+				d.supplier,
+				p.product_id AS id_persediaan,
+				p.warna_item,
+				p.satuan_ukuran_item,
+				p.satuan AS satuan_jumlah_item,
+				p.harga_beli
+			FROM pengajuan_harian_new_detail d
+			JOIN pengajuan_harian_new h ON h.id = d.idpengajuan
+			LEFT JOIN product p ON LOWER(TRIM(p.nama)) = LOWER(TRIM(d.nama_item)) AND p.hapus = 0
+			WHERE h.hapus = 0
+				AND d.hapus = 0
+				AND h.status = 1
+				AND d.status_penerimaan = 0
+				AND LOWER(TRIM(d.supplier)) = {$supplier_name}
+			ORDER BY h.tanggal DESC, d.id DESC
+		";
+
+		echo json_encode($this->GlobalModel->queryManual($sql));
+	}
+
 	public function penerimaanitemadd()
 
 	{
+		$this->ensurePenerimaanAjuanColumns();
 		$data = array();
 		$data['title'] = 'Form Penerimaan Item Masuk';
 		$data['i'] = 0;
@@ -2312,6 +2369,7 @@ class Gudang extends CI_Controller
 					$itd = array(
 						'penerimaan_item_id' => $id,
 						'id_persediaan' => $p['id_persediaan'],
+						'id_pengajuan_detail' => isset($p['id_pengajuan_detail']) ? $p['id_pengajuan_detail'] : null,
 						'nama' => $p['nama'],
 						'ukuran' => $p['ukuran'],
 						'satuanukuran' => $p['satuanukuran'],
@@ -2324,6 +2382,9 @@ class Gudang extends CI_Controller
 						'hapus' => 0
 					);
 					$this->db->insert('penerimaan_item_detail', $itd);
+					if (!empty($p['id_pengajuan_detail'])) {
+						$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 1), array('id' => $p['id_pengajuan_detail']));
+					}
 					if ($data['jenis'] == 5) {
 						$kartustok = array(
 							'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
@@ -2511,6 +2572,11 @@ class Gudang extends CI_Controller
 				$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'" . $op['ukuran'] . "', jumlah_item = jumlah_item-'" . $op['jumlah'] . "' WHERE id_persediaan='" . $op['id_persediaan'] . "' ");
 			}
 		}
+		foreach ($old_products as $op) {
+			if (!empty($op['id_pengajuan_detail'])) {
+				$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 0), array('id' => $op['id_pengajuan_detail']));
+			}
+		}
 
 		// Delete old products
 		$this->db->delete('penerimaan_item_detail', array('penerimaan_item_id' => $id));
@@ -2532,6 +2598,7 @@ class Gudang extends CI_Controller
 				$itd = array(
 					'penerimaan_item_id' => $id,
 					'id_persediaan' => $p['id_persediaan'],
+					'id_pengajuan_detail' => isset($p['id_pengajuan_detail']) ? $p['id_pengajuan_detail'] : null,
 					'nama' => $p['nama'],
 					'ukuran' => $p['ukuran'],
 					'satuanukuran' => isset($p['satuanukuran']) ? $p['satuanukuran'] : '',
@@ -2544,6 +2611,9 @@ class Gudang extends CI_Controller
 					'hapus' => 0
 				);
 				$this->db->insert('penerimaan_item_detail', $itd);
+				if (!empty($p['id_pengajuan_detail'])) {
+					$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 1), array('id' => $p['id_pengajuan_detail']));
+				}
 
 				if ($data['jenis'] == 5) {
 					$kartustok = array(
@@ -2594,6 +2664,9 @@ class Gudang extends CI_Controller
 		kartustok($kartustok, 2);
 		$this->db->query("UPDATE product set ukuran_item =ukuran_item-'" . $p['ukuran'] . "', quantity = quantity-'" . $p['jumlah'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
 		$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'" . $p['ukuran'] . "', jumlah_item = jumlah_item-'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
+		if (!empty($p['id_pengajuan_detail'])) {
+			$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 0), array('id' => $p['id_pengajuan_detail']));
+		}
 		$this->db->update('penerimaan_item_detail', array('hapus' => 1), array('id' => $id));
 		user_activity(callSessUser('id_user'), 1, ' menghapus penerimaan dengan id ' . $id);
 		$this->session->set_flashdata('msg', 'Data Berhasil Di Hapus');

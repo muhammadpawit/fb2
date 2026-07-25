@@ -144,15 +144,92 @@
             alert("Nama supplier harus dipilih");
             return false;
         }
+
+        if($('.idpengajuandetail').length < 1){
+            alert("Item penerimaan harus dipilih");
+            return false;
+        }
+
+        var selectedAjuan = {};
+        var hasDuplicate = false;
+        $('.idpengajuandetail').each(function(){
+            var value = $(this).val();
+            if(value == ''){
+                alert("Item penerimaan harus dipilih");
+                hasDuplicate = true;
+                return false;
+            }
+            if(selectedAjuan[value]){
+                alert("Item pengajuan yang sama tidak boleh dipilih lebih dari satu kali");
+                hasDuplicate = true;
+                return false;
+            }
+            selectedAjuan[value] = true;
+        });
+        if(hasDuplicate){
+            return false;
+        }
         $("form").submit();
     }
     var i=0;
+    var ajuanItems = [];
+
+    function escapeHtml(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function loadAjuanItems() {
+        var supplier = $("#supplier").val();
+        ajuanItems = [];
+        $('#item-list').html('');
+
+        if (supplier == '') {
+            return;
+        }
+
+        $.get("<?php echo BASEURL.'gudang/get_pengajuan_harian_penerimaan' ?>", { supplier: supplier })
+            .done(function(data) {
+                ajuanItems = JSON.parse(data || '[]');
+                if (ajuanItems.length < 1) {
+                    $('#item-list').html('<tr><td colspan="10" class="text-center">Tidak ada item pengajuan harian yang belum diterima untuk supplier ini</td></tr>');
+                }
+            });
+    }
+
+    $("#supplier").on("change", function() {
+        loadAjuanItems();
+    });
+
+    function buildAjuanOptions() {
+        var options = '<option value="">Pilih Barang / Item</option>';
+        $.each(ajuanItems, function(index, item) {
+            var tanggal = item.tanggal ? item.tanggal : '-';
+            var label = tanggal+' - '+item.nama_item+' ('+item.jumlah+' '+item.satuan+')';
+            options += '<option value="'+escapeHtml(item.nama_item)+'" data-index="'+index+'">'+escapeHtml(label)+'</option>';
+        });
+        return options;
+    }
+
     <?php if(isset($barang)){?>
     function additem(){
+        if ($("#supplier").val() == '') {
+            alert('Nama supplier harus dipilih');
+            return false;
+        }
+
+        if (ajuanItems.length < 1) {
+            alert('Tidak ada item pengajuan harian yang belum diterima untuk supplier ini');
+            return false;
+        }
         
         var html='';
         html+='<tr>';
-        html+='<td><input type="hidden" class="idpersediaan" name="products['+i+'][id_persediaan]"/><select type="text" data-dropup-auto="false" data-size="5" class="form-control select2bs4" data-live-search="true" data-title="pilih item" name="products['+i+'][nama]" required><option value="">Pilih Barang / Item</option><?php foreach ($barang as $key => $item) { ?><option value="<?php echo $item['nama_item'] ?>" data-item="<?php echo $item['id_persediaan'] ?>"><?php echo $item['nama_item'] ?></option><?php } ?></select></td>';
+        html+='<td><input type="hidden" class="idpersediaan" name="products['+i+'][id_persediaan]"/><input type="hidden" class="idpengajuandetail" name="products['+i+'][id_pengajuan_detail]"/><select type="text" data-dropup-auto="false" data-size="5" class="form-control select2bs4 ajuan-item" data-live-search="true" data-title="pilih item" name="products['+i+'][nama]" required>'+buildAjuanOptions()+'</select></td>';
          html += '<td><span class="warna"></span></td>';
         html += '<td><input type="number" value="0" class="form-control ukuran" step=0.01 name="products['+i+'][ukuran]" onblur="updatetotal('+i+')"></td>';
         html += '<td><input type="text" class="form-control satuanukuran" name="products['+i+'][satuanukuran]"></td>';
@@ -167,27 +244,29 @@
         i++;
         $('.select2bs4').select2();
         //$(".select2bs4").selectpicker('refresh');
-        $(document).on('change', '.select2bs4', function(e){
-            var dataItem = $(this).find(':selected').data('item');
-            var dai = $(this).closest('tr');
-            var jumlahItem = $('#piecesPo').val();
-            $.get( "<?php echo BASEURL.'gudang/itemSearchPenerimaan' ?>", { id: dataItem } )
-              .done(function( data ) {
-                var obj = JSON.parse(data);
-                console.log(obj);
-                dai.find(".warna").html(obj.warna_item);
-                dai.find(".ukuran").html(obj.ukuran_item);
-                //dai.find(".satuanUkran").html(obj.satuan_ukuran_item);
-                dai.find(".satuanukuran").val(obj.satuan_ukuran_item);
-                dai.find(".jumlah").val(0);
-                dai.find(".satuanJml").val(obj.satuan_jumlah_item);
-                dai.find(".id").val(obj.id_persediaan);
-                // dai.find(".harga").val(obj.harga_item);
-                dai.find(".harga").val(obj.harga_item);
-                dai.find(".idpersediaan").val(obj.id_persediaan);
-            });
-        });
     }
+
+    $(document).on('change', '.ajuan-item', function(e){
+        var selectedIndex = $(this).find(':selected').data('index');
+        var obj = ajuanItems[selectedIndex];
+        var dai = $(this).closest('tr');
+
+        if (!obj) {
+            return;
+        }
+
+        dai.find(".warna").html(obj.warna_item || '-');
+        dai.find(".ukuran").val(obj.jumlah);
+        dai.find(".satuanukuran").val(obj.satuan);
+        dai.find(".jumlah").val(obj.jumlah);
+        dai.find(".satuanJml").val(obj.satuan);
+        dai.find(".harga").val(obj.harga);
+        dai.find(".idpersediaan").val(obj.id_persediaan || '');
+        dai.find(".idpengajuandetail").val(obj.id);
+        dai.find('input[name$="[keterangan]"]').val(obj.keterangan || '-');
+        var rowIndex = ($(this).attr('name').match(/products\[(\d+)\]/) || [])[1];
+        updatetotal(rowIndex);
+    });
 
   <?php } ?>
 

@@ -123,6 +123,7 @@
                                             <th>TIPE PEMBAYARAN</th>
 
                                             <th>NAMA SUPPLIER</th>
+                                            <th>STATUS TERIMA</th>
                                              <?php } ?>
                                             <th>KETERANGAN</th>
 
@@ -163,6 +164,13 @@
                                             <td width="125">Rp. <?php echo number_format($tem['jumlah'] * $tem['harga']) ;?></td>
                                             <td><?php echo ($tem['pembayaran']==1)?'Cash':($tem['pembayaran']==2?'Transfer':'-'); ?></td>
                                             <td><?php echo $tem['supplier']; ?></td>
+                                            <td>
+                                                <?php if(isset($tem['status_penerimaan']) && $tem['status_penerimaan'] == 0){ ?>
+                                                    <span class="badge badge-warning">Belum Diterima</span>
+                                                <?php } else { ?>
+                                                    <span class="badge badge-success">Sudah Diterima</span>
+                                                <?php } ?>
+                                            </td>
                                             <?php } ?>
                                             <td><?php echo $tem['keterangan']; ?></td>
                                             <td><textarea name="products[<?php echo $i?>][komentar]" class="form-control"><?php echo $tem['komentar']?></textarea></td>
@@ -179,6 +187,7 @@
                                             
                                                 Rp. <?php echo number_format($parent['cash'] + $parent['transfer']) ;?>
                                             </td>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

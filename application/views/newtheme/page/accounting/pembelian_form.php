@@ -57,6 +57,7 @@
                 <div class="col-md-3">
                    <label>Sumber Data</label>
                    <select id="filter_sumber" class="form-control">
+                     <option value="">Pilih Sumber Data</option>
                      <option value="semua">Semua</option>
                      <option value="pengajuan">Pengajuan Harian</option>
                      <option value="penerimaan">Penerimaan Gudang</option>
@@ -124,6 +125,12 @@
       let tgl_akhir = $('#filter_tgl_akhir').val();
       let id_pembelian = $('input[name="id"]').val() || '';
       let sumber_data = $('#filter_sumber').val();
+
+      if(!sumber_data || $.trim(sumber_data) === '') {
+        alert('Sumber data harus dipilih');
+        $('#filter_sumber').focus();
+        return;
+      }
       
       if(id_supplier) {
         $('#checkAll').prop('checked', false);
@@ -177,14 +184,16 @@
     }
 
     $('select[name="id_supplier"]').on('change', function() {
-      loadPengajuan();
+      $('#checkAll').prop('checked', false);
+      $('#list-pengajuan').html('<tr><td colspan="7" class="text-center">Silakan pilih sumber data lalu klik Tampilkan Data</td></tr>');
+      kalkulasiTotal();
     });
     
     $('#btn-filter-pengajuan').on('click', function() {
       loadPengajuan();
     });
 
-    if ($('select[name="id_supplier"]').val()) {
+    if ($('select[name="id_supplier"]').val() && $('#filter_sumber').val()) {
       loadPengajuan();
     }
 
