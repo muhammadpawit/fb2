@@ -263,8 +263,8 @@ class Insentifsecurity extends CI_Controller {
 		echo "</thead>";
 		echo "<tbody>";
 		$no = 1;
-		echo '<input type="hidden" name="tanggal1" class="form-control" value="'.$post['tanggal1'].'" readonly>';
-		echo '<input type="hidden" name="tanggal2" class="form-control" value="'.$post['tanggal2'].'" readonly>';
+		echo '<input type="hidden" name="tanggal1" value="'.$post['tanggal1'].'" readonly style="display:none;">';
+		echo '<input type="hidden" name="tanggal2" value="'.$post['tanggal2'].'" readonly style="display:none;">';
 		foreach($kar as $k){
 			echo '<tr>';
 			echo '<td>'.$no.' <input type="hidden" name="products['.$k['id'].'][karyawan_id]" class="form-control" value="'.$k['id'].'" readonly> </td>';
@@ -482,6 +482,21 @@ class Insentifsecurity extends CI_Controller {
 		$data['rekap'] = $this->db->query("SELECT tanggal1, tanggal2, MAX(tanggal_lap_keu_awal) as tanggal_lap_keu, SUM(total_diterima) as grand_total FROM rekapinsentif_security WHERE hapus=0 OR hapus IS NULL GROUP BY tanggal1, tanggal2 ORDER BY tanggal1 DESC")->result_array();
 		$data['page'] = $this->page.'listrekap';
 		$this->load->view($this->layout,$data);
+	}
+
+	public function edit_tanggal_lap_keu() {
+		$post = $this->input->post();
+		$where = array(
+			'tanggal1' => $post['tanggal1'],
+			'tanggal2' => $post['tanggal2']
+		);
+		$update = array(
+			'tanggal_lap_keu_awal' => $post['tanggal_lap_keu'],
+			'tanggal_lap_keu_akhir' => $post['tanggal_lap_keu']
+		);
+		$this->db->update('rekapinsentif_security', $update, $where);
+		$this->session->set_flashdata('msg', 'Tanggal laporan keuangan berhasil diubah.');
+		redirect($this->url . 'listrekap');
 	}
 
 	public function hapusrekap($tanggal1, $tanggal2) {
