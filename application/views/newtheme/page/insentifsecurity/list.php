@@ -72,6 +72,7 @@
     <button class="btn btn-info btn-sm" onclick="filtertglonly_excel()">Excel</button>
     <a href="<?php echo $tambah ?>" class="btn btn-info btn-sm">Tambah</a>
     <button class="btn btn-info btn-sm" onclick="rekap()">Rekap</button>
+    <a href="<?php echo BASEURL?>Insentifsecurity/listrekap" class="btn btn-info btn-sm">List Rekap</a>
   </div>
 </div>
 <div class="row">
@@ -168,6 +169,12 @@
 
             // Tampilkan modal
             $('#rekapModal').modal('show');
+
+            // Inisialisasi datepicker untuk form di dalam modal
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'yyyy-mm-dd'
+            });
         },
         error: function(xhr, status, error) {
             // Tangani jika terjadi error

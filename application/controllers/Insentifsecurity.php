@@ -245,6 +245,10 @@ class Insentifsecurity extends CI_Controller {
 		$total=0;
 		$kar= $this->GlobalModel->queryManual('SELECT * FROM karyawan WHERE hapus=0 AND jabatan IN (10,46) ORDER BY nama ASC ');
 		echo '<form method="post" action="'.$this->url.'rekap_save">';
+		echo '<div class="form-group">';
+		echo '<label>Tanggal Laporan Keuangan</label>';
+		echo '<input type="text" name="tanggal_lap_keu" class="form-control datepicker" required autocomplete="off">';
+		echo '</div>';
 		echo '<table class="table table-bordered">';
 		echo "<thead>";
 		echo "<tr>";
@@ -336,6 +340,8 @@ class Insentifsecurity extends CI_Controller {
 				'potongan' 		=> $p['potongan'],
 				'uang_tambahan' => $p['uang_tambahan'],
 				'total_diterima'=> $p['total_diterima'],
+				'tanggal_lap_keu_awal' => $post['tanggal_lap_keu'],
+				'tanggal_lap_keu_akhir' => $post['tanggal_lap_keu'],
 			);
 			$save =$this->db->insert('rekapinsentif_security',$insert);
 		}
@@ -467,5 +473,24 @@ class Insentifsecurity extends CI_Controller {
 		$orientation = 'portrait'; 
 	
 		$this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+	}
+
+	public function listrekap(){
+		$data    = [];
+		$data['title'] = 'List Rekap Insentif Security';
+		$data['url'] = $this->url;
+		$data['rekap'] = $this->db->query("SELECT tanggal1, tanggal2, MAX(tanggal_lap_keu_awal) as tanggal_lap_keu, SUM(total_diterima) as grand_total FROM rekapinsentif_security WHERE hapus=0 OR hapus IS NULL GROUP BY tanggal1, tanggal2 ORDER BY tanggal1 DESC")->result_array();
+		$data['page'] = $this->page.'listrekap';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function hapusrekap($tanggal1, $tanggal2) {
+		$where = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2
+		);
+		$this->db->update('rekapinsentif_security', array('hapus' => 1), $where);
+		$this->session->set_flashdata('msg', 'Data rekap berhasil dihapus.');
+		redirect($this->url . 'listrekap');
 	}
 }
