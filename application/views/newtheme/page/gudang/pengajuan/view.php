@@ -341,7 +341,7 @@
 </div>
 
 <div class="modal fade modal-fullscreen" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <!-- <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, #17a2b8, #117a8b);">
                 <h5 class="modal-title" id="addModalLabel"><i class="fa fa-plus-circle"></i> Tambah Pengajuan Baru</h5>
@@ -350,16 +350,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                 <div id="addContent">
+                <!-- <div id="addContent">
                     <div class="text-center p-5">
                         <i class="fa fa-spinner fa-spin fa-3x"></i>
                         <p class="mt-3">Menyiapkan Form Tambah...</p>
                     </div>
-                 </div>
+                </div> -->
+                <h3>Gagal memuat form, silahkan coba beberapa saat lagi</h3>
             </div>
         </div>
-    </div> -->
-    sedang update ...mohon dicoba lagi beberapa saat lagi
+    </div>
 </div>
 <div class="row" hidden>
     <div class="col-md-6">
