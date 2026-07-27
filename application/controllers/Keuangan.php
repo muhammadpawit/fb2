@@ -1132,13 +1132,24 @@ class Keuangan extends CI_Controller {
 					'idkaryawan'=>$p['idkaryawan'],
 					'bagian'=>$p['bagian'],
 					'nominal_request'=>$p['jumlah'],
-					'nominal_acc'=>$p['jumlah'],
+					'nominal_acc'=>$p['jumlah'] - (!empty($p['potongan_warteg']) ? $p['potongan_warteg'] : 0),
+					'potongan_warteg'=>!empty($p['potongan_warteg']) ? $p['potongan_warteg'] : 0,
 					'status'=>1,
 					'hapus'=>0,
 					'keterangan' => $p['keterangan'],
 					'jenis_pembayaran' => isset($p['jenis_pembayaran']) ? $p['jenis_pembayaran'] : 'Transfer',
 				);
 				$this->db->insert('kasbon',$insert);
+				
+				if(!empty($p['potongan_warteg']) && $p['potongan_warteg'] > 0){
+					$insert_potongan = array(
+						'id_karyawan' => $p['idkaryawan'],
+						'tanggal' => $data['tanggal'],
+						'nominal' => $p['potongan_warteg'],
+						'keterangan' => $p['keterangan']
+					);
+					$this->db->insert('potongan_warteg', $insert_potongan);
+				}
 			}
 			$this->session->set_flashdata('msg','Data berhasil disimpan');
 			redirect(BASEURL.'Keuangan/kasbonkaryawan');
@@ -1161,26 +1172,39 @@ class Keuangan extends CI_Controller {
 		);
 		$total=0;
 		$ajuan=0;
+		$total_potongan=0;
 		foreach($results as $result){
 			$ajuan+=($result['nominal_request']);
 			$total+=($result['nominal_acc']);
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
+			$potongan_warteg = $this->GlobalModel->QueryManualRow("SELECT * FROM potongan_warteg WHERE hapus=0 AND id_karyawan='".$result['idkaryawan']."' AND tanggal='".$result['tanggal']."' ORDER BY id DESC LIMIT 1");
+			$potongan_val = !empty($potongan_warteg) ? $potongan_warteg['nominal'] : 0;
+			$total_potongan += $potongan_val;
+			
+			$nominal_acc = $result['nominal_acc'];
+			if ($nominal_acc == $result['nominal_request'] && $potongan_val > 0) {
+				$nominal_acc = $result['nominal_request'] - $potongan_val;
+			}
+			$total += $nominal_acc;
+
 			$data['detail'][]=array(
 				'id'=>$result['id'],
 				'tanggal'=>date('Y-m-d',strtotime($result['tanggal'])),
 				'nama'=>$karyawan['nama'],
 				'divisi'=>$bagian['nama'],
 				'nominal'=>$result['nominal_request'],
-				'nominal_acc'=>$result['nominal_acc'],
+				'nominal_acc'=>$nominal_acc,
 				'status'=>$result['status'],
 				'terbilang' => terbilang($result['nominal_request']),
 				'keterangan' => $result['keterangan'],
 				'jenis_pembayaran' => isset($result['jenis_pembayaran']) ? $result['jenis_pembayaran'] : 'Transfer',
+				'potongan_warteg' => $potongan_val,
 			);
 		}
 		$data['total']=($total);
 		$data['ajuan']=($ajuan);
+		$data['total_potongan']=($total_potongan);
 		$get=$this->input->get();
 		$data['excel']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&excel=true';
 		$data['pdf']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&pdf=true';
@@ -1523,27 +1547,42 @@ class Keuangan extends CI_Controller {
 		);
 		$total=0;
 		$ajuan=0;
+		$total_potongan=0;
 		foreach($results as $result){
 			$ajuan+=($result['nominal_request']);
 			$total+=($result['nominal_acc']);
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
+			$potongan_warteg = $this->GlobalModel->QueryManualRow("SELECT * FROM potongan_warteg WHERE hapus=0 AND id_karyawan='".$result['idkaryawan']."' AND tanggal='".$result['tanggal']."' ORDER BY id DESC LIMIT 1");
+			$potongan_val = !empty($potongan_warteg) ? $potongan_warteg['nominal'] : 0;
+			$total_potongan += $potongan_val;
+
+			$nominal_acc = $result['nominal_acc'];
+			if ($nominal_acc == $result['nominal_request'] && $potongan_val > 0) {
+				$nominal_acc = $result['nominal_request'] - $potongan_val;
+			}
+			$total += $nominal_acc;
+
 			$data['detail'][]=array(
 				'id'=>$result['id'],
 				'tanggal'=>!empty($result['tanggal']) ? date('Y-m-d',strtotime($result['tanggal'])) : '',
+				'id_karyawan' => $result['idkaryawan'],
 				'nama'=>$karyawan['nama'],
 				'divisi'=>$bagian['nama'],
 				'nominal'=>$result['nominal_request'],
-				'nominal_acc'=>$result['nominal_acc'],
+				'nominal_acc'=>$nominal_acc,
 				'status'=>$result['status'],
 				'terbilang' => terbilang($result['nominal_request']),
 				'keterangan' => $result['keterangan'],
 				'jenis_pembayaran' => isset($result['jenis_pembayaran']) ? $result['jenis_pembayaran'] : 'Transfer',
+				'potongan_warteg' => $potongan_val,
+				'potongan_warteg_id' => !empty($potongan_warteg) ? $potongan_warteg['id'] : '',
 			);
 		}
 		
 		$data['total']=($total);
 		$data['ajuan']=($ajuan);
+		$data['total_potongan']=($total_potongan);
 		$get=$this->input->get();
 		$data['excel']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&excel=true';
 		$data['pdf']=BASEURL.'Keuangan/kasbondetail/'.$id.'?&pdf=true';
@@ -1584,7 +1623,8 @@ class Keuangan extends CI_Controller {
 		foreach($post['products'] as $p){
 			$update = array(
 				'nominal_request' => $p['nominal'],
-				'nominal_acc' => $p['nominal'],
+				'nominal_acc' => $p['nominal'] - (!empty($p['potongan_warteg']) ? $p['potongan_warteg'] : 0),
+				'potongan_warteg' => !empty($p['potongan_warteg']) ? $p['potongan_warteg'] : 0,
 			);
 			if (isset($p['jenis_pembayaran'])) {
 				$update['jenis_pembayaran'] = $p['jenis_pembayaran'];
@@ -1599,7 +1639,25 @@ class Keuangan extends CI_Controller {
 				$this->db->update('kasbon',$update,array('id'=>$p['id']));
 			}
 			
-			
+			if (isset($p['potongan_warteg'])) {
+				if (!empty($p['potongan_warteg_id'])) {
+					if ($p['potongan_warteg'] > 0) {
+						$this->db->update('potongan_warteg', ['nominal' => $p['potongan_warteg']], ['id' => $p['potongan_warteg_id']]);
+					} else {
+						$this->db->update('potongan_warteg', ['hapus' => 1], ['id' => $p['potongan_warteg_id']]);
+					}
+				} else {
+					if ($p['potongan_warteg'] > 0) {
+						$insert_potongan = array(
+							'id_karyawan' => $p['id_karyawan'],
+							'tanggal' => $p['tanggal'],
+							'nominal' => $p['potongan_warteg'],
+							'keterangan' => 'Dari edit kasbon'
+						);
+						$this->db->insert('potongan_warteg', $insert_potongan);
+					}
+				}
+			}
 		}
 		$this->session->set_flashdata('msg','Data berhasil diubah');
 		redirect(BASEURL.'Keuangan/kasbonkaryawan');

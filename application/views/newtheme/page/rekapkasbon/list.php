@@ -67,6 +67,7 @@
 			    <th colspan="<?php echo !empty($tgl)?count($tgl):1?>">Kasbon Mingguan (Rp)</th>
 			    <th rowspan="2">Sisa Pinjaman</th>
 			    <th rowspan="2">Pinjaman baru</th>
+			    <th rowspan="2">Potongan Warteg</th>
 			    <th rowspan="2">Sisa Gaji</th>
 			    <th rowspan="2">Keterangan</th>
 			  </tr>
@@ -99,8 +100,9 @@
 			  	<?php } ?>
 				<td><?php echo !empty($k['sisapinjaman']) ? number_format($k['sisapinjaman']) : 0 ?></td> <!-- sisa pinjaman -->
 			    <td><?php echo number_format($k['pinjaman'])?></td> <!-- pinjaman baru -->
+			    <td><?php echo number_format($k['potongan_warteg'])?></td> <!-- potongan warteg -->
 			    <td>
-					<b><?php echo number_format($k['gaji']-$kasbon)?></b>
+					<b><?php echo number_format($k['gaji']-$kasbon-$k['potongan_warteg'])?></b>
 				</td>
 			    <td>ket</td>
 			  </tr>

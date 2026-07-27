@@ -17,6 +17,7 @@
                   <th>Nama Karyawan</th>
                   <th>Bagian</th>
                   <th>Jumlah Kasbon</th>
+                  <th>Potongan Warteg</th>
                   <th>Jumlah Di ACC</th>
                   <th>Keterangan</th>
                   <th>Action</th>
@@ -29,6 +30,7 @@
                     <td><?php echo $d['nama'];?></td>
                     <td><?php echo $d['divisi'];?></td>
                     <td>Rp. <?php echo number_format($d['nominal']);?></td>
+                    <td>Rp. <?php echo number_format($d['potongan_warteg']);?></td>
                     <td>Rp. <?php echo number_format($d['nominal_acc']);?></td>
                     <td><?php echo $d['keterangan'];?></td>
                     <td>
@@ -40,6 +42,7 @@
                 <tr>
                   <td colspan="3" align="center"><label>Total</label></td>
                   <td>Rp.&nbsp;<?php echo number_format($ajuan)?></td>
+                  <td>Rp.&nbsp;<?php echo number_format($total_potongan)?></td>
                   <td>Rp.&nbsp;<?php echo number_format($total)?></td>
                   <td></td>
                 </tr>

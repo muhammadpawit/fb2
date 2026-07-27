@@ -17,6 +17,7 @@
                   <th>Bagian</th>
                   <th>Jenis</th>
                   <th>Jumlah Kasbon</th>
+                  <th>Potongan Warteg</th>
                   <th>Keterangan</th>
                   <th align="right"><a class="btn btn-info btn-sm text-white" onclick="addkasbon()"><i class="fa fa-plus"></i></a></th>
                 </tr>
@@ -62,6 +63,7 @@
     html+='<td><span class="bagian"></span><input type="hidden" name="products['+i+'][bagian]" class="bag"/></td>';
     html+='<td><select name="products['+i+'][jenis_pembayaran]" class="form-control" required><option value="Transfer" selected>Transfer</option><option value="Cash">Cash</option></select></td>';
     html+='<td><input type="number" name="products['+i+'][jumlah]" class="form-control jumlah"></td>';
+    html+='<td><input type="number" name="products['+i+'][potongan_warteg]" class="form-control potongan_warteg"></td>';
     html+='<td><input type="text" name="products['+i+'][keterangan]" class="form-control keterangan"></td>';
     html+='<td><i class="fa fa-trash remove"></i></td>';
     html+='</tr>';
@@ -83,6 +85,7 @@
             dai.find(".bag").val(obj.id);
           if (obj.file_ktp != null) {
             dai.find(".jumlah").prop("disabled", false);
+            dai.find(".potongan_warteg").prop("disabled", false);
             dai.find(".keterangan").val('');
             dai.find(".keterangan").removeClass("text-red");
             dai.removeData('alerted'); // reset flag
@@ -92,6 +95,7 @@
               dai.find(".keterangan").addClass("text-red");
               dai.find(".keterangan").val('KTP pegawai belum diupload. Mohon upload terlebih dahulu');
               dai.find(".jumlah").prop("disabled", true);
+              dai.find(".potongan_warteg").prop("disabled", true);
               dai.data('alerted', true); // set flag agar alert tidak muncul lagi
             }
           }

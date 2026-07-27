@@ -58,6 +58,7 @@ class Rekapkasbon extends CI_Controller {
 			$kasbon=$this->KasbonModel->kasbon($bulan,$tahun,$k['id']);
 			$pinjaman = $this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_karyawan WHERE hapus=0 AND status IN(1,2) AND idkaryawan='".$k['id']."' ");
 			$sisapinjaman = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(totalpinjaman-totalpotongan)) as sisa FROM pinjaman_karyawan WHERE hapus=0 AND status IN(1,2) AND idkaryawan='".$k['id']."' ");
+			$potongan_warteg = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(nominal), 0) as total FROM potongan_warteg WHERE hapus=0 AND id_karyawan='".$k['id']."' AND tanggal BETWEEN '".$bulan."' AND '".$tahun."' ");
 			$data['kar'][]=array(
 				'no'=>$no,
 				'id'=>$k['id'],
@@ -69,6 +70,7 @@ class Rekapkasbon extends CI_Controller {
 				'kasbon'=>$this->KasbonModel->getsumkasbon($k['id'],$bulan,$tahun),
 				'sisapinjaman'=>!empty($sisapinjaman) ? $sisapinjaman['sisa'] : 0,
 				'pinjaman'=>!empty($pinjaman) ? $pinjaman['totalpinjaman'] : 0,
+				'potongan_warteg'=>!empty($potongan_warteg) ? $potongan_warteg['total'] : 0,
 				//'sisagaji'=>$k['gajipokok'],
 				'keterangan'=>null,
 			);
