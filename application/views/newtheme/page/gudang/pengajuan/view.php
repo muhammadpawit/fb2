@@ -350,13 +350,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- <div id="addContent">
+                <div id="addContent">
                     <div class="text-center p-5">
                         <i class="fa fa-spinner fa-spin fa-3x"></i>
                         <p class="mt-3">Menyiapkan Form Tambah...</p>
                     </div>
-                </div> -->
-                <h3>Gagal memuat form, silahkan coba beberapa saat lagi</h3>
+                </div>
             </div>
         </div>
     </div>

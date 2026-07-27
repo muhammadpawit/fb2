@@ -190,8 +190,10 @@ class Ajuankemejabaru extends CI_Controller {
 						'satuan'=>$item['satuan'],
 						'harga'=>$item['harga_beli'],
 						'pembayaran'=> isset($pr['metodebayar']) && $pr['metodebayar'] == 'Cash'  ? 1:2, // 1 Cash, 2 Transfer
+						'supplier_id'=>isset($p['supplier_id']) ? $p['supplier_id'] : null,
 						// 'supplier'=>$supplier['nama'],
                         'supplier'=>'-',
+						'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($pr['product_id']) ? $pr['product_id'] : null),
 						'keterangan'=>$pr['keterangan2'],
 						'status'=>1,
 						'from_alat' => $p['id']

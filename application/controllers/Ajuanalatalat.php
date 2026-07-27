@@ -160,7 +160,9 @@ class Ajuanalatalat extends CI_Controller {
 					'satuan'=>$p['satuan'],
 					'harga'=>$item['harga_beli'],
 					'pembayaran'=>$p['pembayaran'], // transfer & cash
+					'supplier_id'=>isset($supplier['id']) ? $supplier['id'] : (isset($p['supplier']) && !empty($p['supplier']) ? $p['supplier'] : null),
 					'supplier'=>$supplier['nama'],
+					'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 					'keterangan'=>$p['keterangan'],
 					'status'=>1,
 					'id_from_mingguan' => $p['id']
@@ -187,7 +189,9 @@ class Ajuanalatalat extends CI_Controller {
 					'satuan'=>$p['satuan'],
 					'harga'=>$item['harga_beli'],
 					'pembayaran'=>2, // transfer
+					'supplier_id'=>isset($supplier['id']) ? $supplier['id'] : (isset($p['supplier']) && !empty($p['supplier']) ? $p['supplier'] : null),
 					'supplier'=>$supplier['nama'],
+					'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 					'keterangan'=>$p['keterangan'],
 					'id_from_mingguan' => $p['id'],
 					'status'=>1

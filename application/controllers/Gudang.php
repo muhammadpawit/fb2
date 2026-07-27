@@ -730,7 +730,9 @@ class Gudang extends CI_Controller
 			'satuan' => $item['satuan'],
 			'harga' => $item['harga_beli'],
 			'pembayaran' => $pembayaran,
+			'supplier_id' => isset($ajuan['supplier_id']) ? $ajuan['supplier_id'] : null,
 			'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+			'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($ajuan['product_id']) ? $ajuan['product_id'] : null),
 			'keterangan' => $ajuan['keterangan2'],
 			'status' => 1
 		);
@@ -818,7 +820,9 @@ class Gudang extends CI_Controller
 				'satuan' => $item['satuan'],
 				'harga' => $item['harga_beli'],
 				'pembayaran' => $pembayaran,
+				'supplier_id' => isset($ajuan['supplier_id']) ? $ajuan['supplier_id'] : null,
 				'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+				'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($ajuan['product_id']) ? $ajuan['product_id'] : null),
 				'keterangan' => $ajuan['keterangan2'],
 				'status' => 1
 			);
@@ -1784,7 +1788,9 @@ class Gudang extends CI_Controller
 					'satuan' => $p['satuan'],
 					'harga' => $p['harga'],
 					'pembayaran' => $p['pembayaran'],
+					'supplier_id' => isset($p['supplier_id']) && !empty($p['supplier_id']) ? $p['supplier_id'] : null,
 					'supplier' => $p['supplier'],
+					'product_id' => isset($p['product_id']) && !empty($p['product_id']) ? $p['product_id'] : null,
 					'keterangan' => $p['keterangan'],
 					'status' => 0
 				);
@@ -1974,7 +1980,9 @@ class Gudang extends CI_Controller
 					'satuan' => $p['satuan'],
 					'harga' => $p['harga'],
 					'pembayaran' => $p['pembayaran'],
+					'supplier_id' => isset($p['supplier_id']) && !empty($p['supplier_id']) ? $p['supplier_id'] : null,
 					'supplier' => $p['supplier'],
+					'product_id' => isset($p['product_id']) && !empty($p['product_id']) ? $p['product_id'] : null,
 					'keterangan' => $p['keterangan'],
 					'status' => $data['statusajuan'],
 					'hapus' => isset($p['hapus']) ? $p['hapus'] : 0,
@@ -2264,12 +2272,12 @@ class Gudang extends CI_Controller
 				p.harga_beli
 			FROM pengajuan_harian_new_detail d
 			JOIN pengajuan_harian_new h ON h.id = d.idpengajuan
-			LEFT JOIN product p ON LOWER(TRIM(p.nama)) = LOWER(TRIM(d.nama_item)) AND p.hapus = 0
+			LEFT JOIN product p ON (p.product_id = d.product_id OR LOWER(TRIM(p.nama)) = LOWER(TRIM(d.nama_item))) AND p.hapus = 0
 			WHERE h.hapus = 0
 				AND d.hapus = 0
 				AND h.status = 1
 				AND d.status_penerimaan = 0
-				AND LOWER(TRIM(d.supplier)) = {$supplier_name}
+				AND (d.supplier_id = " . (int)$supplier_id . " OR LOWER(TRIM(d.supplier)) = {$supplier_name})
 			ORDER BY h.tanggal DESC, d.id DESC
 		";
 
@@ -2288,6 +2296,7 @@ class Gudang extends CI_Controller
 		$data['barang'] = $this->GlobalModel->getData('gudang_persediaan_item', array('hapus' => 0));
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
 		// $this->load->view('global/header');
 		// $this->load->view('gudang/penerimaanitem/form',$data);
 		// $this->load->view('global/footer');
@@ -2371,6 +2380,8 @@ class Gudang extends CI_Controller
 						'penerimaan_item_id' => $id,
 						'id_persediaan' => $p['id_persediaan'],
 						'id_pengajuan_detail' => isset($p['id_pengajuan_detail']) ? $p['id_pengajuan_detail'] : null,
+						'id_karaywan' => isset($p['id_karaywan']) ? $p['id_karaywan'] : null,
+						'nama_karyawan' => isset($p['nama_karyawan']) ? $p['nama_karyawan'] : null,
 						'nama' => $p['nama'],
 						'ukuran' => $p['ukuran'],
 						'satuanukuran' => $p['satuanukuran'],
@@ -3832,7 +3843,9 @@ class Gudang extends CI_Controller
 				'satuan' => $item['satuan'],
 				'harga' => $item['harga_beli'],
 				'pembayaran' => 2, // transfer
-				'supplier' => $supplier['nama'],
+				'supplier_id' => isset($p['supplier_id']) ? $p['supplier_id'] : null,
+				'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+				'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 				'keterangan' => $p['keterangan'],
 				'status' => 1,
 				'from_alat' => $p['id']
@@ -3854,7 +3867,9 @@ class Gudang extends CI_Controller
 				'satuan' => $item['satuan'],
 				'harga' => $item['harga_beli'],
 				'pembayaran' => 2, // transfer
-				'supplier' => $supplier['nama'],
+				'supplier_id' => isset($p['supplier_id']) ? $p['supplier_id'] : null,
+				'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+				'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 				'keterangan' => $p['keterangan'],
 				'status' => 1,
 				'from_alat' => $p['id']
@@ -3917,7 +3932,9 @@ class Gudang extends CI_Controller
 					'satuan' => $item['satuan'],
 					'harga' => $item['harga_beli'],
 					'pembayaran' => ($pr['metodebayar'] == 'Cash') ? 1 : 2,
-					'supplier' => $supplier['nama'],
+					'supplier_id' => isset($p['supplier_id']) ? $p['supplier_id'] : null,
+					'supplier' => isset($supplier['nama']) ? $supplier['nama'] : '',
+					'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 					'keterangan' => $p['keterangan2'],
 					'status' => 1,
 					'from_alat' => $p['id']
@@ -3989,7 +4006,9 @@ class Gudang extends CI_Controller
 					'satuan' => $item['satuan'],
 					'harga' => $item['harga_beli'],
 					'pembayaran' => 2, // transfer
+					'supplier_id' => isset($p['supplier_id']) ? $p['supplier_id'] : null,
 					'supplier' => $supplier['nama'],
+					'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 					'keterangan' => $p['keterangan'],
 					'status' => 1,
 					'from_alat' => $p['id']
@@ -4012,7 +4031,9 @@ class Gudang extends CI_Controller
 					'satuan' => $item['satuan'],
 					'harga' => $item['harga_beli'],
 					'pembayaran' => 2, // transfer
+					'supplier_id' => isset($p['supplier_id']) ? $p['supplier_id'] : null,
 					'supplier' => $supplier['nama'],
+					'product_id' => isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
 					'keterangan' => $p['keterangan'],
 					'status' => 1,
 					'from_alat' => $p['id']
@@ -4659,6 +4680,7 @@ class Gudang extends CI_Controller
 		$viewData['adminkeu'] = isset($adminkeu['nama']) ? $adminkeu['nama'] : '';
 		$viewData['edit'] = BASEURL . 'Gudang/pengajuaneditallsave';
 		$viewData['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
+		$viewData['supplier'] = $this->GlobalModel->getData('master_supplier', null);
 		$get = $this->input->get();
 		if (isset($get['acc'])) {
 			$viewData['editacc'] = 1;

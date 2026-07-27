@@ -529,7 +529,9 @@ class Gudang extends CI_Controller {
 					'satuan'=>$p['satuan'],
 					'harga'=>$p['harga'],
 					'pembayaran'=>$p['pembayaran'],
+					'supplier_id'=>isset($p['supplier_id']) && !empty($p['supplier_id']) ? $p['supplier_id'] : null,
 					'supplier'=>$p['supplier'],
+					'product_id'=>isset($p['product_id']) && !empty($p['product_id']) ? $p['product_id'] : null,
 					'keterangan'=>$p['keterangan'],
 					'status'=>0
 				);
@@ -669,7 +671,9 @@ class Gudang extends CI_Controller {
 					'satuan'=>$p['satuan'],
 					'harga'=>$p['harga'],
 					'pembayaran'=>$p['pembayaran'],
+					'supplier_id'=>isset($p['supplier_id']) && !empty($p['supplier_id']) ? $p['supplier_id'] : null,
 					'supplier'=>$p['supplier'],
+					'product_id'=>isset($p['product_id']) && !empty($p['product_id']) ? $p['product_id'] : null,
 					'keterangan'=>$p['keterangan'],
 					'status'=>$status,
 					'hapus'=>isset($p['hapus'])?$p['hapus']:0,

@@ -2,15 +2,18 @@
     #addModal .modal-content {
         border-radius: 0;
     }
+
     #addModal .modal-header {
         background: linear-gradient(135deg, #17a2b8, #117a8b);
         color: white;
         padding: 1.5rem;
     }
+
     #addModal .modal-header .close {
         color: white;
         opacity: 0.8;
     }
+
     #addForm .table thead th {
         background-color: #f8f9fa;
         color: #2c3e50;
@@ -20,12 +23,14 @@
         padding: 12px;
         border-bottom: 2px solid #17a2b8;
     }
+
     #addForm .form-control {
         border-radius: 6px;
         border: 1px solid #dcdde1;
         padding: 6px 10px;
         font-size: 13px;
     }
+
     .summary-card-add {
         background-color: #f8f9fa;
         border-radius: 10px;
@@ -44,7 +49,7 @@
         </div>
     </div>
 
-    <form id="addForm" method="post" action="<?php echo $action?>" onsubmit="showAddLoader()">
+    <form id="addForm" method="post" action="<?php echo $action ?>" onsubmit="showAddLoader()">
         <div class="row mb-4">
             <div class="col-md-3">
                 <label class="font-weight-bold">TANGGAL PENGAJUAN</label>
@@ -54,7 +59,7 @@
                 <label class="font-weight-bold">DIVISI / CABANG</label>
                 <select name="kategoriPengajuan" class="form-control select2-add" required style="width: 100%;">
                     <option value="">Pilih Divisi</option>
-                    <?php foreach($katpeng as $id => $val): ?>
+                    <?php foreach ($katpeng as $id => $val): ?>
                         <option value="<?php echo $id ?>"><?php echo $val ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -114,16 +119,16 @@
     function addTableRow() {
         var html = '<tr>' +
             '<td class="text-center pt-3">' + (addIdx + 1) + '</td>' +
-            '<td><select class="form-control select2-add item-select" name="products['+addIdx+'][nama_item]" required style="width:100%"><option value="">Pilih Barang</option><?php foreach ($products as $p) { ?><option value="<?php echo $p['nama'] ?>" data-price="<?php echo $p['price'] ?>"><?php echo $p['nama'] ?></option><?php } ?></select></td>' +
-            '<td><input type="number" step="0.01" class="form-control text-center add-calc" name="products['+addIdx+'][jumlah]" required></td>' +
-            '<td><input type="text" class="form-control text-center" name="products['+addIdx+'][satuan]" value="-"></td>' +
-            '<td><input type="number" class="form-control text-right add-calc" name="products['+addIdx+'][harga]" value="0"></td>' +
-            '<td><select name="products['+addIdx+'][pembayaran]" class="form-control add-pay" required><option value="1">CASH</option><option value="2">TRANSFER</option></select></td>' +
-            '<td><input type="text" class="form-control" name="products['+addIdx+'][supplier]" value="-"></td>' +
-            '<td><input type="text" class="form-control" name="products['+addIdx+'][keterangan]" value="-"></td>' +
+            '<td><select class="form-control select2-add item-select" name="products[' + addIdx + '][product_id]" required style="width:100%"><option value="">Pilih Barang</option><?php foreach ($products as $p) { ?><option value="<?php echo $p['product_id'] ?>" data-nama="<?php echo htmlspecialchars($p['nama']) ?>" data-price="<?php echo $p['price'] ?>"><?php echo $p['nama'] ?></option><?php } ?></select><input type="hidden" class="item-name" name="products[' + addIdx + '][nama_item]" value=""></td>' +
+            '<td><input type="number" step="0.01" class="form-control text-center add-calc" name="products[' + addIdx + '][jumlah]" required></td>' +
+            '<td><input type="text" class="form-control text-center" name="products[' + addIdx + '][satuan]" value="-"></td>' +
+            '<td><input type="number" class="form-control text-right add-calc" name="products[' + addIdx + '][harga]" value="0"></td>' +
+            '<td><select name="products[' + addIdx + '][pembayaran]" class="form-control add-pay" required><option value="1">CASH</option><option value="2">TRANSFER</option></select></td>' +
+            '<td><select class="form-control select2-add supplier-select" name="products[' + addIdx + '][supplier_id]" style="width:100%"><option value="">Pilih Supplier</option><?php foreach ($supplier as $s) { ?><option value="<?php echo $s['id'] ?>"><?php echo $s['nama'] ?></option><?php } ?></select><input type="hidden" class="supplier-name" name="products[' + addIdx + '][supplier]" value=""></td>' +
+            '<td><input type="text" class="form-control" name="products[' + addIdx + '][keterangan]" value="-"></td>' +
             '<td class="text-center"><button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="$(this).closest(\'tr\').remove(); updateAddTotals();"><i class="fa fa-trash"></i></button></td>' +
             '</tr>';
-        
+
         $('#addItemBody').append(html);
         $('.select2-add').select2({
             dropdownParent: $('#addModal')
@@ -133,7 +138,10 @@
 
     $(document).off('change', '.item-select').on('change', '.item-select', function() {
         var price = $(this).find(':selected').data('price');
+        var nama = $(this).find(':selected').data('nama');
         $(this).closest('tr').find('input[name*="[harga]"]').val(price);
+        if ($(this).val() == '') nama = '';
+        $(this).closest('tr').find('.item-name').val(nama);
         updateAddTotals();
     });
 
@@ -143,6 +151,12 @@
 
     $(document).off('change', '.add-pay').on('change', '.add-pay', function() {
         updateAddTotals();
+    });
+
+    $(document).off('change', '.supplier-select').on('change', '.supplier-select', function() {
+        var name = $(this).find('option:selected').text();
+        if ($(this).val() == '') name = '';
+        $(this).closest('td').find('.supplier-name').val(name);
     });
 
     function updateAddTotals() {

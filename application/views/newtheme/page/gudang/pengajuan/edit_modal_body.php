@@ -171,7 +171,20 @@
                             </td>
                             <td class="text-center pt-3"><?php echo $no++; ?></td>
                             <td>
-                                <input type="text" name="products[<?php echo $i?>][nama_item]" value="<?php echo $tem['nama_item'] ?>" class="form-control font-weight-bold" placeholder="Nama Barang">
+                                <select class="form-control select2-modal brg-modal item-select" name="products[<?php echo $i?>][product_id]" required style="width:100%">
+                                    <option value="">Pilih Barang</option>
+                                    <?php foreach ($products as $p) { 
+                                        $selected = '';
+                                        if (!empty($tem['product_id']) && $tem['product_id'] == $p['product_id']) {
+                                            $selected = 'selected';
+                                        } else if (empty($tem['product_id']) && $tem['nama_item'] == $p['nama']) {
+                                            $selected = 'selected';
+                                        }
+                                    ?>
+                                        <option value="<?php echo $p['product_id'] ?>" data-nama="<?php echo htmlspecialchars($p['nama']) ?>" data-price="<?php echo $p['price'] ?>" <?php echo $selected; ?>><?php echo $p['nama'] ?></option>
+                                    <?php } ?>
+                                </select>
+                                <input type="hidden" class="item-name" name="products[<?php echo $i?>][nama_item]" value="<?php echo htmlspecialchars($tem['nama_item']) ?>">
                                 <input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $tem['id'] ?>">
                             </td>
                             <td><input type="number" step="0.01" name="products[<?php echo $i?>][jumlah]" value="<?php echo $tem['jumlah'] ?>" class="form-control text-center calc" data-row="<?php echo $i?>"></td>
@@ -183,7 +196,15 @@
                                     <option value="2" <?php echo $tem['pembayaran']==2?'selected':'';?>>TRANSFER</option>
                                 </select>
                             </td>
-                            <td><input type="text" name="products[<?php echo $i?>][supplier]" class="form-control" value="<?php echo $tem['supplier']; ?>" placeholder="Supplier"></td>
+                            <td>
+                                <select class="form-control select2-modal supplier-select" name="products[<?php echo $i?>][supplier_id]" style="width:100%">
+                                    <option value="">Pilih Supplier</option>
+                                    <?php foreach ($supplier as $s) { ?>
+                                        <option value="<?php echo $s['id'] ?>" <?php echo ($tem['supplier'] == $s['nama']) ? 'selected' : ''; ?>><?php echo $s['nama'] ?></option>
+                                    <?php } ?>
+                                </select>
+                                <input type="hidden" class="supplier-name" name="products[<?php echo $i?>][supplier]" value="<?php echo $tem['supplier']; ?>">
+                            </td>
                             <td><textarea name="products[<?php echo $i?>][keterangan]" class="form-control" rows="1" placeholder="Catatan..."><?php echo $tem['keterangan']; ?></textarea></td>
                             <td class="text-center">
                                 <?php if(!empty($tem['komentar'])): ?>
@@ -258,12 +279,12 @@
         var html = '<tr class="item-row">' +
             '<td class="text-center"><input type="hidden" name="products['+rowIdx+'][hapus]" class="hapus-input" value="0"><button type="button" class="btn btn-sm btn-outline-danger" onclick="$(this).closest(\'tr\').remove(); calculateTotals();"><i class="fa fa-trash"></i></button></td>' +
             '<td class="text-center">-</td>' +
-            '<td><select class="form-control select2-modal brg-modal" name="products['+rowIdx+'][nama_item]" required style="width:100%"><option value="">Pilih Barang</option><?php foreach ($products as $p) { ?><option value="<?php echo $p['nama'] ?>" data-price="<?php echo $p['price'] ?>"><?php echo $p['nama'] ?></option><?php } ?></select></td>' +
+            '<td><select class="form-control select2-modal brg-modal item-select" name="products['+rowIdx+'][product_id]" required style="width:100%"><option value="">Pilih Barang</option><?php foreach ($products as $p) { ?><option value="<?php echo $p['product_id'] ?>" data-nama="<?php echo htmlspecialchars($p['nama']) ?>" data-price="<?php echo $p['price'] ?>"><?php echo $p['nama'] ?></option><?php } ?></select><input type="hidden" class="item-name" name="products['+rowIdx+'][nama_item]" value=""></td>' +
             '<td><input type="number" step="0.01" class="form-control text-center calc" name="products['+rowIdx+'][jumlah]" required></td>' +
             '<td><input type="text" class="form-control text-center" name="products['+rowIdx+'][satuan]" value="-"></td>' +
             '<td><input type="number" class="form-control text-right calc" name="products['+rowIdx+'][harga]" value="0"></td>' +
             '<td><select name="products['+rowIdx+'][pembayaran]" class="form-control pembayaran" required><option value="1">CASH</option><option value="2">TRANSFER</option></select></td>' +
-            '<td><input type="text" class="form-control" name="products['+rowIdx+'][supplier]" value="-"></td>' +
+            '<td><select class="form-control select2-modal supplier-select" name="products['+rowIdx+'][supplier_id]" style="width:100%"><option value="">Pilih Supplier</option><?php foreach ($supplier as $s) { ?><option value="<?php echo $s['id'] ?>"><?php echo $s['nama'] ?></option><?php } ?></select><input type="hidden" class="supplier-name" name="products['+rowIdx+'][supplier]" value=""></td>' +
             '<td><input type="text" class="form-control" name="products['+rowIdx+'][keterangan]" value="-"></td>' +
             '<td></td>' +
             '</tr>';
@@ -277,7 +298,10 @@
 
     $(document).on('change', '.brg-modal', function() {
         var price = $(this).find(':selected').data('price');
+        var nama = $(this).find(':selected').data('nama');
         $(this).closest('tr').find('input[name*="[harga]"]').val(price);
+        if ($(this).val() == '') nama = '';
+        $(this).closest('tr').find('.item-name').val(nama);
         calculateTotals();
     });
 
@@ -287,6 +311,12 @@
 
     $(document).on('change', '.pembayaran', function() {
         calculateTotals();
+    });
+
+    $(document).on('change', '.supplier-select', function() {
+        var name = $(this).find('option:selected').text();
+        if ($(this).val() == '') name = '';
+        $(this).closest('td').find('.supplier-name').val(name);
     });
 
     function calculateTotals() {
@@ -333,6 +363,9 @@
         $('.datepicker-modal').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true
+        });
+        $('.select2-modal').select2({
+            dropdownParent: $('#editModal')
         });
     });
 </script>
