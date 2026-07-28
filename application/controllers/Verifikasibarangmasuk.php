@@ -70,7 +70,9 @@ class Verifikasibarangmasuk extends CI_Controller
 	{
 		$data = array();
 		$data['title'] = 'Verifikasi Barang Masuk Konveksi';
+		$data['kategori'] = 3;
 		$data['prods'] = $this->_get_data(3);
+		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
 		$data['sel_supplier'] = $this->input->get('supplier');
 		$data['action'] = BASEURL . 'Verifikasibarangmasuk/konveksi';
@@ -82,11 +84,77 @@ class Verifikasibarangmasuk extends CI_Controller
 	{
 		$data = array();
 		$data['title'] = 'Verifikasi Barang Masuk Bordir';
+		$data['kategori'] = 2;
 		$data['prods'] = $this->_get_data(2);
+		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
 		$data['sel_supplier'] = $this->input->get('supplier');
 		$data['action'] = BASEURL . 'Verifikasibarangmasuk/bordir';
 		$data['page'] = 'newtheme/page/verifikasibarangmasuk/list';
 		$this->load->view('newtheme/page/main', $data);
+	}
+
+	public function simpan()
+	{
+		$data = $this->input->post();
+		if (isset($data['products'])) {
+			if (!empty($data['products'])) {
+				$tanggal_terima = isset($data['tanggal']) && !empty($data['tanggal']) ? $data['tanggal'] : date('Y-m-d');
+				$nosj = isset($data['nosj']) && !empty($data['nosj']) ? $data['nosj'] : 'SJ-' . date('YmdHis');
+				
+				$it = array(
+					'tanggal' => $tanggal_terima,
+					'supplier' => $data['supplier'],
+					'nosj' => $nosj,
+					'keterangan' => 'Verifikasi Barang Masuk',
+					'jenis' => $data['jenis'],
+					'tipepembayaran' => $data['tipepembayaran'],
+					'hapus' => 0
+				);
+				$this->db->insert('penerimaan_item', $it);
+				$id = $this->db->insert_id();
+
+				foreach ($data['products'] as $p) {
+					$itd = array(
+						'penerimaan_item_id' => $id,
+						'id_persediaan' => $p['id_persediaan'],
+						'id_pengajuan_detail' => isset($p['id_pengajuan_detail']) ? $p['id_pengajuan_detail'] : null,
+						'id_karaywan' => isset($p['id_karaywan']) ? $p['id_karaywan'] : null,
+						'nama_karyawan' => isset($p['nama_karyawan']) ? $p['nama_karyawan'] : null,
+						'nama' => $p['nama'],
+						'ukuran' => $p['ukuran'],
+						'satuanukuran' => $p['satuanukuran'],
+						'jumlah' => $p['jumlah'],
+						'satuanJml' => $p['satuanJml'],
+						'harga' => $p['harga'],
+						'keterangan' => $p['keterangan'],
+						'tanggal' => $tanggal_terima,
+						'jenis' => $data['jenis'],
+						'hapus' => 0
+					);
+					$this->db->insert('penerimaan_item_detail', $itd);
+					if (!empty($p['id_pengajuan_detail'])) {
+						$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 1), array('id' => $p['id_pengajuan_detail']));
+					}
+					
+					$kartustok = array(
+						'tanggal' => date('Y-m-d'),
+						'idproduct' => $p['id_persediaan'],
+						'nama' => $p['nama'],
+						'saldomasuk_uk' => $p['ukuran'],
+						'saldomasuk_qty' => $p['jumlah'],
+						'harga' => $p['harga'],
+						'keterangan' => 'Verifikasi Barang Masuk',
+					);
+					kartustok($kartustok, 1);
+					$this->db->query("UPDATE product set ukuran_item=ukuran_item+" . $p['ukuran'] . ",quantity=quantity+'" . $p['jumlah'] . "', harga_beli='" . $p['harga'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
+					$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+" . $p['ukuran'] . ", jumlah_item=jumlah_item+'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
+				}
+				$this->session->set_flashdata('msg', 'Data verifikasi barang berhasil disimpan dan dimasukkan ke stok Gudang');
+			}
+		}
+		
+		$redirect_url = $data['jenis'] == 3 ? 'konveksi' : 'bordir';
+		redirect(BASEURL . 'Verifikasibarangmasuk/' . $redirect_url . '?supplier=' . $data['supplier']);
 	}
 }
