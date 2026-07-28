@@ -93,19 +93,25 @@
         </div>
 
         <div class="row mt-4 align-items-end">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="summary-card-add">
                     <div class="summary-title text-muted small">ESTIMASI TOTAL CASH</div>
                     <div class="h4 font-weight-bold text-success mb-0" id="addTotalCash">Rp 0</div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="summary-card-add" style="border-left-color: #f39c12;">
                     <div class="summary-title text-muted small">ESTIMASI TOTAL TRANSFER</div>
                     <div class="h4 font-weight-bold" style="color: #f39c12;" id="addTotalTF">Rp 0</div>
                 </div>
             </div>
-            <div class="col-md-6 text-right pb-2">
+            <div class="col-md-4">
+                <div class="summary-card-add" style="border-left-color: #e74c3c;">
+                    <div class="summary-title text-muted small">ESTIMASI TOTAL TEMPO</div>
+                    <div class="h4 font-weight-bold" style="color: #e74c3c;" id="addTotalTempo">Rp 0</div>
+                </div>
+            </div>
+            <div class="col-md-12 text-right mt-3 pb-2">
                 <button type="button" class="btn btn-secondary px-4 mr-2" data-dismiss="modal">BATAL</button>
                 <button type="submit" class="btn btn-info px-5 font-weight-bold shadow-sm"><i class="fa fa-check-circle mr-2"></i> SIMPAN PENGAJUAN BARU</button>
             </div>
@@ -123,7 +129,7 @@
             '<td><input type="number" step="0.01" class="form-control text-center add-calc" name="products[' + addIdx + '][jumlah]" required></td>' +
             '<td><input type="text" class="form-control text-center" name="products[' + addIdx + '][satuan]" value="-"></td>' +
             '<td><input type="number" class="form-control text-right add-calc" name="products[' + addIdx + '][harga]" value="0"></td>' +
-            '<td><select name="products[' + addIdx + '][pembayaran]" class="form-control add-pay" required><option value="1">CASH</option><option value="2">TRANSFER</option></select></td>' +
+            '<td><select name="products[' + addIdx + '][pembayaran]" class="form-control add-pay" required><option value="1">CASH</option><option value="2">TRANSFER</option><option value="3">TEMPO</option></select></td>' +
             '<td><select class="form-control select2-add supplier-select" name="products[' + addIdx + '][supplier_id]" style="width:100%"><option value="">Pilih Supplier</option><?php foreach ($supplier as $s) { ?><option value="<?php echo $s['id'] ?>"><?php echo $s['nama'] ?></option><?php } ?></select><input type="hidden" class="supplier-name" name="products[' + addIdx + '][supplier]" value=""></td>' +
             '<td><input type="text" class="form-control" name="products[' + addIdx + '][keterangan]" value="-"></td>' +
             '<td class="text-center"><button type="button" class="btn btn-danger btn-sm rounded-circle" onclick="$(this).closest(\'tr\').remove(); updateAddTotals();"><i class="fa fa-trash"></i></button></td>' +
@@ -162,6 +168,7 @@
     function updateAddTotals() {
         var cash = 0;
         var tf = 0;
+        var tempo = 0;
         $('#addItemBody tr').each(function() {
             var qty = parseFloat($(this).find('input[name*="[jumlah]"]').val()) || 0;
             var price = parseFloat($(this).find('input[name*="[harga]"]').val()) || 0;
@@ -169,10 +176,12 @@
 
             if (type == "1") cash += (qty * price);
             else if (type == "2") tf += (qty * price);
+            else if (type == "3") tempo += (qty * price);
         });
 
         $('#addTotalCash').text('Rp ' + cash.toLocaleString());
         $('#addTotalTF').text('Rp ' + tf.toLocaleString());
+        $('#addTotalTempo').text('Rp ' + tempo.toLocaleString());
     }
 
     function showAddLoader() {
