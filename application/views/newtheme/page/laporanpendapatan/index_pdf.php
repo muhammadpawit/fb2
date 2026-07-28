@@ -151,8 +151,8 @@
                 <td class="text-right"><?php echo number_format($week_total_hasil); ?></td>
                 <td></td>
                 <td class="text-right"><?php echo number_format($week_total_nominal); ?></td>
-                <td class="text-right" style="color: #c62828;"><?php 
-                    $saldo = $week_total_hasil - $week_total_nominal;
+                <?php $saldo = $week_total_hasil - $week_total_nominal; ?>
+                <td class="text-right" style="color: <?php echo $saldo < 0 ? '#c62828' : '#000000'; ?>;"><?php 
                     echo number_format($saldo);
                     $grand_total_dz += $week_total_dz;
                     $grand_total_hasil += $week_total_hasil;
@@ -170,7 +170,7 @@
                 <td class="text-right"><?php echo number_format($grand_total_hasil); ?></td>
                 <td></td>
                 <td class="text-right"><?php echo number_format($grand_total_nominal); ?></td>
-                <td class="text-right"><?php echo number_format($grand_total_saldo); ?></td>
+                <td class="text-right" style="color: <?php echo $grand_total_saldo < 0 ? '#c62828' : '#000000'; ?>;"><?php echo number_format($grand_total_saldo); ?></td>
             </tr>
         </tfoot>
     </table>
