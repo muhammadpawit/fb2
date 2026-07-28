@@ -174,9 +174,9 @@
 								showConfirmButton: false,
 								timer: 1500
 							});
-							// setTimeout(function() {
-							// 	location.reload();
-							// }, 1500);
+							setTimeout(function() {
+								location.reload();
+							}, 1500);
 						} else {
 							$btn.html(originalText).attr('disabled', false);
 							Swal({
