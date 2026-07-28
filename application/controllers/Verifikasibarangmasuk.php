@@ -68,13 +68,25 @@ class Verifikasibarangmasuk extends CI_Controller
 
 	public function konveksi()
 	{
-		// Kategori 3 = Konveksi
-		echo json_encode($this->_get_data(3));
+		$data = array();
+		$data['title'] = 'Verifikasi Barang Masuk Konveksi';
+		$data['prods'] = $this->_get_data(3);
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['sel_supplier'] = $this->input->get('supplier');
+		$data['action'] = BASEURL . 'Verifikasibarangmasuk/konveksi';
+		$data['page'] = 'newtheme/page/verifikasibarangmasuk/list';
+		$this->load->view('newtheme/page/main', $data);
 	}
 
 	public function bordir()
 	{
-		// Kategori 2 = Bordir
-		echo json_encode($this->_get_data(2));
+		$data = array();
+		$data['title'] = 'Verifikasi Barang Masuk Bordir';
+		$data['prods'] = $this->_get_data(2);
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['sel_supplier'] = $this->input->get('supplier');
+		$data['action'] = BASEURL . 'Verifikasibarangmasuk/bordir';
+		$data['page'] = 'newtheme/page/verifikasibarangmasuk/list';
+		$this->load->view('newtheme/page/main', $data);
 	}
 }
