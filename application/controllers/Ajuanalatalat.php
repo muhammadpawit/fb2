@@ -106,9 +106,18 @@ class Ajuanalatalat extends CI_Controller {
 	function acc(){
 		$post = $this->input->post();
 		// pre($post);
+		if(!isset($post['prods']) || empty($post['prods'])) {
+			if ($this->input->is_ajax_request()) {
+				echo json_encode(['success' => false, 'msg' => 'Data item tidak ditemukan.']);
+				exit;
+			}
+			$this->session->set_flashdata('error','Data item tidak ditemukan');
+			redirect($this->url.$post['bagian'].'?&spv=true');
+		}
+
 		foreach($post['prods'] as $p){
 			$update = array(
-				'acc_ajuan'=>$p['acc_ajuan'],
+				'acc_ajuan'=> (isset($p['acc_ajuan']) && $p['acc_ajuan'] !== '') ? $p['acc_ajuan'] : 0,
 			);
 			$where = array(
 				'id' => $p['id']
@@ -156,13 +165,13 @@ class Ajuanalatalat extends CI_Controller {
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],
-					'jumlah'=>$p['acc_ajuan'],
+					'jumlah'=>(isset($p['acc_ajuan']) && $p['acc_ajuan'] !== '') ? $p['acc_ajuan'] : 0,
 					'satuan'=>$p['satuan'],
 					'harga'=>$item['harga_beli'],
-					'pembayaran'=>$p['pembayaran'], // transfer & cash
-					'supplier_id'=>isset($supplier['id']) ? $supplier['id'] : (isset($p['supplier']) && !empty($p['supplier']) ? $p['supplier'] : null),
-					'supplier'=>$supplier['nama'],
-					'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
+					'pembayaran'=>(isset($p['pembayaran']) && $p['pembayaran'] !== '') ? $p['pembayaran'] : null, // transfer & cash
+					'supplier_id'=>isset($supplier['id']) ? $supplier['id'] : (isset($p['supplier']) && $p['supplier'] !== '' ? $p['supplier'] : null),
+					'supplier'=>isset($supplier['nama']) ? $supplier['nama'] : null,
+					'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) && $p['product_id'] !== '' ? $p['product_id'] : null),
 					'keterangan'=>$p['keterangan'],
 					'status'=>1,
 					'id_from_mingguan' => $p['id']
@@ -185,13 +194,13 @@ class Ajuanalatalat extends CI_Controller {
 				$rip=array(
 					'idpengajuan'=>$id,
 					'nama_item'=>$item['nama'],
-					'jumlah'=>$p['acc_ajuan'],
+					'jumlah'=>(isset($p['acc_ajuan']) && $p['acc_ajuan'] !== '') ? $p['acc_ajuan'] : 0,
 					'satuan'=>$p['satuan'],
 					'harga'=>$item['harga_beli'],
 					'pembayaran'=>2, // transfer
-					'supplier_id'=>isset($supplier['id']) ? $supplier['id'] : (isset($p['supplier']) && !empty($p['supplier']) ? $p['supplier'] : null),
-					'supplier'=>$supplier['nama'],
-					'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) ? $p['product_id'] : null),
+					'supplier_id'=>isset($supplier['id']) ? $supplier['id'] : (isset($p['supplier']) && $p['supplier'] !== '' ? $p['supplier'] : null),
+					'supplier'=>isset($supplier['nama']) ? $supplier['nama'] : null,
+					'product_id'=>isset($item['product_id']) ? $item['product_id'] : (isset($p['product_id']) && $p['product_id'] !== '' ? $p['product_id'] : null),
 					'keterangan'=>$p['keterangan'],
 					'id_from_mingguan' => $p['id'],
 					'status'=>1
@@ -204,6 +213,11 @@ class Ajuanalatalat extends CI_Controller {
 		$image_data = $this->input->post('image_data');
 		if (!empty($image_data)) {
 			$this->db->update('pengajuan_harian_new', array('paraf' => $image_data), array('id' => $id));
+		}
+
+		if ($this->input->is_ajax_request()) {
+			echo json_encode(['success' => true, 'msg' => 'Data Berhasil disimpan']);
+			exit;
 		}
 
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
