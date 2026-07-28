@@ -67,6 +67,8 @@
 <div class="row">
   <div class="col-md-12">
     <h4 class="text-center" style="font-weight:700; margin-bottom:15px;">HITUNGAN PENDAPATAN FINISHING</h4>
+    
+    <div id="grafikPendapatan" style="height: 400px; margin-bottom: 20px;"></div>
     <div style="overflow-x:auto;">
     <table class="pendapatan-table">
       <thead>
@@ -222,4 +224,74 @@
     }
     window.open(url, '_blank');
   }
+</script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>  
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script>
+Highcharts.chart('grafikPendapatan', {
+    chart: { type: 'column' },
+    title: { text: 'Grafik Pendapatan & Saldo Finishing' },
+    xAxis: {
+        categories: [
+            <?php foreach($weeks as $week){ echo "'" . $week['label'] . "',"; } ?>
+        ]
+    },
+    yAxis: {
+        title: { text: 'Nominal (Rp)' }
+    },
+    tooltip: {
+        shared: true,
+        valuePrefix: 'Rp '
+    },
+    series: [
+        {
+            name: 'Hasil (Pendapatan)',
+            data: [
+                <?php 
+                foreach($weeks as $week){ 
+                    $p = 0;
+                    foreach($week['pendapatan'] as $r) { $p += $r['total_pendapatan']; }
+                    echo round($p) . ","; 
+                } 
+                ?>
+            ],
+            color: '#2196F3' // Biru untuk Pendapatan
+        },
+        {
+            name: 'Pengeluaran',
+            data: [
+                <?php 
+                foreach($weeks as $week){ 
+                    echo round($week['tabung_gas'] + $week['anak_harian'] + $week['anak_borongan']) . ","; 
+                } 
+                ?>
+            ],
+            color: '#F44336' // Merah untuk Pengeluaran
+        },
+        {
+            name: 'Saldo',
+            type: 'spline',
+            data: [
+                <?php 
+                foreach($weeks as $week){ 
+                    $p = 0;
+                    foreach($week['pendapatan'] as $r) { $p += $r['total_pendapatan']; }
+                    $pengeluaran = $week['tabung_gas'] + $week['anak_harian'] + $week['anak_borongan'];
+                    echo round($p - $pengeluaran) . ","; 
+                } 
+                ?>
+            ],
+            color: '#4CAF50', // Hijau untuk Saldo
+            marker: {
+                lineWidth: 2,
+                lineColor: '#388E3C',
+                fillColor: 'white'
+            }
+        }
+    ]
+});
 </script>
