@@ -2256,28 +2256,28 @@ class Gudang extends CI_Controller
 		$sql = "
 			SELECT
 				d.id,
-				d.idpengajuan,
+				d.pemesanan_bahan_id as idpengajuan,
 				h.tanggal,
-				d.nama_item,
+				d.nama as nama_item,
 				d.jumlah,
-				d.satuan,
+				d.satuanukuran as satuan,
 				d.harga,
-				d.pembayaran,
+				h.tipepembayaran as pembayaran,
 				d.keterangan,
-				d.supplier,
+				s.nama as supplier,
 				p.product_id AS id_persediaan,
 				p.warna_item,
 				p.satuan_ukuran_item,
 				p.satuan AS satuan_jumlah_item,
 				p.harga_beli
-			FROM pengajuan_harian_new_detail d
-			JOIN pengajuan_harian_new h ON h.id = d.idpengajuan
-			LEFT JOIN product p ON (p.product_id = d.product_id OR LOWER(TRIM(p.nama)) = LOWER(TRIM(d.nama_item))) AND p.hapus = 0
+			FROM pemesanan_bahan_detail d
+			JOIN pemesanan_bahan h ON h.id = d.pemesanan_bahan_id
+			LEFT JOIN master_supplier s ON s.id = h.supplier
+			LEFT JOIN product p ON p.product_id = d.id_persediaan AND p.hapus = 0
 			WHERE h.hapus = 0
 				AND d.hapus = 0
-				AND h.status = 1
 				AND d.status_penerimaan = 0
-				AND (d.supplier_id = " . (int)$supplier_id . " OR LOWER(TRIM(d.supplier)) = {$supplier_name})
+				AND h.supplier = " . (int)$supplier_id . "
 			ORDER BY h.tanggal DESC, d.id DESC
 		";
 
@@ -2297,6 +2297,15 @@ class Gudang extends CI_Controller
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
 		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
+		
+		if (isset($_GET['redirect']) && $_GET['redirect'] == 'pemesanan') {
+			$data['batal_url'] = BASEURL . 'Pemesananbahan';
+			$data['redirect_url'] = BASEURL . 'Pemesananbahan';
+		} else {
+			$data['batal_url'] = BASEURL . 'Gudang/penerimaanitem';
+			$data['redirect_url'] = BASEURL . 'gudang/penerimaanitem';
+		}
+
 		// $this->load->view('global/header');
 		// $this->load->view('gudang/penerimaanitem/form',$data);
 		// $this->load->view('global/footer');
@@ -2375,6 +2384,20 @@ class Gudang extends CI_Controller
 
 
 
+				$invoice_total = 0;
+				$insert_pembelian = [
+					'id_supplier' => $data['supplier'],
+					'no_invoice' => $data['nosj'],
+					'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+					'jatuh_tempo' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
+					'total' => 0,
+					'keterangan' => isset($data['keterangan']) ? $data['keterangan'] : '-',
+					'status' => 0,
+					'hapus' => 0
+				];
+				$this->db->insert('acc_pembelian', $insert_pembelian);
+				$id_pembelian = $this->db->insert_id();
+
 				foreach ($data['products'] as $p) {
 					$itd = array(
 						'penerimaan_item_id' => $id,
@@ -2394,9 +2417,22 @@ class Gudang extends CI_Controller
 						'hapus' => 0
 					);
 					$this->db->insert('penerimaan_item_detail', $itd);
+					$id_penerimaan_detail = $this->db->insert_id();
+
 					if (!empty($p['id_pengajuan_detail'])) {
-						$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 1), array('id' => $p['id_pengajuan_detail']));
+						$this->db->update('pemesanan_bahan_detail', array('status_penerimaan' => 1), array('id' => $p['id_pengajuan_detail']));
 					}
+
+					$subtotal = ($data['jenis'] == 1) ? ($p['ukuran'] * $p['harga']) : ($p['jumlah'] * $p['harga']);
+					$invoice_total += $subtotal;
+
+					$detail_pembelian = [
+						'id_pembelian' => $id_pembelian,
+						'nominal' => $subtotal,
+						'id_penerimaan_detail' => $id_penerimaan_detail
+					];
+					$this->db->insert('acc_pembelian_detail', $detail_pembelian);
+
 					if ($data['jenis'] == 5) {
 						$kartustok = array(
 							'tanggal' => isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
@@ -2425,9 +2461,18 @@ class Gudang extends CI_Controller
 						$this->db->query("UPDATE gudang_persediaan_item set ukuran_item=ukuran_item+" . $p['ukuran'] . ", jumlah_item=jumlah_item+'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
 					}
 				}
+
+				$this->db->update('acc_pembelian', array('total' => $invoice_total), array('id' => $id_pembelian));
+
 				$this->session->set_flashdata('msg', 'Data berhasil disimpan');
 				user_activity(callSessUser('id_user'), 1, ' penerimaan item dengan id ' . $id);
-				redirect(BASEURL . 'gudang/penerimaanitem');
+				
+				$redirect_url = $this->input->post('redirect_url');
+				if ($redirect_url) {
+					redirect($redirect_url);
+				} else {
+					redirect(BASEURL . 'gudang/penerimaanitem');
+				}
 			}
 		}
 	}
@@ -2677,9 +2722,19 @@ class Gudang extends CI_Controller
 		$this->db->query("UPDATE product set ukuran_item =ukuran_item-'" . $p['ukuran'] . "', quantity = quantity-'" . $p['jumlah'] . "' WHERE product_id='" . $p['id_persediaan'] . "' ");
 		$this->db->query("UPDATE gudang_persediaan_item set ukuran_item =ukuran_item-'" . $p['ukuran'] . "', jumlah_item = jumlah_item-'" . $p['jumlah'] . "' WHERE id_persediaan='" . $p['id_persediaan'] . "' ");
 		if (!empty($p['id_pengajuan_detail'])) {
-			$this->db->update('pengajuan_harian_new_detail', array('status_penerimaan' => 0), array('id' => $p['id_pengajuan_detail']));
+			$this->db->update('pemesanan_bahan_detail', array('status_penerimaan' => 0), array('id' => $p['id_pengajuan_detail']));
 		}
+		
 		$this->db->update('penerimaan_item_detail', array('hapus' => 1), array('id' => $id));
+
+		// Batalin ke invoice utang usaha
+		$invoice_detail = $this->db->get_where('acc_pembelian_detail', ['id_penerimaan_detail' => $id])->row_array();
+		if ($invoice_detail) {
+			$this->db->query("UPDATE acc_pembelian SET total = total - " . $invoice_detail['nominal'] . " WHERE id = " . $invoice_detail['id_pembelian']);
+			$this->db->where('id_penerimaan_detail', $id);
+			$this->db->delete('acc_pembelian_detail');
+		}
+
 		user_activity(callSessUser('id_user'), 1, ' menghapus penerimaan dengan id ' . $id);
 		$this->session->set_flashdata('msg', 'Data Berhasil Di Hapus');
 		redirect($this->url);

@@ -111,6 +111,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="redirect_url" value="<?php echo isset($redirect_url) ? $redirect_url : '' ?>">
             </form>
             <div class="row">
                 <div class="col-md-6">
@@ -120,7 +121,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                    <a href="<?php echo BASEURL.'gudang/penerimaanitem'?>" class="btn btn-danger full">Batal</a>
+                    <a href="<?php echo isset($batal_url) ? $batal_url : BASEURL.'gudang/penerimaanitem' ?>" class="btn btn-danger full">Batal</a>
                     </div>
                 </div>
             </div>
@@ -144,6 +145,12 @@
         var supplier=$("#supplier").val();
         if(supplier==''){
             alert("Nama supplier harus dipilih");
+            return false;
+        }
+
+        var tipepembayaran=$("#tipepembayaran").val();
+        if(tipepembayaran==''){
+            alert("Tipe Pembayaran wajib diisi");
             return false;
         }
 
@@ -309,5 +316,12 @@
 
     $(document).on('click', '.remove', function(){
         $(this).closest('tr').remove();
+    });
+
+    $(document).ready(function() {
+        var preselectedSupplier = "<?php echo isset($_GET['supplier']) ? (int)$_GET['supplier'] : '' ?>";
+        if(preselectedSupplier) {
+            $('#supplier').val(preselectedSupplier).trigger('change');
+        }
     });
 </script>                        

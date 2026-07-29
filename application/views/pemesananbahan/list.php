@@ -8,19 +8,27 @@
         <?php echo $this->session->flashdata('msg'); ?>
       </div>
     <?php } ?>
+    <?php if ($this->session->flashdata('gagal')) { ?>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <?php echo $this->session->flashdata('gagal'); ?>
+      </div>
+    <?php } ?>
   </div>
 </div>
 <div class="row">
   <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal Awal</label>
-      <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1 ?>" class="form-control">
+      <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1 ?>" class="form-control datepicker">
     </div>
   </div>
   <div class="col-md-2">
     <div class="form-group">
       <label>Tanggal Akhir</label>
-      <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2 ?>" class="form-control">
+      <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2 ?>" class="form-control datepicker">
     </div>
   </div>
   <div class="col-md-2">
@@ -30,7 +38,7 @@
       <option value="1" <?php echo $cat == 1 ? 'selected' : ''; ?>>Konveksi</option>
       <option value="3" <?php echo $cat == 3 ? 'selected' : ''; ?>>Alat-alat Konveksi</option>
       <option value="2" <?php echo $cat == 2 ? 'selected' : ''; ?>>Bordir</option>
-      <option value="3" <?php echo $cat == 4 ? 'selected' : ''; ?>>Sablon</option>
+      <option value="4" <?php echo $cat == 4 ? 'selected' : ''; ?>>Sablon</option>
     </select>
   </div>
   <div class="col-md-2">
@@ -59,11 +67,10 @@
       <option value="Tempo" <?php echo isset($tipepembayaran) && $tipepembayaran == 'Tempo' ? 'selected' : ''; ?>>Tempo</option>
     </select>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 mt-2">
     <div class="form-group">
       <label>Aksi</label><br>
       <button onclick="filters()" class="btn btn-info btn-sm">Filter</button>
-      <button onclick="excel()" class="btn btn-info btn-sm">Excel</button>
       <a href="<?php echo $tambah ?>" class="btn btn-info btn-sm text-white">Tambah</a>
     </div>
   </div>
@@ -84,9 +91,8 @@
           </th>
           <th>Harga</th>
           <th>Total</th>
-          <!-- <th>Keterangan</th> -->
           <th></th>
-          <th></th>
+          <th>Aksi</th>
         </tr>
       </thead>
       <tbody>
@@ -124,26 +130,19 @@
                 <?php $total += ($p['harga'] * $p['jumlah']) ?>
                 <td><?php echo number_format($p['harga'] * $p['jumlah']) ?></td>
               <?php } ?>
-              <!-- <td><?php // echo strtolower(!empty($p['keterangan'])?$p['keterangan']:'') 
-                        ?></td> -->
               <td class="right">
                 <?php foreach ($i['action'] as $action) { ?>
                   <a href="<?php echo $action['href']; ?>" class="badge badge-info waves-light waves-effect" style="margin-bottom: 3%"><?php echo $action['text']; ?></a>
                 <?php } ?>
+                
+                <?php if ($p['status_penerimaan'] == 0) { ?>
+                  <a href="<?php echo BASEURL ?>Gudang/penerimaanitemadd?supplier=<?php echo $i['supplier_id'] ?>&redirect=pemesanan" class="badge badge-success waves-light waves-effect" style="margin-bottom: 3%">Terima Barang</a>
+                <?php } else { ?>
+                  <a href="<?php echo BASEURL ?>Pemesananbahan/batal_terima/<?php echo $p['id'] ?>" class="badge badge-warning waves-light waves-effect" style="margin-bottom: 3%" onclick="return confirm('Apakah Anda yakin ingin membatalkan penerimaan ini? Stok dan tagihan akan disesuaikan kembali.')">Batal Terima</a>
+                <?php } ?>
               </td>
               <td>
-                <?php if (akseshapus() == 1) { ?>
-                  <?php if ($p['validasi'] == 0) { ?>
-                    <a href="<?php echo BASEURL ?>Gudang/penerimaanitem_hapus/<?php echo $p['id'] ?>" onclick="return confirm('Apakah yakin akan menghapus data ini?')" class="btn btn-danger btn-xs">Hapus</a>
-                  <?php } ?>
-                <?php } ?>
-
-                <?php if ($p['validasi'] == 0) { ?>
-                  <!-- <a href="<?php echo BASEURL ?>Gudang/validasi/<?php echo $p['id'] ?>" onclick="return confirm('Apakah yakin ?')" class="btn btn-warning btn-xs">Validasi</a> -->
-                <?php } else { ?>
-                  <span class="btn btn-success btn-xs">Sudah divalidasi</span>
-                <?php } ?>
-
+                <a href="<?php echo BASEURL ?>Pemesananbahan/hapus/<?php echo $i['id'] ?>" onclick="return confirm('Apakah yakin akan menghapus data PEMESANAN ini?')" class="btn btn-danger btn-xs">Hapus</a>
               </td>
             </tr>
           <?php } ?>
@@ -151,7 +150,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="10">
+          <td colspan="9">
             <center><b>Total</b></center>
           </td>
           <td>
@@ -191,44 +190,6 @@
 
     if (cat != "*") {
       url += '&cat=' + cat;
-    }
-
-    var filter_status = $('select[name=\'supplier_id\']').val();
-
-    if (filter_status != '*') {
-      url += '&supplier=' + encodeURIComponent(filter_status);
-    }
-
-
-    location = url;
-  }
-
-  function excel() {
-    var url = '?excel=1';
-    var tanggal1 = $("#tanggal1").val();
-    var tanggal2 = $("#tanggal2").val();
-    var cat = $("#cat").val();
-    var status_pembayaran = $("#status_pembayaran").val();
-    var tipepembayaran = $("#tipepembayaran").val();
-
-    if (tanggal1) {
-      url += '&tanggal1=' + tanggal1;
-    }
-
-    if (tanggal2) {
-      url += '&tanggal2=' + tanggal2;
-    }
-
-    if (cat != "*") {
-      url += '&cat=' + cat;
-    }
-
-    if (status_pembayaran != '*') {
-      url += '&status_pembayaran=' + status_pembayaran;
-    }
-
-    if (tipepembayaran != '*') {
-      url += '&tipepembayaran=' + tipepembayaran;
     }
 
     var filter_status = $('select[name=\'supplier_id\']').val();
