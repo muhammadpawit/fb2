@@ -525,21 +525,63 @@ class Gaji extends CI_Controller {
 		$data=[];
 		$data['title']='Input Slip Gaji';
 		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
+		
+		if(isset($get['bulan'])){
+			$bulan_ini = sprintf("%02d", $get['bulan']);
 		}else{
-			$tanggal1=date('Y-m-d',strtotime("first day of last month"));
+			$bulan_ini = date('m');
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
+		
+		if(isset($get['tahun'])){
+			$tahun_ini = $get['tahun'];
 		}else{
-			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
+			$tahun_ini = date('Y');
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['karyawans']=karyawan();
-		$data['page']=$this->page.'gaji/slipform';
-		$data['action']=BASEURL.'Gaji/slipsave';
+		
+		$data['bulan_ini'] = $bulan_ini;
+		$data['tahun_ini'] = $tahun_ini;
+		
+		$karyawans_raw = karyawan();
+		$karyawan_list = [];
+		
+		foreach($karyawans_raw as $k) {
+			$idkaryawan = $k['id'];
+			
+			// Get sum of kasbon
+			$sql_kasbon = "SELECT COALESCE(SUM(nominal_request), 0) as total_kasbon FROM kasbon WHERE hapus=0 AND idkaryawan='".$idkaryawan."' AND MONTH(tanggal) ='".$bulan_ini."' AND YEAR(tanggal)='".$tahun_ini."'";
+			$res_kasbon = $this->GlobalModel->queryManualRow($sql_kasbon);
+			$total_kasbon = !empty($res_kasbon['total_kasbon']) ? $res_kasbon['total_kasbon'] : 0;
+			
+			// Get active pinjaman
+			$sql_pinjaman = "SELECT * FROM pinjaman_karyawan WHERE idkaryawan='".$idkaryawan."' AND hapus=0 ORDER BY id ASC";
+			$res_pinjaman = $this->GlobalModel->queryManual($sql_pinjaman);
+			
+			$idpinjaman = 0;
+			$sisa_pinjaman = 0;
+			if(!empty($res_pinjaman)){
+				foreach($res_pinjaman as $pinj) {
+					$sisa = $pinj['totalpinjaman'] - $pinj['totalpotongan'];
+					if($sisa > 0) {
+						$idpinjaman = $pinj['id'];
+						$sisa_pinjaman = $sisa;
+						break; // Get the first active one
+					}
+				}
+			}
+			
+			$karyawan_list[] = [
+				'id' => $idkaryawan,
+				'nama' => $k['nama'],
+				'gajipokok' => $k['gajipokok'],
+				'potongan_kasbon' => $total_kasbon,
+				'idpinjaman' => $idpinjaman,
+				'sisa_pinjaman' => $sisa_pinjaman
+			];
+		}
+
+		$data['karyawans'] = $karyawan_list;
+		$data['page']=$this->page.'gaji/slipform_all';
+		$data['action']=BASEURL.'Gaji/slipsave_all';
 		$data['batal']=BASEURL.'Gaji/bulanan';
 		$this->load->view($this->page.'main',$data);
 	}
@@ -596,6 +638,73 @@ class Gaji extends CI_Controller {
 		redirect(BASEURL.'Gaji/bulanan');
 	}
 
+	public function slipsave_all(){
+		$post = $this->input->post();
+		$bulan_post = isset($post['bulan']) ? sprintf('%02d', $post['bulan']) : date('m');
+		$tahun_post = isset($post['tahun']) ? $post['tahun'] : date('Y');
+		$tanggal = $tahun_post . '-' . $bulan_post . '-' . date('d');
+		
+		$first_day = $tahun_post . '-' . $bulan_post . '-01';
+		$last_day = date('Y-m-t', strtotime($first_day));
+		$periode = $first_day . $last_day;
+		
+		if(isset($post['karyawan']) && is_array($post['karyawan'])){
+			foreach($post['karyawan'] as $idk => $data){
+				if(isset($data['checked']) && $data['checked'] == 1){
+					
+					if(!empty($data['idpinjaman']) && !empty($data['potongan_pinjaman']) && $data['potongan_pinjaman'] > 0){
+						$cek=$this->GlobalModel->getDataRow('pinjaman_karyawan',array('id'=>$data['idpinjaman']));
+						if($cek['totalpinjaman']==$cek['totalpotongan']){
+							$status=3;
+						}else{
+							$insertpotongan=array(
+								'tanggal'=>$tanggal,
+								'idkaryawan'=>$idk,
+								'idpinjaman'=>$data['idpinjaman'],
+								'totalpotongan'=>$data['potongan_pinjaman'],
+								'keterangan'=>'Potongan pinjaman tanggal '.$tanggal,
+								'hapus'=>0,
+							);
+							$this->db->insert('potongan_pinjaman_karyawan',$insertpotongan);
+							$this->db->query("UPDATE pinjaman_karyawan set totalpotongan=totalpotongan+'".$data['potongan_pinjaman']."' WHERE id='".$data['idpinjaman']."' ");
+							$cek2=$this->GlobalModel->getDataRow('pinjaman_karyawan',array('id'=>$data['idpinjaman']));
+							if($cek2['totalpinjaman']==$cek2['totalpotongan']){
+								$status=3;
+							}else{
+								$status=2;
+							}
+							$this->db->query("UPDATE pinjaman_karyawan set status='".$status."' WHERE id='".$data['idpinjaman']."' ");
+						}
+					}
+					
+					$insert=array(
+						'tanggal'=>$tanggal,
+						'periode'=>$periode,
+						'idkaryawan'=>$idk,
+						'gajipokok'=>isset($data['gajipokok']) ? $data['gajipokok'] : 0,
+						'potongan_kasbon'=>isset($data['potongan_kasbon']) ? $data['potongan_kasbon'] : 0,
+						'potongan_pinjaman'=>isset($data['potongan_pinjaman']) ? $data['potongan_pinjaman'] : 0,
+						'potongan_claim'=>isset($data['potongan_claim']) ? $data['potongan_claim'] : 0,
+						'potongan_absensi'=>isset($data['potongan_absensi']) ? $data['potongan_absensi'] : 0,
+						'potongan_terlambat'=>isset($data['potongan_terlambat']) ? $data['potongan_terlambat'] : 0,
+						'gantungan_gaji'=>isset($data['gantungan_gaji']) ? $data['gantungan_gaji'] : 0,
+						'bonus'=>isset($data['bonus']) ? $data['bonus'] : 0,
+						'thr'=>isset($data['thr']) ? $data['thr'] : 0,
+						'subtotal'=>isset($data['subtotal']) ? $data['subtotal'] : 0,
+						'total'=>isset($data['total']) ? $data['total'] : 0,
+						'keterangan'=>'Gaji Periode '.$periode,
+						'hapus'=>0,
+						'metode' => isset($data['metode']) ? $data['metode'] : 1,
+					);
+					$this->db->insert('gaji_bulanan',$insert);
+				}
+			}
+		}
+		
+		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		redirect(BASEURL.'Gaji/bulanan');
+	}
+
 	public function hapusgaji($id){
 		$this->db->update('gaji_bulanan',array('hapus'=>1),array('id'=>$id));
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
@@ -604,7 +713,11 @@ class Gaji extends CI_Controller {
 
 	public function getkasbon(){
 		$get=$this->input->get();
-		$year = date('Y');
+		if(isset($get['tahun'])){
+			$year = $get['tahun'];
+		} else {
+			$year = date('Y');
+		}
 		if(isset($get['tanggal1'])){
 			$tanggal1=$get['tanggal1'];
 		}else{
