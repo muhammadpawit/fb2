@@ -2084,6 +2084,7 @@ class Gudang extends CI_Controller
 
 	public function penerimaanitem()
 	{
+		$user = user();
 		// jenis 1 bahan, 2 alat-alat
 		$data = array();
 		$data['title'] = 'Penerimaan Item';
@@ -2176,7 +2177,7 @@ class Gudang extends CI_Controller
 				);
 			}
 
-			if (isset($data['setujui']) && $data['setujui'] == true) {
+			if (akses($user['id_user'], 3) == true) {
 				$action[] = array(
 					'text' => 'Ubah Metode Pembayaran',
 					'href' => BASEURL . 'Gudang/penerimaanitem_ubahmetode/' . $result['id'],
@@ -2324,7 +2325,7 @@ class Gudang extends CI_Controller
 		$data['satuan'] = $this->GlobalModel->getData('master_satuan_barang', null);
 		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
 		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
-		
+
 		if (isset($_GET['redirect']) && $_GET['redirect'] == 'pemesanan') {
 			$data['batal_url'] = BASEURL . 'Pemesananbahan';
 			$data['redirect_url'] = BASEURL . 'Pemesananbahan';
@@ -2493,7 +2494,7 @@ class Gudang extends CI_Controller
 
 				$this->session->set_flashdata('msg', 'Data berhasil disimpan');
 				user_activity(callSessUser('id_user'), 1, ' penerimaan item dengan id ' . $id);
-				
+
 				$redirect_url = $this->input->post('redirect_url');
 				if ($redirect_url) {
 					redirect($redirect_url);
@@ -2751,7 +2752,7 @@ class Gudang extends CI_Controller
 		if (!empty($p['id_pengajuan_detail'])) {
 			$this->db->update('pemesanan_bahan_detail', array('status_penerimaan' => 0), array('id' => $p['id_pengajuan_detail']));
 		}
-		
+
 		$this->db->update('penerimaan_item_detail', array('hapus' => 1), array('id' => $id));
 
 		// Batalin ke invoice utang usaha
