@@ -2176,6 +2176,12 @@ class Gudang extends CI_Controller
 				);
 			}
 
+			if (isset($data['setujui']) && $data['setujui'] == true) {
+				$action[] = array(
+					'text' => 'Ubah Metode Pembayaran',
+					'href' => BASEURL . 'Gudang/penerimaanitem_ubahmetode/' . $result['id'],
+				);
+			}
 
 			$supplier = $this->GlobalModel->getDataRow('master_supplier', array('id' => $result['supplier']));
 			$products = $this->GlobalModel->getData('penerimaan_item_detail', array('hapus' => 0, 'penerimaan_item_id' => $result['id']));
@@ -2204,6 +2210,27 @@ class Gudang extends CI_Controller
 			$data['page'] = 'gudang/penerimaanitem/list';
 			$this->load->view('newtheme/page/main', $data);
 		}
+	}
+
+	public function penerimaanitem_ubahmetode($id)
+	{
+		$data = array();
+		$data['title'] = 'Ubah Metode Pembayaran';
+		$data['results'] = $this->GlobalModel->getDataRow('penerimaan_item', array('id' => $id));
+		$data['action'] = BASEURL . 'Gudang/penerimaanitem_ubahmetode_save';
+		$data['page'] = 'gudang/penerimaanitem/ubahmetode';
+		$this->load->view('newtheme/page/main', $data);
+	}
+
+	public function penerimaanitem_ubahmetode_save()
+	{
+		$post = $this->input->post();
+		$update = array(
+			'tipepembayaran' => $post['tipepembayaran'],
+		);
+		$this->db->update('penerimaan_item', $update, array('id' => $post['id']));
+		$this->session->set_flashdata('msg', 'Metode pembayaran berhasil diubah');
+		redirect(BASEURL . 'Gudang/penerimaanitem');
 	}
 
 	function total($id)
