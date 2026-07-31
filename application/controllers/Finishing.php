@@ -863,6 +863,9 @@ class Finishing extends CI_Controller {
 		$post=$this->input->post();
 		foreach ($post['kodepo'] as $key => $kodepo) {
 			$po = $this->GlobalModel->GetDataRow('produksi_po',array('id_produksi_po'=>$kodepo));
+			$masuk_gajian = isset($post['masuk_gajian'])?$post['masuk_gajian']:'Ya';
+			$gaji = (strtolower($masuk_gajian) == 'tidak') ? 2 : 1;
+			
 			$insertData = array(
 				'id_produksi_po'=>$po['id_produksi_po'],
 				'nama_po'		=>	$po['kode_po'],
@@ -872,11 +875,11 @@ class Finishing extends CI_Controller {
 				//'jumlah_pendapatan'	=>	$post['jumlahRp'][$key],
 				'jumlah_pendapatan'=>$post['jumlahpcs'][$key]*$post['pricePerTitik'][$key],
 				'keterangan'	=>	$post['keterangan'][$key],
-				'gaji'=>1,
+				'gaji'=>$gaji,
 				'kategori'	=>	$post['kategoriBorongan'],
 				'creted_date'=>isset($post['creted_date'])?$post['creted_date']:date('Y-m-d'),
 				'idkaryawanharian'=>$post['idkaryawanharian'],
-				'masuk_gajian'=>isset($post['masuk_gajian'])?$post['masuk_gajian']:'Ya',
+				'masuk_gajian'=>$masuk_gajian,
 			);
 			$this->GlobalModel->insertData('packing',$insertData);
 		}

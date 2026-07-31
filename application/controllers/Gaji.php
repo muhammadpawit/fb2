@@ -614,6 +614,10 @@ class Gaji extends CI_Controller {
 			}
 		}
 		//pre($data);
+		$subtotal = (isset($data['gajipokok']) ? $data['gajipokok'] : 0) + (isset($data['bonus']) ? $data['bonus'] : 0) + (isset($data['thr']) ? $data['thr'] : 0);
+		$total_potongan = (isset($data['potongan_kasbon']) ? $data['potongan_kasbon'] : 0) + (isset($data['potongan_pinjaman']) ? $data['potongan_pinjaman'] : 0) + (isset($data['potongan_claim']) ? $data['potongan_claim'] : 0) + (isset($data['potongan_absensi']) ? $data['potongan_absensi'] : 0) + (isset($data['potongan_terlambat']) ? $data['potongan_terlambat'] : 0) + (isset($data['gantungan_gaji']) ? $data['gantungan_gaji'] : 0);
+		$total = $subtotal - $total_potongan;
+		
 		$insert=array(
 			'tanggal'=>isset($data['tanggal']) ? $data['tanggal'] : date('Y-m-d'),
 			'periode'=>date('Y-m-d',strtotime("first day of last month")).''.date('Y-m-d',strtotime("last day of this month")),
@@ -627,8 +631,8 @@ class Gaji extends CI_Controller {
 			'gantungan_gaji'=>$data['gantungan_gaji'],
 			'bonus'=>$data['bonus'],
 			'thr'=>$data['thr'],
-			'subtotal'=>$data['subtotal'],
-			'total'=>$data['total'],
+			'subtotal'=>$subtotal,
+			'total'=>$total,
 			'keterangan'=>'Gaji Periode '.date('Y-m-d',strtotime("first day of last month")).''.date('Y-m-d',strtotime("last day of this month")),
 			'hapus'=>0,
 			'metode' => $data['metode'],
@@ -677,6 +681,10 @@ class Gaji extends CI_Controller {
 						}
 					}
 					
+					$subtotal_server = (isset($data['gajipokok']) ? $data['gajipokok'] : 0) + (isset($data['bonus']) ? $data['bonus'] : 0) + (isset($data['thr']) ? $data['thr'] : 0);
+					$total_potongan_server = (isset($data['potongan_kasbon']) ? $data['potongan_kasbon'] : 0) + (isset($data['potongan_pinjaman']) ? $data['potongan_pinjaman'] : 0) + (isset($data['potongan_claim']) ? $data['potongan_claim'] : 0) + (isset($data['potongan_absensi']) ? $data['potongan_absensi'] : 0) + (isset($data['potongan_terlambat']) ? $data['potongan_terlambat'] : 0) + (isset($data['gantungan_gaji']) ? $data['gantungan_gaji'] : 0);
+					$total_server = $subtotal_server - $total_potongan_server;
+					
 					$insert=array(
 						'tanggal'=>$tanggal,
 						'periode'=>$periode,
@@ -690,8 +698,8 @@ class Gaji extends CI_Controller {
 						'gantungan_gaji'=>isset($data['gantungan_gaji']) ? $data['gantungan_gaji'] : 0,
 						'bonus'=>isset($data['bonus']) ? $data['bonus'] : 0,
 						'thr'=>isset($data['thr']) ? $data['thr'] : 0,
-						'subtotal'=>isset($data['subtotal']) ? $data['subtotal'] : 0,
-						'total'=>isset($data['total']) ? $data['total'] : 0,
+						'subtotal'=>$subtotal_server,
+						'total'=>$total_server,
 						'keterangan'=>'Gaji Periode '.$periode,
 						'hapus'=>0,
 						'metode' => isset($data['metode']) ? $data['metode'] : 1,

@@ -104,7 +104,7 @@
 									var thr = Number($("#thr_<?php echo $idk; ?>").val());
 									
 									var subtotal = gp + bns + thr;
-									var total = gp - pkb - ppj - pcl - pab - ptl - gg;
+									var total = subtotal - pkb - ppj - pcl - pab - ptl - gg;
 									
 									$("#subtotal_<?php echo $idk; ?>").val(subtotal);
 									$("#total_<?php echo $idk; ?>").val(total);

@@ -183,8 +183,8 @@
 		var potongan_abensi=$("#potongan_absensi").val();
 		var potongan_terlambat=$("#potongan_terlambat").val();
 		var gantungan_gaji=$("#gantungan_gaji").val();
-		grand = Number(gajipokok-potongan_kasbon-potongan_pinjaman-potongan_claim-potongan_abensi-potongan_terlambat-gantungan_gaji);
 		sub = Number(gajipokok)+Number(bonus)+Number(thr);
+		grand = Number(sub-potongan_kasbon-potongan_pinjaman-potongan_claim-potongan_abensi-potongan_terlambat-gantungan_gaji);
 		$("#total").val(grand);
 		$("#subtotal").val(sub);
 	}
