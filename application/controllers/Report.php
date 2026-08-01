@@ -448,7 +448,22 @@ class Report extends CI_Controller {
 						}
 					}
 
-
+					// Tambahkan Uang Makan Mandor Bordir
+					$sql_go = "SELECT id FROM gaji_operator WHERE hapus = 0 AND tanggal2 BETWEEN '$tgl_mulai_bb' AND '$tgl_akhir_bb'";
+					$go_res = $this->db->query($sql_go)->result_array();
+					if(!empty($go_res)){
+						foreach($go_res as $go_r){
+							$manMalam = $this->ReportModel->getMandor_c($go_r['id'], 2);
+							if ($manMalam > 0) {
+								$konveksi[]=array(
+									'tanggal'=>$p['tanggal'],
+									'nominal'=>21000,
+									'bagian'=>2, // Bordir
+									'keterangan'=>'Uang Makan Mandor Bordir',
+								);
+							}
+						}
+					}
 				}
 				
 				if (empty($cat) || $cat == 1) {
