@@ -53,6 +53,13 @@
               </tr>
               <?php $total_pendapatan += $pendapatan_gudang_lainnya; ?>
 
+              <!-- Pendapatan Penjualan Sisa Bahan -->
+              <tr>
+                <td>Penjualan Sisa Bahan</td>
+                <td align="right"><?php echo number_format($pendapatan_sisa_bahan, 0, ',', '.') ?></td>
+              </tr>
+              <?php $total_pendapatan += $pendapatan_sisa_bahan; ?>
+
               <tr style="font-weight: bold; border-top: 2px solid #000;">
                 <td>TOTAL PENDAPATAN</td>
                 <td align="right"><?php echo number_format($total_pendapatan, 0, ',', '.') ?></td>

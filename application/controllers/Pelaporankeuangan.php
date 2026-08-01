@@ -67,6 +67,15 @@ class Pelaporankeuangan extends CI_Controller {
         ")->row_array();
         $data['pendapatan_gudang_lainnya'] = (float)($kirim_gudang_lainnya['total'] ?? 0);
 
+        // Pendapatan Penjualan Sisa Bahan
+        $penjualan_sisa_bahan = $this->db->query("
+            SELECT COALESCE(SUM(total_penjualan), 0) as total
+            FROM penjualan_sisa_bahan
+            WHERE hapus = 0 
+            AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['pendapatan_sisa_bahan'] = (float)($penjualan_sisa_bahan['total'] ?? 0);
+
         // ================================================================
         // PENGELUARAN DIVISI KONVEKSI
         // ================================================================
