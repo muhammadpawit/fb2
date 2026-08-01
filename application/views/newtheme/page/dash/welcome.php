@@ -92,48 +92,6 @@
 <?php } ?>
 
 <div class="row">
-    <div class="col-md-3">
-        <div class="small-box small-box-custom">
-            <div class="inner">
-                <h3><?php echo $countpendingpo ?> PO</h3>
-                <p>Belum dikirim ke gudang,Produksi > 1 bulan</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-clock-o"></i>
-            </div>
-            <a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $countpendingpo ?>">
-                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="small-box small-box-custom">
-            <div class="inner">
-                <h3><?php echo $countpacking ?> PO</h3>
-                <p>Selesai Packing</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-cubes"></i>
-            </div>
-            <a href="#" class="small-box-footer lihat-detail" data-id="packing">
-                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="small-box small-box-custom">
-            <div class="inner">
-                <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
-                <p>Setoran CMT minggu ini</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-truck"></i>
-            </div>
-            <a href="#" class="small-box-footer lihat-detail" data-id="setorcmt">
-                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
     <?php if ($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) { ?>
         <div class="col-md-3">
             <div class="small-box small-box-custom">
@@ -251,7 +209,48 @@
 </div>
 <hr>
 <div class="row">
-
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpendingpo ?> PO</h3>
+                <p>Belum dikirim ke gudang,Produksi > 1 bulan</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-clock-o"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $countpendingpo ?>">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpacking ?> PO</h3>
+                <p>Selesai Packing</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-cubes"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="packing">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
+                <p>Setoran CMT minggu ini</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-truck"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="setorcmt">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
     <!-- Buang Benang -->
     <div class="col-md-3 col-sm-6 col-12">
         <div class="small-box small-box-custom">
