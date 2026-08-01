@@ -37,12 +37,7 @@
                     ?>
                     <tr>
                         <td>
-                            <select class="form-control select2bs4" name="products[<?php echo $i ?>][nama_barang]" required data-live-search="true">
-                                <option value="">Pilih Barang / Item</option>
-                                <?php foreach ($products_list as $prod) { ?>
-                                    <option value="<?php echo $prod['nama'] ?>" <?php echo ($d['nama_barang'] == $prod['nama']) ? 'selected' : '' ?>><?php echo $prod['nama'] ?></option>
-                                <?php } ?>
-                            </select>
+                            <input type="text" class="form-control" name="products[<?php echo $i ?>][nama_barang]" required value="<?php echo $d['nama_barang'] ?>" placeholder="Masukkan Nama Barang / Item">
                         </td>
                         <td>
                             <input type="number" step="0.01" class="form-control qty" name="products[<?php echo $i ?>][qty]" oninput="hitungTotal(this)" required value="<?php echo $d['qty'] ?>">
@@ -83,7 +78,7 @@
 var i = <?php echo count($details) ?>;
 function tambahItem() {
     var html = '<tr>';
-    html += '<td><select class="form-control select2bs4" name="products['+i+'][nama_barang]" required data-live-search="true"><option value="">Pilih Barang / Item</option><?php foreach ($products_list as $prod) { ?><option value="<?php echo $prod['nama'] ?>"><?php echo $prod['nama'] ?></option><?php } ?></select></td>';
+    html += '<td><input type="text" class="form-control" name="products['+i+'][nama_barang]" required placeholder="Masukkan Nama Barang / Item"></td>';
     html += '<td><input type="number" step="0.01" class="form-control qty" name="products['+i+'][qty]" oninput="hitungTotal(this)" required value="0"></td>';
     html += '<td><input type="number" step="0.01" class="form-control harga" name="products['+i+'][harga]" oninput="hitungTotal(this)" required value="0"></td>';
     html += '<td><input type="text" class="form-control total" readonly value="0"></td>';
@@ -92,7 +87,6 @@ function tambahItem() {
     $('#itembarang tbody').append(html);
     
     // Initialize select2 for the new element
-    $('.select2bs4').select2();
     
     i++;
 }
