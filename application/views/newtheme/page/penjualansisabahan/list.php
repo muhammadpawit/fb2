@@ -42,8 +42,10 @@
                             <td align="right"><?php echo number_format($r['total_penjualan'], 0, ',', '.') ?></td>
                             <td>
                                 <a href="<?php echo BASEURL . 'Penjualansisabahan/detail/' . $r['id'] ?>" class="btn btn-info btn-xs">Detail</a>
+                                <?php if (date('Y-m', strtotime($r['tanggal'])) == date('Y-m') || $this->session->userdata('id_user') == 11) { ?>
                                 <a href="<?php echo BASEURL . 'Penjualansisabahan/edit/' . $r['id'] ?>" class="btn btn-warning btn-xs">Edit</a>
                                 <a href="<?php echo BASEURL . 'Penjualansisabahan/hapus/' . $r['id'] ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php } ?>
