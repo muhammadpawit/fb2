@@ -360,8 +360,30 @@ class Report extends CI_Controller {
 			}
 		}
 
+		$list_gaji_bulanan=[];
+		$sql_gaji_bulanan = "SELECT a.tanggal as tanggal FROM gaji_bulanan a LEFT JOIN karyawan kar ON a.idkaryawan = kar.id WHERE a.hapus=0 ";
+		if(!empty($cat)){
+			if($cat == 1) { // Konveksi
+				$sql_gaji_bulanan .= " AND kar.divisi IN (2, 15)";
+			} else if($cat == 2) { // Bordir
+				$sql_gaji_bulanan .= " AND kar.divisi IN (1, 16)";
+			} else if($cat == 3) { // Sablon
+				$sql_gaji_bulanan .= " AND kar.divisi IN (3, 17)";
+			}
+		}
+		$sql_gaji_bulanan.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
+		$gaji_bulanan_dates=$this->GlobalModel->QueryManual($sql_gaji_bulanan);
+		if(!empty($gaji_bulanan_dates)){
+			foreach($gaji_bulanan_dates as $p){
+				$list_gaji_bulanan[]=array(
+				'tanggal'=>$p['tanggal'],
+				'bagian'=>null,
+				);	
+			}
+		}
+
 		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon,$list_um_security,$list_insentif_security);
+		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon,$list_um_security,$list_insentif_security,$list_gaji_bulanan);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
 			usort($merger, function($a, $b) {
@@ -591,6 +613,34 @@ class Report extends CI_Controller {
 						'nominal'=>$kd['nominal'],
 						'bagian'=>$bagian_karyawan,
 						'keterangan'=>'Kasbon Karyawan : '.$kd['nama'],
+					);
+				}
+			}
+
+			// Gaji Bulanan
+			$sql_gaji_detail = "SELECT k.total as nominal, kar.nama, kar.divisi FROM gaji_bulanan k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '".$p['tanggal']."'";
+			if (!empty($cat)) {
+				if($cat == 1) { // Konveksi
+					$sql_gaji_detail .= " AND kar.divisi IN (2, 15)";
+				} else if($cat == 2) { // Bordir
+					$sql_gaji_detail .= " AND kar.divisi IN (1, 16)";
+				} else if($cat == 3) { // Sablon
+					$sql_gaji_detail .= " AND kar.divisi IN (3, 17)";
+				}
+			}
+			$gaji_detail = $this->GlobalModel->QueryManual($sql_gaji_detail);
+			if(!empty($gaji_detail)){
+				foreach($gaji_detail as $kd){
+					$bagian_karyawan = 0;
+					if(in_array($kd['divisi'], [2, 15])) $bagian_karyawan = 1;
+					else if(in_array($kd['divisi'], [1, 16])) $bagian_karyawan = 2;
+					else if(in_array($kd['divisi'], [3, 17])) $bagian_karyawan = 3;
+
+					$konveksi[]=array(
+						'tanggal'=>$p['tanggal'],
+						'nominal'=>$kd['nominal'],
+						'bagian'=>$bagian_karyawan,
+						'keterangan'=>'Gaji Bulanan : '.$kd['nama'],
 					);
 				}
 			}
