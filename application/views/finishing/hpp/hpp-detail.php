@@ -310,9 +310,14 @@
 <!-- Start Page content -->
 <div class="content">
     <div class="container-fluid">
-        <div class="row no-print mt-3 mb-3">
-            <div class="col-md-12">
-                <a href="<?php echo $back ?>" class="btn btn-outline-danger btn-sm"><i class="fa fa-arrow-left"></i> Kembali</a>
+        <div class="row no-print mt-3 mb-4">
+            <div class="col-md-12" style="display: flex; gap: 12px; align-items: center;">
+                <a href="<?php echo $back ?>" class="btn btn-danger btn-sm shadow-sm" style="padding: 8px 20px; font-weight: 600; border-radius: 6px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa fa-arrow-left"></i> KEMBALI
+                </a>
+                <button type="button" onclick="cetakHPP()" class="btn btn-primary btn-sm shadow-sm" style="padding: 8px 20px; font-weight: 600; border-radius: 6px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; background-color: #1e293b; border-color: #1e293b;">
+                    <i class="fa fa-print"></i> CETAK LAPORAN HPP
+                </button>
             </div>
         </div>
         <div class="hpp-wrapper">
@@ -852,11 +857,7 @@
                     <div style="font-size: 10px; color: #cbd5e1; margin-top: 15px; font-style: italic;">Registered by Forboys Production System</div>
                 </div>
             </div>
-            <div class="no-print mt-5 mb-5 text-center">
-                <button type="button" onclick="cetakHPP()" class="btn btn-primary btn-lg px-5 shadow-sm">
-                    <i class="fa fa-file-pdf-o"></i> CETAK LAPORAN HPP
-                </button>
-            </div>
+
             <!-- Modal Cetak -->
             <div class="modal fade" id="modalCetak" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="max-width: 450px; margin-top: 100px;">
