@@ -45,6 +45,28 @@ class Pelaporankeuangan extends CI_Controller {
             GROUP BY c.id
         ")->result_array();
 
+        // Pendapatan Kirim Gudang H. Sholeh
+        $kirim_gudang_haji_sholeh = $this->db->query("
+            SELECT COALESCE(SUM(kg.jumlah_harga_piece), 0) as total
+            FROM finishing_kirim_gudang kg
+            JOIN produksi_po p ON p.id_produksi_po = kg.idpo
+            WHERE p.hapus = 0 
+            AND kg.tanggal_kirim BETWEEN '$tgl1' AND '$tgl2'
+            AND (LOWER(kg.tujuan) LIKE '%soleh%' OR LOWER(kg.nama_penerima) LIKE '%soleh%' OR LOWER(kg.tujuan) LIKE '%sholeh%' OR LOWER(kg.nama_penerima) LIKE '%sholeh%')
+        ")->row_array();
+        $data['pendapatan_haji_sholeh'] = (float)($kirim_gudang_haji_sholeh['total'] ?? 0);
+
+        // Pendapatan Kirim Gudang Lainnya (Selain H. Sholeh)
+        $kirim_gudang_lainnya = $this->db->query("
+            SELECT COALESCE(SUM(kg.jumlah_harga_piece), 0) as total
+            FROM finishing_kirim_gudang kg
+            JOIN produksi_po p ON p.id_produksi_po = kg.idpo
+            WHERE p.hapus = 0 
+            AND kg.tanggal_kirim BETWEEN '$tgl1' AND '$tgl2'
+            AND (LOWER(kg.tujuan) NOT LIKE '%soleh%' AND LOWER(kg.nama_penerima) NOT LIKE '%soleh%' AND LOWER(kg.tujuan) NOT LIKE '%sholeh%' AND LOWER(kg.nama_penerima) NOT LIKE '%sholeh%')
+        ")->row_array();
+        $data['pendapatan_gudang_lainnya'] = (float)($kirim_gudang_lainnya['total'] ?? 0);
+
         // ================================================================
         // PENGELUARAN DIVISI KONVEKSI
         // ================================================================

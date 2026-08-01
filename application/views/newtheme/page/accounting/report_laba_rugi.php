@@ -38,6 +38,21 @@
                 <td align="right"><?php echo number_format((float)$p['total'], 0, ',', '.') ?></td>
               </tr>
               <?php endforeach; ?>
+              
+              <!-- Pendapatan Kirim Gudang H. Sholeh -->
+              <tr>
+                <td>Kirim Gudang (H. Sholeh)</td>
+                <td align="right"><?php echo number_format($pendapatan_haji_sholeh, 0, ',', '.') ?></td>
+              </tr>
+              <?php $total_pendapatan += $pendapatan_haji_sholeh; ?>
+
+              <!-- Pendapatan Kirim Gudang Lainnya -->
+              <tr>
+                <td>Kirim Gudang (Tanah Abang & Lainnya)</td>
+                <td align="right"><?php echo number_format($pendapatan_gudang_lainnya, 0, ',', '.') ?></td>
+              </tr>
+              <?php $total_pendapatan += $pendapatan_gudang_lainnya; ?>
+
               <tr style="font-weight: bold; border-top: 2px solid #000;">
                 <td>TOTAL PENDAPATAN</td>
                 <td align="right"><?php echo number_format($total_pendapatan, 0, ',', '.') ?></td>
