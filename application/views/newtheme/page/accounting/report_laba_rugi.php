@@ -130,11 +130,28 @@
 
               <!-- e. Gaji Karyawan Sukabumi -->
               <tr style="background-color: #eaf2ff;">
-                <td colspan="2"><strong>e. Gaji Karyawan Sukabumi</strong></td>
+                <td colspan="2"><strong>e. Gaji Karyawan Sukabumi & Operasional</strong></td>
               </tr>
               <tr>
-                <td>&nbsp;&nbsp;&nbsp;Gaji &amp; Operasional Karyawan Sukabumi</td>
+                <td>&nbsp;&nbsp;&nbsp;Gaji &amp; Operasional (Data Gaji)</td>
                 <td align="right"><?php echo number_format($konveksi_gaji_sukabumi, 0, ',', '.') ?></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Ajuan Harian Sukabumi</td>
+                <td align="right"><?php echo number_format($sukabumi_ajuan_harian, 0, ',', '.') ?></td>
+              </tr>
+
+              <!-- f. Ajuan Harian Bordir & Sablon -->
+              <tr style="background-color: #eaf2ff;">
+                <td colspan="2"><strong>f. Ajuan Harian Bordir & Sablon</strong></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Ajuan Harian Bordir</td>
+                <td align="right"><?php echo number_format($bordir_ajuan_harian, 0, ',', '.') ?></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Ajuan Harian Sablon</td>
+                <td align="right"><?php echo number_format($sablon_ajuan_harian, 0, ',', '.') ?></td>
               </tr>
 
               <!-- Total Pengeluaran Konveksi -->

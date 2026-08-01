@@ -169,15 +169,57 @@ class Pelaporankeuangan extends CI_Controller {
         ")->row_array();
         $data['konveksi_gaji_sukabumi'] = (float)($gaji_sukabumi['total'] ?? 0) + (float)($anggaran_sukabumi['total'] ?? 0);
 
-        // Total Pengeluaran Konveksi
-        $data['total_pengeluaran_konveksi'] =
-            $data['konveksi_ajuan_harian'] +
-            $data['konveksi_kasbon'] +
-            $data['konveksi_gaji_bulanan'] +
-            $data['konveksi_gaji_finishing'] +
-            $data['konveksi_uang_makan_security'] +
-            $data['konveksi_insentif_security'] +
-            $data['konveksi_gaji_sukabumi'];
+        // ================================================================
+        // PENGELUARAN DIVISI LAIN (BORDIR, SABLON, SUKABUMI)
+        // ================================================================
+
+        // Ajuan Harian Bordir (kategori=2)
+        $ajuan_bordir = $this->db->query("
+            SELECT COALESCE(SUM(d.harga * d.jumlah), 0) as total
+            FROM pengajuan_harian_new p
+            JOIN pengajuan_harian_new_detail d ON d.idpengajuan = p.id
+            WHERE p.hapus = 0
+              AND p.status = 1
+              AND p.kategori = 2
+              AND p.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['bordir_ajuan_harian'] = (float)($ajuan_bordir['total'] ?? 0);
+
+        // Ajuan Harian Sablon (kategori=1)
+        $ajuan_sablon = $this->db->query("
+            SELECT COALESCE(SUM(d.harga * d.jumlah), 0) as total
+            FROM pengajuan_harian_new p
+            JOIN pengajuan_harian_new_detail d ON d.idpengajuan = p.id
+            WHERE p.hapus = 0
+              AND p.status = 1
+              AND p.kategori = 1
+              AND p.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['sablon_ajuan_harian'] = (float)($ajuan_sablon['total'] ?? 0);
+
+        // Ajuan Harian Sukabumi (kategori=4)
+        $ajuan_sukabumi = $this->db->query("
+            SELECT COALESCE(SUM(d.harga * d.jumlah), 0) as total
+            FROM pengajuan_harian_new p
+            JOIN pengajuan_harian_new_detail d ON d.idpengajuan = p.id
+            WHERE p.hapus = 0
+              AND p.status = 1
+              AND p.kategori = 4
+              AND p.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['sukabumi_ajuan_harian'] = (float)($ajuan_sukabumi['total'] ?? 0);
+
+        // TOTAL PENGELUARAN KONVEKSI & LAIN-LAIN
+        $data['total_pengeluaran_konveksi'] = $data['konveksi_ajuan_harian']
+                                            + $data['konveksi_kasbon']
+                                            + $data['konveksi_gaji_bulanan']
+                                            + $data['konveksi_gaji_finishing']
+                                            + $data['konveksi_uang_makan_security']
+                                            + $data['konveksi_insentif_security']
+                                            + $data['konveksi_gaji_sukabumi']
+                                            + $data['bordir_ajuan_harian']
+                                            + $data['sablon_ajuan_harian']
+                                            + $data['sukabumi_ajuan_harian'];
 
         $data['page'] = $this->page.'report_laba_rugi';
         $this->load->view($this->layout, $data);
