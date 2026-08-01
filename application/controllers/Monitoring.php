@@ -184,16 +184,96 @@ class Monitoring extends CI_Controller {
 			array('type'=>'Celana','id'=>3),
 		);
 		
+		// KIRIM: Bulk query for idjenis and nama_jenis_po
+		$kirim_jenis = [];
+		$kirim_nama = [];
+		$sql_kirim = "
+		SELECT 
+			sub.idjenis, 
+			sub.nama_jenis_po, 
+			COALESCE(SUM(sub.qty_tot_pcs), 0) as total_qty, 
+			COUNT(DISTINCT sub.idpo) as total_po
+		FROM (
+			SELECT 
+				mjp.idjenis, 
+				mjp.nama_jenis_po, 
+				kbp.idpo, 
+				MAX(kbp.qty_tot_pcs) as qty_tot_pcs 
+			FROM kelolapo_kirim_setor kbp 
+			JOIN produksi_po p ON p.id_produksi_po=kbp.idpo 
+			JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po 
+			WHERE kbp.kategori_cmt='JAHIT' 
+			AND kbp.progress='KIRIM' 
+			AND kbp.hapus=0 
+			AND mjp.tampil=1 
+			AND kbp.id_master_cmt NOT IN (85,63)
+			AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' 
+			GROUP BY mjp.idjenis, mjp.nama_jenis_po, kbp.idpo
+		) sub 
+		GROUP BY sub.idjenis, sub.nama_jenis_po
+		";
+		$res_kirim = $this->db->query($sql_kirim)->result_array();
+		foreach($res_kirim as $r) {
+			if(!isset($kirim_jenis[$r['idjenis']])) {
+				$kirim_jenis[$r['idjenis']] = ['qty' => 0, 'po' => 0];
+			}
+			$kirim_jenis[$r['idjenis']]['qty'] += $r['total_qty'];
+			$kirim_jenis[$r['idjenis']]['po'] += $r['total_po'];
+			
+			$kirim_nama[$r['nama_jenis_po']] = [
+				'qty' => $r['total_qty'],
+				'po' => $r['total_po']
+			];
+		}
+
+		// SETOR: Bulk query for idjenis and nama_jenis_po
+		$setor_jenis = [];
+		$setor_nama = [];
+		$sql_setor = "
+		SELECT 
+			sub.idjenis, 
+			sub.nama_jenis_po, 
+			COALESCE(SUM(sub.qty_tot_pcs), 0) as total_qty, 
+			COUNT(DISTINCT sub.idpo) as total_po
+		FROM (
+			SELECT 
+				mjp.idjenis, 
+				mjp.nama_jenis_po, 
+				kbp.idpo, 
+				MAX(kbp.qty_tot_pcs) as qty_tot_pcs 
+			FROM kelolapo_kirim_setor kbp 
+			JOIN produksi_po p ON p.id_produksi_po=kbp.idpo 
+			JOIN master_jenis_po mjp ON mjp.nama_jenis_po=p.nama_po 
+			WHERE kbp.kategori_cmt='JAHIT' 
+			AND kbp.progress='SETOR' 
+			AND kbp.hapus=0 
+			AND mjp.tampil=1 
+			AND kbp.id_master_cmt NOT IN (85,63)
+			AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' 
+			GROUP BY mjp.idjenis, mjp.nama_jenis_po, kbp.idpo
+		) sub 
+		GROUP BY sub.idjenis, sub.nama_jenis_po
+		";
+		$res_setor = $this->db->query($sql_setor)->result_array();
+		foreach($res_setor as $r) {
+			if(!isset($setor_jenis[$r['idjenis']])) {
+				$setor_jenis[$r['idjenis']] = ['qty' => 0, 'po' => 0];
+			}
+			$setor_jenis[$r['idjenis']]['qty'] += $r['total_qty'];
+			$setor_jenis[$r['idjenis']]['po'] += $r['total_po'];
+			
+			$setor_nama[$r['nama_jenis_po']] = [
+				'qty' => $r['total_qty'],
+				'po' => $r['total_po']
+			];
+		}
+		
 		$i=1;
-		$qty=0;
-		$qtysetor=0;
-		$ckirim=0;
-		$csetor=0;
 		foreach($arpo as $arp){
-			$qty=$this->ReportModel->rpdashkirim($arp['id'],$tanggal1,$tanggal2);
-			$qtysetor=$this->ReportModel->rpdashsetor($arp['id'],$tanggal1,$tanggal2);
-			$ckirim=$this->ReportModel->countdashkirim($arp['id'],$tanggal1,$tanggal2);
-			$csetor=$this->ReportModel->countdashsetor($arp['id'],$tanggal1,$tanggal2);
+			$qty = isset($kirim_jenis[$arp['id']]) ? $kirim_jenis[$arp['id']]['qty'] : 0;
+			$qtysetor = isset($setor_jenis[$arp['id']]) ? $setor_jenis[$arp['id']]['qty'] : 0;
+			$ckirim = isset($kirim_jenis[$arp['id']]) ? $kirim_jenis[$arp['id']]['po'] : 0;
+			$csetor = isset($setor_jenis[$arp['id']]) ? $setor_jenis[$arp['id']]['po'] : 0;
 			$data['rekap'][]=array(
 				'no'=>$i,
 				'id'=>$arp['id'],
@@ -213,13 +293,13 @@ class Monitoring extends CI_Controller {
 		$kemeja=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>1));
 		$nok=1;
 		foreach($kemeja as $k){
-			$qty=$this->ReportModel->rpdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$qtysetor=$this->ReportModel->rpdashsetor_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$ckirim=$this->ReportModel->countdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$csetor=$this->ReportModel->countdashsetor_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
+			$qty = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['qty'] : 0;
+			$qtysetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['qty'] : 0;
+			$ckirim = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['po'] : 0;
+			$csetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['po'] : 0;
 			$data['rekapkemeja'][]=array(
 				'no'=>$nok++,
-				'id'=>$arp['id'],
+				'id'=>1,
 				'type'=>$k['nama_jenis_po'],
 				'countkirim'=>$ckirim,
 				'qtykirimdz'=>($qty/12),
@@ -230,20 +310,18 @@ class Monitoring extends CI_Controller {
 				'keterangan'=>'PO Beredar : '.($ckirim-$csetor),
 			);
 		}
-
-		
 		
 		// kaos 
 		$kaos=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>2));
 		$nokaos=1;
 		foreach($kaos as $k){
-			$qty=$this->ReportModel->rpdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$qtysetor=$this->ReportModel->rpdashsetor_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$ckirim=$this->ReportModel->countdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$csetor=$this->ReportModel->countdashsetor_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
+			$qty = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['qty'] : 0;
+			$qtysetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['qty'] : 0;
+			$ckirim = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['po'] : 0;
+			$csetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['po'] : 0;
 			$data['rekapkaos'][]=array(
 				'no'=>$nokaos++,
-				'id'=>$arp['id'],
+				'id'=>2,
 				'type'=>$k['nama_jenis_po'],
 				'countkirim'=>$ckirim,
 				'qtykirimdz'=>($qty/12),
@@ -259,13 +337,13 @@ class Monitoring extends CI_Controller {
 		$celana=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>3));
 		$nocelana=1;
 		foreach($celana as $k){
-			$qty=$this->ReportModel->rpdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$qtysetor=$this->ReportModel->rpdashsetor_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$ckirim=$this->ReportModel->countdashkirim_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
-			$csetor=$this->ReportModel->countdashsetor_monitoring($k['nama_jenis_po'],$tanggal1,$tanggal2);
+			$qty = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['qty'] : 0;
+			$qtysetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['qty'] : 0;
+			$ckirim = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['po'] : 0;
+			$csetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['po'] : 0;
 			$data['rekapcelana'][]=array(
 				'no'=>$nocelana++,
-				'id'=>$arp['id'],
+				'id'=>3,
 				'type'=>$k['nama_jenis_po'],
 				'countkirim'=>$ckirim,
 				'qtykirimdz'=>($qty/12),

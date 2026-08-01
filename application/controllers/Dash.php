@@ -174,103 +174,6 @@ class Dash extends CI_Controller {
 		$u=$this->GlobalModel->queryManualRow("SELECT * FROM `konveksi_buku_potongan` where hapus=0 ORDER BY created_date desc LIMIT 1");
 		$data['updated']=$u['created_date'];
 		
-		$i=1;
-		$qty=0;
-		$qtysetor=0;
-		$ckirim=0;
-		$csetor=0;
-		foreach($arpo as $arp){
-			$qty=$this->ReportModel->rpdashkirim($arp['id'],null,null);
-			$qtysetor=$this->ReportModel->rpdashsetor($arp['id'],null,null);
-			$ckirim=$this->ReportModel->countdashkirim($arp['id'],null,null);
-			$csetor=$this->ReportModel->countdashsetor($arp['id'],null,null);
-			$data['rekap'][]=array(
-				'no'=>$i,
-				'id'=>$arp['id'],
-				'type'=>$arp['type'],
-				'countkirim'=>$ckirim,
-				'qtykirimdz'=>($qty/12),
-				'qtykirimpcs'=>($qty),
-				'countsetor'=>$csetor,
-				'qtysetordz'=>($qtysetor/12),
-				'qtysetorpcs'=>($qtysetor),
-				'keterangan'=>'PO Beredar : '.($ckirim-$csetor),
-			);
-			$i++;
-		}
-
-		$rm=1;
-		foreach($arpo as $arp){
-			$qty=$this->ReportModel->rpdashkirim($arp['id'],$tanggals1,$tanggals2);
-			$qtysetor=$this->ReportModel->rpdashsetor($arp['id'],$tanggals1,$tanggals2);
-			$ckirim=$this->ReportModel->countdashkirim($arp['id'],$tanggals1,$tanggals2);
-			$csetor=$this->ReportModel->countdashsetor($arp['id'],$tanggals1,$tanggals2);
-			$data['rekapmingguan'][]=array(
-				'no'=>$rm,
-				'id'=>$arp['id'],
-				'type'=>$arp['type'],
-				'countkirim'=>$ckirim,
-				'qtykirimdz'=>($qty/12),
-				'qtykirimpcs'=>($qty),
-				'countsetor'=>$csetor,
-				'qtysetordz'=>($qtysetor/12),
-				'qtysetorpcs'=>($qtysetor),
-				'keterangan'=>'PO Beredar : '.($ckirim-$csetor),
-			);
-			$rm++;
-		}
-
-		$j=1;
-		$pdz=0;
-		$ppcs=0;
-		$jmlpo=0;
-		foreach($arpo as $arp){
-			$pdz=$this->ReportModel->ppcs($arp['id']);
-			$jmlpo=$this->ReportModel->ppcsjml($arp['id']);
-			$data['rekappotongan'][]=array(
-				'no'=>$j,
-				'id'=>$arp['id'],
-				'type'=>$arp['type'],
-				'pdz'=>$pdz/12,
-				'ppcs'=>$pdz,
-				'jmlpo'=>$jmlpo,
-			);
-			$j++;
-		}
-
-		$k=1;
-		foreach($arpo as $arp){
-			$pdz=$this->ReportModel->ppcsmingguan($arp['id'],$tanggal1,$tanggal2);
-			$jmlpo=$this->ReportModel->ppcsjmlmingguan($arp['id'],$tanggal1,$tanggal2);
-			$data['potmingguan'][]=array(
-				'no'=>$k,
-				'id'=>$arp['id'],
-				'type'=>$arp['type'],
-				'pdz'=>$pdz/12,
-				'ppcs'=>$pdz,
-				'jmlpo'=>$jmlpo,
-			);
-			$k++;
-		}
-		
-		if(callSessUser('nama_user')=='xPawit'){
-			pre($data['potmingguan']);
-		}
-
-		$nomor=1;
-		$sql="SELECT * FROM produksi_po WHERE hapus=0 and kode_po IN (SELECT kode_po FROM finishing_kirim_gudang ) ORDER BY kode_po ASC";
-		$allpo=$this->GlobalModel->QueryManual($sql);
-		//$allpo=$this->GlobalModel->getData('produksi_po',array('hapus'=>0));
-		foreach($allpo as $p){
-			$data['allpo'][]=array(
-				'no'=>$nomor,
-				'namapo'=>strtoupper($p['kode_po']),
-				'potong'=>$this->ReportModel->dashpotongpcs($p['kode_po']),
-				'kirimgudang'=>$this->ReportModel->dashkirimgdgpcs($p['kode_po']),
-			);
-			$nomor++;
-		}
-
 
 		$njo=1;
 		$data['request']=[];
@@ -292,10 +195,15 @@ class Dash extends CI_Controller {
 		$data['log']=[];
 		$log=$this->GlobalModel->getData('log_user',array('hapus'=>0,'tanggal'=>date('Y-m-d')));
 		
+		$user_requests_counts = [];
+		$oto_query = $this->db->query("SELECT userid, COUNT(id) as jml FROM user_request WHERE tanggal='".date('Y-m-d')."' GROUP BY userid")->result_array();
+		foreach($oto_query as $oq) {
+			$user_requests_counts[$oq['userid']] = $oq['jml'];
+		}
+
 		foreach($log as $l){
-			$oto=$this->GlobalModel->getData('user_request',array('userid'=>$l['userid'],'tanggal'=>date('Y-m-d')));
 			$data['log'][]=array(
-				'oto'=>count($oto),
+				'oto'=>isset($user_requests_counts[$l['userid']]) ? $user_requests_counts[$l['userid']] : 0,
 				'nama'=>$l['nama'],
 				'login'=>$l['login'],
 				'logout'=>$l['logout'],
@@ -303,20 +211,6 @@ class Dash extends CI_Controller {
 		}
 
 		$data['bulanberjalan']=date('F Y');
-		$kbul=1;
-		foreach($arpo as $arp){
-			$pdz=$this->ReportModel->ppcsmingguan($arp['id'],date('Y-m-d',strtotime("first day of this month")),date('Y-m-d',strtotime("last day of this month")));
-			$jmlpo=$this->ReportModel->ppcsjmlmingguan($arp['id'],date('Y-m-d',strtotime("first day of this month")),date('Y-m-d',strtotime("last day of this month")));
-			$data['potbulanan'][]=array(
-				'no'=>$kbul,
-				'id'=>$arp['id'],
-				'type'=>$arp['type'],
-				'pdz'=>$pdz/12,
-				'ppcs'=>$pdz,
-				'jmlpo'=>$jmlpo,
-			);
-			$kbul++;
-		}
 		$this->load->view('newtheme/layout/header');
 		$this->load->view('newtheme/page/main',$data);
 		$this->load->view('newtheme/layout/footer');
