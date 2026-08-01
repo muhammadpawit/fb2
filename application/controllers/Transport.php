@@ -152,10 +152,37 @@ class Transport extends CI_Controller {
 		redirect($this->url.'driver');
 	}
 
+	public function edit_driver($id){
+		$data=[];
+		$data['title']='Edit transport driver ';
+		$data['page']=$this->page.'edit_driver';
+		$data['action']=$this->url.'update_driver';
+		$data['url']=$this->url.'driver';
+		$data['p']=$this->TransportModel->get_driver_by_id($id);
+		$this->load->view($this->layout,$data);
+	}
+
+	public function update_driver(){
+		$data=$this->input->post();
+		$this->TransportModel->update_driver($data);
+		$this->session->set_flashdata('msg','Data berhasil diupdate');
+		redirect($this->url.'driver');
+	}
+
 	public function hapus_driver($id){
 		$this->TransportModel->hapus_driver($id);
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect($this->url.'driver');
+	}
+
+	public function hitung_ulang_driver(){
+		$ids = $this->input->post('ids');
+		if(!empty($ids)){
+			$this->TransportModel->hitung_ulang_driver($ids);
+			echo json_encode(['status' => 200, 'msg' => 'Berhasil menghitung ulang data.']);
+		}else{
+			echo json_encode(['status' => 400, 'msg' => 'Tidak ada data yang dipilih.']);
+		}
 	}
 
 

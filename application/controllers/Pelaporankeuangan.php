@@ -45,6 +45,118 @@ class Pelaporankeuangan extends CI_Controller {
             GROUP BY c.id
         ")->result_array();
 
+        // ================================================================
+        // PENGELUARAN DIVISI KONVEKSI
+        // ================================================================
+
+        // a. Ajuan Harian Konveksi (kategori=3), kecuali supplier Sinar Hadi
+        $ajuan_konveksi = $this->db->query("
+            SELECT COALESCE(SUM(d.harga * d.jumlah), 0) as total
+            FROM pengajuan_harian_new p
+            JOIN pengajuan_harian_new_detail d ON d.idpengajuan = p.id
+            WHERE p.hapus = 0
+              AND p.status = 1
+              AND p.kategori = 3
+              AND d.hapus = 0
+              AND REPLACE(REPLACE(LOWER(TRIM(d.supplier)), ' ', ''), '\t', '') NOT LIKE '%sinarhadi%'
+              AND REPLACE(REPLACE(LOWER(TRIM(d.supplier)), ' ', ''), '\t', '') NOT LIKE '%sinarhad%'
+              AND DATE(p.tanggal) BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_ajuan_harian'] = (float)($ajuan_konveksi['total'] ?? 0);
+
+        // b. Kasbon Konveksi (divisi id 2 & 15)
+        $kasbon_konveksi = $this->db->query("
+            SELECT COALESCE(SUM(nominal_acc), 0) as total
+            FROM kasbon
+            WHERE hapus = 0
+              AND status = 1
+              AND bagian IN (2, 15)
+              AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_kasbon'] = (float)($kasbon_konveksi['total'] ?? 0);
+
+        // b. Gaji Bulanan Konveksi (karyawan dengan divisi 2 atau 15)
+        $gaji_bulanan_konveksi = $this->db->query("
+            SELECT COALESCE(SUM(gb.total), 0) as total
+            FROM gaji_bulanan gb
+            JOIN karyawan k ON k.id = gb.idkaryawan
+            WHERE gb.hapus = 0
+              AND k.divisi IN (2, 15)
+              AND k.hapus = 0
+              AND gb.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_gaji_bulanan'] = (float)($gaji_bulanan_konveksi['total'] ?? 0);
+
+        // c. Gaji Gudang, KLO, Gaji Finishing
+        $gaji_finishing = $this->db->query("
+            SELECT COALESCE(SUM(
+                kh.gaji/12 * (
+                    COALESCE(gfd.senin,0) + COALESCE(gfd.selasa,0) + COALESCE(gfd.rabu,0) +
+                    COALESCE(gfd.kamis,0) + COALESCE(gfd.jumat,0) + COALESCE(gfd.sabtu,0)
+                ) +
+                CASE WHEN gfd.minggu = 1 THEN kh.gaji ELSE 0 END +
+                CASE WHEN gfd.insentif = 1 THEN kh.gaji ELSE 0 END +
+                COALESCE(gfd.lembur, 0) -
+                COALESCE(gfd.claim, 0) -
+                COALESCE(gfd.pinjaman, 0) -
+                COALESCE(gfd.kasbon, 0) -
+                COALESCE(gfd.warteg, 0)
+            ), 0) as total
+            FROM gaji_finishing gf
+            JOIN gaji_finishing_detail gfd ON gfd.idgaji = gf.id
+            JOIN karyawan_harian kh ON kh.id = gfd.idkaryawan
+            WHERE gf.hapus = 0
+              AND gfd.hapus = 0
+              AND gf.bagian IN ('GUDANG', 'KLO', 'FINISHING')
+              AND gf.tanggal1 BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_gaji_finishing'] = (float)($gaji_finishing['total'] ?? 0);
+
+        // d. Uang Makan Security
+        $uang_makan_security = $this->db->query("
+            SELECT COALESCE(SUM(usd.nominal), 0) as total
+            FROM um_security us
+            JOIN um_security_detail usd ON usd.idum = us.id
+            WHERE us.hapus = 0
+              AND usd.hapus = 0
+              AND us.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_uang_makan_security'] = (float)($uang_makan_security['total'] ?? 0);
+
+        // d. Insentif Security
+        $insentif_security = $this->db->query("
+            SELECT COALESCE(SUM(nominal_insentif - COALESCE(totalpotongan, 0)), 0) as total
+            FROM insentifsecurity
+            WHERE hapus = 0
+              AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_insentif_security'] = (float)($insentif_security['total'] ?? 0);
+
+        // e. Gaji Karyawan Sukabumi (gajisukabumi + anggaran_operasional_sukabumi)
+        $gaji_sukabumi = $this->db->query("
+            SELECT COALESCE(SUM(total), 0) as total
+            FROM gajisukabumi
+            WHERE hapus = 0
+              AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $anggaran_sukabumi = $this->db->query("
+            SELECT COALESCE(SUM(total), 0) as total
+            FROM anggaran_operasional_sukabumi
+            WHERE hapus = 0
+              AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['konveksi_gaji_sukabumi'] = (float)($gaji_sukabumi['total'] ?? 0) + (float)($anggaran_sukabumi['total'] ?? 0);
+
+        // Total Pengeluaran Konveksi
+        $data['total_pengeluaran_konveksi'] =
+            $data['konveksi_ajuan_harian'] +
+            $data['konveksi_kasbon'] +
+            $data['konveksi_gaji_bulanan'] +
+            $data['konveksi_gaji_finishing'] +
+            $data['konveksi_uang_makan_security'] +
+            $data['konveksi_insentif_security'] +
+            $data['konveksi_gaji_sukabumi'];
+
         $data['page'] = $this->page.'report_laba_rugi';
         $this->load->view($this->layout, $data);
     }

@@ -7,31 +7,17 @@ class TransportModel extends CI_Model {
 		parent::__construct();
 	}
 
-
 	public function getdata($data){
-		$hasil=[];
-		$sql=" SELECT * FROM pendapatan_transport WHERE hapus=0 ";
+		$sql=" SELECT p.*, c.cmt_name as namacmt FROM pendapatan_transport p LEFT JOIN master_cmt c ON c.id_cmt=p.idcmt WHERE p.hapus=0 ";
 		if(!empty($data['tanggal1'])){
-			$sql .= " AND DATE(tanggal) BETWEEN ".$data['tanggal1'].'  AND '.$data['tanggal2'].'';
+			$sql .= " AND DATE(p.tanggal) BETWEEN '".$data['tanggal1']."'  AND '".$data['tanggal2']."' ";
 		}
 
-		$sql.=" ORDER BY id DESC ";
+		$sql.=" ORDER BY p.id DESC ";
 		if($data['limit']<1){
 			$sql.=" LIMIT 20";
 		}
-		$data=$this->GlobalModel->QueryManual($sql);
-		$cmt=null;
-		foreach($data as $d){
-			$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$d['idcmt']));
-			$hasil[]=array(
-				'id'=>$d['id'],
-				'tanggal'=>$d['tanggal'],
-				'namacmt'=>$cmt['cmt_name'],
-				'nominal'=>$d['nominal'],
-				'keterangan'=>$d['keterangan'],
-			);
-		}
-		return $hasil;
+		return $this->db->query($sql)->result_array();
 	}
 
 	public function insert_pendapatan($data){
@@ -55,8 +41,7 @@ class TransportModel extends CI_Model {
 
 	// driver
 	public function getdata_driver($data){
-		$hasil=[];
-		$sql=" SELECT * FROM transport_driver WHERE hapus=0 ";
+		$sql=" SELECT id, tanggal, cash, pengisian_etol, saldo_awal_etol, pemakaian_etol, sisa_etol, solar, uangmakan as uang_makan, biayalain as biaya_lain, namadriver as namacmt, nominal, sisa_cash, km, tujuan, keterangan, keterangan2 FROM transport_driver WHERE hapus=0 ";
 		if(!empty($data['tanggal1'])){
 			$sql .= " AND DATE(tanggal) BETWEEN '".$data['tanggal1']."'  AND '".$data['tanggal2']."' ";
 		}
@@ -65,30 +50,7 @@ class TransportModel extends CI_Model {
 		if($data['limit']<1){
 			$sql.=" LIMIT 20";
 		}
-		$data=$this->GlobalModel->QueryManual($sql);
-		$cmt=null;
-		foreach($data as $d){
-			$hasil[]=array(
-				'id'=>$d['id'],
-				'tanggal'=>$d['tanggal'],
-				'cash' => $d['cash'], // Cash
-				'pengisian_etol' => $d['pengisian_etol'], // E-Toll Pengisian
-				'saldo_awal_etol' => $d['saldo_awal_etol'], // E-Toll Saldo Awal
-				'pemakaian_etol' => $d['pemakaian_etol'], // E-Toll Pemakaian
-				'sisa_etol' => $d['sisa_etol'], // E-Toll Sisa
-				'solar' => $d['solar'], // Solar
-				'uang_makan' => $d['uangmakan'], // Uang Makan
-				'biaya_lain' => $d['biayalain'], // Biaya Lain-Lain
-				'namacmt'=>$d['namadriver'],
-				'nominal'=>$d['nominal'],
-				'sisa_cash' => $d['sisa_cash'], // Sisa Cash
-				'km' => $d['km'], // KM
-				'tujuan' => $d['tujuan'], // Tujuan
-				'keterangan'=>$d['keterangan'],
-				'keterangan2'=>$d['keterangan2'],
-			);
-		}
-		return $hasil;
+		return $this->db->query($sql)->result_array();
 	}
 
 	public function insert_driver($data){
@@ -125,40 +87,72 @@ class TransportModel extends CI_Model {
 
 
 	public function getdata_where($tanggal){
-		$hasil=[];
-		$sql=" SELECT * FROM pendapatan_transport WHERE hapus=0 ";
-		$sql .= " AND DATE(tanggal) ='".$tanggal."' ";
-		$data=$this->GlobalModel->QueryManual($sql);
-		$cmt=null;
-		foreach($data as $d){
-			$cmt=$this->GlobalModel->GetDataRow('master_cmt',array('id_cmt'=>$d['idcmt']));
-			$hasil[]=array(
-				'id'=>$d['id'],
-				'tanggal'=>$d['tanggal'],
-				'namacmt'=>$cmt['cmt_name'],
-				'nominal'=>$d['nominal'],
-				'keterangan'=>$d['keterangan'],
-			);
-		}
-		return $hasil;
+		$sql=" SELECT p.id, p.tanggal, c.cmt_name as namacmt, p.nominal, p.keterangan FROM pendapatan_transport p LEFT JOIN master_cmt c ON c.id_cmt=p.idcmt WHERE p.hapus=0 AND DATE(p.tanggal) ='".$tanggal."' ";
+		return $this->db->query($sql)->result_array();
 	}
 	
 	public function getdata_drive_where($tanggal){
-		$hasil=[];
-		$sql=" SELECT * FROM transport_driver WHERE hapus=0 ";
-		$sql .= " AND DATE(tanggal) ='".$tanggal."' ";
-		$data=$this->GlobalModel->QueryManual($sql);
-		$cmt=null;
-		foreach($data as $d){
-			$hasil[]=array(
-				'id'=>$d['id'],
-				'tanggal'=>$d['tanggal'],
-				'namacmt'=>$d['namadriver'],
-				'nominal'=>$d['nominal'],
-				'keterangan'=>$d['keterangan'],
-			);
+		$sql=" SELECT id, tanggal, namadriver as namacmt, nominal, keterangan FROM transport_driver WHERE hapus=0 AND DATE(tanggal) ='".$tanggal."' ";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function get_driver_by_id($id){
+		return $this->db->get_where('transport_driver', ['id' => $id])->row_array();
+	}
+
+	public function update_driver($data){
+		if(isset($data['products'])){
+			foreach($data['products'] as $d){
+				$id = $d['id'];
+				$update=array(
+					'tanggal'=>$d['tanggal'],
+					'cash' => $d['cash'],
+					'pengisian_etol' => $d['pengisian_etoll'],
+					'saldo_awal_etol' => $d['saldo_awal_etoll'],
+					'pemakaian_etol' => $d['pemakaian_etoll'],
+					'sisa_etol' => $d['sisa_etoll'],
+					'solar' => $d['solar'],
+					'uangmakan' => $d['uang_makan'],
+					'biayalain' => $d['biaya_lain'],
+					'namadriver'=>$d['namadriver'],
+					'nominal'=>$d['nominal'],
+					'sisa_cash' => $d['sisa_cash'],
+					'km' => $d['km'],
+					'tujuan' => $d['tujuan'],
+					'keterangan'=>$d['keterangan'],
+					'keterangan2'=>$d['keterangan2']
+				);
+				$this->db->update('transport_driver', $update, ['id' => $id]);
+			}
 		}
-		return $hasil;
+	}
+
+	public function hitung_ulang_driver($ids){
+		if(empty($ids)) return false;
+		foreach($ids as $id){
+			$d = $this->db->get_where('transport_driver', ['id' => $id])->row_array();
+			if($d){
+				$pengisian_etol = (float)$d['pengisian_etol'];
+				$saldo_awal_etol = (float)$d['saldo_awal_etol'];
+				$pemakaian_etol = (float)$d['pemakaian_etol'];
+				$solar = (float)$d['solar'];
+				$uangmakan = (float)$d['uangmakan'];
+				$biayalain = (float)$d['biayalain'];
+				$cash = (float)$d['cash'];
+
+				$sisa_etol = $pengisian_etol + $saldo_awal_etol - $pemakaian_etol;
+				$nominal = $pengisian_etol + $solar + $uangmakan + $biayalain;
+				$sisa_cash = $cash - $nominal;
+
+				$update = [
+					'sisa_etol' => $sisa_etol,
+					'nominal' => $nominal,
+					'sisa_cash' => $sisa_cash
+				];
+				$this->db->update('transport_driver', $update, ['id' => $id]);
+			}
+		}
+		return true;
 	}
 
 }

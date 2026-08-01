@@ -28,6 +28,7 @@
 			<label>Aksi</label><br>
 			<button class="btn btn-info btn-sm" onclick="filtertglonly()">Filter</button>
 			<a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+			<button class="btn btn-warning btn-sm text-white" onclick="hitungUlang(this)">Hitung Ulang</button>
 		</div>
 	</div>
 </div>
@@ -37,6 +38,7 @@
 			<table class="table table-bordered nosearch">
 				<thead>
 					<tr>
+						<th rowspan="2" valign="top"><input type="checkbox" id="checkAll"></th>
 						<th rowspan="2" valign="top">No</th>
 						<th rowspan="2" valign="top">Hari / Tanggal</th>
 						<th rowspan="2" valign="top">Cash</th>
@@ -63,24 +65,26 @@
 					<?php $no=1;?>
 					<?php foreach($products as $p){?>
 						<tr>
+							<td><input type="checkbox" class="checkItem" value="<?php echo $p['id']?>"></td>
 							<td><?php echo $no++;?></td>
 							<td><?php echo date('d-m-Y',strtotime($p['tanggal']))?></td>
-							<td><?php echo number_format($p['cash'])?></td>
-							<td><?php echo number_format($p['pengisian_etol'])?></td>
-							<td><?php echo number_format($p['saldo_awal_etol'])?></td>
-							<td><?php echo number_format($p['pemakaian_etol'])?></td>
-							<td><?php echo number_format($p['sisa_etol'])?></td>
-							<td><?php echo number_format($p['solar'])?></td>
-							<td><?php echo number_format($p['uang_makan'])?></td>
-							<td><?php echo number_format($p['biaya_lain'])?></td>
-							<td><?php echo number_format($p['nominal'])?></td>
-							<td><?php echo number_format($p['sisa_cash'])?></td>
+							<td><?php echo number_format((float)$p['cash'])?></td>
+							<td><?php echo number_format((float)$p['pengisian_etol'])?></td>
+							<td><?php echo number_format((float)$p['saldo_awal_etol'])?></td>
+							<td><?php echo number_format((float)$p['pemakaian_etol'])?></td>
+							<td><?php echo number_format((float)$p['sisa_etol'])?></td>
+							<td><?php echo number_format((float)$p['solar'])?></td>
+							<td><?php echo number_format((float)$p['uang_makan'])?></td>
+							<td><?php echo number_format((float)$p['biaya_lain'])?></td>
+							<td><?php echo number_format((float)$p['nominal'])?></td>
+							<td><?php echo number_format((float)$p['sisa_cash'])?></td>
 							<td><?php echo $p['km']?></td>
 							<td><?php echo $p['tujuan']?></td>
 							<td><?php echo $p['namacmt']?></td>
 							<td><?php echo $p['keterangan']?></td>
 							<td>
-								<a href="<?php echo $url?>hapus_driver/<?php echo $p['id']?>" classbtn="btn btn-danger"><i class="fa fa-trash"></i></a>
+								<a href="<?php echo $url?>edit_driver/<?php echo $p['id']?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+								<a href="<?php echo $url?>hapus_driver/<?php echo $p['id']?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus data ini?')"><i class="fa fa-trash"></i></a>
 							</td>
 						</tr>
 					<?php }?>
@@ -89,3 +93,48 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(document).ready(function(){
+    $('#checkAll').click(function () {    
+        $('.checkItem').prop('checked', this.checked);    
+    });
+});
+
+function hitungUlang(btn) {
+    var selected = [];
+    $('.checkItem:checked').each(function() {
+        selected.push($(this).val());
+    });
+
+    if(selected.length == 0){
+        alert("Pilih minimal satu data untuk dihitung ulang!");
+        return;
+    }
+
+    if(confirm("Apakah Anda yakin ingin menghitung ulang data terpilih?")){
+        var originalText = $(btn).text();
+        $(btn).text('Menghitung...').prop('disabled', true);
+        
+        $.ajax({
+            url: '<?php echo BASEURL?>Transport/hitung_ulang_driver',
+            type: 'POST',
+            data: {ids: selected},
+            dataType: 'json',
+            success: function(res){
+                if(res.status == 200){
+                    alert(res.msg);
+                    location.reload();
+                }else{
+                    alert(res.msg);
+                    $(btn).text(originalText).prop('disabled', false);
+                }
+            },
+            error: function(){
+                alert("Terjadi kesalahan sistem saat menghubungi server!");
+                $(btn).text(originalText).prop('disabled', false);
+            }
+        });
+    }
+}
+</script>
