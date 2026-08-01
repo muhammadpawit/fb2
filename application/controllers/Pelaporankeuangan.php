@@ -182,6 +182,29 @@ class Pelaporankeuangan extends CI_Controller {
         // PENGELUARAN DIVISI LAIN (BORDIR, SABLON, SUKABUMI)
         // ================================================================
 
+        // Kasbon Bordir (divisi id 1 & 16)
+        $kasbon_bordir = $this->db->query("
+            SELECT COALESCE(SUM(nominal_acc), 0) as total
+            FROM kasbon
+            WHERE hapus = 0
+              AND status = 1
+              AND bagian IN (1, 16)
+              AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['bordir_kasbon'] = (float)($kasbon_bordir['total'] ?? 0);
+
+        // Gaji Bulanan Bordir (karyawan dengan divisi 1 atau 16)
+        $gaji_bulanan_bordir = $this->db->query("
+            SELECT COALESCE(SUM(gb.total), 0) as total
+            FROM gaji_bulanan gb
+            JOIN karyawan k ON k.id = gb.idkaryawan
+            WHERE gb.hapus = 0
+              AND k.divisi IN (1, 16)
+              AND k.hapus = 0
+              AND gb.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['bordir_gaji_bulanan'] = (float)($gaji_bulanan_bordir['total'] ?? 0);
+
         // Ajuan Harian Bordir (kategori=2)
         $ajuan_bordir = $this->db->query("
             SELECT COALESCE(SUM(d.harga * d.jumlah), 0) as total
@@ -193,6 +216,29 @@ class Pelaporankeuangan extends CI_Controller {
               AND p.tanggal BETWEEN '$tgl1' AND '$tgl2'
         ")->row_array();
         $data['bordir_ajuan_harian'] = (float)($ajuan_bordir['total'] ?? 0);
+
+        // Kasbon Sablon (divisi id 3 & 17)
+        $kasbon_sablon = $this->db->query("
+            SELECT COALESCE(SUM(nominal_acc), 0) as total
+            FROM kasbon
+            WHERE hapus = 0
+              AND status = 1
+              AND bagian IN (3, 17)
+              AND tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['sablon_kasbon'] = (float)($kasbon_sablon['total'] ?? 0);
+
+        // Gaji Bulanan Sablon (karyawan dengan divisi 3 atau 17)
+        $gaji_bulanan_sablon = $this->db->query("
+            SELECT COALESCE(SUM(gb.total), 0) as total
+            FROM gaji_bulanan gb
+            JOIN karyawan k ON k.id = gb.idkaryawan
+            WHERE gb.hapus = 0
+              AND k.divisi IN (3, 17)
+              AND k.hapus = 0
+              AND gb.tanggal BETWEEN '$tgl1' AND '$tgl2'
+        ")->row_array();
+        $data['sablon_gaji_bulanan'] = (float)($gaji_bulanan_sablon['total'] ?? 0);
 
         // Ajuan Harian Sablon (kategori=1)
         $ajuan_sablon = $this->db->query("
@@ -226,7 +272,11 @@ class Pelaporankeuangan extends CI_Controller {
                                             + $data['konveksi_uang_makan_security']
                                             + $data['konveksi_insentif_security']
                                             + $data['konveksi_gaji_sukabumi']
+                                            + $data['bordir_kasbon']
+                                            + $data['bordir_gaji_bulanan']
                                             + $data['bordir_ajuan_harian']
+                                            + $data['sablon_kasbon']
+                                            + $data['sablon_gaji_bulanan']
                                             + $data['sablon_ajuan_harian']
                                             + $data['sukabumi_ajuan_harian'];
 

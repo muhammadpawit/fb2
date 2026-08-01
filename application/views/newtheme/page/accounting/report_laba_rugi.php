@@ -148,13 +148,29 @@
                 <td align="right"><?php echo number_format($sukabumi_ajuan_harian, 0, ',', '.') ?></td>
               </tr>
 
-              <!-- f. Ajuan Harian Bordir & Sablon -->
+              <!-- f. Pengeluaran Bordir & Sablon -->
               <tr style="background-color: #eaf2ff;">
-                <td colspan="2"><strong>f. Ajuan Harian Bordir & Sablon</strong></td>
+                <td colspan="2"><strong>f. Pengeluaran Bordir & Sablon</strong></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Kasbon Karyawan Bordir</td>
+                <td align="right"><?php echo number_format($bordir_kasbon, 0, ',', '.') ?></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Gaji Bulanan Karyawan Bordir</td>
+                <td align="right"><?php echo number_format($bordir_gaji_bulanan, 0, ',', '.') ?></td>
               </tr>
               <tr>
                 <td>&nbsp;&nbsp;&nbsp;Ajuan Harian Bordir</td>
                 <td align="right"><?php echo number_format($bordir_ajuan_harian, 0, ',', '.') ?></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Kasbon Karyawan Sablon</td>
+                <td align="right"><?php echo number_format($sablon_kasbon, 0, ',', '.') ?></td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;Gaji Bulanan Karyawan Sablon</td>
+                <td align="right"><?php echo number_format($sablon_gaji_bulanan, 0, ',', '.') ?></td>
               </tr>
               <tr>
                 <td>&nbsp;&nbsp;&nbsp;Ajuan Harian Sablon</td>
