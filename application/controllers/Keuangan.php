@@ -1082,22 +1082,29 @@ class Keuangan extends CI_Controller {
 		$results=$this->GlobalModel->QueryManual($sql);
 
 		$total=0;
+		$totalpotongan=0;
+		$totalrequest=0;
 		foreach($results as $result){
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
 			$total+=($result['nominal_acc']);
+			$totalpotongan+=($result['potongan_warteg']);
+			$totalrequest+=($result['nominal_request']);
 			$data['products'][]=array(
 				'tanggal'=>date('Y-m-d',strtotime($result['tanggal'])),
 				'nama'=>$karyawan['nama'],
 				'divisi'=>$bagian['nama'],
 				'nominal'=>number_format($result['nominal_request'],2),
 				'nominal_acc'=>number_format($result['nominal_acc'],2),
+				'potongan_warteg'=>number_format($result['potongan_warteg'],2),
 				'status'=>$result['status'],
 				'detail'=>BASEURL.'Keuangan/kasbondetail/'.$result['tanggal'],
 				'edit'=>BASEURL.'Keuangan/kasbonedit/'.$result['tanggal'],
 			);
 		}
 		$data['totalkasbon']=$total;
+		$data['totalpotongan']=$totalpotongan;
+		$data['totalrequest']=$totalrequest;
 		$data['page']='newtheme/page/keuangan/kasbonlist';
 		$this->load->view('newtheme/page/main',$data);
 	}
@@ -1175,7 +1182,6 @@ class Keuangan extends CI_Controller {
 		$total_potongan=0;
 		foreach($results as $result){
 			$ajuan+=($result['nominal_request']);
-			$total+=($result['nominal_acc']);
 			$karyawan=$this->GlobalModel->getDataRow('karyawan',array('id'=>$result['idkaryawan']));
 			$bagian=$this->GlobalModel->getDataRow('divisi',array('id'=>$result['bagian']));
 			$potongan_warteg = $this->GlobalModel->QueryManualRow("SELECT * FROM potongan_warteg WHERE hapus=0 AND id_karyawan='".$result['idkaryawan']."' AND tanggal='".$result['tanggal']."' ORDER BY id DESC LIMIT 1");

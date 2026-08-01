@@ -16,6 +16,7 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                   <th>Nama Karyawan</th>
                   <th>Bagian</th>
                   <th>Jumlah Kasbon (Rp)</th>
+                  <th>Potongan Warteg (Rp)</th>
                   <th>Jumlah Di ACC (Rp)</th>
                   <th>Keterangan</th>
                 </tr>
@@ -27,6 +28,7 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                     <td><?php echo $d['nama'];?></td>
                     <td><?php echo $d['divisi'];?></td>
                     <td align="right">&nbsp;<?php echo ($d['nominal']);?></td>
+                    <td align="right">&nbsp;<?php echo ($d['potongan_warteg']);?></td>
                     <td align="right">&nbsp;<?php echo ($d['nominal_acc']);?></td>
                     <td align="right">&nbsp;<?php echo ($d['keterangan']);?></td>
                   </tr>
@@ -35,14 +37,15 @@ header("Content-Disposition: attachment; filename=Kabon_Karyawan_".time().".xls"
                 <tr>
                   <td colspan="3" align="center"><label>Total</label></td>
                   <td align="right">&nbsp;<?php echo $ajuan?></td>
+                  <td align="right">&nbsp;<?php echo $total_potongan?></td>
                   <td align="right">&nbsp;<?php echo $total?></td>
                   <td></td>
                 </tr>
                 <tr>
-            <td colspan="5"></td>
+            <td colspan="6"></td>
             </tr>
             <tr>
-              <td colspan="5" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
+              <td colspan="6" align="right"><i class="registered">Registered by Forboys Production System <?php echo date('d-m-Y Y H:i:s'); ?></i></td>
             </tr>
               </tbody>
             </table>

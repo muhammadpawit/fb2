@@ -40,10 +40,11 @@
                   <?php $i++?>
                 <?php } ?>
                 <tr>
-                  <td colspan="3" align="center"><label>Total</label></td>
-                  <td>Rp.&nbsp;<?php echo number_format($ajuan)?></td>
-                  <td>Rp.&nbsp;<?php echo number_format($total_potongan)?></td>
-                  <td>Rp.&nbsp;<?php echo number_format($total)?></td>
+                  <td colspan="3" align="center"><b>Total</b></td>
+                  <td><b>Rp.&nbsp;<?php echo number_format($ajuan)?></b></td>
+                  <td><b>Rp.&nbsp;<?php echo number_format($total_potongan)?></b></td>
+                  <td><b>Rp.&nbsp;<?php echo number_format($total)?></b></td>
+                  <td></td>
                   <td></td>
                 </tr>
               </tbody>

@@ -41,6 +41,7 @@
                   <th>Bagian</th>
                   <th>Permintaan Kasbon</th>
                   <th>Acc Kasbon</th>
+                  <th>Potongan Warteg</th>
                   <th>Status</th>
                   <th></th>
                 </tr>
@@ -53,21 +54,26 @@
                     <td><?php echo $p['divisi']?></td>
                     <td><?php echo $p['nominal']?></td>
                     <td><?php echo $p['nominal_acc']?></td>
+                    <td><?php echo $p['potongan_warteg']?></td>
                     <td><?php echo $p['status']==0?'Diajukan':'Disetujui';?></td>
                     <td>
                       <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs">Detail</a>
                       <?php if(aksesedit()==1){?>
+                        <?php if (date('Y-m', strtotime($p['tanggal'])) == date('Y-m') || $this->session->userdata('id_user') == 11) { ?>
                         <a href="<?php echo $p['edit']?>" class="btn btn-primary btn-xs">Edit</a>
                         <?php } ?>
+                      <?php } ?>
                     </td>
                   </tr>
                 <?php }?>
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4"><b>Total</b></td>
-                  <td><?php echo number_format($totalkasbon)?></td>
-                  <td></td>
+                  <td colspan="3"><b>Total Keseluruhan</b></td>
+                  <td><b><?php echo number_format($totalrequest)?></b></td>
+                  <td><b><?php echo number_format($totalkasbon)?></b></td>
+                  <td><b><?php echo number_format($totalpotongan)?></b></td>
+                  <td colspan="2"></td>
                 </tr>
               </tfoot>
             </table>
