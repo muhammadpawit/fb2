@@ -87,6 +87,7 @@
 						<td><?php echo number_format($g['gantungan_gaji'])?></td>
 						<td><?php echo number_format($g['total'])?></td>
 						<td>
+							<a href="<?php echo $edit.$g['id']?>" class="btn btn-warning btn-sm text-white">Edit</a>
 							<a href="<?php echo $g['slip']?>" class="btn btn-info btn-sm text-white">Slip</a>
 							<?php if($akseshapus==1){?>
 								<a href="<?php echo $hapus.$g['id']?>" class="btn btn-danger btn-sm text-white">Hapus</a>

@@ -511,6 +511,7 @@ class Gaji extends CI_Controller {
 		}
 		$data['akseshapus']=akseshapus();
 		$data['hapus']=BASEURL.'Gaji/hapusgaji/';
+		$data['edit']=BASEURL.'Gaji/bulananedit/';
 		$data['tambah']=BASEURL.'Gaji/bulananadd';
 		
 		if(isset($get['excel'])){
@@ -519,6 +520,41 @@ class Gaji extends CI_Controller {
 			$data['page']=$this->page.'gaji/bulanan';
 			$this->load->view($this->page.'main',$data);
 		}
+	}
+
+	public function bulananedit($id){
+		$data=[];
+		$data['title']='Edit Slip Gaji';
+		$data['gaji'] = $this->GlobalModel->getDataRow('gaji_bulanan', array('id' => $id));
+		$data['karyawan'] = $this->GlobalModel->getDataRow('karyawan', array('id' => $data['gaji']['idkaryawan']));
+		$data['page']=$this->page.'gaji/slipform_edit';
+		$data['action']=BASEURL.'Gaji/bulanansave_edit/'.$id;
+		$data['batal']=BASEURL.'Gaji/bulanan';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function bulanansave_edit($id){
+		$data=$this->input->post();
+		$subtotal = (isset($data['gajipokok']) ? $data['gajipokok'] : 0) + (isset($data['bonus']) ? $data['bonus'] : 0) + (isset($data['thr']) ? $data['thr'] : 0);
+		$total_potongan = (isset($data['potongan_kasbon']) ? $data['potongan_kasbon'] : 0) + (isset($data['potongan_pinjaman']) ? $data['potongan_pinjaman'] : 0) + (isset($data['potongan_claim']) ? $data['potongan_claim'] : 0) + (isset($data['potongan_absensi']) ? $data['potongan_absensi'] : 0) + (isset($data['potongan_terlambat']) ? $data['potongan_terlambat'] : 0) + (isset($data['gantungan_gaji']) ? $data['gantungan_gaji'] : 0);
+		$total = $subtotal - $total_potongan;
+		
+		$update=array(
+			'potongan_kasbon'=>$data['potongan_kasbon'],
+			'potongan_pinjaman'=>$data['potongan_pinjaman'],
+			'potongan_claim'=>$data['potongan_claim'],
+			'potongan_absensi'=>$data['potongan_absensi'],
+			'potongan_terlambat'=>$data['potongan_terlambat'],
+			'gantungan_gaji'=>$data['gantungan_gaji'],
+			'bonus'=>$data['bonus'],
+			'thr'=>$data['thr'],
+			'subtotal'=>$subtotal,
+			'total'=>$total,
+			'metode' => $data['metode'],
+		);
+		$this->db->update('gaji_bulanan',$update,array('id'=>$id));
+		$this->session->set_flashdata('msg','Data berhasil diedit');
+		redirect(BASEURL.'Gaji/bulanan');
 	}
 
 	public function bulananadd(){
