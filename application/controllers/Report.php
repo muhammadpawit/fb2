@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Report extends CI_Controller {
+class Report extends CI_Controller
+{
 
 	public $layout;
 	public $page;
@@ -24,221 +25,226 @@ class Report extends CI_Controller {
 	public $GlobalTwoModel;
 	public $Report;
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
 		$this->load->model('ReportModel');
 		$this->load->model('KirimsetorModel');
-		$this->page='newtheme/page/';
-		$this->layout='newtheme/page/main';
-		$this->login 		= BASEURL.'login';
+		$this->page = 'newtheme/page/';
+		$this->layout = 'newtheme/page/main';
+		$this->login 		= BASEURL . 'login';
 		$this->auth 	= $this->session->userdata('id_user');
-		if(empty($this->auth)) {redirect($this->login);}
+		if (empty($this->auth)) {
+			redirect($this->login);
+		}
 	}
 
-	public function kirimgudang(){
-		$data=[];
-		$data['title']='Laporan Kirim Gudang';
-		$get=$this->input->get();
-		$data['products']=[];
-		$results=array();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=null;
+	public function kirimgudang()
+	{
+		$data = [];
+		$data['title'] = 'Laporan Kirim Gudang';
+		$get = $this->input->get();
+		$data['products'] = [];
+		$results = array();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = null;
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=null;
-		}
-
-		if(isset($get['bulan'])){
-			$bulan=$get['bulan'];
-		}else{
-			$bulan=null;
-		}
-		if(isset($get['tahun'])){
-			$tahun=$get['tahun'];
-		}else{
-			$tahun=date('Y');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = null;
 		}
 
-		$filter=array(
-			'bulan'=>$bulan,
-			'tahun'=>$tahun,
+		if (isset($get['bulan'])) {
+			$bulan = $get['bulan'];
+		} else {
+			$bulan = null;
+		}
+		if (isset($get['tahun'])) {
+			$tahun = $get['tahun'];
+		} else {
+			$tahun = date('Y');
+		}
+
+		$filter = array(
+			'bulan' => $bulan,
+			'tahun' => $tahun,
 			'tanggal1' => $tanggal1,
 			'tanggal2' => $tanggal2,
 		);
 
-		$results=$this->KirimsetorModel->kirimgudang($filter);
-		$no=0;
-		$prev=null;
-		$h=null;
-		foreach($results as $row){
-			$hari=hari(date('l',strtotime($row['tanggal'])));
-			$data['products'][]=array(
-				'no'=>$no,
-				'hari'=>$hari,
-				'tanggal'=>date('d-m-Y',strtotime($row['tanggal'])),
-				'jml'=>$row['jml'],
-				'nama'=>$row['nama'],
-				'nilai'=>$row['nilai']
+		$results = $this->KirimsetorModel->kirimgudang($filter);
+		$no = 0;
+		$prev = null;
+		$h = null;
+		foreach ($results as $row) {
+			$hari = hari(date('l', strtotime($row['tanggal'])));
+			$data['products'][] = array(
+				'no' => $no,
+				'hari' => $hari,
+				'tanggal' => date('d-m-Y', strtotime($row['tanggal'])),
+				'jml' => $row['jml'],
+				'nama' => $row['nama'],
+				'nilai' => $row['nilai']
 			);
 			$no++;
 		}
-		$url='';
-		if(!empty($bulan)){
-			$url.="&bulan=".$bulan;
+		$url = '';
+		if (!empty($bulan)) {
+			$url .= "&bulan=" . $bulan;
 		}
-		if(!empty($tahun)){
-			$url.="&tahun=".$tahun;
+		if (!empty($tahun)) {
+			$url .= "&tahun=" . $tahun;
 		}
-		$data['excel']=BASEURL.'Report/kirimgudang?&excel=true'.$url;
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['bulan']=$bulan;
-		$data['tahun'] =$tahun;
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'report/kirimgudang_excel',$data);	
-		}else{
-			$data['page']=$this->page.'report/kirimgudang';
-			$this->load->view($this->layout,$data);	
+		$data['excel'] = BASEURL . 'Report/kirimgudang?&excel=true' . $url;
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['bulan'] = $bulan;
+		$data['tahun'] = $tahun;
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'report/kirimgudang_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'report/kirimgudang';
+			$this->load->view($this->layout, $data);
 		}
 	}
-	public function transferkasoperasional(){
-		$data=[];
-		$data['title']='Laporan Kas Operasional dan Transferan';
-		$get=$this->input->get();
-		$results=array();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+	public function transferkasoperasional()
+	{
+		$data = [];
+		$data['title'] = 'Laporan Kas Operasional dan Transferan';
+		$get = $this->input->get();
+		$results = array();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
-		}
-
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d', strtotime("last day of this month"));
 		}
 
-		$data=array(
-			'tanggal1'=>$tanggal1,
-			'tanggal2'=>$tanggal2,
-			'cat'=>$cat,
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
+		}
+
+		$data = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'cat' => $cat,
 		);
-		$data['products']=array();
-		$konveksi=array();
-		$sql="SELECT bagian,tanggal FROM transferan WHERE hapus=0 ";
-		$sql.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		if(!empty($cat)){
-			$sql.=" AND bagian='$cat' ";
-		}else{
-			$sql.=" AND bagian IN(1,2,3) ";
+		$data['products'] = array();
+		$konveksi = array();
+		$sql = "SELECT bagian,tanggal FROM transferan WHERE hapus=0 ";
+		$sql .= " AND date(tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		if (!empty($cat)) {
+			$sql .= " AND bagian='$cat' ";
+		} else {
+			$sql .= " AND bagian IN(1,2,3) ";
 		}
-		$sql.=" GROUP BY bagian,tanggal ORDER BY tanggal ASC ";
-		$products=$this->GlobalModel->QueryManual($sql);
-		$tf=[];
-		if(!empty($products)){
-			foreach($products as $p){
-				$tf[]=array(
-				'tanggal'=>$p['tanggal'],
-				// 'bagian'=>$p['bagian'],
-				'bagian'=>null,
-				//'keterangan'=>null,
-				);	
+		$sql .= " GROUP BY bagian,tanggal ORDER BY tanggal ASC ";
+		$products = $this->GlobalModel->QueryManual($sql);
+		$tf = [];
+		if (!empty($products)) {
+			foreach ($products as $p) {
+				$tf[] = array(
+					'tanggal' => $p['tanggal'],
+					// 'bagian'=>$p['bagian'],
+					'bagian' => null,
+					//'keterangan'=>null,
+				);
 			}
 		}
-		$products2=[];
-		$sbl=[];
-		$sql2="SELECT bagian,tanggal FROM aruskas WHERE hapus=0 ";
-		$sql2.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$sql2.=" AND bagian IN (1,2,3) ";
-		$sql2.=" GROUP BY bagian,tanggal ORDER BY tanggal ASC ";
-		$products2=$this->GlobalModel->QueryManual($sql2);
-		$ket=[];
-		if(!empty($products2)){
-			foreach($products2 as $p){
-				$sbl[]=array(
-				'tanggal'=>$p['tanggal'],
-				// 'bagian'=>$p['bagian'],
-				'bagian'=>null,
-				);	
+		$products2 = [];
+		$sbl = [];
+		$sql2 = "SELECT bagian,tanggal FROM aruskas WHERE hapus=0 ";
+		$sql2 .= " AND date(tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$sql2 .= " AND bagian IN (1,2,3) ";
+		$sql2 .= " GROUP BY bagian,tanggal ORDER BY tanggal ASC ";
+		$products2 = $this->GlobalModel->QueryManual($sql2);
+		$ket = [];
+		if (!empty($products2)) {
+			foreach ($products2 as $p) {
+				$sbl[] = array(
+					'tanggal' => $p['tanggal'],
+					// 'bagian'=>$p['bagian'],
+					'bagian' => null,
+				);
 			}
 		}
 
-		$products3=[];
-		$sbl3a=[];
-		$sql3="SELECT * FROM pinjaman_karyawan WHERE hapus=0 ";
-		$sql3.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$products3=$this->GlobalModel->QueryManual($sql3);
-		$ket=[];
-		if(!empty($products3)){
-			foreach($products3 as $p){
-				$sbl3a[]=array(
-				'tanggal'=>$p['tanggal'],
-				// 'bagian'=>$p['bagian'],
-				'bagian'=>null,
-				);	
+		$products3 = [];
+		$sbl3a = [];
+		$sql3 = "SELECT * FROM pinjaman_karyawan WHERE hapus=0 ";
+		$sql3 .= " AND date(tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$products3 = $this->GlobalModel->QueryManual($sql3);
+		$ket = [];
+		if (!empty($products3)) {
+			foreach ($products3 as $p) {
+				$sbl3a[] = array(
+					'tanggal' => $p['tanggal'],
+					// 'bagian'=>$p['bagian'],
+					'bagian' => null,
+				);
 			}
 		}
 		// pre($sbl3a);
 		// pre($pinjaman);
 
 		// ambil dai pengajuan
-		$pengajuan=[];
-		$listpengajuan=[];
-		$bagian_dipengajuan=0; // 1 sablon, 2 bordir, 3 konveksi, 4 sukabumi
-		if(!empty($cat)){
-			if($cat==1){
-				$bagian_dipengajuan=3;
-			}else if($cat==2){
-				$bagian_dipengajuan=2;
-			}else if($cat==3){
-				$bagian_dipengajuan=1;
-			}else if($cat==4){
-				$bagian_dipengajuan=4;
+		$pengajuan = [];
+		$listpengajuan = [];
+		$bagian_dipengajuan = 0; // 1 sablon, 2 bordir, 3 konveksi, 4 sukabumi
+		if (!empty($cat)) {
+			if ($cat == 1) {
+				$bagian_dipengajuan = 3;
+			} else if ($cat == 2) {
+				$bagian_dipengajuan = 2;
+			} else if ($cat == 3) {
+				$bagian_dipengajuan = 1;
+			} else if ($cat == 4) {
+				$bagian_dipengajuan = 4;
 			}
 		}
-		$sql4 ="SELECT * FROM pengajuan_harian_new WHERE hapus=0 AND status=1 ";
-		$sql4.=" AND date(tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$pengajuan=$this->GlobalModel->QueryManual($sql4);
-		$ket=[];
-		if(!empty($pengajuan)){
-			foreach($pengajuan as $p){
-				$listpengajuan[]=array(
-				'tanggal'=>$p['tanggal'],
-				// 'bagian'=>$p['bagian'],
-				'bagian'=>null,
-				);	
+		$sql4 = "SELECT * FROM pengajuan_harian_new WHERE hapus=0 AND status=1 ";
+		$sql4 .= " AND date(tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$pengajuan = $this->GlobalModel->QueryManual($sql4);
+		$ket = [];
+		if (!empty($pengajuan)) {
+			foreach ($pengajuan as $p) {
+				$listpengajuan[] = array(
+					'tanggal' => $p['tanggal'],
+					// 'bagian'=>$p['bagian'],
+					'bagian' => null,
+				);
 			}
 		}
 
 		// tim potong
-		$timpotong=[];
-		$listtimpotong=[];
+		$timpotong = [];
+		$listtimpotong = [];
 		$sql5 = "SELECT a.tanggal FROM gaji_timpotong a WHERE a.hapus=0 ";
-		$sql5.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$sql5.=" AND date(a.tanggal) >= '2026-04-28' ";
-		$timpotong=$this->GlobalModel->QueryManual($sql5);
-		if(!empty($timpotong)){
-			foreach($timpotong as $p){
-				$listtimpotong[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql5 .= " AND date(a.tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$sql5 .= " AND date(a.tanggal) >= '2026-04-28' ";
+		$timpotong = $this->GlobalModel->QueryManual($sql5);
+		if (!empty($timpotong)) {
+			foreach ($timpotong as $p) {
+				$listtimpotong[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
 
 		// buang benang
-		$listbuangbenang=[];
+		$listbuangbenang = [];
 		$start_ts_bb = strtotime($data['tanggal1']);
 		$end_ts_bb = strtotime($data['tanggal2'] . ' +1 day');
 		for ($ts = $start_ts_bb; $ts <= $end_ts_bb; $ts += 86400) {
@@ -251,170 +257,170 @@ class Report extends CI_Controller {
 		}
 
 		// gaji finishing
-		$listgajifinishing=[];
+		$listgajifinishing = [];
 		$sql6 = "SELECT a.tanggal2 as tanggal FROM gaji_finishing a WHERE a.hapus=0 ";
-		if(!empty($cat)){
-			if($cat==1){
-				$sql6.=" AND a.bagian IN ('FINISHING','GUDANG','KLO','PRESSQC') ";
-			}else if($cat==2){
-				$sql6.=" AND a.bagian IN ('') ";
+		if (!empty($cat)) {
+			if ($cat == 1) {
+				$sql6 .= " AND a.bagian IN ('FINISHING','GUDANG','KLO','PRESSQC') ";
+			} else if ($cat == 2) {
+				$sql6 .= " AND a.bagian IN ('') ";
 			}
 		}
-		$sql6.=" AND date(a.tanggal2) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$gajifinishing=$this->GlobalModel->QueryManual($sql6);
-		if(!empty($gajifinishing)){
-			foreach($gajifinishing as $p){
-				$listgajifinishing[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql6 .= " AND date(a.tanggal2) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$gajifinishing = $this->GlobalModel->QueryManual($sql6);
+		if (!empty($gajifinishing)) {
+			foreach ($gajifinishing as $p) {
+				$listgajifinishing[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
-		
-		$list_sablon=[];
+
+		$list_sablon = [];
 		$sql_sablon = "SELECT a.tanggal_bayar as tanggal FROM pembayaran_sablon a WHERE a.hapus=0 ";
-		if(!empty($cat)){
-			if($cat!=3){
-				$sql_sablon.=" AND a.id=0 "; 
+		if (!empty($cat)) {
+			if ($cat != 3) {
+				$sql_sablon .= " AND a.id=0 ";
 			}
 		}
-		$sql_sablon.=" AND date(a.tanggal_bayar) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$pembayaran_sablon_dates=$this->GlobalModel->QueryManual($sql_sablon);
-		if(!empty($pembayaran_sablon_dates)){
-			foreach($pembayaran_sablon_dates as $p){
-				$list_sablon[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql_sablon .= " AND date(a.tanggal_bayar) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$pembayaran_sablon_dates = $this->GlobalModel->QueryManual($sql_sablon);
+		if (!empty($pembayaran_sablon_dates)) {
+			foreach ($pembayaran_sablon_dates as $p) {
+				$list_sablon[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
-		
 
-		$list_cmtjahit=[];
+
+		$list_cmtjahit = [];
 		$sql_cmtjahit = "SELECT a.tanggal as tanggal FROM pembayaran_cmt a WHERE a.hapus=0 ";
-		if(!empty($cat)){
-			if($cat!=1){ // CMT Jahit goes to Konveksi (1)
-				$sql_cmtjahit.=" AND a.id=0 "; 
+		if (!empty($cat)) {
+			if ($cat != 1) { // CMT Jahit goes to Konveksi (1)
+				$sql_cmtjahit .= " AND a.id=0 ";
 			}
 		}
-		$sql_cmtjahit.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		$pembayaran_cmtjahit_dates=$this->GlobalModel->QueryManual($sql_cmtjahit);
-		if(!empty($pembayaran_cmtjahit_dates)){
-			foreach($pembayaran_cmtjahit_dates as $p){
-				$list_cmtjahit[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql_cmtjahit .= " AND date(a.tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$pembayaran_cmtjahit_dates = $this->GlobalModel->QueryManual($sql_cmtjahit);
+		if (!empty($pembayaran_cmtjahit_dates)) {
+			foreach ($pembayaran_cmtjahit_dates as $p) {
+				$list_cmtjahit[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
 
-		$list_kasbon=[];
+		$list_kasbon = [];
 		$sql_kasbon = "SELECT a.tanggal as tanggal FROM kasbon a LEFT JOIN karyawan kar ON a.idkaryawan = kar.id WHERE a.hapus=0 AND LOWER(a.jenis_pembayaran) = 'transfer' ";
-		if(!empty($cat)){
-			if($cat == 1) { // Konveksi
+		if (!empty($cat)) {
+			if ($cat == 1) { // Konveksi
 				$sql_kasbon .= " AND kar.divisi IN (2, 15)";
-			} else if($cat == 2) { // Bordir
+			} else if ($cat == 2) { // Bordir
 				$sql_kasbon .= " AND kar.divisi IN (1, 16)";
-			} else if($cat == 3) { // Sablon
+			} else if ($cat == 3) { // Sablon
 				$sql_kasbon .= " AND kar.divisi IN (3, 17)";
 			} else {
 				$sql_kasbon .= " AND a.bagian = '$cat'";
 			}
 		}
-		$sql_kasbon.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
-		$kasbon_dates=$this->GlobalModel->QueryManual($sql_kasbon);
-		if(!empty($kasbon_dates)){
-			foreach($kasbon_dates as $p){
-				$list_kasbon[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql_kasbon .= " AND date(a.tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' GROUP BY date(a.tanggal) ";
+		$kasbon_dates = $this->GlobalModel->QueryManual($sql_kasbon);
+		if (!empty($kasbon_dates)) {
+			foreach ($kasbon_dates as $p) {
+				$list_kasbon[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
 
-		$list_um_security=[];
+		$list_um_security = [];
 		$sql_um_security = "SELECT a.tanggal as tanggal FROM um_security a WHERE a.hapus=0 ";
-		if(!empty($cat)){
-			$sql_um_security.=" AND a.tempat='$cat' ";
+		if (!empty($cat)) {
+			$sql_um_security .= " AND a.tempat='$cat' ";
 		}
-		$sql_um_security.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
-		$um_security_dates=$this->GlobalModel->QueryManual($sql_um_security);
-		if(!empty($um_security_dates)){
-			foreach($um_security_dates as $p){
-				$list_um_security[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql_um_security .= " AND date(a.tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' GROUP BY date(a.tanggal) ";
+		$um_security_dates = $this->GlobalModel->QueryManual($sql_um_security);
+		if (!empty($um_security_dates)) {
+			foreach ($um_security_dates as $p) {
+				$list_um_security[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
 
-		$list_insentif_security=[];
-		$sql_insentif_security = "SELECT a.tanggal2 as tanggal FROM rekapinsentif_security a WHERE a.tanggal2 BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY a.tanggal2 ";
-		$insentif_security_dates=$this->GlobalModel->QueryManual($sql_insentif_security);
-		if(!empty($insentif_security_dates)){
-			foreach($insentif_security_dates as $p){
-				$list_insentif_security[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$list_insentif_security = [];
+		$sql_insentif_security = "SELECT a.tanggal2 as tanggal FROM rekapinsentif_security a WHERE a.tanggal2 BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' GROUP BY a.tanggal2 ";
+		$insentif_security_dates = $this->GlobalModel->QueryManual($sql_insentif_security);
+		if (!empty($insentif_security_dates)) {
+			foreach ($insentif_security_dates as $p) {
+				$list_insentif_security[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
 
-		$list_gaji_bulanan=[];
+		$list_gaji_bulanan = [];
 		$sql_gaji_bulanan = "SELECT a.tanggal as tanggal FROM gaji_bulanan a LEFT JOIN karyawan kar ON a.idkaryawan = kar.id WHERE a.hapus=0 ";
-		if(!empty($cat)){
-			if($cat == 1) { // Konveksi
+		if (!empty($cat)) {
+			if ($cat == 1) { // Konveksi
 				$sql_gaji_bulanan .= " AND kar.divisi IN (2, 15)";
-			} else if($cat == 2) { // Bordir
+			} else if ($cat == 2) { // Bordir
 				$sql_gaji_bulanan .= " AND kar.divisi IN (1, 16)";
-			} else if($cat == 3) { // Sablon
+			} else if ($cat == 3) { // Sablon
 				$sql_gaji_bulanan .= " AND kar.divisi IN (3, 17)";
 			}
 		}
-		$sql_gaji_bulanan.=" AND date(a.tanggal) BETWEEN '".$data['tanggal1']."' AND '".$data['tanggal2']."' GROUP BY date(a.tanggal) ";
-		$gaji_bulanan_dates=$this->GlobalModel->QueryManual($sql_gaji_bulanan);
-		if(!empty($gaji_bulanan_dates)){
-			foreach($gaji_bulanan_dates as $p){
-				$list_gaji_bulanan[]=array(
-				'tanggal'=>$p['tanggal'],
-				'bagian'=>null,
-				);	
+		$sql_gaji_bulanan .= " AND date(a.tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' GROUP BY date(a.tanggal) ";
+		$gaji_bulanan_dates = $this->GlobalModel->QueryManual($sql_gaji_bulanan);
+		if (!empty($gaji_bulanan_dates)) {
+			foreach ($gaji_bulanan_dates as $p) {
+				$list_gaji_bulanan[] = array(
+					'tanggal' => $p['tanggal'],
+					'bagian' => null,
+				);
 			}
 		}
 
-		$merger=[];
-		$merger=array_merge($tf,$sbl,$sbl3a,$listpengajuan,$listtimpotong,$listbuangbenang,$listgajifinishing,$list_sablon,$list_cmtjahit,$list_kasbon,$list_um_security,$list_insentif_security,$list_gaji_bulanan);
+		$merger = [];
+		$merger = array_merge($tf, $sbl, $sbl3a, $listpengajuan, $listtimpotong, $listbuangbenang, $listgajifinishing, $list_sablon, $list_cmtjahit, $list_kasbon, $list_um_security, $list_insentif_security, $list_gaji_bulanan);
 		// pre($merger);
 		// Step 1: Sort the array by 'tanggal'
-			usort($merger, function($a, $b) {
-				return strtotime($a['tanggal']) - strtotime($b['tanggal']);
-			});
+		usort($merger, function ($a, $b) {
+			return strtotime($a['tanggal']) - strtotime($b['tanggal']);
+		});
 
-			// Step 2: Remove duplicate entries based on the entire sub-array
-			$uniqueArray = array_map("unserialize", array_unique(array_map("serialize", $merger)));
+		// Step 2: Remove duplicate entries based on the entire sub-array
+		$uniqueArray = array_map("unserialize", array_unique(array_map("serialize", $merger)));
 
-			// Step 3: Re-index the array if needed
-			$uniqueArray = array_values($uniqueArray);
+		// Step 3: Re-index the array if needed
+		$uniqueArray = array_values($uniqueArray);
 
-			// pre($uniqueArray);
-			// array_unique($merger,SORT_REGULAR)
-		$i=0;
-		$pinjaman=0;
-		
 		// pre($uniqueArray);
-		foreach($uniqueArray as $p){
-			$ket=$this->ReportModel->getket($p['tanggal'],$p['bagian']);
-			$konveksi=$this->ReportModel->transferkas($p['tanggal'],$cat);
-			
+		// array_unique($merger,SORT_REGULAR)
+		$i = 0;
+		$pinjaman = 0;
+
+		// pre($uniqueArray);
+		foreach ($uniqueArray as $p) {
+			$ket = $this->ReportModel->getket($p['tanggal'], $p['bagian']);
+			$konveksi = $this->ReportModel->transferkas($p['tanggal'], $cat);
+
 			if (strtotime($p['tanggal']) >= strtotime('2026-04-28')) {
 				$tp = $this->ReportModel->pembayarantimpotong($p['tanggal']);
-				if(!empty($tp)){
-					foreach($tp as $t){
-						$konveksi[]=array(
-							'tanggal'=>$t['tanggal'],
-							'nominal'=>$t['nominal'],
-							'bagian'=>1, // Konveksi
-							'keterangan'=>'Pembayaran Tim Potong '.$t['namatimpotong'],
+				if (!empty($tp)) {
+					foreach ($tp as $t) {
+						$konveksi[] = array(
+							'tanggal' => $t['tanggal'],
+							'nominal' => $t['nominal'],
+							'bagian' => 1, // Konveksi
+							'keterangan' => 'Pembayaran Tim Potong ' . $t['namatimpotong'],
 						);
 					}
 				}
@@ -424,26 +430,26 @@ class Report extends CI_Controller {
 				$tgl_mulai_bb = date('Y-m-d', strtotime($p['tanggal'] . ' -7 days'));
 				$tgl_akhir_bb = $p['tanggal'];
 				$bb = $this->ReportModel->pembayaranbuangbenang_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
-				if(!empty($bb)){
-					foreach($bb as $b){
-						$konveksi[]=array(
-							'tanggal'=>$p['tanggal'],
-							'nominal'=>$b['nominal'],
-							'bagian'=>2, // Bordir
-							'keterangan'=>'Gaji Buang Benang Bordir : '.$b['nama'],
+				if (!empty($bb)) {
+					foreach ($bb as $b) {
+						$konveksi[] = array(
+							'tanggal' => $p['tanggal'],
+							'nominal' => $b['nominal'],
+							'bagian' => 2, // Bordir
+							'keterangan' => 'Gaji Buang Benang Bordir : ' . $b['nama'],
 						);
 					}
 				}
 
 				if (empty($cat) || $cat == 2) {
 					$bo = $this->ReportModel->pembayarangajioperator_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
-					if(!empty($bo)){
-						foreach($bo as $b){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$b['nominal'],
-								'bagian'=>2, // Bordir
-								'keterangan'=>'Gaji Operator Bordir : '.$b['nama'],
+					if (!empty($bo)) {
+						foreach ($bo as $b) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $b['nominal'],
+								'bagian' => 2, // Bordir
+								'keterangan' => 'Gaji Operator Bordir : ' . $b['nama'],
 							);
 						}
 					}
@@ -451,277 +457,276 @@ class Report extends CI_Controller {
 					// Tambahkan Uang Makan Mandor Bordir
 					$sql_go = "SELECT id FROM gaji_operator WHERE hapus = 0 AND tanggal2 BETWEEN '$tgl_mulai_bb' AND '$tgl_akhir_bb'";
 					$go_res = $this->db->query($sql_go)->result_array();
-					if(!empty($go_res)){
-						foreach($go_res as $go_r){
+					if (!empty($go_res)) {
+						foreach ($go_res as $go_r) {
 							$manMalam = $this->ReportModel->getMandor_c($go_r['id'], 2);
 							if ($manMalam > 0) {
-								$konveksi[]=array(
-									'tanggal'=>$p['tanggal'],
-									'nominal'=>21000,
-									'bagian'=>2, // Bordir
-									'keterangan'=>'Uang Makan Mandor Bordir',
+								$konveksi[] = array(
+									'tanggal' => $p['tanggal'],
+									'nominal' => 21000,
+									'bagian' => 2, // Bordir
+									'keterangan' => 'Uang Makan Mandor Bordir',
 								);
 							}
 						}
 					}
 				}
-				
+
 				if (empty($cat) || $cat == 1) {
 					$finishing = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'FINISHING');
 					// pre($finishing);
-					if(!empty($finishing)){
-						foreach($finishing as $f){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$f['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji Finishing : '.$f['nama'],
+					if (!empty($finishing)) {
+						foreach ($finishing as $f) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $f['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Finishing : ' . $f['nama'],
 							);
 						}
 					}
-					
+
 					$gudang = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'GUDANG');
-					if(!empty($gudang)){
-						foreach($gudang as $g){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$g['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji Gudang : '.$g['nama'],
+					if (!empty($gudang)) {
+						foreach ($gudang as $g) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $g['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Gudang : ' . $g['nama'],
 							);
 						}
 					}
-					
+
 					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'KLO');
-					if(!empty($klo)){
-						foreach($klo as $k){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$k['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji KLO : '.$k['nama'],
+					if (!empty($klo)) {
+						foreach ($klo as $k) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $k['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji KLO : ' . $k['nama'],
 							);
 						}
 					}
 
 					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'PRESSQC');
-					if(!empty($qc)){
-						foreach($qc as $q){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$q['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji Press/QC : '.$q['nama'],
+					if (!empty($qc)) {
+						foreach ($qc as $q) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $q['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Press/QC : ' . $q['nama'],
 							);
 						}
 					}
 
 					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tanggal1, $tanggal2);
-					if(!empty($bm)){
-						foreach($bm as $b){
-							if(trim(strtolower($b['nama'])) == 'kandar'){
+					if (!empty($bm)) {
+						foreach ($bm as $b) {
+							if (trim(strtolower($b['nama'])) == 'kandar') {
 								continue;
 							}
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$b['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji Borongan Mesin : '.$b['nama'],
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $b['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Borongan Mesin : ' . $b['nama'],
 							);
 						}
 					}
 
 					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tanggal1, $tanggal2);
-					if(!empty($cuci)){
-						foreach($cuci as $b){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$b['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji Cucian : '.$b['nama'],
+					if (!empty($cuci)) {
+						foreach ($cuci as $b) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $b['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Cucian : ' . $b['nama'],
 							);
 						}
 					}
 
 					$bbf = $this->ReportModel->pembayarangajibbfinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
-					if(!empty($bbf)){
-						foreach($bbf as $b){
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$b['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji BB Finishing : '.$b['nama'],
+					if (!empty($bbf)) {
+						foreach ($bbf as $b) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $b['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji BB Finishing : ' . $b['nama'],
 							);
 						}
 					}
 
 					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tanggal1, $tanggal2);
-					if(!empty($pack)){
-						foreach($pack as $b){
-							if(trim(strtolower($b['nama'])) == 'kandar'){
+					if (!empty($pack)) {
+						foreach ($pack as $b) {
+							if (trim(strtolower($b['nama'])) == 'kandar') {
 								continue;
 							}
-							$konveksi[]=array(
-								'tanggal'=>$p['tanggal'],
-								'nominal'=>$b['nominal'],
-								'bagian'=>1, // Konveksi
-								'keterangan'=>'Gaji Packing : '.$b['nama'],
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $b['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Packing : ' . $b['nama'],
 							);
 						}
 					}
 				}
-
 			}
-			
+
 			if (empty($cat) || $cat == 3) {
 				$sablon = $this->ReportModel->pembayaran_sablon_percmt($p['tanggal']);
-				if(!empty($sablon)){
-					foreach($sablon as $s){
-						$konveksi[]=array(
-							'tanggal'=>$p['tanggal'],
-							'nominal'=>$s['nominal'],
-							'bagian'=>3, // Sablon
-							'keterangan'=>'Pembayaran Sablon : '.$s['nama'],
+				if (!empty($sablon)) {
+					foreach ($sablon as $s) {
+						$konveksi[] = array(
+							'tanggal' => $p['tanggal'],
+							'nominal' => $s['nominal'],
+							'bagian' => 3, // Sablon
+							'keterangan' => 'Pembayaran Sablon : ' . $s['nama'],
 						);
 					}
 				}
 			}
-			
+
 			if (empty($cat) || $cat == 1) {
 				$cmtjahit = $this->ReportModel->pembayaran_cmtjahit_percmt($p['tanggal'], $cat);
-				if(!empty($cmtjahit)){
-					foreach($cmtjahit as $s){
-						$konveksi[]=array(
-							'tanggal'=>$p['tanggal'],
-							'nominal'=>$s['nominal'],
-							'bagian'=>1, // Konveksi
-							'keterangan'=>'Pembayaran CMT Jahit : '.$s['nama'],
+				if (!empty($cmtjahit)) {
+					foreach ($cmtjahit as $s) {
+						$konveksi[] = array(
+							'tanggal' => $p['tanggal'],
+							'nominal' => $s['nominal'],
+							'bagian' => 1, // Konveksi
+							'keterangan' => 'Pembayaran CMT Jahit : ' . $s['nama'],
 						);
 					}
 				}
 			}
 
 			// Kasbon Karyawan
-			$sql_kasbon_detail = "SELECT k.nominal_request as nominal, kar.nama, kar.divisi, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND LOWER(k.jenis_pembayaran) = 'transfer' AND DATE(k.tanggal) = '".$p['tanggal']."'";
-			$sql_kasbon_detail .=" AND kar.id NOT IN (34)";
+			$sql_kasbon_detail = "SELECT k.nominal_acc as nominal, kar.nama, kar.divisi, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND LOWER(k.jenis_pembayaran) = 'transfer' AND DATE(k.tanggal) = '" . $p['tanggal'] . "'";
+			$sql_kasbon_detail .= " AND kar.id NOT IN (34)";
 			if (!empty($cat)) {
-				if($cat == 1) { // Konveksi
+				if ($cat == 1) { // Konveksi
 					$sql_kasbon_detail .= " AND kar.divisi IN (2, 15)";
-				} else if($cat == 2) { // Bordir
+				} else if ($cat == 2) { // Bordir
 					$sql_kasbon_detail .= " AND kar.divisi IN (1, 16)";
-				} else if($cat == 3) { // Sablon
+				} else if ($cat == 3) { // Sablon
 					$sql_kasbon_detail .= " AND kar.divisi IN (3, 17)";
 				} else {
 					$sql_kasbon_detail .= " AND k.bagian = '$cat'";
 				}
 			}
 			$kasbon_detail = $this->GlobalModel->QueryManual($sql_kasbon_detail);
-			if(!empty($kasbon_detail)){
-				foreach($kasbon_detail as $kd){
+			if (!empty($kasbon_detail)) {
+				foreach ($kasbon_detail as $kd) {
 					$bagian_karyawan = $kd['bagian'];
-					if(in_array($kd['divisi'], [2, 15])) $bagian_karyawan = 1;
-					else if(in_array($kd['divisi'], [1, 16])) $bagian_karyawan = 2;
-					else if(in_array($kd['divisi'], [3, 17])) $bagian_karyawan = 3;
+					if (in_array($kd['divisi'], [2, 15])) $bagian_karyawan = 1;
+					else if (in_array($kd['divisi'], [1, 16])) $bagian_karyawan = 2;
+					else if (in_array($kd['divisi'], [3, 17])) $bagian_karyawan = 3;
 
-					$konveksi[]=array(
-						'tanggal'=>$p['tanggal'],
-						'nominal'=>$kd['nominal'],
-						'bagian'=>$bagian_karyawan,
-						'keterangan'=>'Kasbon Karyawan : '.$kd['nama'],
+					$konveksi[] = array(
+						'tanggal' => $p['tanggal'],
+						'nominal' => $kd['nominal'],
+						'bagian' => $bagian_karyawan,
+						'keterangan' => 'Kasbon Karyawan : ' . $kd['nama'],
 					);
 				}
 			}
 
 			// Gaji Bulanan
-			$sql_gaji_detail = "SELECT k.total as nominal, kar.nama, kar.divisi FROM gaji_bulanan k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '".$p['tanggal']."'";
+			$sql_gaji_detail = "SELECT k.total as nominal, kar.nama, kar.divisi FROM gaji_bulanan k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND DATE(k.tanggal) = '" . $p['tanggal'] . "'";
 			if (!empty($cat)) {
-				if($cat == 1) { // Konveksi
+				if ($cat == 1) { // Konveksi
 					$sql_gaji_detail .= " AND kar.divisi IN (2, 15)";
-				} else if($cat == 2) { // Bordir
+				} else if ($cat == 2) { // Bordir
 					$sql_gaji_detail .= " AND kar.divisi IN (1, 16)";
-				} else if($cat == 3) { // Sablon
+				} else if ($cat == 3) { // Sablon
 					$sql_gaji_detail .= " AND kar.divisi IN (3, 17)";
 				}
 			}
 			$gaji_detail = $this->GlobalModel->QueryManual($sql_gaji_detail);
-			if(!empty($gaji_detail)){
-				foreach($gaji_detail as $kd){
+			if (!empty($gaji_detail)) {
+				foreach ($gaji_detail as $kd) {
 					$bagian_karyawan = 0;
-					if(in_array($kd['divisi'], [2, 15])) $bagian_karyawan = 1;
-					else if(in_array($kd['divisi'], [1, 16])) $bagian_karyawan = 2;
-					else if(in_array($kd['divisi'], [3, 17])) $bagian_karyawan = 3;
+					if (in_array($kd['divisi'], [2, 15])) $bagian_karyawan = 1;
+					else if (in_array($kd['divisi'], [1, 16])) $bagian_karyawan = 2;
+					else if (in_array($kd['divisi'], [3, 17])) $bagian_karyawan = 3;
 
-					$konveksi[]=array(
-						'tanggal'=>$p['tanggal'],
-						'nominal'=>$kd['nominal'],
-						'bagian'=>$bagian_karyawan,
-						'keterangan'=>'Gaji Bulanan : '.$kd['nama'],
+					$konveksi[] = array(
+						'tanggal' => $p['tanggal'],
+						'nominal' => $kd['nominal'],
+						'bagian' => $bagian_karyawan,
+						'keterangan' => 'Gaji Bulanan : ' . $kd['nama'],
 					);
 				}
 			}
 
 			// Uang Makan Security
-			$sql_um_sec_detail = "SELECT k.nominal, kar.nama, u.tempat as bagian FROM um_security_detail k LEFT JOIN um_security u ON k.idum = u.id LEFT JOIN karyawan kar ON k.nama = kar.id WHERE u.hapus=0 AND k.hapus=0 AND DATE(u.tanggal) = '".$p['tanggal']."'";
+			$sql_um_sec_detail = "SELECT k.nominal, kar.nama, u.tempat as bagian FROM um_security_detail k LEFT JOIN um_security u ON k.idum = u.id LEFT JOIN karyawan kar ON k.nama = kar.id WHERE u.hapus=0 AND k.hapus=0 AND DATE(u.tanggal) = '" . $p['tanggal'] . "'";
 			if (!empty($cat)) {
 				$sql_um_sec_detail .= " AND u.tempat = '$cat'";
 			}
 			$um_sec_detail = $this->GlobalModel->QueryManual($sql_um_sec_detail);
-			if(!empty($um_sec_detail)){
-				foreach($um_sec_detail as $umd){
-					$konveksi[]=array(
-						'tanggal'=>$p['tanggal'],
-						'nominal'=>$umd['nominal'],
-						'bagian'=>$umd['bagian'],
-						'keterangan'=>'Uang Makan Security : '.$umd['nama'],
+			if (!empty($um_sec_detail)) {
+				foreach ($um_sec_detail as $umd) {
+					$konveksi[] = array(
+						'tanggal' => $p['tanggal'],
+						'nominal' => $umd['nominal'],
+						'bagian' => $umd['bagian'],
+						'keterangan' => 'Uang Makan Security : ' . $umd['nama'],
 					);
 				}
 			}
 
 			// Insentif Security
-			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE k.hapus=0 AND k.tanggal_lap_keu_akhir = '".$p['tanggal']."'";
+			$sql_insentif_sec_detail = "SELECT k.total_diterima as nominal, kar.nama FROM rekapinsentif_security k LEFT JOIN karyawan kar ON k.karyawan_id = kar.id WHERE k.hapus=0 AND k.tanggal_lap_keu_akhir = '" . $p['tanggal'] . "'";
 			$insentif_sec_detail = $this->GlobalModel->QueryManual($sql_insentif_sec_detail);
-			if(!empty($insentif_sec_detail)){
-				foreach($insentif_sec_detail as $isd){
+			if (!empty($insentif_sec_detail)) {
+				foreach ($insentif_sec_detail as $isd) {
 					if ($isd['nominal'] > 0) {
-						$konveksi[]=array(
-							'tanggal'=>$p['tanggal'],
-							'nominal'=>$isd['nominal'],
-							'bagian'=>1,
-							'keterangan'=>'Insentif Security : '.$isd['nama'],
+						$konveksi[] = array(
+							'tanggal' => $p['tanggal'],
+							'nominal' => $isd['nominal'],
+							'bagian' => 1,
+							'keterangan' => 'Insentif Security : ' . $isd['nama'],
 						);
 					}
 				}
 			}
 
-			$pinjaman=$this->ReportModel->pinjaman($p['tanggal']);
-			$data['products'][]=array(
-				'tanggal'=>$p['tanggal'],
-				'kasmasuk'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],$cat),
-				'pinjaman'=>$pinjaman,
-				'masukkonveksi'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],1),
-				'keluarkonveksi'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],1),
-				'sisa_konveksi'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],1),
+			$pinjaman = $this->ReportModel->pinjaman($p['tanggal']);
+			$data['products'][] = array(
+				'tanggal' => $p['tanggal'],
+				'kasmasuk' => $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], $cat),
+				'pinjaman' => $pinjaman,
+				'masukkonveksi' => $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], 1),
+				'keluarkonveksi' => $kmasuk = $this->ReportModel->sumkas('saldokeluar', $p['tanggal'], 1),
+				'sisa_konveksi' => $kmasuk = $this->ReportModel->sisa('saldokeluar', $p['tanggal'], 1),
 				//'masukbordir'=>$cat==2?$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2):0,
-				'masukbordir'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2),
-				'keluarbordir'=>$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],2),
-				'sisa_bordir'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],2),
-				'masuksablon'=>$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],3),
-				'keluarsablon'=>$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],3),
-				'sisa_sablon'=>$kmasuk=$this->ReportModel->sisa('saldokeluar',$p['tanggal'],3),
-				'konveksi'=>$konveksi,
-				'keterangan'=>!empty($ket)?implode(',',$ket):null,
+				'masukbordir' => $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], 2),
+				'keluarbordir' => $this->ReportModel->sumkas('saldokeluar', $p['tanggal'], 2),
+				'sisa_bordir' => $kmasuk = $this->ReportModel->sisa('saldokeluar', $p['tanggal'], 2),
+				'masuksablon' => $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], 3),
+				'keluarsablon' => $this->ReportModel->sumkas('saldokeluar', $p['tanggal'], 3),
+				'sisa_sablon' => $kmasuk = $this->ReportModel->sisa('saldokeluar', $p['tanggal'], 3),
+				'konveksi' => $konveksi,
+				'keterangan' => !empty($ket) ? implode(',', $ket) : null,
 			);
 			$i++;
 		}
 		//pre($ket);
 		//pre(implode(",",$ket['keterangan']));
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['cat']=$cat;
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'keuangan/report_gabungantransferkas_excel',$data);
-		}else if(isset($get['pdf'])){
-			$html = $this->load->view($this->page.'keuangan/report_gabungantransferkas_pdf',$data,true);
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['cat'] = $cat;
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'keuangan/report_gabungantransferkas_excel', $data);
+		} else if (isset($get['pdf'])) {
+			$html = $this->load->view($this->page . 'keuangan/report_gabungantransferkas_pdf', $data, true);
 			$this->load->library('pdfgenerator');
 			$file_pdf = "Laporan_Kas_Operasional_dan_Transferan_" . $tanggal1 . "_" . $tanggal2;
 			$paper = 'A4';
@@ -730,219 +735,222 @@ class Report extends CI_Controller {
 			$footerContent = null;
 			$htmlWithHeaderFooter = $headerContent . $html . $footerContent;
 			generate_pdf($this, $htmlWithHeaderFooter, $data, $file_pdf, $paper, $orientation);
-		}else{
-			$data['page']=$this->page.'keuangan/report_gabungantransferkas';
-			$this->load->view($this->page.'main',$data);
+		} else {
+			$data['page'] = $this->page . 'keuangan/report_gabungantransferkas';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function operasionalkas(){
-		$data=array();
-		$data['title']='Laporan Transferan dan Kas Masuk Keseluruhan';
-		$get=$this->input->get();
-		$results=array();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+	public function operasionalkas()
+	{
+		$data = array();
+		$data['title'] = 'Laporan Transferan dan Kas Masuk Keseluruhan';
+		$get = $this->input->get();
+		$results = array();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
-		}
-
-		if(isset($get['tim'])){
-			$tim=$get['tim'];
-		}else{
-			$tim=null;
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d', strtotime("last day of this month"));
 		}
 
-		$filter=array(
-			'tanggal1'=>$tanggal1,
-			'tanggal2'=>$tanggal2,
-			'tim'=>$tim,
+		if (isset($get['tim'])) {
+			$tim = $get['tim'];
+		} else {
+			$tim = null;
+		}
+
+		$filter = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'tim' => $tim,
 		);
-		$data['products']=array();
-		$konveksi=array();
-		$products=$this->ReportModel->Grouptransferkas($filter,'aruskas');
-		$kmasuk=0;
-		$kkeluar=0;
-		$ksisa=0;
-		$bmasuk=0;
-		$bkeluar=0;
-		$bsisa=0;
-		$smasuk=0;
-		$skeluar=0;
-		$ssisa=0;
-		$konveksi=array();
-		foreach($products as $p){
-			$konveksi=$this->ReportModel->oprkas($p['tanggal'],1);
-			$data['products'][]=array(
-				'tanggal'=>$p['tanggal'],
-				'kasmasuk'=>$kmasuk=$this->ReportModel->sumkasall('saldomasuk',$p['tanggal']),
-				'masukkonveksi'=>$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],1),
-				'keluarkonveksi'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],1),
-				'masukbordir'=>$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],2),
-				'keluarbordir'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],2),
-				'masuksablon'=>$kmasuk=$this->ReportModel->sumkas('saldomasuk',$p['tanggal'],3),
-				'keluarsablon'=>$kmasuk=$this->ReportModel->sumkas('saldokeluar',$p['tanggal'],3),
-				'konveksi'=>$konveksi,
+		$data['products'] = array();
+		$konveksi = array();
+		$products = $this->ReportModel->Grouptransferkas($filter, 'aruskas');
+		$kmasuk = 0;
+		$kkeluar = 0;
+		$ksisa = 0;
+		$bmasuk = 0;
+		$bkeluar = 0;
+		$bsisa = 0;
+		$smasuk = 0;
+		$skeluar = 0;
+		$ssisa = 0;
+		$konveksi = array();
+		foreach ($products as $p) {
+			$konveksi = $this->ReportModel->oprkas($p['tanggal'], 1);
+			$data['products'][] = array(
+				'tanggal' => $p['tanggal'],
+				'kasmasuk' => $kmasuk = $this->ReportModel->sumkasall('saldomasuk', $p['tanggal']),
+				'masukkonveksi' => $kmasuk = $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], 1),
+				'keluarkonveksi' => $kmasuk = $this->ReportModel->sumkas('saldokeluar', $p['tanggal'], 1),
+				'masukbordir' => $kmasuk = $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], 2),
+				'keluarbordir' => $kmasuk = $this->ReportModel->sumkas('saldokeluar', $p['tanggal'], 2),
+				'masuksablon' => $kmasuk = $this->ReportModel->sumkas('saldomasuk', $p['tanggal'], 3),
+				'keluarsablon' => $kmasuk = $this->ReportModel->sumkas('saldokeluar', $p['tanggal'], 3),
+				'konveksi' => $konveksi,
 			);
 		}
 		//pre($products);
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'keuangan/report_operasional_excel',$data);
-		}else{
-			$data['page']=$this->page.'keuangan/report_operasional';
-			$this->load->view($this->page.'main',$data);
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'keuangan/report_operasional_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'keuangan/report_operasional';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function transferkas(){
-		$data=array();
-		$data['title']='Laporan Transferan dan Kas Masuk Keseluruhan';
-		$get=$this->input->get();
-		$results=array();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+	public function transferkas()
+	{
+		$data = array();
+		$data['title'] = 'Laporan Transferan dan Kas Masuk Keseluruhan';
+		$get = $this->input->get();
+		$results = array();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d',strtotime("last day of this month"));
-		}
-
-		if(isset($get['tim'])){
-			$tim=$get['tim'];
-		}else{
-			$tim=null;
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d', strtotime("last day of this month"));
 		}
 
-		$filter=array(
-			'tanggal1'=>$tanggal1,
-			'tanggal2'=>$tanggal2,
-			'tim'=>$tim,
+		if (isset($get['tim'])) {
+			$tim = $get['tim'];
+		} else {
+			$tim = null;
+		}
+
+		$filter = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'tim' => $tim,
 		);
-		$data['products']=array();
-		$konveksi=array();
-		$products=$this->ReportModel->Grouptransferkas($filter,'transferan');
-		foreach($products as $p){
-			$konveksi=$this->ReportModel->transferkas($p['tanggal'],1);
-			$data['products'][]=array(
-				'tanggal'=>$p['tanggal'],
-				'konveksi'=>$konveksi,
+		$data['products'] = array();
+		$konveksi = array();
+		$products = $this->ReportModel->Grouptransferkas($filter, 'transferan');
+		foreach ($products as $p) {
+			$konveksi = $this->ReportModel->transferkas($p['tanggal'], 1);
+			$data['products'][] = array(
+				'tanggal' => $p['tanggal'],
+				'konveksi' => $konveksi,
 			);
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'keuangan/report_transferkas_excel',$data);
-		}else{
-			$data['page']=$this->page.'keuangan/report_transferkas';
-			$this->load->view($this->page.'main',$data);
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'keuangan/report_transferkas_excel', $data);
+		} else {
+			$data['page'] = $this->page . 'keuangan/report_transferkas';
+			$this->load->view($this->page . 'main', $data);
 		}
 	}
 
-	public function potongan(){
+	public function potongan()
+	{
 		$this->load->model('ReportModel');
-		$data=array();
-		$data['title']='Laporan Potongan Produksi Forboys';
-		$get=$this->input->get();
-		$results=array();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=null;
+		$data = array();
+		$data['title'] = 'Laporan Potongan Produksi Forboys';
+		$get = $this->input->get();
+		$results = array();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = null;
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=null;
-		}
-
-		if(isset($get['tim'])){
-			$tim=$get['tim'];
-		}else{
-			$tim=null;
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = null;
 		}
 
-		if(isset($get['jenis'])){
-			$jenis=$get['jenis'];
-		}else{
-			$jenis=null;
+		if (isset($get['tim'])) {
+			$tim = $get['tim'];
+		} else {
+			$tim = null;
 		}
 
-		$filter=array(
-			'tanggal1'=>$tanggal1,
-			'tanggal2'=>$tanggal2,
-			'tim'=>$tim,
-			'jenis'=>$jenis,
+		if (isset($get['jenis'])) {
+			$jenis = $get['jenis'];
+		} else {
+			$jenis = null;
+		}
+
+		$filter = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'tim' => $tim,
+			'jenis' => $jenis,
 		);
-		$data['products']=array();
-		$results=[];
+		$data['products'] = array();
+		$results = [];
 		// $results=$this->ReportModel->potongan($filter);
-		
-		$data['n']=1;
-		$timpotong=null;
-		$totaldz=0;
-		$totalpcs=0;
-		$roll=0;
-		$rolv=0;
-		foreach($results as $r){
-			$timpotong=$this->GlobalModel->getDataRow('timpotong',array('id'=>$r['tim_potong_potongan']));
-			$roll=$this->ReportModel->getsumroll($r['kode_po'],'UTAMA');
-			$rolv=$this->ReportModel->getsumroll($r['kode_po'],'CELANA');
-			$totaldz+=($r['hasil_lusinan_potongan']);
-			$totalpcs+=($r['hasil_pieces_potongan']);
-			$data['products'][]=array(
-				'tanggal'=>date('d-m-Y',strtotime($r['created_date'])),
-				'kode_po'=>$r['kodepo'],
-				'timpotong'=>$timpotong==null?$r['tim_potong_potongan']:$timpotong['nama'],
-				'panjang_gelaran_potongan_utama'=>$r['panjang_gelaran_potongan_utama'],
-				'panjang_gelaran_variasi'=>$r['panjang_gelaran_variasi']>0?'+'.$r['panjang_gelaran_variasi']:'',
-				'pemakaian_bahan_utama'=>$r['pemakaian_bahan_utama'],
-				'jumlah_pemakaian_bahan_variasi'=>$r['jumlah_pemakaian_bahan_variasi'],
-				'size_potongan'=>$r['size_potongan'],
-				'lusin'=>$r['hasil_lusinan_potongan'],
-				'pcs'=>$r['hasil_pieces_potongan'],
-				'roll_utama'=>$roll->roll,
-				'roll_variasi'=>$rolv->roll,
+
+		$data['n'] = 1;
+		$timpotong = null;
+		$totaldz = 0;
+		$totalpcs = 0;
+		$roll = 0;
+		$rolv = 0;
+		foreach ($results as $r) {
+			$timpotong = $this->GlobalModel->getDataRow('timpotong', array('id' => $r['tim_potong_potongan']));
+			$roll = $this->ReportModel->getsumroll($r['kode_po'], 'UTAMA');
+			$rolv = $this->ReportModel->getsumroll($r['kode_po'], 'CELANA');
+			$totaldz += ($r['hasil_lusinan_potongan']);
+			$totalpcs += ($r['hasil_pieces_potongan']);
+			$data['products'][] = array(
+				'tanggal' => date('d-m-Y', strtotime($r['created_date'])),
+				'kode_po' => $r['kodepo'],
+				'timpotong' => $timpotong == null ? $r['tim_potong_potongan'] : $timpotong['nama'],
+				'panjang_gelaran_potongan_utama' => $r['panjang_gelaran_potongan_utama'],
+				'panjang_gelaran_variasi' => $r['panjang_gelaran_variasi'] > 0 ? '+' . $r['panjang_gelaran_variasi'] : '',
+				'pemakaian_bahan_utama' => $r['pemakaian_bahan_utama'],
+				'jumlah_pemakaian_bahan_variasi' => $r['jumlah_pemakaian_bahan_variasi'],
+				'size_potongan' => $r['size_potongan'],
+				'lusin' => $r['hasil_lusinan_potongan'],
+				'pcs' => $r['hasil_pieces_potongan'],
+				'roll_utama' => $roll->roll,
+				'roll_variasi' => $rolv->roll,
 			);
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['tim']=$tim;
-		$data['jeniss']=$jenis;
-		$data['totaldz']=$totaldz;
-		$data['totalpcs']=$totalpcs;
-		$data['timpotong']=$this->GlobalModel->getData('timpotong',array('hapus'=>0));
-		$data['jenis']=$this->GlobalModel->getData('master_jenis_po',array('status'=>1));
-		$data['tim']=$this->GlobalModel->getDataRow('timpotong',array('id'=>$tim));
-		if(isset($get['cetak'])){
-			$this->load->view('newtheme/page/report/potongan_cetak',$data);
-		}else{
-			$data['page']=$this->page.'report/potongan';
-			$this->load->view($this->page.'main',$data);
-		}		
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['tim'] = $tim;
+		$data['jeniss'] = $jenis;
+		$data['totaldz'] = $totaldz;
+		$data['totalpcs'] = $totalpcs;
+		$data['timpotong'] = $this->GlobalModel->getData('timpotong', array('hapus' => 0));
+		$data['jenis'] = $this->GlobalModel->getData('master_jenis_po', array('status' => 1));
+		$data['tim'] = $this->GlobalModel->getDataRow('timpotong', array('id' => $tim));
+		if (isset($get['cetak'])) {
+			$this->load->view('newtheme/page/report/potongan_cetak', $data);
+		} else {
+			$data['page'] = $this->page . 'report/potongan';
+			$this->load->view($this->page . 'main', $data);
+		}
 	}
 	public function gambarpotongbahan()
 	{
 		$get = $this->input->get();
-		
+
 		$potongan = array();
-		
+
 
 		if (!empty($get)) {
-			$bukuPot = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po=kbp.kode_po WHERE kbp.created_date >="'.$get['startDate'].'" AND kbp.created_date <="'.$get['endDate'].'"');
+			$bukuPot = $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po=kbp.kode_po WHERE kbp.created_date >="' . $get['startDate'] . '" AND kbp.created_date <="' . $get['endDate'] . '"');
 
 			foreach ($bukuPot as $key => $bkPot) {
 				$rollan = 0;
-				$bahan = $this->GlobalModel->queryManual('SELECT * FROM gudang_bahan_keluar WHERE kode_po="'.$bkPot['kode_po'].'" AND bahan_kategori="UTAMA" ');
+				$bahan = $this->GlobalModel->queryManual('SELECT * FROM gudang_bahan_keluar WHERE kode_po="' . $bkPot['kode_po'] . '" AND bahan_kategori="UTAMA" ');
 				$potongan['potongan'][$key]['tanggal'] = $bkPot['created_date'];
 				$potongan['potongan'][$key]['kode_po'] = $bkPot['kode_po'];
 				$potongan['potongan'][$key]['gelaranUtama']	=	$bkPot['panjang_gelaran_potongan_utama'];
@@ -961,7 +969,7 @@ class Report extends CI_Controller {
 			$bukuPot	= $this->GlobalModel->queryManual('SELECT * FROM produksi_po pp JOIN konveksi_buku_potongan kbp ON pp.kode_po=kbp.kode_po');
 			foreach ($bukuPot as $key => $bkPot) {
 				$rollan = 0;
-				$bahan = $this->GlobalModel->queryManual('SELECT * FROM gudang_bahan_keluar WHERE kode_po="'.$bkPot['kode_po'].'" AND bahan_kategori="UTAMA" ');
+				$bahan = $this->GlobalModel->queryManual('SELECT * FROM gudang_bahan_keluar WHERE kode_po="' . $bkPot['kode_po'] . '" AND bahan_kategori="UTAMA" ');
 				$potongan['potongan'][$key]['tanggal'] = $bkPot['created_date'];
 				$potongan['potongan'][$key]['kode_po'] = $bkPot['kode_po'];
 				$potongan['potongan'][$key]['gelaranUtama']	=	$bkPot['panjang_gelaran_potongan_utama'];
@@ -975,103 +983,103 @@ class Report extends CI_Controller {
 				}
 				$potongan['potongan'][$key]['rollbahan'] = $rollan;
 			}
-				// pre($potongan);
+			// pre($potongan);
 			$viewData = $potongan;
 		}
 		$this->load->view('global/header');
-		$this->load->view('report/report-gambarpobahan-view',$viewData);
+		$this->load->view('report/report-gambarpobahan-view', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function bordir($mesin='',$karyawan='')
+	public function bordir($mesin = '', $karyawan = '')
 	{
 		$get = $this->input->get();
 		$sql = '';
 		// pre($get);
 		if (!empty($get)) {
 			if (!empty($get['mesin'])) {
-				$sql .= 'WHERE kmb.mesin_bordir ="'.$get['mesin'].'" AND kmb.nama_operator="'.$get['operator'].'"';
-			} 
+				$sql .= 'WHERE kmb.mesin_bordir ="' . $get['mesin'] . '" AND kmb.nama_operator="' . $get['operator'] . '"';
+			}
 			if (!empty($get['tanggalMulai'])) {
-				$sql .= 'WHERE kmb.created_date >="'.$get['tanggalMulai'].'" AND kmb.created_date <="'.$get['tanggalEnd'].'"';
+				$sql .= 'WHERE kmb.created_date >="' . $get['tanggalMulai'] . '" AND kmb.created_date <="' . $get['tanggalEnd'] . '"';
 			}
 		} else {
 			$sql = '';
 		}
 		//pre('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po '.$sql.' ');
-		$viewData['bordir'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po '.$sql.' ');
-		
-		$viewData['mesin'] = $this->GlobalModel->getData('master_mesin',null);
-		$viewData['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir',null);
+		$viewData['bordir'] = $this->GlobalModel->queryManual('SELECT * FROM kelola_mesin_bordir kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po ' . $sql . ' ');
+
+		$viewData['mesin'] = $this->GlobalModel->getData('master_mesin', null);
+		$viewData['operator'] = $this->GlobalTwoModel->getData('master_karyawan_bordir', null);
 
 		$this->load->view('global/header');
-		$this->load->view('report/report-bordir',$viewData);
+		$this->load->view('report/report-bordir', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function buangbenang($karyawan='')
+	public function buangbenang($karyawan = '')
 	{
 		$get = $this->input->get();
 		if (!empty($get)) {
-			$sql = 'WHERE kmb.nama_pekerja ="'.$get['karyawan'].'" AND kmb.created_date >="'.$get['tanggalMulai'].'" AND kmb.created_date <="'.$get['tanggalMulai'].'"';
+			$sql = 'WHERE kmb.nama_pekerja ="' . $get['karyawan'] . '" AND kmb.created_date >="' . $get['tanggalMulai'] . '" AND kmb.created_date <="' . $get['tanggalMulai'] . '"';
 		} else {
 			$sql = '';
 		}
 
-		$viewData['benang'] = $this->GlobalModel->queryManual('SELECT * FROM kelolapo_buang_benang kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po '.$sql.' ');
-		$viewData['karyawan'] = $this->GlobalTwoModel->getData('master_karyawan_benang',null);
+		$viewData['benang'] = $this->GlobalModel->queryManual('SELECT * FROM kelolapo_buang_benang kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po ' . $sql . ' ');
+		$viewData['karyawan'] = $this->GlobalTwoModel->getData('master_karyawan_benang', null);
 		$this->load->view('global/header');
-		$this->load->view('report/report-buang-benang',$viewData);
+		$this->load->view('report/report-buang-benang', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function kirimsetorcmt($value='')
+	public function kirimsetorcmt($value = '')
 	{
 		$get = $this->input->get();
 		$sql = '';
 		if (!empty($get)) {
 			if (empty($get['jenisPo'])) {
-				$sql .= 'AND pp.nama_po ="'.$get['jenisPo'].'"'; 
+				$sql .= 'AND pp.nama_po ="' . $get['jenisPo'] . '"';
 			}
-			$viewData['kirim'] = $this->GlobalModel->queryManual('SELECT kmb.create_date, kmb.id_master_cmt, kmb.kode_po, kmb.kategori_cmt, kmb.nama_cmt, kmb.qty_tot_pcs, kmb.progress, kmb.kode_po, kmb.id_master_cmt, kmb.kategori_cmt, kmb.keterangan FROM kelolapo_kirim_setor kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE '.$sql.' kmb.create_date >="'.$get['tanggalMulai'].'" AND kmb.create_date <="'.$get['tanggalAkhir'].'" AND kmb.progress="KIRIM" ');
+			$viewData['kirim'] = $this->GlobalModel->queryManual('SELECT kmb.create_date, kmb.id_master_cmt, kmb.kode_po, kmb.kategori_cmt, kmb.nama_cmt, kmb.qty_tot_pcs, kmb.progress, kmb.kode_po, kmb.id_master_cmt, kmb.kategori_cmt, kmb.keterangan FROM kelolapo_kirim_setor kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE ' . $sql . ' kmb.create_date >="' . $get['tanggalMulai'] . '" AND kmb.create_date <="' . $get['tanggalAkhir'] . '" AND kmb.progress="KIRIM" ');
 		} else {
 			$viewData['kirim'] = $this->GlobalModel->queryManual('SELECT kmb.create_date, kmb.id_master_cmt, kmb.kode_po, kmb.kategori_cmt, kmb.nama_cmt, kmb.qty_tot_pcs, kmb.progress, kmb.kode_po, kmb.id_master_cmt, kmb.kategori_cmt, kmb.keterangan FROM kelolapo_kirim_setor kmb JOIN produksi_po pp ON kmb.kode_po=pp.kode_po WHERE kmb.progress="KIRIM" ');
 		}
-		$viewData['jenisPo'] = $this->GlobalModel->getData('master_jenis_po',null);
+		$viewData['jenisPo'] = $this->GlobalModel->getData('master_jenis_po', null);
 
 		$this->load->view('global/header');
-		$this->load->view('report/report-setor-kirim',$viewData);
+		$this->load->view('report/report-setor-kirim', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function laporanproduksikaos($value='')
+	public function laporanproduksikaos($value = '')
 	{
 		$get = $this->input->get();
 		$sql = '';
 		$viewData['kirim'] = array();
-			$viewData['setor'] = array();
-			$viewData['proses'] = array();
-			$viewData['cmt']	= array();
+		$viewData['setor'] = array();
+		$viewData['proses'] = array();
+		$viewData['cmt']	= array();
 		if (!empty($get)) {
 			$viewData['tanggal'] = $get;
 			if (!empty($get['cmtKat'])) {
-				$sql .= 'kks.kategori_cmt="'.$get['cmtKat'].'"'; 
+				$sql .= 'kks.kategori_cmt="' . $get['cmtKat'] . '"';
 			}
 
 			//$viewData['kirim'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE ".$sql." AND kks.create_date >='".$get['tanggalMulai']."' AND kks.create_date <='".$get['tanggalAkhir']."' AND kks.progress='KIRIM' ");
-			$viewData['kirim'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE ".$sql." AND kks.progress='KIRIM' AND kks.kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='PROSES' AND kategori_cmt LIKE '".$get['cmtKat']."') ");
-			$viewData['setor'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE ".$sql." AND kks.create_date >='".$get['tanggalMulai']."' AND kks.create_date <='".$get['tanggalAkhir']."' AND kks.progress='SETOR' ");
+			$viewData['kirim'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE " . $sql . " AND kks.progress='KIRIM' AND kks.kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='PROSES' AND kategori_cmt LIKE '" . $get['cmtKat'] . "') ");
+			$viewData['setor'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE " . $sql . " AND kks.create_date >='" . $get['tanggalMulai'] . "' AND kks.create_date <='" . $get['tanggalAkhir'] . "' AND kks.progress='SETOR' ");
 			//$viewData['proses'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE ".$sql." AND kks.create_date >='".$get['tanggalMulai']."' AND kks.create_date <='".$get['tanggalAkhir']."' AND kks.progress='PROSES' ");
-			$viewData['proses'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE ".$sql." AND kks.create_date >='".$get['tanggalMulai']."' AND kks.create_date <='".$get['tanggalAkhir']."' AND kks.kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt LIKE '".$get['cmtKat']."') ");
-			$viewData['cmt']	= $this->GlobalModel->getData('master_cmt',array('cmt_job_desk'=>$get['cmtKat']));
+			$viewData['proses'] = $this->GlobalModel->queryManual("SELECT * FROM kelolapo_kirim_setor kks JOIN produksi_po pp ON kks.kode_po=pp.kode_po WHERE " . $sql . " AND kks.create_date >='" . $get['tanggalMulai'] . "' AND kks.create_date <='" . $get['tanggalAkhir'] . "' AND kks.kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt LIKE '" . $get['cmtKat'] . "') ");
+			$viewData['cmt']	= $this->GlobalModel->getData('master_cmt', array('cmt_job_desk' => $get['cmtKat']));
 			// pre($viewData);
 
 			//$viewData['stock'] = $this->GlobalModel->queryManual("SELECT *  FROM `produksi_po` WHERE `updated_date` <= '".$get['tanggalAkhir']."' AND `updated_date` <= '".$get['tanggalAkhir']."' AND `id_proggresion_po` = 'PROSES' AND `progress_lokasi` LIKE '".$get['cmtKat']."'");
-			$viewData['stock'] = $this->GlobalModel->queryManual("SELECT *  FROM `produksi_po` WHERE `updated_date` <= '".$get['tanggalAkhir']."' AND `updated_date` <= '".$get['tanggalAkhir']."' AND kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt LIKE '".$get['cmtKat']."') AND `progress_lokasi` LIKE '".$get['cmtKat']."'");
+			$viewData['stock'] = $this->GlobalModel->queryManual("SELECT *  FROM `produksi_po` WHERE `updated_date` <= '" . $get['tanggalAkhir'] . "' AND `updated_date` <= '" . $get['tanggalAkhir'] . "' AND kode_po NOT IN(SELECT kode_po FROM kelolapo_kirim_setor WHERE progress='SETOR' AND kategori_cmt LIKE '" . $get['cmtKat'] . "') AND `progress_lokasi` LIKE '" . $get['cmtKat'] . "'");
 			// pre($viewData['stock']);
 
 		} else {
-			
+
 
 			$viewData['stock'] = $this->GlobalModel->queryManual("SELECT *  FROM `produksi_po` WHERE kode_po NOT IN (SELECT kode_po from kelolapo_kirim_setor WHERE progress='SETOR' and kategori_cmt='JAHIT') AND `progress_lokasi` LIKE 'JAHIT'");
 		}
@@ -1079,112 +1087,121 @@ class Report extends CI_Controller {
 		$viewData['jenisPo'] = $this->GlobalModel->queryManual('SELECT * FROM `master_jenis_po` WHERE status=1 ORDER BY `nama_jenis_po` ASC');
 
 		$this->load->view('global/header');
-		$this->load->view('report/report-stok-cmt',$viewData);
+		$this->load->view('report/report-stok-cmt', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	
 
-	public function reportproduksikaos($value='')
+
+	public function reportproduksikaos($value = '')
 	{
 		$get = $this->input->get();
-		$sql=' kbp.hapus=0 ';
+		$sql = ' kbp.hapus=0 ';
 		if (empty($get)) {
 			$viewData['produk'] = $this->GlobalModel->queryManual('SELECT * FROM `produksi_po` pp JOIN kelolapo_rincian_setor_cmt_finish kpp ON pp.kode_po=kpp.kode_po');
-				$viewData['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
+			$viewData['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos', null);
 		} else {
-			$viewData['produk'] = $this->GlobalModel->queryManual('SELECT * FROM `produksi_po` pp JOIN kelolapo_rincian_setor_cmt_finish kpp ON pp.kode_po=kpp.kode_po WHERE '.$sql.' AND kpp.created_date >="'.$get['tanggalMulai'].'" AND kpp.created_date <="'.$get['tanggalAkhir'].'" ');
-				$viewData['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos',null);
+			$viewData['produk'] = $this->GlobalModel->queryManual('SELECT * FROM `produksi_po` pp JOIN kelolapo_rincian_setor_cmt_finish kpp ON pp.kode_po=kpp.kode_po WHERE ' . $sql . ' AND kpp.created_date >="' . $get['tanggalMulai'] . '" AND kpp.created_date <="' . $get['tanggalAkhir'] . '" ');
+			$viewData['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos', null);
 		}
-            $nol=0;$satutiga=0;$empatenam=0;$tujuhsembilan=0;$sepuluhduabelas=0;$tigabelaslimabelas=0;$enambelasdelapanbelas=0;$totalPiecePo=0;$atasanCount=0;$atasanCount2=0;
-		foreach ($viewData['jenisKaos'] as $key => $jenis){
-                    foreach ($viewData['produk'] as $key => $prod){
-                        if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                            if ($prod['rincian_size'] == "0"){
-                                
-                                $nol += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece']; 
-                                $atasanCount2 += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                               
-                                $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            }
-                        }
-                    }
-               
-                    $atasanCount += $atasanCount2;   $nol;
-                	
-                foreach ($viewData['produk'] as $key => $prod){
-                        if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                            if ($prod['rincian_size'] == "1/3"){
-                                @$satutiga += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                                $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            }
-                        }
-                    }
-               
-                     $satutiga;
-                
-                 foreach ($viewData['produk'] as $key => $prod){
-                        if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                            if ($prod['rincian_size'] == "4/6"){
-                                @$empatenam += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                                $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            }
-                        }
-                    }
-               
-                     $empatenam;
-                
-                foreach ($viewData['produk'] as $key => $prod){
-                        if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                            if ($prod['rincian_size'] == "7/9"){
-                                @$tujuhsembilan += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                                $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            }
-                        }
-                    }
-               
-                     $tujuhsembilan;
-                
+		$nol = 0;
+		$satutiga = 0;
+		$empatenam = 0;
+		$tujuhsembilan = 0;
+		$sepuluhduabelas = 0;
+		$tigabelaslimabelas = 0;
+		$enambelasdelapanbelas = 0;
+		$totalPiecePo = 0;
+		$atasanCount = 0;
+		$atasanCount2 = 0;
+		foreach ($viewData['jenisKaos'] as $key => $jenis) {
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "0") {
 
-                foreach ($viewData['produk'] as $key => $prod){
-                        if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                            if ($prod['rincian_size'] == "10/12"){
-                                @$sepuluhduabelas += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                                $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            }
-                        }
-                    }
-               
-                     $sepuluhduabelas;
-                
+						$nol += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$atasanCount2 += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
 
-                foreach ($viewData['produk'] as $key => $prod){
-                        if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                            if ($prod['rincian_size'] == "13/15"){
-                                @$tigabelaslimabelas += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                                $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            }
-                        }
-                    }
-               
-                     $tigabelaslimabelas;
-                
-                foreach ($viewData['produk'] as $key => $prod){
-                    if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']){
-                        if ($prod['rincian_size'] == "16/18"){
-                            $enambelasdelapanbelas += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                            $totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
-                        }
-                    }
-                }
-               		
-                $enambelasdelapanbelas;
-                
-                $viewData['piece'][$jenis['nama_jenis_kaos']] = $totalPiecePo;
-            
-        }
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$atasanCount += $atasanCount2;
+			$nol;
+
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "1/3") {
+						@$satutiga += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$satutiga;
+
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "4/6") {
+						@$empatenam += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$empatenam;
+
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "7/9") {
+						@$tujuhsembilan += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$tujuhsembilan;
+
+
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "10/12") {
+						@$sepuluhduabelas += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$sepuluhduabelas;
+
+
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "13/15") {
+						@$tigabelaslimabelas += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$tigabelaslimabelas;
+
+			foreach ($viewData['produk'] as $key => $prod) {
+				if ($prod['jenis_po'] == $jenis['nama_jenis_kaos']) {
+					if ($prod['rincian_size'] == "16/18") {
+						$enambelasdelapanbelas += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+						$totalPiecePo += ($prod['rincian_lusin'] * 12) + $prod['rincian_piece'];
+					}
+				}
+			}
+
+			$enambelasdelapanbelas;
+
+			$viewData['piece'][$jenis['nama_jenis_kaos']] = $totalPiecePo;
+		}
 		$this->load->view('global/header');
-		$this->load->view('report/report-produksi-kaos',$viewData);
+		$this->load->view('report/report-produksi-kaos', $viewData);
 		$this->load->view('global/footer');
 	}
 
@@ -1218,7 +1235,7 @@ class Report extends CI_Controller {
 		$this->load->view('global/footer');
 	}*/
 
-	public function laporanalokasicmt($value='')
+	public function laporanalokasicmt($value = '')
 	{
 		$get = $this->input->get();
 		$sql = '';
@@ -1239,35 +1256,35 @@ class Report extends CI_Controller {
 			$viewData['setor'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po WHERE progress_lokasi="JAHIT" AND id_proggresion_po="9" AND progress_lokasi="JAHT" ');
 			//$viewData['cmt']	= $this->GlobalModel->getData('master_cmt',array('cmt_job_desk'=>'JAHIT'));
 		}
-		if(isset($get['cmtKat'])){
-			$cmt=$get['cmtKat'];
-		}else{
-			$cmt='JAHIT';
+		if (isset($get['cmtKat'])) {
+			$cmt = $get['cmtKat'];
+		} else {
+			$cmt = 'JAHIT';
 		}
 		$po = $this->GlobalModel->queryManual('SELECT * FROM `master_jenis_po` ORDER BY `nama_jenis_po` ASC');
 		$cmt = $this->GlobalModel->queryManual("SELECT * FROM master_cmt WHERE cmt_job_desk='$cmt' ORDER BY cmt_name ASC ");
-		foreach($po as $p){
-			$viewData['jenisPo'][]=array(
-				'nama_jenis_po'=>$p['nama_jenis_po'],
+		foreach ($po as $p) {
+			$viewData['jenisPo'][] = array(
+				'nama_jenis_po' => $p['nama_jenis_po'],
 			);
 		}
-		$lpo=array();
-		foreach($cmt as $c){
-			$kirimpo=$this->GlobalModel->queryManual("SELECT kcpo.* FROM kirimcmt_po kcpo LEFT JOIN kirimcmt kc ON(kc.id=kcpo.idkirim) WHERE kc.idcmt='".$c['id_cmt']."' ");
-			$viewData['cmt'][]=array(
-				'idcmt'=>$c['id_cmt'],
-				'cmt_name'=>$c['cmt_name'],
-				'kpo'=>$kirimpo,
+		$lpo = array();
+		foreach ($cmt as $c) {
+			$kirimpo = $this->GlobalModel->queryManual("SELECT kcpo.* FROM kirimcmt_po kcpo LEFT JOIN kirimcmt kc ON(kc.id=kcpo.idkirim) WHERE kc.idcmt='" . $c['id_cmt'] . "' ");
+			$viewData['cmt'][] = array(
+				'idcmt' => $c['id_cmt'],
+				'cmt_name' => $c['cmt_name'],
+				'kpo' => $kirimpo,
 			);
 		}
-		$viewData['cpo']=count($viewData['jenisPo'])+1;
+		$viewData['cpo'] = count($viewData['jenisPo']) + 1;
 		//pre($viewData['cmt']);
 		$this->load->view('global/header');
-		$this->load->view('report/monitoring_po',$viewData);
+		$this->load->view('report/monitoring_po', $viewData);
 		$this->load->view('global/footer');
 	}
 
-	public function monitoringpo($value='')
+	public function monitoringpo($value = '')
 	{
 		$get = $this->input->get();
 		$sql = '';
@@ -1288,32 +1305,31 @@ class Report extends CI_Controller {
 			$viewData['setor'] = $this->GlobalModel->queryManual('SELECT * FROM produksi_po WHERE progress_lokasi="JAHIT" AND id_proggresion_po="9" AND progress_lokasi="JAHT" ');
 			//$viewData['cmt']	= $this->GlobalModel->getData('master_cmt',array('cmt_job_desk'=>'JAHIT'));
 		}
-		if(isset($get['cmtKat'])){
-			$cmt=$get['cmtKat'];
-		}else{
-			$cmt='JAHIT';
+		if (isset($get['cmtKat'])) {
+			$cmt = $get['cmtKat'];
+		} else {
+			$cmt = 'JAHIT';
 		}
 		$po = $this->GlobalModel->queryManual('SELECT * FROM `master_jenis_po` ORDER BY `nama_jenis_po` ASC');
 		$cmt = $this->GlobalModel->queryManual("SELECT * FROM master_cmt WHERE cmt_job_desk='$cmt' ORDER BY cmt_name ASC ");
-		foreach($po as $p){
-			$viewData['jenisPo'][]=array(
-				'nama_jenis_po'=>$p['nama_jenis_po'],
+		foreach ($po as $p) {
+			$viewData['jenisPo'][] = array(
+				'nama_jenis_po' => $p['nama_jenis_po'],
 			);
 		}
-		$lpo=array();
-		foreach($cmt as $c){
-			$kirimpo=$this->GlobalModel->queryManual("SELECT kcpo.* FROM kirimcmt_po kcpo LEFT JOIN kirimcmt kc ON(kc.id=kcpo.idkirim) WHERE kc.idcmt='".$c['id_cmt']."' ");
-			$viewData['cmt'][]=array(
-				'idcmt'=>$c['id_cmt'],
-				'cmt_name'=>$c['cmt_name'],
-				'kpo'=>$kirimpo,
+		$lpo = array();
+		foreach ($cmt as $c) {
+			$kirimpo = $this->GlobalModel->queryManual("SELECT kcpo.* FROM kirimcmt_po kcpo LEFT JOIN kirimcmt kc ON(kc.id=kcpo.idkirim) WHERE kc.idcmt='" . $c['id_cmt'] . "' ");
+			$viewData['cmt'][] = array(
+				'idcmt' => $c['id_cmt'],
+				'cmt_name' => $c['cmt_name'],
+				'kpo' => $kirimpo,
 			);
 		}
-		$viewData['cpo']=count($viewData['jenisPo'])+1;
+		$viewData['cpo'] = count($viewData['jenisPo']) + 1;
 		//pre($viewData['cmt']);
 		$this->load->view('global/header');
-		$this->load->view('report/monitoring_po',$viewData);
+		$this->load->view('report/monitoring_po', $viewData);
 		$this->load->view('global/footer');
 	}
-
 }
