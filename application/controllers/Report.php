@@ -638,7 +638,7 @@ class Report extends CI_Controller
 			}
 
 			// Gaji Bulanan
-			$sql_gaji_detail = "SELECT k.total as nominal, kar.nama, kar.divisi FROM gaji_bulanan k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND k.metode=2 AND DATE(k.tanggal) = '" . $p['tanggal'] . "'";
+			$sql_gaji_detail = "SELECT k.total as nominal, kar.nama, kar.divisi FROM gaji_bulanan k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND k.metode=1 AND DATE(k.tanggal) = '" . $p['tanggal'] . "'";
 			if (!empty($cat)) {
 				if ($cat == 1) { // Konveksi
 					$sql_gaji_detail .= " AND kar.divisi IN (2, 15)";

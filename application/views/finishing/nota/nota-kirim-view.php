@@ -24,7 +24,12 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Kode PO</label>
-                                <input type="text" name="kode_po" id="kode_po" class="form-control autopoid" value="">
+                                <select name="kode_po" id="kode_po" class="form-control autopoid" data-live-search="true">
+                                    <option value="">Pilih PO</option>
+                                    <?php if(!empty($kode_po)){ ?>
+                                        <option value="<?php echo $kode_po; ?>" selected><?php echo $kode_po; ?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">

@@ -323,15 +323,35 @@ class Notakirim extends CI_Controller {
 
 	public function kirim_next($noFaktur='')
 	{
-		$viewData['gudangfb'] = $this->GlobalModel->queryManual('SELECT fkg.idpo,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.idpo="'.$noFaktur.'" GROUP BY pp.kode_po ');
-		//pre($viewData['gudangfb']);
-			$data = array();
-		foreach ($viewData['gudangfb'] as $key => $idkirim) {
-			$data[$idkirim['kode_po']] = $this->GlobalModel->queryManual("SELECT * FROM finishing_kirim_gudang_rincian WHERE id_finishing_kirim_gudang='".$idkirim['id_finishing_kirim_gudang']."' GROUP BY rincian_size");
+		$sql = 'SELECT fkg.idpo,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON (fkg.idpo=pp.id_produksi_po OR fkg.kode_po=pp.kode_po) WHERE (fkg.idpo="'.$noFaktur.'" OR fkg.kode_po="'.$noFaktur.'" OR pp.id_produksi_po="'.$noFaktur.'") GROUP BY pp.kode_po ';
+		$gudangfb = $this->GlobalModel->queryManual($sql);
+		if(empty($gudangfb)){
+			$gudangfb = $this->GlobalModel->queryManual('SELECT id_produksi_po as idpo, 0 as id_finishing_kirim_gudang, "" as nofaktur, kode_artikel as artikel_po, harga_satuan, 0 as jumlah_harga_piece, "" as keterangan, "Gudang Forboys" as nama_penerima, "Tanah Abang" as tujuan, kode_po, nama_po, NOW() as created_date, 0 as jumlah_piece_diterima, NOW() as tanggal_kirim FROM produksi_po WHERE id_produksi_po="'.$noFaktur.'" OR kode_po="'.$noFaktur.'"');
 		}
-		//pre($viewData['gudangfb']);
+		$viewData['gudangfb'] = $gudangfb;
+
+		$data = array();
+		foreach ($viewData['gudangfb'] as $key => $idkirim) {
+			$rincian = array();
+			if (!empty($idkirim['id_finishing_kirim_gudang'])) {
+				$rincian = $this->GlobalModel->queryManual("SELECT * FROM finishing_kirim_gudang_rincian WHERE id_finishing_kirim_gudang='".$idkirim['id_finishing_kirim_gudang']."' GROUP BY rincian_size");
+			}
+			if(empty($rincian)){
+				$rincian = $this->GlobalModel->queryManual("SELECT * FROM finishing_kirim_gudang_rincian WHERE id_finishing_kirim_gudang IN (SELECT id_finishing_kirim_gudang FROM finishing_kirim_gudang WHERE idpo='".$idkirim['idpo']."' OR kode_po='".$idkirim['kode_po']."') GROUP BY rincian_size");
+			}
+			if(empty($rincian)){
+				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM kelolapo_rincian_setor_cmt_finish WHERE idpo='".$idkirim['idpo']."' OR kode_po='".$idkirim['kode_po']."' GROUP BY rincian_size");
+			}
+			if(empty($rincian)){
+				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM kelolapo_rincian_setor_cmt_finish_celana WHERE idpo='".$idkirim['idpo']."' OR kode_po LIKE '%".$idkirim['kode_po']."%' GROUP BY rincian_size");
+			}
+			if(empty($rincian)){
+				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM konveksi_buku_potongan_detail WHERE id_buku_potongan IN (SELECT id_buku_potongan FROM konveksi_buku_potongan WHERE id_produksi_po='".$idkirim['idpo']."' OR kode_po='".$idkirim['kode_po']."') GROUP BY rincian_size");
+			}
+			$data[$idkirim['kode_po']] = $rincian;
+		}
+
 		$viewData['dataRinci'] = $data;
-		//pre($data);
 		$viewData['cancel']=BASEURL.'Finishing/pengirimangudang';
 		$viewData['edit']=BASEURL.'Notakirim/next_save';
 		$viewData['no']=1;

@@ -528,7 +528,13 @@ class Finishing extends CI_Controller {
 			JOIN produksi_po p ON p.id_produksi_po=fkg.idpo
 		WHERE id_finishing_kirim_gudang>0 ';
 		if(!empty($kode_po)){
-			$sql .=" AND fkg.idpo='".$kode_po."' ";
+			if(strpos($kode_po, '-') !== false){
+				$po_exp = explode('-', $kode_po);
+				$idpo_val = $po_exp[0];
+				$sql .=" AND (fkg.idpo='".$idpo_val."' OR p.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%' OR fkg.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%') ";
+			}else{
+				$sql .=" AND (fkg.idpo='".$this->db->escape_str($kode_po)."' OR p.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%' OR fkg.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%') ";
+			}
 		}
 		if(isset($tanggal1)){
 			$sql.=" AND date(fkg.tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
@@ -537,6 +543,7 @@ class Finishing extends CI_Controller {
 		$data['notarincian'] = $this->GlobalModel->queryManual($sql);
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
+		$data['kode_po']=$kode_po;
 		$data['page']='finishing/nota/nota-kirim-view';
 		$this->load->view($this->page.'main',$data);
 	}
