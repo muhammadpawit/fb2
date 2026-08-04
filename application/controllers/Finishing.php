@@ -525,18 +525,19 @@ class Finishing extends CI_Controller {
 		}
 
 		$sql='SELECT fkg.* FROM finishing_kirim_gudang fkg 
-			JOIN produksi_po p ON p.id_produksi_po=fkg.idpo
-		WHERE id_finishing_kirim_gudang>0 ';
+			LEFT JOIN produksi_po p ON (p.id_produksi_po=fkg.idpo OR p.kode_po=fkg.kode_po OR p.id_produksi_po=fkg.kode_po)
+		WHERE fkg.id_finishing_kirim_gudang>0 ';
 		if(!empty($kode_po)){
 			if(strpos($kode_po, '-') !== false){
-				$po_exp = explode('-', $kode_po);
+				$po_exp = explode('-', $kode_po, 2);
 				$idpo_val = $po_exp[0];
-				$sql .=" AND (fkg.idpo='".$idpo_val."' OR p.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%' OR fkg.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%') ";
+				$kodestr = $po_exp[1];
+				$sql .=" AND (fkg.idpo='".$this->db->escape_str($idpo_val)."' OR fkg.kode_po='".$this->db->escape_str($idpo_val)."' OR p.id_produksi_po='".$this->db->escape_str($idpo_val)."' OR p.kode_po LIKE '%".$this->db->escape_like_str($kodestr)."%' OR fkg.kode_po LIKE '%".$this->db->escape_like_str($kodestr)."%') ";
 			}else{
-				$sql .=" AND (fkg.idpo='".$this->db->escape_str($kode_po)."' OR p.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%' OR fkg.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%') ";
+				$sql .=" AND (fkg.idpo='".$this->db->escape_str($kode_po)."' OR fkg.kode_po='".$this->db->escape_str($kode_po)."' OR p.id_produksi_po='".$this->db->escape_str($kode_po)."' OR p.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%' OR fkg.kode_po LIKE '%".$this->db->escape_like_str($kode_po)."%') ";
 			}
 		}
-		if(isset($tanggal1)){
+		if(empty($kode_po) && isset($tanggal1)){
 			$sql.=" AND date(fkg.tanggal_kirim) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		}
 		$sql.=" ORDER BY fkg.tanggal_kirim DESC ";
