@@ -55,6 +55,7 @@
                   <th>Jumlah Ajuan</th>
                   <th>Jumlah ACC</th>
                   <th>Acc Satuan</th>
+                  <th>Status ACC</th>
                   <th>Keterangan</th>
                   <th></th>
                 </tr>
@@ -68,8 +69,21 @@
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo ($p['satuan'])?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
-                      <td><?php echo $p['jml_acc']?></td>
+                      <td>
+                        <?php if($p['jml_acc'] > 0){ ?>
+                          <span class="badge badge-success p-1"><?php echo $p['jml_acc']?></span>
+                        <?php } else { ?>
+                          <?php echo $p['jml_acc']?>
+                        <?php } ?>
+                      </td>
                       <td><?php echo $p['acc_satuan']?></td>
+                      <td>
+                        <?php if($p['jml_acc'] > 0){ ?>
+                          <span class="badge badge-success"><i class="fa fa-check"></i> ACC</span>
+                        <?php } else { ?>
+                          <span class="badge badge-warning"><i class="fa fa-clock-o"></i> Belum ACC</span>
+                        <?php } ?>
+                      </td>
                       <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         <a href="<?php echo $p['edit']?>" class="btn btn-info btn-xs text-white">edit</a>
