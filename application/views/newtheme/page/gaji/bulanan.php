@@ -75,6 +75,7 @@
 					<th>Nama Karyawan</th>
 					<th>Saving Gaji Kontrak</th>
 					<th>Total</th>
+					<th>Metode Pembayaran</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -86,6 +87,13 @@
 						<td><?php echo $g['nama']?></td>
 						<td><?php echo number_format($g['gantungan_gaji'])?></td>
 						<td><?php echo number_format($g['total'])?></td>
+						<td>
+							<?php if (isset($g['metode']) && $g['metode'] == 2) { ?>
+								<span class="badge badge-info">Transfer</span>
+							<?php } else { ?>
+								<span class="badge badge-success">Cash</span>
+							<?php } ?>
+						</td>
 						<td>
 							<a href="<?php echo $edit.$g['id']?>" class="btn btn-warning btn-sm text-white">Edit</a>
 							<a href="<?php echo $g['slip']?>" class="btn btn-info btn-sm text-white">Slip</a>

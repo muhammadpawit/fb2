@@ -323,7 +323,7 @@ class Notakirim extends CI_Controller {
 
 	public function kirim_next($noFaktur='')
 	{
-		$sql = 'SELECT fkg.idpo,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON (fkg.idpo=pp.id_produksi_po OR fkg.kode_po=pp.kode_po) WHERE (fkg.idpo="'.$noFaktur.'" OR fkg.kode_po="'.$noFaktur.'" OR pp.id_produksi_po="'.$noFaktur.'") GROUP BY pp.kode_po ';
+		$sql = 'SELECT fkg.idpo,fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,pp.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg JOIN produksi_po pp ON (fkg.idpo=pp.id_produksi_po OR fkg.kode_po=pp.kode_po OR fkg.kode_po=pp.id_produksi_po) WHERE (fkg.idpo="'.$noFaktur.'" OR fkg.kode_po="'.$noFaktur.'" OR pp.id_produksi_po="'.$noFaktur.'") GROUP BY pp.id_produksi_po ';
 		$gudangfb = $this->GlobalModel->queryManual($sql);
 		if(empty($gudangfb)){
 			$gudangfb = $this->GlobalModel->queryManual('SELECT id_produksi_po as idpo, 0 as id_finishing_kirim_gudang, "" as nofaktur, kode_artikel as artikel_po, harga_satuan, 0 as jumlah_harga_piece, "" as keterangan, "Gudang Forboys" as nama_penerima, "Tanah Abang" as tujuan, kode_po, nama_po, NOW() as created_date, 0 as jumlah_piece_diterima, NOW() as tanggal_kirim FROM produksi_po WHERE id_produksi_po="'.$noFaktur.'" OR kode_po="'.$noFaktur.'"');
@@ -343,7 +343,7 @@ class Notakirim extends CI_Controller {
 				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM kelolapo_rincian_setor_cmt_finish WHERE idpo='".$idkirim['idpo']."' OR kode_po='".$idkirim['kode_po']."' GROUP BY rincian_size");
 			}
 			if(empty($rincian)){
-				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM kelolapo_rincian_setor_cmt_finish_celana WHERE idpo='".$idkirim['idpo']."' OR kode_po LIKE '%".$idkirim['kode_po']."%' GROUP BY rincian_size");
+				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM kelolapo_rincian_setor_cmt_finish_celana WHERE kode_po LIKE '%".$idkirim['kode_po']."%' GROUP BY rincian_size");
 			}
 			if(empty($rincian)){
 				$rincian = $this->GlobalModel->queryManual("SELECT rincian_size FROM konveksi_buku_potongan_detail WHERE id_buku_potongan IN (SELECT id_buku_potongan FROM konveksi_buku_potongan WHERE id_produksi_po='".$idkirim['idpo']."' OR kode_po='".$idkirim['kode_po']."') GROUP BY rincian_size");

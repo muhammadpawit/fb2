@@ -506,6 +506,7 @@ class Gaji extends CI_Controller {
 				'total'=>($r['total']),
 				'slip'=>BASEURL.'Gaji/Slip/'.$r['id'],
 				'gantungan_gaji' => $r['gantungan_gaji'],
+				'metode' => isset($r['metode']) ? $r['metode'] : 1,
 			);
 			$no++;
 		}
