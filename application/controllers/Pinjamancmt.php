@@ -40,7 +40,7 @@ public function index(){
 		$data['n']=1;
 		$data['action']=$this->link.'pinjamansave';;
 		$data['products']=array();
-		$products=$this->GlobalModel->getData('pinjaman_cmt',array('hapus'=>0));
+		$products=$this->GlobalModel->getData('pinjaman_cmt',array('hapus'=>0, 'status !=' => 3));
 		foreach($products as $p){
 			$hari=date('l',strtotime($p['tanggal']));
 			$karyawan=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$p['idcmt']));
