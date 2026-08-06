@@ -94,6 +94,20 @@ class Verifikasibarangmasuk extends CI_Controller
 		$this->load->view('newtheme/page/main', $data);
 	}
 
+	public function sukabumi()
+	{
+		$data = array();
+		$data['title'] = 'Verifikasi Barang Masuk Sukabumi';
+		$data['kategori'] = 4;
+		$data['prods'] = $this->_get_data(4);
+		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['sel_supplier'] = $this->input->get('supplier');
+		$data['action'] = BASEURL . 'Verifikasibarangmasuk/sukabumi';
+		$data['page'] = 'newtheme/page/verifikasibarangmasuk/list';
+		$this->load->view('newtheme/page/main', $data);
+	}
+
 	public function simpan()
 	{
 		$data = $this->input->post();
@@ -154,7 +168,12 @@ class Verifikasibarangmasuk extends CI_Controller
 			}
 		}
 		
-		$redirect_url = $data['jenis'] == 3 ? 'konveksi' : 'bordir';
+		$redirect_url = 'konveksi';
+		if ($data['jenis'] == 2) {
+			$redirect_url = 'bordir';
+		} else if ($data['jenis'] == 4) {
+			$redirect_url = 'sukabumi';
+		}
 		redirect(BASEURL . 'Verifikasibarangmasuk/' . $redirect_url . '?supplier=' . $data['supplier']);
 	}
 }
