@@ -1,128 +1,136 @@
 
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pinjamancmt extends CI_Controller {
+class Pinjamancmt extends CI_Controller
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		//sessionLogin(URLPATH."\\".$this->uri->segment(1));
 		//session(dirname(__FILE__)."\\".$this->uri->segment(1).'.php');
-		$this->page='newtheme/page/pinjamancmt/';
-		$this->layout='newtheme/page/main';
-		$this->link=BASEURL.'Pinjamancmt/';
-		$this->login 		= BASEURL.'login';
+		$this->page = 'newtheme/page/pinjamancmt/';
+		$this->layout = 'newtheme/page/main';
+		$this->link = BASEURL . 'Pinjamancmt/';
+		$this->login 		= BASEURL . 'login';
 		$this->auth 	= $this->session->userdata('id_user');
-		if(empty($this->auth)) {redirect($this->login);}
+		if (empty($this->auth)) {
+			redirect($this->login);
+		}
 	}
 
-public function index(){
-		$data=array();
-		$data['title']='List Pinjaman';
-		$get=$this->input->get();
-		if(isset($get['tanggal1'])){
-			$tanggal1=$get['tanggal1'];
-		}else{
-			$tanggal1=date('Y-m-d',strtotime("-7 days"));
+	public function index()
+	{
+		$data = array();
+		$data['title'] = 'List Pinjaman';
+		$get = $this->input->get();
+		if (isset($get['tanggal1'])) {
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
 		}
-		if(isset($get['tanggal2'])){
-			$tanggal2=$get['tanggal2'];
-		}else{
-			$tanggal2=date('Y-m-d');
+		if (isset($get['tanggal2'])) {
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
 		}
-		if(isset($get['cat'])){
-			$cat=$get['cat'];
-		}else{
-			$cat=null;
+		if (isset($get['cat'])) {
+			$cat = $get['cat'];
+		} else {
+			$cat = null;
 		}
-		$data['tanggal1']=$tanggal1;
-		$data['tanggal2']=$tanggal2;
-		$data['n']=1;
-		$data['action']=$this->link.'pinjamansave';;
-		$data['products']=array();
-		$products=$this->GlobalModel->getData('pinjaman_cmt',array('hapus'=>0, 'status !=' => 3));
-		foreach($products as $p){
-			$hari=date('l',strtotime($p['tanggal']));
-			$karyawan=$this->GlobalModel->getDataRow('master_cmt',array('id_cmt'=>$p['idcmt']));
-			$data['products'][]=array(
-				'tanggal'=>hari($hari).', '.date('d-m-Y',strtotime($p['tanggal'])),
-				'nama'=>strtolower($karyawan['cmt_name']),
-				'totalpinjaman'=>number_format($p['totalpinjaman']),
-				'totalpotongan'=>number_format($p['totalpotongan']),
-				'sisa'=>number_format(($p['totalpinjaman']-$p['totalpotongan'])),
-				'keterangan'=>$p['keterangan'],
-				'status'=>$p['status'],
-				'edit'=>$this->link.'pinjamancmtedit/'.$p['id'],
-				'rincian'=>$this->link.'rincianpinjaman/'.$p['id'],
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['n'] = 1;
+		$data['action'] = $this->link . 'pinjamansave';;
+		$data['products'] = array();
+		$products = $this->GlobalModel->getData('pinjaman_cmt', array('hapus' => 0));
+		foreach ($products as $p) {
+			$hari = date('l', strtotime($p['tanggal']));
+			$karyawan = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $p['idcmt']));
+			$data['products'][] = array(
+				'tanggal' => hari($hari) . ', ' . date('d-m-Y', strtotime($p['tanggal'])),
+				'nama' => strtolower($karyawan['cmt_name']),
+				'totalpinjaman' => number_format($p['totalpinjaman']),
+				'totalpotongan' => number_format($p['totalpotongan']),
+				'sisa' => number_format(($p['totalpinjaman'] - $p['totalpotongan'])),
+				'keterangan' => $p['keterangan'],
+				'status' => $p['status'],
+				'edit' => $this->link . 'pinjamancmtedit/' . $p['id'],
+				'rincian' => $this->link . 'rincianpinjaman/' . $p['id'],
 			);
 		}
-		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0));
-		$data['page']=$this->page.'list';
-		$this->load->view($this->layout,$data);
+		$data['cmt'] = $this->GlobalModel->getData('master_cmt', array('hapus' => 0));
+		$data['page'] = $this->page . 'list';
+		$this->load->view($this->layout, $data);
 	}
 
-	public function pinjamansave(){
-		$data=$this->input->post();
-		$insert=array(
-			'idcmt'=>$data['idcmt'],
-			'tanggal'=>$data['tanggal'],
-			'totalpinjaman'=>$data['totalpinjaman'],
-			'totalpotongan'=>0,
-			'keterangan'=>$data['keterangan'],
-			'status'=>1,
-			'hapus'=>0,
+	public function pinjamansave()
+	{
+		$data = $this->input->post();
+		$insert = array(
+			'idcmt' => $data['idcmt'],
+			'tanggal' => $data['tanggal'],
+			'totalpinjaman' => $data['totalpinjaman'],
+			'totalpotongan' => 0,
+			'keterangan' => $data['keterangan'],
+			'status' => 1,
+			'hapus' => 0,
 		);
-		$this->db->insert('pinjaman_cmt',$insert);
-		$this->session->set_flashdata('msg','Data berhasil disimpan');
+		$this->db->insert('pinjaman_cmt', $insert);
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
 		redirect($this->link);
 	}
 
-	public function pinjamancmtedit($id){
-		$data=array();
-		$data['title']='Edit Pinjaman CMT';
-		$data['action']=$this->link.'pinjamancmteditsave';
-		$data['p']=$this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id));
-		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0));
-		$data['page']=$this->page.'edit';
-		$this->load->view($this->layout,$data);
+	public function pinjamancmtedit($id)
+	{
+		$data = array();
+		$data['title'] = 'Edit Pinjaman CMT';
+		$data['action'] = $this->link . 'pinjamancmteditsave';
+		$data['p'] = $this->GlobalModel->getDataRow('pinjaman_cmt', array('id' => $id));
+		$data['cmt'] = $this->GlobalModel->getData('master_cmt', array('hapus' => 0));
+		$data['page'] = $this->page . 'edit';
+		$this->load->view($this->layout, $data);
 	}
 
-	public function pinjamancmteditsave(){
-		$data=$this->input->post();
-		$id=$data['id'];
-		$update=array(
-			'idcmt'=>$data['idcmt'],
-			'tanggal'=>$data['tanggal'],
-			'keterangan'=>$data['keterangan'],
+	public function pinjamancmteditsave()
+	{
+		$data = $this->input->post();
+		$id = $data['id'];
+		$update = array(
+			'idcmt' => $data['idcmt'],
+			'tanggal' => $data['tanggal'],
+			'keterangan' => $data['keterangan'],
 		);
-		
-		$pinjaman = $this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id));
+
+		$pinjaman = $this->GlobalModel->getDataRow('pinjaman_cmt', array('id' => $id));
 		// Jika belum ada potongan sama sekali, boleh ubah nominal
-		if($pinjaman['totalpotongan'] == 0){
+		if ($pinjaman['totalpotongan'] == 0) {
 			$update['totalpinjaman'] = $data['totalpinjaman'];
 		}
-		
-		$this->db->update('pinjaman_cmt',$update,array('id'=>$id));
-		$this->session->set_flashdata('msg','Data berhasil diubah');
+
+		$this->db->update('pinjaman_cmt', $update, array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil diubah');
 		redirect($this->link);
 	}
 
-	public function rincianpinjaman($id){
-		$data=array();
-		$get=$this->input->get();
-		$data['n']=1;
-		$data['products']=array();
-		$data['cancel']=$this->link;
-		$data['products']=$this->db->query("SELECT pk.*, k.cmt_name as nama FROM pinjaman_cmt pk LEFT JOIN master_cmt k ON (k.id_cmt=pk.idcmt) WHERE pk.id='$id' ")->row_array();
-		$data['d']=$this->GlobalModel->getDataRow('pinjaman_cmt',array('id'=>$id,'hapus'=>0));
-		$data['details']=$this->GlobalModel->getData('potongan_pinjaman_cmt',array('idpinjaman'=>$id,'hapus'=>0));
+	public function rincianpinjaman($id)
+	{
+		$data = array();
+		$get = $this->input->get();
+		$data['n'] = 1;
+		$data['products'] = array();
+		$data['cancel'] = $this->link;
+		$data['products'] = $this->db->query("SELECT pk.*, k.cmt_name as nama FROM pinjaman_cmt pk LEFT JOIN master_cmt k ON (k.id_cmt=pk.idcmt) WHERE pk.id='$id' ")->row_array();
+		$data['d'] = $this->GlobalModel->getDataRow('pinjaman_cmt', array('id' => $id, 'hapus' => 0));
+		$data['details'] = $this->GlobalModel->getData('potongan_pinjaman_cmt', array('idpinjaman' => $id, 'hapus' => 0));
 		//pre($data['products']);
-		if(isset($get['excel'])){
-			$this->load->view($this->page.'excel',$data);
-		}else{
-			$data['page']=$this->page.'detail';
-			$this->load->view($this->layout,$data);
+		if (isset($get['excel'])) {
+			$this->load->view($this->page . 'excel', $data);
+		} else {
+			$data['page'] = $this->page . 'detail';
+			$this->load->view($this->layout, $data);
 		}
 	}
-
 }
