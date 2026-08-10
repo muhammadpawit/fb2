@@ -47,6 +47,7 @@
                     <th>Nama CMT</th>
                     <th>Total Pendapatan</th>
                     <th>Total Pengeluaran</th>
+                    <th>Potongan Klaim</th>
                     <th>Total Pembayaran</th>
                     <th>Keterangan</th>
                     <th></th>
@@ -61,6 +62,7 @@
                             <td><?php echo $p['nama']?></td>
                             <td><?php echo $p['potongan_bangke']?></td>
                             <td><?php echo $p['biaya_transport']?></td>
+                            <td><?php echo isset($p['potongan_claim']) ? $p['potongan_claim'] : '0' ?></td>
                             <td><?php echo $p['total']?></td>
                             <td><?php echo $p['keterangan']?></td>
                             <td>
@@ -73,7 +75,7 @@
                     <?php } ?>
                 <?php }else{ ?>
                 <tr>
-                    <td colspan="8">Data tidak ditemukan</td>
+                    <td colspan="9">Data tidak ditemukan</td>
                 </tr>
                 <?php }?>
             </tbody>

@@ -232,19 +232,21 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td><b>Potongan <?php echo $pot_ket ?></b></td>
+						<td><b>Potongan Klaim</b></td>
 						<td><b></b></td>
 						<td></td>
-						<td><b><?php echo number_format($pot,2)?></b></td>
+						<td>
+							<input type="number" name="potongan_claim" id="potongan_claim" class="form-control" value="<?php echo $pot?>" placeholder="0">
+						</td>
 						<td><b><?php echo $pot_ket?></b>
-							<input type="hidden" name="total_klaim" value="<?php echo $pot?>">
+							<input type="hidden" name="total_klaim" id="total_klaim" value="<?php echo $pot?>">
 						</td>
 					</tr>
 					<tr>
 						<td><b>Total Diterima</b></td>
 						<td><b><?php echo number_format($tdz,2)?></b></td>
 						<td></td>
-						<td><b><?php echo number_format($tjml-$pot)?></b></td>
+						<td><b id="display_komisi_bersih"><?php echo number_format($tjml-$pot)?></b></td>
 						<td><b><?php echo $tpo?> PO</b></td>
 					</tr>
 				</tfoot>
@@ -285,9 +287,9 @@
 						<td><?php echo number_format($biayatukang) ?></td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" class="komponen-check" data-id="komisi" value="<?php echo $tjml-$pot ?>" checked> 2</td>
+						<td><input type="checkbox" class="komponen-check" data-id="komisi" id="check_komisi" value="<?php echo $tjml-$pot ?>" checked> 2</td>
 						<td>Komisi</td>
-						<td><?php echo number_format($tjml-$pot) ?></td>
+						<td><span id="display_komisi_val"><?php echo number_format($tjml-$pot) ?></span></td>
 					</tr>
 					<tr>
 						<td><input type="checkbox" class="komponen-check" data-id="biayalain" value="<?php echo $biayalain ?>"> 3</td>
@@ -314,6 +316,19 @@
 </form>
 <script type="text/javascript">
 	
+	$('#potongan_claim').on('input', function() {
+		var pot_claim = parseFloat($(this).val()) || 0;
+		$('#total_klaim').val(pot_claim);
+		var tjml = <?php echo isset($tjml) ? (float)$tjml : 0 ?>;
+		var komisi_bersih = tjml - pot_claim;
+		$('#display_komisi_bersih').text(new Intl.NumberFormat('en-US').format(komisi_bersih));
+		
+		$('#check_komisi').val(komisi_bersih);
+		$('#display_komisi_val').text(new Intl.NumberFormat('en-US').format(komisi_bersih));
+		
+		$('.komponen-check').trigger('change');
+	});
+
 	$('.pinjaman-check').on('change', function() {
 		var id = $(this).data('id');
 		var input = $('#input_pinjaman_' + id);
@@ -361,7 +376,7 @@
 				upahtukang = val;
 			}
 			if($(this).data('id') == 'komisi'){
-				komisi = <?php echo $tjml ?>;
+				komisi = <?php echo isset($tjml) ? (float)$tjml : 0 ?>;
 			}
 		});
 		

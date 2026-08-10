@@ -192,8 +192,8 @@
 					<tr>
 						<td colspan="4">Total Potongan Klaim</td>
 						<td>
-							<b><?php echo number_format($totalclaim) ?></b>
-							<input type="hidden" name="total_klaim" value="<?php echo $totalclaim?>">
+							<input type="number" name="potongan_claim" id="potongan_claim" class="form-control" value="<?php echo $totalclaim ?>" placeholder="0">
+							<input type="hidden" name="total_klaim" id="total_klaim" value="<?php echo $totalclaim?>">
 							<input type="hidden" name="total_komisi" value="<?php echo $tjml?>">
 							<input type="hidden" name="total_upah_tukang" value="<?php echo $total_tukang_borongan?>">
 							<input type="hidden" name="total_diterima" id="base_total_diterima" value="<?php echo ($tjml+$total_tukang_borongan-$totalclaim)?>">
@@ -318,6 +318,16 @@
 </form>
 <script type="text/javascript">
 	
+	$('#potongan_claim').on('input', function() {
+		var pot_claim = parseFloat($(this).val()) || 0;
+		$('#total_klaim').val(pot_claim);
+		var tjml = <?php echo isset($tjml) ? (float)$tjml : 0 ?>;
+		var upah_tukang = <?php echo isset($total_tukang_borongan) ? (float)$total_tukang_borongan : 0 ?>;
+		var base_total = tjml + upah_tukang - pot_claim;
+		$('#base_total_diterima').val(base_total);
+		$('.pinjaman-input').trigger('input');
+	});
+
 	$('.pinjaman-check').on('change', function() {
 		var id = $(this).data('id');
 		var input = $('#input_pinjaman_' + id);
