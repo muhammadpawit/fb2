@@ -125,9 +125,20 @@
 						</tr>
 						<?php } ?>
 
+						<?php $admin_tf = isset($k['biaya_admin_transfer']) ? (float)$k['biaya_admin_transfer'] : 0; ?>
+						<?php if($admin_tf > 0){ ?>
+						<tr>
+							<td class="text-danger"><b>Biaya Admin Transfer</b></td>
+							<td class="text-right text-danger"><b><?php echo number_format($admin_tf) ?></b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php } ?>
+
 						<tr class="row-total">
 							<td>Total Sub</td>
-							<td class="text-right"><?php echo number_format((float)($totalgaji-$potongan['total']))?></td>
+							<td class="text-right"><?php echo number_format((float)($totalgaji-$potongan['total']-$admin_tf))?></td>
 							<td class="text-right"><?php echo number_format((float)$totalbonus)?></td>
 							<td class="text-right"><?php echo number_format((float)$totalum)?></td>
 							<td></td>
@@ -136,7 +147,7 @@
 						<tr class="row-grand-total">
 							<td>GAJI DITERIMA</td>
 							<td colspan="4" class="text-center" style="font-size: 16px;">
-                                Rp <?php echo number_format((float)($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?>
+                                Rp <?php echo number_format((float)($totalgaji+$totalbonus+$totalum-$potongan['total']-$admin_tf)) ?>
                             </td>
 						</tr>
 					</tbody>
@@ -144,7 +155,7 @@
 			</div>
 		</div>
 	</div>
-	<?php $allgaji+=(($totalgaji+$totalbonus+$totalum-$potongan['total'])) ?>
+	<?php $allgaji+=(($totalgaji+$totalbonus+$totalum-$potongan['total']-$admin_tf)) ?>
 	<?php } ?>
 </div>
 <div class="row">

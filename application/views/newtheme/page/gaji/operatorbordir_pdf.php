@@ -98,16 +98,24 @@
 										<td colspan="3" style="font-size: 8px; font-style: italic;"><?php echo $mp['keterangan'] ?></td>
 									</tr>
 									<?php } ?>
+									<?php $admin_tf = isset($k['biaya_admin_transfer']) ? (float)$k['biaya_admin_transfer'] : 0; ?>
+									<?php if($admin_tf > 0){ ?>
+									<tr style="color: #e74c3c;">
+										<td style="font-weight: bold;">Biaya Admin Transfer</td>
+										<td align="right" style="font-weight: bold;"><?php echo number_format($admin_tf) ?></td>
+										<td colspan="3"></td>
+									</tr>
+									<?php } ?>
 									<tr class="header-grey" style="background-color: #ebf5fb;">
 										<td><b>Gaji Diterima</b></td>
 										<td colspan="4" align="center" style="font-size: 11px; color: #2980b9;">
-											<b>Rp <?php echo number_format((float)($totalgaji+$totalbonus+$totalum-$pot_data['total'])) ?></b>
+											<b>Rp <?php echo number_format((float)($totalgaji+$totalbonus+$totalum-$pot_data['total']-$admin_tf)) ?></b>
 										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-						<?php $allgaji+=(($totalgaji+$totalbonus+$totalum-$pot_data['total'])); ?>
+						<?php $allgaji+=(($totalgaji+$totalbonus+$totalum-$pot_data['total']-$admin_tf)); ?>
 					</td>
 					<?php } ?>
 					<?php if(count($pair) == 1) echo '<td width="50%"></td>'; ?>

@@ -64,9 +64,17 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td><?php echo $mp['keterangan'] ?></td>
 					</tr>
 					<?php } ?>
+					<?php $admin_tf = isset($k['biaya_admin_transfer']) ? (float)$k['biaya_admin_transfer'] : 0; ?>
+					<?php if($admin_tf > 0){ ?>
+					<tr>
+						<td>Biaya Admin Transfer</td>
+						<td align="right"><?php echo $admin_tf ?></td>
+						<td></td>
+					</tr>
+					<?php } ?>
 					<tr style="background-color:#f2f2f2; font-weight:bold;">
 						<td>Gaji Diterima</td>
-						<td align="right"><?php echo ($totalgajia - (isset($potongan['total'])?$potongan['total']:0)) ?></td>
+						<td align="right"><?php echo ($totalgajia - (isset($potongan['total'])?$potongan['total']:0) - $admin_tf) ?></td>
 						<td></td>
 					</tr>
 				</tbody>
@@ -123,9 +131,17 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 						<td><?php echo $mp['keterangan'] ?></td>
 					</tr>
 					<?php } ?>
+					<?php $admin_tf = isset($k['biaya_admin_transfer']) ? (float)$k['biaya_admin_transfer'] : 0; ?>
+					<?php if($admin_tf > 0){ ?>
+					<tr>
+						<td>Biaya Admin Transfer</td>
+						<td align="right"><?php echo $admin_tf ?></td>
+						<td></td>
+					</tr>
+					<?php } ?>
 					<tr style="background-color:#f2f2f2; font-weight:bold;">
 						<td>Gaji Diterima</td>
-						<td align="right"><?php echo ($totalgajib - (isset($potongan['total'])?$potongan['total']:0)) ?></td>
+						<td align="right"><?php echo ($totalgajib - (isset($potongan['total'])?$potongan['total']:0) - $admin_tf) ?></td>
 						<td></td>
 					</tr>
 				</tbody>
@@ -142,15 +158,17 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
 <?php 
 $semuagaji = 0;
 $pots_total = 0;
+$admin_tf_total = 0;
 foreach($karyawans as $k){
     foreach($k['details'] as $kd){
         $semuagaji += $kd['gaji'];
     }
     $tgl2 = date('Y-m-d', strtotime($k['tgl2'] . ' +1 day'));
-    $pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$tgl2."' AND tempat='".$gaji['tempat']."'");
-    if(!empty($pots)) $pots_total = $pots['total'];
+    $pots=$this->GlobalModel->QueryManualRow("SELECT SUM(nominal) as total FROM potongan_operator WHERE hapus=0 and DATE(tanggal) BETWEEN '".$k['tgl1']."' AND '".$tgl2."' AND tempat='".$gaji['tempat']."' AND idkaryawan='".$k['idkaryawan']."'");
+    if(!empty($pots)) $pots_total += $pots['total'];
+    $admin_tf_total += isset($k['biaya_admin_transfer']) ? (float)$k['biaya_admin_transfer'] : 0;
 }
-$all_operator_net = $semuagaji - $pots_total;
+$all_operator_net = $semuagaji - $pots_total - $admin_tf_total;
 $uang_makan_mandor = ($umsiang+$ummalam);
 ?>
 

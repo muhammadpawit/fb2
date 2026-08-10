@@ -180,6 +180,7 @@ class Bordir extends CI_Controller {
 					'totalgaji'=>$r['totalgaji'],
 					'totalbonus'=>$r['totalbonus'],
 					'totalum'=>$r['totalum'],
+					'biaya_admin_transfer'=>isset($r['biaya_admin_transfer']) ? $r['biaya_admin_transfer'] : 0,
 					'grandtotal'=>$r['grandtotal'],
 					'details'=>$this->GlobalModel->getData('gaji_operator_detail_new',array('hapus'=>0,'idgaji'=>$r['id'])),
 				);
@@ -369,6 +370,7 @@ class Bordir extends CI_Controller {
 				"nama" => $k["nama"],
 				"shift" => $k["shift"],
 				"metode_pembayaran" => $k["metode_pembayaran"],
+				"biaya_admin_transfer" => isset($k["biaya_admin_transfer"]) ? $k["biaya_admin_transfer"] : 0,
 				"hari" => $hari_data,
 			);
 		}
@@ -407,6 +409,7 @@ class Bordir extends CI_Controller {
 					$totalbonus+=isset($d["bonus"])?$d["bonus"]:0;
 					$totalpot+=isset($d["pot"])?$d["pot"]:0;
 				}
+				$biaya_admin_transfer = isset($p["biaya_admin_transfer"]) ? (float)$p["biaya_admin_transfer"] : 0;
 				$ig=array(
 					"idgajiopt"=>$id,
 					"tanggal1"=>$data["tanggal1"],
@@ -421,7 +424,8 @@ class Bordir extends CI_Controller {
 					"totalbonus"	=>$totalbonus,
 					"potclaim"=>$totalpot,
 					"potpinjaman"	=>0,
-					"grandtotal"	=>($totalgaji + $totalum+$totalbonus - $totalpot),
+					"biaya_admin_transfer" => $biaya_admin_transfer,
+					"grandtotal"	=>($totalgaji + $totalum+$totalbonus - $totalpot - $biaya_admin_transfer),
 					"hapus"=>0,
 				);
 				$this->db->insert("gaji_operator_new",$ig);
@@ -539,6 +543,7 @@ class Bordir extends CI_Controller {
 					$totalpot+=isset($d['pot'])?$d['pot']:0;
 				}
 
+				$biaya_admin_transfer = isset($p['biaya_admin_transfer']) ? (float)$p['biaya_admin_transfer'] : 0;
 				$ig=array(
 					'idgajiopt'=>$id,
 					'tanggal1'=>$data['tanggal1'],
@@ -553,7 +558,8 @@ class Bordir extends CI_Controller {
 					'totalbonus'	=>$totalbonus,
 					'potclaim'=>$totalpot,
 					'potpinjaman'	=>0,
-					'grandtotal'	=>($totalgaji + $totalum+$totalbonus - $totalpot),
+					'biaya_admin_transfer' => $biaya_admin_transfer,
+					'grandtotal'	=>($totalgaji + $totalum+$totalbonus - $totalpot - $biaya_admin_transfer),
 					'hapus'=>0,
 				);
 				$this->db->insert('gaji_operator_new',$ig);

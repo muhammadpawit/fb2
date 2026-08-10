@@ -257,6 +257,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label style="font-size: 11px;">BIAYA ADMIN TRANSFER:</label>
+                                    <input type="number" name="products[<?php echo $i?>][biaya_admin_transfer]" value="<?php echo isset($p['biaya_admin_transfer']) ? round($p['biaya_admin_transfer']) : 0 ?>" class="form-control input-sm admin-transfer-input" data-idx="<?php echo $i?>" placeholder="0">
+                                </div>
+                            </div>
                         </div>
 
                         <table class="table-salary">
@@ -314,8 +320,12 @@
                                 <span class="summary-value text-red" id="total-potongan-<?php echo $i?>"><?php echo number_format($total_potongan_awal)?></span>
                             </div>
                             <div class="summary-item">
+                                <span class="summary-label">Admin Transfer</span>
+                                <span class="summary-value text-red" id="total-admin-transfer-<?php echo $i?>"><?php echo number_format(isset($p['biaya_admin_transfer']) ? $p['biaya_admin_transfer'] : 0)?></span>
+                            </div>
+                            <div class="summary-item">
                                 <span class="summary-label">Bersih</span>
-                                <span class="summary-value grand-total" id="grand-total-<?php echo $i?>"><?php echo number_format($total_gaji_awal - $total_potongan_awal)?></span>
+                                <span class="summary-value grand-total" id="grand-total-<?php echo $i?>"><?php echo number_format($total_gaji_awal - $total_potongan_awal - (isset($p['biaya_admin_transfer']) ? $p['biaya_admin_transfer'] : 0))?></span>
                             </div>
                         </div>
                     </div>
@@ -377,6 +387,7 @@
                 nama_karyawan_bordir: card.find('.nama-input').val(),
                 shift: card.find('.shift-main-select').val(),
                 metode_pembayaran: card.find('.metode-pembayaran-select').val(),
+                biaya_admin_transfer: card.find('.admin-transfer-input').val(),
                 det: []
             };
 
@@ -468,10 +479,11 @@
     }
 
 	$(document).ready(function(){
-        $(document).on('input', '.gaji-input, .potongan-input', function() {
+        $(document).on('input', '.gaji-input, .potongan-input, .admin-transfer-input', function() {
             var idx = $(this).data('idx');
             var total_gaji = 0;
             var total_potongan = 0;
+            var admin_transfer = parseFloat($('.admin-transfer-input[data-idx="' + idx + '"]').val()) || 0;
 
             $('.gaji-input[data-idx="' + idx + '"]').each(function() {
                 total_gaji += parseFloat($(this).val()) || 0;
@@ -483,7 +495,8 @@
 
             $('#total-gaji-' + idx).text(total_gaji.toLocaleString());
             $('#total-potongan-' + idx).text(total_potongan.toLocaleString());
-            $('#grand-total-' + idx).text((total_gaji - total_potongan).toLocaleString());
+            $('#total-admin-transfer-' + idx).text(admin_transfer.toLocaleString());
+            $('#grand-total-' + idx).text((total_gaji - total_potongan - admin_transfer).toLocaleString());
             updateAllPreviews();
         });
 
