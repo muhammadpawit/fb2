@@ -416,17 +416,44 @@ class Sablonluar extends CI_Controller {
 	}
 
 	public function sablon_hapus($id){
-		$potongans = $this->GlobalModel->getData('potongan_pinjaman_cmt',array('idpembayaran' => $id, 'hapus' => 0));
+		// 1. Kembalikan saldo & status potongan pinjaman CMT
+		$potongans = $this->GlobalModel->getData('potongan_pinjaman_cmt', array('idpembayaran' => $id, 'hapus' => 0));
 		if(!empty($potongans)){
 			foreach($potongans as $potonganPinjaman){
-				// kembalikan totalpotongan di tabel utama pinjaman
-				$this->db->query("UPDATE pinjaman_cmt SET status=2, totalpotongan=totalpotongan-'".$potonganPinjaman['totalpotongan']."' WHERE id='".$potonganPinjaman['idpinjaman']."' ");
-				// hapus history potongan ini
-				$this->db->update('potongan_pinjaman_cmt',array('hapus'=>1), array('id'=>$potonganPinjaman['id']));
+				// Hapus history potongan pinjaman ini
+				$this->db->update('potongan_pinjaman_cmt', array('hapus' => 1), array('id' => $potonganPinjaman['id']));
+				
+				// Hitung ulang total potongan tersisa untuk pinjaman ini
+				$cek2 = $this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(totalpotongan),0) as totalpotongan FROM potongan_pinjaman_cmt WHERE idpinjaman='".$potonganPinjaman['idpinjaman']."' AND hapus=0");
+				$tot_pot = !empty($cek2) ? $cek2['totalpotongan'] : 0;
+				
+				// Ambil data pinjaman utama untuk atur status yang tepat
+				$pj_main = $this->GlobalModel->getDataRow('pinjaman_cmt', array('id' => $potonganPinjaman['idpinjaman']));
+				$status = 1;
+				if(!empty($pj_main)){
+					if($tot_pot >= $pj_main['totalpinjaman']){
+						$status = 3; // Lunas
+					} else if($tot_pot > 0){
+						$status = 2; // Sedang dipotong
+					} else {
+						$status = 1; // Belum dipotong
+					}
+				}
+				$this->db->update('pinjaman_cmt', array('status' => $status, 'totalpotongan' => $tot_pot), array('id' => $potonganPinjaman['idpinjaman']));
 			}
 		}
 
-		$this->db->update('pembayaran_sablon', array('hapus'=>1), array('id'=>$id));
+		// 2. Kembalikan saldo potongan klaim CMT
+		$claims = $this->GlobalModel->getData('pembayaran_sablon_detail_klaim', array('idpembayaran' => $id));
+		if(!empty($claims)){
+			foreach($claims as $c){
+				// Kembalikan sisa klaim dengan menghapus detail potongan klaim (set hapus = 1)
+				$this->db->update('claim_potongan_sablon_detail', array('hapus' => 1), array('idclaim' => $c['idclaim_sablon'], 'nominal' => $c['nominal_potong'], 'hapus' => 0));
+			}
+		}
+
+		// 3. Soft-delete header pembayaran sablon
+		$this->db->update('pembayaran_sablon', array('hapus' => 1), array('id' => $id));
 		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
 		redirect(BASEURL.'Sablonluar');
 	}
