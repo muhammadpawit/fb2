@@ -92,7 +92,7 @@
 <?php } ?>
 
 <div class="row">
-    <?php if ($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) { ?>
+    <?php if (($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) && $ajuanharian > 0) { ?>
         <div class="col-md-3">
             <div class="small-box small-box-custom">
                 <div class="inner">
@@ -108,6 +108,7 @@
             </div>
         </div>
     <?php } ?>
+    <?php if ($formalat_menunggu > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -122,6 +123,8 @@
             </a>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['kemeja'] > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -136,6 +139,8 @@
             </a>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['kaos'] > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -150,6 +155,8 @@
             </a>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['seragam'] > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -164,6 +171,8 @@
             </a>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['celana'] > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -178,6 +187,8 @@
             </a>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['bordir'] > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -192,6 +203,8 @@
             </a>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['konveksi'] > 0) { ?>
     <div class="col-md-3">
         <div class="small-box small-box-custom">
             <div class="inner">
@@ -206,6 +219,7 @@
             </a>
         </div>
     </div>
+    <?php } ?>
 </div>
 <hr>
 <div class="row">
