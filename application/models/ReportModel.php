@@ -1843,7 +1843,8 @@ class ReportModel extends CI_Model {
 
 	public function pembayarangajioperator_perkaryawan($tanggal1, $tanggal2){
 		$sql = "SELECT gon.idkaryawan, gon.nama, gon.tanggal1, gon.tanggal2, 
-                       SUM(godn.gaji) as tg, SUM(godn.bonus) as tb, SUM(godn.um) as tum
+                       SUM(godn.gaji) as tg, SUM(godn.bonus) as tb, SUM(godn.um) as tum,
+                       MAX(gon.biaya_admin_transfer) as biaya_admin_transfer
                 FROM gaji_operator_new gon
                 JOIN gaji_operator_detail_new godn ON godn.idgaji = gon.id
                 WHERE gon.hapus=0 AND godn.hapus=0 
@@ -1872,7 +1873,8 @@ class ReportModel extends CI_Model {
             $pot = $this->db->query($sql_pot)->row_array();
             $total_pot = isset($pot['total']) ? (float)$pot['total'] : 0;
             
-            $nominal = (float)$r['tg'] + (float)$r['tb'] + (float)$r['tum'] - $total_pot;
+            $admin_tf = isset($r['biaya_admin_transfer']) ? (float)$r['biaya_admin_transfer'] : 0;
+            $nominal = (float)$r['tg'] + (float)$r['tb'] + (float)$r['tum'] - $total_pot - $admin_tf;
             
             if(!isset($final[$idk])){
                 $final[$idk] = [

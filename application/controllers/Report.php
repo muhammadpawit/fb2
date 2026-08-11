@@ -460,7 +460,7 @@ class Report extends CI_Controller
 					if (!empty($go_res)) {
 						foreach ($go_res as $go_r) {
 							$manMalam = $this->ReportModel->getMandor_c($go_r['id'], 2);
-							if ($manMalam > 0) {
+							if ($manMalam > 0 && date('Y-m-d', strtotime($p['tanggal'])) != '2026-08-08') {
 								$konveksi[] = array(
 									'tanggal' => $p['tanggal'],
 									'nominal' => 21000,
