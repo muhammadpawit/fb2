@@ -52,6 +52,7 @@
                   <th>Tanggal</th>
                   <th>Kebutuhan</th>
                   <th>Satuan</th>
+                  <th>Stok</th>
                   <th>Jumlah Ajuan</th>
                   <th>Jumlah ACC</th>
                   <th>Acc Satuan</th>
@@ -68,6 +69,7 @@
                       <td><?php echo $p['tanggal']?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo ($p['satuan'])?></td>
+                      <td><?php echo $p['stok']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td>
                         <?php if($p['jml_acc'] > 0){ ?>

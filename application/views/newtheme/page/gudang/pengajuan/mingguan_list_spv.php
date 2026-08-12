@@ -52,6 +52,7 @@
                   <th>Tanggal</th>
                   <th>Kebutuhan</th>
                   <th>Satuan</th>
+                  <th>Stok</th>
                   <th>Jumlah Ajuan</th>
                   <th>Jumlah ACC</th>
                   <th>Acc Satuan</th>
@@ -74,6 +75,7 @@
                       <td><?php echo $p['tanggal'] ?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
                       <td><?php echo $p['satuan']?></td>
+                      <td><?php echo $p['stok']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']=='0' ? $p['jml_ajuan'] : $p['jml_acc']?>"></td>
                       <td><input type="<?php echo $p['accsatuan']==1?'text':'hidden' ?>" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo $p['acc_satuan']?>"></td>
