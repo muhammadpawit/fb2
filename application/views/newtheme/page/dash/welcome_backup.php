@@ -1,685 +1,475 @@
 <style>
-    /* Modern Dashboard Custom Styles */
-    .dash-section-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #1e293b;
-        margin-top: 10px;
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        letter-spacing: -0.2px;
-    }
-
-    .dash-section-title i {
-        font-size: 18px;
-    }
-
-    .dash-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        margin-bottom: 20px;
-        position: relative;
+    .small-box-custom {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-top: 4px solid #3c8dbc !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+        color: #1e293b !important;
         overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        margin-bottom: 20px;
     }
 
-    .dash-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
-        border-color: #cbd5e1;
+    .small-box-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(60, 141, 188, 0.15), 0 4px 6px -2px rgba(60, 141, 188, 0.05) !important;
     }
 
-    .dash-card-header-bar {
-        height: 4px;
-        width: 100%;
-        background: linear-gradient(90deg, #3c8dbc, #38bdf8);
+    .small-box-custom .inner {
+        padding: 16px 16px 12px 16px !important;
     }
 
-    .dash-card-body {
-        padding: 18px 18px 14px 18px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
+    .small-box-custom .inner h3 {
+        color: #0f172a !important;
+        font-size: 26px !important;
+        font-weight: 700 !important;
+        margin: 0 0 4px 0 !important;
+        white-space: nowrap;
     }
 
-    .dash-card-info h3 {
-        font-size: 24px;
-        font-weight: 800;
-        color: #0f172a;
-        margin: 0 0 4px 0;
-        line-height: 1.2;
+    .small-box-custom .inner p {
+        color: #475569 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
     }
 
-    .dash-card-info p {
-        font-size: 13px;
-        font-weight: 500;
-        color: #64748b;
-        margin: 0;
-        line-height: 1.4;
+    .small-box-custom .icon {
+        color: rgba(60, 141, 188, 0.18) !important;
+        top: 5px !important;
+        right: 15px !important;
+        font-size: 60px !important;
+        transition: all 0.2s ease-in-out;
     }
 
-    .dash-card-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        flex-shrink: 0;
-        background-color: #e0f2fe;
-        color: #0284c7;
-        transition: all 0.25s ease;
+    .small-box-custom:hover .icon {
+        font-size: 65px !important;
+        color: rgba(60, 141, 188, 0.35) !important;
     }
 
-    .dash-card-footer {
-        padding: 10px 18px;
-        background: #f8fafc;
-        border-top: 1px solid #f1f5f9;
-        font-size: 12px;
-        font-weight: 600;
-        color: #3c8dbc;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    .small-box-custom .small-box-footer {
+        background-color: #f8fafc !important;
+        color: #3c8dbc !important;
+        border-top: 1px solid #e2e8f0 !important;
+        font-weight: 600 !important;
+        padding: 8px 0 !important;
+        display: block;
+        text-align: center;
         text-decoration: none !important;
         transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    .dash-card-footer i {
-        transition: transform 0.2s ease;
-    }
-
-    .dash-card-footer:hover {
-        background: #3c8dbc;
-        color: #ffffff;
-    }
-
-    .dash-card-footer:hover i {
-        transform: translateX(4px);
-    }
-
-    /* Container Box for Tables & Charts */
-    .dash-box {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        margin-bottom: 24px;
-        overflow: hidden;
-    }
-
-    .dash-box-header {
-        padding: 14px 20px;
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .dash-box-title {
-        font-size: 15px;
-        font-weight: 700;
-        color: #1e293b;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .dash-box-body {
-        padding: 20px;
-    }
-
-    /* Custom Table Styling */
-    .dash-table {
-        margin: 0;
-        width: 100%;
-    }
-
-    .dash-table thead th {
-        background-color: #f1f5f9 !important;
-        color: #334155 !important;
-        font-size: 12px !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-bottom: 2px solid #e2e8f0 !important;
-        padding: 12px 14px !important;
-    }
-
-    .dash-table tbody td {
-        padding: 12px 14px !important;
-        font-size: 13px !important;
-        color: #1e293b !important;
-        vertical-align: middle !important;
-        border-bottom: 1px solid #f1f5f9 !important;
-    }
-
-    .dash-table tbody tr:hover {
-        background-color: #f8fafc !important;
+    .small-box-custom .small-box-footer:hover {
+        background-color: #3c8dbc !important;
+        color: #ffffff !important;
     }
 </style>
 
 <?php if (!empty($request)) { ?>
-    <div class="dash-box" style="border-left: 4px solid #ef4444;">
-        <div class="dash-box-header" style="background-color: #fef2f2;">
-            <h3 class="dash-box-title" style="color: #991b1b;">
-                <i class="fa fa-shield"></i> Form Request Otorisasi User
-            </h3>
-        </div>
-        <div class="table-responsive">
-            <table class="table dash-table nosearch">
-                <thead>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert" style="background-color: #3D6AA2 !important;color: white">
+                Form Request Otorisasi User
+            </div>
+            <table class="table table-bordered nosearch">
+                <?php foreach ($request as $req) { ?>
                     <tr>
-                        <th width="50">No</th>
-                        <th>Tanggal</th>
-                        <th>Nama</th>
-                        <th>Keterangan</th>
-                        <th width="100">Aksi</th>
+                        <td><?php echo $req['no'] ?></td>
+                        <td><?php echo $req['tanggal'] ?></td>
+                        <td><?php echo $req['nama'] ?></td>
+                        <td><?php echo $req['keterangan'] ?></td>
+                        <td>
+                            <?php if (callSessUser('id_user') == '10' or callSessUser('id_user') == '11') { ?>
+                                <a href="<?php echo $req['setujui'] ?>" class="btn btn-success btn-xs text-white">Proses</a>
+                            <?php } ?>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($request as $req) { ?>
-                        <tr>
-                            <td><?php echo $req['no'] ?></td>
-                            <td><?php echo $req['tanggal'] ?></td>
-                            <td><strong><?php echo $req['nama'] ?></strong></td>
-                            <td><?php echo $req['keterangan'] ?></td>
-                            <td>
-                                <?php if (callSessUser('id_user') == '10' or callSessUser('id_user') == '11') { ?>
-                                    <a href="<?php echo $req['setujui'] ?>" class="btn btn-success btn-xs text-white" style="border-radius: 6px; font-weight:600;"><i class="fa fa-check"></i> Proses</a>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
+                <?php } ?>
             </table>
         </div>
     </div>
 <?php } ?>
 
-<?php 
-$has_pending_approval = (
-    (($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) && $ajuanharian > 0) ||
-    $formalat_menunggu > 0 ||
-    $ajuan_mingguan['kemeja'] > 0 ||
-    $ajuan_mingguan['kaos'] > 0 ||
-    $ajuan_mingguan['seragam'] > 0 ||
-    $ajuan_mingguan['celana'] > 0 ||
-    $ajuan_mingguan['bordir'] > 0 ||
-    $ajuan_mingguan['konveksi'] > 0
-);
-?>
-
-<?php if ($has_pending_approval) { ?>
-    <div class="dash-section-title">
-        <i class="fa fa-exclamation-circle" style="color: #d97706;"></i>
-        <span>Pengajuan & Validasi Belum Disetujui</span>
-    </div>
-    <div class="row">
-        <?php if (($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) && $ajuanharian > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuanharian ?></h3>
-                            <p>Pengajuan Harian Belum Disetujui</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-hourglass-half"></i>
-                        </div>
-                    </div>
-                    <a href="#" class="dash-card-footer lihat-detail" data-id="ajuanharian">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-        
-        <?php if ($formalat_menunggu > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $formalat_menunggu; ?></h3>
-                            <p>Form Alat Menunggu Validasi</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-wrench"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Formpengambilanalat/konveksi?status=2' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-
-        <?php if ($ajuan_mingguan['kemeja'] > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuan_mingguan['kemeja']; ?></h3>
-                            <p>Ajuan Kirim Kemeja (Belum ACC)</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-file-text"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Gudang/ajuanmingguan_kemeja?spv=true' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-
-        <?php if ($ajuan_mingguan['kaos'] > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuan_mingguan['kaos']; ?></h3>
-                            <p>Ajuan Kirim Kaos (Belum ACC)</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-file-text"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Gudang/ajuanmingguan?spv=true' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-
-        <?php if ($ajuan_mingguan['seragam'] > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuan_mingguan['seragam']; ?></h3>
-                            <p>Ajuan PO Seragam (Belum ACC)</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-file-text"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Gudang/ajuanmingguanseragam?spv=true' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-
-        <?php if ($ajuan_mingguan['celana'] > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuan_mingguan['celana']; ?></h3>
-                            <p>Ajuan Kirim Celana (Belum ACC)</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-file-text"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Gudang/ajuanmingguan_celana?spv=true' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-
-        <?php if ($ajuan_mingguan['bordir'] > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuan_mingguan['bordir']; ?></h3>
-                            <p>Ajuan Alat Bordir (Belum ACC)</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-file-text"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Ajuanalatalat/1?spv=true' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-
-        <?php if ($ajuan_mingguan['konveksi'] > 0) { ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="dash-card warning-card">
-                    <div class="dash-card-header-bar"></div>
-                    <div class="dash-card-body">
-                        <div class="dash-card-info">
-                            <h3><?php echo $ajuan_mingguan['konveksi']; ?></h3>
-                            <p>Ajuan Alat Konveksi (Belum ACC)</p>
-                        </div>
-                        <div class="dash-card-icon">
-                            <i class="fa fa-file-text"></i>
-                        </div>
-                    </div>
-                    <a href="<?php echo BASEURL . 'Ajuanalatalat/2?spv=true' ?>" class="dash-card-footer">
-                        <span>Lihat Detail</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
-    </div>
-<?php } ?>
-
-<div class="dash-section-title">
-    <i class="fa fa-tachometer" style="color: #0284c7;"></i>
-    <span>Monitoring Produksi & Status PO</span>
-</div>
 <div class="row">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card danger-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $countpendingpo ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Belum dikirim ke gudang (>1 bln)</p>
+    <?php if (($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) && $ajuanharian > 0) { ?>
+        <div class="col-md-3">
+            <div class="small-box small-box-custom">
+                <div class="inner">
+                    <h3><?php echo $ajuanharian ?></h3>
+                    <p>Pengajuan Harian Belum Disetujui</p>
                 </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-history"></i>
+                <div class="icon">
+                    <i class="fa fa-hourglass-half"></i>
                 </div>
+                <a href="#" class="small-box-footer lihat-detail" data-id="ajuanharian">
+                    Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+                </a>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="<?php echo $countpendingpo ?>">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+        </div>
+    <?php } ?>
+    <?php if ($formalat_menunggu > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $formalat_menunggu; ?></h3>
+                <p>Form Alat Menunggu Validasi</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-wrench"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Formpengambilanalat/konveksi?status=2' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
-
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card success-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $countpacking ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Selesai Packing</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-cubes"></i>
-                </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['kemeja'] > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $ajuan_mingguan['kemeja']; ?></h3>
+                <p>Ajuan Kirim Kemeja (Belum ACC)</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="packing">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-file-text"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Gudang/ajuanmingguan_kemeja?spv=true' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
-
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card info-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $countpenerimaancmtmingguini ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Setoran CMT Minggu Ini</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-truck"></i>
-                </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['kaos'] > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $ajuan_mingguan['kaos']; ?></h3>
+                <p>Ajuan Kirim Kaos (Belum ACC)</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="setorcmt">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-file-text"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Gudang/ajuanmingguan?spv=true' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
-
+    <?php } ?>
+    <?php if ($ajuan_mingguan['seragam'] > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $ajuan_mingguan['seragam']; ?></h3>
+                <p>Ajuan PO Seragam (Belum ACC)</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-file-text"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Gudang/ajuanmingguanseragam?spv=true' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['celana'] > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $ajuan_mingguan['celana']; ?></h3>
+                <p>Ajuan Kirim Celana (Belum ACC)</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-file-text"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Gudang/ajuanmingguan_celana?spv=true' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['bordir'] > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $ajuan_mingguan['bordir']; ?></h3>
+                <p>Ajuan Alat Bordir (Belum ACC)</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-file-text"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Ajuanalatalat/1?spv=true' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <?php } ?>
+    <?php if ($ajuan_mingguan['konveksi'] > 0) { ?>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $ajuan_mingguan['konveksi']; ?></h3>
+                <p>Ajuan Alat Konveksi (Belum ACC)</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-file-text"></i>
+            </div>
+            <a href="<?php echo BASEURL . 'Ajuanalatalat/2?spv=true' ?>" class="small-box-footer">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <?php } ?>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpendingpo ?> PO</h3>
+                <p>Belum dikirim ke gudang,Produksi > 1 bulan</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-clock-o"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="<?php echo $countpendingpo ?>">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpacking ?> PO</h3>
+                <p>Selesai Packing</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-cubes"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="packing">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpenerimaancmtmingguini ?> PO</h3>
+                <p>Setoran CMT minggu ini</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-truck"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="setorcmt">
+                Lihat Klik Disini&nbsp;<i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
     <!-- Buang Benang -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card purple-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $buangBenang ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Buang Benang</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-scissors"></i>
-                </div>
+    <div class="col-md-3 col-sm-6 col-12">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $buangBenang ?> PO</h3>
+                <p>Buang Benang</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="buangbenang">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-scissors"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="buangbenang">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
     <!-- Cucian -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card teal-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $Cucian ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Cucian</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-tint"></i>
-                </div>
+    <div class="col-md-3 col-sm-6 col-12">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $Cucian ?> PO</h3>
+                <p>Cucian</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="cucian">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-soap"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="cucian">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
     <!-- Lubang Kancing -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card info-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $lk ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Lubang Kancing</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-ellipsis-v"></i>
-                </div>
+    <div class="col-md-3 col-sm-6 col-12">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $lk ?> PO</h3>
+                <p>Lubang Kancing</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="lubangkancing">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-grip-lines-vertical"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="lubangkancing">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
     <!-- Pasang Kancing -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card info-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $pk ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Pasang Kancing</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-circle-o"></i>
-                </div>
+    <div class="col-md-3 col-sm-6 col-12">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $pk ?> PO</h3>
+                <p>Pasang Kancing</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="pasangkancing">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-circle-dot"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="pasangkancing">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
-    <!-- Tress -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card purple-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $tress ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Tress</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-bookmark"></i>
-                </div>
+    <!-- Tress (Obras) -->
+    <div class="col-md-3 col-sm-6 col-12">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $tress ?> PO</h3>
+                <p>Tress</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="tress">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fa fa-solid fa-yarn"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="tress">
+                Lihat Klik Disini &nbsp;<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
-    <!-- Sablon Kirim -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card info-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $sablonKirim ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Pengiriman Sablon Minggu Ini</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-paper-plane"></i>
-                </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $sablonKirim ?> PO</h3>
+                <p>Pengiriman Sablon Minggu ini</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="sablonkirim">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="sablonkirim">
+                Detail <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
-    <!-- Sablon Setor -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card success-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $sablonSetor ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>Setoran Sablon Minggu Ini</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-inbox"></i>
-                </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $sablonSetor ?> PO</h3>
+                <p>Setoran Sablon Minggu ini</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="sablonsetor">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="sablonsetor">
+                Detail <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
 
-    <!-- PO Masih di CMT -->
-    <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="dash-card warning-card">
-            <div class="dash-card-header-bar"></div>
-            <div class="dash-card-body">
-                <div class="dash-card-info">
-                    <h3><?php echo $countpoCmt ?> <span style="font-size:13px; font-weight:600; color:#94a3b8;">PO</span></h3>
-                    <p>PO Masih di CMT</p>
-                </div>
-                <div class="dash-card-icon">
-                    <i class="fa fa-users"></i>
-                </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box small-box-custom">
+            <div class="inner">
+                <h3><?php echo $countpoCmt ?> PO</h3>
+                <p>PO Masih di CMT</p>
             </div>
-            <a href="#" class="dash-card-footer lihat-detail" data-id="pocmt">
-                <span>Lihat Detail</span>
-                <i class="fa fa-arrow-right"></i>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <a href="#" class="small-box-footer lihat-detail" data-id="pocmt">
+                Detail <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
+
+
 </div>
 
+<hr>
 <?php if (!empty($harian)) { ?>
     <?php if ($user['id_user'] == 11 || $user['id_user'] == 7 || $user['id_user'] == 35) { ?>
-        <div class="dash-box" style="margin-top: 10px;">
-            <div class="dash-box-header">
-                <h3 class="dash-box-title">
-                    <i class="fa fa-money" style="color:#10b981;"></i> Data Pengajuan Harian
-                </h3>
-            </div>
-            <div class="dash-box-body" style="padding: 0;">
-                <div class="table-responsive">
-                    <table class="table dash-table">
-                        <thead>
-                            <tr>
-                                <th width="60" class="text-center">Ttd</th>
-                                <th>Hari, Tanggal</th>
-                                <th>Divisi / Cabang</th>
-                                <th class="text-right">Cash (Rp)</th>
-                                <th class="text-right">Transfer (Rp)</th>
-                                <th class="text-right">Total (Rp)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($harian as $key => $us): ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <label>Pengajuan Harian</label>
+                        <table class="table table-bordered">
+                            <thead style="color:white; background-color:#337ab7">
                                 <tr>
-                                    <?php $hari = date('l', strtotime($us['tanggal'])) ?>
-                                    <td class="text-center">
-                                        <?php if ($us['status'] == 0) { ?>
-                                            <?php if ($id_user == 7 || $id_user == 11) { ?>
-                                                <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd" style="border-radius:4px;"><i class="fa fa-pencil"></i></a>
-                                            <?php } ?>
-                                        <?php } else { ?>
-                                            <span class="label label-success" style="padding:4px 8px; border-radius:12px;"><i class="fa fa-check"></i> ACC</span>
-                                        <?php } ?>
-                                    </td>
-                                    <td><strong><?php echo hari($hari) . ', ' . formatTanggalIndo($us['tanggal']) ?></strong></td>
-                                    <td>
-                                        <?php
-                                        if ($us['kategori'] == 1) {
-                                            echo "<span class='label label-primary' style='background-color:#3b82f6;'>Sablon</span>";
-                                        } else if ($us['kategori'] == 2) {
-                                            echo "<span class='label label-primary' style='background-color:#8b5cf6;'>Bordir</span>";
-                                        } else if ($us['kategori'] == 3) {
-                                            echo "<span class='label label-primary' style='background-color:#0d9488;'>Konveksi</span>";
-                                        } else if ($us['kategori'] == 4) {
-                                            echo "<span class='label label-primary' style='background-color:#f97316;'>Sukabumi</span>";
-                                        }
 
-                                        if (!empty($us['from_mingguan'])) {
-                                            echo ' <small class="text-muted">(Mingguan)</small>';
-                                        } else {
-                                            echo ' <small class="text-muted">(Harian)</small>';
-                                        }
-                                        ?>
-                                    </td>
-                                    <td align="right" style="font-family: monospace; font-size:13px; font-weight:600;"><?php echo number_format($us['cash']) ?></td>
-                                    <td align="right" style="font-family: monospace; font-size:13px; font-weight:600;"><?php echo number_format($us['transfer']) ?></td>
-                                    <td align="right" style="font-family: monospace; font-size:13px; font-weight:700; color:#059669;"><?php echo number_format($us['cash'] + $us['transfer']) ?></td>
+                                    <th>Ttd</th>
+                                    <th>Hari, Tanggal</th>
+                                    <th>Divisi / Cabang</th>
+                                    <th>
+                                        <center>Cash (Rp)</center>
+                                    </th>
+                                    <th>
+                                        <center>Transfer (Rp)</center>
+                                    </th>
+                                    <th>
+                                        <center>Total (Rp)</center>
+                                    </th>
                                 </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
+
+                            </thead>
+
+                            <tbody style="color:black !important">
+
+                                <?php foreach ($harian as $key => $us): ?>
+
+                                    <tr>
+                                        <?php $hari = date('l', strtotime($us['tanggal'])) ?>
+                                        <td>
+                                            <?php if ($us['status'] == 0) { ?>
+                                                <?php if ($id_user == 7 || $id_user == 11) { ?>
+                                                    <a href="#" class="btn btn-primary btn-xs text-white ttdDigital" data-id="<?php echo $us['id']; ?>" data-toggle="modal" data-target="#detailModalTtd"><i class="fa fa-pencil"></i></a>
+                                                <?php } ?>
+                                            <?php } else { ?>
+                                                <span class="btn btn-xs btn-success"><i class="fa fa-check"></i></span>
+                                            <?php } ?>
+                                        </td>
+                                        <td><?php echo hari($hari) . ', ' . formatTanggalIndo($us['tanggal']) ?></td>
+
+                                        <td>
+                                            <?php
+
+                                            if ($us['kategori'] == 1) {
+                                                echo "Sablon";
+                                            } else if ($us['kategori'] == 2) {
+                                                echo "Bordir";
+                                            } else if ($us['kategori'] == 3) {
+                                                echo "Konveksi";
+                                            } else if ($us['kategori'] == 4) {
+                                                echo "Sukabumi";
+                                            }
+
+                                            if (!empty($us['from_mingguan'])) {
+                                                echo ' Mingguan';
+                                            } else {
+                                                echo ' Harian';
+                                            }
+                                            ?>
+
+                                        </td>
+                                        <td align="right"><?php echo number_format($us['cash']) ?></td>
+                                        <td align="right"><?php echo number_format($us['transfer']) ?></td>
+                                        <td align="right"><?php echo number_format($us['cash'] + $us['transfer']) ?></td>
+                                    </tr>
+
+                                <?php endforeach ?>
+
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -688,32 +478,15 @@ $has_pending_approval = (
 
 <div class="row">
     <div class="col-md-6">
-        <div class="dash-box">
-            <div class="dash-box-header">
-                <h3 class="dash-box-title">
-                    <i class="fa fa-bar-chart" style="color:#3b82f6;"></i> Grafik Produksi Potongan Perbulan
-                </h3>
-            </div>
-            <div class="dash-box-body">
-                <div id="container" style="width:100%; height:380px;"></div>
-            </div>
-        </div>
+        <div id="container" style="width:100%; height:400px;"></div>
     </div>
 
     <div class="col-md-6">
-        <div class="dash-box">
-            <div class="dash-box-header">
-                <h3 class="dash-box-title">
-                    <i class="fa fa-align-left" style="color:#8b5cf6;"></i> Grafik Alat Keluar
-                </h3>
-            </div>
-            <div class="dash-box-body">
-                <div id="grafik_alat" style="width:100%; height:380px;"></div>
-            </div>
-        </div>
+        <div id="grafik_alat" style="width:100%; height:400px;"></div>
     </div>
-</div>
 
+
+</div>
 <div class="modal fade" id="detailModalTtd" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -726,6 +499,7 @@ $has_pending_approval = (
             <div class="modal-body" id="signatureModal">
             </div>
             <div class="modal-footer">
+
                 <button id="clear_signature">Clear</button>
                 <button id="save_signature">Save Signature</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -733,10 +507,9 @@ $has_pending_approval = (
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document"><!-- pakai modal-xl biar luas -->
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Detail Data</h5>
@@ -750,7 +523,6 @@ $has_pending_approval = (
         </div>
     </div>
 </div>
-
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
