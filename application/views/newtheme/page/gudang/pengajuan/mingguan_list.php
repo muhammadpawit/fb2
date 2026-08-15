@@ -14,13 +14,13 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Tanggal Awal</label>
-      <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
+      <input type="text" name="tanggal1" id="tanggal1" value="<?php echo isset($tanggal1) ? $tanggal1 : '' ?>" class="form-control">
     </div>
   </div>
   <div class="col-md-3">
     <div class="form-group">
       <label>Tanggal Akhir</label>
-      <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+      <input type="text" name="tanggal2" id="tanggal2" value="<?php echo isset($tanggal2) ? $tanggal2 : '' ?>" class="form-control">
     </div>
   </div>
   <div class="col-md-3">
@@ -28,9 +28,9 @@
                 <label>Bagian</label>
                 <select name="jenis" class="form-control select2bs4" required="required">
                   <option value="">Pilih</option>
-                  <option value="1" <?php echo $cat==1?'selected':''; ?>>Konveksi</option>
-                  <option value="2" <?php echo $cat==2?'selected':''; ?>>Bordir</option>
-                  <option value="3" <?php echo $cat==3?'selected':''; ?>>Sablon</option>
+                  <option value="1" <?php echo (isset($cat) && $cat==1)?'selected':''; ?>>Konveksi</option>
+                  <option value="2" <?php echo (isset($cat) && $cat==2)?'selected':''; ?>>Bordir</option>
+                  <option value="3" <?php echo (isset($cat) && $cat==3)?'selected':''; ?>>Sablon</option>
                 </select>
               </div>
             </div>
@@ -39,7 +39,9 @@
       <label>Aksi</label><br>
       <button class="btn btn-info btn-sm" onclick="filterwithbagian()">Filter</button>
       <button class="btn btn-info btn-sm" onclick="excelnya()">Excel</button>
-      <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+      <?php if(isset($tambah) && !empty($tambah)){ ?>
+        <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+      <?php } ?>
     </div>
   </div>
 </div>
@@ -62,7 +64,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php if($products){?>
+                <?php if(isset($products) && $products){?>
                   <?php foreach($products as $p){?>
                     <tr>
                       <td><?php echo $n++?></td>

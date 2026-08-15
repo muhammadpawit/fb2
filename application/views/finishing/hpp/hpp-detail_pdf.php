@@ -1,7 +1,10 @@
 <style type="text/css">
+    @page {
+        margin: 20px 30px;
+    }
     table {
         width: 100%;
-        font-size: 13px !important;
+        font-size: 12px !important;
         text-transform: uppercase;
         font-family: Arial, sans-serif;
     }
