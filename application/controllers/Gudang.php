@@ -4151,7 +4151,7 @@ class Gudang extends CI_Controller
 	public function ajuanmingguan_celana()
 	{
 		$data = array();
-		$data['title'] = 'Ajuan Alat-alat Kirim PO Kaos ';
+		$data['title'] = 'Ajuan Alat-alat Kirim PO Celana ';
 		$get = $this->input->get();
 		if (isset($get['tanggal1'])) {
 			$tanggal1 = $get['tanggal1'];
