@@ -111,6 +111,7 @@
 	            <tbody>
 	                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
 	                <?php foreach($rekapkemeja as $r){?>
+					<?php if($r['countkirim'] > 0 || $r['countsetor'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -130,6 +131,7 @@
 	                    $pcs1+=($r['qtykirimpcs']);
 	                    $pcs2+=($r['qtysetorpcs']);
 	                ?>
+					<?php } ?>
 	                <?php } ?>
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
@@ -165,6 +167,7 @@
 	            <tbody>
 	                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
 	                <?php foreach($rekapcelana as $r){?>
+					<?php if($r['countkirim'] > 0 || $r['countsetor'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -183,6 +186,7 @@
 	                    $pcs1+=($r['qtykirimpcs']);
 	                    $pcs2+=($r['qtysetorpcs']);
 	                ?>
+					<?php } ?>
 	                <?php } ?>
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
@@ -217,6 +221,7 @@
 	            <tbody>
 	                <?php $jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
 	                <?php foreach($rekapkaos as $r){?>
+					<?php if($r['countkirim'] > 0 || $r['countsetor'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $r['no']?></td>
 	                    <td><?php echo $r['type']?></td>
@@ -235,6 +240,7 @@
 	                    $pcs1+=($r['qtykirimpcs']);
 	                    $pcs2+=($r['qtysetorpcs']);
 	                ?>
+					<?php } ?>
 	                <?php } ?>
 	                <tr>
 	                    <td colspan="2"><b>Total</b></td>
