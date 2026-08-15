@@ -528,7 +528,7 @@ $has_pending_approval = (
                     <p>Pasang Kancing</p>
                 </div>
                 <div class="dash-card-icon">
-                    <i class="fa fa-circle-o"></i>
+                    <i class="fa fa-bullseye"></i>
                 </div>
             </div>
             <a href="#" class="dash-card-footer lihat-detail" data-id="pasangkancing">
