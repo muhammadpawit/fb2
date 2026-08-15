@@ -1,94 +1,233 @@
-<form method="post" action="<?php echo $action; ?>">
-	<input type="hidden" name="id" value="<?php echo $m['id']?>">
-	<div class="row">
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Nama Menu</label>
-				<input type="text" name="nama" class="form-control" value="<?php echo $m['nama']?>">
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Url</label>
-				<input type="text" name="url" class="form-control" value="<?php echo $m['url']?>">
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Urutan</label>
-				<input type="number" name="urutan" class="form-control" value="<?php echo $m['urutan']?>">
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Group Menu</label>
-				<select name="parent_id" id="grouping" class="form-control select2bs4" data-live-search="true">
-					<option value="0">Pilih</option>
-					<?php foreach($parent as $p){?>
-						<option value="<?php echo $p['id']?>" <?php echo $group_id==$p['id']?'selected':'';?>><?php echo $p['nama']?></option>
-					<?php } ?>
-				</select>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Sub Menu 1</label>
-				<select name="sub1" id="sub1" class="form-control" data-live-search="true">
-					<option value="0">Pilih</option>
-					<?php foreach($sub1_options as $opt){ ?>
-						<option value="<?php echo $opt['id']?>" <?php echo $sub1_id == $opt['id'] ? 'selected' : ''; ?>><?php echo $opt['nama']?></option>
-					<?php } ?>
-				</select>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Sub Menu 2</label>
-				<select name="sub2" id="sub2" class="form-control" data-live-search="true">
-					<option value="0">Pilih</option>
-					<?php foreach($sub2_options as $opt){ ?>
-						<option value="<?php echo $opt['id']?>" <?php echo $sub2_id == $opt['id'] ? 'selected' : ''; ?>><?php echo $opt['nama']?></option>
-					<?php } ?>
-				</select>
-			</div>
-		</div>
-	</div>	
-	<div class="row">
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Sub Menu 3</label>
-				<select name="sub3" id="sub3" class="form-control" data-live-search="true">
-					<option value="0">Pilih</option>
-					<?php foreach($sub3_options as $opt){ ?>
-						<option value="<?php echo $opt['id']?>" <?php echo ($m['sub3'] == 1 && $m['parent_id'] == $opt['id']) ? 'selected' : ''; ?>><?php echo $opt['nama']?></option>
-					<?php } ?>
-				</select>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Icon </label><br>
-				<input type="radio" name="icon" value="fas fa-tachometer-alt" <?php echo $m['icon']=='fas fa-tachometer-alt'?'checked':'' ?> required> <i class="fas fa-tachometer-alt"></i> (Menu utama)<br>
-				<input type="radio" name="icon" value="fas fa-circle" <?php echo $m['icon']=='fas fa-circle'?'checked':'' ?> required> <i class="fas fa-circle"></i> (Sub Menu 1)<br>
-				<input type="radio" name="icon" value="far fa-dot-circle nav-icon" <?php echo $m['icon']=='far fa-dot-circle nav-icon'?'checked':'' ?> required> <i class="far fa-dot-circle nav-icon"></i> (Sub Menu 2)<br>
-				<input type="radio" name="icon" value="fa fa-angle-right" <?php echo $m['icon']=='fa fa-angle-right'?'checked':'' ?> required> <i class="fa fa-angle-right"></i> (Sub Menu 3)
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<button type="submit" class="btn btn-info btn-sm">Simpan</button>
-				<a href="<?php echo $kembali?>" class="btn btn-danger btn-sm text-white">Kembali</a>
-			</div>
-		</div>
-	</div>
-</form>
+<style>
+    .form-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 24px;
+        overflow: hidden;
+    }
+
+    .form-box-header {
+        padding: 16px 20px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .form-box-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-box-title i {
+        color: #3c8dbc;
+        font-size: 18px;
+    }
+
+    .form-box-body {
+        padding: 24px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #334155;
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 8px 12px !important;
+        height: auto !important;
+        font-size: 13px !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #3c8dbc !important;
+        box-shadow: 0 0 0 3px rgba(60, 141, 188, 0.15) !important;
+    }
+
+    .icon-radio-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .icon-radio-card:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+    }
+
+    .btn-save-menu {
+        background-color: #3c8dbc;
+        color: #ffffff !important;
+        border-radius: 8px;
+        padding: 9px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-save-menu:hover {
+        background-color: #2b6cb0;
+        box-shadow: 0 2px 4px rgba(60, 141, 188, 0.3);
+    }
+
+    .btn-cancel-menu {
+        background-color: #ef4444;
+        color: #ffffff !important;
+        border-radius: 8px;
+        padding: 9px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn-cancel-menu:hover {
+        background-color: #dc2626;
+    }
+</style>
+
+<div class="form-box">
+    <div class="form-box-header">
+        <h3 class="form-box-title">
+            <i class="fa fa-edit"></i> Edit Data Menu: <u><?php echo $m['nama'] ?></u>
+        </h3>
+        <a href="<?php echo $kembali ?>" class="btn-cancel-menu">
+            <i class="fa fa-arrow-left"></i> Kembali
+        </a>
+    </div>
+
+    <div class="form-box-body">
+        <form method="post" action="<?php echo $action; ?>">
+            <input type="hidden" name="id" value="<?php echo $m['id'] ?>">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nama Menu <span class="text-danger">*</span></label>
+                        <input type="text" name="nama" class="form-control" value="<?php echo $m['nama'] ?>" required="required">
+                    </div>
+
+                    <div class="form-group">
+                        <label>URL Path <span class="text-danger">*</span></label>
+                        <input type="text" name="url" class="form-control" value="<?php echo $m['url'] ?>" required="required">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Urutan Tampil</label>
+                        <input type="number" name="urutan" class="form-control" value="<?php echo $m['urutan'] ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pilihan Icon Menu <span class="text-danger">*</span></label>
+                        <div class="icon-radio-card">
+                            <input type="radio" name="icon" id="ic1" value="fas fa-tachometer-alt" <?php echo $m['icon'] == 'fas fa-tachometer-alt' ? 'checked' : '' ?> required>
+                            <label for="ic1" style="margin:0; font-weight:normal; cursor:pointer;"><i class="fas fa-tachometer-alt" style="color:#0284c7; width:20px;"></i> <strong>fas fa-tachometer-alt</strong> (Menu Utama)</label>
+                        </div>
+                        <div class="icon-radio-card">
+                            <input type="radio" name="icon" id="ic2" value="fas fa-circle" <?php echo $m['icon'] == 'fas fa-circle' ? 'checked' : '' ?> required>
+                            <label for="ic2" style="margin:0; font-weight:normal; cursor:pointer;"><i class="fas fa-circle" style="color:#0284c7; width:20px;"></i> <strong>fas fa-circle</strong> (Sub Menu 1)</label>
+                        </div>
+                        <div class="icon-radio-card">
+                            <input type="radio" name="icon" id="ic3" value="far fa-dot-circle nav-icon" <?php echo $m['icon'] == 'far fa-dot-circle nav-icon' ? 'checked' : '' ?> required>
+                            <label for="ic3" style="margin:0; font-weight:normal; cursor:pointer;"><i class="far fa-dot-circle nav-icon" style="color:#0284c7; width:20px;"></i> <strong>far fa-dot-circle</strong> (Sub Menu 2)</label>
+                        </div>
+                        <div class="icon-radio-card">
+                            <input type="radio" name="icon" id="ic4" value="fa fa-angle-right" <?php echo $m['icon'] == 'fa fa-angle-right' ? 'checked' : '' ?> required>
+                            <label for="ic4" style="margin:0; font-weight:normal; cursor:pointer;"><i class="fa fa-angle-right" style="color:#0284c7; width:20px;"></i> <strong>fa fa-angle-right</strong> (Sub Menu 3)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Group Menu / Parent Utama</label>
+                        <select name="parent_id" id="grouping" class="form-control select2bs4" data-live-search="true">
+                            <option value="0">Pilih Group Menu (Menu Utama)</option>
+                            <?php foreach ($parent as $p) { ?>
+                                <option value="<?php echo $p['id'] ?>" <?php echo $group_id == $p['id'] ? 'selected' : ''; ?>><?php echo $p['nama'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sub Menu 1</label>
+                        <select name="sub1" id="sub1" class="form-control" data-live-search="true">
+                            <option value="0">Pilih Sub Menu 1</option>
+                            <?php foreach ($sub1_options as $opt) { ?>
+                                <option value="<?php echo $opt['id'] ?>" <?php echo $sub1_id == $opt['id'] ? 'selected' : ''; ?>><?php echo $opt['nama'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sub Menu 2</label>
+                        <select name="sub2" id="sub2" class="form-control" data-live-search="true">
+                            <option value="0">Pilih Sub Menu 2</option>
+                            <?php foreach ($sub2_options as $opt) { ?>
+                                <option value="<?php echo $opt['id'] ?>" <?php echo $sub2_id == $opt['id'] ? 'selected' : ''; ?>><?php echo $opt['nama'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sub Menu 3</label>
+                        <select name="sub3" id="sub3" class="form-control" data-live-search="true">
+                            <option value="0">Pilih Sub Menu 3</option>
+                            <?php foreach ($sub3_options as $opt) { ?>
+                                <option value="<?php echo $opt['id'] ?>" <?php echo ($m['sub3'] == 1 && $m['parent_id'] == $opt['id']) ? 'selected' : ''; ?>><?php echo $opt['nama'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <hr style="margin: 20px 0; border-color:#e2e8f0;">
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn-save-menu">
+                            <i class="fa fa-check"></i> Simpan Perubahan
+                        </button>
+                        <a href="<?php echo $kembali ?>" class="btn-cancel-menu" style="margin-left:8px;">
+                            Batal
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script type="text/javascript">
 	$( "#grouping" ).change(function() {
   		$('#sub1').empty();
 	  val = $(this).val();
-	  $.get("<?php echo BASEURL.'Masterdata/menugetsub/1' ?>?&parent_id="+val, 
+	  $.get("<?php echo BASEURL . 'Masterdata/menugetsub/1' ?>?&parent_id="+val, 
 	    function(data){   
 	    console.log(data);
 	    $('#sub1').append(data);
@@ -98,7 +237,7 @@
 	$( "#sub1" ).change(function() {
   		$('#sub2').empty();
 	  val = $(this).val();
-	  $.get("<?php echo BASEURL.'Masterdata/menugetsub/2' ?>?&parent_id="+val, 
+	  $.get("<?php echo BASEURL . 'Masterdata/menugetsub/2' ?>?&parent_id="+val, 
 	    function(data){   
 	    console.log(data);
 	    $('#sub2').append(data);
@@ -108,7 +247,7 @@
 	$( "#sub2" ).change(function() {
   		$('#sub3').empty();
 	  val = $(this).val();
-	  $.get("<?php echo BASEURL.'Masterdata/menugetsub' ?>?&parent_id="+val, 
+	  $.get("<?php echo BASEURL . 'Masterdata/menugetsub' ?>?&parent_id="+val, 
 	    function(data){   
 	    console.log(data);
 	    $('#sub3').append(data);

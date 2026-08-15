@@ -237,20 +237,28 @@ class Masterdata extends CI_Controller {
 	public function menu(){
 		$data=[];
 		$data['title']='Daftar Menu';
-		$results=$this->GlobalModel->getData('menu',array('hapus'=>0));
+		$data['page']=$this->page.'masterdata/menulist';
+		$data['tambah']=BASEURL.'masterdata/menuadd';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function menujson(){
+		$results = $this->GlobalModel->getData('menu', array('hapus' => 0));
 		
 		$menuMap = [];
         foreach($results as $r) {
             $menuMap[$r['id']] = $r;
         }
 
+		$data = [];
+		$no = 1;
 		foreach($results as $result){
             $currId = $result['parent_id'];
             $lokasi = [];
             $visited = [];
             while($currId != 0 && isset($menuMap[$currId])) {
                 if (in_array($currId, $visited)) {
-                    break; // Mencegah infinite loop jika ada parent_id yang saling berulang (circular reference)
+                    break;
                 }
                 $visited[] = $currId;
                 $lokasi[] = $menuMap[$currId]['nama'];
@@ -264,21 +272,23 @@ class Masterdata extends CI_Controller {
                 $lokasi_str = 'Menu Utama';
             }
 
-			$data['menus'][]=array(
-				'id'=>$result['id'],
-				'nama'=>$result['nama'],
-				'url'=>$result['url'],
-				'parent_id'=>$result['parent_id'],
-				'urutan'=>$result['urutan'],
-				'icon'=>$result['icon'],
-				'lokasi'=>$lokasi_str,
-				'edit'=>BASEURL.'Masterdata/editmenu/'.$result['id'],
-				'delete'=>BASEURL.'Masterdata/hapusmenu/'.$result['id'],
+			$data[] = array(
+				'no' => $no++,
+				'id' => $result['id'],
+				'nama' => $result['nama'],
+				'url' => $result['url'],
+				'parent_id' => $result['parent_id'],
+				'urutan' => $result['urutan'],
+				'icon' => !empty($result['icon']) ? $result['icon'] : 'fa fa-bars',
+				'lokasi' => $lokasi_str,
+				'edit' => BASEURL.'Masterdata/editmenu/'.$result['id'],
+				'delete' => BASEURL.'Masterdata/hapusmenu/'.$result['id'],
 			);
 		}
-		$data['page']=$this->page.'masterdata/menulist';
-		$data['tambah']=BASEURL.'masterdata/menuadd';
-		$this->load->view($this->page.'main',$data);
+
+		header('Content-Type: application/json');
+		echo json_encode(array('data' => $data));
+		exit;
 	}
 
 	public function menuadd(){
