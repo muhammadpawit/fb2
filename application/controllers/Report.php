@@ -540,6 +540,9 @@ class Report extends CI_Controller
 					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tanggal1, $tanggal2);
 					if (!empty($cuci)) {
 						foreach ($cuci as $b) {
+							if (trim(strtolower($b['nama'])) == 'adi loundry' || trim(strtolower($b['nama'])) == 'adi laundry') {
+								continue;
+							}
 							$konveksi[] = array(
 								'tanggal' => $p['tanggal'],
 								'nominal' => $b['nominal'],
