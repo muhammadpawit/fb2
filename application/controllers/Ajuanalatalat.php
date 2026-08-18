@@ -52,12 +52,12 @@ class Ajuanalatalat extends CI_Controller
 		$data['title'] .= ' Mingguan ';
 		$get = $this->input->get();
 		$url = '';
-		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat where tanggal <> '0000-00-00' order by id desc limit 1");
+		$tanggalterakhir = $this->GlobalModel->QueryManualRow("SELECT tanggal from ajuanalatalat where tanggal <> '0000-00-00' AND bagian='$id' order by id desc limit 1");
 		if (isset($get['tanggal1'])) {
 			$tanggal1 = $get['tanggal1'];
 			$url .= '&tanggal1=' . $tanggal1;
 		} else {
-			$tanggal1 = $tanggalterakhir['tanggal'];
+			$tanggal1 = isset($tanggalterakhir['tanggal']) ? $tanggalterakhir['tanggal'] : date('Y-m-d');
 		}
 		if (isset($get['tanggal2'])) {
 			$tanggal2 = $get['tanggal2'];
@@ -69,11 +69,8 @@ class Ajuanalatalat extends CI_Controller
 		if (isset($get['spv'])) {
 			$spv = $get['spv'];
 			$url .= '&spv=' . $spv;
-			$tanggal1 = $tanggalterakhir['tanggal'];
-			$tanggal2 = date('Y-m-d');
 		} else {
 			$spv = null;
-			$tanggal2 = date('Y-m-d');
 		}
 
 		$data['spv']	 = $spv;

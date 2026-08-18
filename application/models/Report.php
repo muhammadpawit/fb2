@@ -404,11 +404,11 @@ class Report extends CI_Model {
 		$dataCelana = $this->GlobalModel->QueryManualRow($sqlCelana);
 		
 		// Bordir (bagian = 1)
-		$sqlBordir = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=1 AND acc_ajuan=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
+		$sqlBordir = "SELECT COUNT(*) as total FROM ajuanalatalat a LEFT JOIN product p ON p.product_id=a.id_persediaan WHERE a.hapus=0 AND p.hapus=0 AND a.bagian=1 AND a.acc_ajuan=0 AND DATE(a.tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataBordir = $this->GlobalModel->QueryManualRow($sqlBordir);
 
 		// Konveksi (bagian = 2)
-		$sqlKonveksi = "SELECT COUNT(*) as total FROM ajuanalatalat WHERE hapus=0 AND bagian=2 AND acc_ajuan=0 AND DATE(tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
+		$sqlKonveksi = "SELECT COUNT(*) as total FROM ajuanalatalat a LEFT JOIN product p ON p.product_id=a.id_persediaan WHERE a.hapus=0 AND p.hapus=0 AND a.bagian=2 AND a.acc_ajuan=0 AND DATE(a.tanggal) BETWEEN '{$periodeAwal}' AND '{$periodeAkhir}'";
 		$dataKonveksi = $this->GlobalModel->QueryManualRow($sqlKonveksi);
 
 		return [
