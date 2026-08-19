@@ -51,6 +51,7 @@
                   <th>No</th>
                   <th>Tanggal</th>
                   <th>Kebutuhan</th>
+                  <th>Jumlah Kebutuhan</th>
                   <th>Satuan</th>
                   <th>Stok</th>
                   <th>Jumlah Ajuan</th>
@@ -62,9 +63,20 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $i=0;?>
+                <?php 
+                  $i=0;
+                  $tot_kebutuhan = 0;
+                  $tot_stok = 0;
+                  $tot_ajuan = 0;
+                  $tot_acc = 0;
+                ?>
                 <?php if($products){?>
-                  <?php foreach($products as $p){?>
+                  <?php foreach($products as $p){
+                    $tot_kebutuhan += (isset($p['ajuan_kebutuhan']) ? $p['ajuan_kebutuhan'] : 0);
+                    $tot_stok += (isset($p['stok']) ? $p['stok'] : 0);
+                    $tot_ajuan += (isset($p['jml_ajuan']) ? $p['jml_ajuan'] : 0);
+                    $tot_acc += (isset($p['jml_acc']) ? $p['jml_acc'] : 0);
+                  ?>
                     <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan_all" id="setujuiAll">
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="prods[<?php echo $i ?>][id]" value="<?php echo $p['id']?>">
@@ -74,6 +86,7 @@
                       <td><?php echo $n++?></td>
                       <td><?php echo $p['tanggal'] ?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
+                      <td><?php echo isset($p['ajuan_kebutuhan']) ? $p['ajuan_kebutuhan'] : 0?></td>
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['stok']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
@@ -103,7 +116,7 @@
                   <?php }?>
                 <?php }?>
                 <tr>
-                  <td colspan="5" align="right"><?php echo !empty($tgl_diacc ) ? 'diacc terkahir pada '.$tgl_diacc :''?></td>
+                  <td colspan="6" align="right"><?php echo !empty($tgl_diacc ) ? 'diacc terkahir pada '.$tgl_diacc :''?></td>
                   <td>
                     <!-- <form method="POST" action="<?php echo BASEURL?>Gudang/acc_ajuan_mingguan"> -->
                     <input type="hidden" name="tanggal" value="<?php echo $tanggal1?>" hidden>
@@ -119,7 +132,17 @@
                   </td>
                 </tr>
               </tbody>
-            
+              <tfoot>
+                <tr>
+                  <th colspan="3" style="text-align:right">Total</th>
+                  <th><?php echo $tot_kebutuhan; ?></th>
+                  <th></th>
+                  <th><?php echo $tot_stok; ?></th>
+                  <th><?php echo $tot_ajuan; ?></th>
+                  <th><?php echo $tot_acc; ?></th>
+                  <th colspan="4"></th>
+                </tr>
+              </tfoot>
             </table>
   </div>
 </div>

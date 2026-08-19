@@ -53,6 +53,7 @@
                   <th>No</th>
                   <th>Tanggal</th>
                   <th>Kebutuhan</th>
+                  <th>Jumlah Kebutuhan</th>
                   <th>Satuan</th>
                   <th>Stok</th>
                   <th>Jumlah Ajuan</th>
@@ -64,12 +65,24 @@
                 </tr>
               </thead>
               <tbody>
+                <?php 
+                  $tot_kebutuhan = 0;
+                  $tot_stok = 0;
+                  $tot_ajuan = 0;
+                  $tot_acc = 0;
+                ?>
                 <?php if(isset($products) && $products){?>
-                  <?php foreach($products as $p){?>
+                  <?php foreach($products as $p){
+                    $tot_kebutuhan += (isset($p['ajuan_kebutuhan']) ? $p['ajuan_kebutuhan'] : 0);
+                    $tot_stok += (isset($p['stok']) ? $p['stok'] : 0);
+                    $tot_ajuan += (isset($p['jml_ajuan']) ? $p['jml_ajuan'] : 0);
+                    $tot_acc += (isset($p['jml_acc']) ? $p['jml_acc'] : 0);
+                  ?>
                     <tr>
                       <td><?php echo $n++?></td>
                       <td><?php echo $p['tanggal']?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
+                      <td><?php echo isset($p['ajuan_kebutuhan']) ? $p['ajuan_kebutuhan'] : 0?></td>
                       <td><?php echo ($p['satuan'])?></td>
                       <td><?php echo $p['stok']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
@@ -99,6 +112,17 @@
                   <?php }?>
                 <?php }?>
               </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="3" style="text-align:right">Total</th>
+                  <th><?php echo $tot_kebutuhan; ?></th>
+                  <th></th>
+                  <th><?php echo $tot_stok; ?></th>
+                  <th><?php echo $tot_ajuan; ?></th>
+                  <th><?php echo $tot_acc; ?></th>
+                  <th colspan="4"></th>
+                </tr>
+              </tfoot>
             </table>
   </div>
 </div>
