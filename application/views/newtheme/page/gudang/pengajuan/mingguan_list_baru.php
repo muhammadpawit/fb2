@@ -14,13 +14,13 @@
   <div class="col-md-3">
     <div class="form-group">
       <label>Tanggal Awal</label>
-      <input type="text" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control">
+      <input type="text" name="tanggal1" id="tanggal1" value="<?php echo isset($tanggal1) ? $tanggal1 : '' ?>" class="form-control">
     </div>
   </div>
   <div class="col-md-3">
     <div class="form-group">
       <label>Tanggal Akhir</label>
-      <input type="text" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control">
+      <input type="text" name="tanggal2" id="tanggal2" value="<?php echo isset($tanggal2) ? $tanggal2 : '' ?>" class="form-control">
     </div>
   </div>
   <div class="col-md-3">
@@ -28,9 +28,9 @@
                 <label>Bagian</label>
                 <select name="jenis" class="form-control select2bs4" required="required">
                   <option value="">Pilih</option>
-                  <option value="1" <?php echo $cat==1?'selected':''; ?>>Konveksi</option>
-                  <option value="2" <?php echo $cat==2?'selected':''; ?>>Bordir</option>
-                  <option value="3" <?php echo $cat==3?'selected':''; ?>>Sablon</option>
+                  <option value="1" <?php echo (isset($cat) && $cat==1)?'selected':''; ?>>Konveksi</option>
+                  <option value="2" <?php echo (isset($cat) && $cat==2)?'selected':''; ?>>Bordir</option>
+                  <option value="3" <?php echo (isset($cat) && $cat==3)?'selected':''; ?>>Sablon</option>
                 </select>
               </div>
             </div>
@@ -39,8 +39,9 @@
       <label>Aksi</label><br>
       <button class="btn btn-info btn-sm" onclick="filterwithbagian()">Filter</button>
       <button class="btn btn-info btn-sm" onclick="excelnya()">Excel</button>
-      <!-- <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a> -->
-      <button class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#tambahModal">Tambah</button>
+      <?php if(isset($tambah) && !empty($tambah)){ ?>
+        <a href="<?php echo $tambah?>" class="btn btn-info btn-sm text-white">Tambah</a>
+      <?php } ?>
     </div>
   </div>
 </div>
@@ -50,177 +51,83 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Barang</th>
-                  <th>Jumlah Lapisan</th>
-                  <th>Rincian</th>
+                  <th>Tanggal</th>
                   <th>Kebutuhan</th>
+                  <th>Jumlah Kebutuhan</th>
+                  <th>Satuan</th>
                   <th>Stok</th>
-                  <th>Ajuan</th>
-                  <th>Acc Ajuan</th>
-                  <!-- <th>Rincian</th> -->
-                  <th>Ket</th>
+                  <th>Jumlah Ajuan</th>
+                  <th>Jumlah ACC</th>
+                  <th>Acc Satuan</th>
+                  <th>Status ACC</th>
+                  <th>Keterangan</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <?php $n=1;?>
-                <?php if($products){?>
-                  <?php foreach($products as $p){?>
+                <?php 
+                  $tot_kebutuhan = 0;
+                  $tot_stok = 0;
+                  $tot_ajuan = 0;
+                  $tot_acc = 0;
+                  $n = 1;
+                ?>
+                <?php if(isset($products) && $products){?>
+                  <?php foreach($products as $p){
+                    $tot_kebutuhan += (isset($p['ajuan_kebutuhan']) ? $p['ajuan_kebutuhan'] : 0);
+                    $tot_stok += (isset($p['stok']) ? $p['stok'] : 0);
+                    $tot_ajuan += (isset($p['jml_ajuan']) ? $p['jml_ajuan'] : 0);
+                    $tot_acc += (isset($p['jml_acc']) ? $p['jml_acc'] : 0);
+                  ?>
                     <tr>
                       <td><?php echo $n++?></td>
-                      <td><?php echo strtolower($p['nama_produk'])?></td>
-                      <td><?php echo strtolower($p['jumlah_lapisan'])?></td>
-                      <td><?php echo $p['rincian']?></td>
+                      <td><?php echo date('d-m-Y', strtotime($p['tanggal']))?></td>
                       <td><?php echo strtolower($p['kebutuhan'])?></td>
-                      <td><?php echo strtolower($p['stok'])?></td>
-                      <td><?php echo strtolower($p['ajuan'])?></td>
-                      <td><?php echo strtolower($p['acc'])?></td>
-                      <td><?php echo strtolower($p['rincian_ajuan'])?></td>
+                      <td><?php echo isset($p['ajuan_kebutuhan']) ? $p['ajuan_kebutuhan'] : 0?></td>
+                      <td><?php echo ($p['satuan'])?></td>
+                      <td><?php echo $p['stok']?></td>
+                      <td><?php echo $p['jml_ajuan']?></td>
                       <td>
-                      <a href="javascript:void(0)" data-id="<?php echo $p['id']; ?>" class="btn-edit"><i class="fa fa-edit text-warning"></i></a>
+                        <?php if($p['jml_acc'] > 0){ ?>
+                          <span class="badge badge-success p-1"><?php echo $p['jml_acc']?></span>
+                        <?php } else { ?>
+                          <?php echo $p['jml_acc']?>
+                        <?php } ?>
                       </td>
+                      <td><?php echo $p['acc_satuan']?></td>
                       <td>
-                        <a href="<?php echo BASEURL?>Ajuankemejabaru/delete/<?php echo $p['id']?>" onclick="return confirm('Apakah yakin?')"><i class="fa fa-trash text-red"></i></a>
+                        <?php if($p['jml_acc'] > 0){ ?>
+                          <span class="badge badge-success"><i class="fa fa-check"></i> ACC</span>
+                        <?php } else { ?>
+                          <span class="badge badge-warning"><i class="fa fa-clock-o"></i> Belum ACC</span>
+                        <?php } ?>
+                      </td>
+                      <td><?php echo strtolower($p['keterangan2'])?></td>
+                      <td>
+                        <a href="<?php echo $p['edit']?>" class="btn btn-info btn-xs text-white">edit</a>
+                        <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">Acc / detail</a>
+                        <a href="<?php echo $p['excel']?>" class="btn btn-success btn-xs text-white">excel</a>
+                        <a href="<?php echo $p['bataladmin']?>" onclick="return confirm('Apakah yakin ajuan ini akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
                       </td>
                     </tr>
                   <?php }?>
                 <?php }?>
               </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="3" style="text-align:right">Total</th>
+                  <th><?php echo $tot_kebutuhan; ?></th>
+                  <th></th>
+                  <th><?php echo $tot_stok; ?></th>
+                  <th><?php echo $tot_ajuan; ?></th>
+                  <th><?php echo $tot_acc; ?></th>
+                  <th colspan="4"></th>
+                </tr>
+              </tfoot>
             </table>
   </div>
 </div>
-<!-- Modal Tambah -->
-<div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="tambahModalLabel">Tambah Ajuan Kemeja Baru</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="tambahForm" method="POST" action="<?php echo $tambah_action; ?>">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Tanggal</label>
-                <input type="text" class="form-control datepicker" id="tanggal" value="<?php echo date('Y-m-d')?>" name="tanggal" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Nama Barang</label>
-                <!-- <input type="text" class="form-control" name="nama_barang" required> -->
-                 <select name="nama_barang" id="nama_barang" class="form-control select2bs4 prod" style="width: 100%;">
-                  <option value="">Pilih</option>
-                  <?php foreach($item as $i){?>
-                    <option value="<?php echo $i['product_id']?>" data-item="<?php echo $i['product_id']?>"><?php echo $i['nama']?></option>
-                  <?php } ?>
-                 </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Jumlah Lapisan</label>
-                <input type="number" class="form-control" name="jumlah_lapisan" id="jumlah_lapisan" value="0" onblur="kebutuhans()" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Jumlah Dz</label>
-                <input type="number" class="form-control" name="jumlah_dz" id="jumlah_dz" value="0" onblur="kebutuhans()" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Jumlah Per Baju</label>
-                <input type="number" class="form-control" name="jumlah_per_baju" id="jumlah_per_baju" value="0" onblur="kebutuhans()" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Jumlah Per Cons</label>
-                <input type="number" class="form-control" name="jumlah_per_cons" id="jumlah_per_cons" value="0" onblur="kebutuhans()" required>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Rincian</label>
-                <textarea class="form-control" name="rincian" id="rincian" required></textarea>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Kebutuhan</label>
-                <input type="number" class="form-control" name="kebutuhan" id="kebutuhan" readonly>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Stok</label>
-                <input type="number" class="form-control stok" name="stok" id="stok" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Ajuan</label>
-                <input type="number" class="form-control" name="ajuan" id="ajuan" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Rincian Ajuan</label>
-                <textarea class="form-control" name="rincian_ajuan" id="rincian_ajuan" required></textarea>
-              </div>
-            </div>
-            <!-- <div class="col-md-6">
-              
-            </div>
-            <div class="col-md-6">
-              
-            </div>
-            <div class="col-md-6">
-              
-            </div> -->
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-primary" form="tambahForm">Simpan</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script type="text/javascript">
-
-         $(document).on('change', '#nama_barang', function(e){
-            var dataItem = $(this).find(':selected').data('item');
-            $.get( "<?php echo BASEURL.'Ajuankemejabaru/cariproduct' ?>", { id: dataItem } )
-              .done(function( data ) {
-                var obj = JSON.parse(data);
-                console.log(obj);
-                if(obj.stock==0){
-                    $(".stok").val(obj.stock);
-                    $(".stok").attr('readonly',true);
-                }else{
-                    $(".stok").val(obj.stock);
-                    $(".stok").attr('readonly',true);
-                }
-            });
-        });
-
-        function kebutuhans(){
-          var jumlah_lapisan  = $("#jumlah_lapisan").val();
-          var jumlah_dz       = $("#jumlah_dz").val();
-          var jumlah_per_baju  = $("#jumlah_per_baju").val();
-          var jumlah_per_cons  = $("#jumlah_per_cons").val();
-          var total  = jumlah_lapisan*jumlah_dz / jumlah_per_baju*jumlah_per_cons;
-          
-          $("#kebutuhan").val(total.toFixed(1));
-        }
   
   function filterwithbagian(){
     var url='?';
@@ -245,7 +152,7 @@
   }
 
   function excelnya(){
-    var url='';
+    var url='<?php echo BASEURL ?>Ajuankemejabaru/excel_all?';
     var tanggal1 =$("#tanggal1").val();
     var tanggal2 =$("#tanggal2").val();
     if(tanggal1){
@@ -265,41 +172,4 @@
 
     location =url;
   }
-
-  $('.btn-edit').on('click', function() {
-      var id = $(this).data('id');
-      
-      // Mengubah konten modal saat tombol diklik
-      $('#modalContent').html('Loading data for ID: ' + id);
-
-      // Memanggil AJAX untuk mendapatkan detail data (gunakan URL API Anda)
-      $.ajax({
-        url: '<?php echo BASEURL?>Ajuankemejabaru/getDetail/'+id, // Ganti dengan URL untuk mengambil detail data
-        type: 'GET',
-        data: { id: id },
-        success: function(response) {
-          // Tampilkan data yang diterima ke modal
-          var obj = JSON.parse(response);
-          console.log(response);
-          $('#tanggal').val(obj.tanggal);
-          $('#nama_barang').val(obj.nama_barang).trigger('change');
-          $('#jumlah_lapisan').val(obj.jumlah_lapisan);
-          $('#jumlah_dz').val(obj.jumlah_dz);
-          $('#jumlah_per_baju').val(obj.jumlah_per_baju);
-          $('#jumlah_per_cons').val(obj.jumlah_per_cons);
-          $('#rincian').val(obj.rincian);
-          $('#kebutuhan').val(obj.kebutuhan);
-          $('#stok').val(obj.stok);
-          $('#ajuan').val(obj.ajuan);
-          $('#rincian_ajuan').val(obj.rincian_ajuan);
-          $('#tambahForm').append('<input type="hidden" name="idajuan" value="'+obj.id+'">');
-        },
-        error: function() {
-          $('#modalContent').html('Failed to load data.');
-        }
-      });
-
-      // Menampilkan modal
-      $('#tambahModal').modal('show');
-    });
 </script>
