@@ -108,6 +108,20 @@ class Verifikasibarangmasuk extends CI_Controller
 		$this->load->view('newtheme/page/main', $data);
 	}
 
+	public function sablon()
+	{
+		$data = array();
+		$data['title'] = 'Verifikasi Barang Masuk Sablon';
+		$data['kategori'] = 1;
+		$data['prods'] = $this->_get_data(1);
+		$data['karyawan'] = $this->GlobalModel->getData('karyawan', array('hapus' => 0, 'status_resign' => 1));
+		$data['supplier'] = $this->GlobalModel->getData('master_supplier', array('hapus' => 0));
+		$data['sel_supplier'] = $this->input->get('supplier');
+		$data['action'] = BASEURL . 'Verifikasibarangmasuk/sablon';
+		$data['page'] = 'newtheme/page/verifikasibarangmasuk/list';
+		$this->load->view('newtheme/page/main', $data);
+	}
+
 	public function simpan()
 	{
 		$data = $this->input->post();
@@ -173,6 +187,8 @@ class Verifikasibarangmasuk extends CI_Controller
 			$redirect_url = 'bordir';
 		} else if ($data['jenis'] == 4) {
 			$redirect_url = 'sukabumi';
+		} else if ($data['jenis'] == 1) {
+			$redirect_url = 'sablon';
 		}
 		redirect(BASEURL . 'Verifikasibarangmasuk/' . $redirect_url . '?supplier=' . $data['supplier']);
 	}
