@@ -103,7 +103,7 @@
           <?php } ?>
           <div class="form-group">
             <label><?php if(!empty($products['file_ktp'])){?> Ubah <?php } ?>File KTP</label>
-            <input type="file" name="ktp" accept=".jpg,.png" class="form-control" required="required">
+            <input type="file" name="ktp" accept=".jpg,.png" class="form-control" <?php if(empty($products['file_ktp'])){ echo 'required="required"'; } ?>>
           </div>
           <button type="submit" class="btn btn-info">Simpan</button>
           <a class="btn btn-danger text-white" href="<?php echo $batal?>">Batal</a>
