@@ -61,7 +61,11 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
             <td>Service (Mesin Bordir)</td>
             <td align="right"><?php echo $service; ?></td>
         </tr>
-        <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service); ?>
+        <tr>
+            <td>Potongan Warteg</td>
+            <td align="right"><?php echo isset($potonganwarteg) ? $potonganwarteg : 0; ?></td>
+        </tr>
+        <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
         <tr style="background-color: #fff2cc;">
             <td><b>TOTAL PENGELUARAN</b></td>
             <td align="right"><b><?php echo $totalpengeluaran; ?></b></td>

@@ -169,9 +169,13 @@
                                 <td>Service Mesin</td>
                                 <td align="right" class="text-amount"><?php echo number_format($service) ?></td>
                             </tr>
+                            <tr>
+                                <td>Potongan Warteg</td>
+                                <td align="right" class="text-amount"><?php echo number_format(isset($potonganwarteg) ? $potonganwarteg : 0) ?></td>
+                            </tr>
                         </tbody>
                         <tfoot>
-                            <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service); ?>
+                            <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
                             <tr>
                                 <td>TOTAL PENGELUARAN</td>
                                 <td align="right" class="text-amount"><?php echo number_format($totalpengeluaran)?></td>

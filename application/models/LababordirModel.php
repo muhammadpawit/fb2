@@ -63,7 +63,6 @@ class LababordirModel extends CI_Model {
 			'tanggal2'=>$tanggal2,
 			'nomesin'=>$nomesin,
 		);
-		// $products=$this->ReportModel->pendapatanbordirall($filter);
 		$jumlah=0;
 		$i=0;
 		$j=array();
@@ -96,13 +95,108 @@ class LababordirModel extends CI_Model {
 		AND laporan_perkalian_tarif IS NOT NULL 
 		GROUP BY a.laporan_perkalian_tarif, b.idpemilik order by laporan_perkalian_tarif DESC
 		");
+
+		// Batch pre-fetch aggregated data to avoid N+1 queries
+		$stich_map = [];
+		$q_stich = $this->db->query("
+			SELECT mesin_bordir, shift, COALESCE(SUM(total_stich),0) as total
+			FROM kelola_mesin_bordir
+			WHERE hapus=0 AND mesin_bordir<>11
+			  AND DATE(created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY mesin_bordir, shift
+		")->result_array();
+		foreach ($q_stich as $r) {
+			$stich_map[$r['mesin_bordir'] . '_' . $r['shift']] = (float)$r['total'];
+		}
+
+		$t018_map = [];
+		$q_018 = $this->db->query("
+			SELECT mesin_bordir, shift, COALESCE(SUM(total_stich*perkalian_tarif),0) as total
+			FROM kelola_mesin_bordir
+			WHERE hapus=0 AND jenis=1 AND mesin_bordir<>11
+			  AND DATE(created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY mesin_bordir, shift
+		")->result_array();
+		foreach ($q_018 as $r) {
+			$t018_map[$r['mesin_bordir'] . '_' . $r['shift']] = (float)$r['total'];
+		}
+
+		$t02_map = [];
+		$q_02 = $this->db->query("
+			SELECT a.mesin_bordir, a.shift,
+			    COALESCE(SUM(
+			        CASE
+			            WHEN c.id = 4 AND a.stich = 4000 THEN a.jumlah_naik_mesin * 700
+			            ELSE a.total_stich * a.perkalian_tarif
+			        END
+			    ), 0) AS total
+			FROM kelola_mesin_bordir a
+			LEFT JOIN master_po_luar b ON b.id = a.kode_po
+			LEFT JOIN pemilik_poluar c ON c.id = b.idpemilik
+			WHERE a.hapus = 0 AND a.jenis = 2
+			  AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY a.mesin_bordir, a.shift
+		")->result_array();
+		foreach ($q_02 as $r) {
+			$t02_map[$r['mesin_bordir'] . '_' . $r['shift']] = (float)$r['total'];
+		}
+
+		$t015_map = [];
+		$q_015 = $this->db->query("
+			SELECT mesin_bordir, shift, COALESCE(SUM(total_stich*0.15),0) as total
+			FROM kelola_mesin_bordir
+			WHERE hapus=0 AND jenis=1 AND mesin_bordir<>11
+			  AND DATE(created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY mesin_bordir, shift
+		")->result_array();
+		foreach ($q_015 as $r) {
+			$t015_map[$r['mesin_bordir'] . '_' . $r['shift']] = (float)$r['total'];
+		}
+
+		$jumlah_map = [];
+		$q_jumlah = $this->db->query("
+			SELECT mesin_bordir, COALESCE(SUM(total_stich*perkalian_tarif),0) as total
+			FROM kelola_mesin_bordir
+			WHERE hapus=0 AND mesin_bordir<>11
+			  AND DATE(created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY mesin_bordir
+		")->result_array();
+		foreach ($q_jumlah as $r) {
+			$jumlah_map[$r['mesin_bordir']] = (float)$r['total'];
+		}
+
+		$luar_detail_map = [];
+		$q_luar_detail = $this->db->query("
+			SELECT a.mesin_bordir, a.shift, c.id as idpemilik,
+				SUM(a.jumlah_naik_mesin) as qty,
+				CASE 
+					WHEN SUM(a.total_stich * a.perkalian_tarif) - FLOOR(SUM(a.total_stich * a.perkalian_tarif)) >= 0.5 
+					THEN CEILING(SUM(a.total_stich * a.perkalian_tarif))
+					ELSE FLOOR(SUM(a.total_stich * a.perkalian_tarif))
+				END AS total
+			FROM kelola_mesin_bordir a
+			LEFT JOIN master_po_luar b ON b.id=a.kode_po
+			LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
+			WHERE a.hapus=0 AND a.jenis=2
+			  AND DATE(a.created_date) BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY a.mesin_bordir, a.shift, c.id
+		")->result_array();
+		foreach ($q_luar_detail as $r) {
+			$luar_detail_map[$r['mesin_bordir'] . '_' . $r['shift'] . '_' . $r['idpemilik']] = [
+				'qty' => (float)$r['qty'],
+				'total' => (float)$r['total'],
+			];
+		}
 		
+		$products = [];
 		foreach($mesin as $mes){
-			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$total02=$this->ReportModel->total02($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$total015=$this->ReportModel->total015($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
-			$jumlah=$this->ReportModel->jumlahpendapatanbordir($mes['nomor'],$tanggal1,$tanggal2);
+			$key = $mes['nomor'] . '_' . $mes['shift'];
+			$totalstich = isset($stich_map[$key]) ? $stich_map[$key] : 0;
+			$total018 = isset($t018_map[$key]) ? $t018_map[$key] : 0;
+			$total02 = isset($t02_map[$key]) ? $t02_map[$key] : 0;
+			$total015 = isset($t015_map[$key]) ? $t015_map[$key] : 0;
+			$jumlah = isset($jumlah_map[$mes['nomor']]) ? $jumlah_map[$mes['nomor']] : 0;
+
 			$globalstich+=($totalstich);
 			$g018+=($total018);
 			$g02+=($total02);
@@ -125,7 +219,6 @@ class LababordirModel extends CI_Model {
 				'dets'=>[],
 			);
 		}
-		// pre($products);
 
 		$total_per_mesin = [];
 		$grand_total = 0; // Total pendapatan keseluruhan
@@ -159,11 +252,10 @@ class LababordirModel extends CI_Model {
 
 			$jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18
 			foreach($luar as $index => $b) {
-				// Ambil nilai kolom dinamis
-				$hasil = json_encode($this->ReportModel->total02_array($p['nomesin'], $p['shift'], $p['tanggal1'], $p['tanggal2'], $b['idpemilik']));
-				$data = json_decode($hasil);
-				$nilaiData = isset($data->data) ? $data->data : 0;
-				$qtyData = isset($data->qty) ? $data->qty : 0;
+				$key_luar = $p['nomesin'] . '_' . $p['shift'] . '_' . $b['idpemilik'];
+				$item_luar = isset($luar_detail_map[$key_luar]) ? $luar_detail_map[$key_luar] : ['total' => 0, 'qty' => 0];
+				$nilaiData = $item_luar['total'];
+				$qtyData = $item_luar['qty'];
 
 				// Khusus ID 4 (Dedi) : Qty * 900
 				if ($b['idpemilik'] == 4) {

@@ -36,33 +36,7 @@ class Laporanbordir extends CI_Controller {
 			$tanggal2=date('Y-m-d');
 		}
 
-		$filter=array(
-			'tanggal1'=>$tanggal1,
-			'tanggal2'=>$tanggal2,
-			'nomesin'=>null,
-		);
-		$products=$this->ReportModel->pendapatanbordirdalam($filter,1);
-		$jumlah=0;
-		$i=0;
-		$j=array();
-		$totalpendapatan=0;
-		foreach($products as $p){
-			$totalpendapatan+=(((($p['total_stich']*0.18))+(0)));
-		}
-		$data['totalpendapatan']=($totalpendapatan);
-				$totalpoluar=0;
-		$totalpoluar=$this->ReportModel->getSumPendapatanpoluar($filter,2);
-		$p15=0;
-		$pe15=[];
-		$pe15=$this->ReportModel->pendapatanbordirdalam15($filter,1);
-		if(!empty($pe15)){
-			foreach($pe15 as $p){
-				$p15+=(((($p['total_stich']*0.15))+(0)));
-			}
-		}
-		$data['p15']=($p15);
-		$data['totalpoluar']=round($totalpoluar);
-		// end
+
 		
 		// Belanja Bordir = Pembelian Bahan Baku ambil dari alokasi_transfer
 		$data['belanjabordir']=0;
@@ -72,16 +46,60 @@ class Laporanbordir extends CI_Controller {
 		$data['operasional']=($this->LababordirModel->operasional($tanggal1,$tanggal2,2)+$ops);
 		$data['gajibordir']=0;
 		$gaji=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,3);
-		$data['gajibordir']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji);
+
+		// Gaji Bulanan khusus Bordir (divisi 1 & 16)
+		$gaji_bulanan_bordir = 0;
+		$q_gb = $this->db->query("
+			SELECT COALESCE(SUM(gb.total), 0) as total
+			FROM gaji_bulanan gb
+			JOIN karyawan k ON k.id = gb.idkaryawan
+			WHERE gb.hapus = 0
+			  AND k.divisi IN (1, 16)
+			  AND k.hapus = 0
+			  AND DATE(gb.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+		")->row_array();
+		if (!empty($q_gb['total'])) {
+			$gaji_bulanan_bordir = (float)$q_gb['total'];
+		}
+
+		// Kasbon khusus Bordir
+		$kasbon_bordir = 0;
+		$q_kasbon = $this->db->query("
+			SELECT COALESCE(SUM(ks.nominal_acc), 0) as total
+			FROM kasbon ks
+			LEFT JOIN karyawan k ON k.id = ks.idkaryawan
+			WHERE ks.hapus = 0
+			  AND (ks.bagian IN (1, 16) OR k.divisi IN (1, 16))
+			  AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+		")->row_array();
+		if (!empty($q_kasbon['total'])) {
+			$kasbon_bordir = (float)$q_kasbon['total'];
+		}
+
+		// Gaji Karyawan (Alokasi + Gaji Bulanan + Kasbon)
+		$data['gajibordir']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji + $gaji_bulanan_bordir + $kasbon_bordir);
+
 		$data['service']=0;
 		$data['service']=$this->LababordirModel->operasional($tanggal1,$tanggal2,4);
+
+		// Potongan Warteg dari potongan_operator
+		$data['potonganwarteg']=0;
+		$q_pw = $this->db->query("
+			SELECT COALESCE(SUM(nominal), 0) as total
+			FROM potongan_operator
+			WHERE hapus = 0
+			  AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+		")->row_array();
+		if (!empty($q_pw['total'])) {
+			$data['potonganwarteg'] = (float)$q_pw['total'];
+		}
 
 		$data['pendapatan']=$this->LababordirModel->pendapatan($tanggal1,$tanggal2,null);
 		$data['totalpendapatan'] = $data['pendapatan']['total']['total_0_18'];
 		$data['totalpoluar']     = $data['pendapatan']['total']['total_luar'];
 		$data['pend']            = $data['pendapatan']['total']['total_jumlah_per_mesin'];
 
-		$totalpengeluaran=($data['belanjabordir']+$data['gajibordir']+$data['operasional']+$data['service']);
+		$totalpengeluaran=($data['belanjabordir']+$data['gajibordir']+$data['operasional']+$data['service']+$data['potonganwarteg']);
 		$data['lababersih']=round($data['pend']-$totalpengeluaran);
 
 		$url='';
