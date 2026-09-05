@@ -38,27 +38,45 @@ class Lababordir extends CI_Controller {
 
 
 
-		// Hitung / Ambil periode Sabtu - Jumat untuk Gaji Operator & Buang Benang Bordir
+		// -------------------------------------------------------------
+		// Hitung / Normalisasi Periode Sabtu - Jumat untuk Gaji Operator & Buang Benang
+		// -------------------------------------------------------------
 		if (isset($get['tgl_sabtu']) && !empty($get['tgl_sabtu'])) {
-			$tgl_sabtu = $get['tgl_sabtu'];
+			$raw_sabtu = $get['tgl_sabtu'];
 		} else {
-			$day1 = date('N', strtotime($tanggal1));
-			$tgl_sabtu = ($day1 == 6) ? $tanggal1 : date('Y-m-d', strtotime('last Saturday', strtotime($tanggal1)));
+			$raw_sabtu = $tanggal1;
 		}
 
 		if (isset($get['tgl_jumat']) && !empty($get['tgl_jumat'])) {
-			$tgl_jumat = $get['tgl_jumat'];
+			$raw_jumat = $get['tgl_jumat'];
 		} else {
-			$day2 = date('N', strtotime($tanggal2));
-			if ($day2 == 5) {
-				$tgl_jumat = $tanggal2;
-			} else {
-				$tgl_jumat = date('Y-m-d', strtotime('this Friday', strtotime($tanggal2)));
-				if (strtotime($tgl_jumat) < strtotime($tgl_sabtu)) {
-					$tgl_jumat = date('Y-m-d', strtotime($tgl_sabtu . ' + 6 days'));
-				}
-			}
+			$raw_jumat = $tanggal2;
 		}
+
+		// Hitung tgl_sabtu (Sabtu dari raw_sabtu)
+		$day1 = date('N', strtotime($raw_sabtu));
+		if ($day1 == 6) {
+			$tgl_sabtu = $raw_sabtu;
+		} else {
+			$tgl_sabtu = date('Y-m-d', strtotime('last Saturday', strtotime($raw_sabtu)));
+		}
+
+		// Hitung tgl_jumat (Jumat dari raw_jumat)
+		$day2 = date('N', strtotime($raw_jumat));
+		if ($day2 == 5) {
+			$tgl_jumat = $raw_jumat;
+		} elseif ($day2 == 6) {
+			// Jika tanggal2 adalah Sabtu, Jumat dari minggu tersebut adalah kemarin (Sabtu - 1 hari)
+			$tgl_jumat = date('Y-m-d', strtotime($raw_jumat . ' - 1 day'));
+		} else {
+			$tgl_jumat = date('Y-m-d', strtotime($tgl_sabtu . ' + 6 days'));
+		}
+
+		// Pastikan tgl_jumat >= tgl_sabtu
+		if (strtotime($tgl_jumat) < strtotime($tgl_sabtu)) {
+			$tgl_jumat = date('Y-m-d', strtotime($tgl_sabtu . ' + 6 days'));
+		}
+
 		$data['tgl_sabtu'] = $tgl_sabtu;
 		$data['tgl_jumat'] = $tgl_jumat;
 
@@ -75,11 +93,8 @@ class Lababordir extends CI_Controller {
 			SELECT id 
 			FROM gaji_operator 
 			WHERE hapus = 0 
-			  AND (
-				  (DATE(tanggal1) >= '".$tgl_sabtu."' AND DATE(tanggal2) <= '".$tgl_jumat."')
-				  OR DATE(tanggal1) BETWEEN '".$tgl_sabtu."' AND '".$tgl_jumat."'
-				  OR DATE(tanggal2) BETWEEN '".$tgl_sabtu."' AND '".$tgl_jumat."'
-			  )
+			  AND DATE(tanggal1) >= '".$tgl_sabtu."'
+			  AND DATE(tanggal2) <= '".$tgl_jumat."'
 		")->result_array();
 
 		if (!empty($q_go)) {
