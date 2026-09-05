@@ -87,7 +87,15 @@
                             <td><?php echo $p['namacmt']?></td>
                             <td><?php echo $d['jumlah_pcs']?></td>
                             <td><?php echo isset($po['kode_po'])?$po['kode_po']:''?></td>
-                            <td><?php echo $p['status']?></td>
+                            <td>
+                              <?php echo $p['status']?>
+                              <?php 
+                                $cek_dis = $this->GlobalModel->queryManualRow("SELECT k2.nosj FROM kirimcmt_detail kd2 JOIN kirimcmt k2 ON k2.id=kd2.idkirim WHERE k2.nosj LIKE 'SJDIS%' AND kd2.kode_po='".$d['kode_po']."' AND kd2.hapus=0 AND k2.hapus=0 LIMIT 1");
+                                if(!empty($cek_dis)){
+                              ?>
+                                <br><span class="badge badge-success" title="Sudah didistribusikan via <?php echo $cek_dis['nosj']?>"><i class="fa fa-check-circle"></i> Didistribusikan</span>
+                              <?php } ?>
+                            </td>
                          <td class="right"><?php foreach ($p['action'] as $action) { ?>
                             <?php if (strtolower($action['text']) === 'hapus') { ?>
                                 <a href="<?php echo BASEURL.'Kelolapo/kirimcmtdetailhapus/'.$d['id']; ?>" style="background-color: <?php echo $action['bg']; ?>" class="badge waves-light waves-effect" onclick="return confirm('Apakah Anda yakin ingin menghapus rincian ini?')">Hapus Item</a>&nbsp;&nbsp;
