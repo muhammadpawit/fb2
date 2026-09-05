@@ -50,8 +50,16 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
             <td align="right"><?php echo $belanjabordir; ?></td>
         </tr>
         <tr>
-            <td>Gaji Karyawan Bordir</td>
-            <td align="right"><?php echo $gajibordir; ?></td>
+            <td>Gaji Operator Bordir</td>
+            <td align="right"><?php echo isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0); ?></td>
+        </tr>
+        <tr>
+            <td>Gaji Bulanan Bordir</td>
+            <td align="right"><?php echo isset($gajibulanan) ? $gajibulanan : 0; ?></td>
+        </tr>
+        <tr>
+            <td>Kasbon Karyawan Bordir</td>
+            <td align="right"><?php echo isset($kasbon) ? $kasbon : 0; ?></td>
         </tr>
         <tr>
             <td>Operasional (BBM, Service, Fotokopi)</td>
@@ -65,7 +73,7 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
             <td>Potongan Warteg</td>
             <td align="right"><?php echo isset($potonganwarteg) ? $potonganwarteg : 0; ?></td>
         </tr>
-        <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
+        <?php $totalpengeluaran = ($belanjabordir + (isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0)) + (isset($gajibulanan) ? $gajibulanan : 0) + (isset($kasbon) ? $kasbon : 0) + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
         <tr style="background-color: #fff2cc;">
             <td><b>TOTAL PENGELUARAN</b></td>
             <td align="right"><b><?php echo $totalpengeluaran; ?></b></td>

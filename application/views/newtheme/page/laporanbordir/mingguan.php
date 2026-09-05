@@ -158,8 +158,16 @@
                                 <td align="right" class="text-amount"><?php echo number_format($belanjabordir) ?></td>
                             </tr>
                             <tr>
-                                <td>Gaji Karyawan</td>
-                                <td align="right" class="text-amount"><?php echo number_format($gajibordir) ?></td>
+                                <td>Gaji Operator Bordir</td>
+                                <td align="right" class="text-amount"><?php echo number_format(isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0)) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Gaji Bulanan Bordir</td>
+                                <td align="right" class="text-amount"><?php echo number_format(isset($gajibulanan) ? $gajibulanan : 0) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Kasbon Karyawan Bordir</td>
+                                <td align="right" class="text-amount"><?php echo number_format(isset($kasbon) ? $kasbon : 0) ?></td>
                             </tr>
                             <tr>
                                 <td>Operasional</td>
@@ -175,7 +183,7 @@
                             </tr>
                         </tbody>
                         <tfoot>
-                            <?php $totalpengeluaran = ($belanjabordir + $gajibordir + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
+                            <?php $totalpengeluaran = ($belanjabordir + (isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0)) + (isset($gajibulanan) ? $gajibulanan : 0) + (isset($kasbon) ? $kasbon : 0) + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
                             <tr>
                                 <td>TOTAL PENGELUARAN</td>
                                 <td align="right" class="text-amount"><?php echo number_format($totalpengeluaran)?></td>

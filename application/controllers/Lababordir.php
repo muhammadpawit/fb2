@@ -44,11 +44,13 @@ class Lababordir extends CI_Controller {
 		$data['operasional']=0;
 		$ops=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,2);
 		$data['operasional']=($this->LababordirModel->operasional($tanggal1,$tanggal2,2)+$ops);
-		$data['gajibordir']=0;
-		$gaji=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,3);
+		// 1) Gaji Operator / Borongan Bordir
+		$data['gajioperator']=0;
+		$gaji_alokasi=$this->LaporanmingguanModel->alokasi_bordir_between($tanggal1,$tanggal2,2,3);
+		$data['gajioperator']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji_alokasi);
 
-		// Gaji Bulanan khusus Bordir (divisi 1 & 16)
-		$gaji_bulanan_bordir = 0;
+		// 2) Gaji Bulanan khusus Bordir (divisi 1 & 16)
+		$data['gajibulanan'] = 0;
 		$q_gb = $this->db->query("
 			SELECT COALESCE(SUM(gb.total), 0) as total
 			FROM gaji_bulanan gb
@@ -59,11 +61,11 @@ class Lababordir extends CI_Controller {
 			  AND DATE(gb.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
 		")->row_array();
 		if (!empty($q_gb['total'])) {
-			$gaji_bulanan_bordir = (float)$q_gb['total'];
+			$data['gajibulanan'] = (float)$q_gb['total'];
 		}
 
-		// Kasbon khusus Bordir
-		$kasbon_bordir = 0;
+		// 3) Kasbon khusus Bordir
+		$data['kasbon'] = 0;
 		$q_kasbon = $this->db->query("
 			SELECT COALESCE(SUM(ks.nominal_acc), 0) as total
 			FROM kasbon ks
@@ -73,11 +75,8 @@ class Lababordir extends CI_Controller {
 			  AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
 		")->row_array();
 		if (!empty($q_kasbon['total'])) {
-			$kasbon_bordir = (float)$q_kasbon['total'];
+			$data['kasbon'] = (float)$q_kasbon['total'];
 		}
-
-		// Gaji Karyawan (Alokasi + Gaji Bulanan + Kasbon)
-		$data['gajibordir']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji + $gaji_bulanan_bordir + $kasbon_bordir);
 
 		$data['service']=0;
 		$data['service']=$this->LababordirModel->operasional($tanggal1,$tanggal2,4);
@@ -99,7 +98,7 @@ class Lababordir extends CI_Controller {
 		$data['totalpoluar']     = $data['pendapatan']['total']['total_luar'];
 		$data['pend']            = $data['pendapatan']['total']['total_jumlah_per_mesin'];
 
-		$totalpengeluaran=($data['belanjabordir']+$data['gajibordir']+$data['operasional']+$data['service']+$data['potonganwarteg']);
+		$totalpengeluaran=($data['belanjabordir']+$data['gajioperator']+$data['gajibulanan']+$data['kasbon']+$data['operasional']+$data['service']+$data['potonganwarteg']);
 		$data['lababersih']=round($data['pend']-$totalpengeluaran);
 
 		$url='';
