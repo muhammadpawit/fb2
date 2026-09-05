@@ -42,7 +42,7 @@
             <th>Shift</th>
             <th>Stich</th>
             <th>0.15</th>
-            <th>0.18</th>
+            <th><?php echo isset($label_tarif_dalam) ? $label_tarif_dalam : '0.18'; ?></th>
             <?php foreach($luar as $l) { ?>
                 <th><?php echo $l['perkalian'] .' '.$l['nama']?></th>
             <?php } ?>

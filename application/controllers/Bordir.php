@@ -837,6 +837,24 @@ class Bordir extends CI_Controller {
 		GROUP BY a.perkalian_tarif, b.idpemilik order by perkalian_tarif DESC
 		");
 		
+		$tarif_dalam_rows = $this->GlobalModel->QueryManual("
+			SELECT perkalian_tarif as perkalian 
+			FROM kelola_mesin_bordir 
+			WHERE hapus=0 AND jenis=1 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' 
+			AND perkalian_tarif IS NOT NULL 
+			GROUP BY perkalian_tarif 
+			ORDER BY perkalian_tarif ASC
+		");
+		$tarif_list = array();
+		if (!empty($tarif_dalam_rows)) {
+			foreach ($tarif_dalam_rows as $td) {
+				if (!empty($td['perkalian']) && $td['perkalian'] > 0) {
+					$tarif_list[] = $td['perkalian'];
+				}
+			}
+		}
+		$data['label_tarif_dalam'] = !empty($tarif_list) ? implode(' / ', $tarif_list) : '0.18';
+
 		foreach($mesin as $mes){
 			$totalstich=$this->ReportModel->totalStich($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
 			$total018=$this->ReportModel->total018($mes['nomor'],$mes['shift'],$tanggal1,$tanggal2);
