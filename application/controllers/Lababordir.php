@@ -13,7 +13,7 @@ class Lababordir extends CI_Controller {
 		$this->load->model('LaporanmingguanModel');
 		$this->page='newtheme/page/';
 		$this->layout='newtheme/page/main';
-		$this->url=BASEURL.'Laporanbordir/';
+		$this->url=BASEURL.'Lababordir/';
 		$this->login 		= BASEURL.'login';
 		$this->auth 	= $this->session->userdata('id_user');
 		if(empty($this->auth)) {redirect($this->login);}
@@ -65,29 +65,6 @@ class Lababordir extends CI_Controller {
 		$data['totalpen']=round($totalpendapatan+$totalpoluar+$p15);
 		// end
 
-		// pengeluaran bordir
-		$sql="SELECT * FROM pengeluaran_bordir WHERE hapus=0 ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
-		$sql.=" ORDER BY id desc ";
-		$results=$this->GlobalModel->QueryManual($sql);
-		//pre($sql);
-		$nom=1;
-		$data['pengeluarans']=[];
-		$details=[];
-		$totalpengeluaran=0;
-		// foreach($results as $r){
-		// 	$details=$this->GlobalModel->Getdata('pengeluaran_bordir_detail',array('hapus'=>0,'idpengeluaran'=>$r['id']));
-		// 	$data['pengeluarans'][]=array(
-		// 		'no'=>$nom++,
-		// 		'id'=>$r['id'],
-		// 		'tanggal'=> date('d F Y',strtotime($r['tanggal'])),
-		// 		'total'=>$r['total'],
-		// 		'keterangan'=>$r['keterangan'],
-		// 		'detail'=>$details,
-		// 	);
-		// 	$totalpengeluaran+=($r['total']);
-		// }
-		
 		// Belanja Bordir = Pembelian Bahan Baku ambil dari alokasi_transfer
 		$data['belanjabordir']=0;
 		$data['belanjabordir']=$this->LababordirModel->operasional($tanggal1,$tanggal2,1);
@@ -99,13 +76,15 @@ class Lababordir extends CI_Controller {
 		$data['gajibordir']=($this->LababordirModel->operasional($tanggal1,$tanggal2,3) + $gaji);
 		$data['service']=0;
 		$data['service']=$this->LababordirModel->operasional($tanggal1,$tanggal2,4);
-		// pre($data['belanjabordir']);
-		$data['lababersih']=round(($totalpendapatan+$totalpoluar)-$totalpengeluaran);
-		$data['pendapatan']=0;
+
 		$data['pendapatan']=$this->LababordirModel->pendapatan($tanggal1,$tanggal2,null);
-		// pre($data['pendapatan']);
-		$data['pend']=$data['pendapatan']['total']['total_jumlah_per_mesin'];
-		// pre($data['pend']);
+		$data['totalpendapatan'] = $data['pendapatan']['total']['total_0_18'];
+		$data['totalpoluar']     = $data['pendapatan']['total']['total_luar'];
+		$data['pend']            = $data['pendapatan']['total']['total_jumlah_per_mesin'];
+
+		$totalpengeluaran=($data['belanjabordir']+$data['gajibordir']+$data['operasional']+$data['service']);
+		$data['lababersih']=round($data['pend']-$totalpengeluaran);
+
 		$url='';
 		if(!empty($tanggal1)){
 			$url.="&tanggal1=".$tanggal1;
@@ -113,7 +92,7 @@ class Lababordir extends CI_Controller {
 		if(!empty($tanggal2)){
 			$url.="&tanggal2=".$tanggal2;
 		}
-		$data['excel']=$this->url.'mingguan?&excel=true'.$url;
+		$data['excel']=$this->url.'?&excel=true'.$url;
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;		
 		if(isset($get['excel'])){
