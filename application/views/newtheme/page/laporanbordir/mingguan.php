@@ -80,19 +80,29 @@
     }
 </style>
 
-<div class="row no-print mb-5">
+<div class="row no-print mb-4">
     <div class="col-md-12">
         <div class="report-card p-4">
             <div class="row align-items-end">
-                <div class="col-md-4">
-                    <label class="font-weight-bold small text-muted text-uppercase mb-2 d-block">Periode Mulai</label>
+                <div class="col-md-3">
+                    <label class="font-weight-bold small text-muted text-uppercase mb-2 d-block">Periode Laporan (Mulai)</label>
                     <input type="date" name="tanggal1" id="tanggal1" value="<?php echo $tanggal1?>" class="form-control form-control-alternative">
                 </div>
-                <div class="col-md-4">
-                    <label class="font-weight-bold small text-muted text-uppercase mb-2 d-block">Periode Selesai</label>
+                <div class="col-md-3">
+                    <label class="font-weight-bold small text-muted text-uppercase mb-2 d-block">Periode Laporan (Selesai)</label>
                     <input type="date" name="tanggal2" id="tanggal2" value="<?php echo $tanggal2?>" class="form-control form-control-alternative">
                 </div>
-                <div class="col-md-4 text-right">
+                <div class="col-md-3">
+                    <label class="font-weight-bold small text-primary text-uppercase mb-2 d-block"><i class="fa fa-calendar-alt mr-1"></i> Periode Gaji (Sabtu)</label>
+                    <input type="date" name="tgl_sabtu" id="tgl_sabtu" value="<?php echo $tgl_sabtu?>" class="form-control form-control-alternative">
+                </div>
+                <div class="col-md-3">
+                    <label class="font-weight-bold small text-primary text-uppercase mb-2 d-block"><i class="fa fa-calendar-alt mr-1"></i> Periode Gaji (Jumat)</label>
+                    <input type="date" name="tgl_jumat" id="tgl_jumat" value="<?php echo $tgl_jumat?>" class="form-control form-control-alternative">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 text-right">
                     <button class="btn btn-smooth btn-primary" onclick="filtertglonly()"><i class="fa fa-sync-alt mr-2"></i> Update Data</button>
                     <button class="btn btn-smooth btn-secondary ml-2" onclick="cetak()"><i class="fa fa-print"></i></button>
                     <button class="btn btn-smooth btn-success ml-2" onclick="excelwithtgl()"><i class="fa fa-file-excel"></i></button>
@@ -158,8 +168,12 @@
                                 <td align="right" class="text-amount"><?php echo number_format($belanjabordir) ?></td>
                             </tr>
                             <tr>
-                                <td>Gaji Operator Bordir</td>
+                                <td>Gaji Operator Bordir <?php if (!empty($tgl_sabtu) && !empty($tgl_jumat)) { ?><small class="text-muted d-block">(Periode <?php echo date('d/m/Y', strtotime($tgl_sabtu)) ?> - <?php echo date('d/m/Y', strtotime($tgl_jumat)) ?>)</small><?php } ?></td>
                                 <td align="right" class="text-amount"><?php echo number_format(isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0)) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Gaji Buang Benang Bordir <?php if (!empty($tgl_sabtu) && !empty($tgl_jumat)) { ?><small class="text-muted d-block">(Periode <?php echo date('d/m/Y', strtotime($tgl_sabtu)) ?> - <?php echo date('d/m/Y', strtotime($tgl_jumat)) ?>)</small><?php } ?></td>
+                                <td align="right" class="text-amount"><?php echo number_format(isset($gajibuangbenang) ? $gajibuangbenang : 0) ?></td>
                             </tr>
                             <tr>
                                 <td>Gaji Bulanan Bordir</td>
@@ -183,7 +197,7 @@
                             </tr>
                         </tbody>
                         <tfoot>
-                            <?php $totalpengeluaran = ($belanjabordir + (isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0)) + (isset($gajibulanan) ? $gajibulanan : 0) + (isset($kasbon) ? $kasbon : 0) + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
+                            <?php $totalpengeluaran = ($belanjabordir + (isset($gajioperator) ? $gajioperator : 0) + (isset($gajibuangbenang) ? $gajibuangbenang : 0) + (isset($gajibulanan) ? $gajibulanan : 0) + (isset($kasbon) ? $kasbon : 0) + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
                             <tr>
                                 <td>TOTAL PENGELUARAN</td>
                                 <td align="right" class="text-amount"><?php echo number_format($totalpengeluaran)?></td>
@@ -207,3 +221,31 @@
         <p class="text-center text-muted small mt-4"><i>Generated by Forboys Production System at <?php echo date('d/m/Y H:i'); ?></i></p>
     </div>
 </div>
+
+<script type="text/javascript">
+function filtertglonly() {
+    var url = '?';
+    var tanggal1 = $("#tanggal1").val();
+    var tanggal2 = $("#tanggal2").val();
+    var tgl_sabtu = $("#tgl_sabtu").val();
+    var tgl_jumat = $("#tgl_jumat").val();
+    if (tanggal1) url += '&tanggal1=' + tanggal1;
+    if (tanggal2) url += '&tanggal2=' + tanggal2;
+    if (tgl_sabtu) url += '&tgl_sabtu=' + tgl_sabtu;
+    if (tgl_jumat) url += '&tgl_jumat=' + tgl_jumat;
+    location = url;
+}
+
+function excelwithtgl() {
+    var url = '?&excel=true';
+    var tanggal1 = $("#tanggal1").val();
+    var tanggal2 = $("#tanggal2").val();
+    var tgl_sabtu = $("#tgl_sabtu").val();
+    var tgl_jumat = $("#tgl_jumat").val();
+    if (tanggal1) url += '&tanggal1=' + tanggal1;
+    if (tanggal2) url += '&tanggal2=' + tanggal2;
+    if (tgl_sabtu) url += '&tgl_sabtu=' + tgl_sabtu;
+    if (tgl_jumat) url += '&tgl_jumat=' + tgl_jumat;
+    location = url;
+}
+</script>
