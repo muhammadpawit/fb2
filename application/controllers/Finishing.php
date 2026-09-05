@@ -1884,35 +1884,16 @@ class Finishing extends CI_Controller {
 		
 
 		$viewData['packing'] = [];
+		$namapo = $viewData['po']['nama_po'];
+		$masterJenisPo = $this->GlobalModel->getDataRow('master_jenis_po', array('nama_jenis_po' => $namapo));
+		$hargaPacking = (!empty($masterJenisPo['harga_packing']) && (float)$masterJenisPo['harga_packing'] > 0) ? (float)$masterJenisPo['harga_packing'] : 12000;
 
-		$namapo = strtolower($viewData['po']['nama_po']);
-
-		// ambil harga packing per PO
-		$packingPo = $this->GlobalModel->GetDataRow(
-			'packing_po',
+		$viewData['packing'] = [
 			[
-				'nama_po' => $namapo,
-				'aktif'   => 1
+				'harga_dz'   => $hargaPacking,
+				'keterangan' => 'Packing',
 			]
-		);
-
-		if ($packingPo) {
-			$viewData['packing'] = [
-				[
-					'harga_dz'   => $packingPo['harga_dz'] ?? 0,
-					'keterangan' => 'Packing',
-				]
-			];
-		} else {
-			// fallback (logic lama)
-			$viewData['packing'] = $this->GlobalModel->getData(
-				'packing',
-				[
-					'nama_po' => $kodepo,
-					'hapus'   => 0
-				]
-			);
-		}
+		];
 
 		// pre($viewData['packing']);
 		
@@ -2024,23 +2005,15 @@ class Finishing extends CI_Controller {
 		$viewData['buangbenang']= $this->GlobalModel->QueryManual("SELECT * FROM buang_benang_finishing WHERE hapus=0 and kode_po='".$kodepo."' ");
 		$viewData['packing']=[];
 		$namapo=$viewData['po']['nama_po'];
-		if(strtolower($namapo)=="kfb" OR strtolower($namapo)=="kkf"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>12000,
-					'keterangan'=>'Packing',
-				),
-			);
-		}else if(strtolower($namapo)=="skf"){
-			$viewData['packing']=array(
-				array(
-					'harga_dz'=>24000,
-					'keterangan'=>'Packing',
-				),
-			);
-		}else{
-			$viewData['packing']= $this->GlobalModel->getData('packing',array('nama_po'=>$kodepo,'hapus'=>0));
-		}
+		$masterJenisPo = $this->GlobalModel->getDataRow('master_jenis_po', array('nama_jenis_po' => $namapo));
+		$hargaPacking = (!empty($masterJenisPo['harga_packing']) && (float)$masterJenisPo['harga_packing'] > 0) ? (float)$masterJenisPo['harga_packing'] : 12000;
+
+		$viewData['packing']=array(
+			array(
+				'harga_dz'=>$hargaPacking,
+				'keterangan'=>'Packing',
+			),
+		);
 		$viewData['page']='finishing/hpp/hpp-detail-baru';
 		$viewData['back']=BASEURL.'Finishing/hppproduksi?&kode_po='.$kodepo;
 		$this->load->view('newtheme/page/main',$viewData);

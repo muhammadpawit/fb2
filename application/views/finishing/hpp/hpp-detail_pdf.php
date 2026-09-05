@@ -769,16 +769,19 @@
                                 <?php endforeach ?>
 
                                 <?php foreach ($packing as $key => $mesin): ?>
-                                    <?php $mesin['harga_dz'] = 12000; ?>
+                                    <?php 
+                                        $hargaPackingMaster = (!empty($cucianhpp['harga_packing']) && (float)$cucianhpp['harga_packing'] > 0) ? (float)$cucianhpp['harga_packing'] : 12000;
+                                        $harga_dz = (!empty($mesin['harga_dz']) && (float)$mesin['harga_dz'] > 0) ? (float)$mesin['harga_dz'] : $hargaPackingMaster;
+                                    ?>
                                     <tr>
                                         <td><center><?php echo $no+=1?></center></td>
                                         <td><?php echo strtoupper((empty($mesin['keterangan']) || trim($mesin['keterangan']) == '-') ? "Packing" : $mesin['keterangan']) ?></td>
                                         <td align="center"><?php //echo $mesin['jumlah_pcs'] ?></td>
-                                        <td align="center"><?php echo number_format((float)($mesin['harga_dz'] ?? 0)/12,0) ?></td>
-                                        <td align="right"><?php echo number_format((float)($mesin['harga_dz'] ?? 0)) ?></td>
+                                        <td align="center"><?php echo number_format((float)$harga_dz/12,0) ?></td>
+                                        <td align="right"><?php echo number_format((float)$harga_dz) ?></td>
                                     </tr>
                                     <?php
-                                        $total+=((float)($mesin['harga_dz'] ?? 0));
+                                        $total+=((float)$harga_dz);
                                     ?>
                                 <?php endforeach ?>
 
