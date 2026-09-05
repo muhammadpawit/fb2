@@ -1242,31 +1242,89 @@
 
 	if (!function_exists('format_tanggal')) {
 		function format_tanggal($tanggal, $format = 'dd MMMM yyyy', $locale = 'id_ID') {
-			$date = new DateTime($tanggal); // Ubah string ke objek DateTime
-			$formatter = new IntlDateFormatter(
-				$locale,
-				IntlDateFormatter::FULL,
-				IntlDateFormatter::NONE,
-				'Asia/Jakarta',
-				IntlDateFormatter::GREGORIAN
+			if (empty($tanggal) || $tanggal == '0000-00-00' || $tanggal == '0000-00-00 00:00:00') {
+				return '';
+			}
+			$time = strtotime($tanggal);
+			if (!$time) {
+				return $tanggal;
+			}
+			if (class_exists('IntlDateFormatter')) {
+				$date = new DateTime();
+				$date->setTimestamp($time);
+				$formatter = new IntlDateFormatter(
+					$locale,
+					IntlDateFormatter::FULL,
+					IntlDateFormatter::NONE,
+					'Asia/Jakarta',
+					IntlDateFormatter::GREGORIAN
+				);
+				$formatter->setPattern($format);
+				return $formatter->format($date);
+			}
+
+			// Fallback if php-intl extension is not installed
+			$months = array(
+				1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+				5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+				9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
 			);
-			$formatter->setPattern($format); // Tentukan format
-			return $formatter->format($date);
+			$months_short = array(
+				1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+				5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+				9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des'
+			);
+
+			$d = date('d', $time);
+			$m = (int)date('n', $time);
+			$y = date('Y', $time);
+
+			if (strpos($format, 'MMMM') !== false) {
+				return $d . ' ' . $months[$m] . ' ' . $y;
+			} elseif (strpos($format, 'MMM') !== false) {
+				return $d . ' ' . $months_short[$m] . ' ' . $y;
+			} else {
+				return date('d/m/Y', $time);
+			}
 		}
 	}
 
 	if (!function_exists('format_tanggal_jam')) {
 		function format_tanggal_jam($tanggal, $format = 'dd MMMM yyyy HH:mm:ss', $locale = 'id_ID') {
-			$date = new DateTime($tanggal); // Ubah string ke objek DateTime
-			$formatter = new IntlDateFormatter(
-				$locale,
-				IntlDateFormatter::FULL,
-				IntlDateFormatter::NONE,
-				'Asia/Jakarta',
-				IntlDateFormatter::GREGORIAN
+			if (empty($tanggal) || $tanggal == '0000-00-00' || $tanggal == '0000-00-00 00:00:00') {
+				return '';
+			}
+			$time = strtotime($tanggal);
+			if (!$time) {
+				return $tanggal;
+			}
+			if (class_exists('IntlDateFormatter')) {
+				$date = new DateTime();
+				$date->setTimestamp($time);
+				$formatter = new IntlDateFormatter(
+					$locale,
+					IntlDateFormatter::FULL,
+					IntlDateFormatter::NONE,
+					'Asia/Jakarta',
+					IntlDateFormatter::GREGORIAN
+				);
+				$formatter->setPattern($format);
+				return $formatter->format($date);
+			}
+
+			// Fallback if php-intl extension is not installed
+			$months = array(
+				1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+				5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+				9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
 			);
-			$formatter->setPattern($format); // Tentukan format
-			return $formatter->format($date);
+
+			$d = date('d', $time);
+			$m = (int)date('n', $time);
+			$y = date('Y', $time);
+			$his = date('H:i:s', $time);
+
+			return $d . ' ' . $months[$m] . ' ' . $y . ' ' . $his;
 		}
 	}
 	
