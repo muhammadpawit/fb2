@@ -150,15 +150,15 @@
 
                                     <td align="center">
 
-                                        <?php echo number_format($bahanAja['harga_item']) ?>
+                                        <?php echo number_format((float)($bahanAja['harga_item'] ?? 0)) ?>
 
                                     </td>
 
-                                    <td align="right"><?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_utama']); ?></td>
+                                    <td align="right"><?php echo number_format((float)($bahanAja['harga_item'] ?? 0) * (float)($bukupotongan['jumlah_pemakaian_bahan_utama'] ?? 0)); ?></td>
 
                                     <?php 
 
-                                    $totalAlat +=($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_utama']); 
+                                    $totalAlat +=((float)($bahanAja['harga_item'] ?? 0) * (float)($bukupotongan['jumlah_pemakaian_bahan_utama'] ?? 0)); 
 
                                     ?>
 
@@ -186,19 +186,19 @@
 
                                     <td align="center">
 
-                                        <?php echo number_format($bahanAja['harga_item']) ?>
+                                        <?php echo number_format((float)($bahanAja['harga_item'] ?? 0)) ?>
 
                                     </td>
 
                                     <td align="right">
 
-                                        <?php echo number_format($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_variasi']); ?>
+                                        <?php echo number_format((float)($bahanAja['harga_item'] ?? 0) * (float)($bukupotongan['jumlah_pemakaian_bahan_variasi'] ?? 0)); ?>
 
                                     </td>
 
                                     <?php 
 
-                                    $totalAlat += ($bahanAja['harga_item'] * $bukupotongan['jumlah_pemakaian_bahan_variasi']); 
+                                    $totalAlat += ((float)($bahanAja['harga_item'] ?? 0) * (float)($bukupotongan['jumlah_pemakaian_bahan_variasi'] ?? 0)); 
 
                                     ?>
 
@@ -224,19 +224,19 @@
 
                                     <td align="center">
 
-                                        <?php echo number_format($bahanKantong['harga_item']) ?>
+                                        <?php echo number_format((float)($bahanKantong['harga_item'] ?? 0)) ?>
 
                                     </td>
 
                                     <td align="right">
 
-                                        <?php echo number_format($bahanKantong['harga_item'] * $bahanKantong['ukuran_item_keluar']); ?>
+                                        <?php echo number_format((float)($bahanKantong['harga_item'] ?? 0) * (float)($bahanKantong['ukuran_item_keluar'] ?? 0)); ?>
 
                                     </td>
 
                                     <?php 
 
-                                    $totalAlat += ($bahanKantong['harga_item'] * $bahanKantong['ukuran_item_keluar']); 
+                                    $totalAlat += ((float)($bahanKantong['harga_item'] ?? 0) * (float)($bahanKantong['ukuran_item_keluar'] ?? 0)); 
 
                                     ?>
 
@@ -263,19 +263,19 @@
 
                                     <td align="center">
 
-                                        <?php echo number_format($variasi['harga_item']) ?>
+                                        <?php echo number_format((float)($variasi['harga_item'] ?? 0)) ?>
 
                                     </td>
 
                                     <td align="right">
 
-                                        <?php echo number_format($variasi['harga_item'] * $variasi['ukuran_item_keluar']); ?>
+                                        <?php echo number_format((float)($variasi['harga_item'] ?? 0) * (float)($variasi['ukuran_item_keluar'] ?? 0)); ?>
 
                                     </td>
 
                                     <?php 
 
-                                    $totalAlat += ($variasi['harga_item'] * $variasi['ukuran_item_keluar']); 
+                                    $totalAlat += ((float)($variasi['harga_item'] ?? 0) * (float)($variasi['ukuran_item_keluar'] ?? 0)); 
 
                                     ?>
 
@@ -304,19 +304,19 @@
 
                                     <td align="center">
 
-                                        <?php echo number_format($master_harga_potongan['harga_potongan']) ?>
+                                        <?php echo number_format((float)($master_harga_potongan['harga_potongan'] ?? 0)) ?>
 
                                     </td>
 
                                     <td align="right">
 
-                                        <?php echo number_format($master_harga_potongan['harga_potongan'] * 12); ?>
+                                        <?php echo number_format((float)($master_harga_potongan['harga_potongan'] ?? 0) * 12); ?>
 
                                     </td>
 
                                     <?php 
 
-                                    $totalAlat += ($master_harga_potongan['harga_potongan'] * 12); 
+                                    $totalAlat += ((float)($master_harga_potongan['harga_potongan'] ?? 0) * 12); 
 
                                     ?>
 
@@ -371,10 +371,10 @@
 
                                                 <?php endforeach ?>
                                            
-                                                <?php $totalAlat += $bordirHitung / $bukupotongan['hasil_lusinan_potongan']; ?>
+                                                <?php $totalAlat += !empty($bukupotongan['hasil_lusinan_potongan']) ? $bordirHitung / $bukupotongan['hasil_lusinan_potongan'] : 0; ?>
                                             <td align="right">
                                                 
-                                                        <?php echo number_format($bordirHitung / $bukupotongan['hasil_lusinan_potongan']) ; ?>
+                                                        <?php echo number_format(!empty($bukupotongan['hasil_lusinan_potongan']) ? (float)$bordirHitung / (float)$bukupotongan['hasil_lusinan_potongan'] : 0) ; ?>
                                             </td>
 
 
@@ -383,8 +383,8 @@
 
                                                 <?php //if($produk['kode_po']=="SWF01" OR $produk['kode_po']=="FBS05" OR $produk['kode_po']=="FBS03" OR $produk['kode_po']=="FBO03" OR $produk['kode_po']=="HGSO03"){ // po if ?>
                                                 <?php //if($cmtt['id_master_cmt_job']>=81){?>
-                                                    <?php $totalAlat +=($cmtt['cmt_job_price']+$bawahansablon);  ?>
-                                                    <td align="right"><?php echo number_format($cmtt['cmt_job_price']+$bawahansablon); ?></td>
+                                                    <?php $totalAlat +=((float)($cmtt['cmt_job_price'] ?? 0)+(float)($bawahansablon ?? 0));  ?>
+                                                    <td align="right"><?php echo number_format((float)($cmtt['cmt_job_price'] ?? 0)+(float)($bawahansablon ?? 0)); ?></td>
 
                                                 <?php //} else{?> 
                                                     <?php 
@@ -415,16 +415,16 @@
 
 
 
-                                             <?php 
+                                              <?php 
 
-                                             $totalAlat +=($cmtt['cmt_job_price']); 
+                                              $totalAlat +=((float)($cmtt['cmt_job_price'] ?? 0)); 
 
-                                             ?>   
+                                              ?>   
 
-                                            <td align="right">
-                                                <?php echo number_format($cmtt['cmt_job_price']); ?>   
+                                             <td align="right">
+                                                 <?php echo number_format((float)($cmtt['cmt_job_price'] ?? 0)); ?>   
 
-                                            </td>
+                                             </td>
 
 
 
@@ -468,13 +468,13 @@
 
                                         <?php 
 
-                                        $total += ($rinci['harga_item'] / 48) * $rinci['jumlah_item_perlusin']; 
+                                        $total += ((float)($rinci['harga_item'] ?? 0) / 48) * (float)($rinci['jumlah_item_perlusin'] ?? 0); 
 
                                         ?>
 
                                         <td align="right">
 
-                                            <?php echo number_format(($rinci['harga_item'] / 48) * $rinci['jumlah_item_perlusin']) ?>
+                                            <?php echo number_format(((float)($rinci['harga_item'] ?? 0) / 48) * (float)($rinci['jumlah_item_perlusin'] ?? 0)) ?>
 
                                         </td>
 
@@ -499,19 +499,19 @@
 
                                         <td align="center">
 
-                                            (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['harga_item'] / 72,1) ?> Pcs)
+                                            (<?php echo $rinci['harga_item'].' Roll) ('.round((float)($rinci['harga_item'] ?? 0) / 72,1) ?> Pcs)
 
                                         </td>
 
                                         <?php 
 
-                                        $total += ($rinci['harga_item'] / 72) * $rinci['jumlah_item_perlusin']; 
+                                        $total += ((float)($rinci['harga_item'] ?? 0) / 72) * (float)($rinci['jumlah_item_perlusin'] ?? 0); 
 
                                         ?>
 
                                         <td align="right">
 
-                                            <?php echo number_format(($rinci['harga_item'] / 72) * $rinci['jumlah_item_perlusin']) ?>
+                                            <?php echo number_format(((float)($rinci['harga_item'] ?? 0) / 72) * (float)($rinci['jumlah_item_perlusin'] ?? 0)) ?>
 
                                         </td>
 
@@ -535,7 +535,7 @@
 
                                         <td align="center">
 
-                                            (<?php echo $rinci['harga_item'].' Roll) ('.round( ($rinci['jumlah_item_keluar']*$rinci['harga_item'])  / $pot['hasil_lusinan_potongan']) ?> Pcs)
+                                            (<?php echo $rinci['harga_item'].' Roll) ('.round( ((float)($rinci['jumlah_item_keluar'] ?? 0)*(float)($rinci['harga_item'] ?? 0))  / (!empty($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 1)) ?> Pcs)
 
                                         </td>
 
@@ -550,7 +550,7 @@
 
                                         <td align="right">
 
-                                            <?php echo number_format($hargapita) ?>
+                                            <?php echo number_format((float)$hargapita) ?>
 
                                         </td>
 
@@ -581,19 +581,19 @@
 
                                         <?php 
 
-                                        $total += $rinci['harga_item'] * $rinci['jumlah_item_perlusin']; 
+                                        $total += (float)($rinci['harga_item'] ?? 0) * (float)($rinci['jumlah_item_perlusin'] ?? 0); 
 
                                         ?>
 
                                         <td align="right">
 
-                                            <?php echo number_format(($rinci['harga_item']) * $rinci['jumlah_item_perlusin']) ?>
+                                            <?php echo number_format(((float)($rinci['harga_item'] ?? 0)) * (float)($rinci['jumlah_item_perlusin'] ?? 0)) ?>
 
                                         </td>
 
                                     </tr>
 
-                                    <?php  } elseif (strtolower($explodeBordir[1]) == "bordir") {  ;?>
+                                    <?php  } elseif (strtolower($explodeBordir[1] ?? '') == "bordir") {  ;?>
 
                                     <tr>
 
@@ -613,7 +613,7 @@
 
                                         <td align="center">
 
-                                            (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['jumlah_item_keluar']*$rinci['harga_item'] / $pot['hasil_lusinan_potongan']) ?> Pcs)
+                                            (<?php echo $rinci['harga_item'].' Roll) ('.round((float)($rinci['jumlah_item_keluar'] ?? 0)*(float)($rinci['harga_item'] ?? 0) / (!empty($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 1)) ?> Pcs)
 
                                         </td>
 
@@ -625,7 +625,7 @@
 
                                         <td align="right">
 
-                                            <?php echo number_format($hargasizebordir) ?>
+                                            <?php echo number_format((float)$hargasizebordir) ?>
 
                                         </td>
 
@@ -633,7 +633,7 @@
 
                                     
 
-                                   <?php  } elseif (strtolower($rinci['nama_item_keluar']) == "simulasi size bordir" OR strtolower($rinci['nama_item_keluar']) == "size bordir") {  ;?>
+                                   <?php  } elseif (strtolower($rinci['nama_item_keluar'] ?? '') == "simulasi size bordir" OR strtolower($rinci['nama_item_keluar'] ?? '') == "size bordir") {  ;?>
 
                                                 <tr>
 
@@ -653,7 +653,7 @@
 
                                                     <td align="center">
 
-                                                        (<?php echo $rinci['harga_item'].' Roll) ('.round($rinci['jumlah_item_keluar']*$rinci['harga_item'] / $pot['hasil_lusinan_potongan']) ?> Pcs)
+                                                        (<?php echo $rinci['harga_item'].' Roll) ('.round((float)($rinci['jumlah_item_keluar'] ?? 0)*(float)($rinci['harga_item'] ?? 0) / (!empty($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 1)) ?> Pcs)
 
                                                     </td>
 
@@ -665,7 +665,7 @@
 
                                                     <td align="right">
 
-                                                        <?php echo number_format($hargasizebordir) ?>
+                                                        <?php echo number_format((float)$hargasizebordir) ?>
 
                                                     </td>
 
@@ -699,13 +699,13 @@
 
                                         <?php 
 
-                                        $total += $rinci['jumlah_item_perlusin'] * $rinci['harga_item']; 
+                                        $total += (float)($rinci['jumlah_item_perlusin'] ?? 0) * (float)($rinci['harga_item'] ?? 0); 
 
                                         ?>
 
                                         <td align="right">
 
-                                            <?php echo number_format($rinci['jumlah_item_perlusin'] * $rinci['harga_item']) ?>
+                                            <?php echo number_format((float)($rinci['jumlah_item_perlusin'] ?? 0) * (float)($rinci['harga_item'] ?? 0)) ?>
 
                                         </td>
 
@@ -719,9 +719,9 @@
                                 <?php $hargapertitik=0;?>
                                 <?php foreach ($boronganmesin as $key => $mesin): ?>
                                     <?php 
-                                        $hargapertitik=$mesin['harga_titik'];
-                                        if(strtolower($produk['nama_po'])=="kfb" OR strtolower($produk['nama_po'])=="kkf" OR strtolower($produk['nama_po'])=="skf"
-                                        OR strtolower($produk['nama_po'])=="ksf"
+                                        $hargapertitik=$mesin['harga_titik'] ?? 0;
+                                        if(strtolower($produk['nama_po'] ?? '')=="kfb" OR strtolower($produk['nama_po'] ?? '')=="kkf" OR strtolower($produk['nama_po'] ?? '')=="skf"
+                                        OR strtolower($produk['nama_po'] ?? '')=="ksf"
                                         ){
                                             $hargapertitik=30;
                                         }
@@ -732,16 +732,16 @@
 
                                         <td><?php echo strtoupper((empty($mesin['keterangan']))?$mesin['kategori']:$mesin['kategori']) ?></td>
 
-                                        <td align="center"><?php echo $mesin['jumlah_titik']*12 ?></td>
+                                        <td align="center"><?php echo ((float)($mesin['jumlah_titik'] ?? 0))*12 ?></td>
 
                                         <td align="center"><?php echo $hargapertitik ?></td>
 
-                                        <td align="right"><?php echo number_format(($mesin['jumlah_titik']*12)*$hargapertitik) ?></td>
+                                        <td align="right"><?php echo number_format((((float)($mesin['jumlah_titik'] ?? 0))*12)*(float)$hargapertitik) ?></td>
 
                                     </tr>
 
                                     <?php
-                                        $total+=($mesin['jumlah_titik']*12)*$hargapertitik;
+                                        $total+=(((float)($mesin['jumlah_titik'] ?? 0))*12)*(float)$hargapertitik;
                                     ?>
 
                                 <?php endforeach ?>
@@ -756,14 +756,14 @@
 
                                         <td align="center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                        <td align="center"><?php echo $mesin['harga'] ?></td>
+                                        <td align="center"><?php echo $mesin['harga'] ?? 0 ?></td>
 
-                                        <td align="right"><?php echo number_format(($mesin['harga']*12)) ?></td>
+                                        <td align="right"><?php echo number_format(((float)($mesin['harga'] ?? 0)*12)) ?></td>
 
                                     </tr>
 
                                     <?php
-                                        $total+=($mesin['harga']*12);
+                                        $total+=((float)($mesin['harga'] ?? 0)*12);
                                     ?>
 
                                 <?php endforeach ?>
@@ -774,11 +774,11 @@
                                         <td><center><?php echo $no+=1?></center></td>
                                         <td><?php echo strtoupper((empty($mesin['keterangan']) || trim($mesin['keterangan']) == '-') ? "Packing" : $mesin['keterangan']) ?></td>
                                         <td align="center"><?php //echo $mesin['jumlah_pcs'] ?></td>
-                                        <td align="center"><?php echo number_format( $mesin['harga_dz']/12,0) ?></td>
-                                        <td align="right"><?php echo number_format($mesin['harga_dz']) ?></td>
+                                        <td align="center"><?php echo number_format((float)($mesin['harga_dz'] ?? 0)/12,0) ?></td>
+                                        <td align="right"><?php echo number_format((float)($mesin['harga_dz'] ?? 0)) ?></td>
                                     </tr>
                                     <?php
-                                        $total+=($mesin['harga_dz']);
+                                        $total+=((float)($mesin['harga_dz'] ?? 0));
                                     ?>
                                 <?php endforeach ?>
 
@@ -786,7 +786,7 @@
                                     <?php 
                                         //$harga=$mesin['harga'];
                                         //$harga=1000;
-                                        $harga=$cucianhpp['cucianhpp'];
+                                        $harga=$cucianhpp['cucianhpp'] ?? 0;
                                         /*
                                         if($produk['nama_po']=="KSK"){
                                             $harga=1000;
@@ -802,14 +802,14 @@
 
                                         <td align="center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                        <td align="center"><?php echo number_format($harga) ?></td>
+                                        <td align="center"><?php echo number_format((float)$harga) ?></td>
 
-                                        <td align="right"><?php echo number_format(($harga*12)) ?></td>
+                                        <td align="right"><?php echo number_format(((float)$harga*12)) ?></td>
 
                                     </tr>
 
                                     <?php
-                                        $total+=($harga*12);
+                                        $total+=((float)$harga*12);
                                     ?>
 
                                 <?php endforeach ?>
@@ -826,14 +826,14 @@
 
                                             <td align="center"><?php //echo $mesin['jumlah_pcs'] ?></td>
 
-                                            <td align="center"><?php echo number_format($b['biaya']) ?></td>
+                                            <td align="center"><?php echo number_format((float)($b['biaya'] ?? 0)) ?></td>
 
-                                            <td align="right"><?php echo number_format($b['biaya']) ?></td>
+                                            <td align="right"><?php echo number_format((float)($b['biaya'] ?? 0)) ?></td>
 
                                         </tr>
 
                                     <?php
-                                        $total+=($b['biaya']);
+                                        $total+=((float)($b['biaya'] ?? 0));
                                     ?>
 
                                     <?php } ?>
@@ -852,14 +852,14 @@
 
                                             <td align="center">12</td>
 
-                                            <td align="center"><?php echo number_format($b['nominal']) ?></td>
+                                            <td align="center"><?php echo number_format((float)($b['nominal'] ?? 0)) ?></td>
 
-                                            <td align="right"><?php echo number_format($b['nominal']) ?></td>
+                                            <td align="right"><?php echo number_format((float)($b['nominal'] ?? 0)) ?></td>
 
                                         </tr>
 
                                     <?php
-                                        $total+=($b['nominal']);
+                                        $total+=((float)($b['nominal'] ?? 0));
                                     ?>
 
                                     <?php } ?>
@@ -875,7 +875,7 @@
 
                                     $totalHPP = $total + $totalAlat;
 
-                                    echo number_format($total + $totalAlat); 
+                                    echo number_format((float)$totalHPP); 
 
                                     ?></td>
 
@@ -896,7 +896,7 @@
                                             $opr = $masterharga['hargahpp'] - $totalHPP;
                                         }
                                         
-                                        echo 'Rp. '.number_format($opr);
+                                        echo 'Rp. '.number_format((float)$opr);
                                     ?>
                                     </td>
                                 </tr>
@@ -907,14 +907,14 @@
                                         Rp. <?php 
                                             // Hitung Grand Total dari Total HPP + Operasional (agar sinkron dengan view utama)
                                             $grand = $totalHPP + $opr; 
-                                            echo number_format($grand);?> 
+                                            echo number_format((float)$grand);?> 
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td colspan="4"  align="center">HARGA PCS</td>
                                     <td id="hargaPCS" align="right">
-                                        Rp. <?php echo number_format($grand / 12) ?>
+                                        Rp. <?php echo number_format((float)$grand / 12) ?>
                                     </td>
                                 </tr>
 
