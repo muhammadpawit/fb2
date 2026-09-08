@@ -169,7 +169,20 @@ class Lababordir extends CI_Controller {
 			  AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
 		")->row_array();
 		if (!empty($q_pw['total'])) {
-			$data['potonganwarteg'] = (float)$q_pw['total'];
+			$data['potonganwarteg'] += (float)$q_pw['total'];
+		}
+
+		// Potongan Warteg dari kasbon
+		$q_pw_kasbon = $this->db->query("
+			SELECT COALESCE(SUM(ks.potongan_warteg), 0) as total
+			FROM kasbon ks
+			LEFT JOIN karyawan k ON k.id = ks.idkaryawan
+			WHERE ks.hapus = 0
+			  AND (ks.bagian IN (1, 16) OR k.divisi IN (1, 16))
+			  AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+		")->row_array();
+		if (!empty($q_pw_kasbon['total'])) {
+			$data['potonganwarteg'] += (float)$q_pw_kasbon['total'];
 		}
 
 		$data['pendapatan']=$this->LababordirModel->pendapatan($tanggal1,$tanggal2,null);
