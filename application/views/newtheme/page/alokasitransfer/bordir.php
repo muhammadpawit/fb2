@@ -81,6 +81,7 @@
 			<thead>
 				<tr>
 					<th>Tanggal</th>
+					<th>Pengalokasian</th>
 					<th>Keterangan</th>
 					<th>Nominal</th>
           <th>Action</th>
@@ -90,6 +91,7 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['tanggal']?></td>
+						<td><?php echo $p['pengalokasian']?></td>
 						<td><?php echo $p['keterangan']?></td>
 						<td><?php echo number_format($p['nominal'])?></td>
             <td>

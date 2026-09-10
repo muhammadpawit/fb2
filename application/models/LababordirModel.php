@@ -1,97 +1,104 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class LababordirModel extends CI_Model {
+class LababordirModel extends CI_Model
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	public function getPodalam($data){
-		$sql="SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
-		if(!empty($data['tanggal1'])){
-			$sql.=" AND date(created_date) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+	public function getPodalam($data)
+	{
+		$sql = "SELECT sum(total_stich) as total_stich FROM kelola_mesin_bordir WHERE hapus=0 and jenis=1 ";
+		if (!empty($data['tanggal1'])) {
+			$sql .= " AND date(created_date) between '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
 		}
-		if(!empty($data['nomesin'])){
-			$sql.=" AND mesin_bordir='".$data['nomesin']."' ";
+		if (!empty($data['nomesin'])) {
+			$sql .= " AND mesin_bordir='" . $data['nomesin'] . "' ";
 		}
-		$d=$this->db->query($sql);
+		$d = $this->db->query($sql);
 		return $d->result_array();
 	}
 
-	public function Getkeluar($data){
-		$aruskas=0;
-		$tf=0;
-		$hasil=0;
-		$sql1="SELECT SUM(saldokeluar) as total FROM aruskas WHERE hapus=0 AND bagian=2 ";
-		if(!empty($data['tanggal1'])){
-			$sql1.=" AND date(tanggal) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
+	public function Getkeluar($data)
+	{
+		$aruskas = 0;
+		$tf = 0;
+		$hasil = 0;
+		$sql1 = "SELECT SUM(saldokeluar) as total FROM aruskas WHERE hapus=0 AND bagian=2 ";
+		if (!empty($data['tanggal1'])) {
+			$sql1 .= " AND date(tanggal) between '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
 		}
-		$s1=$this->GlobalModel->QueryManualRow($sql1);
-		if(!empty($s1)){
-			$aruskas=$s1['total'];
-		}
-
-		$sql2="SELECT SUM(nominal) as total FROM transferan WHERE hapus=0 AND bagian=2 ";
-		if(!empty($data['tanggal1'])){
-			$sql2.=" AND date(tanggal) between '".$data['tanggal1']."' AND '".$data['tanggal2']."' ";
-		}
-		$s2=$this->GlobalModel->QueryManualRow($sql2);
-		if(!empty($s2)){
-			$tf=$s2['total'];
+		$s1 = $this->GlobalModel->QueryManualRow($sql1);
+		if (!empty($s1)) {
+			$aruskas = $s1['total'];
 		}
 
-		$hasil=($aruskas+$tf);
+		$sql2 = "SELECT SUM(nominal) as total FROM transferan WHERE hapus=0 AND bagian=2 ";
+		if (!empty($data['tanggal1'])) {
+			$sql2 .= " AND date(tanggal) between '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		}
+		$s2 = $this->GlobalModel->QueryManualRow($sql2);
+		if (!empty($s2)) {
+			$tf = $s2['total'];
+		}
+
+		$hasil = ($aruskas + $tf);
 		return $hasil;
 	}
 
 
-	public function operasional($tanggal1,$tanggal2,$pengalokasian){
-		$hasil=0;
-		$sql="SELECT COALESCE(SUM(nominal),0) as total FROM alokasi_transferan WHERE hapus=0 AND bagian='2' AND pengalokasian =$pengalokasian ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".date('Y-m-d',strtotime($tanggal1))."' AND '".date('Y-m-d',strtotime($tanggal2))."' ";
-		$data=$this->GlobalModel->QueryManualRow($sql);
-		if(!empty($data['total'])){
-			$hasil=$data['total'];
+	public function operasional($tanggal1, $tanggal2, $pengalokasian)
+	{
+		$hasil = 0;
+		$sql = "SELECT COALESCE(SUM(nominal),0) as total FROM alokasi_transferan WHERE hapus=0 AND bagian='2' AND pengalokasian =$pengalokasian ";
+		$sql .= " AND DATE(tanggal) BETWEEN '" . date('Y-m-d', strtotime($tanggal1)) . "' AND '" . date('Y-m-d', strtotime($tanggal2)) . "' ";
+		$data = $this->GlobalModel->QueryManualRow($sql);
+
+		if (!empty($data['total'])) {
+			$hasil = $data['total'];
 		}
 		return $hasil;
 	}
 
-	function pendapatan($tanggal1,$tanggal2,$nomesin){
-		$filter=array(
-			'tanggal1'=>$tanggal1,
-			'tanggal2'=>$tanggal2,
-			'nomesin'=>$nomesin,
+	function pendapatan($tanggal1, $tanggal2, $nomesin)
+	{
+		$filter = array(
+			'tanggal1' => $tanggal1,
+			'tanggal2' => $tanggal2,
+			'nomesin' => $nomesin,
 		);
-		$jumlah=0;
-		$i=0;
-		$j=array();
-		$totalpendapatan=0;
-		$totalstich=0;
-		$total018=0;
-		$total02=0;
-		$total015=0;
-		$prev=null;
-		$luar=0;
-		$poluar=[];
-		$globalstich=0;
-		$g018=0;
-		$g02=0;
-		$g015=0;
-		$gpendapatan=0;
-		$total015=0;
-		$sm="SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11) ";
-		
-		if(!empty($nomesin)){
-			$sm.=" AND nomor='$nomesin' ";
+		$jumlah = 0;
+		$i = 0;
+		$j = array();
+		$totalpendapatan = 0;
+		$totalstich = 0;
+		$total018 = 0;
+		$total02 = 0;
+		$total015 = 0;
+		$prev = null;
+		$luar = 0;
+		$poluar = [];
+		$globalstich = 0;
+		$g018 = 0;
+		$g02 = 0;
+		$g015 = 0;
+		$gpendapatan = 0;
+		$total015 = 0;
+		$sm = "SELECT * FROM mesin_bordir WHERE id>0 AND nomor NOT IN(11) ";
+
+		if (!empty($nomesin)) {
+			$sm .= " AND nomor='$nomesin' ";
 		}
-		$mesin=$this->GlobalModel->QueryManual($sm);
-		$luar=[];
-		$luar=$this->GlobalModel->QueryManual("
+		$mesin = $this->GlobalModel->QueryManual($sm);
+		$luar = [];
+		$luar = $this->GlobalModel->QueryManual("
 		SELECT a.mesin_bordir, a.laporan_perkalian_tarif as perkalian, c.id as idpemilik, c.nama FROM kelola_mesin_bordir a
 		LEFT JOIN master_po_luar b ON b.id=a.kode_po
 		LEFT JOIN pemilik_poluar c ON c.id=b.idpemilik
-		WHERE a.hapus=0 AND jenis=2 AND DATE(created_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."'  
+		WHERE a.hapus=0 AND jenis=2 AND DATE(created_date) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'  
 		AND laporan_perkalian_tarif IS NOT NULL 
 		GROUP BY a.laporan_perkalian_tarif, b.idpemilik order by laporan_perkalian_tarif DESC
 		");
@@ -187,9 +194,9 @@ class LababordirModel extends CI_Model {
 				'total' => (float)$r['total'],
 			];
 		}
-		
+
 		$products = [];
-		foreach($mesin as $mes){
+		foreach ($mesin as $mes) {
 			$key = $mes['nomor'] . '_' . $mes['shift'];
 			$totalstich = isset($stich_map[$key]) ? $stich_map[$key] : 0;
 			$total018 = isset($t018_map[$key]) ? $t018_map[$key] : 0;
@@ -197,26 +204,26 @@ class LababordirModel extends CI_Model {
 			$total015 = isset($t015_map[$key]) ? $t015_map[$key] : 0;
 			$jumlah = isset($jumlah_map[$mes['nomor']]) ? $jumlah_map[$mes['nomor']] : 0;
 
-			$globalstich+=($totalstich);
-			$g018+=($total018);
-			$g02+=($total02);
-			$g015+=($total015);
-			$gpendapatan+=($total018+$total02);
-			$products[]=array(
-				'tanggal1'=>$tanggal1,
-				'tanggal2'=>$tanggal2,
-				'nomesin'=>$mes['nomor'],
-				'shift'=>$mes['shift'],
-				'stich'=>($totalstich),
-				'0.18'=>!empty($total018)?($total018):0,
-				'0.2'=>($total02),
-				'0.18yn'=>0,
-				'0.15'=>($total015),
-				'pendapatan'=>($total018+$total02),
-				'jumlah'=>($jumlah),
-				'i'=>$i++,
-				'keterangan'=>null,
-				'dets'=>[],
+			$globalstich += ($totalstich);
+			$g018 += ($total018);
+			$g02 += ($total02);
+			$g015 += ($total015);
+			$gpendapatan += ($total018 + $total02);
+			$products[] = array(
+				'tanggal1' => $tanggal1,
+				'tanggal2' => $tanggal2,
+				'nomesin' => $mes['nomor'],
+				'shift' => $mes['shift'],
+				'stich' => ($totalstich),
+				'0.18' => !empty($total018) ? ($total018) : 0,
+				'0.2' => ($total02),
+				'0.18yn' => 0,
+				'0.15' => ($total015),
+				'pendapatan' => ($total018 + $total02),
+				'jumlah' => ($jumlah),
+				'i' => $i++,
+				'keterangan' => null,
+				'dets' => [],
 			);
 		}
 
@@ -242,7 +249,7 @@ class LababordirModel extends CI_Model {
 		// Simpan data untuk setiap baris
 		$data_rows = [];
 
-		foreach($products as $p) {
+		foreach ($products as $p) {
 			$row = [];
 			$row[] = 'Mesin ' . $p['nomesin'];
 			$row[] = $p['shift'];
@@ -251,7 +258,7 @@ class LababordirModel extends CI_Model {
 			$row[] = number_format($p['0.18']);
 
 			$jumlah_permesin = $p['0.18']; // Mulai dengan nilai dari 0.18
-			foreach($luar as $index => $b) {
+			foreach ($luar as $index => $b) {
 				$key_luar = $p['nomesin'] . '_' . $p['shift'] . '_' . $b['idpemilik'];
 				$item_luar = isset($luar_detail_map[$key_luar]) ? $luar_detail_map[$key_luar] : ['total' => 0, 'qty' => 0];
 				$nilaiData = $item_luar['total'];
@@ -266,7 +273,7 @@ class LababordirModel extends CI_Model {
 				$row[] = number_format($nilaiData); // Tambahkan nilai dinamis ke baris
 
 				// Tambahkan nilai ke total kolom luar
-				$total_jumlah_luar[$index] += $nilaiData; 
+				$total_jumlah_luar[$index] += $nilaiData;
 			}
 
 			// Tampilkan jumlah per mesin
@@ -305,7 +312,5 @@ class LababordirModel extends CI_Model {
 		];
 
 		return $result;
-
 	}
-
 }
