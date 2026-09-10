@@ -89,17 +89,25 @@ class Lababordir extends CI_Controller
 		$data['belanjabordir'] = 0;
 		$data['belanjabordir'] = $this->LababordirModel->operasional($tanggal1, $tanggal2, 1);
 		
-		// Pengajuan Harian Bordir (Kategori 2, Status disetujui = 1)
 		$q_ph = $this->db->query("
-			SELECT COALESCE(SUM(cash + transfer), 0) as total
-			FROM pengajuan_harian_new
-			WHERE hapus = 0
-			  AND kategori = 2
-			  AND status = 1
-			  AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'
+			SELECT COALESCE(SUM(d.jumlah * d.harga), 0) as total
+			FROM pengajuan_harian_new p
+			JOIN pengajuan_harian_new_detail d ON d.idpengajuan = p.id
+			WHERE p.hapus = 0 AND d.hapus = 0
+			  AND p.kategori = 2
+			  AND p.status = 1
+			  AND LOWER(d.nama_item) NOT LIKE 'benang%'
+			  AND LOWER(d.nama_item) NOT LIKE 'kain keras%'
+			  AND LOWER(d.nama_item) NOT LIKE 'jarum%'
+			  AND LOWER(d.nama_item) NOT LIKE 'lakban%'
+			  AND LOWER(d.nama_item) NOT LIKE 'double tipe%'
+			  AND LOWER(d.nama_item) NOT LIKE 'spull%'
+			  AND LOWER(d.nama_item) NOT LIKE 'bbm%'
+			  AND LOWER(d.nama_item) NOT LIKE 'gunting%'
+			  AND LOWER(d.nama_item) NOT LIKE 'pulpen%'
+			  AND DATE(p.tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'
 		")->row_array();
 		$pengajuan_operasional = !empty($q_ph['total']) ? (float)$q_ph['total'] : 0;
-
 		$data['operasional'] = $this->LababordirModel->operasional($tanggal1, $tanggal2, 2) + $pengajuan_operasional;
 
 		// 1) Gaji Operator / Borongan Bordir (Ambil dari data Bordir/gajioperator: gaji_operator & gaji_operator_new)
@@ -236,6 +244,15 @@ class Lababordir extends CI_Controller
 			WHERE p.hapus = 0 AND d.hapus = 0
 			  AND p.kategori = 2
 			  AND p.status = 1
+			  AND LOWER(d.nama_item) NOT LIKE 'benang%'
+			  AND LOWER(d.nama_item) NOT LIKE 'kain keras%'
+			  AND LOWER(d.nama_item) NOT LIKE 'jarum%'
+			  AND LOWER(d.nama_item) NOT LIKE 'lakban%'
+			  AND LOWER(d.nama_item) NOT LIKE 'double tipe%'
+			  AND LOWER(d.nama_item) NOT LIKE 'spull%'
+			  AND LOWER(d.nama_item) NOT LIKE 'bbm%'
+			  AND LOWER(d.nama_item) NOT LIKE 'gunting%'
+			  AND LOWER(d.nama_item) NOT LIKE 'pulpen%'
 			  AND DATE(p.tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'
 		")->result_array();
 		foreach ($q_ph_detail as $p) {
