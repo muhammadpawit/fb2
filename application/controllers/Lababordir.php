@@ -88,7 +88,19 @@ class Lababordir extends CI_Controller
 		// Belanja Bordir = Pembelian Bahan Baku ambil dari alokasi_transfer
 		$data['belanjabordir'] = 0;
 		$data['belanjabordir'] = $this->LababordirModel->operasional($tanggal1, $tanggal2, 1);
-		$data['operasional'] = $this->LababordirModel->operasional($tanggal1, $tanggal2, 2);
+		
+		// Pengajuan Harian Bordir (Kategori 2, Status disetujui = 1)
+		$q_ph = $this->db->query("
+			SELECT COALESCE(SUM(cash + transfer), 0) as total
+			FROM pengajuan_harian_new
+			WHERE hapus = 0
+			  AND kategori = 2
+			  AND status = 1
+			  AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'
+		")->row_array();
+		$pengajuan_operasional = !empty($q_ph['total']) ? (float)$q_ph['total'] : 0;
+
+		$data['operasional'] = $this->LababordirModel->operasional($tanggal1, $tanggal2, 2) + $pengajuan_operasional;
 
 		// 1) Gaji Operator / Borongan Bordir (Ambil dari data Bordir/gajioperator: gaji_operator & gaji_operator_new)
 		$data['gajioperator'] = 0;
