@@ -172,7 +172,7 @@ class Lababordir extends CI_Controller
 			$data['kasbon'] = (float)$q_kasbon['total'];
 		}
 
-		$data['service'] = 0;
+		// Service Kendaraan Ops (Alokasi Transferan pengalokasian 4) - we will now fetch details instead of aggregate
 		$data['service'] = $this->LababordirModel->operasional($tanggal1, $tanggal2, 4);
 
 		// Potongan Warteg dari potongan_operator
@@ -205,7 +205,55 @@ class Lababordir extends CI_Controller
 		$data['totalpoluar']     = $data['pendapatan']['total']['total_luar'];
 		$data['pend']            = $data['pendapatan']['total']['total_jumlah_per_mesin'];
 
+		$data['gajikaryawan'] = $data['gajioperator'] + $data['gajibuangbenang'] + $data['gajibulanan'];
+
+		$rincian_operasional = [];
+		$q_alokasi = $this->db->query("
+			SELECT keterangan as nama, nominal 
+			FROM alokasi_transferan 
+			WHERE hapus = 0 
+			  AND bagian = 2 
+			  AND pengalokasian IN (2, 4) 
+			  AND DATE(tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'
+		")->result_array();
+		foreach ($q_alokasi as $a) {
+			$nama = trim($a['nama']);
+			$nama_key = strtolower($nama);
+			if (isset($rincian_operasional[$nama_key])) {
+				$rincian_operasional[$nama_key]['nominal'] += (float)$a['nominal'];
+			} else {
+				$rincian_operasional[$nama_key] = [
+					'nama' => $nama,
+					'nominal' => (float)$a['nominal']
+				];
+			}
+		}
+
+		$q_ph_detail = $this->db->query("
+			SELECT d.nama_item as nama, (d.jumlah * d.harga) as nominal
+			FROM pengajuan_harian_new p
+			JOIN pengajuan_harian_new_detail d ON d.idpengajuan = p.id
+			WHERE p.hapus = 0 AND d.hapus = 0
+			  AND p.kategori = 2
+			  AND p.status = 1
+			  AND DATE(p.tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "'
+		")->result_array();
+		foreach ($q_ph_detail as $p) {
+			$nama = trim($p['nama']);
+			$nama_key = strtolower($nama);
+			if (isset($rincian_operasional[$nama_key])) {
+				$rincian_operasional[$nama_key]['nominal'] += (float)$p['nominal'];
+			} else {
+				$rincian_operasional[$nama_key] = [
+					'nama' => $nama,
+					'nominal' => (float)$p['nominal']
+				];
+			}
+		}
+		$data['rincian_operasional'] = array_values($rincian_operasional);
+
 		$totalpengeluaran = ($data['belanjabordir'] + $data['gajioperator'] + $data['gajibuangbenang'] + $data['gajibulanan'] + $data['kasbon'] + $data['operasional'] + $data['service'] + $data['potonganwarteg']);
+		$data['totalpengeluaran'] = $totalpengeluaran;
 		$data['lababersih'] = round($data['pend'] - $totalpengeluaran);
 
 		$url = '';

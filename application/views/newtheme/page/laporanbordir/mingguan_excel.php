@@ -50,37 +50,41 @@ header("Content-Disposition: attachment; filename=".$namafile.".xls");
             <td align="right"><?php echo $belanjabordir; ?></td>
         </tr>
         <tr>
-            <td>Gaji Operator Bordir <?php if (!empty($tgl_sabtu) && !empty($tgl_jumat)) { ?>(Periode <?php echo date('d/m/Y', strtotime($tgl_sabtu)) ?> - <?php echo date('d/m/Y', strtotime($tgl_jumat)) ?>)<?php } ?></td>
-            <td align="right"><?php echo isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0); ?></td>
-        </tr>
-        <tr>
-            <td>Gaji Buang Benang Bordir <?php if (!empty($tgl_sabtu) && !empty($tgl_jumat)) { ?>(Periode <?php echo date('d/m/Y', strtotime($tgl_sabtu)) ?> - <?php echo date('d/m/Y', strtotime($tgl_jumat)) ?>)<?php } ?></td>
-            <td align="right"><?php echo isset($gajibuangbenang) ? $gajibuangbenang : 0; ?></td>
-        </tr>
-        <tr>
-            <td>Gaji Bulanan Bordir</td>
-            <td align="right"><?php echo isset($gajibulanan) ? $gajibulanan : 0; ?></td>
+            <td>Gaji Karyawan Bordir (Bulanan, Borongan) <?php if (!empty($tgl_sabtu) && !empty($tgl_jumat)) { ?>(Periode <?php echo date('d/m/Y', strtotime($tgl_sabtu)) ?> - <?php echo date('d/m/Y', strtotime($tgl_jumat)) ?>)<?php } ?></td>
+            <td align="right"><?php echo $gajikaryawan; ?></td>
         </tr>
         <tr>
             <td>Kasbon Karyawan Bordir</td>
             <td align="right"><?php echo isset($kasbon) ? $kasbon : 0; ?></td>
         </tr>
+        <?php if (isset($rincian_operasional)) { foreach ($rincian_operasional as $ro) { ?>
         <tr>
-            <td>Operasional (BBM, Service, Fotokopi)</td>
-            <td align="right"><?php echo $operasional; ?></td>
+            <td><?php echo $ro['nama']; ?></td>
+            <td align="right"><?php echo $ro['nominal']; ?></td>
         </tr>
+        <?php } } ?>
         <tr>
-            <td>Service (Mesin Bordir)</td>
-            <td align="right"><?php echo $service; ?></td>
-        </tr>
-        <tr>
-            <td>Potongan Warteg</td>
+            <td>Pembayaran Utang Warteg</td>
             <td align="right"><?php echo isset($potonganwarteg) ? $potonganwarteg : 0; ?></td>
         </tr>
-        <?php $totalpengeluaran = ($belanjabordir + (isset($gajioperator) ? $gajioperator : (isset($gajibordir) ? $gajibordir : 0)) + (isset($gajibuangbenang) ? $gajibuangbenang : 0) + (isset($gajibulanan) ? $gajibulanan : 0) + (isset($kasbon) ? $kasbon : 0) + $operasional + $service + (isset($potonganwarteg) ? $potonganwarteg : 0)); ?>
         <tr style="background-color: #fff2cc;">
             <td><b>TOTAL PENGELUARAN</b></td>
             <td align="right"><b><?php echo $totalpengeluaran; ?></b></td>
+        </tr>
+
+        <!-- Jarak -->
+        <tr>
+            <td colspan="2" style="height: 20px;"></td>
+        </tr>
+
+        <!-- SALDO -->
+        <tr>
+            <td style="color: #32325d;"><b>Saldo :</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>1. Sisa Kas Mingguan</td>
+            <td align="right" style="background-color: #fce4d6;"><?php echo ($pend - $totalpengeluaran); ?></td>
         </tr>
 
         <!-- Jarak -->
