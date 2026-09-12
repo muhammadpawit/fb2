@@ -145,7 +145,7 @@ class Sablonluar extends CI_Controller
 		$data['pot_ket'] = !empty($pot) ? $pot['keterangan'] : '';
 		//pre($data['pot']);
 		$data['cm'] = [];
-		$data['cm'] = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $cmt, 'hapus' => 0, 'id_cmt' => 87));
+		$data['cm'] = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $cmt, 'hapus' => 0, 'cmt_job_desk' => 'SABLON'));
 		$data['pendapatan'] = [];
 		$sql = "SELECT ksd.*,ks.idcmt, mpo.nama as kode_po FROM kirimcmtsablon_detail ksd JOIN kirimcmtsablon ks ON(ks.id=ksd.idkirim) JOIN master_po_luar mpo ON mpo.id=ksd.kode_po  WHERE ks.hapus=0 and ksd.hapus=0";
 		$sql .= " ";
