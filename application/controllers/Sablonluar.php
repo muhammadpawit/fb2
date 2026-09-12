@@ -195,7 +195,7 @@ class Sablonluar extends CI_Controller
 		$data['tanggal1'] = $tanggal1;
 		$data['tanggal2'] = $tanggal2;
 		$data['cmtf'] = $cmt;
-		$data['cmt'] = $this->GlobalModel->getData('master_cmt', array('hapus' => 0, 'cmt_job_desk' => 'SABLON', 'id_cmt' => 87));
+		$data['cmt'] = $this->GlobalModel->getData('master_cmt', array('hapus' => 0, 'cmt_job_desk' => 'SABLON'));
 		$data['kodepo'] = $this->GlobalModel->getData('master_po_luar', array('hapus' => 0));
 		$data['pinjaman'] = $this->GlobalModel->QueryManual("SELECT * FROM pinjaman_cmt WHERE idcmt='" . $data['cmtf'] . "' AND hapus=0 AND status IN (1,2) ");
 		//$this->load->view($this->page.'main',$data);
