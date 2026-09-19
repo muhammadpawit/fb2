@@ -151,6 +151,7 @@ class Sablonluar extends CI_Controller
 		$sql .= " ";
 		$sql .= " AND DATE(ks.tanggal) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
 		$sql .= " AND ks.idcmt='" . $cmt . "' ";
+		$sql .= " GROUP BY ksd.kode_po ";
 		$results = $this->GlobalModel->QueryManual($sql);
 		//pre($results);
 		$no = 1;
