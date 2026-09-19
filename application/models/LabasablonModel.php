@@ -11,10 +11,21 @@ class LabasablonModel extends CI_Model {
 
 		$results=array();
 		$hasil = [];
-		$sql="SELECT nama_cmt, COALESCE(SUM(a.qty_tot_pcs/12) * a.cmt_job_price ) as jumlah  FROM kelolapo_kirim_setor a WHERE a.progress='SETOR' AND a.kategori_cmt='SABLON' ";
-		$sql.=" AND DATE(a.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' and a.hapus=0";
-		// $sql.=" AND id_master_cmt='".$cmt."' ";
-		$sql.=" GROUP BY id_master_cmt ";
+		$sql="SELECT id_master_cmt, nama_cmt, SUM(COALESCE(jumlah, 0)) as jumlah FROM (
+			SELECT id_master_cmt, nama_cmt, COALESCE(SUM(a.qty_tot_pcs/12) * a.cmt_job_price, 0) as jumlah 
+			FROM kelolapo_kirim_setor a 
+			WHERE a.progress='SETOR' AND a.kategori_cmt='SABLON' 
+			AND DATE(a.create_date) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND a.hapus=0
+			GROUP BY id_master_cmt
+			UNION ALL
+			SELECT ks.idcmt as id_master_cmt, mc.cmt_name as nama_cmt, SUM(ROUND((ksd.jumlah_pcs / 12) * ksd.rincian_po)) as jumlah 
+			FROM kirimcmtsablon_detail ksd 
+			JOIN kirimcmtsablon ks ON ks.id=ksd.idkirim 
+			JOIN master_cmt mc ON mc.id_cmt=ks.idcmt 
+			WHERE ks.hapus=0 AND ksd.hapus=0 
+			AND DATE(ks.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."'
+			GROUP BY ks.idcmt
+		) t GROUP BY id_master_cmt";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
 		foreach($results as $r){
