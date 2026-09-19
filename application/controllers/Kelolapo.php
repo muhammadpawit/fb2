@@ -3681,4 +3681,91 @@ class Kelolapo extends CI_Controller
 		}
 		echo "Berhasil menyinkronkan data massal Jahit! Total data baru yang berhasil dimasukkan ke kelolapo_kirim_setor: " . $inserted . " baris data.\n";
 	}
+
+	public function sync_missing_setorcmt()
+	{
+		$sql = "SELECT s.id as idsetor, s.tanggal, s.idcmt, sd.kode_po as detail_po, sd.totalsetor, sd.idkirim, kd.cmtjob
+				FROM setorcmt s 
+				JOIN setorcmt_detail sd ON s.id = sd.idsetor 
+				LEFT JOIN kirimcmt_detail kd ON (kd.idkirim = sd.idkirim AND kd.kode_po = sd.kode_po)
+				WHERE s.hapus = 0 AND sd.hapus = 0";
+		$details = $this->GlobalModel->queryManual($sql);
+
+		$total = !empty($details) ? count($details) : 0;
+		$inserted = 0;
+		$current = 0;
+		$isCli = is_cli();
+
+		if ($isCli) {
+			echo "Memulai proses sinkronisasi massal data Setor Jahit ($total data)... \n";
+		}
+
+		if (!empty($details)) {
+			foreach ($details as $d) {
+				$current++;
+
+				if ($isCli) {
+					$percent = $total > 0 ? round(($current / $total) * 100) : 100;
+					$barLength = 30;
+					$filled = (int)round(($percent / 100) * $barLength);
+					$bar = str_repeat("=", $filled) . ($filled < $barLength ? ">" : "") . str_repeat(" ", max(0, $barLength - $filled - 1));
+					echo sprintf("\r[%s] %3d%% (%d/%d) - Baru Disisipkan: %d", $bar, $percent, $current, $total, $inserted);
+					flush();
+				}
+
+				$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $d['detail_po']));
+				if (empty($masterpo)) {
+					$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $d['detail_po']));
+				}
+
+				$idpo_val = !empty($masterpo['id_produksi_po']) ? $masterpo['id_produksi_po'] : (is_numeric($d['detail_po']) ? $d['detail_po'] : 0);
+				$kode_po_str = !empty($masterpo['kode_po']) ? $masterpo['kode_po'] : $d['detail_po'];
+
+				$cek = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array(
+					'hapus' => 0,
+					'kode_nota_cmt' => $d['idsetor'],
+					'progress' => 'SETOR',
+					'kategori_cmt' => 'JAHIT',
+					'id_master_cmt' => $d['idcmt'],
+					'idpo' => $idpo_val
+				));
+
+				if (empty($cek) && !empty($kode_po_str)) {
+					$jobprice = !empty($d['cmtjob']) ? $this->GlobalModel->getDataRow('master_job', array('id' => $d['cmtjob'])) : null;
+					$namacmt = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $d['idcmt']));
+
+					$insertkks = array(
+						'kode_po' => $kode_po_str,
+						'create_date' => $d['tanggal'],
+						'kode_nota_cmt' => $d['idsetor'],
+						'progress' => 'SETOR',
+						'kategori_cmt' => 'JAHIT',
+						'id_master_cmt' => $d['idcmt'],
+						'id_master_cmt_job' => !empty($d['cmtjob']) ? $d['cmtjob'] : 0,
+						'cmt_job_price' => !empty($jobprice) ? $jobprice['harga'] : 0,
+						'nama_cmt' => !empty($namacmt) ? $namacmt['cmt_name'] : '',
+						'qty_tot_pcs' => $d['totalsetor'],
+						'qty_tot_atas' => 0,
+						'qty_tot_bawah' => 0,
+						'keterangan' => '-',
+						'status' => 0,
+						'jml_barang' => 0,
+						'qty_bangke' => 0,
+						'qty_reject' => 0,
+						'qty_hilang' => 0,
+						'qty_claim' => 0,
+						'status_keu' => 0,
+						'tglinput' => $d['tanggal'],
+						'idpo' => $idpo_val,
+					);
+					$this->db->insert('kelolapo_kirim_setor', $insertkks);
+					$inserted++;
+				}
+			}
+			if ($isCli) {
+				echo "\n";
+			}
+		}
+		echo "Berhasil menyinkronkan data massal Setor Jahit! Total data baru yang berhasil dimasukkan ke kelolapo_kirim_setor: " . $inserted . " baris data.\n";
+	}
 }
