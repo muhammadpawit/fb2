@@ -3768,4 +3768,18 @@ class Kelolapo extends CI_Controller
 		}
 		echo "Berhasil menyinkronkan data massal Setor Jahit! Total data baru yang berhasil dimasukkan ke kelolapo_kirim_setor: " . $inserted . " baris data.\n";
 	}
+
+	public function clean_duplicate_kirim()
+	{
+		$sql = "DELETE FROM kelolapo_kirim_setor 
+				WHERE progress = 'KIRIM' 
+				  AND kategori_cmt = 'JAHIT' 
+				  AND kode_nota_cmt > 0 
+				  AND kode_nota_cmt NOT IN (SELECT id FROM kirimcmt)";
+		
+		$this->db->query($sql);
+		$deleted = $this->db->affected_rows();
+		
+		echo "Berhasil menghapus " . $deleted . " data KIRIM ganda/tidak valid dari tabel kelolapo_kirim_setor.";
+	}
 }
