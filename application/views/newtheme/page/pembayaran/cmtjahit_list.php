@@ -84,6 +84,7 @@
                                 <?php //if($menghapus==1){?>
                                     <a href="<?php echo $p['hapus']?>" onclick="return confirm('Yakin akan menghapus?')" class="btn btn-danger btn-xs text-white">Hapus</a>
                                 <?php //} ?>
+                                <button class="btn btn-warning btn-xs text-white" onclick="editTanggal('<?php echo $p['id']?>', '<?php echo $p['tanggal_raw']?>', '<?php echo addslashes($p['nama'])?>')">Edit Tanggal</button>
                             </td>
                         </tr>
                     <?php } ?>
@@ -166,4 +167,53 @@
         var url='<?php echo $tambah?>';
         location=url;
     }
+
+    function editTanggal(id, tanggal, nama) {
+        $("#edit_id").val(id);
+        $("#edit_tanggal").val(tanggal);
+        $("#edit_nama").val(nama);
+        $("#modalEditTanggal").modal('show');
+    }
+
+    function showLoader() {
+        var btn = $("#btnSimpanTanggal");
+        btn.html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
+        btn.addClass('disabled'); // Bootstrap class to make it look disabled
+        // use timeout to disable button so the form submission isn't interrupted
+        setTimeout(function() {
+            btn.prop('disabled', true);
+        }, 10);
+        return true;
+    }
 </script>
+
+<!-- Modal Edit Tanggal -->
+<div class="modal fade" id="modalEditTanggal" tabindex="-1" role="dialog" aria-labelledby="modalEditTanggalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="<?php echo BASEURL?>Pembayaran/update_tanggal_cmtjahit" method="POST" id="formEditTanggal" onsubmit="return showLoader()">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditTanggalLabel">Edit Tanggal Pembayaran</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="edit_id">
+                    <div class="form-group">
+                        <label>Nama CMT</label>
+                        <input type="text" id="edit_nama" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" name="tanggal" id="edit_tanggal" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" id="btnSimpanTanggal">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

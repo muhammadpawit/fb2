@@ -1225,6 +1225,7 @@ class Pembayaran extends CI_Controller {
 				'no'=>$no++,
 				'id'=>$result['id'],
 				'tanggal'=>date('d-m-Y',strtotime($result['tanggal'])),
+				'tanggal_raw'=>date('Y-m-d',strtotime($result['tanggal'])),
 				'periode'=>strtolower($result['periode']),
 				'nama'=>strtolower($cmt['cmt_name']),
 				'total'=>($result['total']),
@@ -2102,5 +2103,15 @@ class Pembayaran extends CI_Controller {
 			$this->session->set_flashdata('msg','Mohon memasukan data dengan lengkap dan benar');
 			redirect(BASEURL.'Pembayaran/cmtjahittambah');
 		}
+	}
+
+	public function update_tanggal_cmtjahit(){
+		$post = $this->input->post();
+		if(isset($post['id']) && isset($post['tanggal'])){
+			$this->db->where('id', $post['id']);
+			$this->db->update('pembayaran_cmt', array('tanggal' => $post['tanggal']));
+			$this->session->set_flashdata('msg', 'Tanggal berhasil diubah');
+		}
+		redirect(BASEURL.'Pembayaran/cmtjahit');
 	}
 }
