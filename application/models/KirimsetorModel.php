@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class kirimsetorModel extends CI_Model {
 
-
+	private $query_cache = array();
 
 	function __construct() {
 
@@ -651,6 +651,10 @@ class kirimsetorModel extends CI_Model {
 	}
 
 	public function rekapjumlah_tglklo($jenis,$cmt,$proses,$tanggal1,$tanggal2){
+		$key = __FUNCTION__ . '_' . $jenis . '_' . $cmt . '_' . $proses . '_' . $tanggal1 . '_' . $tanggal2;
+		if(isset($this->query_cache[$key])){
+			return $this->query_cache[$key];
+		}
 		$hasil=null;
 		$sql="SELECT count(DISTINCT kbp.kode_po) as total, mjp.perkalian FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 and mjp.id_jenis_po='$jenis' AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
 		if(!empty($tanggal1)){
@@ -662,15 +666,19 @@ class kirimsetorModel extends CI_Model {
 		}
 		$row=$this->db->query($sql)->row_array();
 		$hasil=$row;
+		$res = 0;
 		if($hasil['total']>0){
-			return ($hasil['total']>0?$hasil['total']*$hasil['perkalian']:'');
-		}else{
-			$out=0;
-			return $out;
-		}		
+			$res = ($hasil['total']>0?$hasil['total']*$hasil['perkalian']:0);
+		}
+		$this->query_cache[$key] = $res;
+		return $res;	
 	}
 
 	public function rekappcs_tglklo($jenis,$cmt,$proses,$tanggal1,$tanggal2){
+		$key = __FUNCTION__ . '_' . $jenis . '_' . $cmt . '_' . $proses . '_' . $tanggal1 . '_' . $tanggal2;
+		if(isset($this->query_cache[$key])){
+			return $this->query_cache[$key];
+		}
 		$hasil=null;
 		$sql="SELECT SUM(kbp.qty_tot_pcs) as total FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE p.hapus=0 AND kbp.id_master_cmt='$cmt' AND kbp.progress='$proses' AND kbp.hapus=0 AND mjp.idjenis IN(1,2,3) and mjp.tampil IN (1,2) ";
 		if(!empty($tanggal1)){
@@ -720,13 +728,12 @@ class kirimsetorModel extends CI_Model {
 				$bangkenya=$sisa;
 			}
 		}
+		$res = 0;
 		if($hasil['total']>0){
-			return ($hasil['total']>0?$hasil['total']-$bangkenya+$sisa:'');
-			// return $hasil['total'];
-		}else{
-			$out=0;
-			return $out;
-		}		
+			$res = ($hasil['total']>0?$hasil['total']-$bangkenya+$sisa:0);
+		}
+		$this->query_cache[$key] = $res;
+		return $res;	
 	}
 
 }

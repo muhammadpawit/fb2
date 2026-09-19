@@ -23,7 +23,7 @@
       <input type="text" name="tanggal2" class="form-control" value="<?php echo $tanggal2?>">
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="form-group">
       <label>No.SJ</label>
       <select name="sj" class="form-control select2bs4" data-live-search="true">
@@ -34,7 +34,7 @@
       </select>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="form-group">
       <label>Nama CMT</label>
       <select name="cmt" class="form-control select2bs4" data-live-search="true">
@@ -46,10 +46,21 @@
     </div>
   </div>
   <div class="col-md-2">
+    <div class="form-group">
+      <label>Kode PO</label>
+      <select name="kodepo" class="form-control select2bs4" data-live-search="true">
+        <option value="*">Semua</option>
+        <?php if(isset($listpo)) { foreach($listpo as $p){ ?>
+          <option value="<?php echo $p['id_produksi_po']?>" <?php echo (isset($kodepo) && ($kodepo==$p['id_produksi_po'] || $kodepo==$p['kode_po']))?'selected':'';?>><?php echo $p['kode_po']?></option>
+        <?php } } ?>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2">
     <label>Aksi</label><br>
-    <button class="btn btn-info btn-sm" onclick="filterwithcmt()">Filter</button>
+    <button type="button" class="btn btn-info btn-sm" onclick="filterKirimCmt()">Filter</button>
     <a href="<?php echo $tambah ?>" class="btn btn-info btn-sm">Tambah</a>
-    <button class="btn btn-danger btn-sm" onclick="cetak_pdf()">Cetak PDF</button>
+    <button type="button" class="btn btn-danger btn-sm" onclick="cetak_pdf()">Cetak PDF</button>
   </div>
 </div>
 <div class="row">
@@ -120,6 +131,7 @@
     var tanggal2 = $('input[name="tanggal2"]').val();
     var sj = $('select[name="sj"]').val();
     var cmt = $('select[name="cmt"]').val();
+    var kodepo = $('select[name="kodepo"]').val();
     var url = '<?php echo $url ?>';
     
     // Check if we are in sablon or cmt
@@ -132,17 +144,18 @@
         cetak_url = '<?php echo BASEURL ?>Kelolapo/pengirimancmt_pdf';
     }
 
-    var final_url = cetak_url + '?tanggal1=' + tanggal1 + '&tanggal2=' + tanggal2 + '&sj=' + sj + '&cmt=' + cmt;
+    var final_url = cetak_url + '?tanggal1=' + tanggal1 + '&tanggal2=' + tanggal2 + '&sj=' + sj + '&cmt=' + cmt + '&kodepo=' + kodepo;
     showPdfModal(final_url, 'Laporan Pengiriman');
   }
 
-  function filterwithcmt(){
-    var tanggal1 = $('input[name="tanggal1"]').val();
-    var tanggal2 = $('input[name="tanggal2"]').val();
-    var sj = $('select[name="sj"]').val();
-    var cmt = $('select[name="cmt"]').val();
+  function filterKirimCmt(){
+    var tanggal1 = $('input[name="tanggal1"]').val() || '';
+    var tanggal2 = $('input[name="tanggal2"]').val() || '';
+    var sj = $('select[name="sj"]').val() || '*';
+    var cmt = $('select[name="cmt"]').val() || '*';
+    var kodepo = $('select[name="kodepo"]').val() || '*';
     var url = '<?php echo $url ?>';
     
-    location = url + '?tanggal1=' + tanggal1 + '&tanggal2=' + tanggal2 + '&sj=' + sj + '&cmt=' + cmt;
+    window.location.href = url + '?tanggal1=' + tanggal1 + '&tanggal2=' + tanggal2 + '&sj=' + sj + '&cmt=' + cmt + '&kodepo=' + kodepo;
   }
 </script>
