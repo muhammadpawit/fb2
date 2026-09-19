@@ -39,7 +39,6 @@
       <label>Aksi</label><br>
       <button class="btn btn-info btn-sm" onclick="filterwithbagian()">Filter</button>
       <button class="btn btn-info btn-sm" onclick="excelnya()">Excel</button>
-      <a href="#" class="btn btn-primary btn-sm text-white ttdDigital" data-toggle="modal" data-target="#detailModalTtd">Setujui</a>
     </div>
   </div>
 </div>
@@ -74,7 +73,7 @@
                       <td><?php echo $p['satuan']?></td>
                       <td><?php echo $p['jml_ajuan']?></td>
                       <td><input type="number" name="prods[<?php echo $i ?>][jml_acc]" value="<?php echo $p['jml_acc']=='0' ? $p['jml_ajuan'] : $p['jml_acc']?>"></td>
-                      <td><input type="text" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo $p['acc_satuan']?>"></td>
+                      <td><input type="text" name="prods[<?php echo $i ?>][acc_satuan]" value="<?php echo empty($p['acc_satuan']) ? $p['jml_ajuan'] : $p['acc_satuan']?>"></td>
                       <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
                         <a href="<?php echo $p['detail']?>?&spv=true" class="btn btn-warning btn-xs text-white">Detail</a>
@@ -93,33 +92,30 @@
             
             </table>
   </div>
+  </div>
 </div>
-<div class="modal fade" id="detailModalTtd" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="detailModalLabel">Persetujuan Digital</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+
+<?php if(!empty($products)){ ?>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Persetujuan Digital</h5>
             </div>
-            <div class="modal-body" id="signatureModal">
-            <div id="signatures" style="width: 100%; height: 300px; border: 1px solid #000;margin-top:25px"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="clear_signature">Clear</button>
-                <button class="btn btn-primary" id="save_signature">Save Signature</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="card-body">
+                <div id="signatures" style="width: 100%; height: 200px; border: 1px solid #000; margin-bottom: 15px;"></div>
+                <button class="btn btn-warning" id="clear_signature">Bersihkan Tanda Tangan</button>
+                <button class="btn btn-success" id="save_signature">Simpan & Setujui</button>
             </div>
         </div>
     </div>
 </div>
+<?php } ?>
+
 <script src="<?php echo BASEURL?>jSignature/src/jSignature.js"></script>
 <script>
 	 $(document).ready(function() {
-		$('#detailModalTtd').on('shown.bs.modal', function () {
-			$("#signatures").jSignature();
-		});
+		$("#signatures").jSignature();
 
 		$('#clear_signature').click(function() {
            $("#signatures").jSignature("reset");
@@ -154,10 +150,11 @@
                         title: 'Berhasil',
                         text: 'Signature saved successfully!',
                         showConfirmButton: false,
-                        timer: 1500
-                    }).then(function() {
-                        location.reload();
+                        timer: 1000
                     });
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
                 }
             },
             error: function(xhr) {

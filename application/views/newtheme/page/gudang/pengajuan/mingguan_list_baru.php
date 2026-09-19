@@ -104,10 +104,14 @@
                       </td>
                       <td><?php echo strtolower($p['keterangan2'])?></td>
                       <td>
+                        <?php if($p['jml_acc'] == 0){ ?>
                         <a href="<?php echo $p['edit']?>" class="btn btn-info btn-xs text-white">edit</a>
+                        <?php } ?>
                         <a href="<?php echo $p['detail']?>" class="btn btn-warning btn-xs text-white">Acc / detail</a>
                         <a href="<?php echo $p['excel']?>" class="btn btn-success btn-xs text-white">excel</a>
+                        <?php if($p['jml_acc'] == 0){ ?>
                         <a href="<?php echo $p['bataladmin']?>" onclick="return confirm('Apakah yakin ajuan ini akan dibatalkan ?')" class="btn btn-danger btn-xs text-white">Hapus</a>
+                        <?php } ?>
                       </td>
                     </tr>
                   <?php }?>

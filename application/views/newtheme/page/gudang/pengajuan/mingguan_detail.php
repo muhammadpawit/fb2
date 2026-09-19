@@ -82,12 +82,14 @@
     <div class="col-md-6">
       <div class="form-group">
         <label>Jumlah Acc</label>
-        <input type="text" name="jml_acc" value="<?php echo $k['jml_acc']?>" class="form-control">
+        <input type="text" name="jml_acc" value="<?php echo $k['jml_acc']?>" class="form-control" <?php echo $k['jml_acc'] > 0 ? 'readonly' : '' ?>>
       </div>
+      <?php if($k['jml_acc'] == 0){ ?>
       <div class="form-group">
         <label></label>
         <button type="submit" class="btn btn-success full">Setujui</button>
       </div>
+      <?php } ?>
     </div>
     <div class="col-md-3">
       

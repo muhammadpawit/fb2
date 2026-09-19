@@ -162,6 +162,10 @@ class Ajuankemejabaru extends CI_Controller {
 		$data['cancel'] = BASEURL . 'Ajuankemejabaru';
 		$data['excel'] = BASEURL . 'Ajuankemejabaru/detail/' . $id . '?&excel=1';
 		$data['k'] = $this->GlobalModel->getDataRow('ajuan_mingguan_kemeja', array('hapus' => 0, 'id' => $id));
+		if (!empty($data['k']) && $data['k']['jml_acc'] > 0) {
+			$this->session->set_flashdata('msg', 'Data sudah di ACC, tidak dapat diedit');
+			redirect($this->url);
+		}
 		$data['kd'] = $this->GlobalModel->getData('ajuan_mingguan_detail_kemeja', array('hapus' => 0, 'idajuan' => $id));
 		$data['products'] = $this->GlobalModel->getData('product', array('hapus' => 0));
 		$data['acc'] = BASEURL . 'Ajuankemejabaru/approve';
@@ -244,6 +248,11 @@ class Ajuankemejabaru extends CI_Controller {
     }
 
     public function bataladmin($id) {
+		$k = $this->GlobalModel->getDataRow('ajuan_mingguan_kemeja', array('hapus' => 0, 'id' => $id));
+		if (!empty($k) && $k['jml_acc'] > 0) {
+			$this->session->set_flashdata('msg', 'Data sudah di ACC, tidak dapat dihapus');
+			redirect($this->url);
+		}
         $this->db->update('ajuan_mingguan_kemeja', array('hapus' => 1), array('id' => $id));
 		$this->session->set_flashdata('msg', 'Data berhasil dibatalkan');
 		redirect($this->url);
@@ -318,7 +327,7 @@ class Ajuankemejabaru extends CI_Controller {
 				$p = $this->GlobalModel->GetDataRow('ajuan_mingguan_kemeja', array('id' => $pr['id']));
 				$item = $this->GlobalModel->GetDataRow('product', array('product_id' => $p['product_id']));
 				$supplier = $this->GlobalModel->GetDataRow('master_supplier', array('id' => $p['supplier_id']));
-				$transfer = ($item['harga_beli'] * $p['jml_acc']);
+				$transfer += ($item['harga_beli'] * $p['jml_acc']);
 				$rip = array(
 					'nama_item' => $item['nama'],
 					'jumlah' => $p['jml_acc'],
@@ -337,6 +346,7 @@ class Ajuankemejabaru extends CI_Controller {
 				);
 				$this->db->update('pengajuan_harian_new_detail', $rip, $wu);
 			}
+			$this->db->update('pengajuan_harian_new', array('cash' => 0, 'transfer' => $transfer), array('id' => $id));
 		}
 		echo $id;
     }
