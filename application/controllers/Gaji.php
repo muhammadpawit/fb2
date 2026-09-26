@@ -1356,7 +1356,7 @@ class Gaji extends CI_Controller {
 			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
 		}
 		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 ";
-		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND bagian='ONLINESHOP' ";
+		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND bagian='Online Shop' ";
 		$sql.=" ORDER BY id DESC";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$no=1;
@@ -1404,7 +1404,7 @@ class Gaji extends CI_Controller {
 		$lembur=0;
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
 		$data['harian'] = [];
-		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian='ONLINESHOP' ");
+		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian='Online Shop' ");
 		foreach($results as $r){
 			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
 			$data['harian'][]=array(
@@ -1426,7 +1426,7 @@ class Gaji extends CI_Controller {
 
 	public function onlineshopsave(){
 		$data=$this->input->post();
-		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'ONLINESHOP'));
+		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'Online Shop'));
 		// pre($data);
 		if(!empty($cek)){
 			$this->session->set_flashdata('gagal','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
@@ -1435,7 +1435,7 @@ class Gaji extends CI_Controller {
 		$insert=array(
 			'tanggal1'=>$data['tanggal1'],
 			'tanggal2'=>$data['tanggal2'],
-			'bagian'=>'ONLINESHOP',
+			'bagian'=>'Online Shop',
 			'hapus'=>0,
 		);
 		$this->db->insert('gaji_finishing',$insert);
@@ -1494,7 +1494,7 @@ class Gaji extends CI_Controller {
 				'id'=>$r['idkaryawan'],
 				'nama'=>$r['nama'],
 				'gaji'=>!empty($k)?$k['gaji']:0,
-				'bagian'=>!empty($k)?$k['bagian']:'ONLINESHOP',
+				'bagian'=>!empty($k)?$k['bagian']:'Online Shop',
 				'senin'=>$r['senin'],
 				'selasa'=>$r['selasa'],
 				'rabu'=>$r['rabu'],
