@@ -1125,6 +1125,7 @@ class Gaji extends CI_Controller {
 		$data['title']='Tambah KLO ';
 		$lembur=0;
 		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
+		$data['harian'] = [];
 		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian='KLO' ");
 		foreach($results as $r){
 			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
@@ -1206,6 +1207,7 @@ class Gaji extends CI_Controller {
 		$data['id']=$id;
 		$data['title']='Edit Gaji KLO';
 		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('id'=>$id));
+		$data['harian'] = [];
 		$results=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id,'hapus'=>0));
 		foreach($results as $r){
 			$k=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['idkaryawan']));
@@ -1337,4 +1339,283 @@ class Gaji extends CI_Controller {
 			$this->load->view($this->page.'main',$data);
 		}
 	}
+
+	public function onlineshop(){
+		$data=[];
+		$data['title']='Gaji Online Shop Forboys';
+		$data['products']=[];
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime('first day of last month'));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime('last day of this month'));
+		}
+		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 ";
+		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' AND bagian='ONLINESHOP' ";
+		$sql.=" ORDER BY id DESC";
+		$results=$this->GlobalModel->QueryManual($sql);
+		$no=1;
+		foreach($results as $r){
+			$data['products'][]=array(
+				'no'=>$no,
+				'id'=>$r['id'],
+				'periode'=> date('d F Y',strtotime($r['tanggal1'])) .' sd '.date('d F Y',strtotime($r['tanggal2'])),
+				'bagian'=>'Harian '.$r['bagian'],
+				'detail'=>BASEURL.'Gaji/onlineshopdetail/'.$r['id'],
+				'edit'=>BASEURL.'Gaji/onlineshopedit/'.$r['id'],
+				'hapus'=>BASEURL.'Gaji/onlineshophapus/'.$r['id'],
+				'excel'=>BASEURL.'Gaji/onlineshopdetail/'.$r['id'].'?&excel=1',
+			);
+			$no++;
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['tambah']=BASEURL.'Gaji/onlineshopadd';
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}else{
+			$data['page']=$this->page.'gaji/pressqc';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
+	public function onlineshopadd(){
+		$data=array();
+		$get=$this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1=$get['tanggal1'];
+		}else{
+			$tanggal1=date('Y-m-d',strtotime("Monday this week"));
+		}
+
+		if(isset($get['tanggal2'])){
+			$tanggal2=$get['tanggal2'];
+		}else{
+			$tanggal2=date('Y-m-d',strtotime("Sunday this week"));
+		}
+		$data['tanggal1']=$tanggal1;
+		$data['tanggal2']=$tanggal2;
+		$data['title']='Tambah Online Shop ';
+		$lembur=0;
+		$data['karyawan']=$this->GlobalModel->getData('karyawan_harian',array('hapus'=>0));
+		$data['harian'] = [];
+		$results=$this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE hapus=0 and tipe=1 AND bagian='ONLINESHOP' ");
+		foreach($results as $r){
+			$lembur=$this->GlobalModel->QueryManualRow("SELECT SUM(jml_jam*upah) as total FROM lembur_harian WHERE hapus=0 AND idkaryawan='".$r['id']."' AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ");
+			$data['harian'][]=array(
+				'id'=>$r['id'],
+				'nama'=>$r['nama'],
+				'gaji'=>$r['gaji'],
+				'bagian'=>$r['bagian'],
+				'lembur'=>!empty($lembur)?$lembur['total']:0,
+				'saving'	=> $this->PembayaranModel->saving($r['id'],$tanggal1,$tanggal2),
+			);
+		}
+		//pre($data['harian']);
+		$data['action']=BASEURL.'Gaji/onlineshopsave';
+		$data['page']=$this->page.'finishing/gaji_finishing';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	
+
+	public function onlineshopsave(){
+		$data=$this->input->post();
+		$cek=$this->GlobalModel->getDataRow('gaji_finishing',array('tanggal1'=>$data['tanggal1'],'hapus'=>0,'bagian'=>'ONLINESHOP'));
+		// pre($data);
+		if(!empty($cek)){
+			$this->session->set_flashdata('gagal','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Gagal Di Simpan, karna sudah pernah dibuat. Silahkan pilih periode lainnya');
+			redirect(BASEURL.'Gaji/onlineshopadd');	
+		}
+		$insert=array(
+			'tanggal1'=>$data['tanggal1'],
+			'tanggal2'=>$data['tanggal2'],
+			'bagian'=>'ONLINESHOP',
+			'hapus'=>0,
+		);
+		$this->db->insert('gaji_finishing',$insert);
+		$id=$this->db->insert_id();
+		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
+		foreach($data['products'] as $p){
+			if(isset($p['idkaryawan'])){
+
+				$gajiperminggu = $this->GlobalModel->GetDataRow('karyawan_harian',array('id'=>$p['idkaryawan']));
+				if($p['jumlah_kasbon']>0){
+					$saving = !empty($gajiperminggu['perminggu']) ? ($gajiperminggu['perminggu']-$p['jumlah_kasbon']):0;
+				}else{
+					$saving = 0;
+				}
+				
+
+				$detail=array(
+					'idgaji'=>$id,
+					'idkaryawan'=>$p['idkaryawan'],
+					'nama'=>$p['nama'],
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
+					'minggu'=>isset($p['minggu'])?1:0,
+					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
+					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
+					'warteg'=>isset($p['warteg'])?$p['warteg']:0,
+					'saving'=>isset($p['saving'])? $p['saving']:0,
+					// 'saving'=>$saving,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
+					'tanggal_saving' => date('Y-m-d'),
+				);
+				$this->db->insert('gaji_finishing_detail',$detail);
+			}
+		}
+		$this->session->set_flashdata('msg','Data Gaji Periode '.date('d F Y',strtotime($data["tanggal1"])).' s.d '.date('d F Y',strtotime($data["tanggal2"])).' Berhasil Di Simpan');
+		redirect(BASEURL.'Gaji/onlineshop');
+	}
+
+	public function onlineshopedit($id){
+		$data=array();
+		$data['id']=$id;
+		$data['title']='Edit Gaji Online Shop';
+		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('id'=>$id));
+		$data['harian'] = [];
+		$results=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id,'hapus'=>0));
+		foreach($results as $r){
+			$k=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$r['idkaryawan']));
+			$data['harian'][]=array(
+				'iddetail'=>$r['id'],
+				'id'=>$r['idkaryawan'],
+				'nama'=>$r['nama'],
+				'gaji'=>!empty($k)?$k['gaji']:0,
+				'bagian'=>!empty($k)?$k['bagian']:'ONLINESHOP',
+				'senin'=>$r['senin'],
+				'selasa'=>$r['selasa'],
+				'rabu'=>$r['rabu'],
+				'kamis'=>$r['kamis'],
+				'jumat'=>$r['jumat'],
+				'sabtu'=>$r['sabtu'],
+				'minggu'=>$r['minggu'],
+				'lembur'=>$r['lembur'],
+				'insentif'=>$r['insentif'],
+				'claim'=>$r['claim'],
+				'pinjaman'=>$r['pinjaman'],
+				'warteg'=>$r['warteg'],
+				'saving'=>$r['saving'],
+				'keluarkansaving'=>$r['keluarkansaving'],
+			);
+		}
+		$data['tanggal1']=$data['gaji']['tanggal1'];
+		$data['tanggal2']=$data['gaji']['tanggal2'];
+		$data['action']=BASEURL.'Gaji/onlineshopupdate';
+		$data['page']=$this->page.'finishing/gaji_finishing_edit';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function onlineshopupdate(){
+		$data=$this->input->post();
+		$id = $data['id'];
+		$update=array(
+			'tanggal1'=>$data['tanggal1'],
+			'tanggal2'=>$data['tanggal2'],
+		);
+		$this->db->update('gaji_finishing',$update,array('id'=>$id));
+		
+		foreach($data['products'] as $p){
+			if(isset($p['iddetail'])){
+				$detail=array(
+					'senin'=>isset($p['senin'])?$p['seninjamkerja']:0,
+					'selasa'=>isset($p['selasa'])?$p['selasajamkerja']:0,
+					'rabu'=>isset($p['rabu'])?$p['rabujamkerja']:0,
+					'kamis'=>isset($p['kamis'])?$p['kamisjamkerja']:0,
+					'jumat'=>isset($p['jumat'])?$p['jumatjamkerja']:0,
+					'sabtu'=>isset($p['sabtu'])?$p['sabtujamkerja']:0,
+					'minggu'=>isset($p['minggu'])?1:0,
+					'lembur'=>isset($p['lemburs'])?$p['lemburs']:0,
+					'insentif'=>isset($p['insentif'])?1:0,
+					'claim'=>$p['claim'],
+					'pinjaman'=>$p['pinjaman'],
+					'warteg'=>isset($p['warteg'])?$p['warteg']:0,
+					'saving'=>isset($p['saving'])? $p['saving']:0,
+					'keluarkansaving'=>isset($p['jumlah_keluar_saving'])? $p['jumlah_keluar_saving']:0,
+				);
+				$this->db->update('gaji_finishing_detail',$detail,array('id'=>$p['iddetail']));
+			}
+		}
+		$this->session->set_flashdata('msg','Data Gaji Berhasil Di Update');
+		redirect(BASEURL.'Gaji/onlineshop');
+	}
+
+	public function onlineshophapus($id){
+		$update=array(
+			'hapus'=>1
+		);
+		$where=array(
+			'id'=>$id
+		);
+		$this->db->update('gaji_finishing',$update,$where);
+		$this->db->update('gaji_finishing_detail',$update,array('idgaji'=>$id));
+		$this->session->set_flashdata('msg',' Berhasil Di Hapus');
+		redirect(BASEURL.'Gaji/onlineshop');
+	}
+
+	public function onlineshopdetail($id){
+		$id = (int)$id;
+		$data=[];
+		$data['id']=$id;
+		$data['karyawans']=[];
+		$data['total']=0;
+		$details=[];
+		$data['title']='Resume Gaji Online Shop Forboys';
+		$data['gaji']=$this->GlobalModel->getDataRow('gaji_finishing',array('hapus'=>0,'id'=>$id));
+		// 24 September 2022, Perhitungan gaji dihitung dari jam kerjanya GH/12*Jam Kerja
+		if(!empty($data['gaji'])){
+			$details=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$id));
+			$gaji=0;
+			foreach($details as $d){
+				$gaji=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$d['idkaryawan']));
+				$data['karyawans'][]=array(
+					'idkaryawan'=>$d['idkaryawan'],
+					'nama'=>strtolower($d['nama']),
+					'senin'=>round($gaji['gaji']/12*$d['senin']),
+					'selasa'=>round($gaji['gaji']/12*$d['selasa']),
+					'rabu'=>round($gaji['gaji']/12*$d['rabu']),
+					'kamis'=>round($gaji['gaji']/12*$d['kamis']),
+					'jumat'=>round($gaji['gaji']/12*$d['jumat']),
+					'sabtu'=>round($gaji['gaji']/12*$d['sabtu']),
+					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
+					'lembur'=>$d['lembur']>0?$d['lembur']:0,
+					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+					'claim'=>$d['claim'],
+					'pinjaman'=>$d['pinjaman'],
+					'warteg'=>$d['warteg'],
+					'saving'=>$d['saving'],
+					'keluarkansaving'=>$d['keluarkansaving'],
+				);
+			}
+		}
+		$data['kembali']=BASEURL.'Gaji/onlineshop';
+		$get=$this->input->get();
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'gaji/finishing_excel',$data);
+		}elseif(isset($get['pdf']) || isset($_GET['pdf'])){
+			$this->load->library('pdfgenerator');
+	        $this->data['title_pdf'] = 'Resume Gaji Online Shop Forboys';
+	        $file_pdf = 'Resume_Gaji_Online_Shop_Forboys_'.time();
+	        $paper = 'A4';
+	        $orientation = 'landscape';
+	        $html = $this->load->view($this->page.'gaji/finishing_pdf',$data, true);
+	        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+		}else{
+			$data['page']=$this->page.'gaji/finishing_detail';
+			$this->load->view($this->page.'main',$data);
+		}
+	}
+
 }
