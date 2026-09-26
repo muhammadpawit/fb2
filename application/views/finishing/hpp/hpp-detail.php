@@ -740,6 +740,7 @@
                         $hargaPackingMaster = (!empty($cucianhpp['harga_packing']) && (float)$cucianhpp['harga_packing'] > 0) ? (float)$cucianhpp['harga_packing'] : 12000;
                         $harga_dz = (!empty($mesin['harga_dz']) && (float)$mesin['harga_dz'] > 0) ? (float)$mesin['harga_dz'] : $hargaPackingMaster;
                     ?>
+                    <?php if (stripos($po['nama_hpp'], 'KATS') !== 0): ?>
                     <tr>
                         <td class="text-center"><?php echo $no+=1?></td>
                         <td><?php echo strtoupper((empty($mesin['keterangan']) || trim($mesin['keterangan']) == '-') ? "Packing" : $mesin['keterangan']) ?></td>
@@ -750,6 +751,7 @@
                     <?php
                                         $total+=((float)$harga_dz);
                                     ?>
+                    <?php endif; ?>
                     <?php endforeach ?>
                     <?php foreach ($cucian as $key => $mesin): ?>
                     <?php 
