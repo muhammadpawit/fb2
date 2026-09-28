@@ -66,6 +66,13 @@
 							<td><input type="number" name="karyawan[<?php echo $idk; ?>][gantungan_gaji]" id="gantungan_gaji_<?php echo $idk; ?>" class="form-control calc_<?php echo $idk; ?>" value="0" style="width: 80px;"></td>
 							<td>
 								<input type="number" name="karyawan[<?php echo $idk; ?>][potongan_kasbon]" id="potongan_kasbon_<?php echo $idk; ?>" class="form-control calc_<?php echo $idk; ?>" value="<?php echo $k['potongan_kasbon']; ?>" style="width: 100px;" readonly>
+								<?php if(!empty($k['list_kasbon'])){ ?>
+									<div style="font-size:11px; margin-top:5px; line-height:1.2;">
+										<?php foreach($k['list_kasbon'] as $lk){ ?>
+											<div>- <?php echo date('d/m/y', strtotime($lk['tanggal'])); ?> : Rp<?php echo number_format($lk['nominal_request']); ?></div>
+										<?php } ?>
+									</div>
+								<?php } ?>
 							</td>
 							<td>
 								<input type="number" name="karyawan[<?php echo $idk; ?>][potongan_pinjaman]" id="potongan_pinjaman_<?php echo $idk; ?>" class="form-control calc_<?php echo $idk; ?>" value="0" style="width: 100px;">

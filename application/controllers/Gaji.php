@@ -606,11 +606,15 @@ class Gaji extends CI_Controller {
 				}
 			}
 			
+			$sql_list_kasbon = "SELECT * FROM kasbon WHERE hapus=0 AND idkaryawan='".$idkaryawan."' AND MONTH(tanggal) ='".$bulan_ini."' AND YEAR(tanggal)='".$tahun_ini."'";
+			$res_list_kasbon = $this->GlobalModel->queryManual($sql_list_kasbon);
+			
 			$karyawan_list[] = [
 				'id' => $idkaryawan,
 				'nama' => $k['nama'],
 				'gajipokok' => $k['gajipokok'],
 				'potongan_kasbon' => $total_kasbon,
+				'list_kasbon' => $res_list_kasbon,
 				'idpinjaman' => $idpinjaman,
 				'sisa_pinjaman' => $sisa_pinjaman
 			];
