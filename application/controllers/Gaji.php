@@ -585,7 +585,7 @@ class Gaji extends CI_Controller {
 			$idkaryawan = $k['id'];
 			
 			// Get sum of kasbon
-			$sql_kasbon = "SELECT COALESCE(SUM(nominal_request), 0) as total_kasbon FROM kasbon WHERE hapus=0 AND idkaryawan='".$idkaryawan."' AND MONTH(tanggal) ='".$bulan_ini."' AND YEAR(tanggal)='".$tahun_ini."'";
+			$sql_kasbon = "SELECT COALESCE(SUM(nominal_request), 0) as total_kasbon FROM kasbon WHERE hapus=0 AND idkaryawan='".$idkaryawan."' AND MONTH(gaji_periode) ='".$bulan_ini."' AND YEAR(gaji_periode)='".$tahun_ini."'";
 			$res_kasbon = $this->GlobalModel->queryManualRow($sql_kasbon);
 			$total_kasbon = !empty($res_kasbon['total_kasbon']) ? $res_kasbon['total_kasbon'] : 0;
 			
@@ -606,7 +606,7 @@ class Gaji extends CI_Controller {
 				}
 			}
 			
-			$sql_list_kasbon = "SELECT * FROM kasbon WHERE hapus=0 AND idkaryawan='".$idkaryawan."' AND MONTH(tanggal) ='".$bulan_ini."' AND YEAR(tanggal)='".$tahun_ini."'";
+			$sql_list_kasbon = "SELECT * FROM kasbon WHERE hapus=0 AND idkaryawan='".$idkaryawan."' AND MONTH(gaji_periode) ='".$bulan_ini."' AND YEAR(gaji_periode)='".$tahun_ini."'";
 			$res_list_kasbon = $this->GlobalModel->queryManual($sql_list_kasbon);
 			
 			$karyawan_list[] = [

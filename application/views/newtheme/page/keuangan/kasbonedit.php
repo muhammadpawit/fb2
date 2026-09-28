@@ -15,6 +15,7 @@
               <thead>
                 <tr>
                   <th>Tanggal</th>
+                  <th>Gaji Periode</th>
                   <th>Nama Karyawan</th>
                   <th>Bagian</th>
                   <th>Jenis</th>
@@ -29,6 +30,7 @@
                   <?php foreach($detail as $d){?>
                     <tr>
                       <td><input type="hidden" name="products[<?php echo $i?>][id]" value="<?php echo $d['id']?>"><?php echo !empty($d['tanggal']) ? formatTanggalIndo($d['tanggal']) : ''?></td>
+                      <td><input type="date" name="products[<?php echo $i?>][gaji_periode]" value="<?php echo $d['gaji_periode']?>" class="form-control"></td>
                       <td><?php echo $d['nama'];?></td>
                       <td><?php echo $d['divisi'];?></td>
                       <td>
@@ -55,7 +57,7 @@
                   <?php } ?>
                 </form>
                 <tr>
-                  <td colspan="4" align="center"><label>Total</label></td>
+                  <td colspan="5" align="center"><label>Total</label></td>
                   <td>Rp.&nbsp;<?php echo number_format($ajuan)?></td>
                   <td>Rp.&nbsp;<?php echo number_format($total_potongan)?></td>
                   <td>Rp.&nbsp;<?php echo number_format($total)?></td>

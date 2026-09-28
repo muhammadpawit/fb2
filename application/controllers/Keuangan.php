@@ -1136,6 +1136,7 @@ class Keuangan extends CI_Controller {
 				$insert=array(
 					'idacc'=>$id,
 					'tanggal'=>$data['tanggal'],
+					'gaji_periode'=>$data['tanggal'],
 					'idkaryawan'=>$p['idkaryawan'],
 					'bagian'=>$p['bagian'],
 					'nominal_request'=>$p['jumlah'],
@@ -1572,6 +1573,7 @@ class Keuangan extends CI_Controller {
 			$data['detail'][]=array(
 				'id'=>$result['id'],
 				'tanggal'=>!empty($result['tanggal']) ? date('Y-m-d',strtotime($result['tanggal'])) : '',
+				'gaji_periode'=>!empty($result['gaji_periode']) ? date('Y-m-d',strtotime($result['gaji_periode'])) : (!empty($result['tanggal']) ? date('Y-m-d',strtotime($result['tanggal'])) : ''),
 				'id_karyawan' => $result['idkaryawan'],
 				'nama'=>$karyawan['nama'],
 				'divisi'=>$bagian['nama'],
@@ -1635,7 +1637,10 @@ class Keuangan extends CI_Controller {
 			if (isset($p['jenis_pembayaran'])) {
 				$update['jenis_pembayaran'] = $p['jenis_pembayaran'];
 			}
-			if($p['nominal_old']!=$p['nominal'] || isset($p['jenis_pembayaran'])){
+			if (isset($p['gaji_periode'])) {
+				$update['gaji_periode'] = $p['gaji_periode'];
+			}
+			if($p['nominal_old']!=$p['nominal'] || isset($p['jenis_pembayaran']) || isset($p['gaji_periode'])){
 				$perubahan = array(
 					'karyawan'	=> $p['karyawan'],
 					'nominal_lama' => $p['nominal_old'],
