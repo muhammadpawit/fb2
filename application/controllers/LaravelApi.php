@@ -185,6 +185,7 @@ class LaravelApi extends CI_Controller {
 
         $tanggal_from  = $this->input->get('tanggal_from') ?: null;
         $tanggal_to  = $this->input->get('tanggal_to') ?: null;
+        $tim  = $this->input->get('tim') ?: null;
         
 
          // Jika user pilih "All", kirim semua data
@@ -203,7 +204,8 @@ class LaravelApi extends CI_Controller {
             "per_page"   => $per_page,
             "draw"       => $draw,
             "tanggal_from"   => $tanggal_from,
-            "tanggal_to"   => $tanggal_to
+            "tanggal_to"   => $tanggal_to,
+            "tim" => $tim
         ];
         // pre($params);
 
@@ -243,6 +245,7 @@ class LaravelApi extends CI_Controller {
         "model_po"      => $this->input->get('model_po'),
         "tanggal_from"  => $this->input->get('tanggal_from'),
         "tanggal_to"    => $this->input->get('tanggal_to'),
+        "tim"           => $this->input->get('tim'),
         "per_page"      => $this->input->get('per_page', 1000000),
     ];
 

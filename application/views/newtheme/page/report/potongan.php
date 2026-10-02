@@ -98,8 +98,8 @@ $(document).ready(function () {
                 // Ambil value dari form
                 d.tanggal_from = $('#tanggal1').val();
                 d.tanggal_to   = $('#tanggal2').val();
-                d.tim          = $('#tim').val();
-                d.jenispo      = $('#jenis').val();
+                d.tim          = $('#tim').val() === '*' ? '' : $('#tim').val();
+                d.jenispo      = $('#jenis').val() === '*' ? '' : $('#jenis').val();
                 d.page     = Math.ceil(d.start / d.length) + 1;
                 d.per_page = d.length;
                 d.draw     = d.draw;
