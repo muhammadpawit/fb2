@@ -798,13 +798,14 @@ class Pembayaran extends CI_Controller {
 			$no++;
 		}
 		$saving=0.05*$total;
+		$data['potongan_rip'] = isset($data['prods']['potongan_rip']) ? $data['prods']['potongan_rip'] : 0;
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);
 		$data['nominal']=number_format($total-$saving);
-		$data['bersih']=number_format($total-$saving-$data['claim']);
+		$data['bersih']=number_format($total-$saving-$data['claim']-$data['potongan_rip']);
 		$data['totals']=($total);
 		$data['savings']=($saving);
-		$data['nominals']=($total-$saving-$data['claim']);
+		$data['nominals']=($total-$saving-$data['claim']-$data['potongan_rip']);
 		$data['action']=BASEURL.'Pembayaran/gajitimpotongsave';
 		$data['batal']=BASEURL.'Pembayaran/timpotong';
 		if(isset($get['excel'])){
@@ -988,7 +989,8 @@ class Pembayaran extends CI_Controller {
 				'nominal'=>0,
 				'keterangan'=>'Gaji tim potong periode '.$data['periode'],
 				'hapus'=>0,
-				'claim'=>$data['nominal'],
+				'claim'=>isset($data['nominal']) ? $data['nominal'] : 0,
+				'potongan_rip'=>isset($data['potongan_rip']) ? $data['potongan_rip'] : 0,
 			);
 			$this->db->insert('gaji_timpotong',$insert);
 			$id=$this->db->insert_id();
@@ -1041,7 +1043,8 @@ class Pembayaran extends CI_Controller {
 					$this->db->insert('claim_timpotong',$claim);
 				}
 			}
-			$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving-$data['nominal'])),array('id'=>$id));
+		$potongan_rip = isset($data['potongan_rip']) ? $data['potongan_rip'] : 0;
+		$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving-$data['nominal']-$potongan_rip)),array('id'=>$id));
 			$this->session->set_flashdata('msg','Data berhasil ditambah');
 			redirect(BASEURL.'Pembayaran/timpotong');
 		}else{

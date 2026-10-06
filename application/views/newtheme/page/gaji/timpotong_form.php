@@ -148,6 +148,12 @@
 	</div>
 	<div class="col-md-3">
 		<div class="form-group">
+			<label>Potongan RIP (Rp)</label>
+			<input type="text" name="potongan_rip" value="0" class="form-control" required="required">
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="form-group">
 			<label>Keterangan Claim </label>
 			<input type="text" name="keterangan" class="form-control" required="required">
 		</div>

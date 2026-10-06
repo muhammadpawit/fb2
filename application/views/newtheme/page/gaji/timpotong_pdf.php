@@ -104,6 +104,11 @@
                 <td class="text-right"><?php echo number_format($savings); ?></td>
                 <td></td>
             </tr>
+            <tr class="bg-pink bold">
+                <td colspan="8" class="text-center">PEMBAYARAN POTONGAN RIP</td>
+                <td class="text-right"><?php echo number_format($potongan_rip); ?></td>
+                <td></td>
+            </tr>
             <tr class="bg-grey bold">
                 <td colspan="8" class="text-center">POTONGAN PINJAMAN ( RP )</td>
                 <td class="text-right"><?php echo number_format($claim); ?></td>

@@ -51,6 +51,11 @@
 					<td></td>
 				</tr>
 				<tr>
+					<td colspan="8" align="right"><b>PEMBAYARAN POTONGAN RIP</b></td>
+					<td><b><?php echo number_format($potongan_rip)?></b></td>
+					<td></td>
+				</tr>
+				<tr>
 					<td colspan="8" align="right"><b>Potongan Claim</b></td>
 					<td><b><?php echo number_format($claim)?></b></td>
 					<td></td>
