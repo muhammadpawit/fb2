@@ -782,9 +782,9 @@ class Pembayaran extends CI_Controller {
 					'no'=>$no,
 					'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
 					'kode_po'=>isset($po['kode_po']) ? $po['kode_po'] : '',
-					'jenis'=>($jenis['idjenis'] == 1) ? 'Kemeja' : 
-					(($jenis['idjenis'] == 2) ? 'Kaos' : 
-					(($jenis['idjenis'] == 3) ? 'Celana' : '')),
+					'jenis'=>(isset($jenis['idjenis']) && $jenis['idjenis'] == 1) ? 'Kemeja' : 
+					((isset($jenis['idjenis']) && $jenis['idjenis'] == 2) ? 'Kaos' : 
+					((isset($jenis['idjenis']) && $jenis['idjenis'] == 3) ? 'Celana' : '')),
 					// 'jenis'=>'Kaos',
 					'size'=>isset($bukupotongan['size_potongan']) ? $bukupotongan['size_potongan'] : 0,
 					'timpotong'=>$timpotong==null?'':$timpotong['nama'],
@@ -802,12 +802,18 @@ class Pembayaran extends CI_Controller {
 		$data['total']=number_format($total);
 		$data['saving']=number_format($saving);
 		$data['nominal']=number_format($total-$saving);
-		$data['bersih']=number_format($total-$saving-$data['claim']-$data['potongan_rip']);
+		$data['bersih']=number_format($total-$saving-$data['claim']+$data['potongan_rip']);
 		$data['totals']=($total);
 		$data['savings']=($saving);
-		$data['nominals']=($total-$saving-$data['claim']-$data['potongan_rip']);
+		$data['nominals']=($total-$saving-$data['claim']+$data['potongan_rip']);
 		$data['action']=BASEURL.'Pembayaran/gajitimpotongsave';
 		$data['batal']=BASEURL.'Pembayaran/timpotong';
+		if(isset($get['hitung_ulang'])){
+			$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving-$data['claim']+$data['potongan_rip'])),array('id'=>$id));
+			$this->session->set_flashdata('msg','Data berhasil dihitung ulang');
+			redirect(BASEURL.'Pembayaran/timpotongdetail/'.$id);
+		}
+		
 		if(isset($get['excel'])){
 			$this->load->view($this->page.'gaji/timpotong_excel',$data);
 		}else if(isset($get['pdf'])){
@@ -1044,7 +1050,7 @@ class Pembayaran extends CI_Controller {
 				}
 			}
 		$potongan_rip = isset($data['potongan_rip']) ? $data['potongan_rip'] : 0;
-		$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving-$data['nominal']-$potongan_rip)),array('id'=>$id));
+		$this->db->update('gaji_timpotong',array('saving'=>$saving,'total'=>$total,'nominal'=>($total-$saving-$data['nominal']+$potongan_rip)),array('id'=>$id));
 			$this->session->set_flashdata('msg','Data berhasil ditambah');
 			redirect(BASEURL.'Pembayaran/timpotong');
 		}else{

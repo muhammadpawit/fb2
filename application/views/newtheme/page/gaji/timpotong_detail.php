@@ -72,6 +72,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<a href="<?php echo $batal?>" class="btn btn-danger btn-sm">Kembali</a>
+		<a href="?hitung_ulang=1" class="btn btn-warning btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghitung ulang total?');"><i class="fa fa-refresh"></i> Hitung Ulang</a>
 		<button type="button" class="btn btn-primary btn-sm" onclick="previewPDF('?pdf=1')"><i class="fa fa-file-pdf"></i> Preview PDF</button>
 		<a href="?pdf=1&download=1" class="btn btn-info btn-sm"><i class="fa fa-download"></i> Download PDF</a>
 		<a href="?excel=1" target="_blank" class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i> Export Excel</a>
