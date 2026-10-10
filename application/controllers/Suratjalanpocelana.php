@@ -196,9 +196,9 @@ class Suratjalanpocelana extends CI_Controller {
 			$job=$this->GlobalModel->getDataRow('master_job',array('id'=>$k['cmtjob']));
 			$po=$this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=>$k['kode_po']));
 			$data['kirims'][]=array(
-				'kode_po'=>$po['kode_po'].' '.$po['serian'],
+				'kode_po'=>isset($po['kode_po']) ? $po['kode_po'].' '.(isset($po['serian'])?$po['serian']:'') : '',
 				'rincian_po'=>$k['rincian_po'],
-				'job'=>$job['nama_job'],
+				'job'=>isset($job['nama_job']) ? $job['nama_job'] : '',
 				'jumlah_pcs'=>$k['jumlah_pcs'],
 				'keterangan'=>$k['keterangan'],
 				'jml_barang'=>$k['jml_barang'],
