@@ -325,6 +325,7 @@ class Keuangan extends CI_Controller {
 				'detail'=>BASEURL.'Keuangan/uangmakansecuritydetail/'.$r['id'],
 				'excel'=>BASEURL.'Keuangan/uangmakansecuritydetailexcel/'.$r['tanggal'],
 				'edit'=>BASEURL.'Keuangan/uangmakansecurity_edit/'.$r['id'],
+				'hapus'=>BASEURL.'Keuangan/uangmakansecurity_hapus/'.$r['id'],
 			);
 		}
 		$data['tambah']=BASEURL.'Keuangan/uangmakansecurityadd';
@@ -377,6 +378,14 @@ class Keuangan extends CI_Controller {
 		//pre($post);
 		$this->session->set_flashdata('msg','Data berhasil disimpan');
 		redirect(BASEURL.'Keuangan/uangmakansecurity');	
+	}
+
+	public function uangmakansecurity_hapus($id){
+		$this->db->update('um_security', array('hapus' => 1), array('id' => $id));
+		$this->db->update('um_security_detail', array('hapus' => 1), array('idum' => $id));
+		user_activity(callSessUser('id_user'), 1, ' menghapus uang makan security dengan id ' . $id);
+		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+		redirect(BASEURL . 'Keuangan/uangmakansecurity');
 	}
 
 	public function uangmakansecuritydetail($id){
