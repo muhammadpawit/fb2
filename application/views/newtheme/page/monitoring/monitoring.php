@@ -118,8 +118,9 @@
 	            </tbody>
 	        </table>
 		</div>
+		<?php foreach(array('Celana'=>$celana,'Seragam'=>(isset($seragam)?$seragam:array()),'Tambahan'=>(isset($tambahan)?$tambahan:array())) as $judul_jenis=>$list_jenis){ ?>
 		<div class="form-group">
-			<div class="alert" style="background-color: #3D6AA2 !important;color: white;text-align: center;">Celana</div>
+			<div class="alert" style="background-color: #3D6AA2 !important;color: white;text-align: center;"><?php echo $judul_jenis ?></div>
 			<table class="table table-bordered">
 	            <thead align="center">
 	                    <tr>
@@ -136,7 +137,7 @@
 	                </thead>
 	            <tbody>
 	                <?php $pdz=0;$pcs=0;$jmlpo=0;?>
-	                <?php foreach($celana as $rp){?>
+	                <?php foreach($list_jenis as $rp){?>
 						
 	                    <tr class="bold">
 	                        <td><?php echo $rp['no']?></td>
@@ -167,6 +168,7 @@
 	            </tbody>
 	        </table>
 		</div>
+		<?php } ?>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">

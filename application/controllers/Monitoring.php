@@ -83,6 +83,8 @@ class Monitoring extends CI_Controller {
 			array('type'=>'Kemeja','id'=>1),
 			array('type'=>'Kaos','id'=>2),
 			array('type'=>'Celana','id'=>3),
+			array('type'=>'Seragam','id'=>4),
+			array('type'=>'Tambahan','id'=>5),
 		);
 		// $d=$this->ReportModel->ge('assas',2);
 		// pre($d);
@@ -154,6 +156,26 @@ class Monitoring extends CI_Controller {
 			}
 		}
 
+		// seragam & tambahan
+		foreach(array('seragam'=>4,'tambahan'=>5) as $key=>$idj){
+			$data[$key]=[];
+			$list=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>$idj,'tampil'=>1));
+			$no=1;
+			foreach($list as $k){
+				$jml=$this->ReportModel->ge($k['nama_jenis_po'],1,$tanggal1,$tanggal2);
+				if($jml > 0){
+					$data[$key][]=array(
+						'no'=>$no++,
+						'nama'=>strtoupper($k['nama_jenis_po']),
+						'jmlpo'=>$jml,
+						'pdz'=>$this->ReportModel->ge($k['nama_jenis_po'],2,$tanggal1,$tanggal2),
+						'ppcs'=>$this->ReportModel->ge($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
+						'size'=>$this->ReportModel->ge_size($k['nama_jenis_po'],3,$tanggal1,$tanggal2),
+					);
+				}
+			}
+		}
+
 		$data['page']=$this->page.'monitoring';
 		$this->load->view($this->layout.'main',$data);
 	}
@@ -182,6 +204,8 @@ class Monitoring extends CI_Controller {
 			array('type'=>'Kemeja','id'=>1),
 			array('type'=>'Kaos','id'=>2),
 			array('type'=>'Celana','id'=>3),
+			array('type'=>'Seragam','id'=>4),
+			array('type'=>'Tambahan','id'=>5),
 		);
 		
 		// KIRIM: Bulk query for idjenis and nama_jenis_po
@@ -355,6 +379,31 @@ class Monitoring extends CI_Controller {
 			);
 		}
 
+		// seragam & tambahan
+		foreach(array('rekapseragam'=>4,'rekaptambahan'=>5) as $key=>$idj){
+			$data[$key]=[];
+			$list=$this->GlobalModel->Getdata('master_jenis_po',array('status'=>1,'idjenis'=>$idj));
+			$no=1;
+			foreach($list as $k){
+				$qty = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['qty'] : 0;
+				$qtysetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['qty'] : 0;
+				$ckirim = isset($kirim_nama[$k['nama_jenis_po']]) ? $kirim_nama[$k['nama_jenis_po']]['po'] : 0;
+				$csetor = isset($setor_nama[$k['nama_jenis_po']]) ? $setor_nama[$k['nama_jenis_po']]['po'] : 0;
+				$data[$key][]=array(
+					'no'=>$no++,
+					'id'=>$idj,
+					'type'=>$k['nama_jenis_po'],
+					'countkirim'=>$ckirim,
+					'qtykirimdz'=>($qty/12),
+					'qtykirimpcs'=>($qty),
+					'countsetor'=>$csetor,
+					'qtysetordz'=>($qtysetor/12),
+					'qtysetorpcs'=>($qtysetor),
+					'keterangan'=>'PO Beredar : '.($ckirim-$csetor),
+				);
+			}
+		}
+
 		// adjustment
 		$this->load->model('AdjustModel');
 		$adjustment=[];
@@ -399,6 +448,8 @@ class Monitoring extends CI_Controller {
 			array('type'=>'Kemeja','id'=>1),
 			array('type'=>'Kaos','id'=>2),
 			array('type'=>'Celana','id'=>3),
+			array('type'=>'Seragam','id'=>4),
+			array('type'=>'Tambahan','id'=>5),
 		);
 		
 		$i=1;
@@ -479,6 +530,26 @@ class Monitoring extends CI_Controller {
 			);
 		}
 
+		// seragam & tambahan
+		foreach(array('rekapseragam'=>4,'rekaptambahan'=>5) as $key=>$idj){
+			$data[$key]=array();
+			$list=$this->GlobalModel->Getdata('master_jenis_po',array('tampil'=>1,'status'=>1,'idjenis'=>$idj));
+			$no=1;
+			foreach($list as $k){
+				$res_det = $this->ReportModel->get_monitoring_kirimgudang_stat_detail($k['nama_jenis_po'],$k['id_jenis_po'],$tanggal1,$tanggal2);
+				$data[$key][]=array(
+					'no'=>$no++,
+					'id'=>$k['id_jenis_po'],
+					'type'=>$k['nama_jenis_po'],
+					'po'=>$res_det->po*$k['perkalian'],
+					'dz'=>$res_det->pcs/12,
+					'pcs'=>$res_det->pcs,
+					'total'=>$res_det->total,
+					'hppdz'=>($res_det->pcs>0)?( $res_det->total / ($res_det->pcs/12) ):0,
+					'hpppcs'=>($res_det->pcs>0)?($res_det->total/$res_det->pcs):0,
+				);
+			}
+		}
 
 		//adjustment
 		$this->load->model('AdjustModel');

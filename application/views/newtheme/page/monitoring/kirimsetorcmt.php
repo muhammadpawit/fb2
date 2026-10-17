@@ -179,8 +179,9 @@
 	            </tbody>
 	        </table>
 		</div>
+		<?php foreach(array('Celana'=>$rekapcelana,'Seragam'=>(isset($rekapseragam)?$rekapseragam:array()),'Tambahan'=>(isset($rekaptambahan)?$rekaptambahan:array())) as $judul_jenis=>$list_jenis){ ?>
 		<div class="form-group">
-			<div class="alert" style="background-color: #3D6AA2 !important;color: white;text-align: center;">Celana</div>
+			<div class="alert" style="background-color: #3D6AA2 !important;color: white;text-align: center;"><?php echo $judul_jenis ?></div>
 			<table class="table table-bordered">
 	            <thead>
 	                    <tr>
@@ -200,7 +201,7 @@
 	                </thead>
 	            <tbody>
 	                <?php $no=1;$jmlpo1=0;$jmlpo2=0;$dz1=0;$dz2=0;$pcs1=0;$pcs2=0; ?>
-	                <?php foreach($rekapcelana as $r){?>
+	                <?php foreach($list_jenis as $r){?>
 					<?php if($r['countkirim'] > 0 || $r['countsetor'] > 0){ ?>
 	                <tr>
 	                    <td><?php echo $no++?></td>
@@ -234,6 +235,7 @@
 	            </tbody>
 	        </table>
 		</div>
+		<?php } ?>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">

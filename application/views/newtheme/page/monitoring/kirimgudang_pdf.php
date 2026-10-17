@@ -158,7 +158,8 @@
 		</tbody>
 	</table>
 
-	<div class="section-title">Celana</div>
+	<?php foreach(array('Celana'=>$rekapcelana,'Seragam'=>(isset($rekapseragam)?$rekapseragam:array()),'Tambahan'=>(isset($rekaptambahan)?$rekaptambahan:array())) as $judul_jenis=>$list_jenis){ ?>
+	<div class="section-title"><?php echo $judul_jenis ?></div>
 	<table>
 		<thead>
 			<tr>
@@ -174,7 +175,7 @@
 		</thead>
 		<tbody>
 			<?php $po=0;$dz=0;$pcs=0;$total=0;$pcs1=0;$pcs2=0;$nocelana=1; ?>
-			<?php foreach($rekapcelana as $r){?>
+			<?php foreach($list_jenis as $r){?>
 				<?php if($r['po'] > 0){ ?>
 					<tr>
 						<td><?php echo $nocelana++?></td>
@@ -207,6 +208,7 @@
 			</tr>
 		</tbody>
 	</table>
+	<?php } ?>
 
 	<div class="section-title">Kaos</div>
 	<table>
