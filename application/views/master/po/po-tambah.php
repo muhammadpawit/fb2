@@ -18,6 +18,8 @@
                                 <option value="1">Kemeja</option>
                                 <option value="2">Kaos</option>
                                 <option value="3">Celana</option>
+                                <option value="4">Seragam</option>
+                                <option value="5">Tambahan</option>
                             </select>
                         </div>
                         <div class="form-group">
