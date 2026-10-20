@@ -48,7 +48,7 @@
     <table class="table table-bordered yessearch">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>FOTO</th>
                   <th>TANGGAL</th>
                   <th>KODE ARTIKEL</th>
                   <th>NAMA PO</th>
@@ -63,8 +63,16 @@
                 <?php foreach ($po as $key => $sat): ?>
                             <tr>
                                 <td>
-                                  <?php if(isset($gbr)){ ?>
-                                    <img src="<?php echo BASEURL.$sat['gambar1']?>" class="img-responsive img-thumbnail" width="150">
+                                  <?php if(!empty($sat['gambar1'])){ ?>
+                                    <button type="button" class="btn btn-xs btn-primary btn-lihat-gambar"
+                                            data-kode="<?php echo $sat['kode_po'] ?>"
+                                            data-nama="<?php echo $sat['nama_po'] ?>"
+                                            data-img1="<?php echo BASEURL.$sat['gambar1'] ?>"
+                                            data-img2="<?php echo !empty($sat['gambar2']) ? BASEURL.$sat['gambar2'] : '' ?>">
+                                      <i class="fa fa-image"></i> Lihat Foto
+                                    </button>
+                                  <?php } else { ?>
+                                    <span class="text-muted"><i class="fa fa-minus"></i></span>
                                   <?php } ?>
                                 </td>
                                 <td><?php echo $sat['tanggal'] ?></td>
@@ -91,9 +99,58 @@
     <?php //echo $this->pagination->create_links();?>
   </div>
 </div>
+<!-- Modal Detail Gambar PO -->
+<div class="modal fade" id="modalGambarPO" tabindex="-1" role="dialog" aria-labelledby="modalGambarPOLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalGambarPOLabel"><i class="fa fa-image"></i> Foto PO: <span id="modalPoTitle"></span></h4>
+      </div>
+      <div class="modal-body text-center">
+        <div class="row">
+          <div class="col-md-12" id="boxGambar1">
+            <label>Gambar 1</label>
+            <img id="modalImg1" src="" class="img-responsive img-thumbnail" style="max-height: 380px; margin: 0 auto; display: block;" alt="Foto PO">
+          </div>
+          <div class="col-md-12" id="boxGambar2" style="margin-top: 15px; display: none;">
+            <label>Gambar 2</label>
+            <img id="modalImg2" src="" class="img-responsive img-thumbnail" style="max-height: 380px; margin: 0 auto; display: block;" alt="Foto PO 2">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
   $(function () {
     $('.select2bs4').select2();
+  });
+
+  $(document).on('click', '.btn-lihat-gambar', function() {
+    var kode = $(this).data('kode');
+    var nama = $(this).data('nama');
+    var img1 = $(this).data('img1');
+    var img2 = $(this).data('img2');
+
+    $('#modalPoTitle').text(kode + ' (' + nama + ')');
+    $('#modalImg1').attr('src', img1);
+
+    if (img2 && img2.trim() !== '') {
+      $('#modalImg2').attr('src', img2);
+      $('#boxGambar2').show();
+    } else {
+      $('#modalImg2').attr('src', '');
+      $('#boxGambar2').hide();
+    }
+
+    $('#modalGambarPO').modal('show');
   });
 
   function filter(){
