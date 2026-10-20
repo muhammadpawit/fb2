@@ -640,6 +640,92 @@ class Sablonluar extends CI_Controller
 		}
 	}
 
+	public function kirimcmtsablonedit($id = '')
+	{
+		$data = array();
+		$data['title'] = 'Edit Pengiriman Jahit ke Sablon PO Luar';
+		$data['url'] = $this->url . 'kirimsetor';
+		$data['cancel'] = $this->url . 'kirimsetor';
+		$data['action'] = $this->url . 'kirimcmtsabloneditsave';
+
+		$data['kirim'] = $this->GlobalModel->getDataRow('kirimcmtsablon', array('id' => $id, 'hapus' => 0));
+		if (empty($data['kirim'])) {
+			$this->session->set_flashdata('msg', 'Data pengiriman tidak ditemukan');
+			redirect($this->url . 'kirimsetor');
+		}
+
+		$data['kirims'] = $this->GlobalModel->getData('kirimcmtsablon_detail', array('idkirim' => $id, 'hapus' => 0));
+		$data['progress'] = $this->GlobalModel->queryManual('SELECT * FROM master_progress WHERE id_progress IN(1,3) ');
+		$data['po'] = $this->GlobalModel->queryManual('SELECT * FROM master_po_luar WHERE hapus=0 ORDER BY nama ASC');
+		$data['kodepo'] = $this->GlobalModel->queryManual('SELECT * FROM master_po_luar WHERE hapus=0 ORDER BY nama ASC');
+		$data['pekerjaan'] = $this->GlobalModel->getData('master_job', array('hapus' => 0, 'jenis' => 2));
+		$data['listcmt'] = $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" ORDER BY cmt_name ASC ');
+		$data['cmt'] = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $data['kirim']['idcmt']));
+		$data['page'] = $this->page . 'kirimcmtsablonluar_edit';
+		$this->load->view('newtheme/page/main', $data);
+	}
+
+	public function kirimcmtsabloneditsave()
+	{
+		$post = $this->input->post();
+		$id = isset($post['id']) ? $post['id'] : (isset($post['kode_nota']) ? $post['kode_nota'] : 0);
+
+		if (empty($id)) {
+			$this->session->set_flashdata('msg', 'ID pengiriman tidak valid');
+			redirect($this->url . 'kirimsetor');
+		}
+
+		if (isset($post['tanggal'])) {
+			if (isset($post['idcmt'])) {
+				$idcmt = $post['idcmt'];
+			} elseif (isset($post['cmtName'])) {
+				$cmt = explode('-', $post['cmtName']);
+				$idcmt = $cmt[0];
+			} else {
+				$idcmt = 0;
+			}
+
+			$cmtkat = isset($post['cmtKat']) ? $post['cmtKat'] : 'SABLON';
+
+			// Hapus detail lama
+			$this->db->delete('kirimcmtsablon_detail', array('idkirim' => $id));
+
+			$totalkirim = 0;
+			if (isset($post['products']) && is_array($post['products'])) {
+				foreach ($post['products'] as $p) {
+					if (!empty($p['kode_po'])) {
+						$totalkirim += (float)$p['jumlah_pcs'];
+						$detail = array(
+							'idkirim' => $id,
+							'kode_po' => $p['kode_po'],
+							'cmtjob' => $p['cmtjob'],
+							'rincian_po' => $p['rincian_po'],
+							'jumlah_pcs' => $p['jumlah_pcs'],
+							'keterangan' => $p['keterangan'],
+							'jml_barang' => $p['jml_barang'],
+							'hapus' => 0,
+						);
+						$this->db->insert('kirimcmtsablon_detail', $detail);
+					}
+				}
+			}
+
+			$update = array(
+				'tanggal' => $post['tanggal'],
+				'totalkirim' => $totalkirim,
+				'idcmt' => $idcmt,
+				'cmtkat' => $cmtkat,
+				'keterangan' => isset($post['keterangan']) ? $post['keterangan'] : '',
+			);
+			$this->db->update('kirimcmtsablon', $update, array('id' => $id));
+
+			$this->session->set_flashdata('msg', 'Data berhasil diperbarui');
+			redirect($this->url . 'kirimsetor');
+		} else {
+			echo "Gagal. Tanggal kirim harus diisi";
+		}
+	}
+
 	function kirimcmtsablonhapus($id = '')
 	{
 		$this->db->update('kirimcmtsablon', array('hapus' => 1), array('id' => $id));
