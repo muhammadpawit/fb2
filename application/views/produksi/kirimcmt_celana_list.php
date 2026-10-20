@@ -29,7 +29,7 @@
       <select name="sj" class="form-control select2bs4" data-live-search="true">
         <option value="*">Semua</option>
         <?php foreach($nosj as $c){?>
-          <option value="<?php echo $c['id']?>"  <?php echo $c['id']==$sj?'selected':'';?>><?php echo strtoupper($c['nosj'])?></option>
+          <option value="<?php echo $c['id']?>"  <?php echo $c['id']==$sj?'selected':'';?>><?php echo strtoupper($c['nosj'] ?? '')?></option>
         <?php } ?>
       </select>
     </div>
@@ -40,7 +40,7 @@
       <select name="cmt" class="form-control select2bs4" data-live-search="true">
         <option value="*">Semua</option>
         <?php foreach($listcmt as $c){?>
-          <option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmt?'selected':'';?>><?php echo strtolower($c['cmt_name'])?></option>
+          <option value="<?php echo $c['id_cmt']?>" <?php echo $c['id_cmt']==$cmt?'selected':'';?>><?php echo strtolower($c['cmt_name'] ?? '')?></option>
         <?php } ?>
       </select>
     </div>

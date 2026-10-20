@@ -65,12 +65,12 @@
                                 <td><?php echo $sat['nama_po'] ?></td>
                                 <td><?php echo $sat['kode_po'] ?></td>
                                 <td><?php echo $sat['jenis_po'] ?></td>
-                                <td><?php echo $sat['keterangan']?></td>
+                                <td><?php echo $sat['keterangan'] ?? ''?></td>
                                 <td>
                                     <span class="badge badge-primary"><?php echo $sat['nama_progress'] ?></span>
                                 </td>
                                 <td class="right"><?php foreach ($sat['action'] as $action) { ?>
-                                           <a href="<?php echo $action['href']; ?>" class="badge <?php echo $action['bg']?> badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
+                                           <a href="<?php echo $action['href']; ?>" class="badge <?php echo $action['bg'] ?? ''?> badge-info waves-light waves-effect"><?php echo $action['text']; ?></a>&nbsp;&nbsp;
                                           <?php } ?>
                                 </td>
                             </tr>

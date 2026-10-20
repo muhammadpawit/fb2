@@ -501,8 +501,8 @@ class Sablonluar extends CI_Controller
 		$data['tanggal2'] = $tanggal2;
 		$data['cmt'] = $cmt;
 		$data['sj'] = $sj;
-		$data['listcmt'] = $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" AND id_cmt IN(87) ORDER BY cmt_name ASC ');
-		$data['nosj'] = $this->GlobalModel->queryManual('SELECT * FROM kirimcmtsablon WHERE hapus=0 AND idcmt=87');
+		$data['listcmt'] = $this->GlobalModel->queryManual('SELECT * FROM master_cmt WHERE hapus=0 AND cmt_job_desk="SABLON" ORDER BY cmt_name ASC ');
+		$data['nosj'] = $this->GlobalModel->queryManual('SELECT * FROM kirimcmtsablon WHERE hapus=0 ');
 		$filter = array(
 			'hapus' => 0,
 		);

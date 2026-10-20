@@ -143,6 +143,7 @@ class Kelolapo extends CI_Controller
 			$action[] = array(
 				'text' => '<i class="fa fa-pencil"></i>&nbsp;Edit',
 				'href' =>  BASEURL . 'kelolapo/spesifikasiedit/' . $result['id_produksi_po'],
+				'bg'   => 'badge-info',
 			);
 			//}
 
@@ -162,6 +163,7 @@ class Kelolapo extends CI_Controller
 				'kategori' => $result['kategori_po'],
 				'tanggal' => date('d-m-Y', strtotime($result['created_date'])),
 				'status' => $result['status'],
+				'keterangan' => isset($result['keterangan']) ? $result['keterangan'] : '',
 				//'nama_progress'=>$progress['nama_progress'],
 				'nama_progress' => null,
 				'action' => $action,
