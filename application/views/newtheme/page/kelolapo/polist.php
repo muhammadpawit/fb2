@@ -12,29 +12,36 @@
 </div>
 <div class="row">
   <div class="col-md-5">
-                <div class="form-group">
-                  <label>Kode Po</label>
-                  <select class="form-control autopoid" name="kode_po" id="kode_po" data-live-search="true">
-                    <option value="*">Semua</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <label>Nama PO</label>
-                <select name="jenis_po" id="jenis_po" class="form-control select2bs4" data-live-search="true">
-                  <option value="*">Semua</option>
-                  <?php foreach($jenis as $j){?>
-                    <option value="<?php echo $j['nama_jenis_po']?>"><?php echo $j['nama_jenis_po']?></option>
-                  <?php } ?>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>Action</label><br>
-                  <button onclick="filter()" class="btn btn-info btn-sm text-white">Filter</button>
-                  <a href="<?php echo $tambah ?>" class="btn btn-info btn-sm">Tambah</a>
-                </div>
-              </div>
+    <div class="form-group">
+      <label>Kode Po</label>
+      <select class="form-control select2bs4" name="kode_po" id="kode_po" data-live-search="true">
+        <option value="*">Semua</option>
+        <?php if(!empty($namaPO)){ ?>
+          <?php foreach($namaPO as $p){ ?>
+            <option value="<?php echo $p['id_produksi_po']?>" <?php echo (isset($kode_po) && ($kode_po==$p['id_produksi_po'] || $kode_po==$p['kode_po'])) ? 'selected' : '';?>><?php echo $p['kode_po']?></option>
+          <?php } ?>
+        <?php } ?>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <label>Nama PO</label>
+    <select name="jenis_po" id="jenis_po" class="form-control select2bs4" data-live-search="true">
+      <option value="*">Semua</option>
+      <?php if(!empty($jenis)){ ?>
+        <?php foreach($jenis as $j){?>
+          <option value="<?php echo $j['nama_jenis_po']?>" <?php echo (isset($jenis_po) && $jenis_po==$j['nama_jenis_po']) ? 'selected' : '';?>><?php echo $j['nama_jenis_po']?></option>
+        <?php } ?>
+      <?php } ?>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Action</label><br>
+      <button onclick="filter()" class="btn btn-info btn-sm text-white">Filter</button>
+      <a href="<?php echo $tambah ?>" class="btn btn-info btn-sm">Tambah</a>
+    </div>
+  </div>
 </div>
 <div class="row">
   <div class="col-md-12">
@@ -85,14 +92,18 @@
   </div>
 </div>
 <script type="text/javascript">
+  $(function () {
+    $('.select2bs4').select2();
+  });
+
   function filter(){
     var po=$("#kode_po").val();
     var jenispo=$("#jenis_po").val();
     url="?";
-    if(po!='*'){
+    if(po && po!='*'){
       url+="&kode_po="+po;
     }
-    if(jenispo!='*'){
+    if(jenispo && jenispo!='*'){
       url+="&jenis_po="+jenispo;
     }
     location = url;

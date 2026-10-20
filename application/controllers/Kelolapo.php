@@ -127,11 +127,16 @@ class Kelolapo extends CI_Controller
 		//$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
 		$sql = "SELECT * FROM produksi_po WHERE hapus=0 ";
 
-		if (!empty($kode_po)) {
-			$sql .= " AND id_produksi_po='$kode_po' ";
+		if (!empty($kode_po) && $kode_po != '*') {
+			if (strpos($kode_po, '-') !== false) {
+				$exp = explode('-', $kode_po);
+				$sql .= " AND id_produksi_po='" . $exp[0] . "' ";
+			} else {
+				$sql .= " AND (id_produksi_po='$kode_po' OR kode_po='$kode_po') ";
+			}
 		}
 
-		if (!empty($jenis_po)) {
+		if (!empty($jenis_po) && $jenis_po != '*') {
 			$sql .= " AND nama_po='$jenis_po' ";
 		}
 
@@ -175,7 +180,9 @@ class Kelolapo extends CI_Controller
 		$data['tambah'] = BASEURL . 'Kelolapo/spesifikasi';
 		$data['action'] = BASEURL . 'Kelolapo/spesifikasi';
 		$data['url'] = BASEURL . 'Kelolapo/spesifikasi';
-		$data['namaPO']	= $this->GlobalModel->getData('produksi_po', null);
+		$data['kode_po'] = $kode_po;
+		$data['jenis_po'] = $jenis_po;
+		$data['namaPO']	= $this->GlobalModel->queryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
 		$data['progress'] = $this->GlobalModel->getData('proggresion_po', null);
 		$data['JenisPo'] = $this->GlobalModel->getData('master_jenis_po', null);
 		$data['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos', null);
@@ -601,11 +608,16 @@ class Kelolapo extends CI_Controller
 		//$results = $this->GlobalModel->datapo('produksi_po',$config['per_page'],$from,$filter);
 		$sql = "SELECT * FROM produksi_po WHERE hapus=0 ";
 
-		if (!empty($kode_po)) {
-			$sql .= " AND id_produksi_po='$kode_po' ";
+		if (!empty($kode_po) && $kode_po != '*') {
+			if (strpos($kode_po, '-') !== false) {
+				$exp = explode('-', $kode_po);
+				$sql .= " AND id_produksi_po='" . $exp[0] . "' ";
+			} else {
+				$sql .= " AND (id_produksi_po='$kode_po' OR kode_po='$kode_po') ";
+			}
 		}
 
-		if (!empty($jenis_po)) {
+		if (!empty($jenis_po) && $jenis_po != '*') {
 			$sql .= " AND nama_po='$jenis_po' ";
 		}
 
@@ -647,7 +659,9 @@ class Kelolapo extends CI_Controller
 		$data['tambah'] = BASEURL . 'Kelolapo/addpo';
 		$data['action'] = BASEURL . 'Kelolapo/posave';
 		$data['url'] = BASEURL . 'Kelolapo/produksipo';
-		$data['namaPO']	= $this->GlobalModel->getData('produksi_po', null);
+		$data['kode_po'] = $kode_po;
+		$data['jenis_po'] = $jenis_po;
+		$data['namaPO']	= $this->GlobalModel->queryManual('SELECT id_produksi_po, kode_po FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
 		$data['progress'] = $this->GlobalModel->getData('proggresion_po', null);
 		$data['JenisPo'] = $this->GlobalModel->getData('master_jenis_po', null);
 		$data['jenisKaos'] = $this->GlobalModel->getData('master_jenis_kaos', null);
