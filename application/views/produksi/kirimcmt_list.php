@@ -144,18 +144,34 @@
         cetak_url = '<?php echo BASEURL ?>Kelolapo/pengirimancmt_pdf';
     }
 
-    var final_url = cetak_url + '?tanggal1=' + tanggal1 + '&tanggal2=' + tanggal2 + '&sj=' + sj + '&cmt=' + cmt + '&kodepo=' + kodepo;
+    var params = [];
+    if (tanggal1) params.push('tanggal1=' + encodeURIComponent(tanggal1));
+    if (tanggal2) params.push('tanggal2=' + encodeURIComponent(tanggal2));
+    if (sj && sj !== '*') params.push('sj=' + encodeURIComponent(sj));
+    if (cmt && cmt !== '*') params.push('cmt=' + encodeURIComponent(cmt));
+    if (kodepo && kodepo !== '*') params.push('kodepo=' + encodeURIComponent(kodepo));
+
+    var separator = cetak_url.indexOf('?') !== -1 ? '&' : '?';
+    var final_url = cetak_url + (params.length ? separator + params.join('&') : '');
     showPdfModal(final_url, 'Laporan Pengiriman');
   }
 
   function filterKirimCmt(){
-    var tanggal1 = $('input[name="tanggal1"]').val() || '';
-    var tanggal2 = $('input[name="tanggal2"]').val() || '';
-    var sj = $('select[name="sj"]').val() || '*';
-    var cmt = $('select[name="cmt"]').val() || '*';
-    var kodepo = $('select[name="kodepo"]').val() || '*';
+    var tanggal1 = $('input[name="tanggal1"]').val();
+    var tanggal2 = $('input[name="tanggal2"]').val();
+    var sj = $('select[name="sj"]').val();
+    var cmt = $('select[name="cmt"]').val();
+    var kodepo = $('select[name="kodepo"]').val();
     var url = '<?php echo $url ?>';
     
-    window.location.href = url + '?tanggal1=' + tanggal1 + '&tanggal2=' + tanggal2 + '&sj=' + sj + '&cmt=' + cmt + '&kodepo=' + kodepo;
+    var params = [];
+    if (tanggal1) params.push('tanggal1=' + encodeURIComponent(tanggal1));
+    if (tanggal2) params.push('tanggal2=' + encodeURIComponent(tanggal2));
+    if (sj && sj !== '*') params.push('sj=' + encodeURIComponent(sj));
+    if (cmt && cmt !== '*') params.push('cmt=' + encodeURIComponent(cmt));
+    if (kodepo && kodepo !== '*') params.push('kodepo=' + encodeURIComponent(kodepo));
+
+    var separator = url.indexOf('?') !== -1 ? '&' : '?';
+    window.location.href = url + (params.length ? separator + params.join('&') : '');
   }
 </script>
