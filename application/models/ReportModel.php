@@ -1812,7 +1812,7 @@ class ReportModel extends CI_Model {
             $nominal += round($g * $r['kamis']);
             $nominal += round($g * $r['jumat']);
             $nominal += round($g * $r['sabtu']);
-            $nominal += round($g * $r['minggu']);
+            $nominal += ($r['minggu'] == 1 ? $r['gajiharian'] : round($g * $r['minggu']));
             $nominal += $r['lembur'];
             $nominal += ($r['insentif'] == 1 ? $r['gajiharian'] : 0);
             $nominal -= $r['claim'];

@@ -261,7 +261,7 @@ class Report extends CI_Controller
 		$sql6 = "SELECT a.tanggal2 as tanggal FROM gaji_finishing a WHERE a.hapus=0 ";
 		if (!empty($cat)) {
 			if ($cat == 1) {
-				$sql6 .= " AND a.bagian IN ('FINISHING','GUDANG','KLO','PRESSQC') ";
+				$sql6 .= " AND a.bagian IN ('FINISHING','GUDANG','KLO','PRESSQC','Online Shop') ";
 			} else if ($cat == 2) {
 				$sql6 .= " AND a.bagian IN ('') ";
 			}
@@ -518,6 +518,18 @@ class Report extends CI_Controller
 								'nominal' => $q['nominal'],
 								'bagian' => 1, // Konveksi
 								'keterangan' => 'Gaji Press/QC : ' . $q['nama'],
+							);
+						}
+					}
+
+					$onlineshop = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'Online Shop');
+					if (!empty($onlineshop)) {
+						foreach ($onlineshop as $os) {
+							$konveksi[] = array(
+								'tanggal' => $p['tanggal'],
+								'nominal' => $os['nominal'],
+								'bagian' => 1, // Konveksi
+								'keterangan' => 'Gaji Online Shop : ' . $os['nama'],
 							);
 						}
 					}
