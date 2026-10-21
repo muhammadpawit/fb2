@@ -69,6 +69,9 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Informasi Pembayaran CMT</h3>
+                <div class="pull-right">
+                    <a href="<?php echo BASEURL.'Pembayaran/cmtjahit_edit/'.$detail['id']; ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit Lengkap</a>
+                </div>
             </div>
             <div class="box-body">
                 <div class="row">

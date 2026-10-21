@@ -81,6 +81,7 @@
                             <td><?php echo $p['keterangan']?></td>
                             <td>
                                 <a href="<?php echo $p['detail']?>" class="btn btn-success btn-xs text-white">Detail</a>
+                                <a href="<?php echo $p['edit']?>" class="btn btn-primary btn-xs text-white">Edit</a>
                                 <?php //if($menghapus==1){?>
                                     <a href="<?php echo $p['hapus']?>" onclick="return confirm('Yakin akan menghapus?')" class="btn btn-danger btn-xs text-white">Hapus</a>
                                 <?php //} ?>

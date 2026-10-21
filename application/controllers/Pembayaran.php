@@ -1244,6 +1244,7 @@ class Pembayaran extends CI_Controller {
 				'biaya_transport'=>($result['biaya_transport']-$result['potongan_transport']),
 				'keterangan'=>strtolower($result['keterangan']),
 				'detail'=>BASEURL.'Pembayaran/cmtjahitdetail/'.$result['id'],
+				'edit'=>BASEURL.'Pembayaran/cmtjahit_edit/'.$result['id'],
 				'hapus'=>BASEURL.'Pembayaran/cmtjahithapus/'.$result['id'],
 				'totals'=>($result['total']),
 				'an'=>$cmt['an'],
@@ -2028,6 +2029,353 @@ class Pembayaran extends CI_Controller {
 		}
 		$this->session->set_flashdata('msg','Data berhasil dihapus');
 		redirect(BASEURL.'Pembayaran/cmtjahit');
+	}
+
+	public function cmtjahit_edit($id){
+		$data=array();
+		$data['title']='Edit Pembayaran CMT Jahit';
+		$data['action']=BASEURL.'Pembayaran/cmtjahit_edit_save';
+		$data['pembayaran']=$this->GlobalModel->getDataRow('pembayaran_cmt',array('id'=>$id));
+		if(empty($data['pembayaran'])){
+			$this->session->set_flashdata('msg','Data pembayaran tidak ditemukan');
+			redirect(BASEURL.'Pembayaran/cmtjahit');
+		}
+
+		$data['cmt']=$this->GlobalModel->getData('master_cmt',array('hapus'=>0,'cmt_job_desk'=>'JAHIT'));
+		$data['kodepo']=$this->GlobalModel->QueryManual('SELECT * FROM produksi_po WHERE hapus=0 ORDER BY kode_po ASC');
+		$data['product']=$this->GlobalModel->QueryManual('SELECT * FROM product WHERE hapus=0 ORDER BY nama ASC');
+
+		// Sub-tables
+		$data['products']=$this->GlobalModel->getData('pembayaran_cmt_detail',array('idpembayaran'=>$id));
+		$data['bangke']=$this->GlobalModel->getData('potongan_bangke',array('idpembayaran'=>$id,'hapus'=>0));
+		$data['kembalianbangke']=$this->GlobalModel->getData('pengembalian_bangke',array('idpembayaran'=>$id,'hapus'=>0));
+		$data['alat']=$this->GlobalModel->getData('potongan_alat',array('idpembayaran'=>$id,'hapus'=>0));
+		$data['mesin']=$this->GlobalModel->getData('potongan_mesin',array('idpembayaran'=>$id,'hapus'=>0));
+		$data['vermak']=$this->GlobalModel->getData('potongan_vermak',array('idpembayaran'=>$id,'hapus'=>0));
+		$data['tambahan']=$this->GlobalModel->getData('pembayaran_cmt_tambahan_lainnya',array('pembayaran_cmt_id'=>$id,'hapus'=>0));
+
+		// Check pinjaman vs claim
+		$cekPinjaman = $this->GlobalModel->getDataRow('potongan_pinjaman_cmt',array('idpembayaran'=>$id,'hapus'=>0));
+		if(!empty($cekPinjaman)){
+			$data['pot_pinjaman_type'] = 1;
+		}else{
+			$data['pot_pinjaman_type'] = 2;
+		}
+
+		// Transport options
+		$transport_dari_id = $data['pembayaran']['transport_dari_id'];
+		$sql_trans = "SELECT * FROM pembayaran_cmt WHERE hapus=0 AND (id NOT IN(SELECT transport_dari_id from pembayaran_cmt WHERE hapus=0 AND id != '".$id."') OR id = '".$transport_dari_id."') AND idcmt='".$data['pembayaran']['idcmt']."' AND tripke=1 ORDER BY ID DESC";
+		$data['transport_options'] = $this->GlobalModel->QueryManual($sql_trans);
+
+		$data['page']=$this->page.'pembayaran/cmtjahit_edit';
+		$this->load->view($this->page.'main',$data);
+	}
+
+	public function cmtjahit_edit_save(){
+		$data=$this->input->post();
+		$id=$data['id'];
+		$old_pembayaran=$this->GlobalModel->getDataRow('pembayaran_cmt',array('id'=>$id));
+		if(empty($old_pembayaran)){
+			$this->session->set_flashdata('msg','Data pembayaran tidak ditemukan');
+			redirect(BASEURL.'Pembayaran/cmtjahit');
+		}
+
+		$transport=isset($data['pot_transport'])?explode('-',$data['pot_transport']):array(0,0);
+		if(isset($data['pot_pinjaman']) && $data['pot_pinjaman']==1){
+			if($data['potongan_lainnya'] < 0){
+				$this->session->set_flashdata('msg','Nilai Potongan harus lebih besar dari 0');
+				redirect(BASEURL.'Pembayaran/cmtjahit_edit/'.$id);
+			}
+		}
+
+		$totalbayar=0;
+		$totalbangke=0;
+		$totalpengembalianbangke=0;
+		$totaldz=0;
+		$btransport=0;
+		$totalalat=0;
+		$totalpotmesin=0;
+		$totalvermak=0;
+		$totaltambahan=0;
+		$potongantransportfinal=0;
+		$ongkos_transport_perdz=0;
+
+		if(isset($data['cmt'])){
+			if(isset($data['products'])){
+				foreach($data['products'] as $p){
+					$potptm=isset($p['potpertama']) ? explode(",",$p['potpertama']) : array(0);
+					$totalbayar+=($p['total']-$potptm[0]);
+					if($p['trans']==1){
+						$totaldz+=($p['jumlah_pcs']/12);
+					}
+				}
+				$sbt="SELECT * FROM harga_transport WHERE dz1<='".round($totaldz)."' AND '".round($totaldz)."' <=dz2 ";
+				$tripke1=0;
+				if(isset($data['pot_transport']) && is_array($transport) && count($transport)>1){
+					$tripke1=$transport[1];
+				}
+				if($data['metode']==1){
+					$bt=$this->GlobalModel->QueryManualRow($sbt);
+					if(!empty($bt)){
+						$btransport=$bt['harga'];
+					}
+				}
+
+				if(isset($data['tripke'])){
+					if($data['tripke']==2 && is_array($transport) && count($transport)>0 && !empty($transport[0])){
+						$trip1=$this->GlobalModel->GetdataRow('pembayaran_cmt',array('id'=>$transport[0]));
+						if(!empty($trip1)){
+							$dtrip1=$this->GlobalModel->QueryManualRow("SELECT COALESCE(SUM(jumlah_dz),0) as total FROM pembayaran_cmt_detail WHERE idpembayaran='".$trip1['id']."' AND trans=1 ");
+							$alldz=($totaldz+$dtrip1['total']);
+							$bt2=$this->GlobalModel->QueryManualRow("SELECT * FROM harga_transport WHERE dz1<='".$alldz."' AND '".$alldz."' <=dz2 ");
+							if(!empty($bt2)){
+								$btransport=($bt2['harga']);
+							}
+						}
+					}
+				}
+
+				// 1. Revert previous pinjaman deduction if any
+				$old_potongan = $this->GlobalModel->getDataRow('potongan_pinjaman_cmt', array('idpembayaran'=>$id, 'hapus'=>0));
+				if(!empty($old_potongan)){
+					$pinjaman = $this->GlobalModel->getDataRow('pinjaman_cmt', array('id'=>$old_potongan['idpinjaman']));
+					if(!empty($pinjaman)){
+						$new_potongan = max(0, $pinjaman['totalpotongan'] - $old_potongan['totalpotongan']);
+						$new_status = ($new_potongan >= $pinjaman['totalpinjaman']) ? 3 : ($new_potongan > 0 ? 2 : 1);
+						$this->db->update('pinjaman_cmt', array('totalpotongan'=>$new_potongan, 'status'=>$new_status), array('id'=>$pinjaman['id']));
+					}
+					$this->db->delete('potongan_pinjaman_cmt', array('id'=>$old_potongan['id']));
+				}
+
+				// 2. Handle new pinjaman deduction if pot_pinjaman == 1 and potongan_lainnya > 0
+				if(isset($data['pot_pinjaman']) && $data['pot_pinjaman']==1 && $data['potongan_lainnya'] > 0){
+					$cek=$this->GlobalModel->QueryManualRow("SELECT * FROM pinjaman_cmt WHERE idcmt='".$data['cmt']."' AND status NOT IN (3) AND hapus=0 ");
+					if(!empty($cek)){
+						$insert_pot_pinjaman=array(
+							'idcmt'=>$data['cmt'],
+							'idpinjaman'=>$cek['id'],
+							'tanggal'=>$data['tanggal'],
+							'totalpotongan'=>$data['potongan_lainnya'],
+							'sisa'=>($cek['totalpinjaman']-$cek['totalpotongan']-$data['potongan_lainnya']),
+							'keterangan'=>'Potongan Pinjaman tanggal '.$data['tanggal'],
+							'hapus'=>0,
+							'idpembayaran'=>$id,
+						);
+						$this->db->insert('potongan_pinjaman_cmt',$insert_pot_pinjaman);
+
+						$cek2=$this->GlobalModel->QueryManualRow("SELECT SUM(totalpotongan) as totalpotongan FROM potongan_pinjaman_cmt WHERE idcmt='".$data['cmt']."' AND hapus=0 AND idpinjaman='".$cek['id']."' ");
+
+						if(!empty($cek2)){
+							if($cek2['totalpotongan']==$cek['totalpinjaman']){
+								$this->db->update('pinjaman_cmt',array('status'=>3,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+							}else{
+								$this->db->update('pinjaman_cmt',array('status'=>2,'totalpotongan'=>$cek2['totalpotongan']),array('id'=>$cek['id']));
+							}
+						}
+					}
+				}
+
+				// 3. Clear old detail tables
+				$this->db->delete('pembayaran_cmt_detail', array('idpembayaran'=>$id));
+				$this->db->delete('potongan_bangke', array('idpembayaran'=>$id));
+				$this->db->delete('pengembalian_bangke', array('idpembayaran'=>$id));
+				
+				$this->db->update('distribusi_alat_sukabumi', array('idpembayaran'=>0), array('idpembayaran'=>$id));
+				$this->db->delete('potongan_alat', array('idpembayaran'=>$id));
+
+				$this->db->delete('potongan_mesin', array('idpembayaran'=>$id));
+				$this->db->delete('potongan_vermak', array('idpembayaran'=>$id));
+				$this->db->delete('pembayaran_cmt_tambahan_lainnya', array('pembayaran_cmt_id'=>$id));
+
+				// 4. Re-insert products detail
+				foreach($data['products'] as $p){
+					$potptm=isset($p['potpertama']) ? explode(",",$p['potpertama']) : array(0);
+					if(empty($p['potpertama']) || $p['potpertama']==0){
+						$ids=array(
+							'idpembayaran'=>$id,
+							'kode_po'=>$p['kode_po'],
+							'jumlah_po_dz'=>$p['jumlah_po_dz'],
+							'jumlah_po_pcs'=>$p['jumlah_po_pcs'],
+							'jumlah_dz'=>$p['jumlah_dz'],
+							'jumlah_pcs'=>$p['jumlah_pcs'],
+							'jumlah_bangke'=>0,
+							'harga'=>$p['harga'],
+							'total'=>$p['total'],
+							'keterangan'=>$p['keterangan'],
+							'potpertama'=>0,
+							'idpembayaranpertama'=>0,
+							'popembayaran'=>0,
+							'trans'=>$p['trans'],
+							'potongan'=>$p['potongan'],
+							'kirimpcs'=>$p['kirimpcs'],
+						);
+					}else{
+						$ids=array(
+							'idpembayaran'=>$id,
+							'kode_po'=>$p['kode_po'],
+							'jumlah_po_dz'=>$p['jumlah_po_dz'],
+							'jumlah_po_pcs'=>$p['jumlah_po_pcs'],
+							'jumlah_dz'=>$p['jumlah_dz'],
+							'jumlah_pcs'=>$p['jumlah_pcs'],
+							'jumlah_bangke'=>0,
+							'harga'=>$p['harga'],
+							'total'=>$p['total'],
+							'keterangan'=>$p['keterangan'],
+							'potpertama'=>$potptm[0],
+							'idpembayaranpertama'=>isset($potptm[1])?$potptm[1]:0,
+							'popembayaran'=>isset($potptm[2])?$potptm[2]:0,
+							'trans'=>$p['trans'],
+							'potongan'=>$p['potongan'],
+							'kirimpcs'=>$p['kirimpcs'],
+						);
+					}
+					$this->db->insert('pembayaran_cmt_detail',$ids);
+				}
+
+				// 5. Re-insert bangke
+				if(isset($data['bangke'])){
+					foreach($data['bangke'] as $p){
+						$bangke=array(
+							'idpembayaran'=>$id,
+							'kode_po'=>$p['kode_po'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalbangke+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_bangke',$bangke);
+					}
+				}
+
+				// 6. Re-insert alat
+				if(isset($data['alat'])){
+					foreach($data['alat'] as $p){
+						$alat=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalalat+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_alat',$alat);
+						if(isset($p['id_distribusi']) && !empty($p['id_distribusi'])){
+							$updatedis = array(
+								'idpembayaran' => $id
+							);
+							$this->db->update('distribusi_alat_sukabumi',$updatedis,array('id'=> $p['id_distribusi']));
+						}
+					}
+				}
+
+				// 7. Re-insert mesin
+				if(isset($data['mesin'])){
+					foreach($data['mesin'] as $p){
+						$insert_mesin=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalpotmesin+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_mesin',$insert_mesin);
+					}
+				}
+
+				// 8. Re-insert vermak
+				if(isset($data['vermak'])){
+					foreach($data['vermak'] as $p){
+						$insert_vermak=array(
+							'idpembayaran'=>$id,
+							'rincian'=>$p['rincian'],
+							'qty'=>$p['qty'],
+							'harga'=>$p['harga'],
+							'total'=>($p['qty']*$p['harga']),
+							'keterangan'=>$p['keterangan'],
+							'hapus'=>0,
+						);
+						$totalvermak+=($p['qty']*$p['harga']);
+						$this->db->insert('potongan_vermak',$insert_vermak);
+					}
+				}
+
+				// 9. Re-insert kembalian bangke
+				if(isset($data['kembalianbangke'])){
+					foreach($data['kembalianbangke'] as $kb){
+						$kbangke=array(
+							'idpembayaran'=>$id,
+							'kode_po'=>$kb['kode_po'],
+							'qty'=>$kb['qty'],
+							'harga'=>$kb['harga'],
+							'total'=>$kb['qty']*$kb['harga'],
+							'keterangan'=>$kb['keterangan'],
+							'hapus'=>0,
+						);
+						$totalpengembalianbangke+=($kb['qty']*$kb['harga']);
+						$this->db->insert('pengembalian_bangke',$kbangke);
+					}
+				}
+
+				// 10. Re-insert tambahan lainnya
+				if(isset($data['tambahan'])){
+					foreach($data['tambahan'] as $kb){
+						$ktambahan=array(
+							'pembayaran_cmt_id'=>$id,
+							'nominal'=>$kb['nominal'],
+							'keterangan'=>$kb['keterangan'],
+							'hapus'=>0,
+						);
+						$totaltambahan+=($kb['nominal']);
+						$this->db->insert('pembayaran_cmt_tambahan_lainnya',$ktambahan);
+					}
+				}
+
+				$cekcmt = $this->GlobalModel->GetdataRow('master_cmt',array('id_cmt' => $data['cmt']));
+				$potongantransportfinal=$btransport-$tripke1;
+				if(!empty($cekcmt['ongkos_transport_perdz']) || $cekcmt['ongkos_transport_perdz'] > 0){
+					$ongkos_transport_perdz=$cekcmt['ongkos_transport_perdz']*$totaldz;
+					$potongantransportfinal=$ongkos_transport_perdz;
+				}
+
+				// 11. Update pembayaran_cmt
+				$update=array(
+					'tanggal'=>$data['tanggal'],
+					'periode'=>$data['tanggal'],
+					'idcmt'=>$data['cmt'],
+					'pengembalian_bangke'=>$totalpengembalianbangke,
+					'potongan_bangke'=>$totalbangke,
+					'potongan_alat'=>$totalalat,
+					'potongan_mesin'=>$totalpotmesin,
+					'potongan_vermak'=>$totalvermak,
+					'tambahan_lainnya'=>$totaltambahan,
+					'biaya_transport'=>$btransport,
+					'potongan_lainnya'=>$data['potongan_lainnya'],
+					'keterangan'=>$data['keterangan'],
+					'metode_pengiriman'=>$data['metode'],
+					'potongan_transport'=>isset($data['pot_transport']) && is_array($transport) && count($transport)>1 ? $transport[1] : 0,
+					'transport_dari_id'=>isset($data['pot_transport']) && is_array($transport) && count($transport)>0 ? $transport[0] : 0,
+					'tripke'=>isset($data['tripke']) ? $data['tripke'] : 1,
+					'total'=>($totalbayar+$totalpengembalianbangke+$totaltambahan-$totalbangke-($potongantransportfinal)-$data['potongan_lainnya']-$totalalat-$totalpotmesin-$totalvermak),
+				);
+
+				$this->db->update('pembayaran_cmt',$update,array('id'=>$id));
+				$this->session->set_flashdata('msg','Data pembayaran berhasil diubah');
+				redirect(BASEURL.'Pembayaran/cmtjahit');
+			}else{
+				$this->session->set_flashdata('msg','Mohon memasukan data dengan lengkap dan benar');
+				redirect(BASEURL.'Pembayaran/cmtjahit_edit/'.$id);
+			}
+		}else{
+			$this->session->set_flashdata('msg','Mohon memasukan data dengan lengkap dan benar');
+			redirect(BASEURL.'Pembayaran/cmtjahit_edit/'.$id);
+		}
 	}
 
 	public function cmtjahit_update(){
