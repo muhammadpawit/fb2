@@ -135,7 +135,10 @@
     <div class="header-card text-center">
         <h2 style="margin: 0; font-weight: 800; color: #2c3e50; text-transform: uppercase; letter-spacing: 1px;"><?php echo $title ?></h2>
         <p style="margin: 10px 0 0; color: #777; font-weight: 600;">
-            <i class="fa fa-calendar mr-2"></i> PERIODE: <?php echo date('d-m-Y',strtotime($tanggal1)) ?> s.d <?php echo date('d-m-Y',strtotime($tanggal2)) ?>
+            <i class="fa fa-calendar mr-2"></i> Periode Gaji Harian: <?php echo date('d-m-Y',strtotime($tanggal1)) ?> s.d <?php echo date('d-m-Y',strtotime($tanggal2)) ?>
+            <?php if (!empty($tgl_borongan1) && ($tgl_borongan1 != $tanggal1 || $tgl_borongan2 != $tanggal2)): ?>
+                &nbsp;|&nbsp; <i class="fa fa-calendar mr-1"></i> Periode Gaji Borongan: <?php echo date('d-m-Y',strtotime($tgl_borongan1)) ?> s.d <?php echo date('d-m-Y',strtotime($tgl_borongan2)) ?>
+            <?php endif; ?>
         </p>
     </div>
 
@@ -248,7 +251,12 @@
 
     <!-- TAB BORONGAN -->
     <div class="<?php echo ($total > 0) ? '' : 'active '; ?>tab-pane" id="borongan">
-        <div class="section-title">SUMMARY GAJI BORONGAN & LAINNYA</div>
+        <div class="section-title">
+            SUMMARY GAJI BORONGAN &amp; LAINNYA
+            <?php if (!empty($tgl_borongan1)): ?>
+                <small style="font-size: 13px; color: #666; font-weight: 600; margin-left: 10px;"><i class="fa fa-calendar"></i> (Periode: <?php echo date('d-m-Y',strtotime($tgl_borongan1)) ?> s.d <?php echo date('d-m-Y',strtotime($tgl_borongan2)) ?>)</small>
+            <?php endif; ?>
+        </div>
         <div class="row" style="margin-bottom: 20px;">
             <div class="col-md-12">
                 <div class="summary-table-container" style="background: #343a40; color: white; padding: 15px;">
@@ -412,7 +420,12 @@
 
     <!-- TAB DETAIL -->
     <div class="tab-pane" id="detail">
-        <div class="section-title">RINCIAN DETAIL PEKERJAAN</div>
+        <div class="section-title">
+            RINCIAN DETAIL PEKERJAAN
+            <?php if (!empty($tgl_borongan1)): ?>
+                <small style="font-size: 13px; color: #666; font-weight: 600; margin-left: 10px;"><i class="fa fa-calendar"></i> (Periode: <?php echo date('d-m-Y',strtotime($tgl_borongan1)) ?> s.d <?php echo date('d-m-Y',strtotime($tgl_borongan2)) ?>)</small>
+            <?php endif; ?>
+        </div>
         <div class="row">
         <div class="col-md-6">
             <?php foreach($kancing as $p){?>

@@ -89,7 +89,7 @@
 
     <div style="page-break-before: always;"></div>
 
-    <div class="section-title" style="margin-top: 20px;">B. SUMMARY GAJI BORONGAN & LAINNYA</div>
+    <div class="section-title" style="margin-top: 20px;">B. SUMMARY GAJI BORONGAN &amp; LAINNYA <?php if (!empty($tgl_borongan1)): ?><span style="font-size:10px;font-weight:normal;">(Periode: <?php echo date('d-m-Y',strtotime($tgl_borongan1)) ?> s.d <?php echo date('d-m-Y',strtotime($tgl_borongan2)) ?>)</span><?php endif; ?></div>
     <table class="layout-table">
 <?php 
 $valid_mesin = []; foreach($boronganmesin as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_mesin[] = ['nama' => $p['nama'], 'total' => $tot]; }

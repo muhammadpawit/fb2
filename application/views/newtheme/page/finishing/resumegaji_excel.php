@@ -15,7 +15,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 </div>
 <div class="row">
 	<div class="form-group">
-		<h3>Periode : <?php echo date('d-m-Y',strtotime($tanggal1)) ?> s.d <?php echo date('d-m-Y',strtotime($tanggal2)) ?></h3>
+		<h3>Periode Harian: <?php echo date('d-m-Y',strtotime($tanggal1)) ?> s.d <?php echo date('d-m-Y',strtotime($tanggal2)) ?> <?php if(!empty($tgl_borongan1) && ($tgl_borongan1 != $tanggal1 || $tgl_borongan2 != $tanggal2)){ ?> | Periode Borongan: <?php echo date('d-m-Y',strtotime($tgl_borongan1)) ?> s.d <?php echo date('d-m-Y',strtotime($tgl_borongan2)) ?><?php } ?></h3>
 	</div>
 </div>
 <div class="row">

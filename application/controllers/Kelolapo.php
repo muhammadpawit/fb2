@@ -1022,24 +1022,38 @@ class Kelolapo extends CI_Controller
 			$config['upload_path']          = './document/image/';
 			$config['allowed_types']        = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
-			$this->upload->do_upload('sempleBhnImg');
-			$imageGambar = 'document/image/' . $this->upload->data('file_name');
-			//resizeImage($imageGambar);
 
-			// gbr 2
-			$this->upload->do_upload('sempleBhnImg2');
-			$imageGambar2 = 'document/image/' . $this->upload->data('file_name');
-			//resizeImage($imageGambar2);
+			$imageGambar = null;
+			if (!empty($_FILES['sempleBhnImg']['name'])) {
+				$this->upload->initialize($config);
+				if ($this->upload->do_upload('sempleBhnImg')) {
+					$imageGambar = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				}
+			}
 
-			$this->upload->do_upload('sempleBhnImgVar');
-			$imageGambarVar = 'document/image/' . $this->upload->data('file_name');
-			//resizeImage($imageGambarVar);
+			$imageGambar2 = null;
+			if (!empty($_FILES['sempleBhnImg2']['name'])) {
+				$this->upload->initialize($config);
+				if ($this->upload->do_upload('sempleBhnImg2')) {
+					$imageGambar2 = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				}
+			}
 
-			// gbr var 2 
-			$this->upload->do_upload('sempleBhnImgVardua');
-			$imageGambarVar2 = 'document/image/' . $this->upload->data('file_name');
-			//resizeImage($imageGambarVar2);
+			$imageGambarVar = null;
+			if (!empty($_FILES['sempleBhnImgVar']['name'])) {
+				$this->upload->initialize($config);
+				if ($this->upload->do_upload('sempleBhnImgVar')) {
+					$imageGambarVar = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				}
+			}
 
+			$imageGambarVar2 = null;
+			if (!empty($_FILES['sempleBhnImgVardua']['name'])) {
+				$this->upload->initialize($config);
+				if ($this->upload->do_upload('sempleBhnImgVardua')) {
+					$imageGambarVar2 = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				}
+			}
 
 			$jumBl = 0;
 			$jumBls = 0;
@@ -1058,10 +1072,10 @@ class Kelolapo extends CI_Controller
 			$dataInsert = array(
 				'idpo'								=> $idpo['id_produksi_po'],
 				'kode_po'							=> $idpo['kode_po'],
-				'sample_bahan_utama_img'			=> BASEURL . $imageGambar,
-				'sample_bahan_variasi_img'			=> BASEURL . $imageGambarVar,
-				'sample_bahan_utama_img2'			=> BASEURL . $imageGambar2,
-				'sample_bahan_variasi_img2'			=> BASEURL . $imageGambarVar2,
+				'sample_bahan_utama_img'			=> $imageGambar,
+				'sample_bahan_variasi_img'			=> $imageGambarVar,
+				'sample_bahan_utama_img2'			=> $imageGambar2,
+				'sample_bahan_variasi_img2'			=> $imageGambarVar2,
 				'tim_potong_potongan'				=> $post['timPotong'],
 				'created_date'						=> $post['tanggal'],
 				'pemakaian_bahan_utama'				=> $post['pemakaianBahan'],
@@ -1309,6 +1323,41 @@ class Kelolapo extends CI_Controller
 					'kode_po'	=> $explode[1],
 				);
 				$this->db->update('konveksi_buku_potongan', $up, $where);
+			}
+		}
+
+		$config['upload_path']          = './document/image/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg';
+		$this->load->library('upload', $config);
+
+		$whereUpdate = !empty($post['idpotongan']) ? array('id_potongan' => $post['idpotongan']) : array('kode_po' => $explode[1]);
+
+		if (!empty($_FILES['sempleBhnImg']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImg')) {
+				$imageGambar = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_utama_img' => $imageGambar), $whereUpdate);
+			}
+		}
+		if (!empty($_FILES['sempleBhnImg2']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImg2')) {
+				$imageGambar2 = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_utama_img2' => $imageGambar2), $whereUpdate);
+			}
+		}
+		if (!empty($_FILES['sempleBhnImgVar']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImgVar')) {
+				$imageGambarVar = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_variasi_img' => $imageGambarVar), $whereUpdate);
+			}
+		}
+		if (!empty($_FILES['sempleBhnImgVardua']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImgVardua')) {
+				$imageGambarVar2 = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_variasi_img2' => $imageGambarVar2), $whereUpdate);
 			}
 		}
 
@@ -3568,6 +3617,41 @@ class Kelolapo extends CI_Controller
 					'kode_po'	=> $explode[1],
 				);
 				$this->db->update('konveksi_buku_potongan', $up, $where);
+			}
+		}
+
+		$config['upload_path']          = './document/image/';
+		$config['allowed_types']        = 'gif|jpg|png|jpeg';
+		$this->load->library('upload', $config);
+
+		$whereUpdateRef = !empty($post['idpotongan']) ? array('id_potongan' => $post['idpotongan']) : array('kode_po' => $explode[1]);
+
+		if (!empty($_FILES['sempleBhnImg']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImg')) {
+				$imageGambar = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_utama_img' => $imageGambar), $whereUpdateRef);
+			}
+		}
+		if (!empty($_FILES['sempleBhnImg2']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImg2')) {
+				$imageGambar2 = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_utama_img2' => $imageGambar2), $whereUpdateRef);
+			}
+		}
+		if (!empty($_FILES['sempleBhnImgVar']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImgVar')) {
+				$imageGambarVar = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_variasi_img' => $imageGambarVar), $whereUpdateRef);
+			}
+		}
+		if (!empty($_FILES['sempleBhnImgVardua']['name'])) {
+			$this->upload->initialize($config);
+			if ($this->upload->do_upload('sempleBhnImgVardua')) {
+				$imageGambarVar2 = BASEURL . 'document/image/' . $this->upload->data('file_name');
+				$this->db->update('konveksi_buku_potongan', array('sample_bahan_variasi_img2' => $imageGambarVar2), $whereUpdateRef);
 			}
 		}
 
