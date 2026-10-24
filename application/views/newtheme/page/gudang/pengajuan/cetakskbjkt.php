@@ -441,7 +441,56 @@
 
                     <div class="row">
                         <div class="col-md-10">
-                        <iframe src="<?php echo BASEURL?>uploads/nota/<?php echo $parent['dokumenNota']?>" frameborder="0" height="500" style="width:100%"></iframe>
+                            <?php 
+                            if (!isset($has_nota)) {
+                                $has_nota = false;
+                                $nota_url = '';
+                                $is_pdf = false;
+                                if (!empty($parent['dokumenNota'])) {
+                                    $nota_file = trim($parent['dokumenNota']);
+                                    $local_path = FCPATH . 'uploads/nota/' . $nota_file;
+                                    if (file_exists($local_path) && !is_dir($local_path)) {
+                                        $has_nota = true;
+                                        $nota_url = BASEURL . 'uploads/nota/' . $nota_file;
+                                    } else {
+                                        $remote_url = 'https://forboysproduction.com/uploads/nota/' . $nota_file;
+                                        $ch = curl_init($remote_url);
+                                        curl_setopt($ch, CURLOPT_NOBODY, true);
+                                        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+                                        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+                                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+                                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                        curl_exec($ch);
+                                        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        curl_close($ch);
+                                        if ($http_code == 200) {
+                                            $has_nota = true;
+                                            $nota_url = $remote_url;
+                                        }
+                                    }
+                                    if ($has_nota) {
+                                        $ext = strtolower(pathinfo($nota_file, PATHINFO_EXTENSION));
+                                        $is_pdf = ($ext === 'pdf');
+                                    }
+                                }
+                            }
+                            ?>
+                            <?php if(!empty($has_nota) && !empty($nota_url)){ ?>
+                                <?php if(!empty($is_pdf)){ ?>
+                                    <iframe src="<?php echo $nota_url; ?>" frameborder="0" height="600" style="width:100%; border:1px solid #ddd; border-radius:4px;"></iframe>
+                                <?php } else { ?>
+                                    <div class="thumbnail" style="padding:10px;">
+                                        <img src="<?php echo $nota_url; ?>" style="max-width:100%; max-height:800px; display:block; margin:auto;" alt="Dokumen Nota">
+                                    </div>
+                                <?php } ?>
+                                <div class="mt-2 text-right">
+                                    <a href="<?php echo $nota_url; ?>" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-external-link"></i> Buka Nota di Tab Baru</a>
+                                </div>
+                            <?php }else{ ?>
+                                <div class="alert alert-warning" style="margin-top:15px;">
+                                    <i class="fa fa-info-circle"></i> Dokumen nota belum diupload atau tidak ditemukan
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
 

@@ -1858,6 +1858,42 @@ class Gudang extends CI_Controller
 		$viewData['menyetujui'] = 0;
 		$ttd		 = $this->GlobalModel->GetDataRow('user', array('bagian_user' => 1));
 		$viewData['ttd'] = $ttd['ttd'];
+
+		$has_nota = false;
+		$nota_url = '';
+		$is_pdf = false;
+		if (!empty($viewData['parent']['dokumenNota'])) {
+			$nota_file = trim($viewData['parent']['dokumenNota']);
+			$local_path = FCPATH . 'uploads/nota/' . $nota_file;
+			if (file_exists($local_path) && !is_dir($local_path)) {
+				$has_nota = true;
+				$nota_url = BASEURL . 'uploads/nota/' . $nota_file;
+			} else {
+				$remote_url = 'https://forboysproduction.com/uploads/nota/' . $nota_file;
+				$ch = curl_init($remote_url);
+				curl_setopt($ch, CURLOPT_NOBODY, true);
+				curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				curl_exec($ch);
+				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				curl_close($ch);
+				if ($http_code == 200) {
+					$has_nota = true;
+					$nota_url = $remote_url;
+				}
+			}
+
+			if ($has_nota) {
+				$ext = strtolower(pathinfo($nota_file, PATHINFO_EXTENSION));
+				$is_pdf = ($ext === 'pdf');
+			}
+		}
+		$viewData['has_nota'] = $has_nota;
+		$viewData['nota_url'] = $nota_url;
+		$viewData['is_pdf'] = $is_pdf;
+
 		$get = $this->input->get();
 		if (isset($get['excel'])) {
 			if (isset($get['sukabumiforjkt'])) {
