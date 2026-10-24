@@ -25,8 +25,20 @@ class Hooks extends CI_Controller
 
 		// Validasi signature GitHub
 		$sig = isset($_SERVER['HTTP_X_HUB_SIGNATURE_256']) ? $_SERVER['HTTP_X_HUB_SIGNATURE_256'] : '';
+		if (empty($sig) && function_exists('getallheaders')) {
+			$headers = getallheaders();
+			foreach ($headers as $k => $v) {
+				if (strcasecmp($k, 'X-Hub-Signature-256') === 0) {
+					$sig = $v;
+					break;
+				}
+			}
+		}
+
 		$expected = 'sha256=' . hash_hmac('sha256', $payload, $this->secret);
 		if (empty($sig) || !hash_equals($expected, $sig)) {
+			$reason = empty($sig) ? 'Header X-Hub-Signature-256 tidak ada/kosong' : 'Signature tidak cocok (periksa Secret di GitHub)';
+			$this->log("[403 Invalid signature] " . $reason . " | Received: " . ($sig ? substr($sig, 0, 15) . '...' : '(empty)'));
 			return $this->respond(403, 'Invalid signature');
 		}
 
