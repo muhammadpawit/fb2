@@ -188,14 +188,100 @@
 
     </script>
 
+<style type="text/css">
+    #modal-tambah .modal-content,
+    #modal-edit .modal-content {
+        border-radius: 14px !important;
+        border: none !important;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2) !important;
+        overflow: hidden !important;
+    }
+
+    #modal-tambah .modal-header,
+    #modal-edit .modal-header {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2b4c7e 100%) !important;
+        color: #ffffff !important;
+        padding: 16px 24px !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-direction: row !important;
+    }
+
+    #modal-tambah .modal-header::before,
+    #modal-tambah .modal-header::after,
+    #modal-edit .modal-header::before,
+    #modal-edit .modal-header::after {
+        display: none !important;
+        content: none !important;
+    }
+
+    #modal-tambah .modal-title,
+    #modal-edit .modal-title {
+        color: #ffffff !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        order: 1 !important;
+        flex: 1 1 auto !important;
+        text-align: left !important;
+        float: none !important;
+    }
+
+    #modal-tambah .modal-title i,
+    #modal-edit .modal-title i {
+        color: #93c5fd !important;
+    }
+
+    #modal-tambah .modal-header .close,
+    #modal-edit .modal-header .close {
+        color: #ffffff !important;
+        opacity: 0.85 !important;
+        text-shadow: none !important;
+        font-size: 24px !important;
+        font-weight: 300 !important;
+        line-height: 1 !important;
+        padding: 4px 10px !important;
+        margin: 0 !important;
+        background: rgba(255,255,255,0.12) !important;
+        border-radius: 6px !important;
+        border: none !important;
+        order: 2 !important;
+        float: none !important;
+        transition: all 0.2s ease !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+    }
+
+    #modal-tambah .modal-header .close:hover,
+    #modal-edit .modal-header .close:hover {
+        opacity: 1 !important;
+        background: rgba(255,255,255,0.25) !important;
+    }
+
+    #modal-tambah .modal-body,
+    #modal-edit .modal-body {
+        background: #f8fafc !important;
+        padding: 20px 24px !important;
+    }
+</style>
+
 <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil-square-o"></i> Tambah Inputan Mesin Bordir</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="exampleModalLabel">Tambah Inputan Mesin Bordir</h4>
       </div>
       <div class="modal-body" id="modal-body-tambah">
         ...
@@ -208,10 +294,10 @@
   <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil-square-o"></i> Edit Harian Mesin Bordir</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="exampleModalLabel">Edit Harian Mesin Bordir</h4>
       </div>
       <div class="modal-body" id="modal-body-edit">
         ...
