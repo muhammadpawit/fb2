@@ -38,7 +38,7 @@ class Hooks extends CI_Controller
 		$expected = 'sha256=' . hash_hmac('sha256', $payload, $this->secret);
 		if (empty($sig) || !hash_equals($expected, $sig)) {
 			$reason = empty($sig) ? 'Header X-Hub-Signature-256 tidak ada/kosong' : 'Signature tidak cocok (periksa Secret di GitHub)';
-			$this->log("[403 Invalid signature] " . $reason . " | Received: " . ($sig ? substr($sig, 0, 15) . '...' : '(empty)'));
+			$this->write_log("[403 Invalid signature] " . $reason . " | Received: " . ($sig ? substr($sig, 0, 15) . '...' : '(empty)'));
 			return $this->respond(403, 'Invalid signature');
 		}
 
@@ -56,9 +56,31 @@ class Hooks extends CI_Controller
 			return $this->respond(200, 'Branch diabaikan: ' . $ref);
 		}
 
+		$after = isset($data['after']) ? substr($data['after'], 0, 8) : '-';
+		$headMsg = isset($data['head_commit']['message']) ? trim(strtok($data['head_commit']['message'], "\n")) : '';
+		$this->write_log("[PULL INCOMING] Commit: $after | Msg: $headMsg");
+
+		// Kirim response 200 OK ke GitHub secepatnya agar tidak kena batas timeout 10 detik dari GitHub
+		$this->respondEarly(200, array(
+			'status'  => 200,
+			'message' => "Webhook received for commit $after. Pulling in background..."
+		));
+
+		// Jalankan git pull di server
+		$this->executePull();
+	}
+
+	/**
+	 * Eksekusi git fetch & git reset --hard
+	 */
+	private function executePull()
+	{
+		$start = microtime(true);
 		$dir = escapeshellarg(FCPATH);
 		$br  = escapeshellarg($this->branch);
-		$cmd = "cd $dir && git fetch origin $br 2>&1 && git reset --hard origin/$br 2>&1";
+
+		// Flag aman: tidak prompt password terminal, bypass host check SSH, dan safe.directory
+		$cmd = "cd $dir && export PATH=/usr/local/bin:/usr/bin:/bin:\$PATH && export GIT_TERMINAL_PROMPT=0 && export GIT_SSH_COMMAND=\"ssh -o BatchMode=yes -o StrictHostKeyChecking=no\" && git -c safe.directory=* fetch origin $br 2>&1 && git -c safe.directory=* reset --hard origin/$br 2>&1";
 
 		try {
 			list($code, $out) = $this->run($cmd);
@@ -67,8 +89,103 @@ class Hooks extends CI_Controller
 			$out  = 'Exception: ' . $e->getMessage();
 		}
 
-		$this->log("[exit $code]\n" . $out);
-		return $this->respond($code === 0 ? 200 : 500, $out);
+		$duration = round(microtime(true) - $start, 2);
+		$this->write_log("[PULL FINISHED exit $code duration {$duration}s]\n" . $out);
+
+		return array($code, $out);
+	}
+
+	/**
+	 * Kirim response HTTP ke GitHub dan tutup koneksi secepatnya,
+	 * lalu biarkan PHP lanjut mengeksekusi git pull di background.
+	 */
+	private function respondEarly($status, $data)
+	{
+		$body = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
+
+		if (function_exists('apache_setenv')) {
+			@apache_setenv('no-gzip', '1');
+		}
+		@ini_set('zlib.output_compression', 'Off');
+
+		while (ob_get_level() > 0) {
+			@ob_end_clean();
+		}
+
+		http_response_code($status);
+		header('Status: ' . $status);
+		header('Content-Type: application/json; charset=UTF-8');
+		header('Content-Length: ' . strlen($body));
+		header('Connection: close');
+
+		echo $body;
+
+		// Tutup koneksi ke GitHub secepatnya
+		if (function_exists('litespeed_finish_request')) {
+			litespeed_finish_request();
+		} elseif (function_exists('fastcgi_finish_request')) {
+			fastcgi_finish_request();
+		} else {
+			@ob_flush();
+			@flush();
+			if (session_id()) {
+				session_write_close();
+			}
+		}
+
+		// Pastikan proses PHP tetap lanjut setelah koneksi HTTP ke GitHub ditutup
+		ignore_user_abort(true);
+		set_time_limit(300);
+	}
+
+	/**
+	 * Lihat log git pull dari browser:
+	 * URL: https://domain/Hooks/log?key=Lasjk&^a98
+	 */
+	public function log()
+	{
+		$key = $this->input->get('key');
+		if ($key !== $this->secret) {
+			return $this->respond(403, 'Forbidden');
+		}
+
+		$logFile = APPPATH . 'logs/git_hook.log';
+		if (!file_exists($logFile)) {
+			return $this->respond(200, 'Belum ada log.');
+		}
+
+		$lines = file($logFile);
+		$lastLines = array_slice($lines, -150);
+
+		$this->output
+			->set_status_header(200)
+			->set_content_type('text/plain; charset=UTF-8')
+			->set_output(implode('', $lastLines));
+	}
+
+	public function log_view()
+	{
+		return $this->log();
+	}
+
+	/**
+	 * Trigger manual pull dari browser jika dibutuhkan:
+	 * URL: https://domain/Hooks/manual?key=Lasjk&^a98
+	 */
+	public function manual()
+	{
+		$key = $this->input->get('key');
+		if ($key !== $this->secret) {
+			return $this->respond(403, 'Forbidden');
+		}
+
+		$this->write_log("[MANUAL PULL TRIGGERED]");
+		list($code, $out) = $this->executePull();
+
+		$this->output
+			->set_status_header($code === 0 ? 200 : 500)
+			->set_content_type('text/plain; charset=UTF-8')
+			->set_output("Exit code: $code\n\n" . $out);
 	}
 
 	/**
@@ -108,7 +225,7 @@ class Hooks extends CI_Controller
 		return array(1, 'Tidak ada fungsi shell yang diizinkan (exec/proc_open/shell_exec/system). disable_functions: ' . ini_get('disable_functions'));
 	}
 
-	private function log($msg)
+	private function write_log($msg)
 	{
 		@file_put_contents(APPPATH . 'logs/git_hook.log', date('Y-m-d H:i:s') . ' ' . $msg . "\n\n", FILE_APPEND);
 	}
