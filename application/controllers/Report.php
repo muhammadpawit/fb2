@@ -534,7 +534,15 @@ class Report extends CI_Controller
 						}
 					}
 
-					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tanggal1, $tanggal2);
+					if (strtotime($p['tanggal']) >= strtotime('2026-10-17')) {
+						$tgl_borongan1 = date('Y-m-d', strtotime($p['tanggal'] . ' -7 days'));
+						$tgl_borongan2 = date('Y-m-d', strtotime($p['tanggal'] . ' -1 day'));
+					} else {
+						$tgl_borongan1 = date('Y-m-d', strtotime($p['tanggal'] . ' -7 days'));
+						$tgl_borongan2 = $p['tanggal'];
+					}
+
+					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tgl_borongan1, $tgl_borongan2);
 					if (!empty($bm)) {
 						foreach ($bm as $b) {
 							if (trim(strtolower($b['nama'])) == 'kandar') {
@@ -549,7 +557,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tanggal1, $tanggal2);
+					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tgl_borongan1, $tgl_borongan2);
 					if (!empty($cuci)) {
 						foreach ($cuci as $b) {
 							if (trim(strtolower($b['nama'])) == 'adi loundry' || trim(strtolower($b['nama'])) == 'adi laundry') {
@@ -564,7 +572,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$bbf = $this->ReportModel->pembayarangajibbfinishing_perkaryawan($tgl_mulai_bb, $tgl_akhir_bb);
+					$bbf = $this->ReportModel->pembayarangajibbfinishing_perkaryawan($tgl_borongan1, $tgl_borongan2);
 					if (!empty($bbf)) {
 						foreach ($bbf as $b) {
 							$konveksi[] = array(
@@ -576,7 +584,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tanggal1, $tanggal2);
+					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tgl_borongan1, $tgl_borongan2);
 					if (!empty($pack)) {
 						foreach ($pack as $b) {
 							if (trim(strtolower($b['nama'])) == 'kandar') {
