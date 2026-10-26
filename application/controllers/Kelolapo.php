@@ -2013,7 +2013,7 @@ class Kelolapo extends CI_Controller
 		// update di sj
 		$this->db->query("UPDATE kirimcmtsablon set idcmt='" . $post['idcmt'] . "',tanggal='" . $post['tanggal'] . "' WHERE id='" . $post['kode_nota'] . "' ");
 		// update di kelola kirim setor
-		$sql = "UPDATE kelolapo_kirim_setor set id_master_cmt='" . $post['idcmt'] . "',nama_cmt='" . strtolower($cmt['cmt_name']) . "',create_date='" . $post['tanggal'] . "' WHERE kode_nota_cmt='" . $post['kode_nota'] . "' AND kategori_cmt='SABLON' ";
+		$sql = "UPDATE kelolapo_kirim_setor set id_master_cmt='" . $post['idcmt'] . "',nama_cmt='" . strtolower($cmt['cmt_name']) . "',create_date='" . $post['tanggal'] . "' WHERE kode_nota_cmt='" . $post['kode_nota'] . "' AND kategori_cmt='SABLON' AND progress='KIRIM' ";
 		$this->db->query($sql);
 		$totalkirim = 0;
 
@@ -2610,7 +2610,7 @@ class Kelolapo extends CI_Controller
 		// update di sj
 		$this->db->query("UPDATE kirimcmt set idcmt='" . $post['idcmt'] . "',tanggal='" . $post['tanggal'] . "' WHERE id='" . $post['kode_nota'] . "' ");
 		// update di kelola kirim setor
-		$sql = "UPDATE kelolapo_kirim_setor set id_master_cmt='" . $post['idcmt'] . "',nama_cmt='" . strtolower($cmt['cmt_name']) . "',create_date='" . $post['tanggal'] . "' WHERE kode_nota_cmt='" . $post['kode_nota'] . "' AND kategori_cmt='JAHIT' ";
+		$sql = "UPDATE kelolapo_kirim_setor set id_master_cmt='" . $post['idcmt'] . "',nama_cmt='" . strtolower($cmt['cmt_name']) . "',create_date='" . $post['tanggal'] . "' WHERE kode_nota_cmt='" . $post['kode_nota'] . "' AND kategori_cmt='JAHIT' AND progress='KIRIM' ";
 		$this->db->query($sql);
 		$totalkirim = 0;
 		foreach ($post['prods'] as $p) {
@@ -2695,7 +2695,7 @@ class Kelolapo extends CI_Controller
 
 		$this->db->update('kirimcmt', array('hapus' => 1), array('id' => $id));
 		$this->db->update('kirimcmt_detail', array('hapus' => 1), array('idkirim' => $id));
-		$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $id, 'kategori_cmt' => 'JAHIT'));
+		$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $id, 'kategori_cmt' => 'JAHIT', 'progress' => 'KIRIM'));
 		user_activity(callSessUser('id_user'), 1, ' hapus surat jalan jahit ' . $id);
 		$this->session->set_flashdata('msg', 'Data berhasil dihapus');
 		redirect(BASEURL . 'Kelolapo/pengirimancmt');
@@ -2706,7 +2706,7 @@ class Kelolapo extends CI_Controller
 		$detail = $this->GlobalModel->getDataRow('kirimcmt_detail', array('id' => $id));
 		$id_kirim_cmt = $detail['idkirim'];
 		$this->db->update('kirimcmt_detail', array('hapus' => 1), array('id' => $id));
-		$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $id_kirim_cmt, 'idpo' => $detail['kode_po'], 'kategori_cmt' => 'JAHIT'));
+		$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $id_kirim_cmt, 'idpo' => $detail['kode_po'], 'kategori_cmt' => 'JAHIT', 'progress' => 'KIRIM'));
 
 		// update total kirim
 		$total = $this->GlobalModel->QueryManualRow("SELECT sum(jumlah_pcs) as total FROM kirimcmt_detail WHERE idkirim='$id_kirim_cmt' AND hapus=0");

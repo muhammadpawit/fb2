@@ -430,7 +430,7 @@ class Distribusipo extends CI_Controller {
 		if (!empty($id)) {
 			$this->db->update('kirimcmt', array('hapus' => 1), array('id' => $id));
 			$this->db->update('kirimcmt_detail', array('hapus' => 1), array('idkirim' => $id));
-			$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $id));
+			$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $id, 'kategori_cmt' => 'JAHIT', 'progress' => 'KIRIM'));
 
 			user_activity(callSessUser('id_user'), 1, ' hapus pengiriman surat jalan distribusi ' . $id);
 			$this->session->set_flashdata('msg', 'Surat Jalan Distribusi PO berhasil dihapus');
@@ -443,7 +443,7 @@ class Distribusipo extends CI_Controller {
 			$detail = $this->GlobalModel->getDataRow('kirimcmt_detail', array('id' => $id));
 			if (!empty($detail)) {
 				$this->db->update('kirimcmt_detail', array('hapus' => 1), array('id' => $id));
-				$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $detail['idkirim'], 'kode_po' => $detail['kode_po']));
+				$this->db->update('kelolapo_kirim_setor', array('hapus' => 1), array('kode_nota_cmt' => $detail['idkirim'], 'kode_po' => $detail['kode_po'], 'kategori_cmt' => 'JAHIT', 'progress' => 'KIRIM'));
 
 				$total = $this->GlobalModel->queryManualRow("SELECT COALESCE(SUM(jumlah_pcs),0) as total FROM kirimcmt_detail WHERE idkirim='" . $detail['idkirim'] . "' AND hapus=0");
 				$this->db->update('kirimcmt', array('totalkirim' => $total['total']), array('id' => $detail['idkirim']));
