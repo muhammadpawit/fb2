@@ -118,39 +118,77 @@ class Laporanpendapatan extends CI_Controller {
 				}
 			}
 			
-			// Pengeluaran: Anak Borongan (from Finishing/resumegaji logic)
+			// Pengeluaran: Anak Borongan (sesuai logic Finishing/resumegaji)
+			// Hitung periode gaji borongan (Sabtu minggu kemarin ke Jumat minggu ini, berlaku mulai 17 Oktober 2026)
+			$day1 = date('N', strtotime($w1));
+			if ($day1 == 6) {
+				$calc_sabtu = $w1;
+			} else {
+				$calc_sabtu = date('Y-m-d', strtotime('last Saturday', strtotime($w1)));
+			}
+
+			$day2 = date('N', strtotime($w2));
+			if ($day2 == 5) {
+				$calc_jumat = $w2;
+			} elseif ($day2 == 6) {
+				$calc_jumat = date('Y-m-d', strtotime($w2 . ' - 1 day'));
+			} elseif ($day2 == 7) {
+				$calc_jumat = date('Y-m-d', strtotime($w2 . ' - 2 days'));
+			} else {
+				$calc_jumat = date('Y-m-d', strtotime($calc_sabtu . ' + 6 days'));
+			}
+
+			if (strtotime($calc_jumat) < strtotime($calc_sabtu)) {
+				$calc_jumat = date('Y-m-d', strtotime($calc_sabtu . ' + 6 days'));
+			}
+
+			// Aturan: Berlaku mulai tanggal 17 Oktober 2026
+			if (strtotime($calc_sabtu) >= strtotime('2026-10-17')) {
+				$tgl_borongan1 = $calc_sabtu;
+				$tgl_borongan2 = $calc_jumat;
+			} else {
+				$tgl_borongan1 = $w1;
+				$tgl_borongan2 = $w2;
+			}
+
 			$anakBorongan = 0;
 			// Borongan mesin
-			$prods = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND (kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' OR kategori LIKE 'LOBANG KANCING') AND DATE(creted_date) BETWEEN '".$w1."' AND '".$w2."' ) AND status_gaji=1 ");
+			$prods = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE id IN(SELECT idkaryawanharian FROM boronganmesin WHERE gaji=1 AND (kategori LIKE 'KANCING%' OR kategori LIKE 'TRESS' OR kategori LIKE 'PASANG KANCING%' OR kategori LIKE 'LOBANG KANCING') AND DATE(creted_date) BETWEEN '".$tgl_borongan1."' AND '".$tgl_borongan2."' ) AND status_gaji=1 ");
 			$gajim = 0;
 			foreach($prods as $p){
-				$gajimesin = $this->ReportModel->getGajiBorongan($p['id'],$w1,$w2);
+				$gajimesin = $this->ReportModel->getGajiBorongan($p['id'],$tgl_borongan1,$tgl_borongan2);
 				$gajim += $gajimesin;
 			}
 			// Cucian
-			$c = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM cucian WHERE hapus=0 and jenis=1 AND DATE(tanggal) BETWEEN '".$w1."' AND '".$w2."' ) ");
+			$c = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM cucian WHERE hapus=0 and jenis=1 AND DATE(tanggal) BETWEEN '".$tgl_borongan1."' AND '".$tgl_borongan2."' ) ");
 			$cucians = 0;
 			foreach($c as $p){
-				$gajimesin = $this->ReportModel->GetGajiCucian($p['id'],$w1,$w2);
+				$gajimesin = $this->ReportModel->GetGajiCucian($p['id'],$tgl_borongan1,$tgl_borongan2);
 				$cucians += $gajimesin;
 			}
 			// Buang benang
-			$bb = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM buang_benang_finishing WHERE hapus=0 AND gaji=1) ");
+			$bb = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawan FROM buang_benang_finishing WHERE hapus=0 AND gaji=1 AND DATE(tanggal) BETWEEN '".$tgl_borongan1."' AND '".$tgl_borongan2."') ");
 			$bbs = 0;
 			if(!empty($bb)){
 				foreach($bb as $p){
-					$gajimesin = $this->ReportModel->GetGajibb($p['id'],$w1,$w2);
+					$gajimesin = $this->ReportModel->GetGajibb($p['id'],$tgl_borongan1,$tgl_borongan2);
 					$bbs += $gajimesin;
 				}
 			}
 			// Packing
-			$pk = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawanharian FROM packing WHERE hapus=0 AND gaji=1 AND DATE(creted_date) BETWEEN '".$w1."' AND '".$w2."') ");
+			$pk = $this->GlobalModel->QueryManual("SELECT * FROM karyawan_harian WHERE status_gaji=1 AND id IN(SELECT idkaryawanharian FROM packing WHERE hapus=0 AND gaji=1 AND DATE(creted_date) BETWEEN '".$tgl_borongan1."' AND '".$tgl_borongan2."') ");
 			$pkg = 0;
 			foreach($pk as $p){
-				$gajimesin = $this->ReportModel->GetGajipacking($p['id'],$w1,$w2);
+				$gajimesin = $this->ReportModel->GetGajipacking($p['id'],$tgl_borongan1,$tgl_borongan2);
 				$pkg += $gajimesin;
 			}
 			$anakBorongan = pembulatangaji($gajim) + pembulatangaji($cucians) + pembulatangaji($bbs) + pembulatangaji($pkg);
+
+			// Format label tanggal untuk anak borongan
+			$labelAnakBorongan = 'Anak Borongan';
+			if ($tgl_borongan1 != $w1 || $tgl_borongan2 != $w2) {
+				$labelAnakBorongan = 'Anak Borongan<br><small style="font-size:10px; color:#666;">(Periode: ' . date('d-m-Y', strtotime($tgl_borongan1)) . ' s.d ' . date('d-m-Y', strtotime($tgl_borongan2)) . ')</small>';
+			}
 			
 			// Tabung gas
 			$tabungGas = 0;
@@ -176,6 +214,9 @@ class Laporanpendapatan extends CI_Controller {
 				'pendapatan' => $pendapatan,
 				'anak_harian' => $anakHarian,
 				'anak_borongan' => $anakBorongan,
+				'label_anak_borongan' => $labelAnakBorongan,
+				'tgl_borongan1' => $tgl_borongan1,
+				'tgl_borongan2' => $tgl_borongan2,
 				'tabung_gas' => $tabungGas,
 				'nama_tabung_gas' => $namaTabungGas,
 				'week_num' => $weekNum,

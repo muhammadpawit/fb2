@@ -100,7 +100,8 @@
             $pengeluaran = array();
             $pengeluaran[] = array('label' => $week['nama_tabung_gas'], 'nominal' => $week['tabung_gas']);
             $pengeluaran[] = array('label' => 'Anak Harian', 'nominal' => $week['anak_harian']);
-            $pengeluaran[] = array('label' => 'Anak Borongan', 'nominal' => $week['anak_borongan']);
+            $labelBorongan = isset($week['label_anak_borongan']) ? $week['label_anak_borongan'] : 'Anak Borongan';
+            $pengeluaran[] = array('label' => $labelBorongan, 'nominal' => $week['anak_borongan']);
             
             // Total rows = max(pendapatan rows, pengeluaran rows)
             $totalRows = max($rowCount, count($pengeluaran));
