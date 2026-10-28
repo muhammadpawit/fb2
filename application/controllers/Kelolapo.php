@@ -2525,12 +2525,12 @@ class Kelolapo extends CI_Controller
 					'kategori_cmt' => 'JAHIT',
 					'id_master_cmt' => $cmt[0],
 					'id_master_cmt_job' => $p['cmtjob'],
-					'cmt_job_price' => $jobprice['harga'],
-					'nama_cmt' => $namacmt['cmt_name'],
+					'cmt_job_price' => !empty($jobprice['harga']) ? $jobprice['harga'] : 0,
+					'nama_cmt' => !empty($namacmt['cmt_name']) ? strtolower($namacmt['cmt_name']) : '',
 					'qty_tot_pcs' => $p['jumlah_pcs'],
 					'qty_tot_atas' => 0,
 					'qty_tot_bawah' => 0,
-					'keterangan' => '-',
+					'keterangan' => !empty($p['keterangan']) ? $p['keterangan'] : '-',
 					'status' => 0,
 					'jml_barang' => $p['jml_barang'],
 					'qty_bangke' => 0,
@@ -2540,6 +2540,7 @@ class Kelolapo extends CI_Controller
 					'status_keu' => 0,
 					'tglinput' => date('Y-m-d'),
 					'idpo' => $id_produksi_po,
+					'hapus' => 0,
 				);
 				$this->db->insert('kelolapo_kirim_setor', $insertkks);
 				$iks = $this->db->insert_id();

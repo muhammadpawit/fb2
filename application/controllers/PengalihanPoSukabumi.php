@@ -294,7 +294,7 @@ class PengalihanPoSukabumi extends CI_Controller {
                $insertkks=array(
                    'kode_po'=>$explode[0],
                    'create_date'=>$post['tanggal'],
-                   //'kode_nota_cmt'=>$id,
+                   'kode_nota_cmt'=>$id,
                    'progress'=>'KIRIM',
                    'kategori_cmt'=>'JAHIT',
                    'id_master_cmt'=>$post['id_cmt'],
