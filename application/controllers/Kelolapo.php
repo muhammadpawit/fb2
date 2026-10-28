@@ -2257,6 +2257,31 @@ class Kelolapo extends CI_Controller
 		$sql .= ' ORDER BY id DESC ';
 		$sql .= " LIMIT 20 ";
 		$results = $this->GlobalModel->queryManual($sql);
+
+		// Pre-fetch kelolapo_kirim_setor for all results
+		$sj_ids = !empty($results) ? array_column($results, 'id') : array();
+		$kks_map = array();
+		if (!empty($sj_ids)) {
+			$kks_rows = $this->GlobalModel->QueryManual("
+				SELECT kode_nota_cmt, idpo, kode_po 
+				FROM kelolapo_kirim_setor 
+				WHERE hapus = 0 
+				  AND progress = 'KIRIM' 
+				  AND kategori_cmt = 'JAHIT' 
+				  AND kode_nota_cmt IN (" . implode(',', array_map('intval', $sj_ids)) . ")
+			");
+			if (!empty($kks_rows)) {
+				foreach ($kks_rows as $kr) {
+					if (!empty($kr['idpo'])) {
+						$kks_map[$kr['kode_nota_cmt']]['idpo_' . $kr['idpo']] = true;
+					}
+					if (!empty($kr['kode_po'])) {
+						$kks_map[$kr['kode_nota_cmt']]['kodepo_' . $kr['kode_po']] = true;
+					}
+				}
+			}
+		}
+
 		$namacmt = null;
 		$no = 1;
 		$dets = [];
@@ -2302,18 +2327,49 @@ class Kelolapo extends CI_Controller
 			} else {
 				$dets = $this->GlobalModel->GetData('kirimcmt_detail', array('hapus' => 0, 'idkirim' => $result['id']));
 			}
+
+			$processed_dets = array();
+			$has_unsynced = false;
+			if (!empty($dets)) {
+				foreach ($dets as $d) {
+					$po_d = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $d['kode_po']));
+					if (empty($po_d)) {
+						$po_d = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $d['kode_po']));
+					}
+					$idpo_d = !empty($po_d['id_produksi_po']) ? $po_d['id_produksi_po'] : (is_numeric($d['kode_po']) ? $d['kode_po'] : 0);
+					$kodepo_d = !empty($po_d['kode_po']) ? $po_d['kode_po'] : $d['kode_po'];
+
+					$is_synced = false;
+					if (isset($kks_map[$result['id']])) {
+						if (!empty($idpo_d) && isset($kks_map[$result['id']]['idpo_' . $idpo_d])) {
+							$is_synced = true;
+						} else if (!empty($kodepo_d) && isset($kks_map[$result['id']]['kodepo_' . $kodepo_d])) {
+							$is_synced = true;
+						}
+					}
+					if (!$is_synced) {
+						$has_unsynced = true;
+					}
+					$d['is_synced'] = $is_synced;
+					$d['nama_kodepo'] = $kodepo_d;
+					$processed_dets[] = $d;
+				}
+			}
+
 			$po = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $result['kode_po']));
 			$data['products'][] = array(
+				'id' => $result['id'],
 				'no' => $no++,
 				'nosj' => $result['nosj'],
 				'tanggal' => formatTanggalIndo($result['tanggal']),
 				'kode_po' => isset($po['kode_po']) ? $po['kode_po'] : '',
 				'quantity' => $result['totalkirim'],
-				'namacmt' => $namacmt['cmt_name'],
+				'namacmt' => !empty($namacmt) ? $namacmt['cmt_name'] : '',
 				'keterangan' => $result['keterangan'],
 				'status' => $result['status'] == 1 ? 'Disetor' : 'Dikirim',
 				'action' => $action,
-				'dets' => $dets,
+				'dets' => $processed_dets,
+				'has_unsynced' => $has_unsynced,
 			);
 		}
 		$data['page'] = 'produksi/kirimcmt_list';
@@ -2605,7 +2661,7 @@ class Kelolapo extends CI_Controller
 	{
 		$post = $this->input->post();
 		// pre($post);
-		//pre($data);
+		// pre($data);
 		$cmt = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $post['idcmt']));
 		// update di sj
 		$this->db->query("UPDATE kirimcmt set idcmt='" . $post['idcmt'] . "',tanggal='" . $post['tanggal'] . "' WHERE id='" . $post['kode_nota'] . "' ");
@@ -2614,33 +2670,45 @@ class Kelolapo extends CI_Controller
 		$this->db->query($sql);
 		$totalkirim = 0;
 		foreach ($post['prods'] as $p) {
-			$cek_diklo = $this->GlobalModel->getDataRow('kelolapo_kirim_setor', array('hapus' => 0, 'kode_nota_cmt' => $post['kode_nota'], 'kategori_cmt' => 'JAHIT', 'id_master_cmt' => $post['idcmt']));
+			$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $p['kode_po']));
+			if (empty($masterpo)) {
+				$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $p['kode_po']));
+			}
+			$kodepo_val = !empty($masterpo['kode_po']) ? $masterpo['kode_po'] : $p['kode_po'];
+			$idpo_val = !empty($masterpo['id_produksi_po']) ? $masterpo['id_produksi_po'] : (is_numeric($p['kode_po']) ? $p['kode_po'] : 0);
+
+			$cek_diklo = $this->db->query("
+				SELECT * FROM kelolapo_kirim_setor 
+				WHERE hapus = 0 
+				  AND kode_nota_cmt = '" . $post['kode_nota'] . "' 
+				  AND progress = 'KIRIM' 
+				  AND kategori_cmt = 'JAHIT' 
+				  AND (idpo = '" . $idpo_val . "' OR kode_po = '" . $kodepo_val . "') 
+				LIMIT 1
+			")->row_array();
+
 			$totalkirim += ($p['jumlah_pcs']);
 			$rp = explode('-', $p['job']);
+			$job_id = isset($rp[0]) ? $rp[0] : null;
+			$job_price = isset($rp[1]) ? $rp[1] : 0;
+
 			if (empty($cek_diklo)) {
 				// insert to kelola kirim setor
-				$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $p['kode_po']));
-				if (empty($masterpo)) {
-					$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $p['kode_po']));
-				}
-				$kodepo_val = !empty($masterpo['kode_po']) ? $masterpo['kode_po'] : $p['kode_po'];
-				$idpo_val = !empty($masterpo['id_produksi_po']) ? $masterpo['id_produksi_po'] : (is_numeric($p['kode_po']) ? $p['kode_po'] : 0);
 				$namacmt = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $post['idcmt']));
 				$insertkks = array(
 					'kode_po' => $kodepo_val,
 					'create_date' => $post['tanggal'],
 					'kode_nota_cmt' => $post['kode_nota'],
 					'progress' => 'KIRIM',
-					'kategori_cmt' => 'JAHIT',
+					'kategori_cmt' => isset($p['kategori_cmt']) ? $p['kategori_cmt'] : 'JAHIT',
 					'id_master_cmt' => $post['idcmt'],
-					//'id_master_cmt_job'=>$job[0],
-					'id_master_cmt_job' => $rp[0],
-					'cmt_job_price' => $rp[1],
-					'nama_cmt' => $namacmt['cmt_name'],
+					'id_master_cmt_job' => $job_id,
+					'cmt_job_price' => $job_price,
+					'nama_cmt' => strtolower($cmt['cmt_name']),
 					'qty_tot_pcs' => $p['jumlah_pcs'],
 					'qty_tot_atas' => 0,
 					'qty_tot_bawah' => 0,
-					'keterangan' => '-',
+					'keterangan' => isset($p['keterangan']) ? $p['keterangan'] : '-',
 					'status' => 0,
 					'jml_barang' => $p['jml_barang'],
 					'qty_bangke' => 0,
@@ -2650,37 +2718,43 @@ class Kelolapo extends CI_Controller
 					'status_keu' => 0,
 					'tglinput' => date('Y-m-d'),
 					'idpo' => $idpo_val,
+					'hapus' => 0,
 				);
 				$this->db->insert('kelolapo_kirim_setor', $insertkks);
 			} else {
 				$update = array(
-					'id_master_cmt_job' => $rp[0],
-					'cmt_job_price'	=> $rp[1],
+					'kode_po' => $kodepo_val,
+					'idpo' => $idpo_val,
+					'id_master_cmt' => $post['idcmt'],
+					'nama_cmt' => strtolower($cmt['cmt_name']),
+					'create_date' => $post['tanggal'],
+					'id_master_cmt_job' => $job_id,
+					'cmt_job_price'	=> $job_price,
 					'qty_tot_pcs' => $p['jumlah_pcs'],
 					'jml_barang' => $p['jml_barang'],
+					'keterangan' => isset($p['keterangan']) ? $p['keterangan'] : '-',
 				);
-				$where = array(
-					'idpo' => $p['kode_po'],
-					'kategori_cmt'	=> $p['kategori_cmt'],
-					'kode_nota_cmt' => $post['kode_nota'],
-					// 'progress'=>'KIRIM',
-					'id_master_cmt' => $post['idcmt'],
-				);
-				$this->db->update('kelolapo_kirim_setor', $update, $where);
+				$this->db->update('kelolapo_kirim_setor', $update, array('id_kelolapo_kirim_setor' => $cek_diklo['id_kelolapo_kirim_setor']));
 			}
 
 			$ud = array(
-				'cmtjob' => $rp[0],
+				'cmtjob' => $job_id,
 				'jumlah_pcs' => $p['jumlah_pcs'],
 				'rincian_po' => $p['rincian_po'],
 				'jml_barang' => $p['jml_barang'],
 				'keterangan' => $p['keterangan'],
 			);
-			$wd = array(
-				'kode_po' => $p['kode_po'],
-				'idkirim' => $post['kode_nota'],
-			);
-			$this->db->update('kirimcmt_detail', $ud, $wd);
+			$this->db->where('idkirim', $post['kode_nota']);
+			$this->db->group_start();
+			$this->db->where('kode_po', $p['kode_po']);
+			if (!empty($kodepo_val)) {
+				$this->db->or_where('kode_po', $kodepo_val);
+			}
+			if (!empty($idpo_val)) {
+				$this->db->or_where('kode_po', $idpo_val);
+			}
+			$this->db->group_end();
+			$this->db->update('kirimcmt_detail', $ud);
 		}
 		user_activity(callSessUser('id_user'), 1, ' edit surat jalan jahit ' . $post['kode_nota']);
 		$this->db->update('kirimcmt', array('totalkirim' => $totalkirim), array('id' => $post['kode_nota']));
@@ -2718,7 +2792,153 @@ class Kelolapo extends CI_Controller
 		redirect(BASEURL . 'Kelolapo/pengirimancmt');
 	}
 
+	public function sync_kirimcmt_detail($id = '')
+	{
+		if (empty($id)) {
+			$this->session->set_flashdata('gagal', 'ID detail pengiriman tidak ditemukan');
+			redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : BASEURL . 'Kelolapo/pengirimancmt');
+		}
 
+		$detail = $this->GlobalModel->getDataRow('kirimcmt_detail', array('id' => $id, 'hapus' => 0));
+		if (empty($detail)) {
+			$this->session->set_flashdata('gagal', 'Data detail pengiriman tidak ditemukan');
+			redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : BASEURL . 'Kelolapo/pengirimancmt');
+		}
+
+		$this->_sync_single_kirimcmt_detail($detail);
+		user_activity(callSessUser('id_user'), 1, ' sync item detail surat jalan jahit ' . $id);
+		$this->session->set_flashdata('msg', 'Item PO berhasil disinkronkan ke tabel kelolapo_kirim_setor');
+		redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : BASEURL . 'Kelolapo/pengirimancmt');
+	}
+
+	public function sync_kirimcmt($idkirim = '')
+	{
+		if (empty($idkirim)) {
+			$this->session->set_flashdata('gagal', 'ID surat jalan pengiriman tidak ditemukan');
+			redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : BASEURL . 'Kelolapo/pengirimancmt');
+		}
+
+		$details = $this->GlobalModel->getData('kirimcmt_detail', array('idkirim' => $idkirim, 'hapus' => 0));
+		$count = 0;
+		if (!empty($details)) {
+			foreach ($details as $d) {
+				if ($this->_sync_single_kirimcmt_detail($d)) {
+					$count++;
+				}
+			}
+		}
+
+		user_activity(callSessUser('id_user'), 1, ' sync surat jalan jahit ' . $idkirim);
+		$this->session->set_flashdata('msg', 'Surat Jalan berhasil disinkronkan (' . $count . ' item diproses) ke kelolapo_kirim_setor');
+		redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : BASEURL . 'Kelolapo/pengirimancmt');
+	}
+
+	public function sync_kirimcmt_all()
+	{
+		$sql = "
+			SELECT kd.* 
+			FROM kirimcmt_detail kd 
+			JOIN kirimcmt k ON k.id = kd.idkirim 
+			LEFT JOIN produksi_po p ON (p.id_produksi_po = kd.kode_po OR p.kode_po = kd.kode_po)
+			LEFT JOIN kelolapo_kirim_setor kks ON kks.kode_nota_cmt = k.id 
+			  AND kks.kategori_cmt = 'JAHIT' 
+			  AND kks.progress = 'KIRIM' 
+			  AND kks.hapus = 0 
+			  AND (kks.idpo = kd.kode_po OR kks.kode_po = kd.kode_po OR kks.idpo = p.id_produksi_po OR kks.kode_po = p.kode_po)
+			WHERE kd.hapus = 0 
+			  AND k.hapus = 0 
+			  AND kks.id_kelolapo_kirim_setor IS NULL
+		";
+		$unsynced = $this->GlobalModel->QueryManual($sql);
+		$count = 0;
+		if (!empty($unsynced)) {
+			foreach ($unsynced as $d) {
+				if ($this->_sync_single_kirimcmt_detail($d)) {
+					$count++;
+				}
+			}
+		}
+
+		user_activity(callSessUser('id_user'), 1, ' sync all surat jalan jahit to monitoring');
+		$this->session->set_flashdata('msg', 'Sinkronisasi selesai: ' . $count . ' data berhasil dimasukkan ke kelolapo_kirim_setor');
+		redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : BASEURL . 'Kelolapo/pengirimancmt');
+	}
+
+	private function _sync_single_kirimcmt_detail($detail)
+	{
+		$kirim = $this->GlobalModel->getDataRow('kirimcmt', array('id' => $detail['idkirim']));
+		if (empty($kirim)) {
+			return false;
+		}
+
+		$cmt = $this->GlobalModel->getDataRow('master_cmt', array('id_cmt' => $kirim['idcmt']));
+		$namacmt = !empty($cmt['cmt_name']) ? strtolower($cmt['cmt_name']) : '';
+
+		$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('id_produksi_po' => $detail['kode_po']));
+		if (empty($masterpo)) {
+			$masterpo = $this->GlobalModel->getDataRow('produksi_po', array('kode_po' => $detail['kode_po']));
+		}
+		$kodepo_val = !empty($masterpo['kode_po']) ? $masterpo['kode_po'] : $detail['kode_po'];
+		$idpo_val   = !empty($masterpo['id_produksi_po']) ? $masterpo['id_produksi_po'] : (is_numeric($detail['kode_po']) ? $detail['kode_po'] : 0);
+
+		$jobprice = $this->GlobalModel->getDataRow('master_job', array('id' => $detail['cmtjob']));
+		$job_price = !empty($jobprice['harga']) ? $jobprice['harga'] : 0;
+
+		$cek = $this->db->query("
+			SELECT * FROM kelolapo_kirim_setor 
+			WHERE hapus = 0 
+			  AND kode_nota_cmt = '" . $kirim['id'] . "' 
+			  AND progress = 'KIRIM' 
+			  AND kategori_cmt = 'JAHIT' 
+			  AND (idpo = '" . $idpo_val . "' OR kode_po = '" . $kodepo_val . "') 
+			LIMIT 1
+		")->row_array();
+
+		if (empty($cek)) {
+			$insertkks = array(
+				'kode_po'           => $kodepo_val,
+				'create_date'       => $kirim['tanggal'],
+				'kode_nota_cmt'     => $kirim['id'],
+				'progress'          => 'KIRIM',
+				'kategori_cmt'      => 'JAHIT',
+				'id_master_cmt'     => $kirim['idcmt'],
+				'id_master_cmt_job' => $detail['cmtjob'],
+				'cmt_job_price'     => $job_price,
+				'nama_cmt'          => $namacmt,
+				'qty_tot_pcs'       => $detail['jumlah_pcs'],
+				'qty_tot_atas'      => 0,
+				'qty_tot_bawah'     => 0,
+				'keterangan'        => !empty($detail['keterangan']) ? $detail['keterangan'] : '-',
+				'status'            => 0,
+				'jml_barang'        => $detail['jml_barang'],
+				'qty_bangke'        => 0,
+				'qty_reject'        => 0,
+				'qty_hilang'        => 0,
+				'qty_claim'         => 0,
+				'status_keu'        => 0,
+				'tglinput'          => date('Y-m-d'),
+				'idpo'              => $idpo_val,
+				'hapus'             => 0,
+			);
+			$this->db->insert('kelolapo_kirim_setor', $insertkks);
+			return true;
+		} else {
+			$update = array(
+				'kode_po'           => $kodepo_val,
+				'idpo'              => $idpo_val,
+				'id_master_cmt'     => $kirim['idcmt'],
+				'nama_cmt'          => $namacmt,
+				'create_date'       => $kirim['tanggal'],
+				'id_master_cmt_job' => $detail['cmtjob'],
+				'cmt_job_price'     => $job_price,
+				'qty_tot_pcs'       => $detail['jumlah_pcs'],
+				'jml_barang'        => $detail['jml_barang'],
+				'keterangan'        => !empty($detail['keterangan']) ? $detail['keterangan'] : '-',
+			);
+			$this->db->update('kelolapo_kirim_setor', $update, array('id_kelolapo_kirim_setor' => $cek['id_kelolapo_kirim_setor']));
+			return true;
+		}
+	}
 
 	public function kirimcmtcetak($id = '', $type = '')
 	{
@@ -3876,10 +4096,10 @@ class Kelolapo extends CI_Controller
 				  AND kategori_cmt = 'JAHIT' 
 				  AND kode_nota_cmt > 0 
 				  AND kode_nota_cmt NOT IN (SELECT id FROM kirimcmt)";
-		
+
 		$this->db->query($sql);
 		$deleted = $this->db->affected_rows();
-		
+
 		echo "Berhasil menghapus " . $deleted . " data KIRIM ganda/tidak valid dari tabel kelolapo_kirim_setor.";
 	}
 }
