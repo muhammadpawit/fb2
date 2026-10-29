@@ -992,7 +992,7 @@ class Kelolapo extends CI_Controller
 	{
 		$post = $this->input->post();
 
-
+		// pre($post);
 		if (isset($post['namaPo'])) {
 			$dapetinpo = $this->GlobalModel->GetDataRow('produksi_po', array('id_produksi_po' => $post['namaPo']));
 			$id_po = $dapetinpo['id_produksi_po'];
@@ -1072,24 +1072,23 @@ class Kelolapo extends CI_Controller
 			$dataInsert = array(
 				'idpo'								=> $idpo['id_produksi_po'],
 				'kode_po'							=> $idpo['kode_po'],
-				'sample_bahan_utama_img'			=> $imageGambar,
-				'sample_bahan_variasi_img'			=> $imageGambarVar,
-				'sample_bahan_utama_img2'			=> $imageGambar2,
-				'sample_bahan_variasi_img2'			=> $imageGambarVar2,
-				'tim_potong_potongan'				=> $post['timPotong'],
-				'created_date'						=> $post['tanggal'],
-				'pemakaian_bahan_utama'				=> $post['pemakaianBahan'],
-				'jumlah_gambar_utama'				=> $post['jumlahGambar'],
-				'jumlah_pemakaian_bahan_utama'		=> $post['pemakaianBahan'],
-				'panjang_gelaran_potongan_utama'	=> $post['panjangGelaran'],
-				'jumlah_pemakaian_bahan_variasi'	=> $post['pemakaianGelaranVariasi'],
-				'panjang_gelaran_variasi'			=> $post['panjangGelaranVariasi'],
-				'size_potongan'						=> $post['sizeBahan'],
-				'created_date'						=> $post['tanggal'],
-				'hasil_lusinan_potongan'			=> (($jumBl * $post['jumlahGambar']) / 12),
-				'hasil_pieces_potongan'				=> (($jumBl * $post['jumlahGambar']) / 12) * 12,
+				'sample_bahan_utama_img'			=> !empty($imageGambar) ? $imageGambar : null,
+				'sample_bahan_variasi_img'			=> !empty($imageGambarVar) ? $imageGambarVar : null,
+				'sample_bahan_utama_img2'			=> !empty($imageGambar2) ? $imageGambar2 : null,
+				'sample_bahan_variasi_img2'			=> !empty($imageGambarVar2) ? $imageGambarVar2 : null,
+				'tim_potong_potongan'				=> !empty($post['timPotong']) ? $post['timPotong'] : '',
+				'created_date'						=> !empty($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'),
+				'pemakaian_bahan_utama'				=> !empty($post['pemakaianBahan']) ? $post['pemakaianBahan'] : 0,
+				'jumlah_gambar_utama'				=> !empty($post['jumlahGambar']) ? $post['jumlahGambar'] : 0,
+				'jumlah_pemakaian_bahan_utama'		=> !empty($post['pemakaianBahan']) ? $post['pemakaianBahan'] : 0,
+				'panjang_gelaran_potongan_utama'	=> !empty($post['panjangGelaran']) ? $post['panjangGelaran'] : '',
+				'jumlah_pemakaian_bahan_variasi'	=> !empty($post['pemakaianGelaranVariasi']) ? $post['pemakaianGelaranVariasi'] : 0,
+				'panjang_gelaran_variasi'			=> !empty($post['panjangGelaranVariasi']) ? $post['panjangGelaranVariasi'] : 0,
+				'size_potongan'						=> !empty($post['sizeBahan']) ? $post['sizeBahan'] : '',
+				'hasil_lusinan_potongan'			=> (($jumBl * (isset($post['jumlahGambar']) ? (float)$post['jumlahGambar'] : 0)) / 12),
+				'hasil_pieces_potongan'				=> (($jumBl * (isset($post['jumlahGambar']) ? (float)$post['jumlahGambar'] : 0)) / 12) * 12,
 				'status'							=> 0,
-				'refpo'								=> isset($post['refPO']) ? $post['refPO'] : '-',
+				'refpo'								=> !empty($post['refPO']) ? $post['refPO'] : '-',
 				'waktuinput'						=> date('Y-m-d H:i:s'),
 			);
 			$this->GlobalModel->insertData('konveksi_buku_potongan', $dataInsert);

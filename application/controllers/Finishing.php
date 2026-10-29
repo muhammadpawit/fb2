@@ -2722,7 +2722,22 @@ class Finishing extends CI_Controller
 		$post = $this->input->post();
 		// pre($post);
 		$po = $this->GlobalModel->GetDataRow('produksi_po', array('id_produksi_po' => $post['idpo']));
-		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor', array('hapus' => 0, 'kategori_cmt' => 'JAHIT', 'progress' => 'KIRIM', 'idpo' => $post['idpo']));
+		
+		$whereSj = array('hapus' => 0, 'kategori_cmt' => 'JAHIT', 'idpo' => $post['idpo']);
+		if (!empty($post['id_master_cmt'])) {
+			$whereSj['id_master_cmt'] = $post['id_master_cmt'];
+		}
+		$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor', array_merge($whereSj, array('progress' => 'KIRIM')));
+		if (empty($sj)) {
+			$sj = $this->GlobalModel->GetDataRow('kelolapo_kirim_setor', $whereSj);
+		}
+		if (empty($sj) && !empty($post['id_master_cmt'])) {
+			$mcmt = $this->GlobalModel->GetDataRow('master_cmt', array('id_cmt' => $post['id_master_cmt']));
+			if (!empty($mcmt)) {
+				$sj = array('nama_cmt' => $mcmt['cmt_name']);
+			}
+		}
+
 		$pcs = 0;
 		$jml = 0;
 		$bangke = 0;
@@ -2739,19 +2754,15 @@ class Finishing extends CI_Controller
 			$barangClaim += $post['claimBarang'][$key];
 		}
 
-
 		if (empty($sj)) {
 			$this->session->set_flashdata('gagal', 'Belum ada surat jalannya');
-
-			redirect(BASEURL . 'finishing/editsetoran_susulan_celana/' . $po['kode_po']);
+			redirect(BASEURL . 'Finishing/rinciansetorcelanacmt?kode_po=' . $po['kode_po']);
 		}
 
 		$jmlYangDisetor = ((($jml + $pcs) + $bangke) + $barangHilang + $barangccd);
 		$jumlahditerima = $this->db->query("SELECT COALESCE(SUM(jml_setor_qty),0) as total, COALESCE(SUM(jumlah_piece_diterima-bangke_qty),0) as totalsisa FROM kelolapo_rincian_setor_cmt_celana WHERE idpo='" . $post['idpo'] . "' ")->row();
 		//pre($jumlahditerima->total);
 		if (($jmlYangDisetor + $jumlahditerima->totalsisa) <= $jumlahditerima->total) {
-
-			$dataInput = $this->GlobalModel->getDataRow('kelolapo_rincian_setor_cmt_celana', array('kode_po' => $po['kode_po'],));
 
 			$insertData = array(
 				'idpo' => $post['idpo'],
@@ -2764,16 +2775,13 @@ class Finishing extends CI_Controller
 				'barang_claim_qty'	=>	$barangClaim,
 				'barang_hilang_qty'	=>	$barangHilang,
 				'created_date'		=>	isset($post['tanggal']) ? $post['tanggal'] : date('Y-m-d'), // ditambah tanggal penerimaan pada 8 juli 2023
-				'jumlah_piece_diterima'	=> $jmlYangDisetor
+				'jumlah_piece_diterima'	=> $jmlYangDisetor,
+				'refpo'				=> !empty($post['refpo']) ? $post['refpo'] : null,
+				'idcmt'				=> !empty($post['id_master_cmt']) ? $post['id_master_cmt'] : null,
 			);
 
-			//if (empty($dataInput)) {
 			$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_celana', $insertData);
 			$lastId = $this->db->insert_id();
-			// } else {
-			// 	$this->session->set_flashdata('msg','INPUT NYA SANTAI AJA DONG, KODE PO INI SUDAH DI INPUT!!! <audio controls autoplay loop style="display:none;"><source src="'.BASEURL.'assets/mp3/kunti.mp3" type="audio/mpeg"></audio>');
-			// 	redirect(BASEURL.'finishing/editsetoran_susulan/'.$po['kode_po']);
-			// }
 
 			$rijek = 0;
 			$ket = [];
@@ -2795,8 +2803,7 @@ class Finishing extends CI_Controller
 				);
 				$this->GlobalModel->insertData('kelolapo_rincian_setor_cmt_finish_celana', $insertRincinan);
 			}
-			//$this->GlobalModel->updateData('kelolapo_kirim_setor',array('progress'=>'SELESAI','kode_po'=>$po['kode_po']),array('progress'=>'FINISHING'));
-			//$this->GlobalModel->updateData('produksi_po',array('kode_po'=>$po['kode_po']),array('jumlah_pcs_po'=>($jmlYangDisetor - $bangke),'id_proggresion_po' => $post['progresName']));
+			
 			if ($rijek > 0) {
 				$this->db->insert(
 					'rijek',
@@ -2811,9 +2818,9 @@ class Finishing extends CI_Controller
 		} else {
 			$this->session->set_flashdata('msg', 'Perhatikan jumlah yang diterima!!! <audio controls autoplay loop style="display:none;"><source src="' . BASEURL . 'assets/mp3/mandrakerja.mp3" type="audio/mpeg"></audio>');
 
-			redirect(BASEURL . 'finishing/editsetoran_susulan_celana/' . $po['kode_po']);
+			redirect(BASEURL . 'Finishing/rinciansetorcelanacmt?kode_po=' . $po['kode_po']);
 		}
 		$this->session->set_flashdata('msg', 'Data Berhasil Disimpan');
-		redirect(BASEURL . 'finishing/editsetoran_susulan_celana/' . $po['kode_po']);
+		redirect(BASEURL . 'Finishing/rinciansetorcelanacmt?kode_po=' . $po['kode_po']);
 	}
 }

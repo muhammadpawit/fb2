@@ -26,6 +26,8 @@
     <div class="col-md-12">
     <form action="<?php echo $editaction ?>" method="post">
         <input type="hidden" name="idpo" value="<?php echo $poProd['idpo']?>">
+        <input type="hidden" name="id_master_cmt" value="<?php echo isset($poProd['id_master_cmt']) ? $poProd['id_master_cmt'] : (isset($setorcmtjahit['idcmt']) ? $setorcmtjahit['idcmt'] : '') ?>">
+        <input type="hidden" name="refpo" value="<?php echo !empty($setorcmtjahit['refpo']) ? $setorcmtjahit['refpo'] : (!empty($poProd['refpo']) ? $poProd['refpo'] : $poProd['idpo']) ?>">
         <input type="hidden" name="tanggal" id="tanggal_hidden_susulan" value="<?php echo date('Y-m-d') ?>">
         <input type="hidden" class="form-control" name="tgl" value="<?php echo $poProd['created_date'] ?>" >
         <div class="table-responsive">
