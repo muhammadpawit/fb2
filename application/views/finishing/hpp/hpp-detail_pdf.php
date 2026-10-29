@@ -894,11 +894,13 @@
 
                                     <?php 
                                         // Prioritaskan nilai dari database (operaitonal_price)
-                                        $opr = isset($po['operaitonal_price']) ? $po['operaitonal_price'] : 0;
-                                        
-                                        // Jika di DB masih 0, baru coba hitung dari selisih master harga (opsional/logic lama)
-                                        if ($opr == 0 && isset($masterharga['hargahpp']) && $masterharga['hargahpp'] > 0) {
-                                            $opr = $masterharga['hargahpp'] - $totalHPP;
+                                        $opr = !empty($po['operaitonal_price']) ? (float)$po['operaitonal_price'] : 0;
+                                        if ($opr == 0) {
+                                            if (!empty($masterharga['hargahpp']) && $masterharga['hargahpp'] > 0) {
+                                                $opr = (float)$masterharga['hargahpp'] - $totalHPP;
+                                            } else {
+                                                $opr = !empty($operation['val_operational']) ? (float)$operation['val_operational'] : 40000;
+                                            }
                                         }
                                         
                                         echo 'Rp. '.number_format((float)$opr);

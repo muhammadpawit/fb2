@@ -724,9 +724,13 @@
                     </tbody>
                     <?php
                     $totalHPP = $total + $totalAlat;
-                    $opr = isset($po['operaitonal_price']) ? $po['operaitonal_price'] : 0;
-                    if ($opr == 0 && isset($masterharga['hargahpp']) && $masterharga['hargahpp'] > 0) {
-                        $opr = $masterharga['hargahpp'] - $totalHPP;
+                    $opr = !empty($po['operaitonal_price']) ? (float)$po['operaitonal_price'] : 0;
+                    if ($opr == 0) {
+                        if (!empty($masterharga['hargahpp']) && $masterharga['hargahpp'] > 0) {
+                            $opr = (float)$masterharga['hargahpp'] - $totalHPP;
+                        } else {
+                            $opr = !empty($operation['val_operational']) ? (float)$operation['val_operational'] : 40000;
+                        }
                     }
                     $grand = $totalHPP + (float)$opr;
                     ?>
