@@ -212,26 +212,26 @@
                 <?php $totpita=0;?>
                 <?php if(!empty($pita)){ ?>
                     <?php foreach($pita as $p){?>
-                        <?php $total+=(($p['harga_item']/42)*$p['jumlah_item_perlusin']);?>
+                        <?php $total+=($p['harga_item']*$p['jumlah_item_perlusin']);?>
                         <tr>
                             <td class="center"><?php echo $no+=1 ?></td>
                             <td><?php echo strtoupper($p['nama_item_keluar'])?></td>
                             <td class="center"><?php echo $p['jumlah_item_perlusin']?></td>
-                            <td class="center"><?php echo number_format($p['harga_item']);?> Roll<br><?php echo round($p['harga_item'] / 42,1) ?> Pcs</td>
-                            <td class="right"><?php echo number_format(($p['harga_item']/42)*$p['jumlah_item_perlusin']);?></td>
+                            <td class="center"><?php echo number_format($p['harga_item']);?></td>
+                            <td class="right"><?php echo number_format($p['harga_item']*$p['jumlah_item_perlusin']);?></td>
                         </tr>
                     <?php } ?>
                 <?php } ?>
                 <?php $totkaret=0;?>
                 <?php if(!empty($karet)){ ?>
                     <?php foreach($karet as $p){?>
-                        <?php $total+=(($p['harga_item']/48)*$p['jumlah_item_perlusin']);?>
+                        <?php $total+=($p['harga_item']*$p['jumlah_item_perlusin']);?>
                         <tr>
                             <td class="center"><?php echo $no+=1 ?></td>
                             <td><?php echo strtoupper($p['nama_item_keluar'])?></td>
                             <td class="center"><?php echo $p['jumlah_item_perlusin']?></td>
-                            <td class="center"><?php echo number_format($p['harga_item']);?> Roll<br><?php echo round($p['harga_item'] / 48,1) ?> Pcs</td>
-                            <td class="right"><?php echo number_format(($p['harga_item']/48)*$p['jumlah_item_perlusin']);?></td>
+                            <td class="center"><?php echo number_format($p['harga_item']);?></td>
+                            <td class="right"><?php echo number_format($p['harga_item']*$p['jumlah_item_perlusin']);?></td>
                         </tr>
                     <?php } ?>
                 <?php } ?>
@@ -264,13 +264,13 @@
                 <?php $totsizebordir=0;?>
                 <?php if(!empty($size_bordir)){ ?>
                     <?php foreach($size_bordir as $p){?>
-                        <?php $total+=(($p['harga_item']/40)*$p['jumlah_item_perlusin']);?>
+                        <?php $total+=($p['harga_item']*$p['jumlah_item_perlusin']);?>
                         <tr>
                             <td class="center"><?php echo $no+=1 ?></td>
                             <td><?php echo strtoupper($p['nama_item_keluar'])?></td>
                             <td class="center"><?php echo $p['jumlah_item_perlusin']?></td>
-                            <td class="center"><?php echo number_format($p['harga_item']);?> Roll<br><?php echo number_format($p['harga_item']/40);?> Pcs</td>
-                            <td class="right"><?php echo number_format(($p['harga_item']/40)*$p['jumlah_item_perlusin']);?></td>
+                            <td class="center"><?php echo number_format($p['harga_item']);?></td>
+                            <td class="right"><?php echo number_format($p['harga_item']*$p['jumlah_item_perlusin']);?></td>
                         </tr>
                     <?php } ?>
                 <?php } ?>

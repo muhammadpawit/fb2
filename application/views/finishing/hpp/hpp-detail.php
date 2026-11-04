@@ -601,30 +601,10 @@
                         <?php $rinciItem = 0; ?>
                         <?php foreach ($perincian as $key => $rinci): ?>
                             <?php
-                            $nama = strtoupper($rinci['nama_item_keluar'] ?? '');
-                            $explodeBordir = explode(' ', $rinci['nama_item_keluar']);
                             $hi = (float)($rinci['harga_item'] ?? 0);
                             $qty = (float)($rinci['jumlah_item_perlusin'] ?? 0);
-                            $lusin = !empty($pot['hasil_lusinan_potongan']) ? $pot['hasil_lusinan_potongan'] : 1;
-                            if ($nama == "KARET 555A" || $nama == "SIMULASI KARET 555A") {
-                                $sub = ($hi / 48) * $qty;
-                                $hargaTxt = '<span class="note">(' . $rinci['harga_item'] . ' Roll) (' . round($hi / 48, 1) . ' Pcs)</span>';
-                            } elseif ($nama == "KARET 11A") {
-                                $sub = ($hi / 72) * $qty;
-                                $hargaTxt = '<span class="note">(' . $rinci['harga_item'] . ' Roll) (' . round($hi / 72, 1) . ' Pcs)</span>';
-                            } elseif ($nama == "PITA" || $nama == "SIMULASI PITA") {
-                                $sub = 2000;
-                                $hargaTxt = '<span class="note">(' . $rinci['harga_item'] . ' Roll) (' . round(((float)($rinci['jumlah_item_keluar'] ?? 0) * $hi) / $lusin) . ' Pcs)</span>';
-                            } elseif ($nama == "LABEL 108") {
-                                $sub = $hi * $qty;
-                                $hargaTxt = number_format($hi);
-                            } elseif (strtolower($explodeBordir[1] ?? '') == "bordir" || strtolower($rinci['nama_item_keluar'] ?? '') == "simulasi size bordir" || strtolower($rinci['nama_item_keluar'] ?? '') == "size bordir") {
-                                $sub = 1000;
-                                $hargaTxt = '<span class="note">(' . $rinci['harga_item'] . ' Roll) (' . round((float)($rinci['jumlah_item_keluar'] ?? 0) * $hi / $lusin) . ' Pcs)</span>';
-                            } else {
-                                $sub = $qty * $hi;
-                                $hargaTxt = number_format($hi);
-                            }
+                            $sub = $qty * $hi;
+                            $hargaTxt = number_format($hi);
                             $total += $sub;
                             $rinciItem += (float)($rinci['jumlah_item_keluar'] ?? 0) * $hi;
                             ?>
