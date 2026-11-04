@@ -182,7 +182,9 @@ class Report extends CI_Controller
 
 		$products3 = [];
 		$sbl3a = [];
-		$sql3 = "SELECT * FROM pinjaman_karyawan WHERE hapus=0 ";
+		$sql3 = "SELECT tanggal FROM pinjaman_karyawan WHERE hapus=0 ";
+		$sql3 .= " AND date(tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
+		$sql3 .= " UNION SELECT tanggal FROM pinjaman_karyawan_harian WHERE hapus=0 ";
 		$sql3 .= " AND date(tanggal) BETWEEN '" . $data['tanggal1'] . "' AND '" . $data['tanggal2'] . "' ";
 		$products3 = $this->GlobalModel->QueryManual($sql3);
 		$ket = [];
@@ -473,7 +475,8 @@ class Report extends CI_Controller
 				}
 
 				if (empty($cat) || $cat == 1) {
-					$finishing = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'FINISHING');
+					$potongan_terpakai_harian = [];
+					$finishing = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'FINISHING', $potongan_terpakai_harian);
 					// pre($finishing);
 					if (!empty($finishing)) {
 						foreach ($finishing as $f) {
@@ -486,7 +489,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$gudang = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'GUDANG');
+					$gudang = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'GUDANG', $potongan_terpakai_harian);
 					if (!empty($gudang)) {
 						foreach ($gudang as $g) {
 							$konveksi[] = array(
@@ -498,7 +501,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'KLO');
+					$klo = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'KLO', $potongan_terpakai_harian);
 					if (!empty($klo)) {
 						foreach ($klo as $k) {
 							$konveksi[] = array(
@@ -510,7 +513,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'PRESSQC');
+					$qc = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'PRESSQC', $potongan_terpakai_harian);
 					if (!empty($qc)) {
 						foreach ($qc as $q) {
 							$konveksi[] = array(
@@ -522,7 +525,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$onlineshop = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'Online Shop');
+					$onlineshop = $this->ReportModel->pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, 'Online Shop', $potongan_terpakai_harian);
 					if (!empty($onlineshop)) {
 						foreach ($onlineshop as $os) {
 							$konveksi[] = array(
@@ -541,8 +544,9 @@ class Report extends CI_Controller
 						$tgl_borongan1 = date('Y-m-d', strtotime($p['tanggal'] . ' -7 days'));
 						$tgl_borongan2 = $p['tanggal'];
 					}
+					$tgl_pot_end = (strtotime($tanggal2) > strtotime($p['tanggal'])) ? $tanggal2 : date('Y-m-d', strtotime($p['tanggal'] . ' +1 day'));
 
-					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tgl_borongan1, $tgl_borongan2);
+					$bm = $this->ReportModel->pembayarangajiboronganmesin_perkaryawan($tgl_borongan1, $tgl_borongan2, $potongan_terpakai_harian, $tgl_pot_end);
 					if (!empty($bm)) {
 						foreach ($bm as $b) {
 							if (trim(strtolower($b['nama'])) == 'kandar') {
@@ -557,7 +561,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tgl_borongan1, $tgl_borongan2);
+					$cuci = $this->ReportModel->pembayarangajicucian_perkaryawan($tgl_borongan1, $tgl_borongan2, $potongan_terpakai_harian, $tgl_pot_end);
 					if (!empty($cuci)) {
 						foreach ($cuci as $b) {
 							if (trim(strtolower($b['nama'])) == 'adi loundry' || trim(strtolower($b['nama'])) == 'adi laundry') {
@@ -572,7 +576,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$bbf = $this->ReportModel->pembayarangajibbfinishing_perkaryawan($tgl_borongan1, $tgl_borongan2);
+					$bbf = $this->ReportModel->pembayarangajibbfinishing_perkaryawan($tgl_borongan1, $tgl_borongan2, $potongan_terpakai_harian, $tgl_pot_end);
 					if (!empty($bbf)) {
 						foreach ($bbf as $b) {
 							$konveksi[] = array(
@@ -584,7 +588,7 @@ class Report extends CI_Controller
 						}
 					}
 
-					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tgl_borongan1, $tgl_borongan2);
+					$pack = $this->ReportModel->pembayarangajipacking_perkaryawan($tgl_borongan1, $tgl_borongan2, $potongan_terpakai_harian, $tgl_pot_end);
 					if (!empty($pack)) {
 						foreach ($pack as $b) {
 							if (trim(strtolower($b['nama'])) == 'kandar') {

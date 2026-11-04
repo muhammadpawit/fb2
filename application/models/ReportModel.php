@@ -1756,40 +1756,83 @@ class ReportModel extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
-	public function pembayarangajiboronganmesin_perkaryawan($tanggal1, $tanggal2){
-		$sql = "SELECT b.nama as nama, SUM(a.jumlah_pendapatan*a.perkalian) as nominal FROM boronganmesin a 
+	private function getPotonganPinjamanHarian($idkaryawan, $start_pot, $end_pot, &$potongan_terpakai, $fallback = 0){
+		if (isset($potongan_terpakai[$idkaryawan])) {
+			return 0;
+		}
+		$sql_pot = "SELECT COALESCE(SUM(totalpotongan),0) as total FROM potongan_pinjaman_karyawan_harian 
+                    WHERE hapus=0 AND idkaryawan='" . (int)$idkaryawan . "' 
+                    AND DATE(tanggal) BETWEEN '$start_pot' AND '$end_pot'";
+		$pot = $this->db->query($sql_pot)->row_array();
+		$nom = (!empty($pot['total']) && $pot['total'] > 0) ? (float)$pot['total'] : (float)$fallback;
+		if ($nom > 0) {
+			$potongan_terpakai[$idkaryawan] = true;
+		}
+		return $nom;
+	}
+
+	public function pembayarangajiboronganmesin_perkaryawan($tanggal1, $tanggal2, &$potongan_terpakai = [], $tgl_pot_end = null){
+		$sql = "SELECT a.idkaryawanharian as idkaryawan, b.nama as nama, SUM(a.jumlah_pendapatan*a.perkalian) as nominal FROM boronganmesin a 
                 JOIN karyawan_harian b ON b.id = a.idkaryawanharian
                 WHERE a.hapus=0 AND a.gaji=1 AND DATE(a.creted_date) BETWEEN '$tanggal1' AND '$tanggal2'
                 GROUP BY a.idkaryawanharian";
-		return $this->db->query($sql)->result_array();
+		$rows = $this->db->query($sql)->result_array();
+		$end_pot = !empty($tgl_pot_end) ? $tgl_pot_end : $tanggal2;
+		foreach ($rows as &$r) {
+			$pot = $this->getPotonganPinjamanHarian($r['idkaryawan'], $tanggal1, $end_pot, $potongan_terpakai, 0);
+			$r['nominal'] = (float)$r['nominal'] - $pot;
+		}
+		unset($r);
+		return $rows;
 	}
 
-	public function pembayarangajicucian_perkaryawan($tanggal1, $tanggal2){
-		$sql = "SELECT b.nama as nama, SUM(a.total) as nominal FROM cucian a 
+	public function pembayarangajicucian_perkaryawan($tanggal1, $tanggal2, &$potongan_terpakai = [], $tgl_pot_end = null){
+		$sql = "SELECT a.idkaryawan as idkaryawan, b.nama as nama, SUM(a.total) as nominal FROM cucian a 
                 JOIN karyawan_harian b ON b.id = a.idkaryawan
                 WHERE a.hapus=0 AND a.jenis=1 AND DATE(a.tanggal) BETWEEN '$tanggal1' AND '$tanggal2'
                 GROUP BY a.idkaryawan";
-		return $this->db->query($sql)->result_array();
+		$rows = $this->db->query($sql)->result_array();
+		$end_pot = !empty($tgl_pot_end) ? $tgl_pot_end : $tanggal2;
+		foreach ($rows as &$r) {
+			$pot = $this->getPotonganPinjamanHarian($r['idkaryawan'], $tanggal1, $end_pot, $potongan_terpakai, 0);
+			$r['nominal'] = (float)$r['nominal'] - $pot;
+		}
+		unset($r);
+		return $rows;
 	}
 
-	public function pembayarangajibbfinishing_perkaryawan($tanggal1, $tanggal2){
-		$sql = "SELECT b.nama as nama, SUM(a.total) as nominal FROM buang_benang_finishing a 
+	public function pembayarangajibbfinishing_perkaryawan($tanggal1, $tanggal2, &$potongan_terpakai = [], $tgl_pot_end = null){
+		$sql = "SELECT a.idkaryawan as idkaryawan, b.nama as nama, SUM(a.total) as nominal FROM buang_benang_finishing a 
                 JOIN karyawan_harian b ON b.id = a.idkaryawan
                 WHERE a.hapus=0 AND a.gaji=1 AND DATE(a.tanggal) BETWEEN '$tanggal1' AND '$tanggal2'
                 GROUP BY a.idkaryawan";
-		return $this->db->query($sql)->result_array();
+		$rows = $this->db->query($sql)->result_array();
+		$end_pot = !empty($tgl_pot_end) ? $tgl_pot_end : $tanggal2;
+		foreach ($rows as &$r) {
+			$pot = $this->getPotonganPinjamanHarian($r['idkaryawan'], $tanggal1, $end_pot, $potongan_terpakai, 0);
+			$r['nominal'] = (float)$r['nominal'] - $pot;
+		}
+		unset($r);
+		return $rows;
 	}
 
-	public function pembayarangajipacking_perkaryawan($tanggal1, $tanggal2){
-		$sql = "SELECT b.nama as nama, SUM(a.jumlah_pendapatan) as nominal FROM packing a 
+	public function pembayarangajipacking_perkaryawan($tanggal1, $tanggal2, &$potongan_terpakai = [], $tgl_pot_end = null){
+		$sql = "SELECT a.idkaryawanharian as idkaryawan, b.nama as nama, SUM(a.jumlah_pendapatan) as nominal FROM packing a 
                 JOIN karyawan_harian b ON b.id = a.idkaryawanharian
                 WHERE a.hapus=0 AND a.gaji=1 AND DATE(a.creted_date) BETWEEN '$tanggal1' AND '$tanggal2'
                 GROUP BY a.idkaryawanharian";
-		return $this->db->query($sql)->result_array();
+		$rows = $this->db->query($sql)->result_array();
+		$end_pot = !empty($tgl_pot_end) ? $tgl_pot_end : $tanggal2;
+		foreach ($rows as &$r) {
+			$pot = $this->getPotonganPinjamanHarian($r['idkaryawan'], $tanggal1, $end_pot, $potongan_terpakai, 0);
+			$r['nominal'] = (float)$r['nominal'] - $pot;
+		}
+		unset($r);
+		return $rows;
 	}
 
-	public function pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, $bagian){
-		$sql = "SELECT gfd.*, kh.gaji as gajiharian 
+	public function pembayarangajifinishing_perkaryawan($tanggal1, $tanggal2, $bagian, &$potongan_terpakai = []){
+		$sql = "SELECT gfd.*, kh.gaji as gajiharian, gf.tanggal1 as tgl1, gf.tanggal2 as tgl2 
                 FROM gaji_finishing gf
                 JOIN gaji_finishing_detail gfd ON gfd.idgaji = gf.id
                 JOIN karyawan_harian kh ON kh.id = gfd.idkaryawan
@@ -1816,7 +1859,13 @@ class ReportModel extends CI_Model {
             $nominal += $r['lembur'];
             $nominal += ($r['insentif'] == 1 ? $r['gajiharian'] : 0);
             $nominal -= $r['claim'];
-            $nominal -= $r['pinjaman'];
+
+            $day1 = date('N', strtotime($r['tgl1']));
+            $calc_sabtu = ($day1 == 6) ? $r['tgl1'] : date('Y-m-d', strtotime('last Saturday', strtotime($r['tgl1'])));
+            $start_pot = (strtotime($calc_sabtu) >= strtotime('2026-10-17') && strtotime($calc_sabtu) < strtotime($r['tgl1'])) ? $calc_sabtu : $r['tgl1'];
+            $end_pot = $r['tgl2'];
+            $pot_pinjaman = $this->getPotonganPinjamanHarian($idk, $start_pot, $end_pot, $potongan_terpakai, $r['pinjaman']);
+            $nominal -= $pot_pinjaman;
 
             if (isset($r['warteg'])) {
                 $nominal -= $r['warteg'];
@@ -4188,6 +4237,11 @@ AND a.jenis = 2
 		}else{
 			$pinjaman=0;
 
+		}
+		$sql_harian=" SELECT COALESCE(SUM(totalpinjaman),0) as total from pinjaman_karyawan_harian where hapus=0 and DATE(tanggal)='$tanggalMulai'";
+		$query_harian = $this->GlobalModel->QueryManualRow($sql_harian);
+		if(isset($query_harian['total'])){
+			$pinjaman += $query_harian['total'];
 		}
 		return $pinjaman;
 	}
