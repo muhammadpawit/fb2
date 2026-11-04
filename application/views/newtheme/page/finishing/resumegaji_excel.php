@@ -71,12 +71,16 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 						<td align="right"><?php echo $k['insentif'] ?? 0?></td>
 					</tr>
 					<tr>
+						<td>Potongan Pinjaman</td>
+						<td align="right"><?php echo $k['potongan_pinjaman'] ?? 0?></td>
+					</tr>
+					<tr>
 						<td><b>Total</b></td>
-						<td align="right"><label><?php echo (($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0)) ?></label></td>
+						<td align="right"><label><?php echo (($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0)-($k['potongan_pinjaman']??0)) ?></label></td>
 					</tr>
 					<tr>
 						<td><b>Pembulatan</b></td>
-						<td align="right"><label><?php echo (pembulatangaji(($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0))) ?></label></td>
+						<td align="right"><label><?php echo (pembulatangaji(($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0)-($k['potongan_pinjaman']??0))) ?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -84,7 +88,7 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 	</div>
 	</td>
 	<?php
-		$total+=pembulatangaji(($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0));
+		$total+=pembulatangaji(($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0)-($k['potongan_pinjaman']??0));
 
 	?>
 	<?php } ?>
@@ -220,6 +224,43 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 					</tr>
 
 					<tr>
+						<td>Potongan Pinjaman</td>
+						<?php $total_pot_borongan = 0; ?>
+						<?php foreach($boronganmesin as $p){ $total_pot_borongan += (float)($p['potongan_pinjaman'] ?? 0); ?>
+						<td><?php echo ($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+						<?php if(!empty($cucian)){?>
+						<?php foreach($cucian as $p){ $total_pot_borongan += (float)($p['potongan_pinjaman'] ?? 0); ?>
+						<td><?php echo ($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+						<?php } ?>
+						<?php foreach($bb as $p){ $total_pot_borongan += (float)($p['potongan_pinjaman'] ?? 0); ?>
+						<td><?php echo ($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+						<?php foreach($pk as $p){ $total_pot_borongan += (float)($p['potongan_pinjaman'] ?? 0); ?>
+						<td><?php echo ($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+					</tr>
+
+					<tr>
+						<td>Total Diterima</td>
+						<?php foreach($boronganmesin as $p){?>
+						<td><?php echo pembulatangaji($p['total'] ?? 0) - (float)($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+						<?php if(!empty($cucian)){?>
+						<?php foreach($cucian as $p){?>
+						<td><?php echo pembulatangaji($p['total'] ?? 0) - (float)($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+						<?php } ?>
+						<?php foreach($bb as $p){?>
+						<td><?php echo pembulatangaji($p['total'] ?? 0) - (float)($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+						<?php foreach($pk as $p){?>
+						<td><?php echo pembulatangaji($p['total'] ?? 0) - (float)($p['potongan_pinjaman'] ?? 0)?></td>
+						<?php } ?>
+					</tr>
+
+					<tr>
 						<td>Keterangan</td>
 						<?php foreach($boronganmesin as $p){?>
 						<td><?php echo ($p['keterangan'])?></td>
@@ -249,23 +290,9 @@ header("Content-Disposition: attachment; filename=Resume_Gaji_Finishing_Periode_
 								$colb=3;
 							}
 						?>
-					<!--<tr>
-						<td>G.Total</td>
-						<td colspan="<?php echo $colb?>"><?php echo ($gajim)?></td>
-						<td colspan="<?php echo count($cucian)?>"><?php echo ($cucians)?></td>
-						<td><?php echo ($bbs)?></td>
-						<td><?php echo ($pkg)?></td>
-					</tr>
-					<tr>
-						<td>Pembulatan</td>
-						<td colspan="<?php echo $colb?>"><?php echo (pembulatangaji($gajim))?></td>
-						<td colspan="<?php echo count($cucian)?>"><?php echo (pembulatangaji($cucians))?></td>
-						<td><?php echo (pembulatangaji($bbs))?></td>
-						<td><?php echo (pembulatangaji($pkg))?></td>
-					</tr>-->
 					<tr style="background-color: yellow">
 						<td>Total</td>
-						<td colspan="5" align="center"><b><?php $t2=0; echo $t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg))?></b></td>
+						<td colspan="5" align="center"><b><?php $t2=0; echo $t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg)) - $total_pot_borongan?></b></td>
 					</tr>
 				</tbody>
 			</table>

@@ -168,9 +168,14 @@
     <?php 
     $total=0;
     foreach($fharian as $k){
-        $total+=round(pembulatmurni($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif']));
+        $total+=round(pembulatmurni($k['senin']+$k['selasa']+$k['rabu']+$k['kamis']+$k['jumat']+$k['sabtu']+$k['minggu']+$k['lembur']+$k['insentif'] - ($k['potongan_pinjaman'] ?? 0)));
     }
-    $t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg));
+    $pot_mesin = 0; foreach($boronganmesin as $p){ $pot_mesin += (float)($p['potongan_pinjaman'] ?? 0); }
+    $pot_cucian = 0; if(!empty($cucian)){ foreach($cucian as $p){ $pot_cucian += (float)($p['potongan_pinjaman'] ?? 0); } }
+    $pot_bb = 0; foreach($bb as $p){ $pot_bb += (float)($p['potongan_pinjaman'] ?? 0); }
+    $pot_pk = 0; foreach($pk as $p){ $pot_pk += (float)($p['potongan_pinjaman'] ?? 0); }
+    $total_pot_borongan = $pot_mesin + $pot_cucian + $pot_bb + $pot_pk;
+    $t2=(pembulatangaji($gajim)+pembulatangaji($cucians)+pembulatangaji($bbs)+pembulatangaji($pkg)) - $total_pot_borongan;
     ?>
 
     <!-- GRAND TOTAL -->
@@ -231,9 +236,10 @@
                             <tr><td>Minggu</td><td class="text-amount"><?php echo empty($k['minggu']) ? '' : number_format($k['minggu'])?></td></tr>
                             <tr><td>Lembur</td><td class="text-amount"><?php echo empty($k['lembur']) ? '' : number_format($k['lembur'])?></td></tr>
                             <tr><td>Insentif</td><td class="text-amount"><?php echo empty($k['insentif']) ? '' : number_format($k['insentif'])?></td></tr>
+                            <tr class="text-danger"><td>Potongan Pinjaman</td><td class="text-amount"><?php echo empty($k['potongan_pinjaman']) ? '' : '- '.number_format($k['potongan_pinjaman'])?></td></tr>
                             <tr class="row-highlight">
                                 <td><b>TOTAL</b></td>
-                                <td class="text-amount"><?php $sub = ($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0); echo empty($sub) ? '' : number_format($sub); ?></td>
+                                <td class="text-amount"><?php $sub = ($k['senin']??0)+($k['selasa']??0)+($k['rabu']??0)+($k['kamis']??0)+($k['jumat']??0)+($k['sabtu']??0)+($k['minggu']??0)+($k['lembur']??0)+($k['insentif']??0)-($k['potongan_pinjaman']??0); echo empty($sub) ? '' : number_format($sub); ?></td>
                             </tr>
                             <tr class="row-total">
                                 <td><b>PEMBULATAN</b></td>
@@ -271,17 +277,17 @@
     <div class="row">
         <!-- Menyamakan Tinggi Baris -->
         <?php 
-        $valid_mesin = []; foreach($boronganmesin as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_mesin[] = ['nama' => $p['nama'], 'total' => $tot]; }
-        $valid_laundry = []; if(!empty($cucian)){ foreach($cucian as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_laundry[] = ['nama' => $p['nama'], 'total' => $tot]; } }
-        $valid_bb = []; foreach($bb as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_bb[] = ['nama' => $p['nama'], 'total' => $tot]; }
-        $valid_pk = []; foreach($pk as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_pk[] = ['nama' => $p['nama'], 'total' => $tot]; }
+        $valid_mesin = []; foreach($boronganmesin as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_mesin[] = ['nama' => $p['nama'], 'total' => $tot, 'potongan_pinjaman' => (float)($p['potongan_pinjaman'] ?? 0)]; }
+        $valid_laundry = []; if(!empty($cucian)){ foreach($cucian as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_laundry[] = ['nama' => $p['nama'], 'total' => $tot, 'potongan_pinjaman' => (float)($p['potongan_pinjaman'] ?? 0)]; } }
+        $valid_bb = []; foreach($bb as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_bb[] = ['nama' => $p['nama'], 'total' => $tot, 'potongan_pinjaman' => (float)($p['potongan_pinjaman'] ?? 0)]; }
+        $valid_pk = []; foreach($pk as $p){ $tot = pembulatangaji($p['total'] ?? 0); if($tot > 0) $valid_pk[] = ['nama' => $p['nama'], 'total' => $tot, 'potongan_pinjaman' => (float)($p['potongan_pinjaman'] ?? 0)]; }
 
         $max_rows = max(count($valid_mesin), count($valid_laundry), count($valid_bb), count($valid_pk));
         ?>
 
         <!-- Borongan Mesin -->
         <?php if(pembulatangaji($gajim) > 0){ ?>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="payroll-card" style="border-top: 3px solid #ffc107;">
                 <div class="payroll-card-header" style="background: #fffbe6;">
                     <span><i class="fa fa-cog"></i> BORONGAN MESIN</span>
@@ -289,7 +295,7 @@
                 <div class="payroll-card-body">
                     <table class="payroll-table">
                         <thead class="bg-light">
-                            <tr><th>Nama</th><th class="text-amount">Total</th></tr>
+                            <tr><th>Nama</th><th class="text-amount">Gaji</th><th class="text-amount">Potongan Pinjaman</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
                             <?php for($i=0; $i<$max_rows; $i++){ ?>
@@ -297,14 +303,18 @@
                                 <tr>
                                     <td><?php echo $valid_mesin[$i]['nama']?></td>
                                     <td class="text-amount"><?php echo number_format($valid_mesin[$i]['total'])?></td>
+                                    <td class="text-amount text-danger"><?php echo $valid_mesin[$i]['potongan_pinjaman'] > 0 ? number_format($valid_mesin[$i]['potongan_pinjaman']) : '-' ?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_mesin[$i]['total'] - $valid_mesin[$i]['potongan_pinjaman'])?></td>
                                 </tr>
                                 <?php } else { ?>
-                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
                                 <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
                                 <td class="text-amount"><b><?php echo number_format(pembulatangaji($gajim))?></b></td>
+                                <td class="text-amount text-danger"><b><?php echo $pot_mesin > 0 ? number_format($pot_mesin) : '-' ?></b></td>
+                                <td class="text-amount"><b><?php echo number_format(pembulatangaji($gajim) - $pot_mesin)?></b></td>
                             </tr>
                         </tbody>
                     </table>
@@ -315,7 +325,7 @@
 
         <!-- Laundry -->
         <?php if(pembulatangaji($cucians) > 0){ ?>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="payroll-card" style="border-top: 3px solid #17a2b8;">
                 <div class="payroll-card-header" style="background: #e6f7ff;">
                     <span><i class="fa fa-tint"></i> LAUNDRY / CUCI</span>
@@ -323,7 +333,7 @@
                 <div class="payroll-card-body">
                     <table class="payroll-table">
                         <thead class="bg-light">
-                            <tr><th>Nama</th><th class="text-amount">Total</th></tr>
+                            <tr><th>Nama</th><th class="text-amount">Gaji</th><th class="text-amount">Potongan Pinjaman</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
                             <?php for($i=0; $i<$max_rows; $i++){ ?>
@@ -331,14 +341,18 @@
                                 <tr>
                                     <td><?php echo $valid_laundry[$i]['nama']?></td>
                                     <td class="text-amount"><?php echo number_format($valid_laundry[$i]['total'])?></td>
+                                    <td class="text-amount text-danger"><?php echo $valid_laundry[$i]['potongan_pinjaman'] > 0 ? number_format($valid_laundry[$i]['potongan_pinjaman']) : '-' ?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_laundry[$i]['total'] - $valid_laundry[$i]['potongan_pinjaman'])?></td>
                                 </tr>
                                 <?php } else { ?>
-                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
                                 <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
                                 <td class="text-amount"><b><?php echo number_format(pembulatangaji($cucians))?></b></td>
+                                <td class="text-amount text-danger"><b><?php echo $pot_cucian > 0 ? number_format($pot_cucian) : '-' ?></b></td>
+                                <td class="text-amount"><b><?php echo number_format(pembulatangaji($cucians) - $pot_cucian)?></b></td>
                             </tr>
                         </tbody>
                     </table>
@@ -349,7 +363,7 @@
 
         <!-- Buang Benang -->
         <?php if(pembulatangaji($bbs) > 0){ ?>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="payroll-card" style="border-top: 3px solid #6c757d;">
                 <div class="payroll-card-header" style="background: #f8f9fa;">
                     <span><i class="fa fa-scissors"></i> BUANG BENANG</span>
@@ -357,7 +371,7 @@
                 <div class="payroll-card-body">
                     <table class="payroll-table">
                         <thead class="bg-light">
-                            <tr><th>Nama</th><th class="text-amount">Total</th></tr>
+                            <tr><th>Nama</th><th class="text-amount">Gaji</th><th class="text-amount">Potongan Pinjaman</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
                             <?php for($i=0; $i<$max_rows; $i++){ ?>
@@ -365,14 +379,18 @@
                                 <tr>
                                     <td><?php echo $valid_bb[$i]['nama']?></td>
                                     <td class="text-amount"><?php echo number_format($valid_bb[$i]['total'])?></td>
+                                    <td class="text-amount text-danger"><?php echo $valid_bb[$i]['potongan_pinjaman'] > 0 ? number_format($valid_bb[$i]['potongan_pinjaman']) : '-' ?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_bb[$i]['total'] - $valid_bb[$i]['potongan_pinjaman'])?></td>
                                 </tr>
                                 <?php } else { ?>
-                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
                                 <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
                                 <td class="text-amount"><b><?php echo number_format(pembulatangaji($bbs))?></b></td>
+                                <td class="text-amount text-danger"><b><?php echo $pot_bb > 0 ? number_format($pot_bb) : '-' ?></b></td>
+                                <td class="text-amount"><b><?php echo number_format(pembulatangaji($bbs) - $pot_bb)?></b></td>
                             </tr>
                         </tbody>
                     </table>
@@ -383,7 +401,7 @@
 
         <!-- Packing -->
         <?php if(pembulatangaji($pkg) > 0){ ?>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="payroll-card" style="border-top: 3px solid #007bff;">
                 <div class="payroll-card-header" style="background: #e7f3ff;">
                     <span><i class="fa fa-archive"></i> PACKING & GOSOK</span>
@@ -391,7 +409,7 @@
                 <div class="payroll-card-body">
                     <table class="payroll-table">
                         <thead class="bg-light">
-                            <tr><th>Nama</th><th class="text-amount">Total</th></tr>
+                            <tr><th>Nama</th><th class="text-amount">Gaji</th><th class="text-amount">Potongan Pinjaman</th><th class="text-amount">Total</th></tr>
                         </thead>
                         <tbody>
                             <?php for($i=0; $i<$max_rows; $i++){ ?>
@@ -399,14 +417,18 @@
                                 <tr>
                                     <td><?php echo $valid_pk[$i]['nama']?></td>
                                     <td class="text-amount"><?php echo number_format($valid_pk[$i]['total'])?></td>
+                                    <td class="text-amount text-danger"><?php echo $valid_pk[$i]['potongan_pinjaman'] > 0 ? number_format($valid_pk[$i]['potongan_pinjaman']) : '-' ?></td>
+                                    <td class="text-amount"><?php echo number_format($valid_pk[$i]['total'] - $valid_pk[$i]['potongan_pinjaman'])?></td>
                                 </tr>
                                 <?php } else { ?>
-                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
+                                <tr><td>&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td><td class="text-amount">&nbsp;</td></tr>
                                 <?php } ?>
                             <?php } ?>
                             <tr class="row-highlight">
                                 <td><b>SUBTOTAL</b></td>
                                 <td class="text-amount"><b><?php echo number_format(pembulatangaji($pkg))?></b></td>
+                                <td class="text-amount text-danger"><b><?php echo $pot_pk > 0 ? number_format($pot_pk) : '-' ?></b></td>
+                                <td class="text-amount"><b><?php echo number_format(pembulatangaji($pkg) - $pot_pk)?></b></td>
                             </tr>
                         </tbody>
                     </table>

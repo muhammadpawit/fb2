@@ -109,6 +109,20 @@ class Finishing extends CI_Controller
 		$data['tgl_borongan1'] = $tgl_borongan1;
 		$data['tgl_borongan2'] = $tgl_borongan2;
 
+		$potongan_terpakai = [];
+		$getPotonganPinjamanHarian = function($idkaryawan, $fallback = 0) use (&$potongan_terpakai, $tanggal1, $tanggal2, $tgl_borongan1) {
+			if (isset($potongan_terpakai[$idkaryawan])) {
+				return 0;
+			}
+			$start_pot = (strtotime($tgl_borongan1) < strtotime($tanggal1)) ? $tgl_borongan1 : $tanggal1;
+			$row = $this->GlobalModel->queryManualRow("SELECT COALESCE(SUM(totalpotongan),0) as total FROM potongan_pinjaman_karyawan_harian WHERE hapus=0 AND idkaryawan='" . (int)$idkaryawan . "' AND DATE(tanggal) BETWEEN '" . $start_pot . "' AND '" . $tanggal2 . "' ");
+			$nom = (!empty($row['total']) && $row['total'] > 0) ? (float)$row['total'] : (float)$fallback;
+			if ($nom > 0) {
+				$potongan_terpakai[$idkaryawan] = true;
+			}
+			return $nom;
+		};
+
 		// harian finishing
 		$g = 0;
 		$g = $this->GlobalModel->queryManualRow("SELECT * FROM gaji_finishing WHERE hapus=0 AND DATE(tanggal1) >='" . $tanggal1 . "' AND DATE(tanggal2) <='" . $tanggal2 . "' AND bagian='FINISHING' ");
@@ -117,6 +131,7 @@ class Finishing extends CI_Controller
 			$gaji = 0;
 			foreach ($details as $d) {
 				$gaji = $this->GlobalModel->getDataRow('karyawan_harian', array('id' => $d['idkaryawan'], 'status_gaji' => 1));
+				$pot_pinjaman = $getPotonganPinjamanHarian($d['idkaryawan'], $d['pinjaman'] ?? 0);
 				$data['fharian'][] = array(
 					'idkaryawan' => $d['idkaryawan'],
 					'nama' => strtolower($d['nama']),
@@ -129,6 +144,7 @@ class Finishing extends CI_Controller
 					'minggu' => round($gaji['gaji'] / 12 * $d['minggu']),
 					'lembur' => $d['lembur'] > 0 ? $d['lembur'] : 0,
 					'insentif' => $d['insentif'] == 1 ? $gaji['gaji'] : 0,
+					'potongan_pinjaman' => $pot_pinjaman,
 				);
 			}
 		}
@@ -139,9 +155,12 @@ class Finishing extends CI_Controller
 
 		foreach ($prods as $p) {
 			$gajimesin = $this->ReportModel->getGajiBorongan($p['id'], $tgl_borongan1, $tgl_borongan2);
+			$pot_pinjaman = $getPotonganPinjamanHarian($p['id']);
 			$data['boronganmesin'][] = array(
+				'idkaryawan' => $p['id'],
 				'nama' => $p['nama'],
 				'total' => ($gajimesin),
+				'potongan_pinjaman' => $pot_pinjaman,
 				'keterangan' => null,
 			);
 			$gajim += ($gajimesin);
@@ -155,9 +174,12 @@ class Finishing extends CI_Controller
 		$cucians = 0;
 		foreach ($c as $p) {
 			$gajimesin = $this->ReportModel->GetGajiCucian($p['id'], $tgl_borongan1, $tgl_borongan2);
+			$pot_pinjaman = $getPotonganPinjamanHarian($p['id']);
 			$data['cucian'][] = array(
+				'idkaryawan' => $p['id'],
 				'nama' => $p['nama'],
 				'total' => ($gajimesin),
+				'potongan_pinjaman' => $pot_pinjaman,
 				'keterangan' => null,
 			);
 			$cucians += ($gajimesin);
@@ -174,9 +196,12 @@ class Finishing extends CI_Controller
 		if (!empty($bb)) {
 			foreach ($bb as $p) {
 				$gajimesin = $this->ReportModel->GetGajibb($p['id'], $tgl_borongan1, $tgl_borongan2);
+				$pot_pinjaman = $getPotonganPinjamanHarian($p['id']);
 				$data['bb'][] = array(
+					'idkaryawan' => $p['id'],
 					'nama' => $p['nama'],
 					'total' => ($gajimesin),
+					'potongan_pinjaman' => $pot_pinjaman,
 					'keterangan' => null,
 				);
 				$bbs += ($gajimesin);
@@ -192,9 +217,12 @@ class Finishing extends CI_Controller
 		$pkg = 0;
 		foreach ($pk as $p) {
 			$gajimesin = $this->ReportModel->GetGajipacking($p['id'], $tgl_borongan1, $tgl_borongan2);
+			$pot_pinjaman = $getPotonganPinjamanHarian($p['id']);
 			$data['pk'][] = array(
+				'idkaryawan' => $p['id'],
 				'nama' => $p['nama'],
 				'total' => ($gajimesin),
+				'potongan_pinjaman' => $pot_pinjaman,
 				'keterangan' => null,
 			);
 			$pkg += ($gajimesin);
