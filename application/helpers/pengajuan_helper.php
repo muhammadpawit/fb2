@@ -1240,6 +1240,12 @@
 		return $menu;
 	}
 
+	function karyawan_harian(){
+		$CI =& get_instance();
+		$menu=$CI->GlobalModel->queryManual('SELECT * FROM karyawan_harian WHERE hapus=0 ORDER BY nama ASC ');
+		return $menu;
+	}
+
 	if (!function_exists('format_tanggal')) {
 		function format_tanggal($tanggal, $format = 'dd MMMM yyyy', $locale = 'id_ID') {
 			if (empty($tanggal) || $tanggal == '0000-00-00' || $tanggal == '0000-00-00 00:00:00') {

@@ -807,6 +807,347 @@ class Keuangan extends CI_Controller {
 		}
 	}
 
+	public function pinjamankaryawanedit($id){
+		$data = array();
+		$data['title'] = 'Edit Pinjaman Karyawan';
+		$data['action'] = BASEURL.'Keuangan/pinjamankaryawaneditsave';
+		$data['batal'] = BASEURL.'Keuangan/pinjamankaryawan';
+		$data['p'] = $this->GlobalModel->getDataRow('pinjaman_karyawan', array('id' => $id));
+		$data['karyawan'] = karyawan();
+		$data['page'] = $this->page.'keuangan/pinjaman_edit';
+		$this->load->view($this->page.'main', $data);
+	}
+
+	public function pinjamankaryawaneditsave(){
+		$data = $this->input->post();
+		$id = $data['id'];
+		$update = array(
+			'idkaryawan' => $data['idkaryawan'],
+			'tanggal' => $data['tanggal'],
+			'keterangan' => $data['keterangan'],
+		);
+		$pinjaman = $this->GlobalModel->getDataRow('pinjaman_karyawan', array('id' => $id));
+		if($pinjaman && $pinjaman['totalpotongan'] == 0){
+			$update['totalpinjaman'] = $data['totalpinjaman'];
+		}
+		$this->db->update('pinjaman_karyawan', $update, array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil diubah');
+		redirect(BASEURL.'Keuangan/pinjamankaryawan');
+	}
+
+	public function getpinjamanharian(){
+		$get = $this->input->get();
+		$pinjaman = [];
+		$pinjaman = $this->GlobalModel->getData('pinjaman_karyawan_harian', array('hapus' => 0, 'status <>' => 3, 'idkaryawan' => $get['idkaryawan']));
+		if(!empty($pinjaman)){
+			echo "<option value=''>Pilih</option>";
+		}
+		foreach($pinjaman as $p){
+			echo '<option value="'.$p['id'].'"> Tgl '.date('d/m/Y', strtotime($p['tanggal'])).' Sisa Rp.'.number_format($p['totalpinjaman'] - $p['totalpotongan']).' ('.$p['keterangan'].') </option>';
+		}
+	}
+
+	public function pinjamankaryawanharian(){
+		$data = array();
+		$data['title'] = 'List Pinjaman Karyawan Harian';
+		$get = $this->input->get();
+		$url = '';
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+			$url .= '&tanggal1='.$tanggal1;
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+			$url .= '&tanggal2='.$tanggal2;
+		} else {
+			$tanggal2 = date('Y-m-d');
+		}
+		if(isset($get['karyawan'])){
+			$karyawan = $get['karyawan'];
+			$url .= '&karyawan='.$karyawan;
+		} else {
+			$karyawan = null;
+		}
+
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['kar'] = $karyawan;
+		$data['n'] = 1;
+		$data['action'] = BASEURL.'Keuangan/pinjamankaryawanhariansave';
+		$data['action_potongan'] = BASEURL.'Keuangan/potonganpinjamankaryawanhariansave';
+		$data['list_potongan'] = BASEURL.'Keuangan/potonganpinjamankaryawanharian';
+		$data['print'] = BASEURL.'Keuangan/pinjamankaryawanharian?pdf=true'.$url;
+		$data['excel'] = BASEURL.'Keuangan/pinjamankaryawanharian?excel=true'.$url;
+		$data['products'] = array();
+
+		$sql = "SELECT * FROM pinjaman_karyawan_harian WHERE hapus=0";
+		if(!empty($karyawan)){
+			$sql .= " AND idkaryawan='".$this->db->escape_str($karyawan)."'";
+		}
+		if(isset($get['tanggal1']) && isset($get['tanggal2']) && !empty($get['tanggal1']) && !empty($get['tanggal2'])){
+			$sql .= " AND DATE(tanggal) BETWEEN '".$this->db->escape_str($tanggal1)."' AND '".$this->db->escape_str($tanggal2)."'";
+		}
+		$sql .= " ORDER BY status ASC, tanggal DESC";
+		$products = $this->GlobalModel->QueryManual($sql);
+
+		$lunas = 0;
+		$belum_lunas = 0;
+		$nom_lunas = 0;
+		$nom_belum_lunas = 0;
+		foreach($products as $p){
+			if($p['status'] == 3){
+				$lunas++;
+				$nom_lunas += ($p['totalpinjaman']);
+			} else {
+				$belum_lunas++;
+				$nom_belum_lunas += ($p['totalpinjaman'] - $p['totalpotongan']);
+			}
+			$hari = date('l', strtotime($p['tanggal']));
+			$kh = $this->GlobalModel->getDataRow('karyawan_harian', array('id' => $p['idkaryawan']));
+			$can_edit = false;
+			if($p['status'] == 1 || ($p['status'] == 2 && $p['totalpotongan'] == 0)){
+				$can_edit = true;
+			}
+
+			$data['products'][] = array(
+				'tanggal' => hari($hari).', '.date('d-m-Y', strtotime($p['tanggal'])),
+				'nama' => !empty($kh['nama']) ? strtolower($kh['nama']) : '-',
+				'bagian' => !empty($kh['bagian']) ? strtolower($kh['bagian']) : '-',
+				'totalpinjaman' => number_format($p['totalpinjaman']),
+				'totalpotongan' => number_format($p['totalpotongan']),
+				'sisa' => number_format(($p['totalpinjaman'] - $p['totalpotongan'])),
+				'keterangan' => $p['keterangan'],
+				'status' => $p['status'],
+				'edit' => BASEURL.'Keuangan/pinjamankaryawanharianedit/'.$p['id'],
+				'can_edit' => $can_edit,
+				'hapus' => BASEURL.'Keuangan/pinjamankaryawanharian_hapus/'.$p['id'],
+				'rincian' => BASEURL.'Keuangan/rincianpinjamankaryawanharian/'.$p['id'],
+			);
+		}
+		$data['recap'] = array(
+			'lunas' => $lunas,
+			'belum_lunas' => $belum_lunas,
+			'nom_lunas' => $nom_lunas,
+			'nom_belum_lunas' => $nom_belum_lunas,
+		);
+		$data['karyawan'] = karyawan_harian();
+		if(isset($get['excel'])){
+			$this->load->view($this->page.'keuangan/pinjaman_list_excel', $data);
+		} else {
+			$data['page'] = $this->page.'keuangan/pinjaman_harian_list';
+			$this->load->view($this->page.'main', $data);
+		}
+	}
+
+	public function pinjamankaryawanhariansave(){
+		$data = $this->input->post();
+		$insert = array(
+			'idkaryawan' => $data['idkaryawan'],
+			'tanggal' => $data['tanggal'],
+			'totalpinjaman' => $data['totalpinjaman'],
+			'totalpotongan' => 0,
+			'keterangan' => $data['keterangan'],
+			'status' => 1,
+			'hapus' => 0,
+		);
+		$this->db->insert('pinjaman_karyawan_harian', $insert);
+		$this->session->set_flashdata('msg', 'Data berhasil disimpan');
+		redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+	}
+
+	public function pinjamankaryawanharianedit($id){
+		$data = array();
+		$data['title'] = 'Edit Pinjaman Karyawan Harian';
+		$data['action'] = BASEURL.'Keuangan/pinjamankaryawanharianeditsave';
+		$data['batal'] = BASEURL.'Keuangan/pinjamankaryawanharian';
+		$data['p'] = $this->GlobalModel->getDataRow('pinjaman_karyawan_harian', array('id' => $id));
+		$data['karyawan'] = karyawan_harian();
+		$data['page'] = $this->page.'keuangan/pinjaman_edit';
+		$this->load->view($this->page.'main', $data);
+	}
+
+	public function pinjamankaryawanharianeditsave(){
+		$data = $this->input->post();
+		$id = $data['id'];
+		$update = array(
+			'idkaryawan' => $data['idkaryawan'],
+			'tanggal' => $data['tanggal'],
+			'keterangan' => $data['keterangan'],
+		);
+		$pinjaman = $this->GlobalModel->getDataRow('pinjaman_karyawan_harian', array('id' => $id));
+		if($pinjaman && $pinjaman['totalpotongan'] == 0){
+			$update['totalpinjaman'] = $data['totalpinjaman'];
+		}
+		$this->db->update('pinjaman_karyawan_harian', $update, array('id' => $id));
+		$this->session->set_flashdata('msg', 'Data berhasil diubah');
+		redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+	}
+
+	public function pinjamankaryawanharian_hapus($id){
+		$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan_harian', array('id' => $id));
+		if($cek){
+			if($cek['totalpotongan'] > 0){
+				$this->session->set_flashdata('msg', 'Data tidak bisa dihapus karena sudah ada potongan');
+				redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+			}
+
+			$this->db->update('pinjaman_karyawan_harian', array('hapus' => 1), array('id' => $id));
+			user_activity(callSessUser('id_user'), 1, ' menghapus data pinjaman karyawan harian dengan id ' . $id);
+
+			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+			redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+		} else {
+			$this->session->set_flashdata('msg', 'Data tidak ditemukan');
+			redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+		}
+	}
+
+	public function rincianpinjamankaryawanharian($id){
+		$data = array();
+		$data['title'] = 'Rincian History Potongan Pinjaman Karyawan Harian';
+		$data['n'] = 1;
+		$data['products'] = array();
+		$data['cancel'] = BASEURL.'Keuangan/pinjamankaryawanharian';
+		$data['products'] = $this->db->query("SELECT pk.*, k.nama FROM pinjaman_karyawan_harian pk LEFT JOIN karyawan_harian k ON (k.id=pk.idkaryawan) WHERE pk.id='$id' ")->row_array();
+		$data['details'] = $this->GlobalModel->getData('potongan_pinjaman_karyawan_harian', array('idpinjaman' => $id, 'hapus' => 0));
+		$data['page'] = $this->page.'keuangan/pinjaman_harian_detail';
+		$this->load->view($this->page.'main', $data);
+	}
+
+	public function hapus_rincian_pinjaman_harian($id){
+		$detail = $this->GlobalModel->getDataRow('potongan_pinjaman_karyawan_harian', array('id' => $id));
+		if($detail){
+			$idpinjaman = $detail['idpinjaman'];
+			$totalpotongan = $detail['totalpotongan'];
+
+			$this->db->query("UPDATE pinjaman_karyawan_harian SET totalpotongan = totalpotongan - '$totalpotongan' WHERE id = '$idpinjaman' ");
+
+			$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan_harian', array('id' => $idpinjaman));
+			if($cek['totalpotongan'] <= 0){
+				$status = 1;
+			} else if($cek['totalpinjaman'] <= $cek['totalpotongan']){
+				$status = 3;
+			} else {
+				$status = 2;
+			}
+			$this->db->query("UPDATE pinjaman_karyawan_harian SET status = '$status' WHERE id = '$idpinjaman' ");
+
+			$this->db->update('potongan_pinjaman_karyawan_harian', array('hapus' => 1), array('id' => $id));
+			user_activity(callSessUser('id_user'), 1, ' menghapus rincian potongan pinjaman karyawan harian dengan id ' . $id);
+
+			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+			redirect(BASEURL.'Keuangan/rincianpinjamankaryawanharian/'.$idpinjaman);
+		} else {
+			$this->session->set_flashdata('msg', 'Data tidak ditemukan');
+			redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+		}
+	}
+
+	public function potonganpinjamankaryawanharian(){
+		$data = [];
+		$get = $this->input->get();
+		if(isset($get['tanggal1'])){
+			$tanggal1 = $get['tanggal1'];
+		} else {
+			$tanggal1 = date('Y-m-d', strtotime("-7 days"));
+		}
+		if(isset($get['tanggal2'])){
+			$tanggal2 = $get['tanggal2'];
+		} else {
+			$tanggal2 = date('Y-m-d');
+		}
+		$data['tanggal1'] = $tanggal1;
+		$data['tanggal2'] = $tanggal2;
+		$data['title'] = 'Potongan Pinjaman Karyawan Harian';
+		$data['n'] = 1;
+		$data['action'] = BASEURL.'Keuangan/potonganpinjamankaryawanhariansave';
+		$data['products'] = array();
+		$sql = "SELECT * FROM potongan_pinjaman_karyawan_harian WHERE hapus=0";
+		if(isset($get['tanggal1']) && isset($get['tanggal2']) && !empty($get['tanggal1']) && !empty($get['tanggal2'])){
+			$sql .= " AND DATE(tanggal) BETWEEN '".$this->db->escape_str($tanggal1)."' AND '".$this->db->escape_str($tanggal2)."'";
+		}
+		$sql .= " ORDER BY id DESC";
+		$products = $this->GlobalModel->QueryManual($sql);
+		foreach($products as $p){
+			$hari = date('l', strtotime($p['tanggal']));
+			$karyawan = $this->GlobalModel->getDataRow('karyawan_harian', array('id' => $p['idkaryawan']));
+			$data['products'][] = array(
+				'tanggal' => hari($hari).', '.date('d-m-Y', strtotime($p['tanggal'])),
+				'nama' => !empty($karyawan['nama']) ? strtolower($karyawan['nama']) : '-',
+				'totalpotongan' => number_format($p['totalpotongan']),
+				'sisa' => number_format(($p['totalpotongan'])),
+				'keterangan' => $p['keterangan'],
+				'status' => $p['status'],
+				'edit' => BASEURL.'Keuangan/pinjamankaryawanharianedit/'.$p['id'],
+				'rincian' => BASEURL.'Keuangan/rincianpinjamankaryawanharian/'.$p['idpinjaman'],
+				'hapus' => BASEURL.'Keuangan/potonganpinjamankaryawanharian_hapus/'.$p['id'],
+			);
+		}
+		$data['karyawan'] = karyawan_harian();
+		$data['page'] = $this->page.'keuangan/potongan_harian_list';
+		$this->load->view($this->page.'main', $data);
+	}
+
+	public function potonganpinjamankaryawanhariansave(){
+		$data = $this->input->post();
+		$insert = array(
+			'tanggal' => $data['tanggal'],
+			'idkaryawan' => $data['idkaryawan'],
+			'idpinjaman' => $data['listpinjaman'],
+			'totalpotongan' => $data['totalpotongan'],
+			'keterangan' => $data['keterangan'],
+			'hapus' => 0,
+		);
+		$this->db->query("UPDATE pinjaman_karyawan_harian SET totalpotongan=totalpotongan+'".$data['totalpotongan']."' WHERE id='".$data['listpinjaman']."' ");
+		$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan_harian', array('id' => $data['listpinjaman']));
+		if($cek['totalpinjaman'] <= $cek['totalpotongan']){
+			$status = 3;
+		} else {
+			$status = 2;
+		}
+		$this->db->query("UPDATE pinjaman_karyawan_harian SET status='".$status."' WHERE id='".$data['listpinjaman']."' ");
+		$this->db->insert('potongan_pinjaman_karyawan_harian', $insert);
+		$this->session->set_flashdata('msg', 'Data potongan berhasil disimpan');
+		if(isset($data['redirect_to']) && $data['redirect_to'] == 'pinjamankaryawanharian'){
+			redirect(BASEURL.'Keuangan/pinjamankaryawanharian');
+		} elseif(isset($data['redirect_to']) && $data['redirect_to'] == 'rincian'){
+			redirect(BASEURL.'Keuangan/rincianpinjamankaryawanharian/'.$data['listpinjaman']);
+		} else {
+			redirect(BASEURL.'Keuangan/potonganpinjamankaryawanharian');
+		}
+	}
+
+	public function potonganpinjamankaryawanharian_hapus($id){
+		$detail = $this->GlobalModel->getDataRow('potongan_pinjaman_karyawan_harian', array('id' => $id));
+		if($detail){
+			$idpinjaman = $detail['idpinjaman'];
+			$totalpotongan = $detail['totalpotongan'];
+
+			$this->db->query("UPDATE pinjaman_karyawan_harian SET totalpotongan = totalpotongan - '$totalpotongan' WHERE id = '$idpinjaman' ");
+
+			$cek = $this->GlobalModel->getDataRow('pinjaman_karyawan_harian', array('id' => $idpinjaman));
+			if($cek['totalpotongan'] <= 0){
+				$status = 1;
+			} else if($cek['totalpinjaman'] <= $cek['totalpotongan']){
+				$status = 3;
+			} else {
+				$status = 2;
+			}
+			$this->db->query("UPDATE pinjaman_karyawan_harian SET status = '$status' WHERE id = '$idpinjaman' ");
+
+			$this->db->update('potongan_pinjaman_karyawan_harian', array('hapus' => 1), array('id' => $id));
+			user_activity(callSessUser('id_user'), 1, ' menghapus rincian potongan pinjaman karyawan harian dengan id ' . $id);
+
+			$this->session->set_flashdata('msg', 'Data berhasil dihapus');
+			redirect(BASEURL.'Keuangan/potonganpinjamankaryawanharian');
+		} else {
+			$this->session->set_flashdata('msg', 'Data tidak ditemukan');
+			redirect(BASEURL.'Keuangan/potonganpinjamankaryawanharian');
+		}
+	}
+
 	public function transferan(){
 		$data=array();
 		$data['title']='List Transferan';
