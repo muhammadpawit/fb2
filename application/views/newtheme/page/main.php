@@ -149,6 +149,144 @@
         text-align: center;
     }
 
+    /* Penyesuaian lebar sidebar agar proporsional */
+    .main-sidebar, .left-side {
+        width: 250px !important;
+    }
+    .main-header .navbar {
+        margin-left: 250px !important;
+    }
+    .main-header .logo {
+        width: 250px !important;
+    }
+    .content-wrapper, .main-footer {
+        margin-left: 250px !important;
+    }
+    @media (max-width: 767px) {
+        .main-sidebar, .left-side {
+            -webkit-transform: translate(-250px, 0) !important;
+            -ms-transform: translate(-250px, 0) !important;
+            -o-transform: translate(-250px, 0) !important;
+            transform: translate(-250px, 0) !important;
+        }
+        .sidebar-open .main-sidebar, .sidebar-open .left-side {
+            -webkit-transform: translate(0, 0) !important;
+            -ms-transform: translate(0, 0) !important;
+            -o-transform: translate(0, 0) !important;
+            transform: translate(0, 0) !important;
+        }
+        .sidebar-open .content-wrapper, .sidebar-open .main-footer {
+            -webkit-transform: translate(250px, 0) !important;
+            -ms-transform: translate(250px, 0) !important;
+            -o-transform: translate(250px, 0) !important;
+            transform: translate(250px, 0) !important;
+        }
+        .main-header .navbar, .main-header .logo, .content-wrapper, .main-footer {
+            margin-left: 0 !important;
+        }
+    }
+    /* Ketika sidebar di-collapse (sidebar-mini) */
+    .sidebar-collapse .main-sidebar, .sidebar-collapse .left-side {
+        -webkit-transform: translate(-250px, 0) !important;
+        -ms-transform: translate(-250px, 0) !important;
+        -o-transform: translate(-250px, 0) !important;
+        transform: translate(-250px, 0) !important;
+    }
+    .sidebar-collapse .content-wrapper, .sidebar-collapse .main-footer, .sidebar-collapse .main-header .navbar {
+        margin-left: 0 !important;
+    }
+    .sidebar-mini.sidebar-collapse .main-sidebar {
+        -webkit-transform: translate(0, 0) !important;
+        -ms-transform: translate(0, 0) !important;
+        -o-transform: translate(0, 0) !important;
+        transform: translate(0, 0) !important;
+        width: 50px !important;
+        z-index: 850;
+    }
+    .sidebar-mini.sidebar-collapse .content-wrapper,
+    .sidebar-mini.sidebar-collapse .right-side,
+    .sidebar-mini.sidebar-collapse .main-footer {
+        margin-left: 50px !important;
+    }
+    .sidebar-mini.sidebar-collapse .main-header .navbar {
+        margin-left: 50px !important;
+    }
+    .sidebar-mini.sidebar-collapse .main-header .logo {
+        width: 50px !important;
+    }
+
+    /* Penyesuaian hierarki indent & ukuran font sub-menu */
+    .treeview-menu {
+        padding-left: 0 !important;
+    }
+    .treeview-menu .treeview-menu {
+        padding-left: 10px !important;
+    }
+    .treeview-menu .treeview-menu .treeview-menu {
+        padding-left: 8px !important;
+    }
+    .treeview-menu > li > a {
+        padding: 6px 10px !important;
+        font-size: 13px !important;
+    }
+
+    /* Penataan Menu: 1 Baris dengan Ellipsis (Overflow) & Tidak Nabrak Panah Dropdown */
+    .sidebar-menu li > a {
+        display: flex !important;
+        align-items: center;
+        position: relative;
+    }
+
+    .sidebar-menu li > a > span.menu-text,
+    .sidebar-menu li > a > span:first-of-type {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        flex: 1;
+        min-width: 0;
+        padding-right: 6px;
+    }
+
+    .sidebar-menu .treeview-menu > li > a {
+        display: flex !important;
+        align-items: center;
+        position: relative;
+    }
+
+    .sidebar-menu .treeview-menu > li > a > span.menu-text,
+    .sidebar-menu .treeview-menu > li > a > span:first-of-type {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        flex: 1;
+        min-width: 0;
+        padding-right: 6px;
+    }
+
+    .sidebar-menu li > a > .pull-right-container,
+    .sidebar-menu .treeview-menu > li > a > .pull-right-container {
+        position: static !important;
+        float: none !important;
+        margin-top: 0 !important;
+        margin-left: auto !important;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .sidebar-menu li > a > .pull-right-container > .fa-angle-left,
+    .sidebar-menu .treeview-menu > li > a > .pull-right-container > .fa-angle-left {
+        margin-right: 0 !important;
+    }
+
+    .sidebar-menu i.fa-circle-dot,
+    .sidebar-menu i.fa-share-nodes,
+    .sidebar-menu i.fa-right-from-bracket {
+        flex-shrink: 0;
+        margin-right: 8px;
+        font-size: 12px;
+    }
+
     /* ===== CHAT SIDEBAR STYLES ===== */
     #chat-sidebar {
         position: fixed;
@@ -426,7 +564,7 @@
 </style>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini fixed">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -529,9 +667,9 @@
 
         <!-- PARENT MENU -->
         <li class="treeview">
-            <a href="<?php echo $mp['url'] ?>">
+            <a href="<?php echo $mp['url'] ?>" title="<?php echo htmlspecialchars($mp['nama']) ?>">
                 <i class="fa-solid fa-share-nodes"></i>
-                <span><?php echo $mp['nama'] ?></span>
+                <span class="menu-text"><?php echo $mp['nama'] ?></span>
                 <span class="pull-right-container">
                     <i class="fa-solid fa-angle-left pull-right"></i>
                 </span>
@@ -544,9 +682,9 @@
 
                     <!-- SUB 1 -->
                     <li class="treeview">
-                        <a href="#">
+                        <a href="#" title="<?php echo htmlspecialchars($sub1['nama']) ?>">
                             <i class="fa-solid fa-circle-dot"></i>
-                            <?php echo $sub1['nama'] ?>
+                            <span class="menu-text"><?php echo $sub1['nama'] ?></span>
                             <span class="pull-right-container">
                                 <i class="fa-solid fa-angle-left pull-right"></i>
                             </span>
@@ -559,9 +697,9 @@
 
                                 <!-- SUB 2 -->
                                 <li class="treeview">
-                                    <a href="<?php echo BASEURL.$sub2['url'] ?>">
+                                    <a href="<?php echo BASEURL.$sub2['url'] ?>" title="<?php echo htmlspecialchars($sub2['nama']) ?>">
                                         <i class="fa-solid fa-circle-dot"></i>
-                                        <?php echo $sub2['nama'] ?>
+                                        <span class="menu-text"><?php echo $sub2['nama'] ?></span>
                                         <span class="pull-right-container">
                                             <i class="fa-solid fa-angle-left pull-right"></i>
                                         </span>
@@ -572,9 +710,9 @@
                                         <?php foreach(MenuSub3($sub2['id']) as $sub3){ ?>
                                         <!-- SUB 3 -->
                                         <li>
-                                            <a href="<?php echo BASEURL.$sub3['url'] ?>">
+                                            <a href="<?php echo BASEURL.$sub3['url'] ?>" title="<?php echo htmlspecialchars($sub3['nama']) ?>">
                                                 <i class="fa-solid fa-circle-dot"></i>
-                                                <?php echo $sub3['nama'] ?>
+                                                <span class="menu-text"><?php echo $sub3['nama'] ?></span>
                                             </a>
                                         </li>
                                         <?php } ?>
@@ -586,9 +724,9 @@
 
                                 <!-- SUB 2 tanpa child -->
                                 <li>
-                                    <a href="<?php echo BASEURL.$sub2['url'] ?>">
+                                    <a href="<?php echo BASEURL.$sub2['url'] ?>" title="<?php echo htmlspecialchars($sub2['nama']) ?>">
                                         <i class="fa-solid fa-circle-dot"></i>
-                                        <?php echo $sub2['nama'] ?>
+                                        <span class="menu-text"><?php echo $sub2['nama'] ?></span>
                                     </a>
                                 </li>
 
@@ -602,9 +740,9 @@
 
                     <!-- SUB 1 tanpa child -->
                     <li>
-                        <a href="<?php echo BASEURL.$sub1['url'] ?>">
+                        <a href="<?php echo BASEURL.$sub1['url'] ?>" title="<?php echo htmlspecialchars($sub1['nama']) ?>">
                             <i class="fa-solid fa-circle-dot"></i>
-                            <?php echo $sub1['nama'] ?>
+                            <span class="menu-text"><?php echo $sub1['nama'] ?></span>
                         </a>
                     </li>
 
@@ -618,9 +756,9 @@
 
         <!-- MENU TANPA SUB -->
         <li class="nav-item">
-            <a href="<?php echo BASEURL.$mp['url'] ?>" class="nav-link">
-                
-                <p><i class="fa-solid fa-circle-dot"></i><?php echo $mp['nama'] ?></p>
+            <a href="<?php echo BASEURL.$mp['url'] ?>" class="nav-link" title="<?php echo htmlspecialchars($mp['nama']) ?>">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span class="menu-text"><?php echo $mp['nama'] ?></span>
             </a>
         </li>
 
@@ -1545,6 +1683,15 @@
                 $(this).parents('ul.treeview-menu').css('display', 'block');
             }
         });
+
+        // Trigger Layout resize & fix
+        if (typeof $.AdminLTE !== 'undefined' && typeof $.AdminLTE.layout !== 'undefined') {
+            $.AdminLTE.layout.fix();
+            $.AdminLTE.layout.fixSidebar();
+        } else if (typeof $('body').data('lte.layout') !== 'undefined') {
+            $('body').data('lte.layout').fix();
+            $('body').data('lte.layout').fixSidebar();
+        }
     });
 </script>
 

@@ -88,9 +88,11 @@ class Rekapkirimsetor extends CI_Controller {
 		$monthName = $dateObj->format('F'); // March
 		$data['bln']=$monthName;
 		$data['cmtnya']=null;
-		if(!empty($cmt)){
+		if(!empty($cmt) && $cmt != 'all' && $cmt != '*'){
 			$cmtd=$this->GlobalModel->GetdataRow('master_cmt',array('id_cmt'=>$cmt));
-			$data['cmtnya']=$cmtd['cmt_name'];
+			$data['cmtnya']=!empty($cmtd['cmt_name']) ? $cmtd['cmt_name'] : null;
+		} elseif ($cmt == 'all') {
+			$data['cmtnya'] = 'Semua CMT';
 		}
 		$no=1;
 		$jml=0;
