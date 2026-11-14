@@ -190,14 +190,30 @@ class Report extends CI_Model {
 		return $data;
 	}
 
-	public function kirimsetorjson($jenis,$tanggal1,$tanggal2,$proses){
+	public function kirimsetorjson($jenis,$tanggal1,$tanggal2,$proses,$nama_po=null){
 		$data=[];
-		$sql="SELECT p.kode_po as nama_po, kbp.create_date as creted_date  FROM `kelolapo_kirim_setor` kbp JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) WHERE mjp.idjenis ='$jenis' AND kbp.kategori_cmt='JAHIT' AND kbp.progress='$proses' AND kbp.hapus=0 and mjp.tampil=1 AND kbp.id_master_cmt NOT IN(63) ";
-		$sql.=" AND kbp.id_master_cmt NOT IN(85) ";
+		$where_jenis = "";
+		if(!empty($nama_po)){
+			$where_jenis = " AND mjp.nama_jenis_po = '".$this->db->escape_str($nama_po)."' ";
+		} elseif(!empty($jenis)){
+			$where_jenis = " AND mjp.idjenis = '".$this->db->escape_str($jenis)."' ";
+		}
+		$sql="SELECT p.kode_po as nama_po, kbp.create_date as creted_date, COALESCE(kbp.qty_tot_pcs,0) as qty, COALESCE(m.cmt_name,'-') as cmt_name 
+			FROM `kelolapo_kirim_setor` kbp 
+			JOIN produksi_po p ON(p.id_produksi_po=kbp.idpo) 
+			LEFT JOIN master_jenis_po mjp ON(mjp.nama_jenis_po=p.nama_po) 
+			LEFT JOIN master_cmt m ON(m.id_cmt=kbp.id_master_cmt)
+			WHERE 1=1 $where_jenis 
+			AND kbp.kategori_cmt='JAHIT' 
+			AND kbp.progress='$proses' 
+			AND kbp.hapus=0 
+			AND mjp.tampil=1 
+			AND kbp.id_master_cmt NOT IN(63) ";
+		$sql.=" AND NOT (kbp.id_master_cmt = 85 AND DATE(kbp.create_date) < '2026-01-04') ";
 		if(!empty($tanggal1)){
 			$sql.=" AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' ";
 		}
-		$sql.=" GROUP BY p.id_produksi_po ";
+		$sql.=" GROUP BY p.id_produksi_po ORDER BY kbp.create_date ASC, p.kode_po ASC ";
 		$data=$this->GlobalModel->QueryManual($sql);
 		return $data;
 	}

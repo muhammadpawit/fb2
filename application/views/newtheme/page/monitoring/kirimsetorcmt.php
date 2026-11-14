@@ -148,10 +148,18 @@
 	                <tr>
 	                    <td><?php echo $no++?></td>
 	                    <td><?php echo $r['type']?></td>
-	                    <td><?php echo number_format($r['countkirim'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail-po" name="kirim" data-po="<?php echo $r['type']?>" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['countkirim'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['qtykirimdz'])?></td>
 	                    <td><?php echo number_format($r['qtykirimpcs'])?></td>
-	                    <td><?php echo number_format($r['countsetor'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail-po" name="setor" data-po="<?php echo $r['type']?>" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['countsetor'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['qtysetordz'],2)?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                    <td align="center"><?php echo $r['qtykirimpcs']>0?number_format(($r['qtysetorpcs']/$r['qtykirimpcs']*100),2):0 ?> %</td>
@@ -206,10 +214,18 @@
 	                <tr>
 	                    <td><?php echo $no++?></td>
 	                    <td><?php echo $r['type']?></td>
-	                    <td><?php echo number_format($r['countkirim'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail-po" name="kirim" data-po="<?php echo $r['type']?>" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['countkirim'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['qtykirimdz'])?></td>
 	                    <td><?php echo number_format($r['qtykirimpcs'])?></td>
-	                    <td><?php echo number_format($r['countsetor'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail-po" name="setor" data-po="<?php echo $r['type']?>" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['countsetor'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['qtysetordz'])?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                </tr>
@@ -264,10 +280,18 @@
 	                <tr>
 	                    <td><?php echo $no++?></td>
 	                    <td><?php echo $r['type']?></td>
-	                    <td><?php echo number_format($r['countkirim'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail-po" name="kirim" data-po="<?php echo $r['type']?>" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['countkirim'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['qtykirimdz'])?></td>
 	                    <td><?php echo number_format($r['qtykirimpcs'])?></td>
-	                    <td><?php echo number_format($r['countsetor'])?></td>
+	                    <td>
+							<a href="#" class="small-box-footer lihat-detail-po" name="setor" data-po="<?php echo $r['type']?>" data-id="<?php echo $r['id']?>">
+								<?php echo number_format($r['countsetor'])?>
+							</a>
+						</td>
 	                    <td><?php echo number_format($r['qtysetordz'])?></td>
 	                    <td><?php echo number_format($r['qtysetorpcs'])?></td>
 	                </tr>
@@ -304,60 +328,91 @@
 	</div>
 </div>
 <script>
-	$(document).on("click", ".lihat-detail", function(e) {
-    e.preventDefault();
+	function loadDetailData(params) {
+		$("#detailContent").html("Loading...");
+		$("#detailModal").modal("show");
 
-    $("#detailContent").html("Loading...");
-    $("#detailModal").modal("show");
+		$.ajax({
+			url: "<?php echo BASEURL ?>Monitoring/kirimsetorjson",   
+			type: "GET",
+			dataType: "json",
+			data: params,
+			success: function(res) {
+				if (res.length > 0) {
+					let html = `
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Kode PO</th>
+									<th>Tanggal</th>
+									<th>CMT</th>
+									<th>Pcs</th>
+								</tr>
+							</thead>
+							<tbody>
+					`;
+					let no = 1;
+					let totalPcs = 0;
+					res.forEach(row => {
+						let qtyPcs = row.qty ? parseInt(row.qty) : 0;
+						totalPcs += qtyPcs;
+						html += `
+							<tr>
+								<td>${no}</td>
+								<td>${row.nama_po}</td>
+								<td>${row.creted_date}</td>
+								<td>${row.cmt_name || '-'}</td>
+								<td class="text-right">${qtyPcs.toLocaleString()}</td>
+							</tr>
+						`;
+						no++;
+					});
 
-    let id = $(this).attr("data-id");
-	let proses = $(this).attr("name");
-
-    	$.ajax({
-            url: "<?php echo BASEURL ?>Monitoring/kirimsetorjson",   
-            type: "GET",
-            dataType: "json",
-			data:{
-				id:id,
-				tanggal1:'<?php echo $tanggal1?>',
-				tanggal2:'<?php echo $tanggal2?>',
-				proses:proses,
+					html += `
+							</tbody>
+							<tfoot>
+								<tr>
+									<th colspan="4" class="text-center">Total</th>
+									<th class="text-right">${totalPcs.toLocaleString()}</th>
+								</tr>
+							</tfoot>
+						</table>
+					`;
+					$("#detailContent").html(html);
+				} else {
+					$("#detailContent").html("<em>Tidak ada data</em>");
+				}
 			},
-            success: function(res) {
-                if (res.length > 0) {
-                    let html = `
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Kode PO</th>
-                                    <th>Tanggal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                    `;
-                    let no=1;
-                    res.forEach(row => {
-                        html += `
-                            <tr>
-                                <td>${no}</td>
-                                <td>${row.nama_po}</td>
-                                <td>${row.creted_date}</td>
-                            </tr>
-                        `;
-                        no++;
-                    });
+			error: function(xhr) {
+				$("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
+			}
+		});
+	}
 
-                    html += `</tbody></table>`;
-                    $("#detailContent").html(html);
-                } else {
-                    $("#detailContent").html("<em>Tidak ada data</em>");
-                }
-            },
-            error: function(xhr) {
-                $("#detailContent").html("<span class='text-danger'>Gagal memuat data.</span>");
-            }
-        });
+	$(document).on("click", ".lihat-detail", function(e) {
+		e.preventDefault();
+		let id = $(this).attr("data-id");
+		let proses = $(this).attr("name");
+		loadDetailData({
+			id: id,
+			tanggal1: '<?php echo $tanggal1?>',
+			tanggal2: '<?php echo $tanggal2?>',
+			proses: proses
+		});
+	});
 
-});
+	$(document).on("click", ".lihat-detail-po", function(e) {
+		e.preventDefault();
+		let id = $(this).attr("data-id");
+		let nama_po = $(this).attr("data-po");
+		let proses = $(this).attr("name");
+		loadDetailData({
+			id: id,
+			nama_po: nama_po,
+			tanggal1: '<?php echo $tanggal1?>',
+			tanggal2: '<?php echo $tanggal2?>',
+			proses: proses
+		});
+	});
 </script>

@@ -1053,7 +1053,9 @@ class Monitoring extends CI_Controller {
 			$proses=null;
 		}
 
-		$data = $this->Report->kirimsetorjson($get['id'],$tanggal1,$tanggal2,$proses);
+		$nama_po = isset($get['nama_po']) ? $get['nama_po'] : null;
+
+		$data = $this->Report->kirimsetorjson($get['id'],$tanggal1,$tanggal2,$proses,$nama_po);
 		echo json_encode($data);
 	}
 
