@@ -208,6 +208,12 @@ class Monitoring extends CI_Controller {
 			array('type'=>'Tambahan','id'=>5),
 		);
 		
+		// Cek pengecualian CMT Sukabumi (id: 85): dikecualikan hanya sebelum tanggal 2026-01-04
+		$filter_cmt_kirim = "AND kbp.id_master_cmt != 63";
+		$filter_cmt_setor = "AND kbp.id_master_cmt != 63";
+		$filter_cmt_kirim .= " AND NOT (kbp.id_master_cmt = 85 AND DATE(kbp.create_date) < '2026-01-04')";
+		$filter_cmt_setor .= " AND NOT (kbp.id_master_cmt = 85 AND DATE(kbp.create_date) < '2026-01-04')";
+
 		// KIRIM: Bulk query for idjenis and nama_jenis_po
 		$kirim_jenis = [];
 		$kirim_nama = [];
@@ -230,7 +236,7 @@ class Monitoring extends CI_Controller {
 			AND kbp.progress='KIRIM' 
 			AND kbp.hapus=0 
 			AND mjp.tampil=1 
-			AND kbp.id_master_cmt NOT IN (85,63)
+			$filter_cmt_kirim
 			AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' 
 			GROUP BY mjp.idjenis, mjp.nama_jenis_po, kbp.idpo
 		) sub 
@@ -272,7 +278,7 @@ class Monitoring extends CI_Controller {
 			AND kbp.progress='SETOR' 
 			AND kbp.hapus=0 
 			AND mjp.tampil=1 
-			AND kbp.id_master_cmt NOT IN (85,63)
+			$filter_cmt_setor
 			AND DATE(kbp.create_date) BETWEEN '$tanggal1' AND '$tanggal2' 
 			GROUP BY mjp.idjenis, mjp.nama_jenis_po, kbp.idpo
 		) sub 
