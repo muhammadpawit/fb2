@@ -635,7 +635,9 @@ class Report extends CI_Controller
 
 			// Kasbon Karyawan
 			$sql_kasbon_detail = "SELECT k.nominal_acc as nominal, kar.nama, kar.divisi, k.bagian FROM kasbon k LEFT JOIN karyawan kar ON k.idkaryawan = kar.id WHERE k.hapus=0 AND LOWER(k.jenis_pembayaran) = 'transfer' AND DATE(k.tanggal) = '" . $p['tanggal'] . "'";
-			$sql_kasbon_detail .= " AND kar.id NOT IN (34)";
+			if (strtotime($p['tanggal']) < strtotime('2026-11-09')) {
+				$sql_kasbon_detail .= " AND kar.id NOT IN (34)";
+			}
 			if (!empty($cat)) {
 				if ($cat == 1) { // Konveksi
 					$sql_kasbon_detail .= " AND kar.divisi IN (2, 15)";
