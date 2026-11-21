@@ -33,7 +33,7 @@ class Persetujuanuser extends CI_Controller {
 				LEFT JOIN jabatan j ON u.jabatan_user = j.id 
 				ORDER BY pu.id DESC";
 		$data['users'] = $this->GlobalModel->queryManual($sql);
-		$data['page'] = $this->page . 'index';
+		$data['page'] = $this->page . 'list';
 		$this->load->view($this->layout, $data);
 	}
 
