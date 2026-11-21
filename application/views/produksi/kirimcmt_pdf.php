@@ -1,5 +1,9 @@
+<?php 
+$total_items = count($kirims);
+$is_compact = ($total_items > 12 && $total_items <= 20);
+?>
 <style type="text/css">
-	 body{text-transform:capitalize;font-size: 20px;}
+	 body{text-transform:capitalize;font-size: <?php echo $is_compact ? '14px' : '20px'; ?>;}
 	 .hs { font-size: 22px;font-weight: bold; }
 	 .break{ page-break-after: always; }
 	 @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap');
@@ -20,6 +24,20 @@
                 text-align: right;
                 line-height: 1.5cm;
             }
+	<?php if($is_compact){ ?>
+	.title h3 { margin: 2px 0 !important; font-size: 14pt !important; }
+	.subtitle { font-size: 9.5pt !important; margin-bottom: 2px !important; }
+	.subtitle table { width: 45% !important; }
+	.body { margin-top: 4pt !important; }
+	div.body table, div.body thead th, div.body td {
+		font-size: 13.5px !important;
+		padding: 2.5px 3px !important;
+	}
+	.catatan-text { font-size: 8.5pt !important; margin: 2px 0 !important; }
+	.catatan-ol { font-size: 8pt !important; margin: 2px 0 !important; padding-left: 15px !important; line-height: 1.25 !important; }
+	.ttd-table { margin-top: 5px !important; font-size: 8.5pt !important; }
+	.ttd-cell { height: 50px !important; padding-bottom: 2px !important; }
+	<?php } ?>
 </style>
 <?php $hari=date('l',strtotime($kirim['tanggal']));?>
 <?php if(!isset($header)){?>
@@ -103,7 +121,7 @@
 <?php } ?>
 
 <div class="body">
-<table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
+<table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; <?php if(!$is_compact){ ?>font-size: 19.5px !important;<?php } ?>">
     <thead>
         <tr>
             <th class="center">No</th>
@@ -138,10 +156,10 @@
                 <td align="center" width="10%"><?php echo $k['keterangan']?></td>
             </tr>
             <?php $no++; ?>
-            <?php if ($no == 25) { ?>
+            <?php if ($total_items > 20 && $no == 21) { ?>
                 </tbody>
                 </table>
-                <div class="break"></div> <!-- Tambahkan class "break" untuk page break -->
+                <div class="break"></div> <!-- Tambahkan class "break" untuk page break jika lebih dari 20 item -->
                 <table border="1" style="border-collapse: collapse; width: 100%; border-color: 1px solid #dee2e6 !important; font-size: 19.5px !important;">
                     <thead>
                         <tr>
@@ -221,8 +239,8 @@
 		<table style="width:100%">
 			<tr>
 				<td style="width:35%" valign="top">
-					<p>Catatan :</p>
-								<ol>
+					<p class="catatan-text">Catatan :</p>
+								<ol class="catatan-ol">
 									<li>PO yang sudah diterima harap dicek dahulu potongan dan kelengkapanya</li>
 									<li>Apabila ada kekurangan, harap segera konfirmasi <?php if(!empty($alat)){ ?> Kantor Cab. Sukabumi <?php }else{ ?> bagian QC <?php } ?> </li>
 									<li>Batas maksimal konfirmasi 3 x 24 jam</li>
@@ -231,18 +249,18 @@
 				</td>
 				<td style="width:65%" valign="top">
 					<br>
-					<table border="1" style="border-collapse: collapse;width: 100%;margin-top: 20px;">
+					<table border="1" class="ttd-table" style="border-collapse: collapse;width: 100%;margin-top: <?php echo $is_compact ? '5px' : '20px'; ?>;">
 						<tr>
-							<td align="center" width="25%" style="padding: 5px;">Security</td>
-							<td align="center" width="25%" style="padding: 5px;">CMT</td>
-							<td align="center" width="25%" style="padding: 5px;"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td>
-							<td align="center" width="25%" style="padding: 5px;"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin KLO <?php } ?></td>
+							<td align="center" width="25%" style="padding: <?php echo $is_compact ? '2px' : '5px'; ?>;">Security</td>
+							<td align="center" width="25%" style="padding: <?php echo $is_compact ? '2px' : '5px'; ?>;">CMT</td>
+							<td align="center" width="25%" style="padding: <?php echo $is_compact ? '2px' : '5px'; ?>;"><?php if(!empty($alat)){ ?> Kepala Cabang <?php }else{ ?> SPV <?php } ?></td>
+							<td align="center" width="25%" style="padding: <?php echo $is_compact ? '2px' : '5px'; ?>;"><?php if(!empty($alat)){ ?> Admin SKB <?php }else{ ?> Admin KLO <?php } ?></td>
 						</tr>
 						<tr>
-							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
-							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
-							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
-							<td align="center" width="25%" height="100" valign="bottom" style="padding-bottom: 5px;"><?php if(!empty($alat)){ ?> VINA <?php }else{ ?> ASMIA <?php } ?></td>
+							<td align="center" width="25%" height="<?php echo $is_compact ? '50' : '100'; ?>" valign="bottom" class="ttd-cell" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
+							<td align="center" width="25%" height="<?php echo $is_compact ? '50' : '100'; ?>" valign="bottom" class="ttd-cell" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
+							<td align="center" width="25%" height="<?php echo $is_compact ? '50' : '100'; ?>" valign="bottom" class="ttd-cell" style="padding-bottom: 5px;">&nbsp;&nbsp;&nbsp;................&nbsp;&nbsp;&nbsp;</td>
+							<td align="center" width="25%" height="<?php echo $is_compact ? '50' : '100'; ?>" valign="bottom" class="ttd-cell" style="padding-bottom: 5px;"><?php if(!empty($alat)){ ?> VINA <?php }else{ ?> ASMIA <?php } ?></td>
 						</tr>
 					</table>
 				</td>

@@ -91,7 +91,7 @@
 				<?php foreach($prods as $p){?>
 					<tr>
 						<td><?php echo $p['tanggal']?></td>
-						<td><?php echo $p['pengalokasian']?></td>
+						<td><?php echo isset($p['pengalokasian']) ? $p['pengalokasian'] : '-'?></td>
 						<td><?php echo $p['keterangan']?></td>
 						<td><?php echo number_format($p['nominal'])?></td>
             <td>

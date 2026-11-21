@@ -32,13 +32,14 @@ class Alokasitransfersablon extends CI_Controller {
 		$data['tanggal1']=$tanggal1;
 		$data['tanggal2']=$tanggal2;
 		$bagian=3;
-		$sql = "SELECT * FROM alokasi_transferan WHERE hapus=0 AND bagian='$bagian' ";
-		$sql.=" AND DATE(tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
+		$sql = "SELECT a.*, p.nama as pengalokasian_nama FROM alokasi_transferan a LEFT JOIN pengalokasian p ON p.id=a.pengalokasian WHERE a.hapus=0 AND a.bagian='$bagian' ";
+		$sql.=" AND DATE(a.tanggal) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$results=$this->GlobalModel->QueryManual($sql);
 		$data['prods']=[];
 		foreach($results as $r){
 			$data['prods'][]=array(
 				'tanggal'=>date('d-m-Y',strtotime($r['tanggal'])),
+				'pengalokasian'=>!empty($r['pengalokasian_nama']) ? $r['pengalokasian_nama'] : '-',
 				'keterangan'=>$r['keterangan'],
 				'nominal'=>$r['nominal'],
 				'hapus' => $this->url.'/hapus/'.$r['id'],

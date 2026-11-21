@@ -3091,6 +3091,12 @@ class Kelolapo extends CI_Controller
 			//orientasi paper potrait / landscape
 			$orientation = "potrait";
 			$data['header'] = true;
+			$total_items = count($data['kirims']);
+			if ($total_items <= 20) {
+				$paper = array(0, 0, 800, 1080);
+			} else {
+				$paper = array(0, 0, 800, 1000);
+			}
 			$html =  $this->load->view('produksi/kirimcmt_pdf', $data, true);
 			$headerContent = $this->load->view('newtheme/page/pdf/header', $data, true);
 			$footerContent = null;
