@@ -38,8 +38,12 @@ class ResumeGajiModel extends CI_Model {
             $result = $this->UmSecurity($tanggal1,$tanggal2);
             return $result;
         }else if($id==4){
-            // Uang Makan Security
-            $result = $this->InsentifModel->rekap($tanggal11,$tanggal22);
+            // Insentif Security: jika ada parameter tanggal11/tanggal22 spesifik gunakan itu, jika tidak otomatis ikut tanggal1 dan tanggal2 periode gajian
+            if(isset($get['tanggal11']) && isset($get['tanggal22'])){
+                $result = $this->InsentifModel->rekap($tanggal11,$tanggal22);
+            }else{
+                $result = $this->InsentifModel->rekap($tanggal1,$tanggal2);
+            }
             return $result;
         }else if($id==5){
             // Gaji Karyawan Finishing
@@ -156,23 +160,30 @@ class ResumeGajiModel extends CI_Model {
 		$sql="SELECT * FROM gaji_finishing WHERE hapus=0 AND bagian LIKE '%Finishing%' ";
 		$sql.=" AND DATE(tanggal1) BETWEEN '".$tanggal1."' AND '".$tanggal2."' ";
 		$results=$this->GlobalModel->QueryManualRow($sql);
+		if(empty($results) || !isset($results['id'])){
+			return 0;
+		}
 		$details=$this->GlobalModel->getData('gaji_finishing_detail',array('idgaji'=>$results['id']));
+		if(empty($details)){
+			return 0;
+		}
         $gaji=0;
         $karyawans=[];
 			foreach($details as $d){
 				$gaji=$this->GlobalModel->getDataRow('karyawan_harian',array('id'=>$d['idkaryawan']));
+				$nom_gaji = (!empty($gaji) && isset($gaji['gaji'])) ? $gaji['gaji'] : 0;
 				$karyawans[]=array(
 					'idkaryawan'=>$d['idkaryawan'],
 					'nama'=>strtolower($d['nama']),
-					'senin'=>$d['senin']==1?$gaji['gaji']:0,
-					'selasa'=>$d['selasa']==1?$gaji['gaji']:0,
-					'rabu'=>$d['rabu']==1?$gaji['gaji']:0,
-					'kamis'=>$d['kamis']==1?$gaji['gaji']:0,
-					'jumat'=>$d['jumat']==1?$gaji['gaji']:0,
-					'sabtu'=>$d['sabtu']==1?$gaji['gaji']:0,
-					'minggu'=>$d['minggu']==1?$gaji['gaji']:0,
+					'senin'=>$d['senin']==1?$nom_gaji:0,
+					'selasa'=>$d['selasa']==1?$nom_gaji:0,
+					'rabu'=>$d['rabu']==1?$nom_gaji:0,
+					'kamis'=>$d['kamis']==1?$nom_gaji:0,
+					'jumat'=>$d['jumat']==1?$nom_gaji:0,
+					'sabtu'=>$d['sabtu']==1?$nom_gaji:0,
+					'minggu'=>$d['minggu']==1?$nom_gaji:0,
 					'lembur'=>$d['lembur']>0?$d['lembur']:0,
-					'insentif'=>$d['insentif']==1?$gaji['gaji']:0,
+					'insentif'=>$d['insentif']==1?$nom_gaji:0,
                     'claim'=>$d['claim'],
                     'pinjaman'=>$d['pinjaman']
 				);

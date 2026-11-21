@@ -126,9 +126,21 @@ class InsentifModel extends CI_Model {
 
 	function rekap($tanggal1,$tanggal2){
 		$hasil=0;
-		$sql="SELECT COALESCE(SUM(total_diterima),0) as total FROM rekapinsentif_security WHERE tanggal1='$tanggal1' AND tanggal2='$tanggal2' ";
+		// 1. Cek berdasarkan tanggal laporan keuangan gajian (tanggal_lap_keu_akhir atau tanggal_lap_keu_awal)
+		$sql_lap = "SELECT COALESCE(SUM(total_diterima),0) as total FROM rekapinsentif_security WHERE hapus=0 
+			AND (
+				(tanggal_lap_keu_akhir BETWEEN '$tanggal1' AND '$tanggal2')
+				OR (tanggal_lap_keu_awal BETWEEN '$tanggal1' AND '$tanggal2')
+			)";
+		$data_lap = $this->GlobalModel->QueryManualRow($sql_lap);
+		if(!empty($data_lap['total']) && $data_lap['total'] > 0){
+			return $data_lap['total'];
+		}
+
+		// 2. Cek jika tanggal sama persis dengan tanggal1 dan tanggal2 periode insentif
+		$sql="SELECT COALESCE(SUM(total_diterima),0) as total FROM rekapinsentif_security WHERE hapus=0 AND ( (tanggal1='$tanggal1' AND tanggal2='$tanggal2') OR (tanggal2 BETWEEN '$tanggal1' AND '$tanggal2') ) ";
 		$data = $this->GlobalModel->QueryManualRow($sql);
-		return $data['total'];
+		return !empty($data['total']) ? $data['total'] : 0;
 	}
 
 

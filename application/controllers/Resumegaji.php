@@ -55,12 +55,12 @@ class Resumegaji extends CI_Controller {
 		if(isset($get['tanggal11'])){
 			$tanggal11=$get['tanggal11'];
 		}else{
-			$tanggal11=date('Y-m-d');
+			$tanggal11=$tanggal1;
 		}
 		if(isset($get['tanggal22'])){
 			$tanggal22=$get['tanggal22'];
 		}else{
-			$tanggal22=date('Y-m-d');
+			$tanggal22=$tanggal2;
 		}
 		$data['tanggal11']=$tanggal11;
 		$data['tanggal22']=$tanggal22;
