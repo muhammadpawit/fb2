@@ -130,10 +130,10 @@ class Notakirim extends CI_Controller
 		// $tahunsebelum = $this->db->query("SELECT tahunpo FROM finishing_kirim_gudang WHERE nofaktur='".$noFaktur."' ")->row();
 		$tahunsebelum = [];
 		if (!empty($tahunsebelum->tahunpo)) {
-			$sql = "SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
+			$sql = "SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.status,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg ";
 			$sql .= " JOIN produksi_po_" . getTahunProduksiBefore() . " pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur='" . $noFaktur . "' ";
 		} else {
-			$sql = 'SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg 
+			$sql = 'SELECT fkg.id_finishing_kirim_gudang,fkg.nofaktur,fkg.status,pp.kode_artikel as artikel_po,fkg.harga_satuan,fkg.jumlah_harga_piece,fkg.keterangan,fkg.nama_penerima,fkg.tujuan,fkg.kode_po,pp.nama_po,fkg.created_date,fkg.jumlah_piece_diterima,fkg.tanggal_kirim FROM finishing_kirim_gudang fkg 
 			JOIN produksi_po pp ON fkg.idpo=pp.id_produksi_po WHERE fkg.nofaktur="' . $noFaktur . '" ';
 		}
 		//pre($tahunsebelum->tahunpo);
@@ -157,7 +157,21 @@ class Notakirim extends CI_Controller
 		$viewData['pdf'] = $this->link . 'Detailpdf/' . $noFaktur . '?' . $url;
 		$viewData['pdfharga'] = $this->link . 'Detailpdf/' . $noFaktur . '?' . $url . '&harga=true';
 		$viewData['no'] = 1;
+
+		$status_doc = !empty($viewData['gudangfb'][0]['status']) ? strtolower($viewData['gudangfb'][0]['status']) : 'dibuat';
+		$viewData['status_dokumen'] = $status_doc;
+		$viewData['boleh_cetak'] = ($status_doc == 'disetujui');
+
 		$get = $this->input->get();
+
+		if (isset($get['excel'])) {
+			if (!$viewData['boleh_cetak']) {
+				$this->session->set_flashdata('msg', '<div class="alert alert-warning"><i class="fa fa-lock"></i> Dokumen nomor faktur <b>' . $noFaktur . '</b> belum disetujui sehingga tidak bisa diekspor ke Excel. Status: Dokumen menunggu persetujuan.</div>');
+				redirect($this->link . 'detail/' . $noFaktur);
+			}
+			$this->load->view('finishing/nota/nota-kirim-excel', $viewData);
+			return;
+		}
 
 		$pdf = false;
 		if ($pdf == true) {
@@ -195,6 +209,14 @@ class Notakirim extends CI_Controller
 
 	public function Detailpdf($noFaktur = '')
 	{
+		// Cek status persetujuan dokumen sebelum mencetak PDF
+		$cek_doc = $this->GlobalModel->queryManualRow("SELECT status FROM finishing_kirim_gudang WHERE nofaktur = '" . $this->db->escape_str($noFaktur) . "' LIMIT 1");
+		$status_doc = !empty($cek_doc['status']) ? strtolower($cek_doc['status']) : 'dibuat';
+		if ($status_doc != 'disetujui') {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning"><i class="fa fa-lock"></i> Dokumen nomor faktur <b>' . $noFaktur . '</b> belum disetujui sehingga tidak bisa dicetak. Status: Dokumen menunggu persetujuan.</div>');
+			redirect($this->link . 'detail/' . $noFaktur);
+			return;
+		}
 		$get = $this->input->get();
 		$url = '';
 		if (isset($get['hgs'])) {

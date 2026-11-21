@@ -588,8 +588,48 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          
-          <!-- User Account: style can be found in dropdown.less -->
+          <?php 
+          $notif_kg = get_notifikasi_kirimgudang();
+          if ($notif_kg['is_approver']) { 
+          ?>
+          <!-- Notifications: Kirim Gudang Approval -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Persetujuan Kirim Gudang">
+              <i class="fa fa-bell"></i>
+              <?php if ($notif_kg['count'] > 0) { ?>
+                <span class="label label-warning"><?php echo $notif_kg['count']; ?></span>
+              <?php } ?>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">
+                <?php if ($notif_kg['count'] > 0) { ?>
+                  Ada <strong><?php echo $notif_kg['count']; ?></strong> surat jalan kirim gudang menunggu persetujuan
+                <?php } else { ?>
+                  Tidak ada dokumen yang menunggu persetujuan
+                <?php } ?>
+              </li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <?php if ($notif_kg['count'] > 0) { ?>
+                    <?php foreach (array_slice($notif_kg['list'], 0, 5) as $nkg) { ?>
+                      <li>
+                        <a href="<?php echo BASEURL . 'Persetujuanuser/kirimgudang'; ?>">
+                          <i class="fa fa-truck text-yellow"></i> Faktur <strong><?php echo $nkg['nofaktur']; ?></strong>
+                          <br>
+                          <small class="text-muted"><i class="fa fa-calendar"></i> <?php echo date('d-m-Y', strtotime($nkg['tanggal_kirim'])); ?> | <?php echo $nkg['total_pcs']; ?> Pcs</small>
+                        </a>
+                      </li>
+                    <?php } ?>
+                  <?php } ?>
+                </ul>
+              </li>
+              <li class="footer">
+                <a href="<?php echo BASEURL . 'Persetujuanuser/kirimgudang'; ?>"><strong>Lihat Halaman Persetujuan</strong></a>
+              </li>
+            </ul>
+          </li>
+          <?php } ?>
 
         <li class="dropdown user user-menu">
             <a href="<?php echo BASEURL?>dash/jam">

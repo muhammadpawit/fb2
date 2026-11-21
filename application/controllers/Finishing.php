@@ -606,9 +606,18 @@ class Finishing extends CI_Controller
 			$kode_po = null;
 		}
 
+		if (isset($get['nofaktur'])) {
+			$nofaktur_filter = $get['nofaktur'];
+		} else {
+			$nofaktur_filter = null;
+		}
+
 		$sql = 'SELECT fkg.* FROM finishing_kirim_gudang fkg 
 			LEFT JOIN produksi_po p ON (p.id_produksi_po=fkg.idpo OR p.kode_po=fkg.kode_po OR p.id_produksi_po=fkg.kode_po)
 		WHERE fkg.id_finishing_kirim_gudang>0 ';
+		if (!empty($nofaktur_filter)) {
+			$sql .= " AND fkg.nofaktur='" . $this->db->escape_str($nofaktur_filter) . "' ";
+		}
 		if (!empty($kode_po)) {
 			if (strpos($kode_po, '-') !== false) {
 				$po_exp = explode('-', $kode_po, 2);
@@ -619,7 +628,7 @@ class Finishing extends CI_Controller
 				$sql .= " AND (fkg.idpo='" . $this->db->escape_str($kode_po) . "' OR fkg.kode_po='" . $this->db->escape_str($kode_po) . "' OR p.id_produksi_po='" . $this->db->escape_str($kode_po) . "' OR p.kode_po LIKE '%" . $this->db->escape_like_str($kode_po) . "%' OR fkg.kode_po LIKE '%" . $this->db->escape_like_str($kode_po) . "%') ";
 			}
 		}
-		if (empty($kode_po) && isset($tanggal1)) {
+		if (empty($kode_po) && empty($nofaktur_filter) && isset($tanggal1)) {
 			$sql .= " AND date(fkg.tanggal_kirim) BETWEEN '" . $tanggal1 . "' AND '" . $tanggal2 . "' ";
 		}
 		$sql .= " ORDER BY fkg.tanggal_kirim DESC ";
@@ -627,8 +636,32 @@ class Finishing extends CI_Controller
 		$data['tanggal1'] = $tanggal1;
 		$data['tanggal2'] = $tanggal2;
 		$data['kode_po'] = $kode_po;
+		$data['nofaktur_filter'] = $nofaktur_filter;
+
+		// Cek apakah user yang login berhak mengubah status persetujuan
+		$id_user_login = callSessUser('id_user');
+		$cek_approver = $this->GlobalModel->queryManualRow("SELECT id FROM persetujuan_user WHERE id_user = '".$id_user_login."' AND tipe = 'kirimgudang' AND aktif = 1");
+		$data['is_approver'] = !empty($cek_approver) ? true : false;
+
 		$data['page'] = 'finishing/nota/nota-kirim-view';
 		$this->load->view($this->page . 'main', $data);
+	}
+
+	public function approve_kirimgudang($nofaktur, $status)
+	{
+		$id_user_login = callSessUser('id_user');
+		$cek_approver = $this->GlobalModel->queryManualRow("SELECT id FROM persetujuan_user WHERE id_user = '".$id_user_login."' AND tipe = 'kirimgudang' AND aktif = 1");
+		if (empty($cek_approver)) {
+			$this->session->set_flashdata('msg', '<div class="alert alert-danger">Anda tidak memiliki hak akses untuk menyetujui/menolak dokumen ini!</div>');
+			redirect(BASEURL . 'Finishing/pengirimangudang');
+		}
+
+		$status = strtolower($status);
+		if (in_array($status, array('dibuat', 'disetujui', 'ditolak'))) {
+			$this->db->update('finishing_kirim_gudang', array('status' => $status), array('nofaktur' => $nofaktur));
+			$this->session->set_flashdata('msg', '<div class="alert alert-success">Status faktur ' . $nofaktur . ' berhasil diubah menjadi: <b>' . strtoupper($status) . '</b></div>');
+		}
+		redirect(BASEURL . 'Finishing/pengirimangudang');
 	}
 
 	public function edit_tanggal($id)
@@ -2355,6 +2388,7 @@ class Finishing extends CI_Controller
 						'created_date'		=> date('Y-m-d'),
 						'tanggal_kirim'		=>	$post['tanggalKirim'],
 						'susulan'			=> $post['susulan'],
+						'status'			=> 'dibuat',
 
 					);
 					$this->db->update('proses_po', array('proses' => 11), array('id_produksi_po' => $post['kodepo'][$key]));

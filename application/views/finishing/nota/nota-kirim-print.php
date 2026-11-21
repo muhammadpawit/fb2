@@ -83,11 +83,12 @@
                                                         <?php foreach ($gudangfb as $key => $gudang): ?>
                                                             <?php
                                                             $po=$this->GlobalModel->getdataRow('produksi_po',array('id_produksi_po'=>$gudang['kode_po']));
+                                                            $nama_po = !empty($po['kode_po']) ? $po['kode_po'] : (!empty($gudang['nama_po']) ? $gudang['nama_po'] : $gudang['kode_po']);
                                                             ?>
                                                         <tr>
                                                             <td style="vertical-align: top;"><?php echo $no++?></td>
                                                             <td style="vertical-align: top;"><?php echo $gudang['artikel_po'] ?></td>
-                                                            <td style="vertical-align: top;"><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
+                                                            <td style="vertical-align: top;"><?php echo $nama_po ?></td>
                                                             <td style="vertical-align: top;">
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>
@@ -159,10 +160,19 @@
 
                                     <div class="hidden-print mt-4 mb-4 no-print">
                                         <div class="text-right">
-                                            <!-- <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a> -->
-                                            <a href="<?php echo $pdf?>" target="_blank" class="btn btn-success text-white">Print PDF</a>
-                                            <a href="<?php echo $pdfharga?>" target="_blank" class="btn btn-success text-white">Print Ada Harga</a>
-                                            <a href="<?php echo $excel?>" target="_blank" class="btn btn-success text-white">Excel</a>
+                                            <?php if (isset($boleh_cetak) && !$boleh_cetak): ?>
+                                                <div class="alert alert-warning text-left" style="display:inline-block; margin-bottom:10px; width:100%;">
+                                                    <i class="fa fa-lock"></i> <strong>Pemberitahuan:</strong> Dokumen surat jalan ini belum disetujui (Status: <b><?php echo isset($status_dokumen) ? strtoupper($status_dokumen) : 'MENUNGGU PERSETUJUAN'; ?></b>). Dokumen tidak bisa diprint/diekspor. <em>Dokumen menunggu persetujuan.</em>
+                                                </div>
+                                                <button type="button" class="btn btn-default" disabled title="Dokumen menunggu persetujuan"><i class="fa fa-lock"></i> Print PDF (Terkunci)</button>
+                                                <button type="button" class="btn btn-default" disabled title="Dokumen menunggu persetujuan"><i class="fa fa-lock"></i> Print Ada Harga (Terkunci)</button>
+                                                <button type="button" class="btn btn-default" disabled title="Dokumen menunggu persetujuan"><i class="fa fa-lock"></i> Excel (Terkunci)</button>
+                                            <?php else: ?>
+                                                <!-- <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print m-r-5"></i> Print</a> -->
+                                                <a href="<?php echo $pdf?>" target="_blank" class="btn btn-success text-white">Print PDF</a>
+                                                <a href="<?php echo $pdfharga?>" target="_blank" class="btn btn-success text-white">Print Ada Harga</a>
+                                                <a href="<?php echo $excel?>" target="_blank" class="btn btn-success text-white">Excel</a>
+                                            <?php endif; ?>
 
                                             <a href="<?php echo $cancel?>" class="btn btn-danger text-white">Cancel</a>
                                         </div>

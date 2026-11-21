@@ -51,34 +51,66 @@
                                     <th>Nama PO</th>
                                     <th>Kuantitas Kirim (pcs)</th>
                                     <th>Tujuan</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($notarincian as $key => $sat): ?>
-                                        <?php $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=> $sat['kode_po'])); ?>
+                                        <?php 
+                                        $po = $this->GlobalModel->getDataRow('produksi_po',array('id_produksi_po'=> $sat['kode_po'])); 
+                                        $nama_po = !empty($po['kode_po']) ? $po['kode_po'] : (!empty($sat['nama_po']) ? $sat['nama_po'] : $sat['kode_po']);
+                                        $status = !empty($sat['status']) ? strtolower($sat['status']) : 'dibuat';
+                                        ?>
                                     <tr>
                                         <td><?php echo date('d-m-Y',strtotime($sat['tanggal_kirim'])); ?></td>
                                         <td><?php echo $sat['nofaktur'] ?></td>
-                                        <td><?php echo strtoupper($po['kode_po']) ?></td>
+                                        <td><?php echo strtoupper($nama_po) ?></td>
                                         <td><?php echo $sat['jumlah_piece_diterima']?></td>
                                         <td><?php echo strtolower($sat['tujuan']) ?></td>
                                         <td>
-                                            <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
-                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
+                                            <?php if ($status == 'disetujui'): ?>
+                                                <span class="label label-success"><i class="fa fa-check"></i> Disetujui</span>
+                                            <?php elseif ($status == 'ditolak'): ?>
+                                                <span class="label label-danger"><i class="fa fa-times"></i> Ditolak</span>
+                                            <?php else: ?>
+                                                <span class="label label-warning"><i class="fa fa-clock"></i> Dibuat</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($status == 'disetujui'): ?>
+                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-info btn-xs">Cetak</a>
+                                                <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
+                                                    <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>
+                                                <?php } ?>
+                                                <?php if(substr($sat['kode_po'],0,3)=="HGO"){?>
+                                                    <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGO" class="btn btn-info btn-xs">Cetak SJ HGO</a>
+                                                <?php } ?>
+                                                <?php if(substr($sat['kode_po'],0,3)=="HGW"){?>
+                                                    <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGW" class="btn btn-info btn-xs">Cetak SJ HGW</a>
+                                                <?php } ?>
+                                                <?php if(substr($sat['kode_po'],0,3)=="SWH"){?>
+                                                    <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=SWH" class="btn btn-info btn-xs">Cetak SJ SWH</a>
+                                                <?php } ?>
+                                            <?php else: ?>
+                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>" class="btn btn-default btn-xs" title="Lihat Dokumen"><i class="fa fa-eye"></i> Lihat</a>
+                                                <span class="label label-default" style="display:inline-block; margin-top:2px; font-size:11px;" title="Dokumen belum disetujui, tidak bisa dicetak"><i class="fa fa-lock"></i> Menunggu Persetujuan</span>
+                                            <?php endif; ?>
 
-                                            <?php if(substr($sat['kode_po'],0,3)=="HGS"){?>
-                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGS" class="btn btn-info btn-xs">Cetak SJ HGS</a>
-                                            <?php } ?>
-                                            <?php if(substr($sat['kode_po'],0,3)=="HGO"){?>
-                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGO" class="btn btn-info btn-xs">Cetak SJ HGO</a>
-                                            <?php } ?>
-                                            <?php if(substr($sat['kode_po'],0,3)=="HGW"){?>
-                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=HGW" class="btn btn-info btn-xs">Cetak SJ HGW</a>
-                                            <?php } ?>
-                                            <?php if(substr($sat['kode_po'],0,3)=="SWH"){?>
-                                                <a href="<?php echo BASEURL.'Notakirim/detail/'.$sat['nofaktur'] ?>?&hgs=SWH" class="btn btn-info btn-xs">Cetak SJ SWH</a>
-                                            <?php } ?>
+                                            <?php if(isset($is_approver) && $is_approver): ?>
+                                                <div class="btn-group" style="margin-left: 2px;">
+                                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Ubah Status <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="<?php echo BASEURL.'Finishing/approve_kirimgudang/'.$sat['nofaktur'].'/disetujui' ?>" onclick="return confirm('Setujui dokumen ini?')"><i class="fa fa-check text-success"></i> Disetujui</a></li>
+                                                        <li><a href="<?php echo BASEURL.'Finishing/approve_kirimgudang/'.$sat['nofaktur'].'/ditolak' ?>" onclick="return confirm('Tolak dokumen ini?')"><i class="fa fa-times text-danger"></i> Ditolak</a></li>
+                                                        <li><a href="<?php echo BASEURL.'Finishing/approve_kirimgudang/'.$sat['nofaktur'].'/dibuat' ?>" onclick="return confirm('Kembalikan ke status Dibuat?')"><i class="fa fa-undo text-warning"></i> Dibuat</a></li>
+                                                    </ul>
+                                                </div>
+                                            <?php endif; ?>
+
+                                            <a href="<?php echo BASEURL.'finishing/edit_tanggal/'.$sat['id_finishing_kirim_gudang'] ?>" class="btn btn-success btn-xs text-white">Edit Tanggal</a>
                                             <?php if(aksesedit()==1){?>
                                                 <a href="<?php echo BASEURL.'Notakirim/edit/'.$sat['nofaktur'] ?>" class="btn btn-warning btn-xs text-white">Edit Rincian</a>
                                             <?php } ?>

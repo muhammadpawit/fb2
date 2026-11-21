@@ -1498,6 +1498,36 @@
         return $result ?: ['success' => false, 'raw' => $response];
     }
 }
-	
+
+function get_notifikasi_kirimgudang() {
+    $CI =& get_instance();
+    $id_user = callSessUser('id_user');
+    if (empty($id_user)) {
+        return array('count' => 0, 'list' => array(), 'is_approver' => false);
+    }
+
+    // Cek apakah user berhak menerima notifikasi persetujuan kirimgudang
+    $is_approver = false;
+    $cek = $CI->GlobalModel->queryManualRow("SELECT id FROM persetujuan_user WHERE id_user = '".$id_user."' AND tipe = 'kirimgudang' AND aktif = 1");
+    if (!empty($cek)) {
+        $is_approver = true;
+    }
+
+    // Ambil dokumen kirimgudang yang statusnya 'dibuat' (menunggu persetujuan)
+    $sql = "SELECT fkg.nofaktur, fkg.tanggal_kirim, fkg.nama_penerima, fkg.tujuan, 
+                   COUNT(fkg.id_finishing_kirim_gudang) as total_item, 
+                   SUM(fkg.jumlah_piece_diterima) as total_pcs
+            FROM finishing_kirim_gudang fkg
+            WHERE fkg.status = 'dibuat'
+            GROUP BY fkg.nofaktur
+            ORDER BY fkg.tanggal_kirim DESC, fkg.id_finishing_kirim_gudang DESC";
+    $list = $CI->GlobalModel->queryManual($sql);
+
+    return array(
+        'count' => count($list),
+        'list' => $list,
+        'is_approver' => $is_approver
+    );
+}
 
  ?>

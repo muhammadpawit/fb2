@@ -136,11 +136,12 @@ header("Content-Disposition: attachment; filename=Nota_Kirim_Gudang.xls");
                                                         <?php foreach ($gudangfb as $key => $gudang): ?>
                                                           <?php
                                                             $po=$this->GlobalModel->getdataRow('produksi_po',array('id_produksi_po'=>$gudang['kode_po']));
+                                                            $nama_po = !empty($po['kode_po']) ? $po['kode_po'] : (!empty($gudang['nama_po']) ? $gudang['nama_po'] : $gudang['kode_po']);
                                                             ?>
                                                         <tr>
                                                             <td valign="top"><center><?php echo $no++?></center></td>
                                                             <td valign="top"><?php echo $gudang['artikel_po'] ?></td>
-                                                            <td valign="top"><?php echo $po['kode_po'] ?> <?php //echo $gudang['nama_po'] ?></td>
+                                                            <td valign="top"><?php echo $nama_po ?></td>
                                                             <td valign="top">
                                                                 <?php foreach ($dataRinci as $key => $rinci): ?>
                                                                     <?php if ($key == $gudang['kode_po']): ?>

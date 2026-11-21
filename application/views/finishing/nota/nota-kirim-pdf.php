@@ -36,11 +36,12 @@
             <?php foreach ($gudangfb as $key => $gudang): ?>
                 <?php
                 $po = $this->GlobalModel->getdataRow('produksi_po', array('id_produksi_po' => $gudang['kode_po']));
+                $nama_po = !empty($po['kode_po']) ? $po['kode_po'] : (!empty($gudang['nama_po']) ? $gudang['nama_po'] : $gudang['kode_po']);
                 ?>
             <tr>
                 <td style="vertical-align: top; text-align: center;"><?php echo $no++?></td>
                 <td style="vertical-align: top;"><?php echo $gudang['artikel_po'] ?></td>
-                <td style="vertical-align: top;"><?php echo $po['kode_po'] ?></td>
+                <td style="vertical-align: top;"><?php echo $nama_po ?></td>
                 <td style="vertical-align: top;">
                     <?php foreach ($dataRinci as $key => $rinci): ?>
                         <?php if ($key == $gudang['kode_po']): ?>
