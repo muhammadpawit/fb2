@@ -2286,6 +2286,9 @@ class Bordir extends CI_Controller {
 			$update = [
 				'harga_buang_benan' => ($post['harga']==0) ? $p['harga_buang_benan'] : $post['harga'],
 			];
+			if (isset($p['qty_buang_benang'])) {
+				$update['qty_buang_benang'] = $p['qty_buang_benang'];
+			}
 			$where = [
 				'id_kelolapo_buang_benang' => $p['id']
 			];

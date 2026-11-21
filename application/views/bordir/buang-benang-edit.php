@@ -66,8 +66,8 @@
                       <td><?php echo $p['kode_po'] ?></td>
                       <td><?php echo $p['bagian_buang_benang'] ?></td>
                       <td><?php echo $p['size_buang_benang'] ?></td>
-                      <td><?php echo $p['qty_buang_benang'] ?></td>
-                      <td><input type="number" name="prods[<?php echo $i?>][harga_buang_benan]" value="<?php echo $p['harga_buang_benan'] ?>"></td>
+                      <td><input type="number" step="any" class="form-control" style="width: 100px;" name="prods[<?php echo $i?>][qty_buang_benang]" value="<?php echo $p['qty_buang_benang'] ?>"></td>
+                      <td><input type="number" step="any" class="form-control" style="width: 110px;" name="prods[<?php echo $i?>][harga_buang_benan]" value="<?php echo $p['harga_buang_benan'] ?>"></td>
                       <td><?php echo $p['keterangan_buang_benang'] ?></td>
                     </tr>
                     <?php $i++;?>
