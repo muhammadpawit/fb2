@@ -600,10 +600,12 @@
                 <span class="label label-warning"><?php echo $notif_kg['count']; ?></span>
               <?php } ?>
             </a>
-            <ul class="dropdown-menu">
-              <li class="header">
+            <ul class="dropdown-menu" style="width: 320px !important;">
+              <li class="header" style="white-space: normal !important; line-height: 1.4 !important; padding: 10px 12px !important;">
                 <?php if ($notif_kg['count'] > 0) { ?>
-                  Ada <strong><?php echo $notif_kg['count']; ?></strong> surat jalan kirim gudang menunggu persetujuan
+                  <a href="<?php echo BASEURL . 'Persetujuanuser/kirimgudang'; ?>" style="color: #333; text-decoration: none; display: block; white-space: normal !important;">
+                    Ada <strong><?php echo $notif_kg['count']; ?></strong> Surat Jalan Kirim Gudang Menunggu Persetujuan
+                  </a>
                 <?php } else { ?>
                   Tidak ada dokumen yang menunggu persetujuan
                 <?php } ?>

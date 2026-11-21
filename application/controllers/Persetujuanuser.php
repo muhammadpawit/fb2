@@ -123,8 +123,10 @@ class Persetujuanuser extends CI_Controller {
 		$data = [];
 		$data['title'] = 'Daftar Persetujuan Surat Jalan Kirim Gudang';
 		$id_user_login = callSessUser('id_user');
+		$email_user_login = callSessUser('email_user');
 		$cek_approver = $this->GlobalModel->queryManualRow("SELECT id FROM persetujuan_user WHERE id_user = '".$id_user_login."' AND tipe = 'kirimgudang' AND aktif = 1");
 		$data['is_approver'] = !empty($cek_approver) ? true : false;
+		$data['can_manage_user'] = ($email_user_login === 'muhammad.pawit93@gmail.com');
 
 		$get = $this->input->get();
 		$nofaktur = isset($get['nofaktur']) ? trim($get['nofaktur']) : '';
@@ -151,6 +153,7 @@ class Persetujuanuser extends CI_Controller {
 			$items_detail = [];
 			$total_pcs = 0;
 			$total_potongan = 0;
+			$total_kirim_jahit = 0;
 			$total_setor = 0;
 
 			foreach ($items as $item) {
@@ -163,6 +166,13 @@ class Persetujuanuser extends CI_Controller {
 					WHERE idpo = '".$idpo."' OR kode_po = '".$kodepo."' OR kode_po = '".$idpo."' LIMIT 1");
 				$potongan_pcs = !empty($pot['hasil_pieces_potongan']) ? (float)$pot['hasil_pieces_potongan'] : 0;
 				$total_potongan += $potongan_pcs;
+
+				// Kirim Jahit
+				$kirim_jahit = $this->GlobalModel->queryManualRow("SELECT COALESCE(SUM(qty_tot_pcs), 0) as total_kirim_jahit 
+					FROM kelolapo_kirim_setor 
+					WHERE (idpo = '".$idpo."' OR kode_po = '".$kodepo."') AND kategori_cmt = 'JAHIT' AND progress = 'KIRIM'");
+				$kirim_jahit_pcs = !empty($kirim_jahit['total_kirim_jahit']) ? (float)$kirim_jahit['total_kirim_jahit'] : 0;
+				$total_kirim_jahit += $kirim_jahit_pcs;
 
 				// Setoran Kaos (Reguler)
 				$setor1 = $this->GlobalModel->queryManualRow("SELECT COALESCE(SUM(jumlah_piece_diterima - COALESCE(bangke_qty,0)), 0) as setor 
@@ -194,21 +204,23 @@ class Persetujuanuser extends CI_Controller {
 				$total_pcs += (float)$item['jumlah_piece_diterima'];
 
 				$items_detail[] = array(
-					'item'         => $item,
-					'potongan'     => $potongan_pcs,
-					'potongan_row' => $pot,
-					'setoran'      => $setoran_pcs,
-					'cmt'          => $cmt,
-					'rincian_size' => $rincian_size
+					'item'             => $item,
+					'potongan'         => $potongan_pcs,
+					'potongan_row'     => $pot,
+					'kirim_jahit'      => $kirim_jahit_pcs,
+					'setoran'          => $setoran_pcs,
+					'cmt'              => $cmt,
+					'rincian_size'     => $rincian_size
 				);
 			}
 
 			$list[] = array(
-				'faktur'         => $f,
-				'items'          => $items_detail,
-				'total_pcs'      => $total_pcs,
-				'total_potongan' => $total_potongan,
-				'total_setor'    => $total_setor
+				'faktur'             => $f,
+				'items'              => $items_detail,
+				'total_pcs'          => $total_pcs,
+				'total_potongan'     => $total_potongan,
+				'total_kirim_jahit'  => $total_kirim_jahit,
+				'total_setor'        => $total_setor
 			);
 		}
 

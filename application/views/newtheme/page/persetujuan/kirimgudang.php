@@ -4,7 +4,9 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;">
                     <a href="<?php echo BASEURL . 'Finishing/pengirimangudang'; ?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Kembali ke Pengiriman Gudang</a>
-                    <a href="<?php echo BASEURL . 'Persetujuanuser'; ?>" class="btn btn-info btn-sm"><i class="fa fa-users"></i> Atur User Persetujuan</a>
+                    <?php if (isset($can_manage_user) && $can_manage_user): ?>
+                        <a href="<?php echo BASEURL . 'Persetujuanuser'; ?>" class="btn btn-info btn-sm"><i class="fa fa-users"></i> Atur User Persetujuan</a>
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <form action="<?php echo BASEURL . 'Persetujuanuser/kirimgudang'; ?>" method="GET" class="form-inline text-right">
@@ -74,6 +76,7 @@
                                         <th>Nama PO</th>
                                         <th>Artikel</th>
                                         <th class="text-center" style="background-color: #e8f4f8;">Hasil Potongan (Pcs)</th>
+                                        <th class="text-center" style="background-color: #eaf2f8;">Kirim Jahit (Pcs)</th>
                                         <th class="text-center" style="background-color: #fcf3cf;">Setoran CMT (Pcs)</th>
                                         <th class="text-center" style="background-color: #d4efdf;">Kirim Gudang (Pcs)</th>
                                         <th>Keterangan / Rincian</th>
@@ -96,6 +99,9 @@
                                             <td><?php echo $artikel; ?></td>
                                             <td class="text-center" style="font-size: 13px; font-weight: bold; background-color: #f7fafc;">
                                                 <?php echo number_format($it['potongan']); ?> Pcs
+                                            </td>
+                                            <td class="text-center" style="font-size: 13px; font-weight: bold; background-color: #f4f8fb;">
+                                                <?php echo number_format($it['kirim_jahit']); ?> Pcs
                                             </td>
                                             <td class="text-center" style="font-size: 13px; font-weight: bold; background-color: #fefcf7;">
                                                 <?php echo number_format($it['setoran']); ?> Pcs
@@ -126,6 +132,7 @@
                                     <tr>
                                         <td colspan="3" class="text-right">TOTAL :</td>
                                         <td class="text-center"><?php echo number_format($doc['total_potongan']); ?> Pcs</td>
+                                        <td class="text-center"><?php echo number_format($doc['total_kirim_jahit']); ?> Pcs</td>
                                         <td class="text-center"><?php echo number_format($doc['total_setor']); ?> Pcs</td>
                                         <td class="text-center" style="color: #27ae60;"><?php echo number_format($doc['total_pcs']); ?> Pcs</td>
                                         <td></td>
